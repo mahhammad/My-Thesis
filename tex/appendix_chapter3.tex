@@ -68,3 +68,111 @@ h_s
 
 \paragraph{تفاوت با نرمال‌سازی پس از تجمیع گشت‌ها.}
 در این پژوهش، نخست بردار هر گشت بر $Z_L(\lambda)$ تقسیم و سپس امید ریاضی گرفته می‌شود. اگر به‌جای آن، ابتدا وزن بازدیدها روی تمام گشت‌ها تجمیع و \emph{پس از} امیدگیری نرمال شود، ضرایبی متناسب با $[\lambda(1-\beta)]^{t-1}$ به دست می‌آید. این دو روش در حالت کلی یکسان نیستند؛ زیرا امید ریاضی یک نسبت الزاماً با نسبت امیدهای ریاضی برابر نیست. ازاین‌رو رابطه \eqref{eq:ch3-h-alpha} صورت دقیق تعریف مبتنی بر نرمال‌سازی جداگانه هر گشت است، نه یک تقریب حاصل از سری هندسی ماتریس گذار.
+
+
+\section{هویت آنتروپی مخلوط و تعبیر معیارهای $R$ و $I$}
+\label{app:ch3-entropy-mixture}
+
+\begin{proposition}\label{prop:app-ch3-entropy-mixture}
+فرض کنیم $P_1,\ldots,P_m$ بردارهای توزیع احتمال روی یک فضای متناهی و $a_1,\ldots,a_m$ وزن‌های نامنفی با مجموع یک باشند. اگر $\overline P=\sum_{r=1}^{m}a_rP_r$ و $H(P)=-\sum_dP(d)\log P(d)$، آنگاه:
+\begin{equation}\label{eq:app-ch3-mixture-entropy}
+\sum_{r=1}^{m}a_rD_{\mathrm{KL}}(P_r\|\overline P)
+=H(\overline P)-\sum_{r=1}^{m}a_rH(P_r).
+\end{equation}
+\end{proposition}
+\begin{proof}
+با بسط تعریف واگرایی KL و قرارداد $0\log0=0$ داریم:
+\begin{equation}\label{eq:app-ch3-mixture-entropy-proof}
+\begin{aligned}
+\sum_r a_rD_{\mathrm{KL}}(P_r\|\overline P)
+&=\sum_r a_r\sum_dP_r(d)\log P_r(d)
+-\sum_d\left(\sum_r a_rP_r(d)\right)\log\overline P(d)\\
+&=-\sum_r a_rH(P_r)-\sum_d\overline P(d)\log\overline P(d)\\
+&=H(\overline P)-\sum_r a_rH(P_r).
+\end{aligned}
+\end{equation}
+اگر $\overline P(d)=0$، با نامنفی بودن وزن‌ها و توزیع‌ها، تمام $P_r(d)$هایی که وزن مثبت دارند نیز صفر هستند؛ بنابراین همان قرارداد معمول واگرایی در آن مؤلفه برقرار است.
+\end{proof}
+
+برای معیار شعاع درون‌کلاسی $R_c$، با انتخاب $P_r=\mathscr Y_i$ برای $i\in C_c$ و وزن $1/|C_c|$، مستقیماً رابطه~\eqref{eq:ch3-R-entropy} به دست می‌آید. در گام بعد، با میانگین‌گیری روی کلاس‌ها طبق وزن‌های $\Omega$، تعبیر آنتروپی میانگین $R$ در رابطه~\eqref{eq:ch3-R-average-entropy} حاصل می‌شود. همچنین با انتخاب $P_r=\mathcal V_c$ و $a_r=\omega_c$، همین گزاره رابطه~\eqref{eq:ch3-I-entropy} را نتیجه می‌دهد. به این ترتیب، تعبیر آنتروپی $R$ و $I$ دو کاربرد از یک هویت واحدند.
+
+\section{حد پایین معیار جایگشتی و خواص چهار معیار}
+\label{app:ch3-assignment-comparisons}
+
+\subsection{اثبات کران $\boldsymbol{1/K}$ برای معیار $\boldsymbol{BT}$}
+\label{app:ch3-BT-bound-proof}
+مجموعه جایگشت‌های $K$ کلاس را با $S_K$ نشان می‌دهیم و برای هر $\sigma\in S_K$ می‌نویسیم:
+\begin{equation}\label{eq:app-ch3-BT-score}
+F_\sigma=\sum_{c=1}^{K}\omega_c\mathcal V_{c,\sigma(c)}.
+\end{equation}
+برای یک سطر ثابت $c$، هر ستون $d$ دقیقاً در $(K-1)!$ جایگشت در جایگاه $\sigma(c)$ قرار می‌گیرد. ازآنجاکه $\sum_d\mathcal V_{cd}=1$، میانگین امتیاز روی تمام جایگشت‌ها برابر است با:
+\begin{equation}\label{eq:app-ch3-BT-average}
+\begin{aligned}
+\frac{1}{K!}\sum_{\sigma\in S_K}F_\sigma
+&=\frac{1}{K!}\sum_{c=1}^{K}\omega_c
+\sum_{\sigma\in S_K}\mathcal V_{c,\sigma(c)}\\
+&=\frac{(K-1)!}{K!}\sum_{c=1}^{K}\omega_c
+\sum_{d=1}^{K}\mathcal V_{cd}\\
+&=\frac{1}{K}\sum_{c=1}^{K}\omega_c=\frac{1}{K}.
+\end{aligned}
+\end{equation}
+پس بیشینه اعداد $F_\sigma$ کمتر از میانگین آن‌ها نیست و نتیجه می‌شود:
+\begin{equation}\label{eq:app-ch3-BT-lower}
+BT(\mathcal V)=\max_{\sigma}F_\sigma\ge\frac1K.
+\end{equation}
+این اثبات، به‌ویژه در حالت بدون وزن یا وزن برابر $\omega_c=1/K$ که در متن اصلی پژوهش بررسی شده بود، برقرار است؛ حتی برای وزن‌های نامساوی اما نامنفی و نرمال‌شده نیز درست می‌ماند. از سوی دیگر، چون $\mathcal V_{cd}\le1$، هر $F_\sigma\le1$ و بنابراین $BT\le1$.
+
+اگر همه وزن‌ها مثبت باشند و $BT=1$، باید برای یک جایگشت $\sigma$ تمام درایه‌های انتخاب‌شده $\mathcal V_{c,\sigma(c)}=1$ باشند. مجموع هر سطر یک است، پس سایر درایه‌های هر سطر صفر خواهند بود و شرط یک‌به‌یک بودن $\sigma$ نیز نشان می‌دهد $\mathcal V$ یک ماتریس جایگشتی است. عکس این گزاره بدیهی است: برای ماتریس جایگشتی می‌توان جایگشت متناظر را انتخاب کرد و به $BT=1$ رسید.
+
+\subsection{مقایسه دقیق معیارهای خطی و لگاریتمی}
+\label{app:ch3-four-criteria-comparison}
+برای هر جایگشت $\sigma$، دو کمیت زیر را تعریف می‌کنیم:
+\begin{equation}\label{eq:app-ch3-compare-score}
+A_\sigma=\sum_{c=1}^{K}\omega_c\mathcal V_{c,\sigma(c)},
+\qquad
+L_\sigma=-\sum_{c=1}^{K}\omega_c\log\mathcal V_{c,\sigma(c)}.
+\end{equation}
+با فرض $\omega_c>0$ و قرارداد $-\log0=+\infty$، از تقعر لگاریتم و نامساوی ینسن نتیجه می‌شود:
+\begin{equation}\label{eq:app-ch3-Jensen-sigma}
+L_\sigma\ge-\log A_\sigma.
+\end{equation}
+برای جایگشت همانی، این رابطه به $TNL(\mathcal V)\ge-\log T(\mathcal V)$ تبدیل می‌شود. در حالت جایگشتی، کمینه‌گیری از دو سوی نامساوی و نزولی بودن $-\log$ نشان می‌دهد:
+\begin{equation}\label{eq:app-ch3-Jensen-BTNL}
+\begin{aligned}
+BTNL(\mathcal V)
+&=\min_\sigma L_\sigma\\
+&\ge\min_\sigma[-\log A_\sigma]
+=-\log\max_\sigma A_\sigma\\
+&=-\log BT(\mathcal V).
+\end{aligned}
+\end{equation}
+از آنجا که جایگشت همانی عضوی از $S_K$ است، به‌طور مستقل داریم:
+\begin{equation}\label{eq:app-ch3-identity-compare}
+BT(\mathcal V)\ge T(\mathcal V),
+\qquad
+BTNL(\mathcal V)\le TNL(\mathcal V).
+\end{equation}
+جهت این دو مقایسه متفاوت است، زیرا معیارهای خطی باید بیشینه و معیارهای لگاریتمی باید کمینه شوند. رابطه‌های \eqref{eq:app-ch3-Jensen-sigma} و \eqref{eq:app-ch3-Jensen-BTNL} مقایسه \emph{مقادیر و کران‌ها} را ممکن می‌سازند، اما معادل بودن ترتیب کیفیت همه ماتریس‌ها یا یکسان بودن جایگشت‌های بهینه دو معیار را تضمین نمی‌کنند.
+
+با شرط مثبت بودن همه وزن‌ها، $T=1$ و $TNL=0$ هر دو دقیقاً در $\mathcal V=I_K$ محقق می‌شوند. همچنین $BT=1$ و $BTNL=0$ هر دو دقیقاً برای ماتریس‌های جایگشتی رخ می‌دهند. برای اثبات گزاره آخر، اگر $BTNL=0$ باشد باید در یک جایگشت $\sigma$ تمام عبارت‌های نامنفی $-\omega_c\log\mathcal V_{c,\sigma(c)}$ صفر شوند؛ پس هر درایه انتخاب‌شده یک است و با نرمال بودن سطرها، $\mathcal V$ ماتریس جایگشتی خواهد بود. نتیجه معکوس نیز از تعریف معیار به دست می‌آید.
+
+\section{کران‌های معیار واگرایی مراکز و حالت‌های تساوی}
+\label{app:ch3-I-bounds-proof}
+فرض کنیم $C_0$ کلاس آغازین با توزیع $\Omega$ و $C_\tau$ برچسب مشاهده‌شده با توزیع شرطی $\mathcal V$ باشد. طبق تعریف اطلاعات متقابل و رابطه~\eqref{eq:ch3-I-mutual-info}، داریم:
+\begin{equation}\label{eq:app-ch3-I-conditional}
+I(\mathcal V)=H(C_0)-H(C_0\mid C_\tau)
+=H(\Omega)-H(C_0\mid C_\tau).
+\end{equation}
+نامنفی بودن اطلاعات متقابل و آنتروپی شرطی فوراً نتیجه می‌دهد:
+\begin{equation}\label{eq:app-ch3-I-bounds}
+0\le I(\mathcal V)\le H(\Omega)\le\log K.
+\end{equation}
+تساوی $I=0$ دقیقاً زمانی رخ می‌دهد که $C_0$ و $C_\tau$ مستقل باشند؛ با فرض مثبت بودن وزن‌های کلاس‌ها، این شرط معادل یکسان بودن تمام سطرهای $\mathcal V$ با توزیع حاشیه‌ای $\overline{\mathcal V}$ است.
+
+برابری $I=H(\Omega)$ نیز معادل $H(C_0\mid C_\tau)=0$ است؛ یعنی هر برچسب مشاهده‌شده با احتمال مثبت، کلاس آغازین را به‌طور یکتا مشخص کند. در نتیجه، تکیه‌گاه سطرهای دارای وزن مثبت ماتریس $\mathcal V$ باید دوبه‌دو مجزا باشند. اگر همه $K$ وزن کلاس مثبت باشند و فضای برچسب مشاهده‌شده نیز دقیقاً $K$ عضو داشته باشد، هر یک از $K$ سطر باید دست‌کم یک مؤلفه مثبت داشته باشد؛ مجزا بودن تکیه‌گاه‌ها با وجود تنها $K$ ستون، هر سطر را به یک بردار یکه روی ستونی متمایز مجبور می‌کند. بنابراین $\mathcal V$ باید ماتریس جایگشتی باشد. عکس آن نیز از تعیین‌پذیری کلاس مبدأ با دانستن برچسب مشاهده‌شده نتیجه می‌شود.
+
+\paragraph{اثبات رابطه معیار $I$ با $T$.}
+توزیع مشترک کلاس‌ها را $p(c,d)=\omega_c\mathcal V_{cd}$ و حاصل‌ضرب حاشیه‌ای آن‌ها را $q(c,d)=\omega_c\overline{\mathcal V}(d)$ بنامیم. آنگاه
+$D_{\mathrm{KL}}(p\|q)=I(\mathcal V)$ است. نگاشت قطعی
+$z(c,d)=\mathbf 1_{\{c=d\}}$ دو توزیع $p$ و $q$ را به توزیع‌های برنولی با پارامترهای به‌ترتیب
+$T(\mathcal V)$ و $\sum_c\omega_c\overline{\mathcal V}(c)$ تبدیل می‌کند. طبق نامساوی پردازش داده‌ها برای واگرایی KL، واگرایی پس از این نگاشت نمی‌تواند بزرگ‌تر شود و رابطه~\eqref{eq:ch3-I-vs-T} به دست می‌آید.
