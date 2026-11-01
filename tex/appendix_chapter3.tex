@@ -1,0 +1,70 @@
+% !TeX root=../main.tex
+\chapter{اثبات‌های تکمیلی فصل سوم}
+\label{app:ch3-proofs}
+
+\section{تجزیه توزیع همسایگی به توزیع‌های انتقال چندگامی}
+\label{app:ch3-weighted-walk-proof}
+
+در این پیوست، رابطه \eqref{eq:ch3-h-alpha} از بخش~\ref{sec:ch3-interwoven} را اثبات می‌کنیم و نشان می‌دهیم ضرایب ترکیب، نامنفی هستند و مجموع آن‌ها برابر یک است.
+
+فرض کنیم $X_s$ نمونه آغازین باشد و $J_t$ اندیس نمونه مشاهده‌شده در گام $t$ام از حرکت ادامه‌یافته روی گراف باشد. به ازای هر $t\ge1$، بردار سطری $Q_{X_s}^{(t)}$ را طبق رابطه \eqref{eq:ch3-Q-t} تعریف می‌کنیم. فرض می‌کنیم برای تمام گام‌های مورد نیاز، انتقال‌های مجاز تعریف شده باشند و طول گشت $L$ مستقل از مسیر حرکت بوده و توزیع هندسی با پارامتر توقف $\beta$ داشته باشد:
+\begin{equation}\label{eq:app-ch3-L}
+\Pr(L=\ell)=p_\ell=\beta(1-\beta)^{\ell-1},\qquad \ell\ge1.
+\end{equation}
+همچنین $0<\lambda\le1$ و $Z_\ell(\lambda)=\sum_{t=1}^{\ell}\lambda^{t-1}$ است. بردار حاصل از یک گشت با طول تصادفی $L$ مطابق رابطه \eqref{eq:ch3-walk-vector} تعریف می‌شود.
+
+\begin{proposition}\label{prop:app-ch3-alpha}
+با فرض‌های بالا، توزیع همسایگی نمونه آغازین را می‌توان به صورت
+\begin{equation}\label{eq:app-ch3-result}
+h_s=\sum_{t=1}^{\infty}\alpha_t(\beta,\lambda)Q_{X_s}^{(t)},
+\qquad
+\alpha_t(\beta,\lambda)=\lambda^{t-1}
+\sum_{\ell=t}^{\infty}\frac{p_\ell}{Z_\ell(\lambda)}
+\end{equation}
+نوشت. علاوه بر این، برای همه $t$ ضرایب $\alpha_t\ge0$ هستند و $\sum_{t=1}^{\infty}\alpha_t=1$.
+\end{proposition}
+
+\begin{proof}
+با شرط‌کردن روی طول گشت $L=\ell$، از تعریف بردار $R(W)$ داریم:
+\begin{equation}\label{eq:app-ch3-cond}
+\mathbb E[R(W)\mid X_s,L=\ell]
+=\frac{1}{Z_\ell(\lambda)}
+\sum_{t=1}^{\ell}\lambda^{t-1}
+\mathbb E[e_{J_t}\mid X_s,L=\ell].
+\end{equation}
+از آنجا که توقف مستقل از مسیر حرکت فرض شده است، توزیع نمونه مشاهده‌شده در گام $t$، مشروط بر $L=\ell\ge t$، با توزیع حرکت ادامه‌یافته یکسان است. بنابراین:
+\begin{equation}\label{eq:app-ch3-independent}
+\mathbb E[e_{J_t}\mid X_s,L=\ell]=Q_{X_s}^{(t)},\qquad 1\le t\le\ell.
+\end{equation}
+اکنون با استفاده از قانون امید ریاضی کل و روابط \eqref{eq:app-ch3-cond} و \eqref{eq:app-ch3-independent} نتیجه می‌شود:
+\begin{equation}\label{eq:app-ch3-double-sum}
+\begin{aligned}
+h_s
+&=\sum_{\ell=1}^{\infty}p_\ell
+\frac{\sum_{t=1}^{\ell}\lambda^{t-1}Q_{X_s}^{(t)}}{Z_\ell(\lambda)}\\
+&=\sum_{t=1}^{\infty}
+\left(\lambda^{t-1}\sum_{\ell=t}^{\infty}
+\frac{p_\ell}{Z_\ell(\lambda)}\right)Q_{X_s}^{(t)}.
+\end{aligned}
+\end{equation}
+تغییر ترتیب جمع‌ها مجاز است؛ زیرا ضرایب نامنفی‌اند و تمام بردارهای $Q_{X_s}^{(t)}$ بردارهای احتمال با مؤلفه‌های نامنفی هستند. با قراردادن تعریف $p_\ell$ از رابطه \eqref{eq:app-ch3-L}، عبارت داخل پرانتز دقیقاً ضریب $\alpha_t(\beta,\lambda)$ در رابطه \eqref{eq:ch3-h-alpha} می‌شود.
+
+برای اثبات نرمال‌بودن ضرایب، ابتدا از نامنفی بودن $p_\ell$، $\lambda^{t-1}$ و $Z_\ell(\lambda)>0$ نتیجه می‌گیریم که $\alpha_t\ge0$. سپس:
+\begin{equation}\label{eq:app-ch3-normalization}
+\begin{aligned}
+\sum_{t=1}^{\infty}\alpha_t
+&=\sum_{t=1}^{\infty}\lambda^{t-1}
+\sum_{\ell=t}^{\infty}\frac{p_\ell}{Z_\ell(\lambda)}\\
+&=\sum_{\ell=1}^{\infty}\frac{p_\ell}{Z_\ell(\lambda)}
+\sum_{t=1}^{\ell}\lambda^{t-1}\\
+&=\sum_{\ell=1}^{\infty}p_\ell=1.
+\end{aligned}
+\end{equation}
+در تساوی سوم از تعریف $Z_\ell(\lambda)$ استفاده شده است. بنابراین $h_s$ ترکیب محدبی از بردارهای احتمال $Q_{X_s}^{(t)}$ است و خود نیز بردار احتمال خواهد بود.
+\end{proof}
+
+\paragraph{نقش مستقل دو پارامتر.}
+در ضرایب \eqref{eq:app-ch3-result}، پارامتر $\beta$ احتمال طول گشت $\ell$ و پارامتر $\lambda$ توزیع وزن مشاهدات \emph{درون هر گشت} را تعیین می‌کند. ازاین‌رو حتی وقتی متوسط طول گشت با $\beta=1/3$ برابر سه است، کاهش $\lambda$ سهم گام‌های دورتر را نسبت به گام‌های نزدیک‌تر کاهش می‌دهد. به‌طور خاص، اگر $\beta=1$ باشد، همه گشت‌ها طول یک دارند و $h_s=Q_{X_s}^{(1)}$، مستقل از $\lambda$.
+
+\paragraph{تفاوت با نرمال‌سازی پس از تجمیع گشت‌ها.}
+در این پژوهش، نخست بردار هر گشت بر $Z_L(\lambda)$ تقسیم و سپس امید ریاضی گرفته می‌شود. اگر به‌جای آن، ابتدا وزن بازدیدها روی تمام گشت‌ها تجمیع و \emph{پس از} امیدگیری نرمال شود، ضرایبی متناسب با $[\lambda(1-\beta)]^{t-1}$ به دست می‌آید. این دو روش در حالت کلی یکسان نیستند؛ زیرا امید ریاضی یک نسبت الزاماً با نسبت امیدهای ریاضی برابر نیست. ازاین‌رو رابطه \eqref{eq:ch3-h-alpha} صورت دقیق تعریف مبتنی بر نرمال‌سازی جداگانه هر گشت است، نه یک تقریب حاصل از سری هندسی ماتریس گذار.
