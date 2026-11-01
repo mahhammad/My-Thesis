@@ -184,8 +184,57 @@ H(C_0\mid C_\tau)
 
 برابری $I=H(\Omega)$ نیز معادل $H(C_0\mid C_\tau)=0$ است؛ یعنی هر برچسب مشاهده‌شده با احتمال مثبت، کلاس آغازین را به‌طور یکتا مشخص کند. در نتیجه، تکیه‌گاه سطرهای دارای وزن مثبت ماتریس $\mathcal V$ باید دوبه‌دو مجزا باشند. اگر همه $K$ وزن کلاس مثبت باشند و فضای برچسب مشاهده‌شده نیز دقیقاً $K$ عضو داشته باشد، هر یک از $K$ سطر باید دست‌کم یک مؤلفه مثبت داشته باشد؛ مجزا بودن تکیه‌گاه‌ها با وجود تنها $K$ ستون، هر سطر را به یک بردار یکه روی ستونی متمایز مجبور می‌کند. بنابراین $\mathcal V$ باید ماتریس جایگشتی باشد. عکس آن نیز از تعیین‌پذیری کلاس مبدأ با دانستن برچسب مشاهده‌شده نتیجه می‌شود.
 
-\paragraph{اثبات رابطه معیار $I$ با $T$.}
-توزیع مشترک کلاس‌ها را $p(c,d)=\omega_c\mathcal V_{cd}$ و حاصل‌ضرب حاشیه‌ای آن‌ها را $q(c,d)=\omega_c\overline{\mathcal V}(d)$ بنامیم. آنگاه
-$D_{\mathrm{KL}}(p\|q)=I(\mathcal V)$ است. نگاشت قطعی
-$z(c,d)=\mathbf 1_{\{c=d\}}$ دو توزیع $p$ و $q$ را به توزیع‌های برنولی با پارامترهای به‌ترتیب
-$T(\mathcal V)$ و $\sum_c\omega_c\overline{\mathcal V}(c)$ تبدیل می‌کند. طبق نامساوی پردازش داده‌ها برای واگرایی KL، واگرایی پس از این نگاشت نمی‌تواند بزرگ‌تر شود و رابطه~\eqref{eq:ch3-I-vs-T} به دست می‌آید.
+\paragraph{اثبات رابطه معیار اطلاعات متقابل با $T$ و $BT$.}
+توزیع مشترک کلاس آغازین و برچسب مشاهده‌شده را با
+$p(c,d)=\omega_c\mathcal V_{cd}$ و حاصل‌ضرب حاشیه‌های آن‌ها را با
+$q(c,d)=\omega_c\overline{\mathcal V}(d)$ نشان می‌دهیم. طبق تعریف اطلاعات متقابل در رابطه~\eqref{eq:ch3-I-mutual-info}، داریم $D_{\mathrm{KL}}(p\|q)=I(\mathcal V)$. برای هر جایگشت $\sigma\in S_K$، نگاشت دودویی
+$z_\sigma(c,d)=\mathbf 1_{\{d=\sigma(c)\}}$ را در نظر می‌گیریم. با اعمال این نگاشت به هر دو توزیع، احتمال رخداد مقدار یک به‌ترتیب برابر می‌شود با:
+\begin{equation}\label{eq:app-ch3-I-BT-Bernoulli-params}
+\begin{aligned}
+\mathrm P_p(z_\sigma=1)
+&=\sum_{c=1}^{K}p(c,\sigma(c))
+=\sum_{c=1}^{K}\omega_c\mathcal V_{c,\sigma(c)}
+=t_\sigma,\\
+\mathrm P_q(z_\sigma=1)
+&=\sum_{c=1}^{K}q(c,\sigma(c))
+=\sum_{c=1}^{K}\omega_c\overline{\mathcal V}(\sigma(c))
+=q_\sigma.
+\end{aligned}
+\end{equation}
+نامساوی پردازش داده‌ها برای واگرایی KL می‌گوید که واگرایی دو توزیع پس از اعمال نگاشت یکسان نمی‌تواند از مقدار اولیه بیشتر باشد. در نتیجه، برای \emph{هر} جایگشت $\sigma$:
+\begin{equation}\label{eq:app-ch3-I-BT-data-processing}
+I(\mathcal V)=D_{\mathrm{KL}}(p\|q)
+\ge D_{\mathrm{KL}}\!\left(
+\operatorname{Bern}(t_\sigma)\middle\|
+\operatorname{Bern}(q_\sigma)\right).
+\end{equation}
+با انتخاب جایگشت همانی، $t_\sigma=T(\mathcal V)$ و
+$q_\sigma=\sum_c\omega_c\overline{\mathcal V}(c)$ می‌شود. بنابراین رابطه~\eqref{eq:ch3-I-vs-T} به دست می‌آید.
+
+حال فرض کنیم وزن کلاس‌ها برابر و $\omega_c=1/K$ باشد. برای هر جایگشت $\sigma$ داریم:
+\begin{equation}\label{eq:app-ch3-I-BT-uniform}
+q_\sigma=\frac1K\sum_{c=1}^{K}\overline{\mathcal V}(\sigma(c))
+=\frac1K\sum_{d=1}^{K}\overline{\mathcal V}(d)
+=\frac1K.
+\end{equation}
+چون تعداد جایگشت‌ها محدود است، جایگشت $\sigma^\star$ وجود دارد که
+$t_{\sigma^\star}=\max_\sigma t_\sigma=BT(\mathcal V)$ باشد.
+قرار دادن $\sigma^\star$ در رابطه~\eqref{eq:app-ch3-I-BT-data-processing}، با توجه به رابطه~\eqref{eq:app-ch3-I-BT-uniform}، کران~\eqref{eq:ch3-I-vs-BT} را اثبات می‌کند.
+
+برای بررسی وابستگی این کران به مقدار $BT$، تابع زیر را برای $K\ge2$ تعریف می‌کنیم:
+\begin{equation}\label{eq:app-ch3-I-BT-monotonicity}
+\begin{aligned}
+\phi_K(x)
+&=D_{\mathrm{KL}}\!\left(
+\operatorname{Bern}(x)\middle\|
+\operatorname{Bern}(1/K)\right)\\
+&=x\log(Kx)
++(1-x)\log\frac{K(1-x)}{K-1},\\
+\phi_K'(x)
+&=\log\frac{(K-1)x}{1-x},
+\qquad \frac1K<x<1.
+\end{aligned}
+\end{equation}
+برای $1/K<x<1$، عبارت داخل لگاریتم بزرگ‌تر از یک است؛ پس $\phi_K'(x)>0$. با پیوستگی تابع در نقاط انتهایی، $\phi_K$ روی $[1/K,1]$ اکیداً صعودی است. همچنین $\phi_K(1/K)=0$ و $\phi_K(1)=\log K$. بنابراین هر افزایش در مقدار $BT$، کران پایین عددیِ $\phi_K(BT)$ برای $I$ را افزایش می‌دهد، اما لزوماً افزایش خود $I$ را تضمین نمی‌کند.
+
+برای وزن‌های غیریکنواخت، رابطه~\eqref{eq:app-ch3-I-BT-data-processing} همچنان معتبر است؛ بااین‌حال، $q_\sigma$ عموماً به $\sigma$ و $\mathcal V$ وابسته می‌ماند و نتیجه صعودیِ بالا بر اساس مقدار $BT$ به‌تنهایی به همان صورت برقرار نیست.
