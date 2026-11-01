@@ -1,0 +1,51 @@
+# LaTeX build outputs (including files in tex/)
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.loa
+*.lol
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.xdv
+*.dvi
+*.ps
+*.gls
+*.glo
+*.glg
+*.glsdefs
+*.acn
+*.acr
+*.alg
+*.ist
+*.xdy
+*.idx
+*.ind
+*.ilg
+*.brf
+*.mw
+*.tdo
+*.run.xml
+*.bcf
+*.lastpage
+/main.pdf
+
+# # Font binaries: keep and install locally, do not commit them
+# /font/*.ttf
+# /font/*.otf
+# /font/*.woff
+# /font/*.woff2
+
+# Editor, OS and temporary files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*~
+*.swp
+*.swo
