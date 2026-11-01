@@ -158,15 +158,28 @@ BTNL(\mathcal V)\le TNL(\mathcal V).
 
 \section{کران‌ها و حالت‌های تساوی معیار اطلاعات متقابل}
 \label{app:ch3-I-bounds-proof}
-فرض کنیم $C_0$ کلاس آغازین با توزیع $\Omega$ و $C_\tau$ برچسب مشاهده‌شده با توزیع شرطی $\mathcal V$ باشد. طبق تعریف اطلاعات متقابل و رابطه~\eqref{eq:ch3-I-mutual-info}، داریم:
-\begin{equation}\label{eq:app-ch3-I-conditional}
-I(\mathcal V)=H(C_0)-H(C_0\mid C_\tau)
-=H(\Omega)-H(C_0\mid C_\tau).
+فرض کنیم $C_0$ کلاس آغازین با توزیع $\Omega$ و $C_\tau$ برچسب مشاهده‌شده با توزیع شرطی $\mathcal V$ باشد. برای اثبات هویت~\eqref{eq:ch3-I-conditional} از توزیع مشترک در رابطه~\eqref{eq:ch3-I-joint-distribution} استفاده می‌کنیم. برای هر $d$ با $\overline{\mathcal V}(d)>0$، از قاعده احتمال شرطی داریم:
+\[
+\mathrm P(C_0=c\mid C_\tau=d)
+=\frac{\omega_c\mathcal V_{cd}}{\overline{\mathcal V}(d)}.
+\]
+با جایگذاری در تعریف آنتروپی شرطی و باز کردن لگاریتم، نتیجه می‌شود:
+\begin{equation}\label{eq:app-ch3-I-conditional-proof}
+\begin{aligned}
+H(C_0\mid C_\tau)
+&=-\sum_{c=1}^{K}\sum_{d=1}^{K}
+\omega_c\mathcal V_{cd}
+\log\frac{\omega_c\mathcal V_{cd}}{\overline{\mathcal V}(d)}\\
+&=-\sum_{c=1}^{K}\omega_c\log\omega_c
+-\sum_{c=1}^{K}\sum_{d=1}^{K}
+\omega_c\mathcal V_{cd}
+\log\frac{\mathcal V_{cd}}{\overline{\mathcal V}(d)}\\
+&=H(\Omega)-I(\mathcal V).
+\end{aligned}
 \end{equation}
-نامنفی بودن اطلاعات متقابل و آنتروپی شرطی فوراً نتیجه می‌دهد:
-\begin{equation}\label{eq:app-ch3-I-bounds}
-0\le I(\mathcal V)\le H(\Omega)\le\log K.
-\end{equation}
+در تساوی دوم از $\sum_{d=1}^{K}\mathcal V_{cd}=1$ استفاده کرده‌ایم و درایه‌های با احتمال صفر طبق قرارداد رایج در آنتروپی و واگرایی KL سهمی در جمع ندارند. با جابه‌جا کردن دو طرف، دقیقاً رابطه~\eqref{eq:ch3-I-conditional} به دست می‌آید.
+
+از نامنفی بودن آنتروپی شرطی و اطلاعات متقابل، به‌ترتیب $I(\mathcal V)\le H(\Omega)$ و $I(\mathcal V)\ge0$ نتیجه می‌شود. همچنین آنتروپی توزیع احتمال روی $K$ کلاس از $\log K$ بیشتر نیست؛ بنابراین کران‌های رابطه~\eqref{eq:ch3-I-bounds} اثبات می‌شوند.
 تساوی $I=0$ دقیقاً زمانی رخ می‌دهد که $C_0$ و $C_\tau$ مستقل باشند؛ با فرض مثبت بودن وزن‌های کلاس‌ها، این شرط معادل یکسان بودن تمام سطرهای $\mathcal V$ با توزیع حاشیه‌ای $\overline{\mathcal V}$ است.
 
 برابری $I=H(\Omega)$ نیز معادل $H(C_0\mid C_\tau)=0$ است؛ یعنی هر برچسب مشاهده‌شده با احتمال مثبت، کلاس آغازین را به‌طور یکتا مشخص کند. در نتیجه، تکیه‌گاه سطرهای دارای وزن مثبت ماتریس $\mathcal V$ باید دوبه‌دو مجزا باشند. اگر همه $K$ وزن کلاس مثبت باشند و فضای برچسب مشاهده‌شده نیز دقیقاً $K$ عضو داشته باشد، هر یک از $K$ سطر باید دست‌کم یک مؤلفه مثبت داشته باشد؛ مجزا بودن تکیه‌گاه‌ها با وجود تنها $K$ ستون، هر سطر را به یک بردار یکه روی ستونی متمایز مجبور می‌کند. بنابراین $\mathcal V$ باید ماتریس جایگشتی باشد. عکس آن نیز از تعیین‌پذیری کلاس مبدأ با دانستن برچسب مشاهده‌شده نتیجه می‌شود.
