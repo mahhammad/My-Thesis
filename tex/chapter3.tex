@@ -612,10 +612,14 @@ H\left(\frac{1}{|C_c|}\sum_{i\in C_c}\mathscr Y_i\right).
 \mathrm P(C_\tau=d)=\sum_{c=1}^{K}\omega_c\mathcal V_{cd}
 =\overline{\mathcal V}(d).
 \end{equation}
-اگر دو برچسب آغازین و مشاهده‌شده مستقل باشند، حاصل‌ضرب توزیع‌های حاشیه‌ای آن‌ها $\omega_c\overline{\mathcal V}(d)$ خواهد بود. اطلاعات متقابل، واگرایی KL توزیع مشترک واقعی از همین توزیعِ فرض استقلال است. در نتیجه:
+اگر دو برچسب آغازین و مشاهده‌شده مستقل باشند، توزیع مشترک آن‌ها برابر حاصل‌ضرب توزیع‌های حاشیه‌ای خواهد بود؛ یعنی احتمال زوج $(c,d)$ برابر $\omega_c\overline{\mathcal V}(d)$ می‌شود. اطلاعات متقابل، واگرایی KL توزیع مشترک واقعی از توزیع حاصل از این فرض استقلال است. بنابراین:
 \begin{equation}\label{eq:ch3-I-mutual-info}
 \begin{aligned}
 \mathcal I(C_0;C_\tau)
+&=D_{\mathrm{KL}}\!\left(
+\mathrm P(C_0,C_\tau)
+\,\middle\|\,
+\mathrm P(C_0)\mathrm P(C_\tau)\right)\\
 &=\sum_{c=1}^{K}\sum_{d=1}^{K}
 \omega_c\mathcal V_{cd}
 \log\frac{\omega_c\mathcal V_{cd}}
@@ -625,6 +629,7 @@ D_{\mathrm{KL}}(\mathcal V_c\|\overline{\mathcal V})
 =\boxed{I(\mathcal V)}.
 \end{aligned}
 \end{equation}
+در عبارت نخست، $\mathrm P(C_0,C_\tau)$ توزیع مشترک دو متغیر و $\mathrm P(C_0)\mathrm P(C_\tau)$ حاصل‌ضرب توزیع‌های حاشیه‌ای آن‌ها را نشان می‌دهد.
 این محاسبه دلیل نام‌گذاری \textbf{معیار اطلاعات متقابل} را روشن می‌کند: $I$ بیان می‌کند دانستن برچسب \emph{نمونه مشاهده‌شده در همسایگی} تا چه اندازه درباره کلاس \emph{نمونه آغازین} اطلاعات فراهم می‌کند؛ این تعریف هنوز به معنای مشاهده مستقیم برچسب واقعی نمونه آغازین یا یک احتمال پیش‌بینی‌شده از کل بردار $\mathscr Y_i$ نیست.
 
 \paragraph{حد پایین و بالای $I$.}
