@@ -455,44 +455,106 @@ $(\overline d'-d'_c)/\sigma'=(\overline d-d_c)/\sigma$.
 \section{هندسه فاصله جنسن--شنون و کران خطای تصمیم}
 \label{app:ch3-js-error-proof}
 
-\paragraph{نمایش جذر JSD به‌صورت فاصله هیلبرتی.}
-برای $a,b\ge0$، عبارت
+\paragraph{نمایش سازنده جذر JSD در فضای هیلبرت.}
+برای اعداد نامنفی $a,b$، سهم یک مؤلفه از واگرایی جنسن--شنون را با
 \[
 j(a,b)=\frac12\left[
-a\log\frac{2a}{a+b}
-+b\log\frac{2b}{a+b}
+a\log\frac{2a}{a+b}+b\log\frac{2b}{a+b}
 \right]
 \]
-را با قراردادهای حدی در صفر تعریف می‌کنیم. برای $a,b>0$، انتگرال‌گیری جزءبه‌جزء و هویت
-$\int_0^\infty(e^{-\alpha t}-e^{-\beta t})\,dt/t=\log(\beta/\alpha)$
-برای $\alpha,\beta>0$ نتیجه می‌دهد:
+نشان می‌دهیم. برای $a,b>0$، تابع
+$F(a,b)=\int_0^\infty(e^{-at}-e^{-bt})^2\,dt/t^2$
+را در نظر بگیریم. انتگرال‌گیری جزءبه‌جزء، با توجه به صفرشدن عبارت مرزی در هر دو انتهای بازه، نتیجه می‌دهد:
+\[
+\begin{aligned}
+F(a,b)
+&=2a\int_0^\infty
+\frac{e^{-(a+b)t}-e^{-2at}}{t}\,dt\\
+&\quad+2b\int_0^\infty
+\frac{e^{-(a+b)t}-e^{-2bt}}{t}\,dt.
+\end{aligned}
+\]
+با استفاده از هویت فرولانی
+$\int_0^\infty(e^{-\alpha t}-e^{-\beta t})\,dt/t
+=\log(\beta/\alpha)$
+برای $\alpha,\beta>0$، به دست می‌آوریم:
 \begin{equation}\label{eq:app-ch3-js-integral-representation}
+\boxed{
 j(a,b)=\frac14\int_0^\infty
 \frac{(e^{-at}-e^{-bt})^2}{t^2}\,dt.
+}
 \end{equation}
-این هویت با گذر به حد برای $a=0$ یا $b=0$ نیز برقرار می‌ماند. اکنون نگاشت
+با قرارداد $0\log0=0$، این رابطه برای $a=0$ یا $b=0$ نیز با گذر به حد برقرار است.
+
+اکنون برای $a\ge0$ و $t>0$، نگاشت اسکالر و سپس تصویر توزیع $P$ را تعریف می‌کنیم:
 \[
 \phi_a(t)=\frac{1-e^{-at}}{2t},
 \qquad
 \Phi(P)=(\phi_{p_1},\ldots,\phi_{p_K})
+\in\mathcal H=L^2((0,\infty);\mathbb R^K).
 \]
-را در فضای هیلبرت $\mathcal H=L^2((0,\infty);\mathbb R^K)$ در نظر می‌گیریم. تابع $\phi_a$ در نزدیکی صفر محدود و برای $t\to\infty$ از مرتبه $1/t$ است؛ بنابراین متعلق به $L^2$ است. از رابطه~\eqref{eq:app-ch3-js-integral-representation} نتیجه می‌شود:
+چون
+$\lim_{t\to0^+}\phi_a(t)=a/2$
+و
+$0\le\phi_a(t)\le1/(2t)$،
+تابع $\phi_a$ در نزدیکی صفر محدود است و مربع آن در بی‌نهایت انتگرال‌پذیر است؛ بنابراین $\phi_a\in L^2(0,\infty)$.
+از رابطه~\eqref{eq:app-ch3-js-integral-representation} نتیجه می‌شود:
 \begin{equation}\label{eq:app-ch3-js-Hilbert-distance}
+\boxed{
 \begin{aligned}
 \|\Phi(P)-\Phi(Q)\|_{\mathcal H}^2
 &=\sum_{c=1}^{K}\|\phi_{p_c}-\phi_{q_c}\|_{L^2}^2\\
 &=\sum_{c=1}^{K}j(p_c,q_c)
 =\operatorname{JSD}(P,Q).
+\end{aligned}}
+\end{equation}
+بنابراین $d_{\mathrm{JS}}$ دقیقاً فاصله دو تصویر در این فضای هیلبرت است، نه صرفاً تقریبی از آن.
+
+\paragraph{یک‌به‌یک بودن نگاشت و حفظ ترتیب مؤلفه‌ها.}
+برای $t>0$ مشتق‌های نگاشت اسکالر عبارت‌اند از:
+\begin{equation}\label{eq:app-ch3-js-map-derivatives}
+\begin{aligned}
+\frac{\partial\phi_a(t)}{\partial a}
+&=\frac12e^{-at}>0,\\
+\frac{\partial^2\phi_a(t)}{\partial a^2}
+&=-\frac t2e^{-at}<0,\\
+\frac{\partial\phi_a(t)}{\partial t}
+&=\frac{(at+1)e^{-at}-1}{2t^2}\le0.
 \end{aligned}
 \end{equation}
-از آنجا که $\phi_a(t)$ برای هر $t>0$ نسبت به $a$ اکیداً صعودی است، نگاشت $\Phi$ یک‌به‌یک است. در نتیجه $d_{\mathrm{JS}}(P,Q)=\|\Phi(P)-\Phi(Q)\|_{\mathcal H}$ تمام اصول متریک، از جمله نامساوی مثلثی را ارضا می‌کند:
+نامساوی آخر از $e^{at}\ge1+at$ به دست می‌آید و برای $a>0$ اکید است. پس برای هر $t>0$، ترتیب مقادیر احتمال در تصاویر اسکالر حفظ می‌شود:
+\[
+a>b\quad\Longleftrightarrow\quad
+\phi_a(t)>\phi_b(t).
+\]
+از این رو، $\Phi(P)=\Phi(Q)$ تقریباً همه‌جا، با توجه به پیوستگی این توابع در $t>0$، فقط وقتی برقرار است که $p_c=q_c$ برای تمام $c$؛ پس نگاشت $\Phi$ \emph{یک‌به‌یک} است. همراه با رابطه~\eqref{eq:app-ch3-js-Hilbert-distance}، این نتیجه هم خاصیت جداسازی نقاط و هم نامساوی مثلثی متریک را ثابت می‌کند:
 \begin{equation}\label{eq:app-ch3-js-triangle}
+\boxed{
 d_{\mathrm{JS}}(P,R)
 \le d_{\mathrm{JS}}(P,Q)+d_{\mathrm{JS}}(Q,R).
+}
 \end{equation}
-از سوی دیگر، با تغییر متغیر $u=at$ در انتگرال نرم هر مؤلفه داریم
-$\|\phi_a\|_{L^2}^2=a\log2/2$؛ بنابراین برای هر توزیع احتمال $P$،
-$\|\Phi(P)\|_{\mathcal H}^2=\log2/2$. با بسط مربع فاصله:
+
+\paragraph{نرم ثابت و تعبیر کسینوسی شباهت.}
+قرار دادن $b=0$ در رابطه~\eqref{eq:app-ch3-js-integral-representation} نتیجه می‌دهد:
+$\|\phi_a\|_{L^2}^2=j(a,0)=a\log2/2$.
+ازآنجاکه $\sum_cp_c=1$، داریم:
+\begin{equation}\label{eq:app-ch3-js-sphere}
+\boxed{
+\|\Phi(P)\|_{\mathcal H}^2
+=\sum_{c=1}^{K}\frac{p_c\log2}{2}
+=\frac{\log2}{2}.
+}
+\end{equation}
+پس تصویر تمام توزیع‌ها روی کره‌ای با شعاع ثابت
+$\sqrt{\log2/2}$ قرار دارد. اکنون با بسط مربع فاصله هیلبرتی:
+\[
+\operatorname{JSD}(P,Q)
+=\|\Phi(P)\|^2+\|\Phi(Q)\|^2
+-2\langle\Phi(P),\Phi(Q)\rangle
+=\log2-2\langle\Phi(P),\Phi(Q)\rangle.
+\]
+بنابراین شباهت نرمال‌شده متن اصلی به شکل زیر بازنویسی می‌شود:
 \begin{equation}\label{eq:app-ch3-js-cosine}
 \boxed{
 s(P,Q)=\frac{2}{\log2}
@@ -501,7 +563,45 @@ s(P,Q)=\frac{2}{\log2}
 {\|\Phi(P)\|_{\mathcal H}\|\Phi(Q)\|_{\mathcal H}}.
 }
 \end{equation}
-پس شباهت نرمال‌شده تعریف‌شده در متن اصلی، همان شباهت کسینوسی تصاویر توزیع‌ها در فضای هیلبرت است. این تفسیر هندسی با تعبیر درست‌نماییِ مرکز کلاس‌ها متفاوت است و جایگزین آن نمی‌شود.
+پس $s$ همان شباهت کسینوسی بردارهای تصویرشده است؛ در مقابل، $d_{\mathrm{JS}}$ متریک فاصله اقلیدسی آن تصاویر است. از آنجا که $\phi_a(t)\ge0$، ضرب داخلی تصاویر نامنفی است و $0\le s\le1$؛ مقدار صفر دقیقاً زمانی رخ می‌دهد که دو توزیع هیچ مؤلفه مثبت مشترکی نداشته باشند. همچنین برای توزیع‌های $P_1,\ldots,P_n$ و ضرایب حقیقی $\alpha_1,\ldots,\alpha_n$:
+\[
+\sum_{i,j=1}^{n}\alpha_i\alpha_j s(P_i,P_j)
+=\left\|\sum_{i=1}^{n}
+\alpha_i\sqrt{\frac{2}{\log2}}\Phi(P_i)\right\|_{\mathcal H}^{2}
+\ge0.
+\]
+بنابراین شباهت $s$ یک کرنل مثبت نیمه‌معین است؛ البته خود آن، برخلاف $d_{\mathrm{JS}}$، متریک فاصله محسوب نمی‌شود.
+
+\paragraph{حفظ ترتیب احتمال کلاس در مقایسه با بردار یک‌داغ.}
+اگر $e_c$ بردار یک‌داغ کلاس $c$ و $P=(p_1,\ldots,p_K)$ باشد، بسط مستقیم JSD می‌دهد:
+\[
+\operatorname{JSD}(e_c,P)
+=\log2+\frac12\bigl[
+p_c\log p_c-(1+p_c)\log(1+p_c)
+\bigr].
+\]
+در نتیجه:
+\begin{equation}\label{eq:app-ch3-js-onehot-monotonic}
+\begin{aligned}
+s(e_c,P)&=
+\frac{(1+p_c)\log(1+p_c)-p_c\log p_c}{2\log2},\\
+\frac{d\,s(e_c,P)}{dp_c}
+&=\frac{1}{2\log2}\log\frac{1+p_c}{p_c}>0,
+\qquad 0<p_c<1.
+\end{aligned}
+\end{equation}
+به دلیل پیوستگی و اکیداً صعودی بودن این تابع، ترتیب احتمالات $p_c$ در شباهت‌های $s(e_c,P)$ حفظ می‌شود؛ همچنین $s(e_c,P)$ در $p_c=0$ صفر و در $p_c=1$ یک است. باید میان \emph{یک‌به‌یک بودن نگاشت برداری $\Phi$} و \emph{حفظ ترتیب در این مقایسه ویژه با $e_c$} تمایز گذاشت: یک مقدار منفرد $s(P,Q)$ لزوماً تمام مؤلفه‌های یک توزیع دلخواه $P$ را تعیین نمی‌کند.
+
+\paragraph{تقعر شباهت نسبت به هر توزیع.}
+با ثابت نگه‌داشتن $Q$ و برای مؤلفه‌های مثبت $p_c$، از تعریف $j$ داریم:
+\[
+\frac{\partial^2\operatorname{JSD}(P,Q)}{\partial p_c^2}
+=\frac{q_c}{2p_c(p_c+q_c)}\ge0,
+\qquad
+\frac{\partial^2\operatorname{JSD}(P,Q)}
+{\partial p_c\partial p_r}=0\quad(c\ne r).
+\]
+پس JSD نسبت به هر ورودی به‌تنهایی محدب و در نتیجه $s(P,Q)=1-\operatorname{JSD}(P,Q)/\log2$ نسبت به هر ورودی به‌تنهایی مقعر است. این ویژگی در مرز سیمپلکس نیز با پیوستگی برقرار می‌ماند، اما لزوماً به معنای تقعر مشترک $s$ نسبت به هر دو ورودی نیست.
 
 \paragraph{اثبات کران هندسی خطای تصمیم.}
 یک کلاس واقعی $c$ با $\delta_c>0$ در رابطه~\eqref{eq:ch3-js-center-separation} را در نظر می‌گیریم. طبق نامساوی مثلثی، برای هر رقیب $r\ne c$:
