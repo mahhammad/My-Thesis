@@ -265,3 +265,33 @@ NLL\le R+\log K-(R+I(\mathcal V))
 \]
 این کران به میانگین یکنواخت مراکز و تعریف اولیه Softmax وابسته است. به‌ویژه تغییر ضریب فاصله‌ها در Softmax، تابع $f_U$ مورد استفاده را تغییر می‌دهد و اثبات بالا دیگر به همین شکل قابل استفاده نخواهد بود.
 
+
+
+\section{کران تجربی خطای طبقه‌بندی بر اساس حاشیه}
+\label{app:ch3-margin-error}
+نمونه $X$ را به‌طور یکنواخت از کلاس $c$ انتخاب می‌کنیم. برای کلاس رقیب $r$، متغیر تصادفی حاشیه $M=M_{c,r}(X)$ طبق روابط~\eqref{eq:ch3-margin-mean} و \eqref{eq:ch3-margin-variance} دارای میانگین $\mu=\mu_{c,r}\ge0$ و واریانس $\nu=\nu_{c,r}\ge0$ است. اگر $\mu>0$، نامساوی یک‌طرفه چبیشف یا کانتلی به صورت زیر برقرار است:
+\begin{equation}\label{eq:app-ch3-margin-Cantelli-proof}
+\mathrm P(M\le0)
+=\mathrm P(\mu-M\ge\mu)
+\le\frac{\nu}{\nu+\mu^2}.
+\end{equation}
+برای اثبات مستقیم، متغیر $U=\mu-M$ میانگین صفر و واریانس $\nu$ دارد. برای هر $b\ge0$، از نامساوی مارکوف روی $(U+b)^2$ نتیجه می‌شود:
+\[
+\mathrm P(U\ge\mu)\le
+\frac{\mathrm E[(U+b)^2]}{(\mu+b)^2}
+=\frac{\nu+b^2}{(\mu+b)^2}.
+\]
+انتخاب $b=\nu/\mu$ کران~\eqref{eq:app-ch3-margin-Cantelli-proof} را نتیجه می‌دهد. اگر $\mu=0$، چون
+$\mu=D_{\mathrm{KL}}(\mathcal V_c\|\mathcal V_r)$ است، دو مرکز برابرند و $M=0$ برای تمام نمونه‌ها؛ قرارداد $G_{c,r}=1$ کران را در این حالت نیز معتبر می‌سازد.
+
+برای نمونه متعلق به کلاس $c$، خطای تشخیص به این معناست که دست‌کم یک کلاس رقیب در ترتیب فاصله‌ها بر کلاس واقعی پیشی گرفته باشد؛ بنابراین:
+\begin{equation}\label{eq:app-ch3-margin-union}
+\begin{aligned}
+\mathrm P(\widehat y_X\ne c\mid y_X=c)
+&\le\sum_{r\ne c}
+\mathrm P(M_{c,r}(X)\le0\mid y_X=c)\\
+&\le\sum_{r\ne c}G_{c,r}.
+\end{aligned}
+\end{equation}
+با میانگین‌گیری یکنواخت روی کلاس‌ها و در نظر گرفتن کران بدیهی یک برای احتمال خطا، رابطه~\eqref{eq:ch3-margin-error-bound} به دست می‌آید. این اثبات درباره توزیع تجربیِ نمونه‌های مورد ارزیابی است و تضمین تعمیم‌پذیری آماری مستقلی به داده‌های دیگر فراهم نمی‌کند.
+
