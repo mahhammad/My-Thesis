@@ -755,4 +755,30 @@ e^{-D_{\mathrm{KL}}(\mathscr Y_i\|\mathcal V_r)}\right),
 \end{equation}
 بنابراین معیار $NLL$ علاوه بر فاصله نمونه از مرکز کلاس واقعی، به فاصله آن از تمام مراکز رقیب نیز وابسته است.
 
+
+\subsection{کران بالای NLL بر اساس اطلاعات متقابل}
+\label{subsec:ch3-NLL-I-bound}
+از تعریف معیار اطلاعات متقابل $I(\mathcal V)$ در بخش~\ref{subsec:ch3-I-criterion} می‌توان کرانی برای $NLL$ به دست آورد. برای یک توزیع احتمال ثابت $U$، تابع
+$f_U(V)=\exp[-D_{\mathrm{KL}}(U\|V)]$ نسبت به $V$ مقعر است. بنابراین طبق نامساوی ینسن و با میانگین یکنواخت مراکز
+$\overline{\mathcal V}=\frac1K\sum_{c=1}^{K}\mathcal V_c$ داریم:
+\begin{equation}\label{eq:ch3-NLL-Jensen}
+\sum_{r=1}^{K}e^{-D_{\mathrm{KL}}(\mathscr Y_i\|\mathcal V_r)}
+\le K e^{-D_{\mathrm{KL}}(\mathscr Y_i\|\overline{\mathcal V})}.
+\end{equation}
+با گرفتن لگاریتم و جایگذاری در رابطه~\eqref{eq:ch3-NLL-R}، نتیجه می‌شود:
+\begin{equation}\label{eq:ch3-NLL-pre-I}
+NLL\le R+\log K-
+\frac1K\sum_{c=1}^{K}\frac1{|C_c|}
+\sum_{i\in C_c}
+D_{\mathrm{KL}}(\mathscr Y_i\|\overline{\mathcal V}).
+\end{equation}
+اما طبق تجزیه~\eqref{eq:ch3-R-I-decomposition}، میانگین واگرایی سمت راست دقیقاً برابر $R+I(\mathcal V)$ است. پس دو جمله مربوط به $R$ حذف می‌شوند:
+\begin{equation}\label{eq:ch3-NLL-I-bound}
+\boxed{0\le NLL\le\log K-I(\mathcal V),
+\qquad\omega_c=\frac1K.}
+\end{equation}
+اثبات تقعر مورد استفاده در این نتیجه در پیوست، بخش~\ref{app:ch3-NLL-concavity}، آمده است.
+
+این نامساوی نشان می‌دهد افزایش معیار اطلاعات متقابل، \emph{کران بالای تضمین‌شده} برای NLL مدل مبتنی بر مراکز را کاهش می‌دهد. بااین‌حال، کاهش کران به معنای کاهش یکنواخت مقدار واقعی NLL در همه مراحل بهینه‌سازی نیست. این نتیجه برای Softmax با امتیازهای دقیقاً برابر $-d_{i,c}$ و وزن برابر کلاس‌ها برقرار است و بدون اثبات تازه به نسخه‌های مقیاس‌گذاری‌شده یا نرمال‌شده تعمیم داده نمی‌شود.
+
 \endgroup
