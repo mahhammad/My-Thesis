@@ -263,7 +263,35 @@ D_{\mathrm{KL}}(\mathscr Y_i\|\overline{\mathcal V}).
 NLL_U\le R+\log K-(R+I(\mathcal V))
 =\log K-I(\mathcal V).
 \]
-این کران برای حالت $\omega_c=1/K$ و Softmax بدون وزن کلاسی به دست آمده است و به میانگین یکنواخت مراکز وابسته است. به‌ویژه تغییر ضریب فاصله‌ها در Softmax، تابع $f_U$ مورد استفاده را تغییر می‌دهد و اثبات بالا دیگر به همین شکل قابل استفاده نخواهد بود.
+این محاسبه حالت یکنواخت را اثبات کرد. برای تعمیم آن به وزن‌های دلخواه، همچنان Softmax اولیه بدون پیشین کلاس را نگه می‌داریم و میانگین یکنواخت مراکز را با $\overline{\mathcal V}_U=\frac1K\sum_r\mathcal V_r$ نشان می‌دهیم. نامساوی ینسن برای هر نمونه تغییری نمی‌کند؛ فقط میانگین‌گیری روی نمونه‌ها با وزن‌های $\omega_c$ انجام می‌شود. در نتیجه:
+\begin{equation}\label{eq:app-ch3-NLL-weighted-intermediate}
+NLL_\Omega\le R+\log K-
+\sum_{c=1}^{K}\frac{\omega_c}{|C_c|}
+\sum_{i\in C_c}
+D_{\mathrm{KL}}(\mathscr Y_i\|\overline{\mathcal V}_U).
+\end{equation}
+با قضیه تجزیه KL برای هر کلاس، میانگین واگرایی جمله آخر برابر است با:
+\begin{equation}\label{eq:app-ch3-NLL-weighted-center-decomp}
+\begin{aligned}
+\sum_{c=1}^{K}\frac{\omega_c}{|C_c|}
+\sum_{i\in C_c}
+D_{\mathrm{KL}}(\mathscr Y_i\|\overline{\mathcal V}_U)
+&=R+\sum_{c=1}^{K}\omega_c
+D_{\mathrm{KL}}(\mathcal V_c\|\overline{\mathcal V}_U)\\
+&=R+I(\mathcal V)
++D_{\mathrm{KL}}(\overline{\mathcal V}\|\overline{\mathcal V}_U).
+\end{aligned}
+\end{equation}
+تساوی دوم، کاربرد دوباره قضیه تجزیه KL روی توزیع‌های مرکزی با وزن‌های $\Omega$ است؛ در آن
+$\overline{\mathcal V}=\sum_c\omega_c\mathcal V_c$ نقش میانگین وزن‌دار را دارد. با جایگذاری، جمله $R$ حذف می‌شود و به صورت دقیق:
+\[
+NLL_\Omega\le\log K-I(\mathcal V)
+-D_{\mathrm{KL}}(\overline{\mathcal V}\|\overline{\mathcal V}_U)
+\le\log K-I(\mathcal V)
+\]
+به دست می‌آید. این نتیجه فقط به شرط نرمال بودن وزن‌ها و تعریف مراکز به‌صورت میانگین کلاس‌ها نیاز دارد؛ فرض مثبت بودن وزن همه کلاس‌ها برای خود کران ضروری نیست. البته هر مرکز باید از نمونه‌های همان کلاس ساخته شود و مخرج Softmax حداقل یک جمله مثبت داشته باشد.
+
+این کران برای Softmax بدون وزن کلاس و با امتیازهای دقیقاً برابر منفی KL است؛ تغییر ضریب فاصله‌ها یا نرمال‌سازی امتیازها تابع مورد استفاده در نامساوی ینسن را تغییر می‌دهد و این اثبات را نمی‌توان بدون تغییر به آن‌ها تعمیم داد.
 
 
 
