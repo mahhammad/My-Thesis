@@ -450,3 +450,86 @@ $(\overline d'-d'_c)/\sigma'=(\overline d-d_c)/\sigma$.
 \end{equation}
 پس با ثابت‌کردن نرم یکِ بردار نامنفی نیز می‌توان اثر مقیاس مشترک را حذف کرد. اگر بردار فاصله ثابت باشد یا یکی از مؤلفه‌های لازم بی‌نهایت شود، این تعریف نیازمند رسیدگی جداگانه است. این روش و نرمال‌سازی واریانس، تبدیل‌های متفاوتی هستند و کران‌های اثبات‌شده برای یکی را نمی‌توان بدون تحلیل تازه به دیگری تعمیم داد.
 
+
+
+\section{هندسه فاصله جنسن--شنون و کران خطای تصمیم}
+\label{app:ch3-js-error-proof}
+
+\paragraph{نمایش جذر JSD به‌صورت فاصله هیلبرتی.}
+برای $a,b\ge0$، عبارت
+\[
+j(a,b)=\frac12\left[
+a\log\frac{2a}{a+b}
++b\log\frac{2b}{a+b}
+\right]
+\]
+را با قراردادهای حدی در صفر تعریف می‌کنیم. برای $a,b>0$، انتگرال‌گیری جزءبه‌جزء و هویت
+$\int_0^\infty(e^{-\alpha t}-e^{-\beta t})\,dt/t=\log(\beta/\alpha)$
+برای $\alpha,\beta>0$ نتیجه می‌دهد:
+\begin{equation}\label{eq:app-ch3-js-integral-representation}
+j(a,b)=\frac14\int_0^\infty
+\frac{(e^{-at}-e^{-bt})^2}{t^2}\,dt.
+\end{equation}
+این هویت با گذر به حد برای $a=0$ یا $b=0$ نیز برقرار می‌ماند. اکنون نگاشت
+\[
+\phi_a(t)=\frac{1-e^{-at}}{2t},
+\qquad
+\Phi(P)=(\phi_{p_1},\ldots,\phi_{p_K})
+\]
+را در فضای هیلبرت $\mathcal H=L^2((0,\infty);\mathbb R^K)$ در نظر می‌گیریم. تابع $\phi_a$ در نزدیکی صفر محدود و برای $t\to\infty$ از مرتبه $1/t$ است؛ بنابراین متعلق به $L^2$ است. از رابطه~\eqref{eq:app-ch3-js-integral-representation} نتیجه می‌شود:
+\begin{equation}\label{eq:app-ch3-js-Hilbert-distance}
+\begin{aligned}
+\|\Phi(P)-\Phi(Q)\|_{\mathcal H}^2
+&=\sum_{c=1}^{K}\|\phi_{p_c}-\phi_{q_c}\|_{L^2}^2\\
+&=\sum_{c=1}^{K}j(p_c,q_c)
+=\operatorname{JSD}(P,Q).
+\end{aligned}
+\end{equation}
+از آنجا که $\phi_a(t)$ برای هر $t>0$ نسبت به $a$ اکیداً صعودی است، نگاشت $\Phi$ یک‌به‌یک است. در نتیجه $d_{\mathrm{JS}}(P,Q)=\|\Phi(P)-\Phi(Q)\|_{\mathcal H}$ تمام اصول متریک، از جمله نامساوی مثلثی را ارضا می‌کند:
+\begin{equation}\label{eq:app-ch3-js-triangle}
+d_{\mathrm{JS}}(P,R)
+\le d_{\mathrm{JS}}(P,Q)+d_{\mathrm{JS}}(Q,R).
+\end{equation}
+از سوی دیگر، با تغییر متغیر $u=at$ در انتگرال نرم هر مؤلفه داریم
+$\|\phi_a\|_{L^2}^2=a\log2/2$؛ بنابراین برای هر توزیع احتمال $P$،
+$\|\Phi(P)\|_{\mathcal H}^2=\log2/2$. با بسط مربع فاصله:
+\begin{equation}\label{eq:app-ch3-js-cosine}
+\boxed{
+s(P,Q)=\frac{2}{\log2}
+\langle\Phi(P),\Phi(Q)\rangle_{\mathcal H}
+=\frac{\langle\Phi(P),\Phi(Q)\rangle_{\mathcal H}}
+{\|\Phi(P)\|_{\mathcal H}\|\Phi(Q)\|_{\mathcal H}}.
+}
+\end{equation}
+پس شباهت نرمال‌شده تعریف‌شده در متن اصلی، همان شباهت کسینوسی تصاویر توزیع‌ها در فضای هیلبرت است. این تفسیر هندسی با تعبیر درست‌نماییِ مرکز کلاس‌ها متفاوت است و جایگزین آن نمی‌شود.
+
+\paragraph{اثبات کران هندسی خطای تصمیم.}
+یک کلاس واقعی $c$ با $\delta_c>0$ در رابطه~\eqref{eq:ch3-js-center-separation} را در نظر می‌گیریم. طبق نامساوی مثلثی، برای هر رقیب $r\ne c$:
+\[
+\begin{aligned}
+d_{\mathrm{JS}}(\mathscr Y_i,\mathcal V_r)
+&\ge d_{\mathrm{JS}}(\mathcal V_c,\mathcal V_r)
+-d_{\mathrm{JS}}(\mathscr Y_i,\mathcal V_c)\\
+&\ge\delta_c-d_{\mathrm{JS}}(\mathscr Y_i,\mathcal V_c).
+\end{aligned}
+\]
+پس اگر $d_{\mathrm{JS}}(\mathscr Y_i,\mathcal V_c)<\delta_c/2$ باشد، فاصله نمونه از مرکز واقعی از فاصله تمام مراکز رقیب کمتر است و طبقه‌بندی درست خواهد بود. بنابراین برای شاخص خطا می‌توان نوشت:
+\begin{equation}\label{eq:app-ch3-js-error-indicator}
+\mathbf1_{\{\widehat y_i\ne c\}}
+\le\mathbf1_{\{d_{\mathrm{JS}}(\mathscr Y_i,\mathcal V_c)\ge\delta_c/2\}}
+\le\frac{4\,\operatorname{JSD}(\mathscr Y_i,\mathcal V_c)}
+{\delta_c^2}.
+\end{equation}
+میانگین‌گیری روی نمونه‌های کلاس $c$ و استفاده از کران بدیهی یک، نامساوی اول رابطه~\eqref{eq:ch3-js-class-error-bound} را نتیجه می‌دهد. همچنین از تعریف شباهت:
+\[
+\operatorname{JSD}(\mathscr Y_i,\mathcal V_c)
+=\log2\,[1-s(\mathscr Y_i,\mathcal V_c)]
+\]
+و
+\[
+\delta_c^2
+=\min_{r\ne c}\operatorname{JSD}(\mathcal V_c,\mathcal V_r)
+=\log2\,[1-\max_{r\ne c}s(\mathcal V_c,\mathcal V_r)].
+\]
+با ساده‌سازی عامل $\log2$، صورت دوم همان کران حاصل می‌شود. این استدلال کاملاً به قاعده نزدیک‌ترین مرکز و متریک‌بودن جذر JSD مربوط است؛ هیچ استفاده‌ای از NLL یا Softmax ندارد. این کران برای توزیع تجربی نمونه‌های کلاس معتبر است و تضمین تعمیم‌پذیری روی نمونه‌های جدید نیست.
+
