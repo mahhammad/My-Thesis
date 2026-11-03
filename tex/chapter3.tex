@@ -1190,12 +1190,13 @@ s(P,Q)=1-\frac{\operatorname{JSD}(P,Q)}{\log2}
 \paragraph{حفظ ترتیب احتمال‌ها و قاعده تصمیم.}
 برای بردار یک‌داغ $e_c$ و توزیع $P$، محاسبه شباهت تصاویر به رابطه زیر منتهی می‌شود:
 \begin{equation}\label{eq:ch3-js-onehot-order}
-s(e_c,P)=
-\frac{(1+p_c)\log(1+p_c)-p_c\log p_c}{2\log2},
-\qquad
+\begin{aligned}
+s(e_c,P)
+&=\frac{(1+p_c)\log(1+p_c)-p_c\log p_c}{2\log2},\\[4pt]
 \frac{\partial s(e_c,P)}{\partial p_c}
-=\frac{\log[(1+p_c)/p_c]}{2\log2}>0,
-\quad 0<p_c<1.
+&=\frac{\log[(1+p_c)/p_c]}{2\log2}>0,
+\qquad 0<p_c<1.
+\end{aligned}
 \end{equation}
 پس در مقایسه با بردارهای یک‌داغ، هر دو معیار فاصله و شباهت ترتیب احتمال‌های کلاس‌ها را حفظ می‌کنند. همچنین از رابطه $s(P,Q)=1-d_{\mathrm{JS}}(P,Q)^2/\log2$ نتیجه می‌شود قاعده‌های تصمیم زیر دقیقاً یکسان‌اند:
 \begin{equation}\label{eq:ch3-js-decision}
