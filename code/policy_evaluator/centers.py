@@ -12,19 +12,18 @@ import numpy as np
 
 from walks import (ReferenceGraph, load_data, load_policy, policy_fingerprint,
                    reference_fingerprint)
-from metrics import report
+from metrics import report, class_centers, METRICS
 
 
 def build_centers(reference_x: np.ndarray, reference_y: np.ndarray,
-                  policy: dict) -> tuple[np.ndarray, np.ndarray]:
+                  policy: dict, sample_weights: np.ndarray | None = None) -> tuple[np.ndarray, np.ndarray]:
     """Compute policy-dependent neighborhoods and classwise mean centers."""
     graph = ReferenceGraph(reference_x, reference_y, policy['kernel_gamma'])
     neighborhoods, no_walk = graph.representation(reference_x, policy,
                                                   train_indices=np.arange(len(reference_x)))
     if no_walk.any():
         raise ValueError('training source has no admissible transitions')
-    centers = np.vstack([neighborhoods[reference_y == c].mean(axis=0)
-                         for c in range(graph.nclasses)])
+    centers = class_centers(neighborhoods, reference_y, sample_weights=sample_weights)
     if not np.allclose(centers.sum(axis=1), 1, atol=1e-10):
         raise RuntimeError('centers are not normalized class label distributions')
     return centers, neighborhoods
@@ -35,6 +34,9 @@ def main() -> None:
     ap.add_argument('--train', type=Path, required=True)
     ap.add_argument('--policy', type=Path, required=True)
     ap.add_argument('--out', type=Path, required=True)
+    ap.add_argument('--metric', choices=METRICS, default='js_similarity')
+    ap.add_argument('--class-weights', nargs='+', type=float, default=None,
+                    help='Class weights for training report, not center fitting')
     args = ap.parse_args()
     x, y = load_data(args.train)
     policy = load_policy(args.policy, x.shape[1])
@@ -46,7 +48,8 @@ def main() -> None:
                         policy_fingerprint=policy_fingerprint(policy),
                         reference_fingerprint=fingerprint,
                         training_neighborhoods=neighborhoods)
-    report_data, predictions = report(neighborhoods, centers, y)
+    report_data, predictions = report(neighborhoods, centers, y,
+                                      metric=args.metric, class_weights=args.class_weights)
     report_data['policy_name'] = policy['name']
     report_data['stage'] = 'training_fit_centers'
     report_data['training_metrics_are_not_holdout'] = True
