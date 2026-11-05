@@ -25,7 +25,7 @@ def load_policy(path: str | Path, d: int) -> dict:
     if not (0 < beta <= 1 and 0 < lam <= 1):
         raise ValueError('beta and lambda must be in (0,1]')
     walks, maximum = cfg['walks_per_sample'], cfg['max_steps']
-    if type(walks) is not int or walks < 1 or type(maximum) is not int or maximum < 1:
+    if type(walks) is not int or walks < 1 or (maximum is not None and (type(maximum) is not int or maximum < 1)):
         raise ValueError('walks_per_sample and max_steps must be positive integers')
     if type(cfg['seed']) is not int or cfg['seed'] < 0:
         raise ValueError('seed must be a nonnegative integer')
@@ -145,10 +145,12 @@ class ReferenceGraph:
              rng: np.random.Generator) -> tuple[np.ndarray, bool]:
         nwalks = policy['walks_per_sample']
         horizon = policy['max_steps']
-        length = np.minimum(rng.geometric(policy['beta'], size=nwalks), horizon)
+        length = rng.geometric(policy['beta'], size=nwalks)
+        if horizon is not None:
+            length = np.minimum(length, horizon)
         # Entire walk has unit mass, regardless of its random length.
         lam = policy['lambda']
-        z = (1 - lam ** length) / (1 - lam) if lam != 1.0 else length.astype(float)
+        z = -np.expm1(length * np.log(lam)) / (1 - lam) if lam != 1.0 else length.astype(float)
         result = np.zeros((nwalks, self.nclasses), dtype=float)
         current = np.full(nwalks, -1, dtype=int)
         prev = np.full(nwalks, self.x.shape[1], dtype=int)  # last row = START
