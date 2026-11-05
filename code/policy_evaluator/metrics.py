@@ -24,7 +24,7 @@ def _probabilities(p, name='probabilities'):
 def entropy(p):
     p = _probabilities(p)
     with np.errstate(divide='ignore', invalid='ignore'):
-        return -np.sum(np.where(p > 0, p * np.log(np.maximum(p, 1e-300)), 0.), axis=-1)
+        return -np.sum(np.where(p > 0, p * np.log(p), 0.), axis=-1)
 
 
 def _entropy(p):
@@ -51,11 +51,9 @@ def js_similarity(p, q):
 def kl_divergence(p, q):
     """Exact KL(P || Q). Unsupported positive mass gives +inf, not clipping."""
     p, q = np.broadcast_arrays(_probabilities(p, 'p'), _probabilities(q, 'q'))
-    bad = np.any((p > 0) & (q == 0), axis=-1)
     with np.errstate(divide='ignore', invalid='ignore'):
-        terms = np.where(p > 0, p * (np.log(np.maximum(p, 1e-300)) -
-                                    np.log(np.maximum(q, 1e-300))), 0.)
-    return np.where(bad, np.inf, terms.sum(axis=-1))
+        terms = np.where(p > 0, p * (np.log(p) - np.log(q)), 0.)
+    return terms.sum(axis=-1)
 
 
 def pairwise_metric(p, centers, metric='js_similarity'):
@@ -146,7 +144,7 @@ def center_metrics(centers, class_weights=None):
     with np.errstate(divide='ignore'):
         costs = -np.log(c)
     costs = np.where(omega[:, None] > 0, costs, 0.)
-    return dict(T=float(omega @ diag), TNL=float(omega @ -np.log(np.maximum(diag, 1e-300))) if np.all((diag > 0) | (omega == 0)) else float('inf'),
+    return dict(T=float(omega @ diag), TNL=float(omega @ -np.log(np.where(diag > 0, diag, 1.))) if np.all((diag > 0) | (omega == 0)) else float('inf'),
                 BT=-_optimal_assignment(-omega[:, None] * c),
                 BTNL=_optimal_assignment(omega[:, None] * costs),
                 I=float(entropy(mean) - omega @ entropy(c)),
@@ -278,6 +276,7 @@ def report(neighborhoods, centers, y=None, metric='js_similarity',
                   fraction_nonpositive_true_margin=float(w @ (true_margin <= 0)),
                   within_class_jsd=float(w @ pred['jsd'][np.arange(len(y)), y]),
                   within_class_kl=float(w @ own) if np.isfinite(own).all() else None,
+                  R=float(w @ own) if np.isfinite(own).all() else None,
                   NLL=float(w @ nll) if np.isfinite(nll).all() else None,
                   NLL_norm=norm_loss if np.isfinite(norm_loss) else None,
                   J_margin=jm if np.isfinite(jm) else None,
