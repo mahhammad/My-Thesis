@@ -5,7 +5,6 @@ and decision scores are explicit inputs; evaluation never refits centers.
 """
 from __future__ import annotations
 
-from functools import lru_cache
 import numpy as np
 
 METRICS = ('kl', 'sqrt_jsd', 'js_similarity')
@@ -115,18 +114,54 @@ def class_centers(neighborhoods, labels, sample_weights=None, nclasses=None):
 
 
 def _optimal_assignment(cost):
-    """Minimum-cost bijection, exact subset DP; no SciPy dependency."""
-    k = len(cost)
-    if k > 16:
-        raise ValueError('exact permutation metrics are limited to K<=16')
-    @lru_cache(None)
-    def solve(mask):
-        r = mask.bit_count()
-        if r == k:
-            return 0.
-        return min(cost[r, c] + solve(mask | (1 << c))
-                   for c in range(k) if not (mask >> c) & 1)
-    return float(solve(0))
+    """Minimum-cost perfect assignment via NumPy-only Hungarian method, O(K^3)."""
+    original = np.asarray(cost, dtype=float)
+    n = len(original)
+    if original.shape != (n, n) or np.isnan(original).any():
+        raise ValueError('assignment cost must be a square matrix without NaN')
+    finite = original[np.isfinite(original)]
+    scale = max(1., float(np.max(np.abs(finite))) if len(finite) else 1.)
+    # Replace forbidden (+inf) cells by a penalty greater than any feasible
+    # full assignment. Report +inf if such a cell is unavoidable.
+    costs = np.where(np.isfinite(original), original, scale * (n + 1) * 10.)
+    u, v = np.zeros(n+1), np.zeros(n+1)
+    p, way = np.zeros(n+1, dtype=int), np.zeros(n+1, dtype=int)
+    for i in range(1, n+1):
+        p[0] = i
+        j0 = 0
+        minv = np.full(n+1, np.inf)
+        used = np.zeros(n+1, bool)
+        while True:
+            used[j0] = True
+            i0 = p[j0]
+            delta, j1 = np.inf, 0
+            for j in range(1, n+1):
+                if not used[j]:
+                    cur = costs[i0-1, j-1] - u[i0] - v[j]
+                    if cur < minv[j]:
+                        minv[j] = cur
+                        way[j] = j0
+                    if minv[j] < delta:
+                        delta, j1 = minv[j], j
+            for j in range(n+1):
+                if used[j]:
+                    u[p[j]] += delta
+                    v[j] -= delta
+                else:
+                    minv[j] -= delta
+            j0 = j1
+            if p[j0] == 0:
+                break
+        while True:
+            j1 = way[j0]
+            p[j0] = p[j1]
+            j0 = j1
+            if j0 == 0:
+                break
+    assigned = np.empty(n, dtype=int)
+    for j in range(1, n+1):
+        assigned[p[j]-1] = j-1
+    return float(original[np.arange(n), assigned].sum())
 
 
 def center_metrics(centers, class_weights=None):
