@@ -61,29 +61,35 @@ def load_data(path: str | Path, labels_required: bool = True):
     return x, y
 
 
-def _weights(x: np.ndarray, refs: np.ndarray, gamma: np.ndarray,
-             self_indices: np.ndarray | None = None) -> np.ndarray:
-    """Row-stabilized kernel; W[query, feature, reference]."""
+def _weights(x, refs, gamma, self_indices=None):
+    """Vectorized feature-kernel weights, chunked by queries for bounded memory."""
+    x, refs, gamma = np.asarray(x,float), np.asarray(refs,float), np.asarray(gamma,float)
     nq, d = x.shape
     nr = len(refs)
+    if refs.ndim != 2 or refs.shape[1] != d or gamma.shape != (d,):
+        raise ValueError('reference/feature dimensions mismatch')
+    if self_indices is not None:
+        self_indices = np.asarray(self_indices, int)
+        if self_indices.shape != (nq,):
+            raise ValueError('self_indices dimension mismatch')
     out = np.zeros((nq, d, nr), dtype=np.float64)
     for a in range(d):
-        active_query = np.flatnonzero(np.isfinite(x[:, a]))
-        valid_ref = np.isfinite(refs[:, a])
-        if not valid_ref.any():
+        rows = np.flatnonzero(np.isfinite(x[:, a]))
+        cols = np.flatnonzero(np.isfinite(refs[:, a]))
+        if not len(cols):
             continue
-        for i in active_query:
-            valid = valid_ref.copy()
-            if self_indices is not None and self_indices[i] >= 0:
-                valid[self_indices[i]] = False
-            js = np.flatnonzero(valid)
-            if not len(js):
+        for start in range(0, len(rows), 64):
+            selected = rows[start:start + 64]
+            logw = -gamma[a] * (x[selected, a, None] - refs[None, cols, a])**2
+            if self_indices is not None:
+                logw = np.where(cols[None, :] == self_indices[selected, None], -np.inf, logw)
+            peak = logw.max(axis=1)
+            good = np.isfinite(peak)
+            if not good.any():
                 continue
-            logw = -gamma[a] * (x[i, a] - refs[js, a]) ** 2
-            logw -= logw.max()
-            out[i, a, js] = np.exp(logw)
+            expw = np.exp(logw[good] - peak[good, None])
+            out[selected[good, None], a, cols[None, :]] = expw
     return out
-
 
 @dataclass
 class ReferenceGraph:
@@ -193,3 +199,13 @@ class ReferenceGraph:
             current[selected] = dest
             prev[selected] = feat
         return result.mean(axis=0), False
+
+
+    def one_step_q(self, queries: np.ndarray | None = None,
+                   train_indices: np.ndarray | None = None,
+                   origin_indices: np.ndarray | None = None,
+                   batch_size: int = 64) -> np.ndarray:
+        """Exact one-step next-label distributions (N,D,K), no walk sampling."""
+        from one_step import one_step_q
+        return one_step_q(self, queries=queries, train_indices=train_indices,
+                          origin_indices=origin_indices, batch_size=batch_size)
