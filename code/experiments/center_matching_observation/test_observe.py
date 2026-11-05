@@ -45,6 +45,31 @@ class ObservationTest(unittest.TestCase):
         np.testing.assert_allclose(observed,exact,atol=.017)
         self.assertAlmostEqual(float(observed.sum()),1.,places=12)
 
+    def test_beta_lambda_multistep_and_forbidden_origin(self):
+        x=np.array([[0.],[1.],[2.]])
+        y=np.array([0,1,2])
+        g=ReferenceGraph(x,y,np.ones(1))
+        runner=CenterPolicyWalker(g,beta=.6,lam=.5,horizon=2,nwalks=30000)
+        pi=np.ones((3,1))
+        out=runner._sample(g.weights[0],pi[0],pi,0,20261104)
+        w=np.exp(-np.array([1.,4.]));w/=w.sum()
+        # Single step vs two steps, with source excluded in both.
+        expected=.6*w[0]+.4*(w[0]+.5*w[1])/1.5
+        np.testing.assert_allclose(out,[0.,expected,1.-expected],atol=.014)
+        self.assertAlmostEqual(float(out.sum()),1.,places=12)
+
+    def test_q_matches_shared_graph_api_if_available(self):
+        g=self.graph()
+        if not hasattr(g,'one_step_q'):
+            self.skipTest('local adapter lacks production one_step_q')
+        obs=CenterPolicyWalker(g)
+        np.testing.assert_allclose(obs.q_ref,g.one_step_q(),equal_nan=True)
+        n=len(g.y)
+        for origin in range(n):
+            expected=g.one_step_q(g.x,train_indices=np.arange(n),
+                                  origin_indices=np.full(n,origin))
+            np.testing.assert_allclose(obs.origin_q(origin),expected,equal_nan=True)
+
     def test_hypothesis_metrics_only_uses_labels_in_scoring(self):
         c=np.array([[.85,.1,.05],[.1,.8,.1],[.05,.1,.85]])
         r=np.array([[c[0],c[1],c[2]], [c[1],c[0],c[2]], [c[2],c[0],c[1]]])
