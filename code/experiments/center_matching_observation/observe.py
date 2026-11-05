@@ -133,9 +133,17 @@ class CenterPolicyWalker:
             pi=policies[origin]
             out[origin]=self._sample(self.graph.weights[origin],pi[origin],pi,
                                      origin,np.random.default_rng(seeds[origin]).integers(0,2**63))
-        return out,dict(local_Q_projection_jsd=float(np.mean(residuals)),
-                        max_FW_gap=float(np.max(gaps)),
-                        p95_FW_gap=float(np.quantile(gaps,.95)))
+        start_pi=policies[np.arange(self.n),np.arange(self.n)]
+        with np.errstate(divide='ignore',invalid='ignore'):
+            ent=-np.sum(np.where(start_pi>0,start_pi*np.log(start_pi),0.),axis=1)
+        summary=dict(local_Q_projection_jsd=float(np.mean(residuals)),
+                     max_FW_gap=float(np.max(gaps)),
+                     p95_FW_gap=float(np.quantile(gaps,.95)),
+                     mean_start_policy_entropy=float(np.mean(ent)),
+                     start_feature_prob_by_origin_class=[
+                         start_pi[self.graph.y==c].mean(axis=0).tolist()
+                         for c in range(self.k)])
+        return out,summary
 
     def heldout_hypotheses(self,queries,centers,*,seed=20261105):
         """Simulate every class assumption; query labels are NEVER consulted."""
@@ -255,6 +263,8 @@ def run_experiment(train_path, val_path, policy_path, *, rounds=6, eta=.5,
                 'target_update_l1':float(np.max(np.abs(new_target-v))),
                 'measured_center_update_l1':float(np.max(np.abs(realized-v))),
                 'center_information':geometry['I'],
+                'center_metrics':{key:float(geometry[key]) if np.isfinite(geometry[key]) else None
+                                  for key in ('T','TNL','BT','BTNL','I','min_center_js_distance')},
                 'min_center_js_distance':geometry['min_center_js_distance'],
                 'T':geometry['T'],
                 'target_center_information':target_geometry['I'],
