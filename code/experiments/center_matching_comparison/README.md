@@ -46,3 +46,20 @@ Source configuration: `code/data_generator/config.json`; **300 training / 90 val
 All class-center metrics (`I`, `T`, `TNL`, `BT`, `BTNL`, pairwise JSD, min sqrt-JSD) are recomputed from **realized** class-center matrices with **uniform weights over classes** and natural logarithms. `train_within_class_jsd` is preserved from the original sampled training representations, not recomputed from centers alone. Metrics that need unavailable per-sample representations, such as normalized NLL, are **not invented**.
 
 **Interpretation:** self-consistency (`target` approaching `realized`) can improve while between-center information and eventually held-out classification collapse; one-seed observational behavior is not a convergence theorem or a general relation between I and accuracy.
+
+## Expanded geometric, likelihood and per-sample metrics
+
+The detailed analysis now tracks **all center-only metrics for 49 rounds** and **all sample-dependent metrics for the three selected checkpoints** (uniform, round 0, round 4). Exact-seed replayed per-sample distributions are stored in `results/representations_*.json`. Run:
+
+```bash
+python code/experiments/center_matching_comparison/detailed_metrics.py
+python -m unittest discover -s code/experiments/center_matching_comparison -p 'test_*.py' -v
+```
+
+Additional generated outputs are:
+
+- `results/center_geometry_49.{csv,json}`: class-center `I`, `T`, `TNL`, `BT`, `BTNL`, entropy, pairwise JSD, sqrt-JSD (mean/minimum) and normalized JSD similarity for *every* round. `json` includes all pairwise matrices.
+- `results/detailed_three_cases.{csv,json}`: balanced training/validation KL (`R`), within-class JSD, within-class **mean** sqrt-JSD, mean JS similarity, center log-likelihood and cross-entropy, raw KL NLL, normalized KL NLL, JSD-similarity NLL, classwise diagnostic quantities, Chapter-3 training `J_margin`, and soft margins. The class-conditional validation loss uses a distinct candidate representation per class. `E sqrt(JSD)` must not be confused with `sqrt(E JSD)`.
+- `results/representations_uniform.json`, `results/representations_guided_round0.json`, `results/representations_guided_round4.json`: saved training and validation representations for fully independent metric recomputation without repeating Monte Carlo walks.
+
+The training identity `R_c = H(V_c) - mean_{i in c} H(P_i)` and the **fitted-center** expected log-likelihood identity `mean_i E_{P_i}[log V_c] = -H(V_c)` are regression-tested. Center likelihood, within-class KL concentration, and classification accuracy are **distinct** concepts. Only per-center metrics are available for all 49 saved rounds; sample metrics for other rounds are intentionally omitted rather than fabricated. The expanded experiment and the Chapter 4 LaTeX write-up do **not** modify Chapter 3's theoretical definitions; the additional JS criteria may be formalized there in a subsequent pass.
