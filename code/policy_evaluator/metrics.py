@@ -191,6 +191,8 @@ def classify(neighborhoods, centers, metric='js_similarity'):
     """Predict without using labels. Tie-break: lowest class index."""
     values = pairwise_metric(neighborhoods, centers, metric)
     scores = values if metric == 'js_similarity' else -values
+    if (~np.isfinite(scores)).all(axis=1).any():
+        raise ValueError('at least one sample has no finite class score; adjust center support')
     order = np.argsort(-scores, axis=1, kind='stable')
     pred = order[:, 0]
     margin = scores[np.arange(len(pred)), pred] - scores[np.arange(len(pred)), order[:, 1]]
@@ -307,7 +309,7 @@ def report(neighborhoods, centers, y=None, metric='js_similarity',
                   confusion=confusion.tolist(),
                   per_class_recall=[float(r) if np.isfinite(r) else None for r in recalls],
                   per_class_counts=confusion.sum(axis=1).tolist(),
-                  mean_true_margin=float(w @ true_margin),
+                  mean_true_margin=float(w @ true_margin) if np.isfinite(true_margin).all() else None,
                   fraction_nonpositive_true_margin=float(w @ (true_margin <= 0)),
                   within_class_jsd=float(w @ pred['jsd'][np.arange(len(y)), y]),
                   within_class_kl=float(w @ own) if np.isfinite(own).all() else None,
