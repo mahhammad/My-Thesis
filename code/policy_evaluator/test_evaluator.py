@@ -56,6 +56,30 @@ class EvaluatorTest(unittest.TestCase):
         self.assertAlmostEqual(q[0].sum(),1.0,places=11)
         self.assertAlmostEqual(q[0,0],0.,places=11)
 
+    def test_untruncated_geometric_length_and_lambda_weights(self):
+        """Check the actual beta/lambda distribution, not just row sums."""
+        x = np.array([[0.], [1.], [2.]], float)
+        y = np.array([0, 1, 2])
+        p = simple_policy()
+        p.update(beta=0.6, **{'lambda': 0.5},
+                 max_steps=None, walks_per_sample=30000)
+        g = ReferenceGraph(x, y, p['kernel_gamma'])
+        q, _ = g.representation(x[:1], p, train_indices=np.array([0]))
+        w = np.exp(-np.array([1., 4.]))
+        pfirst = w[0] / w.sum()
+        expected1 = 0.
+        for length in range(1, 101):
+            weights = 0.5 ** np.arange(length)
+            odd_positions = weights[::2].sum() / weights.sum()
+            prob_class1 = pfirst * odd_positions + (1-pfirst) * (1-odd_positions)
+            expected1 += 0.6 * 0.4 ** (length-1) * prob_class1
+        np.testing.assert_allclose(q[0], [0., expected1, 1-expected1], atol=0.015)
+        self.assertAlmostEqual(q[0].sum(), 1., places=10)
+        # With beta=1 every walk has length one, regardless of lambda or cap.
+        p.update(beta=1., walks_per_sample=15000)
+        one, _ = g.representation(x[:1], p, train_indices=np.array([0]))
+        np.testing.assert_allclose(one[0, 1:], [pfirst, 1-pfirst], atol=0.015)
+
     def test_missing_features_are_not_selected(self):
         x=np.array([[0., np.nan],[1.,5.],[2.,np.nan],[3.,6.]])
         y=np.array([0,1,0,1])
