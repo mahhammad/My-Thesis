@@ -13,12 +13,13 @@ import numpy as np
 
 from walks import (ReferenceGraph, load_data, load_policy, policy_fingerprint,
                    reference_fingerprint)
-from metrics import report
+from metrics import report, METRICS
 
 
 def run(reference_x: np.ndarray, reference_y: np.ndarray,
         query_x: np.ndarray, centers: np.ndarray, policy: dict,
-        query_y: np.ndarray | None = None):
+        query_y: np.ndarray | None = None, *, metric: str = 'js_similarity',
+        class_weights: np.ndarray | None = None):
     """No center updates; query labels used only in report(), never representation()."""
     graph = ReferenceGraph(reference_x, reference_y, policy['kernel_gamma'])
     if centers.shape != (graph.nclasses, graph.nclasses):
@@ -26,7 +27,8 @@ def run(reference_x: np.ndarray, reference_y: np.ndarray,
     p, no_walk = graph.representation(query_x, policy)
     if no_walk.any():
         raise ValueError('query has no admissible transitions')
-    result, preds = report(p, centers, query_y)
+    result, preds = report(p, centers, query_y, metric=metric,
+                           class_weights=class_weights)
     return result, {'neighborhoods': p, **preds}
 
 
@@ -36,6 +38,10 @@ def main() -> None:
     ap.add_argument('--query', type=Path, required=True)
     ap.add_argument('--centers', type=Path, required=True)
     ap.add_argument('--policy', type=Path, required=True)
+    ap.add_argument('--metric', choices=METRICS, default='js_similarity',
+                    help='Distance/similarity used for nearest-center prediction')
+    ap.add_argument('--class-weights', nargs='+', type=float, default=None,
+                    help='Class weights (default: uniform across classes)')
     ap.add_argument('--out', type=Path, required=True,
                     help='prefix; creates <out>.json and <out>.npz')
     args = ap.parse_args()
@@ -48,7 +54,8 @@ def main() -> None:
             raise ValueError('center policy differs from evaluation policy')
         if str(z['reference_fingerprint'].item()) != reference_fingerprint(ref_x, ref_y):
             raise ValueError('reference data differs from the center-building reference')
-    result, details = run(ref_x, ref_y, query_x, centers, policy, query_y)
+    result, details = run(ref_x, ref_y, query_x, centers, policy, query_y,
+                          metric=args.metric, class_weights=args.class_weights)
     result.update(stage='heldout_evaluation', policy_name=policy['name'],
                   centers_source=str(args.centers),
                   reference_source=str(args.reference),
