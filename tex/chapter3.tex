@@ -693,19 +693,6 @@ D_{\mathrm{KL}}\bigl(\mathcal V_c\|\overline{\mathcal V}\bigr).}
 اثبات این هویت مشترک در بخش~\ref{app:ch3-entropy-mixture} از پیوست~\ref{app:ch3-proofs} آمده است.
 در این رابطه، افزایش آنتروپی میانگین مراکز و کاهش میانگین آنتروپی خود مراکز هر دو می‌توانند مقدار $I$ را افزایش دهند. بااین‌حال، این دو جمله مستقل از یکدیگر نیستند؛ زیرا میانگین مراکز از خود آن‌ها ساخته شده است.
 
-\paragraph{تعبیر روی بازنمایی‌های $\mathscr Y$ و $\mathscr H$.}
-اکنون می‌توان همین تعریف آنتروپی‌محور معیار اطلاعات متقابل را به بازنمایی‌های نمونه‌ای بازگرداند. طبق رابطه~\eqref{eq:ch3-class-center}، سطر $c$ام ماتریس $\mathcal V$ میانگین توزیع‌های $\mathscr Y_i$ برای $i\in C_c$ است. با جایگذاری این میانگین‌ها در رابطه~\eqref{eq:ch3-I-entropy}، معیار $I$ مستقیماً از $\mathscr Y$ به دست می‌آید:
-\begin{equation}\label{eq:ch3-I-on-Y}
-\begin{aligned}
-I(\mathscr Y)
-&=H\left(\sum_{c=1}^{K}\frac{\omega_c}{|C_c|}
-\sum_{i\in C_c}\mathscr Y_i\right)\\
-&\quad-\sum_{c=1}^{K}\omega_c
-H\left(\frac{1}{|C_c|}\sum_{i\in C_c}\mathscr Y_i\right).
-\end{aligned}
-\end{equation}
-تعبیر همین معیار بر اساس ماتریس کامل نمونه‌ها نیز از جایگذاری $\mathscr Y=\mathscr H Y$ و رابطه~\eqref{eq:ch3-class-centers-matrix} به دست می‌آید؛ یعنی $I(\mathscr H)=I((Y^\top Y)^{-1}Y^\top\mathscr H Y)$. بنابراین ارزیابی آن نیز فقط به ماتریس کوچک $K\times K$ مراکز نیاز دارد.
-
 \paragraph{تعبیر اطلاعاتی: اطلاعات متقابل کلاس‌ها.}
 فرض کنیم $C_0$ برچسب \emph{نمونه آغازین} و $C_\tau$ برچسب \emph{نمونه مشاهده‌شده در همسایگی} باشد. بر اساس تعریف $\mathcal V$، کلاس آغازین با احتمال $\omega_c$ انتخاب می‌شود و احتمال مشاهده برچسب $d$ به شرط شروع از کلاس $c$ برابر $\mathcal V_{cd}$ است. بنابراین توزیع مشترک و توزیع حاشیه‌ای برچسب مشاهده‌شده دقیقاً عبارت‌اند از:
 \begin{equation}\label{eq:ch3-I-joint-distribution}
