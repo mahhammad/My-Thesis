@@ -94,7 +94,18 @@ L_n(Q)=\prod_{r=1}^{m}\prod_{t=1}^{n_r}Q(Z_{r,t}).
 \end{equation}
 این همان تفاوت متوسط لگاریتم درست‌نمایی مدل آگاه از مبدأ و مدل مشترک است. چنانچه $Q$ در مؤلفه‌ای که توزیع مخلوط به آن احتمال مثبت می‌دهد، صفر باشد، مدل مشترک برای مشاهده آن مؤلفه درست‌نمایی صفر خواهد داشت و زیان لگاریتمی آن نامتناهی می‌شود.
 
-اکنون میانگین توزیع‌ها را با $\overline P=\sum_r\lambda_rP_r$ تعریف می‌کنیم. با افزودن و کاستن $\log\overline P(d)$ در عبارت آخر و جابه‌جا کردن جمع‌ها داریم:
+اکنون میانگین توزیع‌ها را با $\overline P=\sum_r\lambda_rP_r$ تعریف می‌کنیم.
+
+هویت تجزیه میانگین KL که در صورت درون‌کلاسی متن اصلی به کار می‌رود، برای هر توزیع مشترک $Q$ با واگرایی‌های متناهی چنین است:
+\begin{equation}\label{eq:ch3-mixture-KL-general}
+\boxed{
+\begin{aligned}
+\sum_{r=1}^{m}\lambda_rD_{\mathrm{KL}}(P_r\|Q)
+&=\sum_{r=1}^{m}\lambda_rD_{\mathrm{KL}}(P_r\|\overline P)\\
+&\quad+D_{\mathrm{KL}}(\overline P\|Q).
+\end{aligned}}
+\end{equation}
+ با افزودن و کاستن $\log\overline P(d)$ در عبارت آخر و جابه‌جا کردن جمع‌ها داریم:
 \begin{equation}\label{eq:app-ch3-mixture-KL-decomposition-proof}
 \begin{aligned}
 \sum_r\lambda_rD_{\mathrm{KL}}(P_r\|Q)
@@ -122,6 +133,40 @@ L_n(Q)=\prod_{r=1}^{m}\prod_{t=1}^{n_r}Q(Z_{r,t}).
 بنابراین بیشینه‌کننده $\mathcal L(Q)$ همان $\overline P$ است. این گزاره مبنای \emph{درست‌نمایی} انتخاب میانگین است؛ تجزیه KL فقط راه اثبات آن را فراهم می‌کند.
 
 برای کلاس $c$ در روش پیشنهادی، با قرار دادن $P_r=\mathscr Y_i$ برای $i\in C_c$ و وزن‌های $\lambda_r=1/|C_c|$، نتیجه می‌شود که بهترین توزیع مشترک برای مدل‌کردن مشاهدات برچسب همسایگی نمونه‌های این کلاس، همان $\mathcal V_c$ است. این نتیجه نه به تعریف $R_c$ وابسته است و نه لزوماً به معنای کمینه‌کننده بودن همین نماینده برای هر فاصله یا متریک دیگری مانند جذر واگرایی جنسن--شنون است.
+
+\paragraph{مقدار بهینه منفی لگاریتم درست‌نمایی و تفسیر هزینه تجمیع.}
+برای توزیع مشترک $Q$، منفی لگاریتم درست‌نمایی مورد انتظار برابر $-\mathcal L(Q)$ است؛ بنابراین با استفاده از رابطه~\eqref{eq:app-ch3-mixture-MLE-proof}، کمترین مقدار آن در $Q=\overline P$ برابر $H(\overline P)$ خواهد بود. اگر به‌جای یک مدل مشترک، مدل جداگانه $Q_r$ برای مشاهده‌های گروه $r$ در اختیار داشته باشیم، هزینه هر گروه از رابطه
+\[
+-\sum_d P_r(d)\log Q_r(d)
+=H(P_r)+D_{\mathrm{KL}}(P_r\|Q_r)
+\]
+به دست می‌آید. این هزینه برای $Q_r=P_r$ کمینه می‌شود؛ ازاین‌رو کمترین هزینه میانگین مدل‌های اختصاصی $\sum_r\lambda_rH(P_r)$ است. در نتیجه اختلاف دو مقدار بهینه برابر است با:
+\begin{equation}\label{eq:app-ch3-NLL-compression-gap}
+\begin{aligned}
+\operatorname{NLL}_{\min}^{\mathrm{shared}}
+-\operatorname{NLL}_{\min}^{\mathrm{individual}}
+&=H(\overline P)-\sum_r\lambda_rH(P_r)\\
+&=\sum_r\lambda_rD_{\mathrm{KL}}(P_r\|\overline P)
+\ge0.
+\end{aligned}
+\end{equation}
+در تساوی دوم، $\sum_r\lambda_rP_r=\overline P$ را در تعریف KL جای‌گذاری کرده‌ایم. اگر همه وزن‌های مورد بحث مثبت باشند، اختلاف هزینه دقیقاً زمانی صفر است که تمام $P_r$ها برابر باشند. این هزینه تنها درباره پیش‌بینی \emph{مشاهداتِ مولد از توزیع‌های $P_r$} است؛ بنابراین نباید با منفی لگاریتم درست‌نمایی برچسب واقعی نمونه آغازین در مسئله طبقه‌بندی یکی گرفته شود.
+
+\paragraph{صورت دقیق تجزیه برای یک کلاس.}
+برای کلاس $c$، در رابطه~\eqref{eq:ch3-mixture-KL-general} به‌ترتیب $P_r=\mathscr Y_i$، $\lambda_r=1/|C_c|$، $\overline P=\mathcal V_c$ و $Q=U$ قرار می‌دهیم. در این صورت برای هر $U$ با واگرایی‌های متناهی:
+\begin{equation}\label{eq:ch3-KL-proof}
+\begin{aligned}
+\frac1{|C_c|}\sum_{i\in C_c}
+D_{\mathrm{KL}}(\mathscr Y_i\|U)
+&=\frac1{|C_c|}\sum_{i\in C_c}
+D_{\mathrm{KL}}(\mathscr Y_i\|\mathcal V_c)\\
+&\quad+\sum_d
+\left(\frac1{|C_c|}\sum_{i\in C_c}\mathscr Y_i(d)\right)
+\log\frac{\mathcal V_c(d)}{U(d)}\\
+&=R_c+D_{\mathrm{KL}}(\mathcal V_c\|U).
+\end{aligned}
+\end{equation}
+این همان قضیه~\ref{thm:ch3-KL-decomposition} است. چون برای هر مؤلفه $d$، برابری $\mathcal V_c(d)=0$ همراه با نامنفی‌بودن $\mathscr Y_i(d)$ها مستلزم $\mathscr Y_i(d)=0$ برای همه اعضای کلاس است، جمله‌های دارای مؤلفه صفر را می‌توان با قرارداد معمول KL محاسبه کرد. اگر در مؤلفه‌ای $\mathcal V_c(d)>0$ اما $U(d)=0$ باشد، هر دو طرفِ عبارت مربوط به مدل $U$ نامتناهی‌اند و تفسیر مستقیم لگاریتم درست‌نمایی برقرار نیست؛ به همین دلیل قضیه در متن اصلی با شرط متناهی‌بودن واگرایی‌ها بیان شده است. نامنفی‌بودن $D_{\mathrm{KL}}(\mathcal V_c\|U)$ ثابت می‌کند که نماینده بهینه دقیقاً $\mathcal V_c$ است. همچنین در این صورت، هویت~\eqref{eq:ch3-R-entropy} تفسیرِ هزینه تجمیع را در قالب آنتروپی و میانگین KL ارائه می‌کند.
 
 \section{هویت آنتروپی مخلوط و تعبیر معیارهای R و I}
 \label{app:ch3-entropy-mixture}
