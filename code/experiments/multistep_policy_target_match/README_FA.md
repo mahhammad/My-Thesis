@@ -44,9 +44,9 @@
 
 ```bash
 python -m unittest discover -s code/experiments/multistep_policy_target_match -p 'test_*.py' -v
-python code/experiments/multistep_policy_target_match/run.py --nref 72 --steps 70 --seed 20261107
-python code/experiments/multistep_policy_target_match/run.py --nref 72 --steps 70 --seed 20261108
-python code/experiments/multistep_policy_target_match/run.py --nref 72 --steps 70 --seed 20261109
+python code/experiments/multistep_policy_target_match/run.py --nref 72 --steps 70 --seed 20261107 --out code/experiments/multistep_policy_target_match/results/comparison_seed_20261107.json
+python code/experiments/multistep_policy_target_match/run.py --nref 72 --steps 70 --seed 20261108 --out code/experiments/multistep_policy_target_match/results/comparison_seed_20261108.json
+python code/experiments/multistep_policy_target_match/run.py --nref 72 --steps 70 --seed 20261109 --out code/experiments/multistep_policy_target_match/results/comparison_seed_20261109.json
 ```
 
 چهار تست اجرا و موفق شدند: نرمال‌بودن ضرایب گام‌ها، ممنوعیت بازگشت به مبدأ، مقایسه با مونت‌کارلو مستقل، و مقایسه مشتق با تفاضل مرکزی.
