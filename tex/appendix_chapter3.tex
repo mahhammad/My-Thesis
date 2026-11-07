@@ -7,7 +7,7 @@
 
 در این پیوست، رابطه \eqref{eq:ch3-h-alpha} از بخش~\ref{sec:ch3-interwoven} را اثبات می‌کنیم و نشان می‌دهیم ضرایب ترکیب، نامنفی هستند و مجموع آن‌ها برابر یک است.
 
-فرض کنیم $X_s$ نمونه آغازین باشد و $J_t$ اندیس نمونه مشاهده‌شده در گام $t$ام از حرکت ادامه‌یافته روی گراف باشد. به ازای هر $t\ge1$، بردار سطری $Q_{X_s}^{(t)}$ را طبق رابطه \eqref{eq:ch3-Q-t} تعریف می‌کنیم. فرض می‌کنیم برای تمام گام‌های مورد نیاز، انتقال‌های مجاز تعریف شده باشند و طول گشت $L$ مستقل از مسیر حرکت بوده و توزیع هندسی با پارامتر توقف $\beta$ داشته باشد:
+فرض کنیم $X_s$ نمونه آغازین باشد و $J_t$ اندیس نمونه مشاهده‌شده در گام $t$ام از حرکت ادامه‌یافته روی گراف باشد. به ازای هر $t\ge1$، بردار سطری $P_{X_s,t}$ را طبق رابطه \eqref{eq:ch3-Q-t} تعریف می‌کنیم. فرض می‌کنیم برای تمام گام‌های مورد نیاز، انتقال‌های مجاز تعریف شده باشند و طول گشت $L$ مستقل از مسیر حرکت بوده و توزیع هندسی با پارامتر توقف $\beta$ داشته باشد:
 \begin{equation}\label{eq:app-ch3-L}
 \Pr(L=\ell)=p_\ell=\beta(1-\beta)^{\ell-1},\qquad \ell\ge1.
 \end{equation}
@@ -16,7 +16,7 @@
 \begin{proposition}\label{prop:app-ch3-alpha}
 با فرض‌های بالا، توزیع همسایگی نمونه آغازین را می‌توان به صورت
 \begin{equation}\label{eq:app-ch3-result}
-h_s=\sum_{t=1}^{\infty}\alpha_t(\beta,\lambda)Q_{X_s}^{(t)},
+h_s=\sum_{t=1}^{\infty}\alpha_t(\beta,\lambda)P_{X_s,t},
 \qquad
 \alpha_t(\beta,\lambda)=\lambda^{t-1}
 \sum_{\ell=t}^{\infty}\frac{p_\ell}{\mathcal N_\ell(\lambda)}
@@ -34,20 +34,20 @@ h_s=\sum_{t=1}^{\infty}\alpha_t(\beta,\lambda)Q_{X_s}^{(t)},
 \end{equation}
 از آنجا که توقف مستقل از مسیر حرکت فرض شده است، توزیع نمونه مشاهده‌شده در گام $t$، مشروط بر $L=\ell\ge t$، با توزیع حرکت ادامه‌یافته یکسان است. بنابراین:
 \begin{equation}\label{eq:app-ch3-independent}
-\mathbb E[e_{J_t}\mid X_s,L=\ell]=Q_{X_s}^{(t)},\qquad 1\le t\le\ell.
+\mathbb E[e_{J_t}\mid X_s,L=\ell]=P_{X_s,t},\qquad 1\le t\le\ell.
 \end{equation}
 اکنون با استفاده از قانون امید ریاضی کل و روابط \eqref{eq:app-ch3-cond} و \eqref{eq:app-ch3-independent} نتیجه می‌شود:
 \begin{equation}\label{eq:app-ch3-double-sum}
 \begin{aligned}
 h_s
 &=\sum_{\ell=1}^{\infty}p_\ell
-\frac{\sum_{t=1}^{\ell}\lambda^{t-1}Q_{X_s}^{(t)}}{\mathcal N_\ell(\lambda)}\\
+\frac{\sum_{t=1}^{\ell}\lambda^{t-1}P_{X_s,t}}{\mathcal N_\ell(\lambda)}\\
 &=\sum_{t=1}^{\infty}
 \left(\lambda^{t-1}\sum_{\ell=t}^{\infty}
-\frac{p_\ell}{\mathcal N_\ell(\lambda)}\right)Q_{X_s}^{(t)}.
+\frac{p_\ell}{\mathcal N_\ell(\lambda)}\right)P_{X_s,t}.
 \end{aligned}
 \end{equation}
-تغییر ترتیب جمع‌ها مجاز است؛ زیرا ضرایب نامنفی‌اند و تمام بردارهای $Q_{X_s}^{(t)}$ بردارهای احتمال با مؤلفه‌های نامنفی هستند. با قراردادن تعریف $p_\ell$ از رابطه \eqref{eq:app-ch3-L}، عبارت داخل پرانتز دقیقاً ضریب $\alpha_t(\beta,\lambda)$ در رابطه \eqref{eq:ch3-h-alpha} می‌شود.
+تغییر ترتیب جمع‌ها مجاز است؛ زیرا ضرایب نامنفی‌اند و تمام بردارهای $P_{X_s,t}$ بردارهای احتمال با مؤلفه‌های نامنفی هستند. با قراردادن تعریف $p_\ell$ از رابطه \eqref{eq:app-ch3-L}، عبارت داخل پرانتز دقیقاً ضریب $\alpha_t(\beta,\lambda)$ در رابطه \eqref{eq:ch3-h-alpha} می‌شود.
 
 برای اثبات نرمال‌بودن ضرایب، ابتدا از نامنفی بودن $p_\ell$، $\lambda^{t-1}$ و $\mathcal N_\ell(\lambda)>0$ نتیجه می‌گیریم که $\alpha_t\ge0$. سپس:
 \begin{equation}\label{eq:app-ch3-normalization}
@@ -60,7 +60,7 @@ h_s
 &=\sum_{\ell=1}^{\infty}p_\ell=1.
 \end{aligned}
 \end{equation}
-در تساوی سوم از تعریف $\mathcal N_\ell(\lambda)$ استفاده شده است. بنابراین $h_s$ ترکیب محدبی از بردارهای احتمال $Q_{X_s}^{(t)}$ است و خود نیز بردار احتمال خواهد بود.
+در تساوی سوم از تعریف $\mathcal N_\ell(\lambda)$ استفاده شده است. بنابراین $h_s$ ترکیب محدبی از بردارهای احتمال $P_{X_s,t}$ است و خود نیز بردار احتمال خواهد بود.
 \end{proof}
 
 \paragraph{نقش مستقل دو پارامتر.}
@@ -94,10 +94,10 @@ $\Pr(L_H=H)=(1-\beta)^{H-1}$ است. با شرط‌کردن روی $L_H=\ell$ و
 \mathbb E[R(W)\mid X_s]
 &=\sum_{\ell=1}^{H}p_\ell^{(H)}
 \sum_{t=1}^{\ell}
-\frac{\lambda^{t-1}}{\mathcal N_\ell(\lambda)}Q_{X_s}^{(t)}\\
+\frac{\lambda^{t-1}}{\mathcal N_\ell(\lambda)}P_{X_s,t}\\
 &=\sum_{t=1}^{H}\left(
 \lambda^{t-1}\sum_{\ell=t}^{H}
-\frac{p_\ell^{(H)}}{\mathcal N_\ell(\lambda)}\right)Q_{X_s}^{(t)}.
+\frac{p_\ell^{(H)}}{\mathcal N_\ell(\lambda)}\right)P_{X_s,t}.
 \end{aligned}
 \end{equation}
 با جمع روی $t$، مجموع ضرایب داخل پرانتز به
