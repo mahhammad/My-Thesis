@@ -70,6 +70,112 @@ h_s
 در این پژوهش، نخست بردار هر گشت بر $Z_L(\lambda)$ تقسیم و سپس امید ریاضی گرفته می‌شود. اگر به‌جای آن، ابتدا وزن بازدیدها روی تمام گشت‌ها تجمیع و \emph{پس از} امیدگیری نرمال شود، ضرایبی متناسب با $[\lambda(1-\beta)]^{t-1}$ به دست می‌آید. این دو روش در حالت کلی یکسان نیستند؛ زیرا امید ریاضی یک نسبت الزاماً با نسبت امیدهای ریاضی برابر نیست. ازاین‌رو رابطه \eqref{eq:ch3-h-alpha} صورت دقیق تعریف مبتنی بر نرمال‌سازی جداگانه هر گشت است، نه یک تقریب حاصل از سری هندسی ماتریس گذار.
 
 
+
+\section{نمایش بلوکی گشت، تقریب ماتریسی و کران آن}
+\label{app:ch3-matrix-walk-proofs}
+
+\paragraph{درستی ماتریس انتقال.}
+طبق رابطه~\eqref{eq:ch3-full-transition}، با ثابت‌بودن مبدأ $s$ و قرار گرفتن در حالت قابل دسترس $(i,a)$، داریم:
+\begin{equation}\label{eq:app-ch3-block-stochastic}
+\sum_{(j,b)\in\mathcal S_s}[\mathsf P_s]_{(i,a),(j,b)}
+=\sum_{b\in B_s(X_i)}\pi_s(b\mid i,a)
+\sum_{j\ne i,s}q_b^{(s)}(j\mid i)
+=\sum_b\pi_s(b\mid i,a)=1.
+\end{equation}
+پس $\mathsf P_s$ یک ماتریس گذار سطری روی حالت‌های مجاز است. ضرب دو عامل $F_sS_s$ ابتدا ویژگی $b$ را انتخاب می‌کند و سپس با همان ویژگی به نمونه $j$ می‌رود؛ درایه حاصل دقیقاً
+$\pi_s(b\mid i,a)q_b^{(s)}(j\mid i)$ است. چون توزیع نخستین حالت $\rho_s$ از رابطه~\eqref{eq:ch3-block-first-step} به دست می‌آید، استقرا روی $t$ توزیع $\rho_s\mathsf P_s^{t-1}$ را برای گام $t$ام نتیجه می‌دهد. ضرب در $\mathsf B_s$ یا $\mathsf E_s$ به‌ترتیب شناسه نمونه یا برچسب را تجمیع می‌کند.
+
+\paragraph{ضرایب سقف‌دار.}
+اگر $L_H=\min(L,H)$ باشد، طبق توزیع هندسی،
+$\Pr(L_H=\ell)=\beta(1-\beta)^{\ell-1}$ برای $\ell<H$ و
+$\Pr(L_H=H)=(1-\beta)^{H-1}$ است. با شرط‌کردن روی $L_H=\ell$ و تعویض ترتیب جمع‌های نامنفی:
+\begin{equation}\label{eq:app-ch3-capped-alpha-proof}
+\begin{aligned}
+\mathbb E[R(W)\mid X_s]
+&=\sum_{\ell=1}^{H}p_\ell^{(H)}
+\sum_{t=1}^{\ell}
+\frac{\lambda^{t-1}}{Z_\ell(\lambda)}Q_{X_s}^{(t)}\\
+&=\sum_{t=1}^{H}\left(
+\lambda^{t-1}\sum_{\ell=t}^{H}
+\frac{p_\ell^{(H)}}{Z_\ell(\lambda)}\right)Q_{X_s}^{(t)}.
+\end{aligned}
+\end{equation}
+با جمع روی $t$، مجموع ضرایب داخل پرانتز به
+$\sum_{\ell=1}^{H}p_\ell^{(H)}=1$ تبدیل می‌شود. این محاسبه نشان می‌دهد سقف گشت با قطع ساده سری نامتناهی یکی نیست.
+
+\paragraph{اثبات کران تقریب.}
+بگذار
+$A_r=1-\varepsilon_r=\sum_{t=1}^r\alpha_t^{(H)}$.
+از آنجا که تمام $\nu_{s,t}\mathsf E_s$ توزیع احتمال‌اند، میانگین نرمال‌شده گام‌های باقی‌مانده را $R_{s,r}$ می‌نامیم (اگر $\varepsilon_r=0$، این جمله لازم نیست). بنابراین:
+\begin{equation}\label{eq:app-ch3-truncation-mixture}
+\mathscr Y_s=A_r\widehat{\mathscr Y}_{s,r}
++\varepsilon_rR_{s,r},\qquad
+\|\mathscr Y_s-\widehat{\mathscr Y}_{s,r}\|_1
+=\varepsilon_r\|R_{s,r}-\widehat{\mathscr Y}_{s,r}\|_1
+\le2\varepsilon_r.
+\end{equation}
+از سوی دیگر،
+$\varepsilon_r=\mathbb E[
+\sum_{t=r+1}^{L_H}\lambda^{t-1}/Z_{L_H}(\lambda)]$
+است. مجموع درون امید حداکثر
+$\mathbf1\{L_H>r\}$ است؛ پس
+$\varepsilon_r\le\Pr(L_H>r)=(1-\beta)^r$ برای $r<H$.
+همین استدلال برای توزیع نمونه‌ای برقرار است و تحدب نرم یک، انتقال کران به میانگین مراکز کلاس را نتیجه می‌دهد.
+
+\section{مشتق نگاشت سیاست به مراکز و محدودیت دست‌یابی}
+\label{app:ch3-inverse-policy-proof}
+
+\paragraph{مشتق ماتریسی.}
+در ناحیه‌ای که ویژگی‌های موجود و مقصدهای مجاز ثابت‌اند، عامل‌های عمودی $S_s$ مستقل از امتیازهای سیاست هستند و $\mathsf P_s=F_sS_s$ از طریق Softmax نسبت به امتیازها مشتق‌پذیر است. برای یک تغییر کوچک در پارامترهای سیاست و با قرارداد $\mathsf P_s^0=I$، از قاعده ضرب ماتریس‌ها نتیجه می‌شود:
+\begin{equation}\label{eq:app-ch3-power-differential}
+\mathrm d(\mathsf P_s^q)
+=\sum_{j=0}^{q-1}\mathsf P_s^j
+(\mathrm d\mathsf P_s)\mathsf P_s^{q-1-j},
+\qquad q\ge1.
+\end{equation}
+ازاین‌رو مشتق بازنمایی سقف‌دار:
+\begin{equation}\label{eq:app-ch3-center-differential}
+\begin{aligned}
+\mathrm d\mathscr Y_s
+={}&(\mathrm d\rho_s)
+\sum_{t=1}^{H}\alpha_t^{(H)}
+\mathsf P_s^{t-1}\mathsf E_s\\
+&+\rho_s\sum_{t=2}^{H}\alpha_t^{(H)}
+\sum_{j=0}^{t-2}\mathsf P_s^j
+(\mathrm d\mathsf P_s)
+\mathsf P_s^{t-2-j}\mathsf E_s,\\
+\mathrm d\mathcal V_c
+={}&|C_c|^{-1}\sum_{s\in C_c}\mathrm d\mathscr Y_s.
+\end{aligned}
+\end{equation}
+در این مشتق، $\alpha_t^{(H)}$ و ماتریس برچسب $\mathsf E_s$ برای $\beta,\lambda$ و داده ثابت‌اند؛ برای مشتق‌گیری نسبت به خود $\beta$ یا $\lambda$ باید تغییر ضرایب $\alpha_t^{(H)}$ نیز لحاظ شود. رابطه فوق هم مبنای مشتق‌گیری خودکار و هم روشی برای محاسبه حساسیت مراکز بدون مونت‌کارلو است. اگر $J$ ژاکوبین مؤلفه‌های مستقل مراکز باشد، کمینه‌ساز مسئله خطی‌شده منظم‌شده از شرط بهینگی
+$(J^\top J+\mu I_p)\delta=J^\top(u^\star-u)$
+به دست می‌آید؛ با هویت ماتریسی و $\mu>0$، این حل با صورت کم‌بعد رابطه~\eqref{eq:ch3-inverse-GN} برابر است.
+
+\paragraph{یک کران ساختاری برای دست‌یابی به مؤلفه‌های مراکز.}
+برای مبدأ ثابت $s$ و برچسب مقصد دلخواه $u$، فضای سیاست را موقتاً \emph{بزرگ‌تر} در نظر می‌گیریم و اجازه می‌دهیم انتخاب ویژگی به زمان گام و مبدأ هم وابسته باشد. تابع ارزش بیشترین وزن مورد انتظار برچسب $u$ از گام $t$ به بعد، در حالت $(i,a)\in\mathcal S_s$، به صورت پس‌رونده تعریف می‌شود:
+\begin{equation}\label{eq:app-ch3-feasibility-Bellman}
+\begin{aligned}
+G_{s,H+1}^{(u)}(i,a)&=0,\\
+G_{s,t}^{(u)}(i,a)
+&=\alpha_t^{(H)}\mathbf1\{y_i=u\}
++\max_{b\in B_s(X_i)}
+\sum_{j\ne i,s}q_b^{(s)}(j\mid i)
+G_{s,t+1}^{(u)}(j,b).
+\end{aligned}
+\end{equation}
+با استقرا معکوس روی $t$، این مقدار بر امید مجموع وزن‌های برچسب $u$ از گام $t$ به بعد، تحت \emph{هر} سیاست مجاز، کران بالا می‌دهد. در نخستین گام نیز توزیع ویژگی آغاز را می‌توان آزادانه انتخاب کرد؛ بنابراین:
+\begin{equation}\label{eq:app-ch3-feasibility-bound}
+\begin{aligned}
+U_{s,u}
+&=\max_{b\in B_s(X_s)}
+\sum_{j\ne s}q_b^{(s)}(j\mid s)G_{s,1}^{(u)}(j,b),\\
+\boxed{\mathcal V_c(u)&\le
+\frac{1}{|C_c|}\sum_{s\in C_c}U_{s,u}.}
+\end{aligned}
+\end{equation}
+این یک \emph{کران آزادشده} است: بیشینه‌گیریِ پویا می‌تواند سیاست‌های وابسته به مبدأ و زمان را انتخاب کند، درحالی‌که مدل اصلی ممکن است یک ماتریس امتیاز مشترک و ثابت داشته باشد. ازاین‌رو نقض این کران، دست‌نیافتنی‌بودن یک مؤلفه هدف را اثبات می‌کند؛ اما رعایت آن، وجود یک سیاست سازنده را تضمین نمی‌کند. ضرایب $\alpha_t^{(H)}$ در این کران حضور دارند و نشان می‌دهند چرا محدودیت‌های مراکز به $\beta,\lambda$ و عمق وابسته‌اند. در تحلیل داده مصنوعی، این کران تنها درباره \emph{توزیع برچسب همسایگی} حکم می‌دهد و به معنی ناممکن‌بودن تخمین پسین بیزی با روش‌های دیگر نیست.
+
 \section{بهینگی درست‌نماییِ نماینده مشترک توزیع‌های مخلوط}
 \label{app:ch3-mixture-likelihood}
 
