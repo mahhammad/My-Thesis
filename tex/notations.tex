@@ -25,14 +25,16 @@
 \endhead
 \notationgroup{داده، ویژگی‌ها و گراف}
 \notationrow{D,\ X_i,\ n}{مجموعه داده، نمونه i و تعداد نمونه‌ها}{eq:ch3-feature-space}
-\notationrow{A_D,\ d}{فضای کل ویژگی‌ها و تعداد ویژگی‌ها}{eq:ch3-feature-space}
+\notationrow{A_D}{فضای کل ویژگی‌ها}{eq:ch3-feature-space}
+\notationrow{d}{تعداد ویژگی‌های کل مجموعه داده}{eq:ch3-parametric-score-matrix}
 \notationrow{A_{X_i}}{مجموعه ویژگی‌های موجود نمونه i}{eq:ch3-feature-space}
 \notationrow{D_a}{مجموعه نمونه‌های دارای ویژگی a}{eq:ch3-feature-samples}
 \notationrow{a(X_i)}{مقدار ویژگی a در نمونه i}{eq:ch3-edge-weight}
 \notationrow{\mu_a}{متریک ویژگی a}{eq:ch3-edge-weight}
 \notationrow{\kappa_a}{تابع تبدیل فاصله به وزن}{eq:ch3-edge-weight}
 \notationrow{w_a(X_i,X_j)}{وزن ارتباط دو نمونه از دید یک ویژگی}{eq:ch3-edge-weight}
-\notationrow{K,\ y_i}{تعداد کلاس‌ها و برچسب نمونه i}{eq:ch3-Y-script-entry}
+\notationrow{K}{تعداد کلاس‌های برچسب‌دار}{eq:ch3-Y-script}
+\notationrow{y_j}{برچسب واقعی نمونه j}{eq:ch3-Y-script-entry}
 \notationrow{Y}{ماتریس یک‌داغ برچسب‌ها}{eq:ch3-Y-script}
 \notationgroup{گشت تصادفی و بازنمایی همسایگی}
 \notationrow{q_b^{(s)}(j\mid i)}{احتمال انتقال عمودی به نمونه j با ویژگی b}{eq:ch3-vertical-transition}
@@ -114,7 +116,8 @@
 \notationrow{\ell_i^{\mathrm{norm}}}{زیان نمونه با امتیاز نرمال‌شده}{eq:ch3-normalized-NLL}
 \notationrow{M_{c,r}(X_i)}{حاشیه جدایی کلاس c از رقیب r}{eq:ch3-margin-definition}
 \notationrow{a_{c,r},\ \Sigma_c}{بردار ضرایب و کوواریانس حاشیه}{eq:ch3-margin-coeff-cov}
-\notationrow{\mu_{c,r},\ \nu_{c,r}}{میانگین و واریانس حاشیه}{eq:ch3-margin-mean}
+\notationrow{\mu_{c,r}}{میانگین حاشیه کلاس c در برابر رقیب r}{eq:ch3-margin-mean}
+\notationrow{\nu_{c,r}}{واریانس حاشیه کلاس c در برابر رقیب r}{eq:ch3-margin-variance}
 \notationrow{G_{c,r}}{معیار جدایی نسبی حاشیه}{eq:ch3-margin-pairwise}
 \notationrow{J_{\mathrm{margin}}}{معیار کل جدایی حاشیه‌ای}{eq:ch3-margin-criterion}
 \notationrow{E_{\mathrm{bal}}}{خطای تجربی متوازن}{eq:ch3-margin-error-bound}
@@ -122,7 +125,8 @@
 \notationrow{\ell_\tau(m),\ \tau}{زیان سیگموئیدی و پهنای هموارسازی}{eq:ch3-js-sigmoid-loss}
 \notationrow{\mathcal L_{\mathrm{sig}}}{میانگین متوازن زیان سیگموئیدی}{eq:ch3-js-sigmoid-balanced-objective}
 \notationgroup{مسئله معکوس سیاست}
-\notationrow{z=\operatorname{vec}(Z),\ p}{بردار پارامترهای سیاست و تعداد پارامترها}{eq:ch3-center-forward-map}
+\notationrow{z=\operatorname{vec}(Z)}{بردار پارامترهای سیاست}{eq:ch3-center-forward-map}
+\notationrow{p}{تعداد پارامترهای سیاست ثابت}{eq:ch3-inverse-complexity}
 \notationrow{\mathcal F_{\beta,\lambda,H}}{نگاشت سیاست به مراکز}{eq:ch3-center-forward-map}
 \notationrow{\mathcal V^\star}{مراکز هدف}{eq:ch3-center-inverse-loss}
 \notationrow{\mathcal L_{\mathrm{inv}}}{تابع هدف بازیابی سیاست}{eq:ch3-center-inverse-loss}
