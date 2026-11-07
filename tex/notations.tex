@@ -1,0 +1,136 @@
+% فهرست نمادهای پایان‌نامه؛ مرجع مشترک برای فصول سوم و چهارم
+% \notationrow{نماد}{توضیح}{label} را برای نمادهای جدید فصل چهارم اضافه کنید.
+% نمادهای مشترک نباید دوباره با تعریف متفاوت معرفی شوند.
+\cleardoublepage
+\chapter*{فهرست نمادها}
+\phantomsection
+\addcontentsline{toc}{chapter}{فهرست نمادها}
+\markboth{فهرست نمادها}{فهرست نمادها}
+ستون آخر به نخستین رابطه شماره‌دار اصلی تعریف یا معرفی نماد در فصل سوم ارجاع می‌دهد.
+اندیس‌های موقتی و متغیرهای صرفاً اثباتی فهرست نشده‌اند.
+ارجاع‌ها با تغییر شماره معادلات به‌طور خودکار به‌روز می‌شوند.
+
+\begingroup
+\small
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.5}
+\newcommand{\notationrow}[3]{\(\displaystyle #1\) & #2 & \eqref{#3}\\ \hline}
+\newcommand{\notationgroup}[1]{\multicolumn{3}{|r|}{\textbf{#1}}\\ \hline}
+\begin{longtable}{|>{\centering\arraybackslash}p{.21\linewidth}|p{.52\linewidth}|>{\centering\arraybackslash}p{.16\linewidth}|}
+\hline
+\textbf{نماد} & \textbf{توضیح} & \textbf{اولین رابطه}\\ \hline
+\endfirsthead
+\hline
+\textbf{نماد} & \textbf{توضیح} & \textbf{اولین رابطه}\\ \hline
+\endhead
+\notationgroup{داده، ویژگی‌ها و گراف}
+\notationrow{D,\ X_i,\ n}{مجموعه داده، نمونه i و تعداد نمونه‌ها}{eq:ch3-feature-space}
+\notationrow{A_D,\ d}{فضای کل ویژگی‌ها و تعداد ویژگی‌ها}{eq:ch3-feature-space}
+\notationrow{A_{X_i}}{مجموعه ویژگی‌های موجود نمونه i}{eq:ch3-feature-space}
+\notationrow{D_a}{مجموعه نمونه‌های دارای ویژگی a}{eq:ch3-feature-samples}
+\notationrow{a(X_i)}{مقدار ویژگی a در نمونه i}{eq:ch3-edge-weight}
+\notationrow{\mu_a}{متریک ویژگی a}{eq:ch3-edge-weight}
+\notationrow{\kappa_a}{تابع تبدیل فاصله به وزن}{eq:ch3-edge-weight}
+\notationrow{w_a(X_i,X_j)}{وزن ارتباط دو نمونه از دید یک ویژگی}{eq:ch3-edge-weight}
+\notationrow{K,\ y_i}{تعداد کلاس‌ها و برچسب نمونه i}{eq:ch3-Y-script-entry}
+\notationrow{Y}{ماتریس یک‌داغ برچسب‌ها}{eq:ch3-Y-script}
+\notationgroup{گشت تصادفی و بازنمایی همسایگی}
+\notationrow{q_b^{(s)}(j\mid i)}{احتمال انتقال عمودی به نمونه j با ویژگی b}{eq:ch3-vertical-transition}
+\notationrow{\pi_s(b\mid i,a)}{احتمال انتخاب ویژگی b پس از a}{eq:ch3-full-transition}
+\notationrow{L,\ \beta}{طول گشت و احتمال توقف هندسی}{eq:ch3-geometric-length}
+\notationrow{\lambda}{ضریب کاهش وزن مشاهدات دیرتر}{eq:ch3-Z-definition}
+\notationrow{\mathcal N_\ell(\lambda)}{عامل نرمال‌سازی گشت با طول مشخص}{eq:ch3-Z-definition}
+\notationrow{e_j}{بردار یکه نمونه j}{eq:ch3-walk-vector}
+\notationrow{J_t,\ W}{اندیس نمونه مشاهده‌شده و مسیر گشت}{eq:ch3-walk-vector}
+\notationrow{R(W)}{بردار احتمال حاصل از یک گشت}{eq:ch3-walk-vector}
+\notationrow{\widehat h_s,\ h_s}{برآورد و امید دقیق همسایگی نمونه s}{eq:ch3-h-estimate}
+\notationrow{P_{X_s,t}}{توزیع روی نمونه‌ها در گام t}{eq:ch3-Q-t}
+\notationrow{\alpha_t(\beta,\lambda)}{سهم وزن گام t در بازنمایی}{eq:ch3-h-alpha}
+\notationrow{\mathscr H,\ h_{ij}}{ماتریس همسایگی نمونه‌ها و درایه آن}{eq:ch3-H}
+\notationrow{\mathscr Y,\ \mathscr Y_i}{ماتریس بازنمایی برچسب و سطر نمونه i}{eq:ch3-Y-script}
+\notationrow{\xi}{اندیس تصادفی گام مشاهده‌شده؛ نه پارامتر هموارسازی}{eq:ch3-weighted-observation-position}
+\notationgroup{سیاست انتخاب ویژگی}
+\notationrow{Z_{y_s}(\Theta)}{ماتریس توابع امتیاز شرطی بر کلاس آغازین}{eq:ch3-parametric-score-matrix}
+\notationrow{\Theta}{پارامترهای توابع تولید امتیاز}{eq:ch3-parametric-score-matrix}
+\notationrow{z_{y_s,a,b}(X_i;\Theta)}{امتیاز انتخاب ویژگی b پس از a}{eq:ch3-parametric-feature-score}
+\notationrow{B_s(X_i)}{ویژگی‌های مجاز برای نمونه i با مبدأ s}{eq:ch3-uniform-eligible}
+\notationrow{\Pi_{X_i}(Z)}{ماتریس سیاست افقی پس از ماسک ویژگی‌ها}{eq:ch3-fixed-policy-softmax}
+\notationrow{\rho_c}{وزن ترکیب سیاست‌های شرطی کلاس‌ها}{eq:ch3-mean-policy-inference}
+\notationrow{Z=(z_{ab})}{ماتریس ثابت امتیاز سیاست}{eq:ch3-fixed-policy-matrix}
+\notationrow{\pi_s^U}{سیاست یکنواخت انتخاب ویژگی}{eq:ch3-uniform-policy}
+\notationrow{P_s^U}{ماتریس گذار نمونه‌ای سیاست یکنواخت}{eq:ch3-uniform-T}
+\notationrow{\mathsf Q_{i,b}^{(s)}}{توزیع برچسب مقصد پس از انتخاب یک ویژگی}{eq:ch3-feature-one-step-Q}
+\notationgroup{ماتریس‌های انتقال و عمق}
+\notationrow{\mathcal S_s,\ m_s}{فضای حالت نمونه–ویژگی مجاز و اندازه آن}{eq:ch3-state-space}
+\notationrow{D_{ij}^{(s)}}{بلوک انتقال عمودی از نمونه i به j}{eq:ch3-block-diagonal-D}
+\notationrow{\Pi_i^{(s)}}{بلوک انتخاب افقی ویژگی‌ها}{eq:ch3-block-Tij}
+\notationrow{\mathsf P_{s,ij}}{بلوک انتقال کامل}{eq:ch3-block-Tij}
+\notationrow{F_s,\ S_s}{عامل‌های افقی و عمودی تجزیه بلوکی}{eq:ch3-block-factorization}
+\notationrow{\mathsf P_s}{ماتریس انتقال حالت‌های نمونه–ویژگی}{eq:ch3-block-factorization}
+\notationrow{\rho_s}{توزیع حالت بعد از گام نخست؛ غیر از وزن کلاس}{eq:ch3-block-first-step}
+\notationrow{\mathsf B_s,\ \mathsf E_s}{تجمیع حالت به نمونه و برچسب}{eq:ch3-block-t-step}
+\notationrow{H,\ L_H}{سقف عمق و طول گشت سقف‌دار}{eq:ch3-capped-alpha}
+\notationrow{p_\ell^{(H)}}{احتمال طول گشت سقف‌دار}{eq:ch3-capped-alpha}
+\notationrow{\alpha_t^{(H)}}{وزن دقیق گام t با سقف H}{eq:ch3-capped-alpha}
+\notationrow{\nu_{s,t}}{توزیع پیش‌رونده روی حالت‌ها}{eq:ch3-matrix-forward-recursion}
+\notationrow{G_{s,t}}{ماتریس محاسبه پس‌رونده امید}{eq:ch3-matrix-backward-recursion}
+\notationrow{\widehat{\mathscr Y}_{s,r}}{بازنمایی تقریبی با r گام}{eq:ch3-matrix-truncated}
+\notationrow{\varepsilon_r}{جرم وزن حذف‌شده در تقریب}{eq:ch3-matrix-truncated}
+\notationrow{\operatorname{TV}(P,Q)}{فاصله تغییر کل دو توزیع}{eq:ch3-matrix-truncation-bound}
+\notationrow{d_{\mathrm{eff}},\ r_\varepsilon}{میانگین عمق و عمق پوشش جرم}{eq:ch3-effective-depth}
+\notationrow{d_i,\ m}{تعداد ویژگی‌های نمونه i و کل گره‌های موجود}{eq:ch3-graph-size}
+\notationrow{e_v,\ e_h}{تعداد یال‌های بالقوه عمودی و افقی}{eq:ch3-graph-size}
+\notationgroup{مراکز و معیارهای اطلاعاتی}
+\notationrow{C_c,\ \mathcal V_c}{مجموعه اندیس‌های کلاس c و مرکز آن}{eq:ch3-class-center}
+\notationrow{\mathcal V}{ماتریس مراکز کلاس‌ها}{eq:ch3-class-centers-matrix}
+\notationrow{D_{\mathrm{KL}}(P\|Q)}{واگرایی کولبک–لایبلر}{eq:ch3-KL-definition}
+\notationrow{\eta_r,\ \overline P}{وزن گروه و میانگین توزیع‌های مخلوط؛ g شمار گروه‌ها}{eq:ch3-mixture-log-likelihood}
+\notationrow{H(P)}{آنتروپی شانون؛ غیر از سقف عددی H}{eq:ch3-mixture-log-likelihood}
+\notationrow{R_c}{هزینه تجمیع و پراکندگی درون‌کلاسی}{eq:ch3-R-entropy}
+\notationrow{R,\ \Omega,\ \omega_c}{میانگین پراکندگی و وزن کلاس‌ها}{eq:ch3-R-average}
+\notationrow{T(\mathcal V)}{معیار اثر قطری مراکز}{eq:ch3-T-on-V}
+\notationrow{BT(\mathcal V)}{معیار بهترین اثر جایگشتی}{eq:ch3-BT-on-V}
+\notationrow{S_K,\ \sigma}{مجموعه جایگشت‌ها و یک جایگشت}{eq:ch3-BT-on-V}
+\notationrow{TNL(\mathcal V)}{هزینه لگاریتمی هم‌برچسبی}{eq:ch3-TNL-on-V}
+\notationrow{BTNL(\mathcal V)}{هزینه لگاریتمی جایگشتی}{eq:ch3-BTNL-on-V}
+\notationrow{\overline{\mathcal V}}{میانگین وزن‌دار مراکز}{eq:ch3-global-center}
+\notationrow{I(\mathcal V)}{اطلاعات متقابل کلاس آغازین و برچسب همسایگی}{eq:ch3-I-on-V}
+\notationrow{C_0,\ C_\xi}{برچسب آغازین و برچسب مشاهده‌شده}{eq:ch3-I-joint-distribution}
+\notationrow{\operatorname{JSD}(P,Q)}{واگرایی جنسن–شنون}{eq:ch3-JSD-definition}
+\notationrow{\Phi(P)}{نگاشت هیلبرتی توزیع}{eq:ch3-js-Hilbert-map}
+\notationrow{d_{\mathrm{JS}}(P,Q)}{فاصله متریک جذر JSD}{eq:ch3-js-distance}
+\notationrow{s(P,Q)}{شباهت نرمال‌شده جنسن–شنون}{eq:ch3-js-similarity}
+\notationrow{W_c^{\mathrm{JS}}}{پراکندگی درون کلاس با JSD}{eq:ch3-js-within-dispersion}
+\notationrow{\delta_c}{فاصله مرکز از نزدیک‌ترین مرکز رقیب}{eq:ch3-js-center-separation}
+\notationgroup{تخمین احتمالات، NLL و حاشیه}
+\notationrow{p_i(c)}{پسین واقعی برچسب نمونه i}{eq:ch3-NLL-true-posterior-KL}
+\notationrow{d_{i,c}}{فاصله KL نمونه از مرکز کلاس}{eq:ch3-NLL-distance}
+\notationrow{\widehat p_{i,c}}{احتمال تخمینی با Softmax}{eq:ch3-NLL-softmax}
+\notationrow{\ell_i}{زیان لگاریتمی نمونه}{eq:ch3-NLL-sample}
+\notationrow{NLL_\Omega}{NLL وزن‌دار روی کلاس‌ها}{eq:ch3-NLL-balanced}
+\notationrow{\gamma}{ضریب مقیاس ورودی Softmax}{eq:ch3-NLL-scaled-softmax}
+\notationrow{\overline d_i,\ \sigma_i}{میانگین و انحراف معیار فاصله‌ها}{eq:ch3-distance-statistics}
+\notationrow{z_{i,c}}{امتیاز نرمال‌شده نمونه و کلاس}{eq:ch3-normalized-score}
+\notationrow{\ell_i^{\mathrm{norm}}}{زیان نمونه با امتیاز نرمال‌شده}{eq:ch3-normalized-NLL}
+\notationrow{M_{c,r}(X_i)}{حاشیه جدایی کلاس c از رقیب r}{eq:ch3-margin-definition}
+\notationrow{a_{c,r},\ \Sigma_c}{بردار ضرایب و کوواریانس حاشیه}{eq:ch3-margin-coeff-cov}
+\notationrow{\mu_{c,r},\ \nu_{c,r}}{میانگین و واریانس حاشیه}{eq:ch3-margin-mean}
+\notationrow{G_{c,r}}{معیار جدایی نسبی حاشیه}{eq:ch3-margin-pairwise}
+\notationrow{J_{\mathrm{margin}}}{معیار کل جدایی حاشیه‌ای}{eq:ch3-margin-criterion}
+\notationrow{E_{\mathrm{bal}}}{خطای تجربی متوازن}{eq:ch3-margin-error-bound}
+\notationrow{M_i^{\mathrm{JS}}}{حاشیه تصمیم مبتنی بر شباهت JS}{eq:ch3-js-margin-distance-difference}
+\notationrow{\ell_\tau(m),\ \tau}{زیان سیگموئیدی و پهنای هموارسازی}{eq:ch3-js-sigmoid-loss}
+\notationrow{\mathcal L_{\mathrm{sig}}}{میانگین متوازن زیان سیگموئیدی}{eq:ch3-js-sigmoid-balanced-objective}
+\notationgroup{مسئله معکوس سیاست}
+\notationrow{z=\operatorname{vec}(Z),\ p}{بردار پارامترهای سیاست و تعداد پارامترها}{eq:ch3-center-forward-map}
+\notationrow{\mathcal F_{\beta,\lambda,H}}{نگاشت سیاست به مراکز}{eq:ch3-center-forward-map}
+\notationrow{\mathcal V^\star}{مراکز هدف}{eq:ch3-center-inverse-loss}
+\notationrow{\mathcal L_{\mathrm{inv}}}{تابع هدف بازیابی سیاست}{eq:ch3-center-inverse-loss}
+\notationrow{\mathfrak C_{\beta,\lambda,H}}{مجموعه مراکز قابل دستیابی}{eq:ch3-attainable-centers}
+\notationrow{U_{s,u}}{کران بالای آزادشده برای سهم برچسب مقصد}{eq:ch3-center-component-upper}
+\notationrow{u(z),\ J(z)}{بردار مؤلفه‌های مستقل مراکز و ژاکوبین}{eq:ch3-inverse-GN}
+\notationrow{\delta,\ \mu}{اصلاح سیاست و ضریب میرایی حل معکوس}{eq:ch3-inverse-GN}
+\notationrow{b_{\mathrm{ls}}}{تعداد ارزیابی‌های جست‌وجوی خط}{eq:ch3-inverse-complexity}
+\end{longtable}
+\endgroup
+\cleardoublepage
