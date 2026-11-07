@@ -1,0 +1,129 @@
+{
+  "metadata": {
+    "data_seed": 20261102,
+    "n_train": 300,
+    "class_counts": [
+      72,
+      147,
+      81
+    ],
+    "beta": 0.4,
+    "lambda": 0.8,
+    "H": 12,
+    "q_steps": 45,
+    "gn_steps": 30,
+    "tol": 1e-8,
+    "learning_rate": 0.12,
+    "neutral_restart": false,
+    "time_limit": null,
+    "method": "class-conditioned Q warm-start then exact JSD damped GN; bounded per-origin transition"
+  },
+  "relaxed_upper_diagonal": [
+    0.6023781703724579,
+    0.7197715919219652,
+    0.6845455020379876
+  ],
+  "equal": {
+    "target": [
+      [
+        0.6023781703724579,
+        0.19881091481377106,
+        0.19881091481377106
+      ],
+      [
+        0.1401142040390174,
+        0.7197715919219652,
+        0.1401142040390174
+      ],
+      [
+        0.1577272489810062,
+        0.1577272489810062,
+        0.6845455020379876
+      ]
+    ],
+    "realized": [
+      [
+        0.42162206921736745,
+        0.435984,
+        0.142393
+      ],
+      [
+        0.179384,
+        0.6371440307427354,
+        0.183472
+      ],
+      [
+        0.101755,
+        0.400013,
+        0.49823184284692473
+      ]
+    ],
+    "mean_JSD_to_target": 0.024868889896846103,
+    "I": 0.09205656144386787,
+    "R_JS": 0.01919048398234917,
+    "validation_BA": 0.8520408163265306,
+    "time_s": 52.76000728400004,
+    "target_violations": [
+      [
+        0,
+        1
+      ],
+      [
+        2,
+        1
+      ]
+    ]
+  },
+  "bounded_equal": {
+    "target": [
+      [
+        0.6023781703724579,
+        0.2963777752351273,
+        0.1012440543924148
+      ],
+      [
+        0.1401142040390174,
+        0.7197715919219652,
+        0.1401142040390174
+      ],
+      [
+        0.0613627158896513,
+        0.25409178207236105,
+        0.6845455020379876
+      ]
+    ],
+    "realized": [
+      [
+        0.4843255952669164,
+        0.433711,
+        0.081963
+      ],
+      [
+        0.179384,
+        0.6371440307427354,
+        0.183472
+      ],
+      [
+        0.045078,
+        0.385939,
+        0.5689833642866227
+      ]
+    ],
+    "mean_JSD_to_target": 0.008091434482492721,
+    "I": 0.16324280842800298,
+    "R_JS": 0.0240922868599743,
+    "validation_BA": 0.8928571428571429,
+    "time_s": 56.73402680899926
+  },
+  "uniform": {
+    "I": 0.016882854979976214,
+    "R_JS": 0.002013830063120666,
+    "validation_BA": 0.9676870748299321
+  },
+  "notes": [
+    "The relaxed diagonal upper bound is not the constrained policy maximum.",
+    "Off-diagonal componentwise feasibility does not imply simultaneous reachability.",
+    "No exact Adam was run in this full-300 experiment; comparison is uniform vs Q-warm GN for two targets.",
+    "Detailed policies and traces are in supplementary experiment archive."
+  ]
+}
