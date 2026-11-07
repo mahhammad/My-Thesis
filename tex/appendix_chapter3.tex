@@ -11,7 +11,7 @@
 \begin{equation}\label{eq:app-ch3-L}
 \Pr(L=\ell)=p_\ell=\beta(1-\beta)^{\ell-1},\qquad \ell\ge1.
 \end{equation}
-همچنین $0<\lambda\le1$ و $Z_\ell(\lambda)=\sum_{t=1}^{\ell}\lambda^{t-1}$ است. بردار حاصل از یک گشت با طول تصادفی $L$ مطابق رابطه \eqref{eq:ch3-walk-vector} تعریف می‌شود.
+همچنین $0<\lambda\le1$ و $\mathcal N_\ell(\lambda)=\sum_{t=1}^{\ell}\lambda^{t-1}$ است. بردار حاصل از یک گشت با طول تصادفی $L$ مطابق رابطه \eqref{eq:ch3-walk-vector} تعریف می‌شود.
 
 \begin{proposition}\label{prop:app-ch3-alpha}
 با فرض‌های بالا، توزیع همسایگی نمونه آغازین را می‌توان به صورت
@@ -19,7 +19,7 @@
 h_s=\sum_{t=1}^{\infty}\alpha_t(\beta,\lambda)Q_{X_s}^{(t)},
 \qquad
 \alpha_t(\beta,\lambda)=\lambda^{t-1}
-\sum_{\ell=t}^{\infty}\frac{p_\ell}{Z_\ell(\lambda)}
+\sum_{\ell=t}^{\infty}\frac{p_\ell}{\mathcal N_\ell(\lambda)}
 \end{equation}
 نوشت. علاوه بر این، برای همه $t$ ضرایب $\alpha_t\ge0$ هستند و $\sum_{t=1}^{\infty}\alpha_t=1$.
 \end{proposition}
@@ -28,7 +28,7 @@ h_s=\sum_{t=1}^{\infty}\alpha_t(\beta,\lambda)Q_{X_s}^{(t)},
 با شرط‌کردن روی طول گشت $L=\ell$، از تعریف بردار $R(W)$ داریم:
 \begin{equation}\label{eq:app-ch3-cond}
 \mathbb E[R(W)\mid X_s,L=\ell]
-=\frac{1}{Z_\ell(\lambda)}
+=\frac{1}{\mathcal N_\ell(\lambda)}
 \sum_{t=1}^{\ell}\lambda^{t-1}
 \mathbb E[e_{J_t}\mid X_s,L=\ell].
 \end{equation}
@@ -41,33 +41,33 @@ h_s=\sum_{t=1}^{\infty}\alpha_t(\beta,\lambda)Q_{X_s}^{(t)},
 \begin{aligned}
 h_s
 &=\sum_{\ell=1}^{\infty}p_\ell
-\frac{\sum_{t=1}^{\ell}\lambda^{t-1}Q_{X_s}^{(t)}}{Z_\ell(\lambda)}\\
+\frac{\sum_{t=1}^{\ell}\lambda^{t-1}Q_{X_s}^{(t)}}{\mathcal N_\ell(\lambda)}\\
 &=\sum_{t=1}^{\infty}
 \left(\lambda^{t-1}\sum_{\ell=t}^{\infty}
-\frac{p_\ell}{Z_\ell(\lambda)}\right)Q_{X_s}^{(t)}.
+\frac{p_\ell}{\mathcal N_\ell(\lambda)}\right)Q_{X_s}^{(t)}.
 \end{aligned}
 \end{equation}
 تغییر ترتیب جمع‌ها مجاز است؛ زیرا ضرایب نامنفی‌اند و تمام بردارهای $Q_{X_s}^{(t)}$ بردارهای احتمال با مؤلفه‌های نامنفی هستند. با قراردادن تعریف $p_\ell$ از رابطه \eqref{eq:app-ch3-L}، عبارت داخل پرانتز دقیقاً ضریب $\alpha_t(\beta,\lambda)$ در رابطه \eqref{eq:ch3-h-alpha} می‌شود.
 
-برای اثبات نرمال‌بودن ضرایب، ابتدا از نامنفی بودن $p_\ell$، $\lambda^{t-1}$ و $Z_\ell(\lambda)>0$ نتیجه می‌گیریم که $\alpha_t\ge0$. سپس:
+برای اثبات نرمال‌بودن ضرایب، ابتدا از نامنفی بودن $p_\ell$، $\lambda^{t-1}$ و $\mathcal N_\ell(\lambda)>0$ نتیجه می‌گیریم که $\alpha_t\ge0$. سپس:
 \begin{equation}\label{eq:app-ch3-normalization}
 \begin{aligned}
 \sum_{t=1}^{\infty}\alpha_t
 &=\sum_{t=1}^{\infty}\lambda^{t-1}
-\sum_{\ell=t}^{\infty}\frac{p_\ell}{Z_\ell(\lambda)}\\
-&=\sum_{\ell=1}^{\infty}\frac{p_\ell}{Z_\ell(\lambda)}
+\sum_{\ell=t}^{\infty}\frac{p_\ell}{\mathcal N_\ell(\lambda)}\\
+&=\sum_{\ell=1}^{\infty}\frac{p_\ell}{\mathcal N_\ell(\lambda)}
 \sum_{t=1}^{\ell}\lambda^{t-1}\\
 &=\sum_{\ell=1}^{\infty}p_\ell=1.
 \end{aligned}
 \end{equation}
-در تساوی سوم از تعریف $Z_\ell(\lambda)$ استفاده شده است. بنابراین $h_s$ ترکیب محدبی از بردارهای احتمال $Q_{X_s}^{(t)}$ است و خود نیز بردار احتمال خواهد بود.
+در تساوی سوم از تعریف $\mathcal N_\ell(\lambda)$ استفاده شده است. بنابراین $h_s$ ترکیب محدبی از بردارهای احتمال $Q_{X_s}^{(t)}$ است و خود نیز بردار احتمال خواهد بود.
 \end{proof}
 
 \paragraph{نقش مستقل دو پارامتر.}
 در ضرایب \eqref{eq:app-ch3-result}، پارامتر $\beta$ احتمال طول گشت $\ell$ و پارامتر $\lambda$ توزیع وزن مشاهدات \emph{درون هر گشت} را تعیین می‌کند. ازاین‌رو حتی وقتی متوسط طول گشت با $\beta=1/3$ برابر سه است، کاهش $\lambda$ سهم گام‌های دورتر را نسبت به گام‌های نزدیک‌تر کاهش می‌دهد. به‌طور خاص، اگر $\beta=1$ باشد، همه گشت‌ها طول یک دارند و $h_s=Q_{X_s}^{(1)}$، مستقل از $\lambda$.
 
 \paragraph{تفاوت با نرمال‌سازی پس از تجمیع گشت‌ها.}
-در این پژوهش، نخست بردار هر گشت بر $Z_L(\lambda)$ تقسیم و سپس امید ریاضی گرفته می‌شود. اگر به‌جای آن، ابتدا وزن بازدیدها روی تمام گشت‌ها تجمیع و \emph{پس از} امیدگیری نرمال شود، ضرایبی متناسب با $[\lambda(1-\beta)]^{t-1}$ به دست می‌آید. این دو روش در حالت کلی یکسان نیستند؛ زیرا امید ریاضی یک نسبت الزاماً با نسبت امیدهای ریاضی برابر نیست. ازاین‌رو رابطه \eqref{eq:ch3-h-alpha} صورت دقیق تعریف مبتنی بر نرمال‌سازی جداگانه هر گشت است، نه یک تقریب حاصل از سری هندسی ماتریس گذار.
+در این پژوهش، نخست بردار هر گشت بر $\mathcal N_L(\lambda)$ تقسیم و سپس امید ریاضی گرفته می‌شود. اگر به‌جای آن، ابتدا وزن بازدیدها روی تمام گشت‌ها تجمیع و \emph{پس از} امیدگیری نرمال شود، ضرایبی متناسب با $[\lambda(1-\beta)]^{t-1}$ به دست می‌آید. این دو روش در حالت کلی یکسان نیستند؛ زیرا امید ریاضی یک نسبت الزاماً با نسبت امیدهای ریاضی برابر نیست. ازاین‌رو رابطه \eqref{eq:ch3-h-alpha} صورت دقیق تعریف مبتنی بر نرمال‌سازی جداگانه هر گشت است، نه یک تقریب حاصل از سری هندسی ماتریس گذار.
 
 
 
@@ -94,10 +94,10 @@ $\Pr(L_H=H)=(1-\beta)^{H-1}$ است. با شرط‌کردن روی $L_H=\ell$ و
 \mathbb E[R(W)\mid X_s]
 &=\sum_{\ell=1}^{H}p_\ell^{(H)}
 \sum_{t=1}^{\ell}
-\frac{\lambda^{t-1}}{Z_\ell(\lambda)}Q_{X_s}^{(t)}\\
+\frac{\lambda^{t-1}}{\mathcal N_\ell(\lambda)}Q_{X_s}^{(t)}\\
 &=\sum_{t=1}^{H}\left(
 \lambda^{t-1}\sum_{\ell=t}^{H}
-\frac{p_\ell^{(H)}}{Z_\ell(\lambda)}\right)Q_{X_s}^{(t)}.
+\frac{p_\ell^{(H)}}{\mathcal N_\ell(\lambda)}\right)Q_{X_s}^{(t)}.
 \end{aligned}
 \end{equation}
 با جمع روی $t$، مجموع ضرایب داخل پرانتز به
@@ -116,7 +116,7 @@ $A_r=1-\varepsilon_r=\sum_{t=1}^r\alpha_t^{(H)}$.
 \end{equation}
 از سوی دیگر،
 $\varepsilon_r=\mathbb E[
-\sum_{t=r+1}^{L_H}\lambda^{t-1}/Z_{L_H}(\lambda)]$
+\sum_{t=r+1}^{L_H}\lambda^{t-1}/\mathcal N_{L_H}(\lambda)]$
 است. مجموع درون امید حداکثر
 $\mathbf1\{L_H>r\}$ است؛ پس
 $\varepsilon_r\le\Pr(L_H>r)=(1-\beta)^r$ برای $r<H$.
@@ -170,16 +170,16 @@ G_{s,t+1}^{(u)}(j,b).
 U_{s,u}
 &=\max_{b\in B_s(X_s)}
 \sum_{j\ne s}q_b^{(s)}(j\mid s)G_{s,1}^{(u)}(j,b),\\
-\boxed{\mathcal V_c(u)&\le
+\mathcal V_c(u)&\le
 \frac{1}{|C_c|}\sum_{s\in C_c}U_{s,u}.}
 \end{aligned}
 \end{equation}
-این یک \emph{کران آزادشده} است: بیشینه‌گیریِ پویا می‌تواند سیاست‌های وابسته به مبدأ و زمان را انتخاب کند، درحالی‌که مدل اصلی ممکن است یک ماتریس امتیاز مشترک و ثابت داشته باشد. ازاین‌رو نقض این کران، دست‌نیافتنی‌بودن یک مؤلفه هدف را اثبات می‌کند؛ اما رعایت آن، وجود یک سیاست سازنده را تضمین نمی‌کند. ضرایب $\alpha_t^{(H)}$ در این کران حضور دارند و نشان می‌دهند چرا محدودیت‌های مراکز به $\beta,\lambda$ و عمق وابسته‌اند. در تحلیل داده مصنوعی، این کران تنها درباره \emph{توزیع برچسب همسایگی} حکم می‌دهد و به معنی ناممکن‌بودن تخمین پسین بیزی با روش‌های دیگر نیست.
+برای اثبات کران، در گام پایانی مقدار باقی‌مانده دقیقاً صفر است. اگر $G_{s,t+1}^{(u)}$ بر مجموع وزن مورد انتظار گام‌های بعد کران بالا بدهد، شرط‌کردن روی ویژگی $b$ و نمونه مقصد $j$ و سپس گرفتن بیشینه روی ویژگی‌های مجاز نشان می‌دهد $G_{s,t}^{(u)}$ نیز همین خاصیت را دارد. استقرای معکوس از $H$ تا $1$، بیشینه‌گیری نخستین ویژگی و در نهایت میانگین‌گیری از مبدأهای کلاس $c$، کران رابطه~\eqref{eq:ch3-center-component-upper} در متن فصل را نتیجه می‌دهند.
 
 \section{بهینگی درست‌نماییِ نماینده مشترک توزیع‌های مخلوط}
 \label{app:ch3-mixture-likelihood}
 
-این اثبات، صورت عمومی استدلال درست‌نماییِ مطرح‌شده در رابطه~\eqref{eq:ch3-mixture-likelihood-optimum} را ارائه می‌کند و به تعریف شعاع درون‌کلاسی وابسته نیست. فرض کنیم مشاهدات در $m$ گروه تولید شده‌اند؛ در گروه $r$، تعداد $n_r$ مشاهده مستقل و هم‌توزیع $Z_{r,1},\ldots,Z_{r,n_r}$ از توزیع احتمال $P_r$ روی یک فضای متناهی داریم. اگر $n=\sum_r n_r$ و در حد $n\to\infty$ نسبت $n_r/n$ به وزن $\lambda_r$ میل کند، فرض می‌کنیم $\lambda_r\ge0$ و $\sum_r\lambda_r=1$؛ گروه‌های با وزن صفر در محاسبات حدی سهمی ندارند.
+این اثبات، صورت عمومی استدلال درست‌نماییِ مطرح‌شده در رابطه~\eqref{eq:ch3-mixture-likelihood-optimum} را ارائه می‌کند و به تعریف شعاع درون‌کلاسی وابسته نیست. فرض کنیم مشاهدات در $m$ گروه تولید شده‌اند؛ در گروه $r$، تعداد $n_r$ مشاهده مستقل و هم‌توزیع $Z_{r,1},\ldots,Z_{r,n_r}$ از توزیع احتمال $P_r$ روی یک فضای متناهی داریم. اگر $n=\sum_r n_r$ و در حد $n\to\infty$ نسبت $n_r/n$ به وزن $\eta_r$ میل کند، فرض می‌کنیم $\eta_r\ge0$ و $\sum_r\eta_r=1$؛ گروه‌های با وزن صفر در محاسبات حدی سهمی ندارند.
 
 اگر بدانیم هر مشاهده از کدام توزیع تولید شده، درست‌نمایی مدل آگاه از مبدأ برابر است با
 \[
@@ -193,35 +193,35 @@ L_n(Q)=\prod_{r=1}^{m}\prod_{t=1}^{n_r}Q(Z_{r,t}).
 \begin{equation}\label{eq:app-ch3-mixture-log-likelihood-ratio}
 \begin{aligned}
 \lim_{n\to\infty}\frac1n\log\frac{L_n^{\star}}{L_n(Q)}
-&=\sum_{r=1}^{m}\lambda_r
+&=\sum_{r=1}^{m}\eta_r
 \sum_{d=1}^{K}P_r(d)\log\frac{P_r(d)}{Q(d)}\\
-&=\sum_{r=1}^{m}\lambda_rD_{\mathrm{KL}}(P_r\|Q).
+&=\sum_{r=1}^{m}\eta_rD_{\mathrm{KL}}(P_r\|Q).
 \end{aligned}
 \end{equation}
 این همان تفاوت متوسط لگاریتم درست‌نمایی مدل آگاه از مبدأ و مدل مشترک است. چنانچه $Q$ در مؤلفه‌ای که توزیع مخلوط به آن احتمال مثبت می‌دهد، صفر باشد، مدل مشترک برای مشاهده آن مؤلفه درست‌نمایی صفر خواهد داشت و زیان لگاریتمی آن نامتناهی می‌شود.
 
-اکنون میانگین توزیع‌ها را با $\overline P=\sum_r\lambda_rP_r$ تعریف می‌کنیم.
+اکنون میانگین توزیع‌ها را با $\overline P=\sum_r\eta_rP_r$ تعریف می‌کنیم.
 
 هویت تجزیه میانگین KL که در صورت درون‌کلاسی متن اصلی به کار می‌رود، برای هر توزیع مشترک $Q$ با واگرایی‌های متناهی چنین است:
 \begin{equation}\label{eq:ch3-mixture-KL-general}
 \boxed{
 \begin{aligned}
-\sum_{r=1}^{m}\lambda_rD_{\mathrm{KL}}(P_r\|Q)
-&=\sum_{r=1}^{m}\lambda_rD_{\mathrm{KL}}(P_r\|\overline P)\\
+\sum_{r=1}^{m}\eta_rD_{\mathrm{KL}}(P_r\|Q)
+&=\sum_{r=1}^{m}\eta_rD_{\mathrm{KL}}(P_r\|\overline P)\\
 &\quad+D_{\mathrm{KL}}(\overline P\|Q).
 \end{aligned}}
 \end{equation}
  با افزودن و کاستن $\log\overline P(d)$ در عبارت آخر و جابه‌جا کردن جمع‌ها داریم:
 \begin{equation}\label{eq:app-ch3-mixture-KL-decomposition-proof}
 \begin{aligned}
-\sum_r\lambda_rD_{\mathrm{KL}}(P_r\|Q)
-&=\sum_r\lambda_r\sum_dP_r(d)
+\sum_r\eta_rD_{\mathrm{KL}}(P_r\|Q)
+&=\sum_r\eta_r\sum_dP_r(d)
 \log\frac{P_r(d)}{\overline P(d)}
-+\sum_r\lambda_r\sum_dP_r(d)
++\sum_r\eta_r\sum_dP_r(d)
 \log\frac{\overline P(d)}{Q(d)}\\
-&=\sum_r\lambda_rD_{\mathrm{KL}}(P_r\|\overline P)
+&=\sum_r\eta_rD_{\mathrm{KL}}(P_r\|\overline P)
 +\sum_d\overline P(d)\log\frac{\overline P(d)}{Q(d)}\\
-&=\sum_r\lambda_rD_{\mathrm{KL}}(P_r\|\overline P)
+&=\sum_r\eta_rD_{\mathrm{KL}}(P_r\|\overline P)
 +D_{\mathrm{KL}}(\overline P\|Q).
 \end{aligned}
 \end{equation}
@@ -231,14 +231,14 @@ L_n(Q)=\prod_{r=1}^{m}\prod_{t=1}^{n_r}Q(Z_{r,t}).
 \begin{equation}\label{eq:app-ch3-mixture-MLE-proof}
 \begin{aligned}
 \mathcal L(Q)
-&=\sum_r\lambda_r\sum_dP_r(d)\log Q(d)\\
+&=\sum_r\eta_r\sum_dP_r(d)\log Q(d)\\
 &=\sum_d\overline P(d)\log Q(d)\\
 &=-H(\overline P)-D_{\mathrm{KL}}(\overline P\|Q).
 \end{aligned}
 \end{equation}
 بنابراین بیشینه‌کننده $\mathcal L(Q)$ همان $\overline P$ است. این گزاره مبنای \emph{درست‌نمایی} انتخاب میانگین است؛ تجزیه KL فقط راه اثبات آن را فراهم می‌کند.
 
-برای کلاس $c$ در روش پیشنهادی، با قرار دادن $P_r=\mathscr Y_i$ برای $i\in C_c$ و وزن‌های $\lambda_r=1/|C_c|$، نتیجه می‌شود که بهترین توزیع مشترک برای مدل‌کردن مشاهدات برچسب همسایگی نمونه‌های این کلاس، همان $\mathcal V_c$ است. این نتیجه نه به تعریف $R_c$ وابسته است و نه لزوماً به معنای کمینه‌کننده بودن همین نماینده برای هر فاصله یا متریک دیگری مانند جذر واگرایی جنسن--شنون است.
+برای کلاس $c$ در روش پیشنهادی، با قرار دادن $P_r=\mathscr Y_i$ برای $i\in C_c$ و وزن‌های $\eta_r=1/|C_c|$، نتیجه می‌شود که بهترین توزیع مشترک برای مدل‌کردن مشاهدات برچسب همسایگی نمونه‌های این کلاس، همان $\mathcal V_c$ است. این نتیجه نه به تعریف $R_c$ وابسته است و نه لزوماً به معنای کمینه‌کننده بودن همین نماینده برای هر فاصله یا متریک دیگری مانند جذر واگرایی جنسن--شنون است.
 
 \paragraph{مقدار بهینه منفی لگاریتم درست‌نمایی و تفسیر هزینه تجمیع.}
 برای توزیع مشترک $Q$، منفی لگاریتم درست‌نمایی مورد انتظار برابر $-\mathcal L(Q)$ است؛ بنابراین با استفاده از رابطه~\eqref{eq:app-ch3-mixture-MLE-proof}، کمترین مقدار آن در $Q=\overline P$ برابر $H(\overline P)$ خواهد بود. اگر به‌جای یک مدل مشترک، مدل جداگانه $Q_r$ برای مشاهده‌های گروه $r$ در اختیار داشته باشیم، هزینه هر گروه از رابطه
@@ -246,20 +246,20 @@ L_n(Q)=\prod_{r=1}^{m}\prod_{t=1}^{n_r}Q(Z_{r,t}).
 -\sum_d P_r(d)\log Q_r(d)
 =H(P_r)+D_{\mathrm{KL}}(P_r\|Q_r)
 \]
-به دست می‌آید. این هزینه برای $Q_r=P_r$ کمینه می‌شود؛ ازاین‌رو کمترین هزینه میانگین مدل‌های اختصاصی $\sum_r\lambda_rH(P_r)$ است. در نتیجه اختلاف دو مقدار بهینه برابر است با:
+به دست می‌آید. این هزینه برای $Q_r=P_r$ کمینه می‌شود؛ ازاین‌رو کمترین هزینه میانگین مدل‌های اختصاصی $\sum_r\eta_rH(P_r)$ است. در نتیجه اختلاف دو مقدار بهینه برابر است با:
 \begin{equation}\label{eq:app-ch3-NLL-compression-gap}
 \begin{aligned}
 \operatorname{NLL}_{\min}^{\mathrm{shared}}
 -\operatorname{NLL}_{\min}^{\mathrm{individual}}
-&=H(\overline P)-\sum_r\lambda_rH(P_r)\\
-&=\sum_r\lambda_rD_{\mathrm{KL}}(P_r\|\overline P)
+&=H(\overline P)-\sum_r\eta_rH(P_r)\\
+&=\sum_r\eta_rD_{\mathrm{KL}}(P_r\|\overline P)
 \ge0.
 \end{aligned}
 \end{equation}
-در تساوی دوم، $\sum_r\lambda_rP_r=\overline P$ را در تعریف KL جای‌گذاری کرده‌ایم. اگر همه وزن‌های مورد بحث مثبت باشند، اختلاف هزینه دقیقاً زمانی صفر است که تمام $P_r$ها برابر باشند. این هزینه تنها درباره پیش‌بینی \emph{مشاهداتِ مولد از توزیع‌های $P_r$} است؛ بنابراین نباید با منفی لگاریتم درست‌نمایی برچسب واقعی نمونه آغازین در مسئله طبقه‌بندی یکی گرفته شود.
+در تساوی دوم، $\sum_r\eta_rP_r=\overline P$ را در تعریف KL جای‌گذاری کرده‌ایم. اگر همه وزن‌های مورد بحث مثبت باشند، اختلاف هزینه دقیقاً زمانی صفر است که تمام $P_r$ها برابر باشند. این هزینه تنها درباره پیش‌بینی \emph{مشاهداتِ مولد از توزیع‌های $P_r$} است؛ بنابراین نباید با منفی لگاریتم درست‌نمایی برچسب واقعی نمونه آغازین در مسئله طبقه‌بندی یکی گرفته شود.
 
 \paragraph{صورت دقیق تجزیه برای یک کلاس.}
-برای کلاس $c$، در رابطه~\eqref{eq:ch3-mixture-KL-general} به‌ترتیب $P_r=\mathscr Y_i$، $\lambda_r=1/|C_c|$، $\overline P=\mathcal V_c$ و $Q=U$ قرار می‌دهیم. در این صورت برای هر $U$ با واگرایی‌های متناهی:
+برای کلاس $c$، در رابطه~\eqref{eq:ch3-mixture-KL-general} به‌ترتیب $P_r=\mathscr Y_i$، $\eta_r=1/|C_c|$، $\overline P=\mathcal V_c$ و $Q=U$ قرار می‌دهیم. در این صورت برای هر $U$ با واگرایی‌های متناهی:
 \begin{equation}\label{eq:ch3-KL-proof}
 \begin{aligned}
 \frac1{|C_c|}\sum_{i\in C_c}
