@@ -972,9 +972,17 @@ $s_{i,c}^{\mathrm{JS}}=
 را به کار می‌بریم. چهار تابع هدف و تشخیص را مقایسه کردیم:
 NLL ناشی از Softmax روی $s^{\mathrm{JS}}$،
 NLL ناشی از Softmax روی $-d^{\mathrm{KL}}$،
-NLL ناشی از امتیاز
-$-(d_{i,c}^{\mathrm{KL}}-\overline d_i)/\sigma_i$
-مطابق رابطه~\eqref{eq:ch3-normalized-score}،
+NLL ناشی از امتیاز نرمال‌شده زیر،
+\begin{equation}\label{eq:ch4-v1-normalized-KL-score}
+z^{\mathrm{KL}}_{i,c}
+=-\frac{d^{\mathrm{KL}}_{i,c}-\overline d_i}{\sigma_i},
+\qquad
+\overline d_i=\frac1K\sum_{r=1}^K d^{\mathrm{KL}}_{i,r},
+\qquad
+\sigma_i^2=\frac1K\sum_{r=1}^K
+(d^{\mathrm{KL}}_{i,r}-\overline d_i)^2,
+\end{equation}
+که برای صفرشدن $\sigma_i$ قرارداد امتیازهای صفر دارد،
 و زیان چندرقیبی
 $\tau\log\sum_c\exp[(s_{i,c}^{\mathrm{JS}}-
 s_{i,y_i}^{\mathrm{JS}})/\tau]$.
@@ -1036,9 +1044,10 @@ $.36255$ شد. بنابراین این شاهد مربوط به
 
 \subsection{استنتاج برون‌گراف در سیاست‌های گره‌محور}
 \label{subsec:ch4-v1-node-class-validation}
-مطابق تعریف خانواده‌های گره‌محور در
-بخش~\ref{subsec:ch3-node-policy-families}،
-سیاست آزاد $Z_{c,i}$ برای هر مبدأ آموزشی سطر آغاز
+در خانواده آزاد گره--کلاس، ماتریس‌های
+$Z_{c,i}\in\mathbb R^{(d+1)\times d}$
+برای هر کلاس فرضی مبدأ $c$ و گره مرجع $i$
+جداگانه تعریف می‌شوند. سیاست آزاد $Z_{c,i}$ برای هر مبدأ آموزشی سطر آغاز
 جداگانه دارد. در checkpoint زیان حاشیه JSD با
 $\tau=.005$، این خانواده به دقت متوازن
 $100$ درصد روی آموزش رسید، اما برای نمونه جدید
@@ -1071,8 +1080,14 @@ $100$ درصد روی آموزش رسید، اما برای نمونه جدید
 فاصله ویژگی‌های نمونه‌ها آموزش ندیده بودند.
 
 برای جدا کردن اثر اشتراک آغاز از آزادی انتقال میانی،
-خانواده مقید رابطه~\eqref{eq:ch3-class-tied-start}
-را \emph{از ابتدای آموزش} بهینه کردیم. در این خانواده
+خانواده مقید زیر را \emph{از ابتدای آموزش}
+بهینه کردیم:
+\begin{equation}\label{eq:ch4-v1-class-tied-start}
+Z_{c,j,\bot b}=A_{c,b},\qquad
+Z_{c,j,ab}=B_{c,j,a,b},
+\qquad a,b\in A_D.
+\end{equation}
+در این خانواده
 برای هر کلاس فرضی یک سطر آغاز مشترک و برای هر
 گره مرجع، سطرهای انتقال میانی جداگانه وجود دارد.
 با همان $50$ گام، مقداردهی اولیه و $\tau=.005$،
