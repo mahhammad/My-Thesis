@@ -24,18 +24,30 @@ def prepare(spec,ref_count,ref_seed):
         idx=np.concatenate([rng.choice(np.flatnonzero(y==c),per[c],replace=False) for c in range(k)])
     return x[idx],y[idx],vx,vy,idx
 
-def validate(graph,z,family,centers,vy):
+def validate(graph,z,family,centers,vy,tau=.005):
+    """Compute the SAME three radius measures on held-out examples.
+
+    Centers stay fitted on Train. The entropy decomposition for R_KL
+    does NOT apply to a separately sampled Validation split.
+    """
     with torch.no_grad():
-        if family in ("node","node_class"):return None
+        if family in ("node","node_class"):
+            return {"status":"not_applicable",
+                    "reason":"Free per-node policy has no defined start logits for unseen query; train a functional F first.",
+                    "R_sqrt_JS":None,"R_JS":None,"R_KL":None}
+        yy=torch.as_tensor(vy,dtype=torch.long)
         if family=="shared":
-            reps=graph.represent_query(z,family)
-            score=1-jsd(reps[:,None,:],centers[None,:,:])/LN2
+            own=graph.represent_query(z,family)
+            score=1-jsd(own[:,None,:],centers[None,:,:])/LN2
         else:
-            score=torch.stack([1-jsd(graph.represent_query(z,family,c),centers[c])/LN2
-                               for c in range(graph.k)],dim=1)
-        pred=score.argmax(1).numpy()
-        return {"balanced_accuracy":float(np.mean([np.mean(pred[vy==c]==c) for c in range(graph.k)])),
-                "ordinary_accuracy":float(np.mean(pred==vy)),"predictions":pred.tolist()}
+            by_c=[graph.represent_query(z,family,c) for c in range(graph.k)]
+            score=torch.stack([1-jsd(by_c[c],centers[c])/LN2 for c in range(graph.k)],dim=1)
+            own=torch.stack([by_c[int(c)][i] for i,c in enumerate(yy)])
+        truth=score.gather(1,yy[:,None]).squeeze(1)
+        rival=score.masked_fill(torch.nn.functional.one_hot(yy,graph.k).bool(),-1e20).max(1).values
+        from engine import EvalOutputs
+        return summarize(EvalOutputs(centers,score,truth-rival,own),yy,tau,
+                         center_is_class_mean=False)
 
 def run(family="shared",steps=50,lr=.12,tau=.005,nref=300,ref_seed=20261107,log_every=10):
     torch.set_num_threads(1)
@@ -53,7 +65,7 @@ def run(family="shared",steps=50,lr=.12,tau=.005,nref=300,ref_seed=20261107,log_
         loss=balanced(torch.sigmoid(-out.margin/tau),g.labels,g.k)
         if step==0 or step==steps or step%log_every==0:
             history.append({"step":step,"loss":float(loss.detach()),"train":summarize(out,g.labels,tau),
-                            "validation":validate(g,z,family,out.centers.detach(),vy),
+                            "validation":validate(g,z,family,out.centers.detach(),vy,tau),
                             "elapsed_s":time.perf_counter()-start})
         if step==steps:break
         optimizer.zero_grad(set_to_none=True);loss.backward()

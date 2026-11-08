@@ -57,6 +57,38 @@ class WalkBenchmarkChecks(unittest.TestCase):
         p=g.represent_train(torch.zeros((3,2),dtype=DT),"shared",origin_ids=[0])
         self.assertAlmostEqual(float(p.sum()),1.0,places=10)
 
+    def test_all_three_dispersion_metrics_and_kl_identity(self):
+        baseline=torch.zeros_like(self.z.detach())
+        variants=[
+            ("shared",baseline),
+            ("class",baseline.repeat(self.g.k,1,1)),
+            ("node",baseline.repeat(self.g.n,1,1)),
+            ("node_class",baseline.repeat(self.g.k,self.g.n,1,1))]
+        for family,z in variants:
+            with self.subTest(family=family):
+                result=self.g.metrics(self.g.train_outputs(z,family))
+                for key in ("R_sqrt_JS","R_JS","R_KL"):
+                    self.assertIn(key,result)
+                    self.assertGreaterEqual(result[key],0)
+                    self.assertAlmostEqual(result[key],
+                        sum(c[key] for c in result["per_class"])/self.g.k,places=10)
+                self.assertAlmostEqual(result["R_KL"],
+                                       result["R_KL_entropy_identity"],places=10)
+                self.assertAlmostEqual(result["R_JS"],
+                                       np.log(2)*(1-result["mean_true_class_similarity"]),places=10)
+
+    def test_node_class_hypothesis_is_origin_label_hypothesis_not_node_label(self):
+        # Evaluate even a wrong class hypothesis for an origin of class 1.
+        idx=int(torch.where(self.g.labels==1)[0][0])
+        zero=torch.zeros((self.g.k,self.g.n,self.g.d+1,self.g.d),dtype=DT)
+        changed=zero.clone()
+        changed[1,:,:,:]=torch.tensor(np.random.default_rng(97).normal(
+            size=changed[1].shape),dtype=DT)
+        p0=self.g.represent_train(zero,"node_class",c=0,origin_ids=[idx])
+        p1=self.g.represent_train(changed,"node_class",c=0,origin_ids=[idx])
+        self.assertTrue(torch.allclose(p0,p1,atol=1e-12,rtol=0))
+        # Independent of current intermediate labels, only hypothesis c=0 was used.
+
     def test_free_node_policy_has_no_unseen_start_without_generator(self):
         with self.assertRaises(ValueError):
             self.g.represent_query(self.z.detach().repeat(self.g.n,1,1),"node")

@@ -176,15 +176,6 @@ class ExactMaskedWalk:
         return EvalOutputs(C,S,truth-rival,own)
 
     def metrics(self,out,tau=.005):
-        C=out.centers
-        L=balanced(torch.sigmoid(-out.margin/tau),self.labels,self.k)
-        acc=(out.scores.argmax(1)==self.labels).to(DT)
-        rad=balanced(jsd(out.correct_representations,C[self.labels]),self.labels,self.k)
-        def ent(x):return -(x*torch.log(x.clamp_min(1e-300))).sum(-1)
-        info=ent(C.mean(0))-ent(C).mean()
-        return {"sigmoid_margin_loss":float(L.detach()),
-                "balanced_accuracy":float(balanced(acc,self.labels,self.k).detach()),
-                "ordinary_accuracy":float(acc.mean().detach()),
-                "R_JS":float(rad.detach()),"I":float(info.detach()),
-                "margin_q10":float(torch.quantile(out.margin.detach(),.1)),
-                "centers":C.detach().tolist()}
+        """Always emit the canonical full diagnostic set, including three R variants."""
+        from metrics import summarize
+        return summarize(out,self.labels,tau,center_is_class_mean=True)

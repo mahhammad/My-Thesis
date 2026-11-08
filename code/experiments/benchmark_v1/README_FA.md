@@ -35,8 +35,20 @@ z_{c,\bot,b}(X_s)=F_{c,b}(b(X_s)).
 ۷. **مرکز ثابت، سیاست آزاد:** کاهش \`R\` یا \`L_margin\` تحت قید **میانگین واقعی** \`V_c(Z)=V_c^*\`، با فرافکنی/اصلاح ژاکوبینی و کنترل خطای قید. این مسئله با وارون‌سازی بدون قید عملکرد متفاوت است.
 ۸. **حجم Train:** مطالعه n مرجع، با بذرهای مستقل تولید داده و ثبت overlap زیرنمونه‌ها؛ معیاری برای مقایسه کیفیت و هزینه.
 
+## سه معیار پراکندگی اجباری (Train و Validation)
+برای هر کلاس واقعی $c$، در `shared/node` بازنمایی واحد نمونه و در `class/node_class`
+بازنمایی نمونه تحت **فرض همان کلاس $c$** مبنا قرار می‌گیرد. سپس میانگین برابرِ کلاس‌ها گزارش می‌شود:
+- `R_sqrt_JS`: میانگین $\sqrt{\operatorname{JSD}(\mathscr Y_i^{(c)},\mathcal V_c)}$؛ متریک فاصله.
+- `R_JS`: میانگین $\operatorname{JSD}$؛ برابر $\ln2\,(1-\overline s_{\mathrm{true}})$ با شباهت $s=1-\operatorname{JSD}/\ln2$.
+- `R_KL`: میانگین $D_{\mathrm{KL}}(\mathscr Y_i^{(c)}\Vert\mathcal V_c)$؛ هزینه اضافی درست‌نمایی مشترک وقتی مرکز میانگین همین بازنمایی‌های کلاس باشد.
+
+در **Validation**، مرکزهای ثابت از **Train** گرفته می‌شوند؛ سه معیار همچنان مستقیماً از فاصله/واگرایی نمونه‌های Validation تا مرکزهای Train محاسبه می‌شوند،
+اما هویت `H(V)-mean(H(Y))` برای آن مجموعه برقرار **نیست** و در خروجی `R_KL_entropy_identity=null` ثبت می‌شود.
+برای `node/node_class` آزاد، پیش از تعریف تابع شروعِ نمونه بیرون‌گراف `F`، Validation قابل‌تعریف نیست؛
+سه معیار با مقدار `null` و دلیل صریح گزارش می‌شوند، **نه با مقدار جعلی**.
+
 ## گزارش یکسان برای *هر* آزمایش
-\`family, objective, distance, inference, data_seed, reference_seed, reference_ids, train/validation/test-split-hashes, class-counts, beta,lambda,H,tau, optimizer, lr, steps, walltime, evaluations, memory, policy tensor, centers, I, R_JS, R_KL, center separation, balanced accuracy, ordinary accuracy, confusion matrix, margin distribution, per-sample predictions, error flips, constraint residual, noise occupancy, code commit SHA\` (در صورت عدم‌کاربرد: null همراه علت).
+\`family, objective, distance, inference, data_seed, reference_seed, reference_ids, train/validation/test-split-hashes, class-counts, beta,lambda,H,tau, optimizer, lr, steps, walltime, evaluations, memory, policy tensor, centers, I, R_sqrt_JS, R_JS, R_KL, center separation, balanced accuracy, ordinary accuracy, confusion matrix, margin distribution, per-sample predictions, error flips, constraint residual, noise occupancy, code commit SHA\` (در صورت عدم‌کاربرد: null همراه علت).
 هم زمان محاسباتی و هم تعداد گام برای مقایسه معماری‌های با ظرفیت متفاوت گزارش شود.
 
 **مبدأ اطلاعات:** #38 پروتکل مادر؛ #33 استنتاج؛ #34 گشت گره‌محور؛ #23 سیاست مشترک؛ #25 مراکز ثابت؛ #27 آرشیو خام؛ #36–#37 سیاست آزاد/تابعی.

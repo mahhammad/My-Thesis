@@ -17,17 +17,14 @@ def main():
     g=ExactMaskedWalk(x,y,spec["gamma"],query_x=vx)
     z=torch.zeros((g.d+1,g.d),dtype=DT)
     train=g.train_outputs(z,"shared");train_metrics=g.metrics(train)
-    with torch.no_grad():
-        v=g.represent_query(z,"shared")
-        scores=1-jsd(v[:,None,:],train.centers[None,:,:])/LN2
-        p=scores.argmax(1).numpy()
-    val_bal=float(np.mean([np.mean(p[vy==c]==c) for c in range(g.k)]))
+    # Use the same Train-fitted centers and all three radius measures on Validation.
+    from train_margin import validate
+    val_metrics=validate(g,z,"shared",train.centers.detach(),vy,tau=.005)
     result={"schema":"benchmark-v1","status":"smoke-baseline-not-model-comparison",
             "family":"shared","objective":"uniform/no-training","split":"old 20261102",
             "n_train":len(y),"class_counts":np.bincount(y).tolist(),"n_validation":len(vy),
             "test_used":False,"train":train_metrics,
-            "validation":{"balanced_accuracy":val_bal,"ordinary_accuracy":float(np.mean(p==vy)),
-                          "predictions":p.tolist()},"elapsed_s":time.perf_counter()-start}
+            "validation":val_metrics,"elapsed_s":time.perf_counter()-start}
     print(json.dumps(result,ensure_ascii=False,indent=2))
     if args.out:pathlib.Path(args.out).write_text(json.dumps(result,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
 if __name__=="__main__":main()

@@ -44,8 +44,15 @@
     "margin": "score_true-max_other_scores",
     "margin_loss": "balanced_mean(sigmoid(-margin/0.005))",
     "I": "H(unweighted_mean_centers)-mean_center_entropies",
-    "R_JS": "balanced_mean(JSD(representation_true_class,center_true_class))",
-    "R_KL": "balanced_mean(KL(representation_true_class||center_true_class))"
+    "R_JS": "balanced_mean(JSD(representation_true_class,center_true_class)); ln(2)*(1-balanced_mean(true_class_similarity))",
+    "R_KL": "balanced_mean(KL(representation_true_class||center_true_class)); excess shared-model NLL on Train",
+    "R_sqrt_JS": "balanced_mean(sqrt(JSD(representation_true_class,center_true_class))); mean metric distance",
+    "R_KL_entropy_identity": "H(center)-mean(H(class member representations)) holds only if center is arithmetic mean of those same representations; never use for Val",
+    "require_radii": [
+      "R_sqrt_JS",
+      "R_JS",
+      "R_KL"
+    ]
   },
   "baseline_optimizer": {
     "algorithm": "Adam",
