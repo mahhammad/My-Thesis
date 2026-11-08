@@ -12,13 +12,30 @@ HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[2]
 sys.path.insert(0,str(HERE))
 sys.path.insert(0,str(ROOT/"code/data_generator"))
-from generate import load_config
+from generate import load_config, generate
 from engine import ExactMaskedWalk, EvalOutputs, DT, LN2, jsd, balanced
 from metrics import summarize, kl_forward
 from train_margin import prepare, validate
 
 FAMILIES=["shared","class","node","node_class"]
 TAUS=[.002,.005,.020]
+
+def prepare_proportional(spec,nref,seed):
+    """Nested class-proportional Train subsets from a fixed seed; never overdraw a class."""
+    import tempfile
+    with tempfile.TemporaryDirectory() as td:
+        splits=generate(spec,td,finite_q=False)
+    x,_,y=splits["train"];vx,_,vy=splits["validation"]
+    counts=np.bincount(y,minlength=len(spec["pi"]))
+    amounts=counts*(nref/len(y))
+    per=np.floor(amounts).astype(int)
+    surplus=nref-int(per.sum())
+    order=np.argsort(-(amounts-per),kind="stable")
+    per[order[:surplus]]+=1
+    assert nref>0 and (per<=counts).all() and per.sum()==nref
+    rng=np.random.default_rng(seed)
+    ids=np.concatenate([rng.permutation(np.flatnonzero(y==c))[:per[c]] for c in range(len(per))])
+    return x[ids],y[ids],vx,vy,ids
 
 def entropy(x):
     return -(x*torch.log(x.clamp_min(1e-300))).sum(-1)
@@ -143,7 +160,7 @@ def main():
               "runs":[]}
     for i,(n,f,obj,tau,steps) in enumerate(plan,1):
         if n not in cache:
-            x,y,vx,vy,ids=prepare(spec,n,a.reference_seed)
+            x,y,vx,vy,ids=prepare_proportional(spec,n,a.reference_seed)
             cache[n]=(ExactMaskedWalk(x,y,spec["gamma"],query_x=vx),vy,ids)
         g,vy,ids=cache[n]
         print(f"{i}/{len(plan)} n={n} {f} {obj} tau={tau}",flush=True)
