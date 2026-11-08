@@ -25,12 +25,24 @@ def summarize(out,labels,tau=.005,center_is_class_mean=True):
     pairs=torch.stack([jsd(C[c],C[r]) for c in range(k) for r in range(c+1,k)])
     H=lambda v:-(v*torch.log(v.clamp_min(1e-300))).sum(-1)
     margins=out.margin
+    if tau<=0:
+        raise ValueError("tau must be strictly positive")
+    # Softmax of JS similarities is a descriptive classification NLL, not a
+    # calibrated Bayes posterior and not the Chapter-3 distance-KL NLL.
+    sim_nll=-torch.log_softmax(out.scores,dim=1).gather(1,y[:,None]).squeeze(1)
+    correct_score=out.scores.gather(1,y[:,None]).squeeze(1)
+    # Multiclass softplus over all competitors (including 0 for true class);
+    # unlike the sigmoid of the maximum-rival margin, this retains their
+    # individual scores. The temperature is the same tau in both definitions.
+    softplus=tau*torch.logsumexp((out.scores-correct_score[:,None])/tau,dim=1)
     return {
         "counts":[int((y==c).sum()) for c in range(k)],
         "balanced_accuracy":float(balanced(correct,y,k).detach()),
         "ordinary_accuracy":float(correct.mean().detach()),
         "balanced_hard_margin_error":float(balanced((margins<=0).to(DT),y,k).detach()),
         "balanced_sigmoid_margin_loss":float(balanced(torch.sigmoid(-margins/tau),y,k).detach()),
+        "balanced_JS_similarity_NLL":float(balanced(sim_nll,y,k).detach()),
+        "balanced_softplus_all_rivals":float(balanced(softplus,y,k).detach()),
         "margin_quantiles":{str(p):float(torch.quantile(margins.detach(),p).item())
                             for p in [0.,.1,.25,.5,.75,.9,1.]},
         "confusion_true_rows_pred_cols":confusion.detach().tolist(),
