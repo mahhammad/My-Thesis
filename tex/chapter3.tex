@@ -1370,14 +1370,14 @@ d^{\sqrt{\mathrm{JS}}}_{i,c}
 $T_D$، خطای Softmax مبتنی بر فاصله را به‌صورت
 \begin{equation}\label{eq:ch3-NLL-distance-family}
 \boxed{
+\begin{aligned}
 \ell_i^{D,T_D}
-=-\log\frac{\exp[-d^D_{i,y_i}/T_D]}
-{\sum_{r=1}^{K}\exp[-d^D_{i,r}/T_D]},
-\qquad
+&=-\log\frac{\exp[-d^D_{i,y_i}/T_D]}
+{\sum_{r=1}^{K}\exp[-d^D_{i,r}/T_D]},\\
 NLL^{D,T_D}_\Omega
-=\sum_c\frac{\omega_c}{|C_c|}
+&=\sum_{c=1}^{K}\frac{\omega_c}{|C_c|}
 \sum_{i\in C_c}\ell_i^{D,T_D}.
-}
+\end{aligned}}
 \end{equation}
 تعریف می‌کنیم. مدل پیشین KL متناظر با $T_{\mathrm{KL}}=1$
 است. برای JS، اگر $T_{\mathrm{JS}}=\log2$ قرار دهیم،
