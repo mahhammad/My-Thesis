@@ -1,0 +1,59 @@
+{
+  "schema": "benchmark-v1",
+  "status": "protocol-draft",
+  "dataset": {
+    "generator": "code/data_generator/config.json",
+    "historical_seed": 20261102,
+    "train": 300,
+    "validation": 90,
+    "old_test": 120,
+    "old_test_seen": true,
+    "new_test_after_lock": true
+  },
+  "walk": {
+    "beta": 0.4,
+    "lambda": 0.8,
+    "horizon": 12,
+    "expectation": "exact-capped-geometric",
+    "dtype": "float64",
+    "train": "exclude initial origin after all hops",
+    "query": "heldout attached only to train reference",
+    "current_node_mask": true
+  },
+  "policy_families": [
+    "shared",
+    "class",
+    "node",
+    "node_class"
+  ],
+  "objectives": [
+    "uniform",
+    "max_I",
+    "min_R_KL",
+    "min_R_JS",
+    "margin_JSD",
+    "margin_sqrt_JSD",
+    "margin_KL",
+    "combined",
+    "inverse_center",
+    "fixed_center_R_JS",
+    "fixed_center_margin"
+  ],
+  "metric_contract": {
+    "score": "1-JSD/ln(2)",
+    "margin": "score_true-max_other_scores",
+    "margin_loss": "balanced_mean(sigmoid(-margin/0.005))",
+    "I": "H(unweighted_mean_centers)-mean_center_entropies",
+    "R_JS": "balanced_mean(JSD(representation_true_class,center_true_class))",
+    "R_KL": "balanced_mean(KL(representation_true_class||center_true_class))"
+  },
+  "baseline_optimizer": {
+    "algorithm": "Adam",
+    "lr": 0.12,
+    "steps": 50,
+    "tau": 0.005,
+    "initialization": "zero",
+    "note": "comparison must additionally normalize runtime/forward-backward costs"
+  },
+  "test_policy": "historical 120-test set may not select models; use fresh independent test after protocol lock"
+}
