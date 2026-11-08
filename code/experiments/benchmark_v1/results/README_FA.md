@@ -22,3 +22,14 @@
 - گزارش کامل در [\`../RESULTS_FA.md\`](../RESULTS_FA.md)؛ شامل جدول‌های معیارها، دقت، مطالعه اندازه، معکوس‌سازی و محدودیت‌های ارزیابی.
 
 **تمام ZIPهای فوق فایل خام قابل استخراج‌اند و نه نسخهٔ base64 متنی**. فایل تاریخی Test برای تنظیم هیچ مدل جدیدی بررسی نشده است. برای \`node/node_class\` تا وقتی \`F\` برای شروع نمونه جدید یاد گرفته نشود، Validation نامعین باقی می‌ماند.
+
+
+## ممیزی NLL/Softplus و مقایسه هدف‌های جدید (۸ نوامبر ۲۰۲۶)
+
+- [جدول کامل ۷۶ checkpoint و NLLهای بازسازی‌شده](posthoc_score_backfill_76_compact.csv): سه نوع NLL، زیان Softplus، Train/Validation BA و I/R_JS، با پوشش چهار آرشیو اصلی. **هیچ آموزش قبلی تکرار نشده است.**
+- [هشت checkpoint تازه با logits کامل](new_objectives_25_checkpoints_compact.json): چهار هدف NLL/Softplus روی shared/class با ۲۵ گام، همان ref ids و بدون Test؛ برای بازیابی دقیق سیاست‌ها.
+- [جدول خلاصه هشت آموزش](new_objectives_25_summary.csv).
+- [گزارش رسمی محدودیت‌ها و شاهد ناهم‌راستایی NLL با BA](../GAPFILL_2026-11-08_FA.md).
+- [اسکریپت بازسازی ۷۶ checkpoint](../backfill_saved_scores.py) و [اسکریپت آزمایش‌های تازه با dry-run پیش‌فرض](../train_missing_objectives.py).
+
+خروجی کامل نمونه‌به‌نمونه و JSONهای تفصیلی هشت اجرای جدید در بسته ZIP پژوهش (ثبت‌شده در Library) نیز نگهداری شده‌اند. وجود فایل checkpoint به معنای اثبات تعمیم نیست؛ برای node/node_class هنوز تابع F بیرون‌گراف لازم است.
