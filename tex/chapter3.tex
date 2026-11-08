@@ -1239,12 +1239,48 @@ e^{-D_{\mathrm{KL}}(\mathscr Y_i\|\mathcal V_r)}\right).
 \end{equation}
 در این تساوی، $R$ نیز با \emph{همان وزن‌های} $\Omega$ محاسبه می‌شود. پس NLL علاوه بر فاصله نمونه از مرکز کلاس واقعی، به فاصله آن از همه مراکز رقیب وابسته است.
 
-روابط تکمیلی میان $I$ و کران بالای NLL مبتنی بر KL،
-از جمله حذف‌شدن هزینه $R$ در کران حاصل،
-در پیوست~\ref{app:ch3-NLL-upper-bounds-extra}
-آمده‌اند. این روابط، حتی در صورت تنگ‌بودن،
-کنترل مستقیم خطای صفر--یک یا کیفیت برون‌نمونه‌ای را
-نتیجه نمی‌دهند.
+\paragraph{کران بالا در حالت وزن‌های یکنواخت.}
+برای توزیع احتمال ثابت $U$، تابع $f_U(V)=e^{-D_{\mathrm{KL}}(U\|V)}$ نسبت به $V$ مقعر است. بنابراین نامساوی ینسن، با میانگین یکنواخت مراکز $\overline{\mathcal V}=\frac1K\sum_c\mathcal V_c$، نتیجه می‌دهد:
+\begin{equation}\label{eq:ch3-NLL-Jensen}
+\sum_{r=1}^{K}e^{-D_{\mathrm{KL}}(\mathscr Y_i\|\mathcal V_r)}
+\le K e^{-D_{\mathrm{KL}}(\mathscr Y_i\|\overline{\mathcal V})}.
+\end{equation}
+با گرفتن لگاریتم و جایگذاری در رابطه~\eqref{eq:ch3-NLL-R} برای $\omega_c=1/K$، خواهیم داشت:
+\begin{equation}\label{eq:ch3-NLL-pre-I}
+NLL_U\le R+\log K-\frac1K\sum_{c=1}^{K}
+\frac1{|C_c|}\sum_{i\in C_c}
+D_{\mathrm{KL}}(\mathscr Y_i\|\overline{\mathcal V}).
+\end{equation}
+طبق تجزیه~\eqref{eq:ch3-R-I-decomposition}، میانگین واگرایی عبارت آخر برابر $R+I(\mathcal V)$ است. در نتیجه، $R$ حذف می‌شود و کران زیر به دست می‌آید:
+\begin{equation}\label{eq:ch3-NLL-I-bound}
+\boxed{0\le NLL_U\le\log K-I(\mathcal V),
+\qquad \omega_c=\frac1K.}
+\end{equation}
+این کران برای وزن‌های یکنواخت، مستقل از شعاع درون‌کلاسی است. نکته مهم آن است که \emph{همین Softmax بدون وزن کلاسی} امکان تعمیم به وزن‌های دلخواه $\Omega$ را نیز دارد. برای این منظور میانگین یکنواخت مراکز را با $\overline{\mathcal V}_U=\frac1K\sum_{r=1}^{K}\mathcal V_r$ و میانگین وزن‌دار آن‌ها را مطابق تعریف قبلی با $\overline{\mathcal V}=\sum_c\omega_c\mathcal V_c$ نشان می‌دهیم. با اعمال همان نامساوی ینسن و تجزیه KL، نتیجه دقیق‌تر زیر حاصل می‌شود:
+\begin{equation}\label{eq:ch3-NLL-weighted-I-bound}
+\boxed{
+\begin{aligned}
+0\le NLL_\Omega
+&\le\log K-I(\mathcal V)
+-D_{\mathrm{KL}}(\overline{\mathcal V}\|\overline{\mathcal V}_U)\\
+&\le\log K-I(\mathcal V).
+\end{aligned}}
+\end{equation}
+در این رابطه $I(\mathcal V)$ با همان وزن‌های $\Omega$ محاسبه می‌شود، اما $\overline{\mathcal V}_U$ میانگین \emph{بدون وزن} مراکز در مخرج Softmax است. اگر $\omega_c=1/K$ باشد، دو میانگین برابر می‌شوند و جمله KL اضافی صفر خواهد شد؛ بنابراین رابطه~\eqref{eq:ch3-NLL-I-bound} حالت خاصی از این کران است. اثبات تقعر و تعمیم وزن‌دار در بخش~\ref{app:ch3-NLL-concavity} از پیوست~\ref{app:ch3-proofs} آمده است.
+
+این رابطه یک \textbf{هم‌سویی نظری میان دو هدف} را نشان می‌دهد:
+افزایش تمایز اطلاعاتی مراکز با معیار $I$، سقف قابل‌اثبات
+برای NLL مبتنی بر KL را کاهش می‌دهد. به بیان دیگر،
+بیشینه‌سازی $I$ و کوچک‌کردن \emph{این کران بالای} NLL
+در یک جهت مطلوب حرکت می‌کنند. اهمیت حذف $R$ نیز
+آن است که این پیوند بدون افزودن فرضِ فشردگی درون‌کلاسی
+به دست می‌آید. بااین‌حال، از کاهش کران نمی‌توان
+کاهش یکنواخت \emph{مقدار واقعی} NLL در همه مراحل آموزش
+یا افزایش قطعی دقت طبقه‌بندی را نتیجه گرفت.
+این استدلال برای بازنمایی \emph{مشترک} نمونه‌ها،
+فاصله KL، مراکز میانگین و Softmax با امتیاز
+$-d_{i,c}$ است؛ تعمیم آن به بازنمایی شرطی کلاس،
+امتیازهای نرمال‌شده یا فاصله JS به استدلال جداگانه نیاز دارد.
 
 \subsection{اثر مقیاس امتیازها و محدودیت‌های نرمال‌سازی}
 \label{subsec:ch3-NLL-scaling}
