@@ -137,12 +137,15 @@ def main():
     p.add_argument("--execute",action="store_true",help="opt in to model fitting")
     p.add_argument("--mode",choices=["core","extra","size","all"],default="core")
     p.add_argument("--steps",type=int,default=50)
+    p.add_argument("--family",action="append",choices=FAMILIES,help="restrict a full matrix to selected families")
     p.add_argument("--size-steps",type=int,default=25)
     p.add_argument("--data-seed",type=int,default=20261102)
     p.add_argument("--reference-seed",type=int,default=20261107)
     p.add_argument("--out-dir",default="code/experiments/benchmark_v1/results/replays")
     a=p.parse_args()
     plan=jobs(a.mode,a.steps,a.size_steps)
+    if a.family:
+        plan=[job for job in plan if job[1] in a.family]
     if not a.execute:
         print(json.dumps({"status":"dry-run","jobs":plan},ensure_ascii=False,indent=2))
         return
