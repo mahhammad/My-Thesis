@@ -11,6 +11,7 @@ sys.path.insert(0,str(ROOT/"code/data_generator"))
 sys.path.insert(0,str(pathlib.Path(__file__).resolve().parent))
 from generate import generate,load_config
 from engine import ExactMaskedWalk,DT,balanced,jsd,LN2
+from metrics import summarize
 
 def prepare(spec,ref_count,ref_seed):
     with tempfile.TemporaryDirectory() as temp:splits=generate(spec,temp,finite_q=False)
@@ -51,7 +52,7 @@ def run(family="shared",steps=50,lr=.12,tau=.005,nref=300,ref_seed=20261107,log_
         out=g.train_outputs(z,family)
         loss=balanced(torch.sigmoid(-out.margin/tau),g.labels,g.k)
         if step==0 or step==steps or step%log_every==0:
-            history.append({"step":step,"loss":float(loss.detach()),"train":g.metrics(out,tau),
+            history.append({"step":step,"loss":float(loss.detach()),"train":summarize(out,g.labels,tau),
                             "validation":validate(g,z,family,out.centers.detach(),vy),
                             "elapsed_s":time.perf_counter()-start})
         if step==steps:break
