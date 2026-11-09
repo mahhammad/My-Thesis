@@ -20,7 +20,7 @@ ROOT = HERE.parents[2]
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(ROOT / "code" / "data_generator"))
 from generate import load_config
-from backfill_saved_scores import dataset_train_val
+from dataset_adapter import dataset_train_val
 from snapshot_pipeline import (array_fingerprint, config_fingerprint,
                                load_snapshot, _atomic_bytes)
 
