@@ -20,6 +20,23 @@ class ReportAssetsTests(unittest.TestCase):
             cls.raw = list(csv.DictReader(fh))
         cls.comparison = cls.data["comparison"]
 
+    def test_historical_blob_provenance_is_byte_identical(self):
+        from hashlib import sha1
+        provenance = json.loads((ROOT / "results/provenance.json").read_text("utf8"))
+        self.assertEqual(provenance["experiment_id"], "E-CH4-03")
+        self.assertFalse(provenance["historical_test_accessed"])
+        old_root = ROOT.parent / "archive/q_population_validation/results"
+        for item, historic, current in (
+            ("metrics", old_root / "q_population_validation.json",
+             ROOT / "results/metrics.json"),
+            ("replicates", old_root / "q_population_replicates.csv",
+             ROOT / "results/replicates.csv"),
+        ):
+            raw = current.read_bytes()
+            self.assertEqual(raw, historic.read_bytes())
+            git_blob = sha1(b"blob " + str(len(raw)).encode("ascii") + b"\0" + raw).hexdigest()
+            self.assertEqual(git_blob, provenance["committed_blob_sha1"][item])
+
     def test_protocol_and_exact_replications(self):
         d = self.data
         self.assertEqual(d["reference_sizes"], [300, 1000, 3000, 10000])
