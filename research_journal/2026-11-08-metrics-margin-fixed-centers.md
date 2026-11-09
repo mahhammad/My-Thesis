@@ -279,9 +279,9 @@ $
 **آزمایش و کد**
 - [نتایج Benchmark v1](https://github.com/mahhammad/My-Thesis/blob/chapter4/code/experiments/benchmark_v1/RESULTS_FA.md): ۷۶ آموزش جدید (۱۶+۱۲+۴۸)، چهار inverse و هفت recheck تاریخی.
 - [کد استاندارد معیارها](https://github.com/mahhammad/My-Thesis/blob/chapter4/code/experiments/benchmark_v1/metrics.py): I، سه R، زیان حاشیه، BA، confusion، margins؛ NLL طبقه‌بندی هنوز در گزارش استاندارد نیست.
-- [پنج سیاست ثابت](https://github.com/mahhammad/My-Thesis/blob/chapter4/code/experiments/fixed_metric_comparison/results/fixed_metric_comparison.json): شاهد تاریخیِ تضاد I/NLL با BA، با قرارداد نمونه‌گیری گشت متفاوت.
-- [تشخیص سیگموئید](https://github.com/mahhammad/My-Thesis/blob/chapter4/code/experiments/sigmoid_margin_diagnostics/results/sigmoid_validation_diagnostics.json): حساسیت near-boundary از checkpointهای ذخیره‌شده.
-- [آرشیو آزمایش‌های تاریخی](https://github.com/mahhammad/My-Thesis/tree/chapter4/code/experiments/historical_archive/archives): سیاست‌های معکوس/فشردگی/مراکز ثابت و تاریخچه‌ها.
+- [پنج سیاست ثابت](https://github.com/mahhammad/My-Thesis/blob/chapter4/code/experiments/archive/fixed_metric_comparison/results/fixed_metric_comparison.json): شاهد تاریخیِ تضاد I/NLL با BA، با قرارداد نمونه‌گیری گشت متفاوت.
+- [تشخیص سیگموئید](https://github.com/mahhammad/My-Thesis/blob/chapter4/code/experiments/archive/sigmoid_margin_diagnostics/results/sigmoid_validation_diagnostics.json): حساسیت near-boundary از checkpointهای ذخیره‌شده.
+- [آرشیو آزمایش‌های تاریخی](https://github.com/mahhammad/My-Thesis/tree/chapter4/code/experiments/archive/historical_archive/archives): سیاست‌های معکوس/فشردگی/مراکز ثابت و تاریخچه‌ها.
 - [مرجع Bayes](https://github.com/mahhammad/My-Thesis/blob/chapter4/code/experiments/benchmark_v1/bayes_oracle_metrics.py): MAP، قاعده BA-بهینه و هندسه جداگانه پسین.
 - Issues: [پروتکل #38](https://github.com/mahhammad/My-Thesis/issues/38)، [هندسه #35](https://github.com/mahhammad/My-Thesis/issues/35)، [حاشیه #22](https://github.com/mahhammad/My-Thesis/issues/22)، [چندشروعی #23](https://github.com/mahhammad/My-Thesis/issues/23)، [سیاست‌های آزاد #36](https://github.com/mahhammad/My-Thesis/issues/36)، [تابع F #37](https://github.com/mahhammad/My-Thesis/issues/37)، [پایداری #31](https://github.com/mahhammad/My-Thesis/issues/31)، [دست‌یافتنی‌بودن #32](https://github.com/mahhammad/My-Thesis/issues/32)، [Test تازه #39](https://github.com/mahhammad/My-Thesis/issues/39).
 
