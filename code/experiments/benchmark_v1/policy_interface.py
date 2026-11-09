@@ -43,6 +43,8 @@ def create_policy(family, parameters, *, n, k, d, n_query=0):
         middle = torch.as_tensor(parameters["intermediate_by_node_class"], dtype=DT)
         if tuple(start.shape) != (k, d) or tuple(middle.shape) != (k, n, d, d):
             raise ValueError("Hybrid start/middle parameter shapes mismatch")
+        if not bool(torch.isfinite(start).all() and torch.isfinite(middle).all()):
+            raise ValueError("Hybrid policy contains nonfinite logits")
         effective = torch.cat(
             (middle, start[:, None, None, :].expand(k, n, 1, d)), dim=2
         )
@@ -76,6 +78,8 @@ def create_policy(family, parameters, *, n, k, d, n_query=0):
         expected = (n_query, d) if family == "node" else (k, n_query, d)
         if tuple(query_starts.shape) != expected:
             raise ValueError(f"query_start_logits must have shape {expected}")
+        if not bool(torch.isfinite(query_starts).all()):
+            raise ValueError("Nonfinite query-start logits")
         query_source = parameters.get("query_start_source")
         if not query_source:
             raise ValueError("Explicit query starts must declare their provenance")
