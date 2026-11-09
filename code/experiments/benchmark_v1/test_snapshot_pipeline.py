@@ -18,7 +18,7 @@ sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(ROOT / "code/data_generator"))
 
 from generate import load_config
-from backfill_saved_scores import dataset_train_val
+from dataset_adapter import dataset_train_val
 from engine import DT, ExactMaskedWalk
 from policy_interface import create_policy, evaluate_policy
 from snapshot_pipeline import load_snapshot, save_snapshot
