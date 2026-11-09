@@ -22,7 +22,7 @@ import torch
 
 from engine import DT, coefficients
 
-SCHEMA = "imc-snapshot-v1"
+SCHEMA = "imc-snapshot-v2"
 ARRAYS = ("train_by_hypothesis", "validation_by_hypothesis", "centers", "reference_ids")
 
 
@@ -77,7 +77,8 @@ def save_snapshot(
     data_seed, reference_seed, objective, tau, beta, lam, horizon,
     validation_x=None, query_starts=None, query_start_source=None,
     target_centers=None, target_source=None, code_commit=None, notes=None,
-    policy_variant=None, config_reference=None, experiment_metadata=None
+    policy_variant=None, config_reference=None, experiment_metadata=None,
+    start_by_class=None
 ):
     """Write model.json + distributions.npz. Does not calculate accuracy or R/I.
 
@@ -104,6 +105,51 @@ def save_snapshot(
         raise ValueError("validation_x differs from graph queries")
     if query_starts is not None and not query_start_source:
         raise ValueError("explicit query start logits require provenance")
+    if query_starts is None and query_start_source is not None:
+        raise ValueError("query_start_source requires explicit query starts")
+    n_query = 0 if graph.qx is None else len(graph.qx)
+    start_record = None
+    if query_starts is not None:
+        if family not in ("node", "node_class") or n_query == 0:
+            raise ValueError("Explicit query starts require a free node family and queries")
+        starts = torch.as_tensor(query_starts, dtype=DT).detach().cpu().numpy()
+        expected_shape = ((n_query, graph.d) if family == "node" else
+                          (graph.k, n_query, graph.d))
+        if starts.shape != expected_shape or not np.isfinite(starts).all():
+            raise ValueError("Invalid query start logits shape/values")
+        start_record = {
+            "logits": starts.tolist(), "shape": list(starts.shape),
+            "dtype": "float64", "sha256": array_fingerprint(starts)
+        }
+    variant = policy_variant or family
+    components = None
+    if variant == "class_tied_node":
+        if family != "node_class" or start_by_class is None:
+            raise ValueError("class_tied_node requires independent start_by_class")
+        independent = torch.as_tensor(start_by_class, dtype=DT).detach().cpu().numpy()
+        if independent.shape != (graph.k, graph.d) or not np.isfinite(independent).all():
+            raise ValueError("Invalid independent class-tied starts")
+        effective = logits.detach().cpu().numpy()
+        expected_train = np.broadcast_to(independent[:, None, :],
+                                         (graph.k, graph.n, graph.d))
+        if not np.array_equal(effective[:, :, graph.d, :], expected_train):
+            raise ValueError("Effective policy disagrees with class-tied start logits")
+        if n_query and (start_record is None or not np.array_equal(
+            starts, np.broadcast_to(independent[:, None, :],
+                                    (graph.k, n_query, graph.d))
+        )):
+            raise ValueError("Query starts disagree with class-tied start logits")
+        components = {
+            "start_by_class": {
+                "logits": independent.tolist(), "shape": list(independent.shape),
+                "dtype": "float64", "sha256": array_fingerprint(independent)
+            },
+            "intermediate_source": "parameters.logits[:,:,:d,:]",
+            "composition_rule": "intermediate_plus_tied_class_start_row",
+            "mask_rule": "masked_softmax_over_observed_query_features"
+        }
+    elif start_by_class is not None:
+        raise ValueError("start_by_class is only valid for class_tied_node")
     if target_centers is not None and not target_source:
         raise ValueError("target centers require provenance")
     ids = np.asarray(reference_ids, dtype=np.int64)
@@ -114,6 +160,8 @@ def save_snapshot(
     train, centers, val, status = collect_representations(
         graph, logits, family, query_starts=query_starts
     )
+    if status == "available" and family in ("node", "node_class") and start_record is None:
+        raise ValueError("Available node Validation must retain its query starts")
     target = None if target_centers is None else _check_simplex(
         "target_centers", target_centers, centers.shape
     ).tolist()
@@ -126,7 +174,8 @@ def save_snapshot(
     manifest = {
         "schema": SCHEMA,
         "created_utc": datetime.now(timezone.utc).isoformat(),
-        "family": family, "policy_variant": policy_variant or family,
+        "family": family, "policy_variant": variant,
+        "policy_components": components,
         "objective": {"name": str(objective), "tau": float(tau)},
         "parameters": {
             "logits": logits.detach().cpu().numpy().tolist(),
@@ -152,7 +201,8 @@ def save_snapshot(
         "prediction": {
             "axis_order": ["sample", "candidate_class", "destination_label"],
             "validation_status": status,
-            "query_start_source": query_start_source
+            "query_start_source": query_start_source,
+            "query_start": start_record
         },
         "target": {"centers": target, "source": target_source},
         "provenance": {"code_commit": code_commit, "notes": notes},
@@ -203,4 +253,57 @@ def load_snapshot(run_dir):
         np.shape(model["parameters"]["logits"]) != shape
     ):
         raise ValueError("Policy family/logits shape mismatch")
+    # Validate the complete out-of-graph starting policy before accepting a snapshot.
+    prediction = model["prediction"]
+    status = prediction["validation_status"]
+    n_query = model["data"]["validation_count"]
+    start_meta = prediction.get("query_start")
+    restored_starts = None
+    if start_meta is not None:
+        if family not in ("node", "node_class") or status != "available":
+            raise ValueError("Unexpected stored query starts")
+        if not prediction.get("query_start_source"):
+            raise ValueError("Stored query starts require provenance")
+        restored_starts = np.asarray(start_meta["logits"], dtype=np.float64)
+        expected_start_shape = ((n_query, d) if family == "node" else
+                                (k, n_query, d))
+        if (start_meta.get("dtype") != "float64" or
+                start_meta.get("shape") != list(expected_start_shape) or
+                restored_starts.shape != expected_start_shape or
+                not np.isfinite(restored_starts).all()):
+            raise ValueError("Stored query start logits shape/dtype/values mismatch")
+        if array_fingerprint(restored_starts) != start_meta.get("sha256"):
+            raise ValueError("Query start logits SHA256 mismatch")
+    elif family in ("node", "node_class") and status == "available":
+        raise ValueError("Available node Validation lacks stored query starts")
+    elif prediction.get("query_start_source") is not None:
+        raise ValueError("Orphaned query start provenance")
+
+    components = model.get("policy_components")
+    if model.get("policy_variant") == "class_tied_node":
+        if family != "node_class" or not isinstance(components, dict):
+            raise ValueError("Missing class-tied policy components")
+        part = components["start_by_class"]
+        independent = np.asarray(part["logits"], dtype=np.float64)
+        if (part.get("dtype") != "float64" or
+                part.get("shape") != [k, d] or
+                independent.shape != (k, d) or not np.isfinite(independent).all()):
+            raise ValueError("Invalid independent class-tied start parameters")
+        if array_fingerprint(independent) != part.get("sha256"):
+            raise ValueError("Class-tied start SHA256 mismatch")
+        if (components.get("intermediate_source") != "parameters.logits[:,:,:d,:]" or
+                components.get("composition_rule") != "intermediate_plus_tied_class_start_row" or
+                components.get("mask_rule") != "masked_softmax_over_observed_query_features"):
+            raise ValueError("Unknown class-tied policy construction rule")
+        effective = np.asarray(model["parameters"]["logits"], dtype=np.float64)
+        if not np.array_equal(effective[:, :, d, :],
+                              np.broadcast_to(independent[:, None, :], (k, n, d))):
+            raise ValueError("Class-tied start does not reconstruct effective policy")
+        if restored_starts is not None and not np.array_equal(
+            restored_starts, np.broadcast_to(independent[:, None, :],
+                                             (k, n_query, d))
+        ):
+            raise ValueError("Class-tied start does not reconstruct query starts")
+    elif components is not None:
+        raise ValueError("Unexpected policy components for non-hybrid family")
     return model, arrays
