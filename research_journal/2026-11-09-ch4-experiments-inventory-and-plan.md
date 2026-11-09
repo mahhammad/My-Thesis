@@ -16,8 +16,8 @@
 **سند مرجع و معیار پذیرش:** [ممیزی P0–P2 و طرح آزمایش‌های متناظر](2026-11-09-ch4-foundations-p0-p2-audit.md).
 اسکریپت ثبت‌شده [\`experiment_fixed_baselines.py\`](../code/experiments/benchmark_v1/experiment_fixed_baselines.py)
 برای ۹ تنظیم Uniform و چهار درجهٔ Guided غیریکنواخت با صفر مرحلهٔ آموزش است؛ حالت $\alpha=0$ بین دو بخش مشترک است.
-نتیجه این شبکه تا ثبت گزارش خام و پایان CI «در انتظار» محسوب می‌شود.
-آزمون تاریخی فقط به عنوان آرشیو گذشته یاد می‌شود و برای انتخاب مدل دوباره خوانده نخواهد شد.
+**وضعیت تحقق:** ۱۳ اجرای مذکور با محاسبه دقیق، بدون آموزش و بدون Test تکمیل شدند؛ هر ۱۳ snapshot پس از بازتولید مستقل Train/Validation و مراکز، تطبیق عددی موفق داشته‌اند. [گزارش رسمی نتایج](../code/experiments/benchmark_v1/FOUNDATIONS_P1_P2_EXACT_FA.md)، [جدول خام ماندگار](../code/experiments/benchmark_v1/results/pipeline_v1/fixed_baselines_summary_20261109.csv) و [CI موفق](https://github.com/mahhammad/My-Thesis/actions/runs/42649911898).
+نتایج در \`tex/chapter4.tex\` ثبت شده‌اند. آزمون تاریخی فقط به عنوان آرشیو گذشته یاد می‌شود و برای انتخاب مدل دوباره خوانده نشده است.
 
 ## اصلاح تفسیر آزمایش ظرفیت — ۹ نوامبر ۲۰۲۶
 
