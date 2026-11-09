@@ -90,17 +90,18 @@ w_a(X_i,X_j)=\kappa_a\!\left(\mu_a\bigl(a(X_i),a(X_j)\bigr)\right),
 
 \noindent\textbf{مثال ۳-۲ (گراف درهم‌تنیده).}
 شکل~\ref{fig:ch3-sample-feature-graph} گراف مجموعه‌ای با سه نمونه و چهار ویژگی را نشان می‌دهد. هر نمونه در ناحیه‌ای مجزا نمایش داده شده و دایره‌های درون آن نمونه--ویژگی‌ها هستند. یال‌های پیوسته رنگی، ارتباطات عمودی و یال‌های خط‌چین، ارتباطات افقی را مشخص می‌کنند.
-\begin{figure}[htbp]
+
+در شکل~\ref{fig:ch3-missing-features} برخی ویژگی‌ها ناموجودند؛ دایره‌های توخالی به این وضعیت اشاره دارند. اتصال عمودی فقط بین نمونه--ویژگی‌های موجود ساخته می‌شود و سیاست افقی نیز هنگام انتخاب ویژگی، گزینه‌های ناموجود را حذف می‌کند. یال‌های قرمز خط‌چین در شکل نمایانگر انتقال‌های غیرمجاز هستند. این دو شکل برای نمایش \emph{ساختار گراف} هستند؛ به‌ویژه شکل دوم با تنها سه نمونه، لزوماً فرض حداقل سه نمونه برای هر ویژگی را برآورده نمی‌کند و نمونه عددیِ اجرای گشت تحت همه فرض‌های بعدی نیست.
+
+% Two captions/labels remain separate; one float keeps both figures on a single page.
+\begin{figure}[!htbp]
 \centering
-\includegraphics[width=0.95\linewidth]{chap3/sample-feature-graph.png}
+\includegraphics[width=0.79\linewidth,height=0.32\textheight,keepaspectratio]{chap3/sample-feature-graph.png}
 \caption{نمونه‌ای از درهم‌تنیدن زیرگراف‌های عمودی و افقی برای سه نمونه و چهار ویژگی.}
 \label{fig:ch3-sample-feature-graph}
-\end{figure}
 
-در شکل~\ref{fig:ch3-missing-features} برخی ویژگی‌ها ناموجودند؛ دایره‌های توخالی به این وضعیت اشاره دارند. اتصال عمودی فقط بین نمونه--ویژگی‌های موجود ساخته می‌شود و سیاست افقی نیز هنگام انتخاب ویژگی، گزینه‌های ناموجود را حذف می‌کند. یال‌های قرمز خط‌چین در شکل نمایانگر انتقال‌های غیرمجاز هستند.
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.95\linewidth]{chap3/missing-features.png}
+\medskip
+\includegraphics[width=0.79\linewidth,height=0.32\textheight,keepaspectratio]{chap3/missing-features.png}
 \caption{گراف نمونه--ویژگی با برخی ویژگی‌های ناموجود و حذف انتقال‌های غیرمجاز.}
 \label{fig:ch3-missing-features}
 \end{figure}
