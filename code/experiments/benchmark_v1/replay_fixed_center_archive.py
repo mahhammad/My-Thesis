@@ -14,7 +14,7 @@ if 'tau' not in inspect.signature(validate).parameters:
 from generate import load_config
 HERE=pathlib.Path(__file__).resolve().parent
 ROOT=HERE.parents[2] if (HERE.parents[2]/'code/data_generator/config.json').exists() else HERE
-ZFILE=str(ROOT/'code/experiments/historical_archive/archives/margin_fixed_centers_complete.zip') if ROOT!=HERE else '/mnt/data/margin_fixed_centers_complete.zip'
+ZFILE=str(ROOT/'code/experiments/archive/historical_archive/archives/margin_fixed_centers_complete.zip') if ROOT!=HERE else '/mnt/data/margin_fixed_centers_complete.zip'
 
 def evaluate(z,kind,g,vy,target_centers):
     z=torch.as_tensor(z,dtype=DT)
