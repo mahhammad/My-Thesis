@@ -1,0 +1,53 @@
+% Generated from results/metrics.json; TikZ only (no pgfplots dependency)
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[x=0.95cm,y=0.9cm]
+\draw[->,thin] (0.8,0.75)--(8.2,0.75);
+\draw[->,thin] (0.8,0.75)--(0.8,5.10);
+\draw[thin,gray!35] (0.8,0.750)--(8.0,0.750);
+\node[anchor=east,font=\scriptsize] at (0.72,0.750) {$0.00$};
+\draw[thin,gray!35] (0.8,1.950)--(8.0,1.950);
+\node[anchor=east,font=\scriptsize] at (0.72,1.950) {$0.02$};
+\draw[thin,gray!35] (0.8,3.150)--(8.0,3.150);
+\node[anchor=east,font=\scriptsize] at (0.72,3.150) {$0.04$};
+\draw[thin,gray!35] (0.8,4.350)--(8.0,4.350);
+\node[anchor=east,font=\scriptsize] at (0.72,4.350) {$0.06$};
+\draw[thin] (1.450,0.75)--(1.450,0.67);
+\node[anchor=north,font=\scriptsize] at (1.450,0.60) {$300$};
+\draw[thin] (3.450,0.75)--(3.450,0.67);
+\node[anchor=north,font=\scriptsize] at (3.450,0.60) {$1000$};
+\draw[thin] (5.450,0.75)--(5.450,0.67);
+\node[anchor=north,font=\scriptsize] at (5.450,0.60) {$3000$};
+\draw[thin] (7.450,0.75)--(7.450,0.67);
+\node[anchor=north,font=\scriptsize] at (7.450,0.60) {$10000$};
+\node[font=\small] at (4.5,-0.08) {اندازه مجموعه مرجع $N$};
+\draw[blue!65,thin] (1.450,2.459)--(1.450,4.215);
+\draw[blue!65,thin] (1.350,2.459)--(1.550,2.459);
+\draw[blue!65,thin] (1.350,4.215)--(1.550,4.215);
+\draw[blue!65,thin] (3.450,1.884)--(3.450,2.805);
+\draw[blue!65,thin] (3.350,1.884)--(3.550,1.884);
+\draw[blue!65,thin] (3.350,2.805)--(3.550,2.805);
+\draw[blue!65,thin] (5.450,1.411)--(5.450,1.779);
+\draw[blue!65,thin] (5.350,1.411)--(5.550,1.411);
+\draw[blue!65,thin] (5.350,1.779)--(5.550,1.779);
+\draw[blue!65,thin] (7.450,1.154)--(7.450,1.331);
+\draw[blue!65,thin] (7.350,1.154)--(7.550,1.154);
+\draw[blue!65,thin] (7.350,1.331)--(7.550,1.331);
+\draw[very thick,blue] plot coordinates {(1.450,3.337) (3.450,2.344) (5.450,1.595) (7.450,1.243)};
+\fill[blue] (1.450,3.337) circle (1.7pt);
+\fill[blue] (3.450,2.344) circle (1.7pt);
+\fill[blue] (5.450,1.595) circle (1.7pt);
+\fill[blue] (7.450,1.243) circle (1.7pt);
+\draw[very thick,red!75!black,densely dashed] plot coordinates {(1.450,2.974) (3.450,2.093) (5.450,1.476) (7.450,1.166)};
+\fill[red!75!black] (1.450,2.974) circle (1.7pt);
+\fill[red!75!black] (3.450,2.093) circle (1.7pt);
+\fill[red!75!black] (5.450,1.476) circle (1.7pt);
+\fill[red!75!black] (7.450,1.166) circle (1.7pt);
+\draw[very thick,blue] (1.25,5.32)--(1.78,5.32);
+\node[anchor=west,font=\scriptsize] at (1.85,5.32) {$\overline{\operatorname{TV}}\ \pm s$};
+\draw[very thick,red!75!black,densely dashed] (4.9,5.32)--(5.43,5.32);
+\node[anchor=west,font=\scriptsize] at (5.50,5.32) {$\overline{\sqrt{\operatorname{JSD}}}$};
+\end{tikzpicture}
+\caption{تغییر خطای تقریب یک‌گامی با افزایش تعداد نمونه‌های مرجع. میله‌های عمودی، انحراف معیار میانگین TV در $12$ تکرارند، نه فاصله اطمینان.}
+\label{fig:ch4-q-error-convergence}
+\end{figure}
