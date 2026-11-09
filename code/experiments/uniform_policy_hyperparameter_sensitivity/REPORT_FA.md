@@ -110,7 +110,7 @@ D_{\mathrm{eff}}=\sum_{t=1}^{H}t\,\alpha_t^{(H)}
 - [`results/provenance.json`](results/provenance.json): SHA فایل مبدأ، تنظیمات مولد، شناسه‌های اجرا و مرز داده.
 - [گزارش اجرای قبلی و راستی‌آزمایی مستقل هر ۱۳ snapshot](https://github.com/mahhammad/My-Thesis/actions/runs/42649911898): با بازسازی Train/Validation از seed و بررسی فاصله عددی `atol=1e-12` روی توزیع‌ها و مراکز، نه بازآموزی. فایل‌های کامل `model.json` و `distributions.npz` هر اجرا در artifact آن run موجودند و نگهداری artifact محدود است؛ **در همین پوشه Git فقط CSV مشتق‌شده و منبع محاسباتی ثبت شده است**.
 - [اسکریپت اصلی اجرای آزمایش](../benchmark_v1/experiment_fixed_baselines.py) و [کد بازسازی مستقل خروجی‌ها](../benchmark_v1/verify_fixed_baselines.py) برای اجرای دوباره در صورت نیاز. در این مرحله گشت دوباره اجرا نشده و Test تاریخی باز نشده است.
-- [تست سبک تطبیق منبع، جدول‌ها، نمودارها و برچسب‌های LaTeX](test_report_assets.py) برای کنترل عدم انحراف منابع گزارش از CSV؛ [CI](https://github.com/mahhammad/My-Thesis/actions) بعد از ثبت تست قابل مشاهده است.
+- [تست سبک تطبیق منبع، جدول‌ها، نمودارها و برچسب‌های LaTeX](test_report_assets.py) برای کنترل عدم انحراف منابع گزارش از CSV. [اجرای موفق CI #42715068662](https://github.com/mahhammad/My-Thesis/actions/runs/42715068662) شامل **۱۰ تست داده/گرافیک و ۳ کنترل ایستای LaTeX** بوده است. این آزمایش‌ها **معادل کامپایل کامل XeLaTeX نیستند**.
 
 **دستور بررسی سبک از ریشه مخزن:**
 
