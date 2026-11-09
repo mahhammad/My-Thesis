@@ -63,47 +63,13 @@ def _atomic_bytes(path, content):
 
 
 def collect_representations(graph, logits, family, query_starts=None):
-    """Create (N, K hypotheses, K destination labels) without choosing true class."""
-    graph.check_logits(logits, family)
-    k, n = graph.k, graph.n
-    with torch.no_grad():
-        if family in ("shared", "node"):
-            common = graph.represent_train(logits, family).detach().cpu().numpy()
-            train = np.repeat(common[:, None, :], k, axis=1)
-        else:
-            train = np.stack([
-                graph.represent_train(logits, family, c).detach().cpu().numpy()
-                for c in range(k)
-            ], axis=1)
-        train = _check_simplex("train_by_hypothesis", train, (n, k, k))
-        labels = graph.labels.detach().cpu().numpy()
-        if not np.array_equal(np.unique(labels), np.arange(k)):
-            raise ValueError("Every reference class must be nonempty and 0-based")
-        centers = np.stack([train[labels == c, c, :].mean(axis=0)
-                            for c in range(k)])
-        centers = _check_simplex("centers", centers, (k, k))
-
-        query_count = 0 if graph.qx is None else len(graph.qx)
-        if query_count and (family in ("shared", "class") or query_starts is not None):
-            if family in ("shared", "node"):
-                v = graph.represent_query(
-                    logits, family, query_start_logits=query_starts
-                ).detach().cpu().numpy()
-                val = np.repeat(v[:, None, :], k, axis=1)
-            else:
-                val = np.stack([
-                    graph.represent_query(
-                        logits, family, c, query_start_logits=query_starts
-                    ).detach().cpu().numpy()
-                    for c in range(k)
-                ], axis=1)
-            val = _check_simplex("validation_by_hypothesis", val,
-                                 (query_count, k, k))
-            status = "available"
-        else:
-            val = np.empty((0, k, k), dtype=np.float64)
-            status = "not_defined_without_query_start" if query_count else "no_queries"
-        return train, centers, val, status
+    """Shared evaluator is the sole source for model distributions."""
+    from policy_evaluator import evaluate_graph
+    policy = {"family": family, "logits": logits,
+              "query_start_logits": query_starts}
+    out = evaluate_graph(graph, policy)
+    return (out.train_by_hypothesis, out.centers,
+            out.validation_by_hypothesis, out.validation_status)
 
 
 def save_snapshot(
