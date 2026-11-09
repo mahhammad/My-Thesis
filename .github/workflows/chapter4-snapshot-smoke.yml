@@ -25,11 +25,4 @@ jobs:
           python -m pip install numpy
           python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
       - name: Run Train/Validation-only unit and round-trip checks
-        run: |
-          python -m unittest -v \
-            code/experiments/benchmark_v1/test_snapshot_pipeline.py \
-            code/experiments/benchmark_v1/test_snapshot_roundtrip.py \
-            code/experiments/benchmark_v1/test_class_tied_start.py \
-            code/experiments/benchmark_v1/test_node_class_validation_starts.py \
-            code/experiments/benchmark_v1/test_engine.py \
-            code/experiments/benchmark_v1/test_metrics_extensions.py
+        run: python -m unittest discover -v -s code/experiments/benchmark_v1 -p 'test_*.py'
