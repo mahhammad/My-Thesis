@@ -28,7 +28,7 @@ ROOT = HERE.parents[2]
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(ROOT / "code" / "data_generator"))
 from generate import load_config
-from backfill_saved_scores import dataset_train_val
+from dataset_adapter import dataset_train_val
 from engine import ExactMaskedWalk, DT
 from snapshot_pipeline import save_snapshot
 from policy_interface import create_policy
