@@ -41,7 +41,7 @@ $R_{\mathrm{JS}}=0.00201$.
 - [جدول اصلی نه اجرا](../code/experiments/uniform_policy_hyperparameter_sensitivity/tables/main_results.tex)، [جدول معیارهای تکمیلی](../code/experiments/uniform_policy_hyperparameter_sensitivity/tables/diagnostics.tex).
 - [عمق مؤثر نسبت به سه پارامتر](../code/experiments/uniform_policy_hyperparameter_sensitivity/figures/depth_sensitivity.tex)، [هندسه در برابر عمق](../code/experiments/uniform_policy_hyperparameter_sensitivity/figures/geometry_vs_depth.tex)، [BA آموزش/اعتبارسنجی](../code/experiments/uniform_policy_hyperparameter_sensitivity/figures/balanced_accuracy.tex).
 - نسخه SVG هر سه نمودار در همان `figures/` نگه داشته شده است، اما نسخه درج‌شده در LaTeX از TikZ است و به `pgfplots` جدید احتیاج ندارد.
-- [۱۰ کنترل سبک](https://github.com/mahhammad/My-Thesis/actions/runs/42714664200): استخراج دقیق ۹ ردیف از فایل ۱۳تایی، SHA و بذر، محاسبه مستقل ضرایب هندسی و عمق مؤثر، تطبیق اعداد دو جدول، مختصات TikZ/SVG، گروه‌بندی و ثابت‌ماندن BA، اتصال یکتای هر پنج `\input` و جداسازی ۴.۴/۴.۵. **موفق؛ بدون بازاجرای آزمایش و بدون Test.**
+- [CI موفق نهایی با ۱۳ تست](https://github.com/mahhammad/My-Thesis/actions/runs/42715068662): ۱۰ آزمون منبع/هندسه/جدول/TikZ/SVG و اتصال یکتای هر پنج `\input` و جداسازی ۴.۴/۴.۵، به‌علاوه ۳ کنترل ایستای مسیرهای LaTeX و برچسب‌ها؛ **بدون بازاجرای گشت یا Test**. این کنترل‌ها معادل کامپایل نهایی XeLaTeX نیستند.
 
 ## ۵. وضعیت کارهای باز
 
