@@ -62,6 +62,50 @@ def _atomic_bytes(path, content):
             os.unlink(name)
 
 
+def _saved_query_start(graph, logits, family, query_starts, source, variant):
+    """Capture effective Validation starts, independently of training logits."""
+    explicit = query_starts is not None
+    if explicit and family not in ("node", "node_class"):
+        raise ValueError("Explicit query starts only apply to node families")
+    if explicit:
+        starts = np.asarray(query_starts.detach().cpu() if isinstance(query_starts, torch.Tensor)
+                            else query_starts, dtype=np.float64)
+        expected = ((len(graph.qx), graph.d) if family == "node" else
+                    (graph.k, len(graph.qx), graph.d))
+        if graph.qx is None or starts.shape != expected:
+            raise ValueError("Query start logits have incorrect shape")
+        if not np.isfinite(starts).all() or not source:
+            raise ValueError("Query start logits require finite values and provenance")
+        saved = {"logits": starts.tolist(), "shape": list(starts.shape),
+                 "sha256": array_fingerprint(starts), "source": source}
+    else:
+        saved = None
+
+    construction = None
+    if variant == "class_tied_node":
+        if family != "node_class" or not explicit:
+            raise ValueError("class_tied_node requires node_class logits and query starts")
+        z = logits.detach().cpu().numpy()
+        a = np.ascontiguousarray(z[:, 0, graph.d, :], dtype=np.float64)
+        if not np.array_equal(z[:, :, graph.d, :],
+                              np.broadcast_to(a[:, None, :], (graph.k, graph.n, graph.d))):
+            raise ValueError("class_tied_node origin starts must be tied across nodes")
+        if not np.array_equal(starts,
+                              np.broadcast_to(a[:, None, :],
+                                              (graph.k, len(graph.qx), graph.d))):
+            raise ValueError("class_tied_node Validation starts must match tied class starts")
+        construction = {
+            "variant": "class_tied_node",
+            "start_by_class": a.tolist(), "start_shape": [graph.k, graph.d],
+            "start_sha256": array_fingerprint(a),
+            "rule": "effective_logits[c,i,d,:]=start_by_class[c,:]; "
+                    "effective_logits[c,i,:d,:]=intermediate_by_node_class[c,i,:,:]; "
+                    "query_start_logits[c,q,:]=start_by_class[c,:]; "
+                    "masked_softmax_over_observed_features"
+        }
+    return saved, construction
+
+
 def collect_representations(graph, logits, family, query_starts=None):
     """Shared evaluator is the sole source for model distributions."""
     from policy_evaluator import evaluate_graph
@@ -157,6 +201,9 @@ def save_snapshot(
         raise ValueError("Invalid reference_ids")
     if not bool(torch.isfinite(logits).all()):
         raise ValueError("Policy logits must be finite")
+    start_record, construction = _saved_query_start(
+        graph, logits, family, query_starts, query_start_source, policy_variant or family
+    )
     train, centers, val, status = collect_representations(
         graph, logits, family, query_starts=query_starts
     )
@@ -182,7 +229,9 @@ def save_snapshot(
             "shape": list(logits.shape),
             "gamma": np.asarray(graph.gamma, dtype=float).tolist(),
             "beta": float(beta), "lambda": float(lam), "H": int(horizon),
-            "dtype": "float64", "walk": "exact-capped-geometric"
+            "dtype": "float64", "walk": "exact-capped-geometric",
+            "query_start": start_record,
+            "policy_construction": construction
         },
         "data": {
             "config_path": (config_reference if config_reference is not None
@@ -306,4 +355,42 @@ def load_snapshot(run_dir):
             raise ValueError("Class-tied start does not reconstruct query starts")
     elif components is not None:
         raise ValueError("Unexpected policy components for non-hybrid family")
+    starts = model["parameters"].get("query_start")
+    construction = model["parameters"].get("policy_construction")
+    variant = model.get("policy_variant", family)
+    if starts is not None:
+        if family not in ("node", "node_class"):
+            raise ValueError("Query starts are not valid for this family")
+        m = model["data"]["validation_count"]
+        expected = (m, d) if family == "node" else (k, m, d)
+        if tuple(starts["shape"]) != expected:
+            raise ValueError("Query start shape mismatch")
+        a = np.asarray(starts["logits"], dtype=np.float64)
+        if a.shape != expected or not np.isfinite(a).all():
+            raise ValueError("Invalid query start logits")
+        if array_fingerprint(a) != starts["sha256"]:
+            raise ValueError("Query start SHA256 mismatch")
+        if not starts.get("source") or starts["source"] != model["prediction"]["query_start_source"]:
+            raise ValueError("Query start provenance mismatch")
+    if family in ("node", "node_class") and model["prediction"]["validation_status"] == "available" and starts is None:
+        raise ValueError("Available node Validation must include explicit query starts")
+    if variant == "class_tied_node":
+        if family != "node_class" or starts is None or construction is None:
+            raise ValueError("Missing class-tied construction")
+        if construction.get("variant") != variant or "masked_softmax_over_observed_features" not in construction.get("rule", ""):
+            raise ValueError("Invalid class-tied construction rule")
+        a = np.asarray(construction["start_by_class"], dtype=np.float64)
+        if a.shape != (k, d) or tuple(construction["start_shape"]) != (k, d):
+            raise ValueError("Invalid class-tied start shape")
+        if not np.isfinite(a).all() or array_fingerprint(a) != construction["start_sha256"]:
+            raise ValueError("Class-tied start SHA256 mismatch")
+        z = np.asarray(model["parameters"]["logits"], dtype=np.float64)
+        if not np.array_equal(z[:, :, d, :],
+                              np.broadcast_to(a[:, None, :], (k, n, d))):
+            raise ValueError("Training starts do not match class-tied start")
+        if not np.array_equal(np.asarray(starts["logits"]),
+                              np.broadcast_to(a[:, None, :], (k, model["data"]["validation_count"], d))):
+            raise ValueError("Validation starts do not match class-tied start")
+    elif construction is not None:
+        raise ValueError("Unexpected policy construction")
     return model, arrays
