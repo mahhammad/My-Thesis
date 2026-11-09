@@ -87,7 +87,8 @@ G_{c,a}(z)=\frac{\exp[-\gamma_a(z-\mu_{c,a})^2/
 ## ۷. منشأ داده، کد و بازتولید
 
 - [JSON شامل هر ۴۸ مشاهده و مقادیر دقیق](results/metrics.json) و [CSV ردیف‌های تکرار](results/replicates.csv) **بدون تغییر محتوا** از [آرشیو تاریخی](../archive/q_population_validation/README_FA.md) منتقل شدند؛ آرشیو حذف نشده است. فیلد تاریخی `source_commit=1a951d578125baf71a53cec3c1c467b67b6218f2` حفظ شده است.
-- [CSV خلاصه](results/summary.csv) و [CSV ویژگی‌ها](results/per_feature.csv)، [دو جدول](tables/main_results.tex) و [دو شکل TikZ](figures/error_convergence.tex) از داده موجود مشتق شدند. شکل‌ها نیازمند بسته `pgfplots` نیستند و با `tikz` موجود در قالب پایان‌نامه رسم می‌شوند.
+- [CSV خلاصه](results/summary.csv) و [CSV ویژگی‌ها](results/per_feature.csv)، [دو جدول](tables/main_results.tex) و [دو شکل TikZ](figures/error_convergence.tex) از داده موجود مشتق شدند. [SVG نمودار همگرایی](figures/error_convergence.svg) و [SVG ویژگی‌ها](figures/per_feature_tv.svg) برای پیش‌نمایش مستقیم در GitHub نیز وجود دارند؛ نسخه قابل درج در XeLaTeX همان TikZ است.
+- [مانیفست منشأ و SHA فایل خام](results/provenance.json) تأیید می‌کند JSON و CSV مبنا **بایت‌به‌بایت همان فایل‌های آرشیوی** هستند. شکل‌ها نیازمند بسته `pgfplots` نیستند و با `tikz` موجود در قالب پایان‌نامه رسم می‌شوند.
 - [کد بازآزمایی](compare.py) تنها در صورت تصمیم به اجرای دوباره لازم است. [تست فرمول](test_compare.py) و [تست سازگاری اعداد و شکل‌ها](test_report_assets.py) سبک‌اند و **آزمایش ۴۸گانه را اجرا نمی‌کنند**.
 
 **دستور ممیزی سبک (از ریشه مخزن):**
