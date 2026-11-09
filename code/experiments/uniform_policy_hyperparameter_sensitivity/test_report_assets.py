@@ -219,8 +219,14 @@ class UniformExperimentReportTests(unittest.TestCase):
 
     def test_latex_inputs_are_unique_and_the_guided_table_is_not_in_this_experiment(self):
         chapter = TEX.read_text(encoding="utf8")
-        # Section-integration only required after thesis text is wired;
-        # until then the experiment folder is a complete independent report.
+        self.assertIn(
+            r"\section{ارزیابی سیاست یکنواخت و تحلیل حساسیت ابرپارامترهای گشت}",
+            chapter,
+        )
+        self.assertEqual(chapter.count(r"\label{sec:ch4-uniform-hyperparameter-sensitivity}"), 1)
+        self.assertIn(r"\section{ارزیابی سیاست ثابت هدایت‌شده و مقایسه معیارها}", chapter)
+        self.assertEqual(chapter.count(r"\label{sec:ch4-guided-policy-comparison}"), 1)
+        # Every figure/table is sourced once from this experiment, not duplicated.
         inputs = (
             "tables/main_results.tex", "tables/diagnostics.tex",
             "figures/depth_sensitivity.tex",
@@ -232,7 +238,18 @@ class UniformExperimentReportTests(unittest.TestCase):
             for x in inputs
         ]
         for x in paths:
-            self.assertLessEqual(chapter.count("\\input{" + x + "}"), 1)
+            self.assertEqual(chapter.count("\\input{" + x + "}"), 1)
+        for label in (
+            "tab:ch4-uniform-hyperparams-exact",
+            "tab:ch4-uniform-sensitivity-diagnostics",
+            "fig:ch4-uniform-depth-sensitivity",
+            "fig:ch4-uniform-geometry-vs-depth",
+            "fig:ch4-uniform-balanced-accuracy",
+        ):
+            self.assertNotIn(r"\label{" + label + "}", chapter)
+            self.assertIn(r"\ref{" + label + "}", chapter)
+        # Existing cross-references into the older fixed-policy section remain valid.
+        self.assertEqual(chapter.count(r"\label{sec:ch4-fixed-policy-evaluation}"), 1)
         self.assertNotIn("guided", "\n".join(
             r["kind"] for r in self.runs
         ))
