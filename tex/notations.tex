@@ -52,27 +52,28 @@
 \notationrow{\mathscr Y,\ \mathscr Y_i}{ماتریس بازنمایی برچسب و سطر نمونه i}{eq:ch3-Y-script}
 \notationrow{\xi}{اندیس تصادفی گام مشاهده‌شده؛ نه پارامتر هموارسازی}{eq:ch3-weighted-observation-position}
 \notationgroup{سیاست انتخاب ویژگی}
-\notationrow{Z_{y_s}(\Theta)}{ماتریس توابع امتیاز شرطی بر کلاس آغازین}{eq:ch3-parametric-score-matrix}
+\notationrow{s,\ c_s}{اندیس نمونه مبدأ و کلاس فرضی آن (نه لزوماً برچسب واقعی)}{eq:ch3-parametric-score-matrix}
+\notationrow{\mathcal F_{c_s}(\Theta)}{ماتریس توابع امتیاز شرطی بر کلاس فرضی مبدأ}{eq:ch3-parametric-score-matrix}
 \notationrow{\Theta}{پارامترهای توابع تولید امتیاز}{eq:ch3-parametric-score-matrix}
-\notationrow{z_{y_s,a,b}(X_i;\Theta)}{امتیاز انتخاب ویژگی b پس از a}{eq:ch3-parametric-feature-score}
-\notationrow{B_s(X_i)}{ویژگی‌های مجاز برای نمونه i با مبدأ s}{eq:ch3-uniform-eligible}
-\notationrow{\Pi_{X_i}(Z)}{ماتریس سیاست افقی پس از ماسک ویژگی‌ها}{eq:ch3-fixed-policy-softmax}
-\notationrow{\rho_c}{وزن ترکیب سیاست‌های شرطی کلاس‌ها}{eq:ch3-mean-policy-inference}
+\notationrow{z_{c_s,a,b}(X_i;\Theta)}{امتیاز ویژگی b پس از a با فرض کلاس مبدأ $c_s$}{eq:ch3-parametric-feature-score}
+\notationrow{A_{X_i}=B_s(X_i)}{ویژگی‌های موجود که به‌واسطه فرض پنجم تماماً مقصد مجاز دارند}{eq:ch3-uniform-eligible}
+\notationrow{\Pi_i^{(s,c_s)}}{سیاست افقی پس از ماسک، با مبدأ $s$ و فرض کلاس $c_s$}{eq:ch3-fixed-policy-softmax}
+\notationrow{\rho_{c_s}}{وزن ترکیب سیاست‌های شرطی فرض کلاس مبدأ}{eq:ch3-mean-policy-inference}
 \notationrow{Z=(z_{ab})}{ماتریس ثابت امتیاز سیاست}{eq:ch3-fixed-policy-matrix}
 \notationrow{Z^{\mathrm{node}},\ Z^{\mathrm{node,class}}}{امتیازهای عددی آزاد گره‌ای و گره--کلاس}{eq:ch3-policy-family-shapes}
-\notationrow{A_{c,b},\ B_{c,j,a,b}}{امتیاز شروع مشترک کلاسی و انتقال میانی اختصاصی گره}{eq:ch3-class-tied-start}
+\notationrow{A_{c_s,b},\ B_{c_s,j,a,b}}{امتیاز شروع مشترک به‌ازای فرض کلاس مبدأ و انتقال گره‌ای}{eq:ch3-class-tied-start}
 \notationrow{\pi_s^U}{سیاست یکنواخت انتخاب ویژگی}{eq:ch3-uniform-policy}
 \notationrow{P_s^U}{ماتریس گذار نمونه‌ای سیاست یکنواخت}{eq:ch3-uniform-T}
 \notationrow{\mathsf Q_{i,b}^{(s)}}{توزیع برچسب مقصد پس از انتخاب یک ویژگی}{eq:ch3-feature-one-step-Q}
 \notationgroup{ماتریس‌های انتقال و عمق}
 \notationrow{\mathcal S_s,\ m_s}{فضای حالت نمونه–ویژگی مجاز و اندازه آن}{eq:ch3-state-space}
 \notationrow{D_{ij}^{(s)}}{بلوک انتقال عمودی از نمونه i به j}{eq:ch3-block-diagonal-D}
-\notationrow{\Pi_i^{(s)}}{بلوک انتخاب افقی ویژگی‌ها}{eq:ch3-block-Tij}
+\notationrow{\Pi_i^{(s)}=\Pi_i^{(s,c_s)}}{بلوک انتخاب افقی برای فرض کلاس ثابت مبدأ}{eq:ch3-block-Tij}
 \notationrow{\mathsf P_{s,ij}}{بلوک انتقال کامل}{eq:ch3-block-Tij}
 \notationrow{F_s,\ S_s}{عامل‌های افقی و عمودی تجزیه بلوکی}{eq:ch3-block-factorization}
 \notationrow{\mathsf P_s}{ماتریس انتقال حالت‌های نمونه–ویژگی}{eq:ch3-block-factorization}
 \notationrow{\rho_s}{توزیع حالت بعد از گام نخست؛ غیر از وزن کلاس}{eq:ch3-block-first-step}
-\notationrow{\mathsf B_s,\ \mathsf E_s}{تجمیع حالت به نمونه و برچسب}{eq:ch3-block-t-step}
+\notationrow{\mathsf M_s^{(X)},\ \mathsf M_s^{(Y)}}{ماتریس‌های تجمیع حالت به شناسه نمونه و برچسب}{eq:ch3-state-aggregation-matrices}
 \notationrow{H,\ L_H}{سقف عمق و طول گشت سقف‌دار}{eq:ch3-capped-alpha}
 \notationrow{p_\ell^{(H)}}{احتمال طول گشت سقف‌دار}{eq:ch3-capped-alpha}
 \notationrow{\alpha_t^{(H)}}{وزن دقیق گام t با سقف H}{eq:ch3-capped-alpha}
