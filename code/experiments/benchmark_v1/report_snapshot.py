@@ -194,7 +194,8 @@ def load_evaluation_labels(model, arrays, *, config_override=None):
     return np.asarray(y[ids], dtype=int), np.asarray(vy, dtype=int)
 
 
-def report_snapshot(run_dir, *, config_override=None, per_sample=True):
+def report_snapshot(run_dir, *, config_override=None, per_sample=True,
+                    tau_override=None):
     model, arrays = load_snapshot(run_dir)
     train_y, val_y = load_evaluation_labels(
         model, arrays, config_override=config_override
@@ -209,7 +210,10 @@ def report_snapshot(run_dir, *, config_override=None, per_sample=True):
     ])
     if not np.allclose(reference_means, centers, atol=1e-10, rtol=0):
         raise ValueError("Stored centers disagree with Train class means")
-    tau = model["objective"]["tau"]
+    tau = (model["objective"]["tau"] if tau_override is None
+           else float(tau_override))
+    if tau <= 0:
+        raise ValueError("report tau must be positive")
     train = standard_metrics(arrays["train_by_hypothesis"], centers, train_y,
                              tau, split="train", per_sample=per_sample)
     if model["prediction"]["validation_status"] == "available":
@@ -229,6 +233,9 @@ def report_snapshot(run_dir, *, config_override=None, per_sample=True):
         "source": {
             "schema": model["schema"], "family": model["family"],
             "objective": model["objective"],
+            "metric_tau": tau,
+            "metric_tau_source": ("snapshot" if tau_override is None
+                                  else "report_override"),
             "data_seed": model["data"]["data_seed"],
             "reference_seed": model["data"]["reference_seed"],
             "model_json_sha256": sha256(
@@ -256,6 +263,7 @@ def report_markdown(report):
         "# گزارش استاندارد IMC", "",
         "خانواده سیاست: " + report["source"]["family"],
         "تابع هدف: " + report["source"]["objective"]["name"],
+        "پارامتر پهنای حاشیه برای گزارش: " + str(report["source"]["metric_tau"]),
         "داده Test تاریخی خوانده نشده است.", "",
         "| معیار | Train | Validation |", "|---|---:|---:|"
     ]
@@ -283,10 +291,11 @@ def main():
     p.add_argument("--run-dir", required=True, type=Path)
     p.add_argument("--config-override", type=Path)
     p.add_argument("--no-per-sample", action="store_true")
+    p.add_argument("--tau", type=float, help="Optional report-only margin scale")
     args = p.parse_args()
     report = report_snapshot(
         args.run_dir, config_override=args.config_override,
-        per_sample=not args.no_per_sample)
+        per_sample=not args.no_per_sample, tau_override=args.tau)
     save_report(args.run_dir, report)
     print("Saved:", args.run_dir / "report.json", args.run_dir / "report.md")
     print("Train BA:", report["train"]["balanced_accuracy"],
