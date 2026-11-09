@@ -14,6 +14,8 @@
 - [گزارش Benchmark v1](../code/experiments/benchmark_v1/RESULTS_FA.md) و [آرشیو نتایج خام](../code/experiments/benchmark_v1/results/README_FA.md).
 - [PR #20 فصل سوم](https://github.com/mahhammad/My-Thesis/pull/20) در ۹ نوامبر با یک squash commit روی `main` ادغام شد. سپس `main` در `chapter4` با ادغام واقعی و حفظ تاریخچه فصل چهارم یکپارچه شد. این ادغام به‌تنهایی **تأیید کامپایل XeLaTeX نیست**.
 
+**پایپ‌لاین جاری خروجی مدل:** [طرح و وضعیت ابزار استاندارد](2026-11-09-ch4-unified-snapshot-pipeline.md) · [قرارداد ورودی/خروجی و راهنمای اجرا](../code/experiments/benchmark_v1/PIPELINE_FA.md). دو فایل خام ثابت و گزارشگر عمومی مستقل‌اند؛ گزارش‌های تخصصی در کد همان آزمایش می‌مانند.
+
 ## فهرست یادداشت‌ها
 
 | تاریخ | مدخل | محورها | وضعیت |
