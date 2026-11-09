@@ -16,7 +16,8 @@ class ReportAssetsTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.data = json.loads((ROOT / "results/metrics.json").read_text(encoding="utf8"))
-        cls.raw = list(csv.DictReader((ROOT / "results/replicates.csv").open(encoding="utf8")))
+        with (ROOT / "results/replicates.csv").open(encoding="utf8") as fh:
+            cls.raw = list(csv.DictReader(fh))
         cls.comparison = cls.data["comparison"]
 
     def test_protocol_and_exact_replications(self):
@@ -53,8 +54,10 @@ class ReportAssetsTests(unittest.TestCase):
             self.assertLessEqual(group["avg_mean_TV"], 1)
 
     def test_derived_csvs_match_json(self):
-        summ = list(csv.DictReader((ROOT / "results/summary.csv").open(encoding="utf8")))
-        features = list(csv.DictReader((ROOT / "results/per_feature.csv").open(encoding="utf8")))
+        with (ROOT / "results/summary.csv").open(encoding="utf8") as fh:
+            summ = list(csv.DictReader(fh))
+        with (ROOT / "results/per_feature.csv").open(encoding="utf8") as fh:
+            features = list(csv.DictReader(fh))
         self.assertEqual(len(summ), len(self.comparison))
         self.assertEqual(len(features), len(self.comparison))
         for r, s, f in zip(self.comparison, summ, features):
