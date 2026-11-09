@@ -200,6 +200,15 @@ def report_snapshot(run_dir, *, config_override=None, per_sample=True):
         model, arrays, config_override=config_override
     )
     centers = arrays["centers"]
+    # The stored centers must be EXACT Train class means, not arbitrary or
+    # re-estimated from Validation (important for the KL entropy identity).
+    by = arrays["train_by_hypothesis"]
+    reference_means = np.stack([
+        by[train_y == c, c, :].mean(axis=0)
+        for c in range(len(centers))
+    ])
+    if not np.allclose(reference_means, centers, atol=1e-10, rtol=0):
+        raise ValueError("Stored centers disagree with Train class means")
     tau = model["objective"]["tau"]
     train = standard_metrics(arrays["train_by_hypothesis"], centers, train_y,
                              tau, split="train", per_sample=per_sample)
