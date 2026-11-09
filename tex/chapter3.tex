@@ -1247,9 +1247,10 @@ R_{\mathrm{JS}}
 ضریب $\frac12$ ضروری است:
 در تعریف JSD، آنتروپی هر یک از
 دو توزیع با وزن نصف وارد می‌شود.
-در نتیجه تعبیر درست
-$R_{c,\mathrm{JS}}=R_c-R_{B,c}$
-\emph{نیست}.
+بنابراین برای \emph{تعریف نمونه--مرکز}
+رابطه $R_{c,\mathrm{JS}}=R_c-R_{B,c}$
+برقرار نیست؛ رابطه بدون ضریب نصف
+به \emph{تعریف زوجی نمونه--نمونه} در ادامه مربوط است.
 از نامنفی‌بودن $R_{B,c}$
 و $R_{c,\mathrm{JS}}$، به‌ویژه داریم:
 \[
@@ -1266,6 +1267,77 @@ $R_{c,\mathrm{JS}}=R_c-R_{B,c}$
 محاسبات سطر‌به‌سطر و قرارداد مؤلفه‌های صفر
 در پیوست~\ref{app:ch3-compactness-entropy-relations}
 اثبات می‌شوند.
+
+\paragraph{تعبیر زوجی تراکم جنسن--شنون.}
+تا اینجا در تعریف $R_{c,\mathrm{JS}}$
+\emph{هر نمونه با مرکز همان طبقه} مقایسه شد.
+تعریف دیگری نیز وجود دارد که
+\emph{هر دو نمونه از یک طبقه} را با یکدیگر
+مقایسه می‌کند. برای شفاف‌بودن تفاوت،
+این معیار را با بالانویس $\mathrm{pair}$
+مشخص می‌کنیم و تمام زوج‌های مرتب
+$i,j\in C_c$، شامل $i=j$، را با
+وزن برابر در نظر می‌گیریم:
+\begin{equation}\label{eq:ch3-R-JS-pairwise-distributions}
+\boxed{
+\mathscr B_{c,ij}^{\mathrm{pair}}
+=\frac{\mathscr Y_i+\mathscr Y_j}{2},
+\qquad
+\frac1{|C_c|^2}\sum_{i,j\in C_c}
+\mathscr B_{c,ij}^{\mathrm{pair}}
+=\mathcal V_c.
+}
+\end{equation}
+هزینه تجمیع KL مجموعه جدید
+و میانگین واگرایی جنسن--شنون تمام زوج‌ها را
+به‌ترتیب چنین تعریف می‌کنیم:
+\begin{equation}\label{eq:ch3-R-JS-pairwise-definitions}
+\boxed{
+\begin{aligned}
+R_{B,c}^{\mathrm{pair}}
+&=\frac1{|C_c|^2}\sum_{i,j\in C_c}
+D_{\mathrm{KL}}\!
+\left(\mathscr B_{c,ij}^{\mathrm{pair}}\middle\|
+\mathcal V_c\right),\\
+R_{c,\mathrm{JS}}^{\mathrm{pair}}
+&=\frac1{|C_c|^2}\sum_{i,j\in C_c}
+\operatorname{JSD}(\mathscr Y_i,\mathscr Y_j).
+\end{aligned}}
+\end{equation}
+چون مرکز مجموعه زوجی نیز
+همان $\mathcal V_c$ است،
+با استفاده از هویت آنتروپی مخلوط
+و تعریف JSD، رابطه \emph{دقیق}
+زیر حاصل می‌شود:
+\begin{equation}\label{eq:ch3-R-JS-pairwise-entropy-identity}
+\boxed{
+R_{c,\mathrm{JS}}^{\mathrm{pair}}
+=R_c-R_{B,c}^{\mathrm{pair}}.
+}
+\end{equation}
+در این رابطه، برخلاف تعریف نمونه--مرکز،
+\emph{ضریب $\frac12$ در برابر $R_c$
+وجود ندارد}، زیرا در میانگین روی
+همه زوج‌های مرتب، هر نمونه یک‌بار
+در نقش مؤلفه نخست و یک‌بار در نقش
+مؤلفه دوم ظاهر می‌شود و مجموع دو
+وزن $\frac12$ به یک می‌رسد.
+برابری بالا نشان می‌دهد پراکندگی
+زوجی JS همان بخشی از هزینه KL
+اولیه است که پس از تجمیع میانگین‌های
+جفتی باقی نمی‌ماند.
+در نتیجه
+$0\le R_{c,\mathrm{JS}}^{\mathrm{pair}}\le R_c$.
+این معیار را نباید با
+$R_{c,\mathrm{JS}}$ که فاصله از مرکز
+را می‌سنجد، یکسان دانست؛
+هر دو مفهوم معتبرند، اما
+ممکن است مقادیر و گرادیان‌های
+متفاوتی تولید کنند.
+اثبات کامل و توضیح درباره حذف
+زوج‌های خودی $i=j$ در
+پیوست~\ref{app:ch3-compactness-entropy-relations}
+آمده است.
 
 \paragraph{تعبیر و مقایسه معیارهای تراکم.}
 $R_{\mathrm{KL}}$ هزینه اضافی مدل مشترک
