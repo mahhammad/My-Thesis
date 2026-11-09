@@ -126,7 +126,10 @@ class ValidationRoundTrip(unittest.TestCase):
                 self.replay(model, arrays)
                 path = Path(td) / "model.json"
                 tampered = json.loads(path.read_text(encoding="utf8"))
-                tampered["prediction"]["query_start"]["logits"][0][0] = 9.0
+                if family == "node":
+                    tampered["prediction"]["query_start"]["logits"][0][0] = 9.0
+                else:
+                    tampered["prediction"]["query_start"]["logits"][0][0][0] = 9.0
                 path.write_text(json.dumps(tampered), encoding="utf8")
                 with self.assertRaisesRegex(ValueError, "SHA256"):
                     load_snapshot(td)
