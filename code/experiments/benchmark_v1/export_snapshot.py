@@ -199,6 +199,13 @@ def main():
         query_start_source=adapter.query_start_source,
         policy_variant=adapter.variant, target_centers=target,
         target_source=args.target_source,
+        experiment_metadata=({
+            "training": ckpt.get("optimizer", {}),
+            "steps": ckpt.get("steps"),
+            "elapsed_s": ckpt.get("elapsed_s", ckpt.get("runtime_s")),
+            "checkpoint_schema": ckpt.get("schema"),
+            "original_family": ckpt.get("family")
+        } if ckpt is not None else {"training": None, "steps": 0}),
         code_commit=args.code_commit, notes=origin)
     print("Saved:", args.run_dir / "model.json",
           args.run_dir / "distributions.npz")
