@@ -19,6 +19,7 @@ sys.path.insert(0, str(ROOT / "code/data_generator"))
 
 from generate import load_config
 from dataset_adapter import dataset_train_val
+from backfill_saved_scores import dataset_train_val as legacy_dataset_train_val
 from engine import DT, ExactMaskedWalk
 from policy_interface import create_policy, evaluate_policy
 from snapshot_pipeline import load_snapshot, save_snapshot
@@ -58,6 +59,15 @@ class SnapshotChecks(unittest.TestCase):
             target_centers=centers if target else None,
             target_source="generated_by_known_policy" if target else None
         )
+
+    def test_new_dataset_adapter_matches_historical_generator(self):
+        current = dataset_train_val(self.spec)
+        legacy = legacy_dataset_train_val(self.spec)
+        for split in ("train", "validation"):
+            x, y = current[split]
+            old_x, old_y = legacy[split]
+            np.testing.assert_array_equal(y, old_y)
+            np.testing.assert_allclose(x, old_x, equal_nan=True, atol=0, rtol=0)
 
     def test_common_report_matches_existing_metrics_without_training(self):
         with tempfile.TemporaryDirectory() as td:
