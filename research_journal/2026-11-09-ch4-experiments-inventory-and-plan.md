@@ -1,0 +1,94 @@
+# موجودی آزمایش‌های فصل چهارم و برنامه تکمیل — ۹ نوامبر ۲۰۲۶
+
+> **وضعیت:** ممیزی اسنادی (خواندن متن فصل ۴، گزارش‌ها، وضعیت ایشیوها و درخت فایل‌های GitHub)؛ **بدون اجرای آزمایش تازه و بدون تصدیق کامپایل**.  
+> **شاخه مالک:** `chapter4`. نسخه ادغام‌شده فصل سوم برای ارجاع در همین شاخه وجود دارد، اما **اصلاح نظری فصل سوم فقط روی `chapter3`** صورت می‌گیرد و در صورت نیاز با PR جداگانه منتقل می‌شود.  
+> **مرجع متن:** [فصل چهارم](../tex/chapter4.tex)؛ **اسناد استاندارد:** [پروتکل Benchmark](../code/experiments/benchmark_v1/README_FA.md)، [نتایج Benchmark](../code/experiments/benchmark_v1/RESULTS_FA.md)، [Gapfill NLL و Softplus](../code/experiments/benchmark_v1/GAPFILL_2026-11-08_FA.md)، [گزارش شروع مشترک کلاسی](../code/experiments/benchmark_v1/CLASS_TIED_START_RESULTS_FA.md)، [آرشیو نتایج](../code/experiments/benchmark_v1/results/README_FA.md).
+
+## ۱. قوانین خواندن موجودی
+
+- **انجام‌شده / آرشیوشده:** آزمایش یا امتیازدهی انجام شده و کد/خروجی قابل بررسی دارد؛ این وضعیت **به معنی اعتبار آماری نهایی یا تکرار مستقل نیست**.
+- **مقدماتی / تشخیصی:** اجرا یا تحلیل وجود دارد، اما تک‌بذر، بودجه نامساوی، استنتاج غیرهمسان یا هدف محدود دارد. نباید آن را نتیجه مقایسه نهایی مدل‌ها دانست.
+- **در انتظار اجرا:** در متن/ایشیو پیشنهاد یا طراحی شده، ولی گزارش نتیجه معتبر پیدا نشد. «نبود گزارش» الزاماً اثبات نمی‌کند که در بیرون از GitHub هرگز اجرا نشده؛ قبل از شروع از آرشیو و Library مطمئن شوید.
+- **ضروری پیش از جمع‌بندی:** برای ادعای تجربی مرکزی یا ارزیابی نهایی لازم است. **تکمیلی** یعنی در صورت بودجه/زمان؛ **آینده** یعنی پایان‌نامه را معطل نکند.
+- **شمارش دقیق:** ۷۶ آموزش استاندارد = ۱۶ اصلی + ۱۲ هدف تکمیلی + ۲۴ اندازه روی مولد پایه + ۲۴ اندازه در دو مولد دیگر. هشت آموزش تازه NLL/Softplus، چهار معکوس، هفت بازامتیازدهی قدیمی و نه ZIP تاریخی **بیرون از این ۷۶ عدد** هستند. هفت بازامتیازدهی **هفت آموزش تازه نیست**.
+- سه بذر مستقل مولد در Benchmark: `20261102/03/04`. «سه مرجع ۷۲تایی» قدیمی، **سه زیرمجموعه از یک تقسیم ثابت** بودند و نباید با سه دیتاست مستقل یکی شمرده شوند.
+- برای `node` و `node_class` آزاد بدون سیاست آغاز تولیدشونده برای کوئری جدید، Validation رسمی **تعریف‌نشده** است. بازسازی پسینی آغاز با kNN/میانگین یا خانواده جدید با شروع مشترک **مدل دیگری** است.
+
+## ۲. آنچه انجام شده: فهرست قابل ارجاع به فصل و داده
+
+| کد | آزمایش / پرسش | وضعیت و محدوده واقعی | منبع قابل بررسی | جایگاه در فصل ۴ |
+|---|---|---|---|---|
+| D01 | مولد مصنوعی، توزیع پسین و مرجع بیزی | پیاده‌سازی/مرجع تحلیلی موجود؛ نتایج Bayes از همان مولد ثبت شده؛ Test تاریخی قبلاً دیده شده | [مولد](../code/data_generator/README.md)، [بیزی و هندسه پسین](../code/experiments/benchmark_v1/results/bayes_oracle_posterior_geometry.json) | § تولید داده |
+| D02 | `Q` انتقال یک‌گامی در برابر `Q` جامعه | **اجرا:** N=300,1000,3000,10000، هر کدام ۱۲ تکرار؛ پرس‌وجوهای ثابت؛ خطا و رفتار همگرایی تجربی گزارش شده | [Q population](../code/experiments/q_population_validation/README_FA.md)، [نتیجه JSON](../code/experiments/q_population_validation/results/q_population_validation.json) | § انتقال یک‌گامی |
+| D03 | پنج سیاست ثابت؛ اثر سیاست بر `I`، `R`، NLL و BA | اجرا؛ مشاهده عدم هم‌راستایی کامل معیارها با دقت؛ یک سناریوی مصنوعی | [مقایسه سیاست ثابت](../code/experiments/fixed_metric_comparison/README_FA.md)، [نتیجه](../code/experiments/fixed_metric_comparison/results/fixed_metric_comparison.json) | § سیاست‌های ثابت |
+| D04 | هدایت سیاست با `Q` به مراکز هدف در دورهای متوالی | اجرا/پیشامطالعه؛ چند دور، سه snapshot بازتحلیل کامل؛ استنتاج یکنواخت و کلاس‌فرضی **هم‌پروتکل نیستند** | [گزارش مسیر](../code/experiments/center_matching_comparison/REPORT_FA.md)، [نتایج](../code/experiments/center_matching_comparison/results/trajectory_metrics.csv) | § هدایت به مراکز هدف |
+| D05 | زیان/حساسیت سیگموئیدی روی checkpointها | تشخیص پسینی، **بدون آموزش جدید**؛ رفتار نسبت به `tau` و مرز تصمیم بررسی شده | [حساسیت](../code/experiments/sigmoid_margin_diagnostics/README_FA.md)، [جدول](../code/experiments/sigmoid_margin_diagnostics/results/sigmoid_validation_summary.csv) | § زیان حاشیه |
+| D06 | آموزش مقدماتی فقط با حاشیه، `n=300` و چند مرجع ۷۲تایی | اجرا؛ نشان دادن افت/تغییر BA و انتخاب‌های مرجع، نه چندبذری مستقل | [گزارش Margin](../code/experiments/margin_training/README_FA.md)، [گزارش ممیزی ۷۲](../code/experiments/margin_training/BAYES_72_AUDIT_FA.md) | § زیان حاشیه |
+| D07 | حساسیت اندازه مرجع در برنامه قدیمی | **۲۶ اجرا** روی زیرمجموعه‌های یک مولد و چند انتخاب مرجع؛ برآورد پراکندگی **بین دیتاست‌های مستقل نیست** | [گزارش اندازه قدیمی](../code/experiments/margin_training/SIZE_STUDY_REPORT_FA.md)، [CSV](../code/experiments/margin_training/results/size_study/aggregate.csv) | § زیان حاشیه / اندازه |
+| D08 | امید دقیق ماتریسی، کران حذف عمق و حافظه | پیاده‌سازی و تحلیل عمق/کران اجرا؛ مقیاس‌پذیری بزرگ و حافظه اوج هنوز نهایی نیست | [گشت چندگامی](../code/experiments/multistep_policy_target_match/README_FA.md)، [حساسیت عمق](../code/experiments/bayes_center_inverse/results/depth_sensitivity_full300_and_subset72.json) | § محاسبه ماتریسی |
+| D09 | معکوس مراکز **دست‌یافتنی**، Q-only در برابر Adam دقیق و Bootstrap | اجرا روی سه مرجع × سه کلاس (نه مسئله کلاسی)، با معیار موفقیت معلوم؛ بودجه روش‌ها متفاوت | [گزارش بوت‌استرپ](../code/experiments/multistep_policy_target_match/BOOTSTRAP_REPORT_FA.md)، [خروجی سه بذر](../code/experiments/multistep_policy_target_match/results/aggregate_3seeds.json) | § بازیابی معکوس |
+| D10 | هدف مراکز بیزی، کران‌های فضای قابل دسترس و شبکه `beta/lambda/H` | اجرا؛ تحلیل ۳۷ ترکیب عمق/پارامتر و کران نمونه مرجع؛ لزوماً اثبات عمومی فضای مراکز نیست | [گزارش بیزی و معکوس](../code/experiments/bayes_center_inverse/README_FA.md)، [کران](../code/experiments/bayes_center_inverse/results/full_reference_bounds.json) | § مراکز بیزی |
+| D11 | هدف «قطر بیشینه آزادشده» روی همه ۳۰۰ نمونه | اجرا؛ ناسازگاری هدف خام و پاسخ هدف تعدیل‌شده؛ ناموفق بودن حلگر اثبات ناممکن بودن هدف تعدیل‌شده نیست | [گزارش](../code/experiments/diag_max_full300/README_FA.md)، [نتیجه](../code/experiments/bayes_center_inverse/results/full300_maxdiag_compact_summary.json) | § مراکز بیزی |
+| D12 | Benchmark: چهار خانواده × هدف I یا سه `tau` حاشیه JSD | **۱۶ آموزش**، n=300، ۵۰ گام، `lr=.12`؛ Train/Validation برای shared/class، Train فقط برای node/nK | [گزارش](../code/experiments/benchmark_v1/RESULTS_FA.md)، [ZIP اصلی](../code/experiments/benchmark_v1/results/core_50_16runs.zip) | § بازآزمایی استاندارد |
+| D13 | Benchmark: حاشیه √JSD، حاشیه KL، ترکیب `I+R+margin` | **۱۲ آموزش**، چهار خانواده، ۲۵ گام؛ **مقیاس و بودجه برابر D12 نیستند** | [گزارش](../code/experiments/benchmark_v1/RESULTS_FA.md)، [ZIP](../code/experiments/benchmark_v1/results/extra_25_12runs.zip) | § بازآزمایی استاندارد |
+| D14 | Benchmark: اثر اندازه داده و مولد | **۴۸ آموزش**: چهار خانواده × شش اندازه × یک بذر + shared/class × شش اندازه × دو بذر دیگر؛ فقط سه مولد مستقل برای shared/class | [CSV ۷۶ اجرا](../code/experiments/benchmark_v1/results/master_runs_76.csv)، [آرشیوها](../code/experiments/benchmark_v1/results/README_FA.md) | § اندازه داده |
+| D15 | معکوس مستقیم مراکزِ دارای شاهد تحقق در چهار خانواده | **۴ آموزش** با ۵۰ گام و آغاز صفر؛ باقیمانده مثبت، با وجود شاهد exact؛ **شکست حلگر ≠ دست‌نیافتنی بودن** | [گزارش](../code/experiments/benchmark_v1/RESULTS_FA.md)، [ZIP](../code/experiments/benchmark_v1/results/inverse_50_4families.zip) | § اندازه/وارون |
+| D16 | هفت سیاست تاریخی نزدیک مراکز ثابت: تراکم/حاشیه و flip | **۷ بازامتیازدهی بدون آموزش جدید** با معیار یکسان؛ افت BA در بعضی مسیرهای کاهش `R` | [ZIP recheck](../code/experiments/benchmark_v1/results/fixed_center_recheck_7runs.zip)، [گزارش فشرده‌سازی](../code/experiments/fixed_center_compaction/REPORT_FA.md)، [گزارش حاشیه مقید](../code/experiments/fixed_center_margin/REPORT_FA.md) | § مراکز ثابت |
+| D17 | ممیزی ۷۶ checkpoint و NLL/Softplus پسینی | **کامل طبق گزارش:** checksum چهار آرشیو، تطبیق مراکز/BA، سه NLL و Softplus؛ هیچ آموزش قبلی تکرار نشد | [Gapfill](../code/experiments/benchmark_v1/GAPFILL_2026-11-08_FA.md)، [CSV پسینی](../code/experiments/benchmark_v1/results/posthoc_score_backfill_76_compact.csv) | § مقایسه هدف |
+| D18 | آموزش مستقیم NLL ساده KL، NLL JS، NLL نرمال KL، Softplus | **۸ آموزش اضافی** = چهار هدف × دو خانواده shared/class؛ ۲۵ گام، یک مولد؛ سیگموئید هم‌بودجه از checkpoint موجود خوانده شد | [گزارش](../code/experiments/benchmark_v1/GAPFILL_2026-11-08_FA.md)، [checkpointهای ثبت‌شده](../code/experiments/benchmark_v1/results/new_objectives_25_checkpoints_compact.json) | § مقایسه هدف |
+| D19 | سیاست آزاد node_class و تخمین پسینی سطر آغاز | **تشخیصی**، با سیاست‌های میانی ثابت؛ یکنواخت/میانگین logits/میانگین احتمال/kNN آزمایش شده‌اند؛ این‌ها مدل‌های ترکیبی جدیدند | [جدول](../code/experiments/benchmark_v1/results/node_class_starts_tau005_summary.csv) | § سیاست آغاز |
+| D20 | شروع مشترک کلاسی از آغاز آموزش + انتقال node_class | **یک آزمایش ۵۰گامی**؛ Train BA=87.68٪، Val BA=97.28٪؛ شروع نمونه جدید تعریف شده اما F عمومی برای گره جدید آموزش ندیده | [گزارش](../code/experiments/benchmark_v1/CLASS_TIED_START_RESULTS_FA.md)، [CSV](../code/experiments/benchmark_v1/results/class_tied_start_node_mid_50_summary.csv) | § سیاست آغاز |
+
+**آرشیو تاریخی:** هر نه ZIP قدیمی با منشأ و هش در [historical_archive](../code/experiments/historical_archive/ARCHIVE_STATUS_FA.md) ثبت شده‌اند؛ Issue #27 به همین دلیل بسته شده. **از نتیجه‌های تاریخی به‌عنوان اجرای استاندارد هم‌بودجه استفاده نشود.**
+
+## ۳. آزمایش‌های باز و لازم — بر اساس پیش‌نیاز، نه صرفاً شماره Issue
+
+| کد | اولویت | کار و طرح حداقلی | شاهد/معیار پایان | Issue موجود |
+|---|---|---|---|---|
+| N00 | **الزام پیش از مقایسه** | تثبیت `PROTOCOL_FA.md`، امضای کد و داده، بازبینی split، ماسک، Train leave-origin، Validation out-of-graph، استنتاج کلاسی بدون نشت برچسب، تطبیق engine دقیق با فرمول فصل سوم | مانیفست reproducible، آزمون‌های toy و رگرسیون و رد نشت برچسب؛ بدون نیاز به اجرای دوباره ۷۶ آموزش | [#38](https://github.com/mahhammad/My-Thesis/issues/38) P00، [#33](https://github.com/mahhammad/My-Thesis/issues/33) P01، [#34](https://github.com/mahhammad/My-Thesis/issues/34) P02 |
+| N01 | **اولویت پژوهشی اصلی** | یادگیری تابع سازنده سیاست `F` برای **گره جاری و شروع نمونه تازه**؛ دو baseline shared/class، آغاز مشترک کلاسی و F پارامتری masked؛ در استنتاج تمام K فرض کلاس امتیاز بگیرند | Val برون‌گراف معتبر، آزمون هم‌ارزی F با logits ثابت، مقایسه BA/حاشیه/I/R/زمان، و مطالعه امکان انتقال به مرجع کاملاً جدید | [#37](https://github.com/mahhammad/My-Thesis/issues/37) P07، [#36](https://github.com/mahhammad/My-Thesis/issues/36) P06 |
+| N02 | **برای ادعای انتخاب زیان** | مقایسه سیگموئید JSD، Softplus، NLL نرمال KL، NLL ساده و کنترل I/ترکیب روی shared/class و مدل قابل‌تعمیم با **بودجه و تقسیم یکسان**؛ تنظیم `tau` یا مقیاس هر فاصله روی Val | حداقل چند مولد مستقل، گزارش اختلاف BA و پراکندگی، margin/sensitivity، شاخص اشباع، هزینه/تعداد گام؛ بدون انتخاب با Test | [#22](https://github.com/mahhammad/My-Thesis/issues/22) P04 |
+| N03 | **برای پشتیبانی §۳.۷** | آزمایش استاندارد **دومرحله‌ای**: سیاست مبنا → ثبت مراکز دست‌یافتنی `V*` → قید واقعی مراکز ثابت؛ مقایسه مرحله دوم (فقط حاشیه) در برابر (حاشیه+`gamma_R R_JS`)، و کنترل بدون مرحله دوم، از چند شروع | خطای مرکز در هر گام، `I`، `R`، distribution margin، flip، Train/Val BA؛ پذیرش با اصلاح غیرخطی و line search، نه صرفاً detach کردن گرادیان مراکز | [#35](https://github.com/mahhammad/My-Thesis/issues/35) P08، [#36](https://github.com/mahhammad/My-Thesis/issues/36) P06 |
+| N04 | **برای تعمیم** | چندشروعی/بودجه برابر (مثلاً ۵۰/۱۰۰/۲۰۰ گام) و حداقل چند مولد مستقل برای مدل‌های منتخب؛ کنترل اینکه افت/افزایش از ظرفیت خانواده است یا شروع/optimizer | منحنی‌های Train/Val و توزیع بین شروع/داده، زمان و حافظه، checkpoint و seed؛ بودجه‌ها در جدول مشخص | [#23](https://github.com/mahhammad/My-Thesis/issues/23) P03، [#26](https://github.com/mahhammad/My-Thesis/issues/26) P10 |
+| N05 | **برای ادعای حساسیت فصل چهارم** | **نویز** `d_noise∈{0,2,5}` با سه ویژگی اطلاع‌رسان ثابت؛ دو نوع مستقل/هم‌بسته و یک کنترل بُعد ثابت؛ **فقدان MCAR** با چند نرخ ثبت‌شده | نمودار BA و شکاف تا قاعده بیزی هر سناریو؛ همه ورودی‌ها/تعداد ویژگی و نرخ‌های ماسک در مانیفست | [#26](https://github.com/mahhammad/My-Thesis/issues/26) P10 |
+| N06 | **در صورت کافی بودن بودجه** | **تعداد کلاس** `K∈{2,3,5}`، نسبت کلاس‌ها و سختی مولد؛ کنترل عدم توازن و موارد ناپایداری NLL نرمال برای K=2 | گزارش Bayes ordinary و قاعده بیزی متناسب با BA برای هر مولد، شمار کلاس‌ها، عدم قطعیت و حافظه | [#26](https://github.com/mahhammad/My-Thesis/issues/26) P10 |
+| N07 | **برای پایداری تصمیم** | اختلال مستقل سیاست/مرجع/ماسک؛ محاسبه تغییر حاشیه، جابه‌جایی رقیب، نرخ flip، و کران متریک `sqrt(JSD)` با دامنه اعتبار مشترک/کلاس‌فرضی | جدول perturbation و flip به تفکیک کلاس، ماتریس مراکز، مقایسه کران با تغییر واقعی، و موارد نقض فرض‌ها | [#31](https://github.com/mahhammad/My-Thesis/issues/31) P09، [#35](https://github.com/mahhammad/My-Thesis/issues/35) P08 |
+| N08 | **فقط بعد از N00–N06 و قفل انتخاب** | **Test جدید و مستقل** پس از تثبیت معماری، زیان، هایپرپارامترها، بودجه، بذر/تقسیم، و checkpoint؛ مقایسه مدل منتخب با Uniform و قواعد بیزی مناسب | BA، Accuracy، CM، margin، اختلاف با Bayes، زمان/حافظه، عدم قطعیت و فایل خام؛ **Test تاریخی ۱۲۰تایی برای انتخاب ممنوع** | [#39](https://github.com/mahhammad/My-Thesis/issues/39) P11 |
+| N09 | **مکمل قابل اجرا از checkpoint** | مقایسه mean-policy = میانگین **احتمال‌ها** نه میانگین logits با shared و class-hypothesis؛ خطای tie/OOF و عدم نشت برچسب | پروتکل مشترک، قاعده امتیازدهی مشخص، Train/Val BA و پیش‌بینی‌های تک‌نمونه‌ای | [#33](https://github.com/mahhammad/My-Thesis/issues/33) P01 |
+| N10 | **مکمل پژوهشی** | بررسی تعارض گرادیان نمونه‌ها در سیاست shared و نقش ماسک/نویز/رقیب؛ ترجیحاً از checkpoint و گرادیان‌های محاسبه‌شده شروع شود | کسینوس گرادیان‌ها، تجزیه گروهی و مقایسه با تغییر BA؛ بدون ادعای علت قطعی | [#24](https://github.com/mahhammad/My-Thesis/issues/24) P05 |
+| N11 | **مکمل/در صورت ادعای مستقل** | وارون‌سازی با چندشروعی و اندازه گراف بیشتر؛ یا کران مشترک چند مؤلفه مرکز؛ تفکیک `failure to optimize` از `infeasible target` | شاهد تحقق یا کران لازم با اثبات؛ خطا/زمان/موفقیت روش‌های مقایسه در بودجه ثبت‌شده | [#32](https://github.com/mahhammad/My-Thesis/issues/32) P13، [#36](https://github.com/mahhammad/My-Thesis/issues/36) P06 |
+| N12 | **آینده؛ مانع دفاع نباشد** | گراف تنک feature-specific top-k و مقیاس n بزرگ؛ کنترل درجه پس از حذف مبدأ و انطباق موتور | BA/زمان/حافظه/خطای تقریب، بدون آسیب به قرارداد انتقال و گشت | [#21](https://github.com/mahhammad/My-Thesis/issues/21) P16 |
+
+**توجه درباره `beta,\lambda,H`:** حساسیت کرانِ دست‌یابی و عمق در D08/D10 بررسی شده است؛ اما **حساسیت BA مدل آموزش‌دیده** نسبت به عمق/وزن هنوز مطالعه استاندارد هم‌بودجه ندارد. اگر در متن ادعای حساسیت عملکرد مطرح شود، آن را به‌صورت یک آزمایش کوچک زیر N04/N05 اضافه کنید؛ از D10 نتیجه دقت نسازید.
+
+## ۴. ترتیب اجرایی پیشنهادی با حداقل دوباره‌کاری
+
+1. **نخست فقط ممیزی/طراحی:** N00 و تعیین ماتریس تمام baselineها، نمادهای `R/I/margin`، قاعده استنتاج و تعریف split. از `results/*.zip` و ژورنال شروع کنید؛ benchmark سنگین را دوباره اجرا نکنید.
+2. **سپس پاسخ به سؤال اصلی تعمیم:** N01. قبل از یادگیری F، خروجی `node_class` آزاد فقط capacity diagnostic باقی می‌ماند. آزمایش شروع مشترک D20 baseline واقعی مناسب است.
+3. **پس از تعریف Validation معتبر:** N02 و N03 را با پروتکل یکسان روی مدل منتخب/دو baseline طراحی کنید؛ تا حد ممکن checkpointها، گراف و گرادیان‌های ثبت‌شده را reuse کنید.
+4. **آزمون‌های حداقلی مستقل:** N04 و بخش اصلی N05 (نویز مستقل و MCAR)؛ سپس N06، N07 و N09 در صورت زمان. جدول ساده «انجام‌شده/در انتظار» قبل از افزودن هر خروجی جدید به‌روز شود.
+5. **قفل‌کردن پیش از Test:** N08 تنها بعد از انتخاب با Train/Validation؛ خروجی Test تاریخی صرفاً یادداشت تاریخی.
+6. **انتهای نگارش:** تطبیق ۲۱ جدول فصل چهارم با CSV/JSON، نمودارهای منتخب از داده خام، کامپایل LaTeX و کنترل ارجاعات؛ [#28](https://github.com/mahhammad/My-Thesis/issues/28) P14 و [#29](https://github.com/mahhammad/My-Thesis/issues/29) P15. ادغام Git فصل سوم با main و بعد با chapter4 در ۹ نوامبر **انجام شده**، اما کامپایل/کنترل علمی هنوز نشده است.
+
+## ۵. مرزبندی فصل و سنجش اتمام
+
+- **اعتبارسنجی روش و موتور**: D01–D03، D08؛ کافی برای «آیا فرمول پیاده شده است؟»، نه «آیا الگوریتم بهترین است؟».
+- **آزمایش اکتشافی، مشاهده‌ای و تاریخی**: D04–D07، D09–D11؛ منبع انگیزه، کشف محدودیت و مثال ضدشهودی، نه همه در یک جدول leaderboard.
+- **هسته گزارش هم‌پروتکل**: D12–D15 و D17–D18؛ هدف اصلی ساخت جدول‌های مقایسه با قید بودجه/seed.
+- **پل جدید §۳.۷ و تعمیم**: D16، D19–D20 و طرح‌های N01/N03؛ نتیجه‌های محدود کنونی شواهد امکان‌پذیری‌اند.
+- **نتیجه نهایی در داده مصنوعی** تنها زمانی نوشته شود که انتخاب مدل بر Validation قفل شده و یک Test تازه و مستقل ارزیابی شده باشد.
+- **فصل پنجم** برای داده واقعی، مقایسه RandomForest/CatBoost و تعمیم کاربردی برنامه‌ریزی شده؛ آن‌ها را به‌عنوان «آزمایش انجام‌شده فصل چهارم» گزارش نکنید.
+
+## ۶. فایل‌هایی که باید مراقب حفظ آن‌ها باشیم
+
+- **روی GitHub موجود:** [۷۶ اجرای استاندارد](../code/experiments/benchmark_v1/results/master_runs_76.csv)، چهار ZIP آموزشی، ZIP معکوس، ZIP هفت recheck، [جدول ۷۶ NLL](../code/experiments/benchmark_v1/results/posthoc_score_backfill_76_compact.csv)، [۸ checkpoint تازه](../code/experiments/benchmark_v1/results/new_objectives_25_checkpoints_compact.json) و [نه آرشیو تاریخی](../code/experiments/historical_archive/archives).
+- **در Library پیدا شده اما در GitHubِ chapter4 موجود نیست:** `runner_extended.py` (۱۰٬۸۶۴ بایت)، `benchmark_replay_runner_export.py` (۹٬۷۹۳ بایت)، checkpoint کامل شروع مشترک کلاسی `My-Thesis-class-tied-start-node-mid-50-2026-11-08.json` (۸۱۷٬۶۷۶ بایت)، بسته `My-Thesis-benchmark-gapfill-results-2026-11-08.zip` (۳۳٬۷۱۶ بایت). نسخه‌های `runner_*.py` در Library قابل فهرست شدن‌اند، اما **در زمان ممیزی، خواندن بایت دو نسخه اصلی Project پشتیبانی نشد**؛ یک نسخه دیگر قابل materialize بود. **وجود فایل در Library ≠ ثبت‌شدن در GitHub**. ابتدا checksum/محتوا و اینکه با اسکریپت‌های فعلی `replay_v1.py` چه تفاوتی دارند مشخص شود؛ سپس فقط نسخه ضروری با منشأ به ریپو منتقل شود.
+- **موجود در Library و قابل materialize:** checkpoint کامل شروع مشترک کلاسی و gapfill ZIP؛ این دو را لازم نیست از گفتگوی قدیمی دوباره استخراج کنید، مگر اینکه Library بعداً در دسترس نباشد. فایل کامل checkpoint شروع کلاسی در گزارش مربوطه به‌طور مشخص خارج از GitHub ذکر شده است.
+- هر بازتولید بعدی باید نسخه موتور، داده، mask، الگوریتم optimizer، seed، مقدار `beta,lambda,H`، شیوه محاسبه `Q` و توزیع هدف را مشخص کند؛ تغییر نسخه را مخفی نکنید.
+
+## ۷. نقش ایشیوها و ثبت تصمیم بعدی
+
+- **اولویت و معیار پایان در GitHub Issues باقی می‌ماند.** این فایل **Issue جدید موازی ایجاد نمی‌کند** و با #38، #37، #35، #22، #26، #39، #28، #29 ارتباط دارد.
+- اگر در ارزیابی فصل چهارم اصلاح نظری فصل سوم لازم شد، نتیجه در همین ژورنال و Issue مخصوص با عبارت «**محل ویرایش: branch chapter3**» ثبت شود؛ خود `tex/chapter3.tex` در `chapter4` ویرایش نشود.
+- پیش از هر آزمایش جدید، این فایل و جدول منبع هر ردیف به‌روز شوند. نتیجه منفی حذف نشود؛ بودجه آزمایش و تمایز historical / benchmark / exploratory حفظ شود.
+- **آخرین ممیزی:** ۲۰۲۶-۱۱-۰۹، بعد از ورود `main` به `chapter4`. آزمایش و اجرای XeLaTeX در این مرحله **انجام نشده است**.
