@@ -55,6 +55,11 @@ result = evaluate_policy(
 
 ## قرارداد دو فایل خام
 
+**نسخه جاری schema: `imc-snapshot-v2`.** تغییر نسبت به v1: برای هر Validation
+قابل‌محاسبه با سیاست آزاد گره‌ای، بردارهای واقعی شروع به‌صورت عددی و قابل‌اعتبارسنجی
+نگهداری می‌شوند؛ ثبت نام روش بدون مقادیر آن برای بازتولید کافی نیست.
+
+
 | فایل | محتوا | سیاست نگهداری |
 |---|---|---|
 | `model.json` | logits کامل، نام/نوع سیاست، مشخصات داده و بذرها، شناسه مرجع، kernel gamma، beta/lambda/H، هدف و tau، optimizer و بودجه موجود، هش فایل‌ها و منشأ checkpoint | بعد از ایجاد **تغییرناپذیر** |
@@ -66,6 +71,28 @@ result = evaluate_policy(
 - `validation_by_hypothesis` با شکل `(m,K,K)`، اگر شروع query تعریف شده باشد؛ وگرنه `(0,K,K)` و توضیح `not_defined_without_query_start`. صفر ساختگی برای Validation ممنوع است.
 - `centers` با شکل `(K,K)`: مرکز `c` برابر **میانگین حسابی Train** از `train_by_hypothesis[i,c,:]` برای تمام نمونه‌های کلاس `c` است.
 - `reference_ids` اندیس‌ها را نسبت به Train مولد و به همان ترتیب دقیق حفظ می‌کند.
+
+### ثبت کامل سیاست شروع Validation
+
+- برای `node`، فیلد `prediction.query_start` شامل `logits` با شکل
+  `(m,d)`، `shape`، `dtype=float64` و `sha256` است؛ برای `node_class`
+  شکل آن `(K,m,d)` است. `prediction.query_start_source` منشأ اجباریِ این پارامترهاست.
+  checksum از dtype، شکل و بایت‌های آرایه گرفته می‌شود.
+- `shared` و `class` از سطر شروع موجود در `parameters.logits` استفاده
+  می‌کنند و نیاز به آرایه شروع خارجی ندارند. برای `node/node_class` بدون سیاست
+  شروع صریح، Validation همچنان `not_defined_without_query_start` است.
+- برای گونه مستقل `class_tied_node`، علاوه بر `parameters.logits` مؤثر،
+  `policy_components.start_by_class` با شکل `(K,d)` و checksum ذخیره می‌شود.
+  `intermediate_source=parameters.logits[:,:,:d,:]`،
+  `composition_rule=intermediate_plus_tied_class_start_row` و
+  `mask_rule=masked_softmax_over_observed_query_features` ثبت می‌شوند.
+  بارگذار کنترل می‌کند سطر `d` برای همه گره‌ها و شروع تمام queryها
+  دقیقاً با `start_by_class` برابر باشد.
+- `load_snapshot` نبودن، دست‌کاری یا اختلاف شکل/منشأ/قاعده ساخت را رد می‌کند.
+  در تست مستقل `test_snapshot_roundtrip.py` داده Train/Validation از config
+  و seed ذخیره‌شده تولید، logits و شروع‌ها از `model.json` بازیابی و
+  `validation_by_hypothesis` با آرایه ثابت `distributions.npz` مقایسه می‌شود.
+  این آزمون از Test استفاده نمی‌کند.
 
 **چرا همه K فرض را ذخیره می‌کنیم؟** تا گزارشگر بتواند بعدها بدون اجرای گشت، امتیاز هر رقیب، حاشیه، خطا و نمودارهای جدید را به دست آورد. در سیاست مشترک، برش‌های فرض کلاس یکسان‌اند؛ در سیاست شرطی می‌توانند متفاوت باشند.
 
@@ -144,6 +171,7 @@ python code/experiments/benchmark_v1/experiment_center_target.py \
 
 ```bash
 python -m unittest -v code/experiments/benchmark_v1/test_snapshot_pipeline.py
+python -m unittest -v code/experiments/benchmark_v1/test_snapshot_roundtrip.py
 ```
 
 **وضعیت:** پیاده‌سازی و تست‌ها روی برنچ `chapter4` ثبت شده‌اند؛ **تست‌ها در این نشست اجرا نشده‌اند** و هیچ آزمایش سنگین یا ارزیابی Test تاریخی انجام نشده است.
