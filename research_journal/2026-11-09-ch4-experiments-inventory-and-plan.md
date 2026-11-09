@@ -17,7 +17,7 @@
 اسکریپت ثبت‌شده [\`experiment_fixed_baselines.py\`](../code/experiments/benchmark_v1/experiment_fixed_baselines.py)
 برای ۹ تنظیم Uniform و چهار درجهٔ Guided غیریکنواخت با صفر مرحلهٔ آموزش است؛ حالت $\alpha=0$ بین دو بخش مشترک است.
 **وضعیت تحقق:** ۱۳ اجرای مذکور با محاسبه دقیق، بدون آموزش و بدون Test تکمیل شدند؛ هر ۱۳ snapshot پس از بازتولید مستقل Train/Validation و مراکز، تطبیق عددی موفق داشته‌اند. [گزارش رسمی نتایج](../code/experiments/benchmark_v1/FOUNDATIONS_P1_P2_EXACT_FA.md)، [جدول خام ماندگار](../code/experiments/benchmark_v1/results/pipeline_v1/fixed_baselines_summary_20261109.csv) و [CI موفق](https://github.com/mahhammad/My-Thesis/actions/runs/42649911898).
-نتایج در \`tex/chapter4.tex\` ثبت شده‌اند. آزمون تاریخی فقط به عنوان آرشیو گذشته یاد می‌شود و برای انتخاب مدل دوباره خوانده نشده است.
+نتایج در \`tex/chapter4.tex\` ثبت شده‌اند. **گزارش مستقل آزمایش ۴.۴ برای سیاست یکنواخت** با [پوشه رسمی](../code/experiments/uniform_policy_hyperparameter_sensitivity/README_FA.md)، [گزارش مفصل](../code/experiments/uniform_policy_hyperparameter_sensitivity/REPORT_FA.md)، ۲ جدول و ۳ نمودار و تست‌های سازگاری ساخته شد. بخش بعدی ۴.۵ به سیاست هدایت‌شده اختصاص یافت. [ژورنال تصمیم ۴.۴](2026-11-10-ch4-uniform-sensitivity-report.md). کامپایل بخش ۴.۴ پس از این تغییر هنوز تأیید نشده است. آزمون تاریخی فقط به عنوان آرشیو گذشته یاد می‌شود و برای انتخاب مدل دوباره خوانده نشده است.
 
 ## اصلاح تفسیر آزمایش ظرفیت — ۹ نوامبر ۲۰۲۶
 
