@@ -87,6 +87,41 @@ class ReportAssetsTests(unittest.TestCase):
         self.assertIn(r"\label{tab:ch4-q-population-convergence}", a)
         self.assertIn(r"\label{tab:ch4-q-feature-tv}", b)
 
+    def test_thesis_section_43_uses_canonical_title_and_sources(self):
+        chapter = (ROOT.parents[2] / "tex/chapter4.tex").read_text(encoding="utf8")
+        self.assertIn(
+            r"\section{اعتبارسنجی همگرایی توزیع انتقال یک‌گامی به مرجع جامعه}",
+            chapter,
+        )
+        self.assertEqual(chapter.count(r"\label{sec:ch4-q-validation}"), 1)
+        for relative in (
+            "tables/main_results.tex",
+            "tables/per_feature_tv.tex",
+            "figures/error_convergence.tex",
+            "figures/per_feature_tv.tex",
+        ):
+            self.assertTrue((ROOT / relative).is_file())
+            expected = (r"\input{./code/experiments/"
+                        r"one_step_transition_population_convergence/"
+                        + relative + "}")
+            self.assertEqual(chapter.count(expected), 1)
+        labels = re.findall(r"\\label\{([^}]+)\}", chapter)
+        for label in (
+            "tab:ch4-q-population-convergence", "tab:ch4-q-feature-tv",
+            "fig:ch4-q-error-convergence", "fig:ch4-q-error-by-feature",
+        ):
+            self.assertIn(r"\ref{" + label + "}", chapter)
+            self.assertNotIn(r"\label{" + label + "}", chapter)
+            self.assertEqual(
+                sum((ROOT / rel).read_text(encoding="utf8").count(
+                    r"\label{" + label + "}"
+                ) for rel in (
+                    "tables/main_results.tex", "tables/per_feature_tv.tex",
+                    "figures/error_convergence.tex", "figures/per_feature_tv.tex"
+                )),
+                1,
+            )
+
     def test_tikz_plot_coordinates_and_sd_whiskers_reflect_json(self):
         a = (ROOT / "figures/error_convergence.tex").read_text(encoding="utf8")
         b = (ROOT / "figures/per_feature_tv.tex").read_text(encoding="utf8")
