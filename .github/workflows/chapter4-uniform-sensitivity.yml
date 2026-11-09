@@ -25,6 +25,10 @@ jobs:
         run: |
           python -m unittest discover -v \
             -s code/experiments/uniform_policy_hyperparameter_sensitivity -p 'test_*.py'
+      - name: Guard Chapter 4 equation labels and escaped file names
+        run: |
+          python -m unittest discover -v \
+            -s code/experiments/benchmark_v1 -p 'test_chapter4_latex_syntax.py'
       - name: Check strict Test holdout in report setup
         run: |
           python - <<'PY'
