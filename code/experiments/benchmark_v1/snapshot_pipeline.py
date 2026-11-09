@@ -110,7 +110,8 @@ def save_snapshot(
     run_dir, graph, logits, family, *, reference_ids, config_path,
     data_seed, reference_seed, objective, tau, beta, lam, horizon,
     validation_x=None, query_starts=None, query_start_source=None,
-    target_centers=None, target_source=None, code_commit=None, notes=None
+    target_centers=None, target_source=None, code_commit=None, notes=None,
+    policy_variant=None, config_reference=None, experiment_metadata=None
 ):
     """Write model.json + distributions.npz. Does not calculate accuracy or R/I.
 
@@ -142,6 +143,8 @@ def save_snapshot(
     ids = np.asarray(reference_ids, dtype=np.int64)
     if ids.shape != (graph.n,) or np.min(ids) < 0 or len(set(ids.tolist())) != graph.n:
         raise ValueError("Invalid reference_ids")
+    if not bool(torch.isfinite(logits).all()):
+        raise ValueError("Policy logits must be finite")
     train, centers, val, status = collect_representations(
         graph, logits, family, query_starts=query_starts
     )
@@ -157,7 +160,8 @@ def save_snapshot(
     manifest = {
         "schema": SCHEMA,
         "created_utc": datetime.now(timezone.utc).isoformat(),
-        "family": family, "objective": {"name": str(objective), "tau": float(tau)},
+        "family": family, "policy_variant": policy_variant or family,
+        "objective": {"name": str(objective), "tau": float(tau)},
         "parameters": {
             "logits": logits.detach().cpu().numpy().tolist(),
             "shape": list(logits.shape),
@@ -166,7 +170,8 @@ def save_snapshot(
             "dtype": "float64", "walk": "exact-capped-geometric"
         },
         "data": {
-            "config_path": config_path.as_posix(),
+            "config_path": (config_reference if config_reference is not None
+                            else config_path.as_posix()),
             "config_sha256": config_fingerprint(config_path),
             "data_seed": int(data_seed), "reference_seed": int(reference_seed),
             "reference_ids": ids.tolist(),
@@ -185,6 +190,7 @@ def save_snapshot(
         },
         "target": {"centers": target, "source": target_source},
         "provenance": {"code_commit": code_commit, "notes": notes},
+        "experiment": experiment_metadata or {},
         "distributions_file": "distributions.npz",
         "distributions_sha256": sha256(payload).hexdigest()
     }
