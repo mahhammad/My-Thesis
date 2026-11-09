@@ -43,7 +43,7 @@
 \end{scope}
 % پنل راست: مراکز دقیقاً همان‌اند، فاصله نمونه‌ها از مرکز کمتر است،
 % اما نمونه اول به ناحیه تصمیم طبقه دوم منتقل می‌شود.
-\begin{scope}[xshift=5.75cm]
+\begin{scope}[xshift=7.15cm]
   \begin{scope}
     \clip (0,0)--(4.8,0)--(2.4,4.16)--cycle;
     \fill[marginpurple] (0,0) rectangle (4.8,4.16);
@@ -67,7 +67,7 @@
   \node[below left,text=marginblue] at (2.23,.96) {$\mathcal V_1$};
   \draw[marginblue,dashed,line width=1.15pt] (1.65,.82)--(2.23,.96)--(2.81,1.10);
   % نمونه سمت چپ متعلق به طبقه اول است، اما در ناحیه رقیب قرار دارد.
-  \node[marginred,font=\bfseries\large] at (1.65,.82) {$\times$};
+  \node[text=marginred,font=\bfseries\large] at (1.65,.82) {$\times$};
   \node[above left] at (1.65,.82) {$P_1$};
   \filldraw[draw=white,fill=marginblue,line width=1pt] (2.81,1.10) circle (.105);
   \node[below right] at (2.81,1.10) {$P_2$};
