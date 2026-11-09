@@ -69,6 +69,9 @@ class SnapshotChecks(unittest.TestCase):
             self.assertEqual(arrays["validation_by_hypothesis"].shape,
                              (len(self.vx), self.g.k, self.g.k))
             report = report_snapshot(td)
+            adjusted = report_snapshot(td, tau_override=.020, per_sample=False)
+            self.assertEqual(adjusted["source"]["metric_tau_source"], "report_override")
+            self.assertAlmostEqual(adjusted["source"]["metric_tau"], .020)
             old = self.g.metrics(self.g.train_outputs(self.z, "shared"))
             for key in ("balanced_accuracy", "ordinary_accuracy", "I",
                         "R_JS", "R_sqrt_JS", "R_KL",
