@@ -17,6 +17,8 @@
 | [tables/per_feature_tv.tex](tables/per_feature_tv.tex) | جدول مقایسه ویژگی‌ها |
 | [figures/error_convergence.tex](figures/error_convergence.tex) | نمودار میانگین TV، SD و √JSD با TikZ |
 | [figures/per_feature_tv.tex](figures/per_feature_tv.tex) | نمودار پنج ویژگی با TikZ |
+| [figures/error_convergence.svg](figures/error_convergence.svg) و [figures/per_feature_tv.svg](figures/per_feature_tv.svg) | نسخه‌های برداری قابل مشاهده مستقیم در GitHub؛ همان داده‌ها، با راهنمای انگلیسی |
+| [results/provenance.json](results/provenance.json) | منشأ تاریخی، شناسه آزمایش، قرارداد seed و SHA بلا‌ب‌های Git |
 | [test_compare.py](test_compare.py) و [test_report_assets.py](test_report_assets.py) | آزمون‌های سبک فرمول و تطبیق عددی فایل‌ها |
 | [REPORT_FA.md](REPORT_FA.md) | **سند علمی مرجع** برای پژوهش، فصل چهارم و داوری |
 
