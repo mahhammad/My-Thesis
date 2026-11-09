@@ -969,6 +969,197 @@ $(\overline d'-d'_c)/\sigma'=(\overline d-d_c)/\sigma$.
 
 
 
+
+\section{هموارسازی KL و نرمال‌سازی پایدار در حالت واریانس صفر}
+\label{app:ch3-stable-KL-normalization}
+این قسمت صورت پایدار
+زیربخش~\ref{subsec:ch3-stable-KL-normalization}
+را برای دو حالت مرزی، واگرایی
+نامتناهی KL و صفر بودن واریانس
+امتیازها، توجیه می‌کند. هیچ‌یک از
+نتایج این بخش، فرض‌های مربوط به
+نرمال‌سازی دقیق زیربخش
+\ref{app:ch3-normalized-NLL-bound}
+را تغییر نمی‌دهد.
+
+\paragraph{مثبت‌بودن توزیع‌ها و کران KL.}
+برای $0<\eta<1$ و بردار یکنواخت $U$،
+مؤلفه‌های
+$P^{(\eta)}=(1-\eta)P+\eta U$
+و $Q^{(\eta)}=(1-\eta)Q+\eta U$
+در بازه $[\eta/K,1]$ قرار دارند.
+در نتیجه هر لگاریتم در KL تعریف‌شده است
+و برای هر دو توزیع احتمال داریم:
+\[
+\begin{aligned}
+D_{\mathrm{KL}}(P^{(\eta)}\|Q^{(\eta)})
+&=\sum_jP^{(\eta)}(j)\log P^{(\eta)}(j)
+-\sum_jP^{(\eta)}(j)\log Q^{(\eta)}(j)\\
+&\le -\sum_jP^{(\eta)}(j)\log Q^{(\eta)}(j)
+\le\log\frac K\eta.
+\end{aligned}
+\]
+کران پایین صفر از نامنفی‌بودن KL به دست
+می‌آید. هموارسازی، نگاشت آفین
+و هموار روی سیمپلکس است؛
+KL بر فضای مؤلفه‌های اکیداً مثبت
+تابعی هموار است. ازاین‌رو
+فاصله‌های هموارشده، به‌عنوان تابعی
+از توزیع‌های اولیه، مشتق‌پذیرند.
+
+\paragraph{حفظ ساختار میانگین و کران اطلاعاتی.}
+برای هر طبقه $c$:
+\[
+\frac1{|C_c|}\sum_{i\in C_c}\mathscr Y_i^{(\eta)}
+=(1-\eta)\frac1{|C_c|}\sum_{i\in C_c}\mathscr Y_i+\eta U
+=\mathcal V_c^{(\eta)}.
+\]
+بنابراین اگر در اثبات
+بخش~\ref{app:ch3-NLL-concavity}
+همه $\mathscr Y_i$ و $\mathcal V_c$
+را با نسخه‌های هموارشده جایگزین کنیم،
+تمام فرض‌های آن اثبات، از جمله
+میانگین بودن مراکز و متناهی بودن KL،
+برقرار خواهند بود. با تعریف
+$\overline{\mathcal V}^{(\eta)}_\Omega
+=\sum_c\omega_c\mathcal V_c^{(\eta)}$
+و
+$\overline{\mathcal V}^{(\eta)}_U
+=K^{-1}\sum_c\mathcal V_c^{(\eta)}$
+همان نامساوی ینسن نتیجه می‌دهد:
+\[
+\begin{aligned}
+NLL_\Omega^{(\eta)}
+&\le R^{(\eta)}+\log K
+-\sum_c\frac{\omega_c}{|C_c|}
+\sum_{i\in C_c}
+D_{\mathrm{KL}}\!\left(
+\mathscr Y_i^{(\eta)}
+\middle\|\overline{\mathcal V}^{(\eta)}_U\right)\\
+&=\log K-I^{(\eta)}(\mathcal V^{(\eta)})
+-D_{\mathrm{KL}}\!\left(
+\overline{\mathcal V}^{(\eta)}_\Omega
+\middle\|\overline{\mathcal V}^{(\eta)}_U\right).
+\end{aligned}
+\]
+در تساوی آخر از تجزیه عمومی KL
+رابطه~\eqref{eq:ch3-mixture-KL-general}
+استفاده شده و جمله
+$R^{(\eta)}$ حذف می‌شود.
+این استنتاج فقط برای Softmax
+با امتیاز $-d_{i,c}^{(\eta)}$
+است و به صورت نرمال‌شده با
+پارامتر $\varepsilon$ تعمیم
+خودکار ندارد.
+
+\paragraph{پایداری نرمال‌سازی.}
+برای بردار فاصله‌های هموارشده
+$d=(d_1,\ldots,d_K)$،
+بردار مرکز‌شده
+$v=\overline d\mathbf1-d$
+و $\sigma^2=\|v\|_2^2/K$
+را تعریف می‌کنیم. نگاشت
+\[
+z_\varepsilon(d)
+=\frac{v(d)}{\sqrt{\sigma(d)^2+\varepsilon^2}}
+\]
+برای $\varepsilon>0$ مشتق‌پذیر است؛
+زیرا صورت و تابع $\sigma(d)^2$
+چندجمله‌ای درجه حداکثر دو در $d$
+هستند و مخرج هیچ‌گاه صفر نیست.
+اگر همه فاصله‌ها مساوی باشند،
+$v=0$ و بنابراین $z_\varepsilon=0$.
+همچنین:
+\[
+\|z_\varepsilon(d)\|_2^2
+=\frac{\|v\|_2^2}{\sigma^2+\varepsilon^2}
+=K\frac{\sigma^2}{\sigma^2+\varepsilon^2}
+\le K.
+\]
+از مثبت بودن مخرج، ترتیب مؤلفه‌های
+$z_\varepsilon$ دقیقاً وارون
+ترتیب فاصله‌هاست و قاعده
+نزدیک‌ترین مرکز حفظ می‌شود.
+اگر $\varepsilon$ به‌جای مقدار ثابت
+به‌تناسب مقیاس فاصله‌ها تغییر
+نکند، ناوردایی کامل نسبت به
+ضرب مقیاس برقرار نخواهد بود.
+
+\paragraph{مشتق حاشیه در دو کلاس.}
+برای $K=2$ بگذارید
+$m=d_r-d_c$، که $c$ طبقه درست است.
+با توجه به
+$\sigma^2=m^2/4$،
+اختلاف امتیاز درست و رقیب
+به صورت
+\[
+g_\varepsilon(m)
+=z_c-z_r
+=\frac{m}{\sqrt{m^2/4+\varepsilon^2}}
+\]
+درمی‌آید. مشتق آن را مستقیماً
+محاسبه می‌کنیم:
+\[
+\begin{aligned}
+g_\varepsilon'(m)
+&=(m^2/4+\varepsilon^2)^{-1/2}
+-\frac{m^2}{4}(m^2/4+\varepsilon^2)^{-3/2}\\
+&=\frac{\varepsilon^2}
+{(m^2/4+\varepsilon^2)^{3/2}}>0.
+\end{aligned}
+\]
+بنابراین مشتق زیان
+$\ell(m)=\log(1+e^{-g_\varepsilon(m)})$
+برابر است با:
+\[
+\ell'(m)
+=-\frac{g_\varepsilon'(m)}
+{1+e^{g_\varepsilon(m)}}<0.
+\]
+برخلاف نرمال‌سازی دقیق دودویی،
+در این صورت گرادیان نسبت به
+حاشیه برای هر مقدار متناهی
+و هر $\varepsilon>0$ غیرصفر
+و در $m=0$ نیز تعریف‌شده است.
+
+\paragraph{کران NLL پایدار و دامنه آن.}
+چون $\sum_cz_c=0$ و
+$\|z\|_2\le\sqrt K$،
+برای هر $r\ne y$،
+نامساوی کوشی--شوارتس می‌دهد:
+\[
+z_r-z_y\le
+\|e_r-e_y\|_2\|z\|_2
+\le\sqrt{2K}.
+\]
+ازاین‌رو برای هر نمونه،
+$\ell\le B_K
+=\log(1+(K-1)e^{\sqrt{2K}})$.
+اگر طبقه واقعی بیشترین
+امتیاز را داشته باشد،
+احتمال Softmax آن دست‌کم
+$1/K$ است و
+$\ell\le\log K$.
+با قراردادن شاخص خطا، برای
+هر نمونه داریم:
+\[
+\ell_i^{(\eta,\varepsilon)}
+\le\log K+(B_K-\log K)
+\mathbf1_{\{\widehat y_i\ne y_i\}}.
+\]
+میانگین‌گیری با وزن‌های $\Omega$
+رابطه~\eqref{eq:ch3-stable-normalized-error-bound}
+را ثابت می‌کند، حتی هنگامی که
+تمام فاصله‌های یک نمونه برابر
+و امتیازهایش صفر باشند.
+در مقابل، کران
+$C_K<\log K$ و برابری دقیق
+دودویی در بخش
+\ref{app:ch3-normalized-NLL-bound}
+به شرط نرم دقیق $\sqrt K$
+وابسته‌اند و نمی‌توان آن‌ها را
+بدون تغییر به این صورت منتقل کرد.
+
 \section{نگاشت هیلبرتی جنسن--شنون و کران خطای تصمیم}
 \label{app:ch3-js-error-proof}
 متن اصلی، تعریف متریک
