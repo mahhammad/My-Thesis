@@ -1,7 +1,8 @@
-"""Independent reporter for the two-file IMC model snapshot.
+"""Independent COMMON-metric reporter for the two-file IMC snapshot.
 
-No training; no historical Test split. Train/Validation labels are regenerated
-from the data generator and checked against snapshot fingerprints.
+No training, no experiment-specific objectives, no historical Test split.
+Experiments own and save their specialized diagnostics separately.
+Train/Validation labels are regenerated and checked against fingerprints.
 """
 from __future__ import annotations
 
@@ -163,32 +164,6 @@ def standard_metrics(by_hypothesis, centers, labels, tau, *, split, per_sample=T
     return report
 
 
-def center_target_report(centers, target_spec):
-    """Optional inverse-center diagnostic; independent from classification."""
-    if not target_spec or target_spec.get("centers") is None:
-        return None
-    target = np.asarray(target_spec["centers"], dtype=np.float64)
-    if target.shape != centers.shape or not np.all(np.isfinite(target)):
-        raise ValueError("Target center shape/finite check failed")
-    if np.min(target) < -1e-9 or not np.allclose(
-        target.sum(axis=1), 1, atol=1e-8, rtol=0
-    ):
-        raise ValueError("Target centers are not distributions")
-    distances = jsd(centers, target)
-    return {
-        "source": target_spec.get("source"),
-        "per_class_JS": distances.tolist(),
-        "mean_center_JS": float(distances.mean()),
-        "max_center_JS": float(distances.max()),
-        "mean_center_sqrt_JS": float(np.sqrt(distances).mean()),
-        "frobenius_distance": float(np.linalg.norm(centers - target)),
-        "max_abs_residual": float(np.abs(centers - target).max())
-    }
-
-
-SPECIALIZED_REPORTERS = {"center_target": center_target_report}
-
-
 def load_evaluation_labels(model, arrays, *, config_override=None):
     """Reconstruct only Train and Validation, verify hashes before reporting."""
     info = model["data"]
@@ -239,10 +214,6 @@ def report_snapshot(run_dir, *, config_override=None, per_sample=True):
             "R_JS": None, "R_sqrt_JS": None, "R_KL": None,
             "balanced_accuracy": None
         }
-    specialized = {}
-    if model.get("target", {}).get("centers") is not None:
-        specialized["center_target"] = SPECIALIZED_REPORTERS["center_target"](
-            centers, model["target"])
     return {
         "schema": REPORT_SCHEMA,
         "generated_utc": datetime.now(timezone.utc).isoformat(),
@@ -256,8 +227,7 @@ def report_snapshot(run_dir, *, config_override=None, per_sample=True):
             "distributions_sha256": model["distributions_sha256"],
             "historical_test_accessed": False
         },
-        "centers": centers.tolist(), "train": train, "validation": val,
-        "specialized": specialized
+        "centers": centers.tolist(), "train": train, "validation": val
     }
 
 
@@ -287,13 +257,6 @@ def report_markdown(report):
                   "وضعیت Validation: " + v["status"],
                   "خطای حاشیه در تساوی محافظه‌کارانه است؛ argmax اندیس اول را انتخاب می‌کند.",
                   "NLL نرمال KL تاریخی با صورت پایدار eta/epsilon فصل سوم یکسان نیست.", ""])
-    if "center_target" in report["specialized"]:
-        z = report["specialized"]["center_target"]
-        lines.extend(["## گزارش تخصصی بازیابی مراکز", "",
-                      "منشأ هدف: " + str(z["source"]),
-                      "میانگین JSD مراکز: " + fmt(z["mean_center_JS"]),
-                      "بیشینه خطای مؤلفه‌ای: " + fmt(z["max_abs_residual"]),
-                      "فاصله فروبنیوس: " + fmt(z["frobenius_distance"]), ""])
     return "\n".join(lines)
 
 
