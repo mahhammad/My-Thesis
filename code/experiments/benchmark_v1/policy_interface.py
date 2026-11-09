@@ -27,6 +27,7 @@ class PolicyAdapter:
     logits: torch.Tensor
     query_start_logits: torch.Tensor | None = None
     query_start_source: str | None = None
+    start_by_class: torch.Tensor | None = None
 
 
 def create_policy(family, parameters, *, n, k, d, n_query=0):
@@ -52,7 +53,7 @@ def create_policy(family, parameters, *, n, k, d, n_query=0):
                   if n_query else None)
         return PolicyAdapter(
             "node_class", family, effective, qstart,
-            "class_tied_start_by_candidate_hypothesis"
+            "class_tied_start_by_candidate_hypothesis", start
         )
 
     shape = {
