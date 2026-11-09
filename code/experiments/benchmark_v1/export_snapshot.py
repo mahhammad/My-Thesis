@@ -31,6 +31,7 @@ from generate import load_config
 from backfill_saved_scores import dataset_train_val
 from engine import ExactMaskedWalk, DT
 from snapshot_pipeline import save_snapshot
+from policy_interface import create_policy
 
 
 def choose_proportional(y, count, seed):
@@ -160,22 +161,27 @@ def main():
         if len(ids) == 0 or np.any(ids < 0) or np.any(ids >= len(y)):
             raise ValueError("Invalid checkpoint reference_ids")
         family = ckpt["family"]
+        if family == "class_tied_start_node_class_middle":
+            family = "class_tied_node"
         objective = ckpt.get("objective", "historical_unknown")
 
     graph = ExactMaskedWalk(x[ids], y[ids], spec["gamma"],
                             beta=.4, lam=.8, horizon=12, query_x=val_x)
     if ckpt is None:
-        shape = {"shared": (graph.d + 1, graph.d),
-                 "class": (graph.k, graph.d + 1, graph.d),
-                 "node": (graph.n, graph.d + 1, graph.d),
-                 "node_class": (graph.k, graph.n, graph.d + 1, graph.d)}[family]
-        z = torch.zeros(shape, dtype=DT)
+        shapes = {"shared": (graph.d + 1, graph.d),
+                  "class": (graph.k, graph.d + 1, graph.d),
+                  "node": (graph.n, graph.d + 1, graph.d),
+                  "node_class": (graph.k, graph.n, graph.d + 1, graph.d)}
+        parameters = torch.zeros(shapes[family], dtype=DT)
     else:
-        values = ckpt.get("raw_logits", ckpt.get("logits"))
-        if values is None:
+        parameters = ckpt.get("raw_logits", ckpt.get("logits"))
+        if parameters is None:
             raise ValueError("Checkpoint lacks raw_logits/logits")
-        z = torch.as_tensor(values, dtype=DT)
-        graph.check_logits(z, family)
+    adapter = create_policy(
+        family, parameters, n=graph.n, k=graph.k, d=graph.d, n_query=len(val_x)
+    )
+    z = adapter.logits
+    graph.check_logits(z, adapter.family)
 
     tau = args.tau if args.tau is not None else (
         ckpt.get("tau", ckpt.get("optimizer", {}).get("tau", .005))
@@ -185,19 +191,15 @@ def main():
         raw = json.loads(args.target_centers_json.read_text(encoding="utf8"))
         target = raw.get("target_centers", raw.get("centers")) if isinstance(raw, dict) else raw
     manifest = save_snapshot(
-        args.run_dir, graph, z, family, reference_ids=ids,
-        config_path=config, data_seed=seed, reference_seed=reference_seed,
+        args.run_dir, graph, z, adapter.family, reference_ids=ids,
+        config_path=config, config_reference=portable_config.as_posix(),
+        data_seed=seed, reference_seed=reference_seed,
         objective=objective, tau=float(tau), beta=.4, lam=.8, horizon=12,
-        validation_x=val_x, target_centers=target,
+        validation_x=val_x, query_starts=adapter.query_start_logits,
+        query_start_source=adapter.query_start_source,
+        policy_variant=adapter.variant, target_centers=target,
         target_source=args.target_source,
         code_commit=args.code_commit, notes=origin)
-    # Save repository-relative path rather than machine-specific absolute path.
-    model_path = args.run_dir / "model.json"
-    m = json.loads(model_path.read_text(encoding="utf8"))
-    m["data"]["config_path"] = portable_config.as_posix()
-    from snapshot_pipeline import _atomic_bytes
-    _atomic_bytes(model_path, (json.dumps(m, indent=2, ensure_ascii=False)
-                               + "\n").encode("utf8"))
     print("Saved:", args.run_dir / "model.json",
           args.run_dir / "distributions.npz")
     print("Family:", manifest["family"], "Validation:", manifest["prediction"]["validation_status"])
