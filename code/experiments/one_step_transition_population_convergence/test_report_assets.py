@@ -87,6 +87,27 @@ class ReportAssetsTests(unittest.TestCase):
         self.assertIn(r"\label{tab:ch4-q-population-convergence}", a)
         self.assertIn(r"\label{tab:ch4-q-feature-tv}", b)
 
+    def test_github_svg_previews_match_48_observation_source(self):
+        from xml.etree import ElementTree as ET
+        a = (ROOT / "figures/error_convergence.svg").read_text(encoding="utf8")
+        b = (ROOT / "figures/per_feature_tv.svg").read_text(encoding="utf8")
+        for src in (a, b):
+            root = ET.fromstring(src)
+            self.assertEqual(root.tag, "{http://www.w3.org/2000/svg}svg")
+            self.assertNotIn("<script", src.lower())
+        xs = [180, 400, 620, 840]
+        y = lambda v: f"{450 - 350*v/.07:.2f}"
+        tv = " ".join(f"{x},{y(r['avg_mean_TV'])}" for x, r
+                      in zip(xs, self.comparison))
+        js = " ".join(f"{x},{y(r['avg_mean_sqrt_JSD'])}" for x, r
+                      in zip(xs, self.comparison))
+        self.assertIn(f'id="series-tv" points="{tv}"', a)
+        self.assertIn(f'id="series-sqrt-jsd" points="{js}"', a)
+        for i in range(5):
+            pts = " ".join(f"{x},{y(r['avg_mean_TV_per_feature'][i])}"
+                           for x, r in zip(xs, self.comparison))
+            self.assertIn(f'id="feature-{i}" points="{pts}"', b)
+
     def test_thesis_section_43_uses_canonical_title_and_sources(self):
         chapter = (ROOT.parents[2] / "tex/chapter4.tex").read_text(encoding="utf8")
         self.assertIn(
