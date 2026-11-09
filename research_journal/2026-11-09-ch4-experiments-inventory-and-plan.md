@@ -168,7 +168,7 @@
 
 | دروازه | ورودی/کنترل ضروری | شاهد خروج | وضعیت در تاریخ این ثبت |
 |---|---|---|---|
-| G0 — بازسازی فایل خام | `model.json` با schema `imc-snapshot-v2`، `distributions.npz` و checksum؛ پارامترهای شروع Validation برای node/node_class؛ `start_by_class` مستقل و قاعده الحاق برای hybrid | round-trip از Train/Validation بازتولیدشده، بدون استفاده از برچسب query در انتخاب فرض کلاس | کد و تست ثبت شده؛ نتیجه CI باید از گردش‌کار GitHub خوانده شود |
+| G0 — بازسازی فایل خام | `model.json` با schema `imc-snapshot-v2`، `distributions.npz` و checksum؛ پارامترهای شروع Validation برای node/node_class؛ `start_by_class` مستقل و قاعده الحاق برای hybrid | round-trip از Train/Validation بازتولیدشده، بدون استفاده از برچسب query در انتخاب فرض کلاس | **موفق**: ۲۶ تست سبک، شامل round-trip و checksum، روی commit `33fc2b906621`؛ [گزارش CI](https://github.com/mahhammad/My-Thesis/actions/runs/42645714279). فقط Train/Validation، بدون optimizer یا Test |
 | G1 — صحت محاسبه | موتور دقیق capped-geometric، ماسک گره جاری، عدم بازگشت به مبدأ Train، مجموع جرم هر گام؛ تست toy و عددی در برابر محاسبه مرجع | گزارش آزمون با شناسه commit و نسخه NumPy/Torch | کد تست موجود؛ ممیزی کامل N00 هنوز باز است |
 | G2 — برابری پروتکل | Train/Validation یکسان، فهرست مرتب `reference_ids`، توزیع K فرض، gamma و β/λ/H و dtype یکسان، انتخاب فقط بر Validation | manifest اجرای هر گزینه و trace زمان/گرادیان/بودجه | N02/N04 در انتظار |
 | G3 — قید واقعی مراکز ثابت | مرکز هدف واقعاً دست‌یافتنی، ارزیابی `V(z)-V*` پس از هر گام، تصحیح غیرخطی و رد گام خارج از تلرانس ازپیش‌ثبت‌شده | log خطای مراکز، تغییر I، R و BA و flip | N03 در انتظار؛ D16 فقط شاهد مقدماتی |
