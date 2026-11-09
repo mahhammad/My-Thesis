@@ -196,6 +196,20 @@ def main():
                     "query_start_logits": saved_starts,
                     "query_start_source": saved_source
                 }
+    # Keep query-origin parameters from historical checkpoints, when present.
+    # They are distinct from the train-origin rows in free node policies.
+    if ckpt is not None and family in ("node", "node_class"):
+        start_parameters = ckpt.get("query_start_logits")
+        start_source = ckpt.get("query_start_source")
+        if isinstance(ckpt.get("policy"), dict):
+            start_parameters = ckpt["policy"].get("query_start_logits", start_parameters)
+            start_source = ckpt["policy"].get("query_start_source", start_source)
+        if start_parameters is not None:
+            if not start_source:
+                raise ValueError("Checkpoint query_start_logits require query_start_source")
+            parameters = {"logits": parameters,
+                          "query_start_logits": start_parameters,
+                          "query_start_source": start_source}
     adapter = create_policy(
         family, parameters, n=graph.n, k=graph.k, d=graph.d, n_query=len(val_x)
     )
