@@ -561,6 +561,87 @@ $\mathscr B_{c,i}$ و $\mathscr Y_i$
 است.
 
 
+\paragraph{هویت زوجی JS و هزینه تجمیع میانگین‌های همه زوج‌ها.}
+در تعریف نمونه--مرکز، برای هر $i$
+مخلوطی از $\mathscr Y_i$ و مرکز
+$\mathcal V_c$ تشکیل می‌شد.
+اکنون همه زوج‌های مرتب
+$i,j\in C_c$ را، با احتساب
+زوج‌های $i=j$، در نظر می‌گیریم.
+اگر $n_c=|C_c|$، طبق
+تعریف~\eqref{eq:ch3-R-JS-pairwise-distributions}،
+مرکز مجموعه $n_c^2$ توزیع
+$\mathscr B_{c,ij}^{\mathrm{pair}}$
+دوباره $\mathcal V_c$ است:
+\[
+\frac1{n_c^2}\sum_{i,j\in C_c}
+\frac{\mathscr Y_i+\mathscr Y_j}{2}
+=\frac1{n_c}\sum_{i\in C_c}\mathscr Y_i
+=\mathcal V_c.
+\]
+پس با اعمال هویت آنتروپی مخلوط
+\eqref{eq:app-ch3-mixture-entropy}:
+\begin{equation}\label{eq:app-ch3-RB-pairwise-entropy}
+R_{B,c}^{\mathrm{pair}}
+=H(\mathcal V_c)
+-\frac1{n_c^2}\sum_{i,j\in C_c}
+H(\mathscr B_{c,ij}^{\mathrm{pair}}).
+\end{equation}
+از طرف دیگر، تعریف دوتوزیعی JSD
+می‌دهد:
+\[
+\operatorname{JSD}(\mathscr Y_i,\mathscr Y_j)
+=H(\mathscr B_{c,ij}^{\mathrm{pair}})
+-\frac12H(\mathscr Y_i)
+-\frac12H(\mathscr Y_j).
+\]
+در نتیجه:
+\begin{equation}\label{eq:app-ch3-R-JS-pairwise-proof}
+\begin{aligned}
+R_{c,\mathrm{JS}}^{\mathrm{pair}}
+&=\frac1{n_c^2}\sum_{i,j\in C_c}
+H(\mathscr B_{c,ij}^{\mathrm{pair}})
+-\frac1{2n_c^2}\sum_{i,j\in C_c}
+\bigl(H(\mathscr Y_i)+H(\mathscr Y_j)\bigr)\\
+&=\bigl(H(\mathcal V_c)-R_{B,c}^{\mathrm{pair}}\bigr)
+-\frac1{n_c}\sum_{i\in C_c}H(\mathscr Y_i)\\
+&=R_c-R_{B,c}^{\mathrm{pair}}.
+\end{aligned}
+\end{equation}
+در تساوی دوم استفاده شده که
+$\sum_{i,j}H(\mathscr Y_i)
+=n_c\sum_iH(\mathscr Y_i)$
+و برای جمع با اندیس $j$
+همین رابطه برقرار است.
+\emph{همین تقارن دو اندیس و حضور
+همه زوج‌ها علت حذف ضریب نصف است.}
+از نامنفی بودن دو میانگین واگرایی
+نیز $0\le R_{c,\mathrm{JS}}^{\mathrm{pair}}
+\le R_c$ نتیجه می‌شود.
+
+توجه کنیم تعریف بالا بر اساس
+$1/n_c^2$ و \emph{تمام زوج‌های مرتب}
+است. اگر برای $n_c>1$ صرفاً زوج‌های
+\emph{بدون تکرار و با اندیس‌های متمایز}
+$i<j$ را با وزن برابر میانگین بگیریم،
+به دلیل $\operatorname{JSD}(P,P)=0$،
+به‌جای آن مقدار
+\[
+\frac{1}{\binom{n_c}{2}}
+\sum_{\substack{i,j\in C_c\\i<j}}
+\operatorname{JSD}(\mathscr Y_i,\mathscr Y_j)
+=\frac{n_c}{n_c-1}
+R_{c,\mathrm{JS}}^{\mathrm{pair}}
+\]
+به دست می‌آید. بنابراین در
+به‌کارگیری هویت~\eqref{eq:ch3-R-JS-pairwise-entropy-identity}
+باید قرارداد وزن‌دهی زوج‌ها
+حفظ شود. هیچ‌یک از این تعریف‌ها
+خودبه‌خود با سنجه \emph{نمونه--مرکز}
+$R_{c,\mathrm{JS}}$
+یکسان نیست.
+
+
 \section{حد پایین معیار جایگشتی و خواص چهار معیار}
 \label{app:ch3-assignment-comparisons}
 
