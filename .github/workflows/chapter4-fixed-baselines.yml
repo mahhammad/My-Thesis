@@ -1,0 +1,42 @@
+name: Chapter 4 P1-P2 exact baseline evidence
+
+on:
+  push:
+    branches: [chapter4]
+    paths:
+      - 'code/experiments/benchmark_v1/experiment_fixed_baselines.py'
+      - '.github/workflows/chapter4-fixed-baselines.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  fixed-baselines:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install CPU-only lightweight computation requirements
+        run: |
+          python -m pip install numpy
+          python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+      - name: Verify P1/P2 registered experiment plan
+        run: |
+          python -m unittest -v code/experiments/benchmark_v1/test_experiment_fixed_baselines.py
+          python code/experiments/benchmark_v1/experiment_fixed_baselines.py --mode both
+      - name: Run exact walks on Train and Validation (no fitting or Test)
+        run: |
+          python code/experiments/benchmark_v1/experiment_fixed_baselines.py \
+            --mode both --execute \
+            --out-dir code/experiments/benchmark_v1/results/pipeline_v1/fixed_baselines
+      - name: Upload complete v2 snapshots and reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: chapter4-fixed-baselines
+          path: code/experiments/benchmark_v1/results/pipeline_v1/fixed_baselines/
+          retention-days: 30
+          if-no-files-found: error
