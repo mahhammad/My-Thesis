@@ -33,6 +33,10 @@ jobs:
           python code/experiments/benchmark_v1/experiment_fixed_baselines.py \
             --mode both --execute \
             --out-dir code/experiments/benchmark_v1/results/pipeline_v1/fixed_baselines
+      - name: Independently reconstruct all stored Train/Validation distributions
+        run: |
+          python code/experiments/benchmark_v1/verify_fixed_baselines.py \
+            --run-dir code/experiments/benchmark_v1/results/pipeline_v1/fixed_baselines
       - name: Upload complete v2 snapshots and reports
         uses: actions/upload-artifact@v4
         with:
