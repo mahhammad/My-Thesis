@@ -193,7 +193,8 @@ class SnapshotChecks(unittest.TestCase):
                         horizon=4, validation_x=self.vx,
                         query_starts=(None if starts is None else
                                       torch.as_tensor(starts, dtype=DT)),
-                        query_start_source=source, policy_variant=variant)
+                        query_start_source=source, policy_variant=variant,
+                        start_by_class=(tied if variant == "class_tied_node" else None))
                     model, arrays = load_snapshot(td)
                     # Independent dataset reconstruction and original reference order.
                     spec = load_config(self.config)
@@ -206,13 +207,13 @@ class SnapshotChecks(unittest.TestCase):
                                      model["data"]["validation_x_sha256"])
                     self.assertEqual(array_fingerprint(x_all[ids]),
                                      model["data"]["train_reference_x_sha256"])
-                    saved_start = model["parameters"]["query_start"]
+                    saved_start = model["prediction"]["query_start"]
                     reconstruction = {
                         "logits": model["parameters"]["logits"]
                     }
                     if saved_start is not None:
                         reconstruction["query_start_logits"] = saved_start["logits"]
-                        reconstruction["query_start_source"] = saved_start["source"]
+                        reconstruction["query_start_source"] = model["prediction"]["query_start_source"]
                     reevaluated = evaluate_policy(
                         {"ref_x": x_all[ids], "ref_y": y_all[ids],
                          "query_x": query_x},
@@ -225,10 +226,10 @@ class SnapshotChecks(unittest.TestCase):
                         reevaluated["validation_by_hypothesis"],
                         arrays["validation_by_hypothesis"], atol=1e-12, rtol=0)
                     if variant == "class_tied_node":
-                        build = model["parameters"]["policy_construction"]
-                        np.testing.assert_array_equal(build["start_by_class"], tied)
-                        self.assertIn("masked_softmax_over_observed_features",
-                                      build["rule"])
+                        build = model["policy_components"]
+                        np.testing.assert_array_equal(build["start_by_class"]["logits"], tied)
+                        self.assertEqual(build["mask_rule"],
+                                         "masked_softmax_over_observed_query_features")
 
     def test_query_start_metadata_tampering_is_rejected(self):
         import json
@@ -248,10 +249,13 @@ class SnapshotChecks(unittest.TestCase):
             for field, replacement in (
                 ("sha256", "0" * 64),
                 ("shape", [m + 1, d]),
-                ("source", "tampered"),
+                ("source", None),
             ):
                 bad = json.loads(json.dumps(original))
-                bad["parameters"]["query_start"][field] = replacement
+                if field == "source":
+                    bad["prediction"]["query_start_source"] = replacement
+                else:
+                    bad["prediction"]["query_start"][field] = replacement
                 p.write_text(json.dumps(bad), encoding="utf8")
                 with self.assertRaises(ValueError):
                     load_snapshot(td)
@@ -275,10 +279,11 @@ class SnapshotChecks(unittest.TestCase):
                 objective="test", tau=.005, beta=.4, lam=.8, horizon=4,
                 validation_x=self.vx, query_starts=policy.query_start_logits,
                 query_start_source=policy.query_start_source,
-                policy_variant=policy.variant)
+                policy_variant=policy.variant,
+                start_by_class=policy.start_by_class)
             p = Path(td) / "model.json"
             model = json.loads(p.read_text(encoding="utf8"))
-            model["parameters"]["policy_construction"]["start_by_class"][0][0] += .2
+            model["policy_components"]["start_by_class"]["logits"][0][0] += .2
             p.write_text(json.dumps(model), encoding="utf8")
             with self.assertRaises(ValueError):
                 load_snapshot(td)
