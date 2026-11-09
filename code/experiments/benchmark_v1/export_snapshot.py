@@ -174,9 +174,28 @@ def main():
                   "node_class": (graph.k, graph.n, graph.d + 1, graph.d)}
         parameters = torch.zeros(shapes[family], dtype=DT)
     else:
-        parameters = ckpt.get("raw_logits", ckpt.get("logits"))
+        parameters = ckpt.get("raw_logits")
+        if parameters is None:
+            parameters = ckpt.get("logits")
         if parameters is None:
             raise ValueError("Checkpoint lacks raw_logits/logits")
+        # Historical free-node checkpoints may carry a separate out-of-graph
+        # starting policy. Keep it instead of exporting an undefined Validation.
+        if family in ("node", "node_class"):
+            saved_starts = ckpt.get("query_start_logits")
+            saved_source = ckpt.get("query_start_source")
+            if isinstance(parameters, dict):
+                saved_starts = parameters.get("query_start_logits", saved_starts)
+                saved_source = parameters.get("query_start_source", saved_source)
+                parameters = parameters["logits"]
+            if saved_starts is not None:
+                if not saved_source:
+                    raise ValueError("Checkpoint query starts lack provenance")
+                parameters = {
+                    "logits": parameters,
+                    "query_start_logits": saved_starts,
+                    "query_start_source": saved_source
+                }
     adapter = create_policy(
         family, parameters, n=graph.n, k=graph.k, d=graph.d, n_query=len(val_x)
     )
@@ -197,7 +216,8 @@ def main():
         objective=objective, tau=float(tau), beta=.4, lam=.8, horizon=12,
         validation_x=val_x, query_starts=adapter.query_start_logits,
         query_start_source=adapter.query_start_source,
-        policy_variant=adapter.variant, target_centers=target,
+        policy_variant=adapter.variant, start_by_class=adapter.start_by_class,
+        target_centers=target,
         target_source=args.target_source,
         experiment_metadata=({
             "training": ckpt.get("optimizer", {}),
