@@ -13,8 +13,10 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(ROOT/"code"/"policy_evaluator"))
-from report_snapshot import standard_metrics
-from metrics import center_metrics, jsd, sqrt_jsd
+from report_snapshot import standard_metrics, _COMMON_MODULE
+center_metrics = _COMMON_MODULE.center_metrics
+jsd = _COMMON_MODULE.jsd
+sqrt_jsd = _COMMON_MODULE.sqrt_jsd
 
 
 class SharedReportContractTests(unittest.TestCase):
