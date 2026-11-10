@@ -1,0 +1,217 @@
+{
+  "schema": "e-ch4-09-independent-controls-v1",
+  "E08_H12_metric_max_abs_diff": {
+    "uniform_train": 1.4918621893400541e-15,
+    "uniform_validation": 9.71445146547012e-16,
+    "trained_shared_train": 2.220446049250313e-16,
+    "trained_shared_validation": 3.191891195797325e-16
+  },
+  "E08_H12_center_max_abs_diff": {
+    "uniform": 1.1102230246251565e-16,
+    "trained_shared": 1.1102230246251565e-16
+  },
+  "E04_uniform_true_h_max_abs_diff": {
+    "1": {
+      "train": 0.0,
+      "validation": 0.0
+    },
+    "2": {
+      "train": 3.3306690738754696e-16,
+      "validation": 2.220446049250313e-16
+    },
+    "3": {
+      "train": 4.163336342344337e-16,
+      "validation": 2.5673907444456745e-16
+    },
+    "4": {
+      "train": 8.326672684688674e-17,
+      "validation": 1.1102230246251565e-16
+    },
+    "12": {
+      "train": 4.440892098500626e-16,
+      "validation": 9.159339953157541e-16
+    }
+  },
+  "true_H_vs_E08_fixed_H12_truncation": {
+    "uniform_H1": {
+      "H_true": 1,
+      "E08_fixed_H12_r": 1,
+      "coefficient_l1": 0.0,
+      "train_mean_TV": 0.0,
+      "validation_mean_TV": 0.0,
+      "centers_max_TV": 0.0,
+      "train_BA_true_H": 0.836461745191904,
+      "train_BA_fixed_H12_truncation": 0.836461745191904,
+      "validation_BA_true_H": 0.9676870748299321,
+      "validation_BA_fixed_H12_truncation": 0.9676870748299321,
+      "train_I_true_H": 0.03241603284385941,
+      "train_I_fixed_H12_truncation": 0.03241603284385941,
+      "method_distinction": "E09 recalculate capped-geometric pmf at H=h; E08 reweight the truncated alpha(H=12)"
+    },
+    "uniform_H2": {
+      "H_true": 2,
+      "E08_fixed_H12_r": 2,
+      "coefficient_l1": 0.05693832067595336,
+      "train_mean_TV": 0.002460906336695163,
+      "validation_mean_TV": 0.0024581754149812654,
+      "centers_max_TV": 0.0029783720348978554,
+      "train_BA_true_H": 0.836461745191904,
+      "train_BA_fixed_H12_truncation": 0.836461745191904,
+      "validation_BA_true_H": 0.9676870748299321,
+      "validation_BA_fixed_H12_truncation": 0.9676870748299321,
+      "train_I_true_H": 0.021201663054243536,
+      "train_I_fixed_H12_truncation": 0.022289129367553784,
+      "method_distinction": "E09 recalculate capped-geometric pmf at H=h; E08 reweight the truncated alpha(H=12)"
+    },
+    "uniform_H3": {
+      "H_true": 3,
+      "E08_fixed_H12_r": 3,
+      "coefficient_l1": 0.034057112451446755,
+      "train_mean_TV": 0.0017103560467083374,
+      "validation_mean_TV": 0.0017092056068926725,
+      "centers_max_TV": 0.0020877164504981144,
+      "train_BA_true_H": 0.836461745191904,
+      "train_BA_fixed_H12_truncation": 0.836461745191904,
+      "validation_BA_true_H": 0.9676870748299321,
+      "validation_BA_fixed_H12_truncation": 0.9676870748299321,
+      "train_I_true_H": 0.018325170036943117,
+      "train_I_fixed_H12_truncation": 0.019034348583808702,
+      "method_distinction": "E09 recalculate capped-geometric pmf at H=h; E08 reweight the truncated alpha(H=12)"
+    },
+    "uniform_H4": {
+      "H_true": 4,
+      "E08_fixed_H12_r": 4,
+      "coefficient_l1": 0.017578255000334546,
+      "train_mean_TV": 0.0009449719083982294,
+      "validation_mean_TV": 0.0009444804333636549,
+      "centers_max_TV": 0.0011589515052460725,
+      "train_BA_true_H": 0.836461745191904,
+      "train_BA_fixed_H12_truncation": 0.836461745191904,
+      "validation_BA_true_H": 0.9676870748299321,
+      "validation_BA_fixed_H12_truncation": 0.9676870748299321,
+      "train_I_true_H": 0.01741934959139302,
+      "train_I_fixed_H12_truncation": 0.01780222487525296,
+      "method_distinction": "E09 recalculate capped-geometric pmf at H=h; E08 reweight the truncated alpha(H=12)"
+    },
+    "uniform_H8": {
+      "H_true": 8,
+      "E08_fixed_H12_r": 8,
+      "coefficient_l1": 0.0009774995212673782,
+      "train_mean_TV": 5.505123715802809e-05,
+      "validation_mean_TV": 5.5034340697937095e-05,
+      "centers_max_TV": 6.792841783234693e-05,
+      "train_BA_true_H": 0.836461745191904,
+      "train_BA_fixed_H12_truncation": 0.836461745191904,
+      "validation_BA_true_H": 0.9676870748299321,
+      "validation_BA_fixed_H12_truncation": 0.9676870748299321,
+      "train_I_true_H": 0.01689943703279151,
+      "train_I_fixed_H12_truncation": 0.016921459215892387,
+      "method_distinction": "E09 recalculate capped-geometric pmf at H=h; E08 reweight the truncated alpha(H=12)"
+    },
+    "uniform_H12": {
+      "H_true": 12,
+      "E08_fixed_H12_r": 12,
+      "coefficient_l1": 1.630504542146638e-16,
+      "train_mean_TV": 8.079185468782649e-17,
+      "validation_mean_TV": 8.24957386353415e-17,
+      "centers_max_TV": 1.3877787807814457e-16,
+      "train_BA_true_H": 0.836461745191904,
+      "train_BA_fixed_H12_truncation": 0.836461745191904,
+      "validation_BA_true_H": 0.9676870748299321,
+      "validation_BA_fixed_H12_truncation": 0.9676870748299321,
+      "train_I_true_H": 0.016882854979976214,
+      "train_I_fixed_H12_truncation": 0.016882854979976214,
+      "method_distinction": "E09 recalculate capped-geometric pmf at H=h; E08 reweight the truncated alpha(H=12)"
+    },
+    "trained_shared_H1": {
+      "H_true": 1,
+      "E08_fixed_H12_r": 1,
+      "coefficient_l1": 0.0,
+      "train_mean_TV": 0.0,
+      "validation_mean_TV": 0.0,
+      "centers_max_TV": 0.0,
+      "train_BA_true_H": 0.8697299907617367,
+      "train_BA_fixed_H12_truncation": 0.8697299907617367,
+      "validation_BA_true_H": 0.979591836734694,
+      "validation_BA_fixed_H12_truncation": 0.979591836734694,
+      "train_I_true_H": 0.061862692148673015,
+      "train_I_fixed_H12_truncation": 0.061862692148673015,
+      "method_distinction": "E09 recalculate capped-geometric pmf at H=h; E08 reweight the truncated alpha(H=12)"
+    },
+    "trained_shared_H2": {
+      "H_true": 2,
+      "E08_fixed_H12_r": 2,
+      "coefficient_l1": 0.05693832067595336,
+      "train_mean_TV": 0.001144202545532565,
+      "validation_mean_TV": 0.0011987008071240794,
+      "centers_max_TV": 0.0012393004807560448,
+      "train_BA_true_H": 0.8674624170655916,
+      "train_BA_fixed_H12_truncation": 0.8651948433694465,
+      "validation_BA_true_H": 0.979591836734694,
+      "validation_BA_fixed_H12_truncation": 0.979591836734694,
+      "train_I_true_H": 0.05578750049229153,
+      "train_I_fixed_H12_truncation": 0.056420781233075146,
+      "method_distinction": "E09 recalculate capped-geometric pmf at H=h; E08 reweight the truncated alpha(H=12)"
+    },
+    "trained_shared_H3": {
+      "H_true": 3,
+      "E08_fixed_H12_r": 3,
+      "coefficient_l1": 0.034057112451446755,
+      "train_mean_TV": 0.0009922013152037165,
+      "validation_mean_TV": 0.0010227985591803844,
+      "centers_max_TV": 0.0010843820378441255,
+      "train_BA_true_H": 0.8651948433694465,
+      "train_BA_fixed_H12_truncation": 0.8651948433694465,
+      "validation_BA_true_H": 0.979591836734694,
+      "validation_BA_fixed_H12_truncation": 0.979591836734694,
+      "train_I_true_H": 0.053031785611325044,
+      "train_I_fixed_H12_truncation": 0.05357858031016305,
+      "method_distinction": "E09 recalculate capped-geometric pmf at H=h; E08 reweight the truncated alpha(H=12)"
+    },
+    "trained_shared_H4": {
+      "H_true": 4,
+      "E08_fixed_H12_r": 4,
+      "coefficient_l1": 0.017578255000334546,
+      "train_mean_TV": 0.00064272809610948,
+      "validation_mean_TV": 0.000657664700568734,
+      "centers_max_TV": 0.0007064421467377346,
+      "train_BA_true_H": 0.8651948433694465,
+      "train_BA_fixed_H12_truncation": 0.8651948433694465,
+      "validation_BA_true_H": 0.9727891156462585,
+      "validation_BA_fixed_H12_truncation": 0.9727891156462585,
+      "train_I_true_H": 0.051748512747704645,
+      "train_I_fixed_H12_truncation": 0.052104320503300605,
+      "method_distinction": "E09 recalculate capped-geometric pmf at H=h; E08 reweight the truncated alpha(H=12)"
+    },
+    "trained_shared_H8": {
+      "H_true": 8,
+      "E08_fixed_H12_r": 8,
+      "coefficient_l1": 0.0009774995212673782,
+      "train_mean_TV": 5.112365196046024e-05,
+      "validation_mean_TV": 5.16613203520039e-05,
+      "centers_max_TV": 5.6763162207804085e-05,
+      "train_BA_true_H": 0.8651948433694465,
+      "train_BA_fixed_H12_truncation": 0.8651948433694465,
+      "validation_BA_true_H": 0.9727891156462585,
+      "validation_BA_fixed_H12_truncation": 0.9727891156462585,
+      "train_I_true_H": 0.050648229513929444,
+      "train_I_fixed_H12_truncation": 0.05067741023950667,
+      "method_distinction": "E09 recalculate capped-geometric pmf at H=h; E08 reweight the truncated alpha(H=12)"
+    },
+    "trained_shared_H12": {
+      "H_true": 12,
+      "E08_fixed_H12_r": 12,
+      "coefficient_l1": 1.630504542146638e-16,
+      "train_mean_TV": 8.395483382569088e-17,
+      "validation_mean_TV": 7.852514934588347e-17,
+      "centers_max_TV": 5.551115123125783e-17,
+      "train_BA_true_H": 0.8651948433694465,
+      "train_BA_fixed_H12_truncation": 0.8651948433694465,
+      "validation_BA_true_H": 0.9727891156462585,
+      "validation_BA_fixed_H12_truncation": 0.9727891156462585,
+      "train_I_true_H": 0.05058958272859759,
+      "train_I_fixed_H12_truncation": 0.050589582728597815,
+      "method_distinction": "E09 recalculate capped-geometric pmf at H=h; E08 reweight the truncated alpha(H=12)"
+    }
+  }
+}
