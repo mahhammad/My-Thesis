@@ -224,14 +224,13 @@ class UniformExperimentReportTests(unittest.TestCase):
             chapter,
         )
         self.assertEqual(chapter.count(r"\label{sec:ch4-uniform-hyperparameter-sensitivity}"), 1)
-        self.assertIn(r"\section{ارزیابی سیاست یکنواختِ بدون نویز و مقایسه معیارها}", chapter)
+        self.assertIn(r"\section{ارزیابی سیاست‌های ثابت: اختلاط احتمال‌ها و هدایت امتیازها}", chapter)
         self.assertEqual(chapter.count(r"\label{sec:ch4-guided-policy-comparison}"), 1)
         # Every figure/table is sourced once from this experiment, not duplicated.
         inputs = (
             "tables/main_results.tex", "tables/diagnostics.tex",
             "figures/depth_sensitivity.tex",
             "figures/geometry_vs_depth.tex",
-            "figures/balanced_accuracy.tex",
         )
         paths = [
             "./code/experiments/uniform_policy_hyperparameter_sensitivity/" + x
@@ -244,10 +243,10 @@ class UniformExperimentReportTests(unittest.TestCase):
             "tab:ch4-uniform-sensitivity-diagnostics",
             "fig:ch4-uniform-depth-sensitivity",
             "fig:ch4-uniform-geometry-vs-depth",
-            "fig:ch4-uniform-balanced-accuracy",
         ):
             self.assertNotIn(r"\label{" + label + "}", chapter)
             self.assertIn(r"\ref{" + label + "}", chapter)
+        self.assertNotIn(r"\\input{./code/experiments/uniform_policy_hyperparameter_sensitivity/figures/balanced_accuracy.tex}", chapter)
         # Existing cross-references into the older fixed-policy section remain valid.
         self.assertEqual(chapter.count(r"\label{sec:ch4-fixed-policy-evaluation}"), 1)
         self.assertNotIn("guided", "\n".join(

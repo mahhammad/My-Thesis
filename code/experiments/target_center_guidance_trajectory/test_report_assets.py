@@ -119,14 +119,15 @@ class TrajectoryReportEvidence(unittest.TestCase):
     def test_chapter45_and_chapter46_link_registered_sources_exactly_once(self):
         chapter=(HERE.parents[2]/"tex/chapter4.tex").read_text("utf8")
         self.assertEqual(chapter.count(
-            r"\section{ارزیابی سیاست یکنواختِ بدون نویز و مقایسه معیارها}"),1)
+            r"\section{ارزیابی سیاست‌های ثابت: اختلاط احتمال‌ها و هدایت امتیازها}"),1)
         self.assertEqual(chapter.count(
             r"\section{هدایت گشت به مراکز هدف و تحلیل مسیر معیارهای بازنمایی}"),1)
+        self.assertNotIn("figures/balanced_accuracy.tex}",chapter)
         for folder,names in (
             ("guided_informative_uniform_mixture",[
                 "tables/main_results.tex", "tables/centers_endpoints.tex",
                 "tables/center_distances.tex", "tables/classwise_dispersion.tex",
-                "figures/geometry.tex", "figures/balanced_accuracy.tex",
+                "figures/geometry.tex",
             ]),
             ("target_center_guidance_trajectory",[
                 "tables/selected_rounds.tex", "figures/trajectory_geometry.tex",

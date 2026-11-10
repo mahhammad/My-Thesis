@@ -17,6 +17,7 @@
 | **۴.۴** | [E-CH4-04 — حساسیت سیاست یکنواخت](uniform_policy_hyperparameter_sensitivity/README_FA.md) | [گزارش کامل ۹ تنظیم](uniform_policy_hyperparameter_sensitivity/results/metrics_full.json) · [CSV مشترک](uniform_policy_hyperparameter_sensitivity/results/metrics_summary.csv) · [پوشش](uniform_policy_hyperparameter_sensitivity/results/coverage.json) |
 | **۴.۵** | [E-CH4-05 — اختلاط احتمال و Guided بدون نویز](guided_informative_uniform_mixture/README_FA.md) | [گزارش کامل ۵ تنظیم](guided_informative_uniform_mixture/results/metrics_full.json) · [CSV مشترک](guided_informative_uniform_mixture/results/metrics_summary.csv) · [پوشش](guided_informative_uniform_mixture/results/coverage.json) |
 | **۴.۶** | [E-CH4-06 — هدایت گشت به مراکز هدف](target_center_guidance_trajectory/README_FA.md) | [مراکز و معیارهای ۴۹ دور؛ ۳ وضعیت کامل](target_center_guidance_trajectory/results/metrics_full.json) · [پوشش و محدودیت](target_center_guidance_trajectory/results/coverage.json) |
+| **۴.۷** | [E-CH4-07 — ارزیابی تجربی زیان حاشیه‌ای سیگموئیدی](sigmoid_margin_observational_evaluation/README_FA.md) | [گزارش سه checkpoint و خلاصه آموزش](sigmoid_margin_observational_evaluation/results/metrics_full.json) · [پوشش](sigmoid_margin_observational_evaluation/results/coverage.json) · [تحلیل تخصصی](sigmoid_margin_observational_evaluation/results/sigmoid_validation_summary.csv) |
 
 ## قرارداد دسترسی به هر آزمایش
 
@@ -40,4 +41,4 @@
 ۴. تنها یافته‌های لازم و رفرنس فصل سوم وارد `tex/chapter4.tex` شود؛ گزارش مفصل و کد در این پیوست بماند.  
 ۵. وضعیت اجرا، صحت‌سنجی، یکپارچه‌سازی و تأیید کامپایل را جدا ثبت کنید.
 
-گام بعدی این برنامه، **۴.۷: ارزیابی حاشیه سیگموئیدی** است؛ همین قرارداد پیش از تنظیم گزارش آن اعمال می‌شود.
+آزمایش‌های **۴.۳ تا ۴.۷** با شناسه پایدار ثبت شده‌اند؛ پیش از هر آزمایش بعدی، یکپارچگی نام‌گذاری، قرارداد ارائه و پوشش معیارهای ناقص کنترل می‌شود.
