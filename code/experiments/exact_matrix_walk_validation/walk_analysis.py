@@ -24,6 +24,14 @@ def forward_steps(g,z,split,max_depth=H,origin_positions=None):
         raise ValueError("Invalid depth")
     g.check_logits(z,"shared")
     with torch.no_grad():
+        if split == "train":
+            origins = (torch.arange(g.n,dtype=torch.long) if origin_positions is None
+                       else torch.as_tensor(origin_positions,dtype=torch.long))
+            if not bool(g.available[origins].any(dim=1).all()):
+                raise ValueError("Train origin has no available start feature")
+        elif not bool(g.qavailable[(torch.arange(len(g.qx)) if origin_positions is None
+                                  else torch.as_tensor(origin_positions,dtype=torch.long))].any(dim=1).all()):
+            raise ValueError("Validation origin has no available start feature")
         if split=="train":
             ids=(torch.arange(g.n,dtype=torch.long) if origin_positions is None
                  else torch.as_tensor(origin_positions,dtype=torch.long))
@@ -182,7 +190,7 @@ def monte_carlo(g,policies,exact_train,exact_validation):
             for origin in origins:
                 for seed in MC_SEEDS:
                     paths,lengths=sample_paths(
-                        g,z,split,origin,seed+10000*pindex,max(MC_BUDGETS))
+                        g,z,split,origin,seed,max(MC_BUDGETS))
                     partial=paths.cumsum(axis=0)
                     for n in MC_BUDGETS:
                         value=partial[n-1]/n
