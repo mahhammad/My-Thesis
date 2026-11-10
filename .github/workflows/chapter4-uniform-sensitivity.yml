@@ -6,6 +6,7 @@ on:
     paths:
       - 'code/experiments/uniform_policy_hyperparameter_sensitivity/**'
       - 'tex/chapter4.tex'
+      - 'code/experiments/benchmark_v1/test_chapter4_latex_syntax.py'
       - '.github/workflows/chapter4-uniform-sensitivity.yml'
   workflow_dispatch:
 
