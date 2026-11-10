@@ -7,6 +7,7 @@ Train/Validation labels are regenerated and checked against fingerprints.
 from __future__ import annotations
 
 import argparse
+import importlib.util
 from datetime import datetime, timezone
 from hashlib import sha256
 import json
@@ -26,6 +27,15 @@ from snapshot_pipeline import (array_fingerprint, config_fingerprint,
 
 LN2 = float(np.log(2.0))
 REPORT_SCHEMA = "imc-report-v1"
+
+# Reuse the Chapter-3 center-metric implementation, rather than deriving
+# T/BT/TNL/BTNL differently in each individual experiment.
+_COMMON_SPEC = importlib.util.spec_from_file_location(
+    "chapter3_policy_center_metrics", ROOT / "code" / "policy_evaluator" / "metrics.py"
+)
+_COMMON_MODULE = importlib.util.module_from_spec(_COMMON_SPEC)
+_COMMON_SPEC.loader.exec_module(_COMMON_MODULE)
+
 
 
 def entropy(p):
@@ -99,6 +109,26 @@ def standard_metrics(by_hypothesis, centers, labels, tau, *, split, per_sample=T
     np.add.at(confusion, (y, pred), 1)
     pair_js = np.asarray([jsd(centers[c], centers[r])
                           for c in range(k) for r in range(c + 1, k)])
+    center_geometry = _COMMON_MODULE.center_metrics(centers)
+    pairwise_js = np.asarray(center_geometry["center_jsd"], dtype=float)
+    pairwise_sqrt = np.sqrt(pairwise_js)
+    nearest_sqrt = np.where(np.eye(k, dtype=bool), np.inf,
+                            pairwise_sqrt).min(axis=1)
+    center_geometry_report = {
+        "T": float(center_geometry["T"]),
+        "BT": float(center_geometry["BT"]),
+        "TNL": maybe_number(center_geometry["TNL"]),
+        "BTNL": maybe_number(center_geometry["BTNL"]),
+        "I": float(center_geometry["I"]),
+        "pairwise_JS": pairwise_js.tolist(),
+        "pairwise_sqrt_JS": pairwise_sqrt.tolist(),
+        "pairwise_JS_similarity": np.asarray(
+            center_geometry["center_similarity"]).tolist(),
+        "nearest_center_sqrt_JS_per_class": nearest_sqrt.tolist(),
+        "min_pairwise_sqrt_JS": float(nearest_sqrt.min()),
+        "mean_pairwise_JS": float(pair_js.mean()),
+        "mean_pairwise_sqrt_JS": float(np.sqrt(pair_js).mean())
+    }
     nll_js = logsumexp(scores) - true_score
     sigmoid = np.exp(-np.logaddexp(0.0, margin / tau))
     softplus = tau * logsumexp((scores - true_score[:, None]) / tau)
@@ -142,6 +172,16 @@ def standard_metrics(by_hypothesis, centers, labels, tau, *, split, per_sample=T
         "R_JS": class_mean(r_js, y, k),
         "R_sqrt_JS": class_mean(r_sqrt, y, k),
         "R_KL": maybe_number(class_mean(r_kl, y, k)),
+        "R": maybe_number(class_mean(r_kl, y, k)),
+        "center_geometry": center_geometry_report,
+        "T": center_geometry_report["T"],
+        "BT": center_geometry_report["BT"],
+        "TNL": center_geometry_report["TNL"],
+        "BTNL": center_geometry_report["BTNL"],
+        "nearest_center_sqrt_JS_per_class": center_geometry_report[
+            "nearest_center_sqrt_JS_per_class"],
+        "pairwise_center_sqrt_JS": center_geometry_report["pairwise_sqrt_JS"],
+        "mean_pairwise_sqrt_JS": center_geometry_report["mean_pairwise_sqrt_JS"],
         "R_KL_infinite_count": int(np.isinf(r_kl).sum()),
         "R_KL_entropy_identity": (
             float(np.mean([entropy(centers[c]) - entropy(own[y == c]).mean()
@@ -149,8 +189,8 @@ def standard_metrics(by_hypothesis, centers, labels, tau, *, split, per_sample=T
         "R_KL_entropy_identity_applicable": split == "train",
         "mean_true_class_similarity": 1.0 - class_mean(r_js, y, k) / LN2,
         "I": float(entropy(centers.mean(axis=0)) - entropy(centers).mean()),
-        "min_pairwise_sqrt_JS": float(np.sqrt(pair_js.min())),
-        "mean_pairwise_JS": float(pair_js.mean()),
+        "min_pairwise_sqrt_JS": center_geometry_report["min_pairwise_sqrt_JS"],
+        "mean_pairwise_JS": center_geometry_report["mean_pairwise_JS"],
         "per_class": per_class
     }
     if per_sample:
