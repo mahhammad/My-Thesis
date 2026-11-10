@@ -1,0 +1,134 @@
+{
+  "schema": "chapter4-metric-coverage-v2",
+  "experiment_id": "E-CH4-07",
+  "historical_test_accessed": false,
+  "contract": "code/experiments/COMMON_METRICS_CONTRACT.json",
+  "measurement_counts": {
+    "observational_checkpoints": 3,
+    "observational_validation_rows_per_checkpoint": 90,
+    "observational_tau_values": 6,
+    "observational_diagnostic_rows": 18,
+    "training_historical_runs": 12,
+    "training_independent_data_splits": 1,
+    "training_72_subset_seeds": 3,
+    "training_300_reference_seeds": 1,
+    "extra_size_study_historical_runs": "archived, not integrated in this checkpoint-level common report"
+  },
+  "measured": [
+    {
+      "scope": "three observational checkpoints",
+      "ids": [
+        "R_KL",
+        "R_JS",
+        "R_sqrt_JS",
+        "mean_true_class_similarity",
+        "T",
+        "BT",
+        "TNL",
+        "BTNL",
+        "I",
+        "min_pairwise_sqrt_JS",
+        "mean_pairwise_sqrt_JS",
+        "mean_pairwise_JS",
+        "pairwise_sqrt_JS",
+        "pairwise_JS",
+        "nearest_center_sqrt_JS_per_class",
+        "balanced_accuracy",
+        "ordinary_accuracy",
+        "confusion_true_rows_pred_cols",
+        "per_class_recall",
+        "tie_count",
+        "margin_quantiles",
+        "hard_margin_error_conservative",
+        "balanced_sigmoid_margin_loss",
+        "balanced_JS_similarity_NLL",
+        "balanced_softplus_all_rivals",
+        "NLL_KL_simple",
+        "NLL_KL_normalized_historical"
+      ],
+      "source": "precomputed standard_v2 train/validation report, tau=.005; per-class recall in per_class[].accuracy"
+    },
+    {
+      "scope": "three observational checkpoints x six tau",
+      "ids": [
+        "balanced_sigmoid_margin_loss",
+        "relative_sensitivity",
+        "margin_region_mass",
+        "margin_region_sensitivity_share"
+      ],
+      "source": "archived sigmoid_validation_summary.csv"
+    },
+    {
+      "scope": "twelve training runs",
+      "ids": [
+        "I",
+        "R_JS",
+        "balanced_accuracy",
+        "training_objective"
+      ],
+      "source": "historical summary.csv; not independently verified with v2 common reporter"
+    }
+  ],
+  "not_measured": [
+    {
+      "scope": "twelve training runs, before and after",
+      "ids": [
+        "R_KL",
+        "R_sqrt_JS",
+        "mean_true_class_similarity",
+        "T",
+        "BT",
+        "TNL",
+        "BTNL",
+        "min_pairwise_sqrt_JS",
+        "mean_pairwise_sqrt_JS",
+        "mean_pairwise_JS",
+        "pairwise_sqrt_JS",
+        "pairwise_JS",
+        "nearest_center_sqrt_JS_per_class",
+        "ordinary_accuracy",
+        "confusion_true_rows_pred_cols",
+        "per_class_recall",
+        "tie_count",
+        "margin_quantiles",
+        "hard_margin_error_conservative",
+        "balanced_sigmoid_margin_loss",
+        "balanced_JS_similarity_NLL",
+        "balanced_softplus_all_rivals",
+        "NLL_KL_simple",
+        "NLL_KL_normalized_historical"
+      ],
+      "reason": "Historical summary.csv does not retain the full per-sample train and validation distributions/centers necessary to compute the common contract. These numbers cannot be reconstructed solely from BA, I and R_JS; no new walk/evaluation was authorized."
+    },
+    {
+      "scope": "independent generalization uncertainty",
+      "ids": [
+        "independent_seed_SD",
+        "independent_seed_CI"
+      ],
+      "reason": "Three 72-member subsets derive from the same training split, and 300-member runs reuse one seed/split. Not independent generator replicates."
+    }
+  ],
+  "not_verified": [
+    {
+      "scope": "twelve training runs",
+      "ids": [
+        "I",
+        "R_JS",
+        "balanced_accuracy",
+        "training_objective"
+      ],
+      "reason": "Preserved from historical summary; not recomputed by current v2 reporter."
+    }
+  ],
+  "not_applicable": [
+    {
+      "scope": "observational three checkpoints",
+      "ids": [
+        "optimizer_gradient_with_respect_to_policy"
+      ],
+      "reason": "Analysis varies tau on fixed saved scores; no optimization step."
+    }
+  ],
+  "statistical_warning": "No Test observations are imported or used. Guided and uniform inference protocols differ. Historical round 4 was selected previously, not an independent new seed."
+}
