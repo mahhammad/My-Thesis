@@ -47,9 +47,10 @@ class Chapter4LaTexGuards(unittest.TestCase):
                 duplicates.append((self.src.count("\n", 0, match.start()) + 1, labels))
         self.assertFalse(duplicates, f"Multiple equation labels: {duplicates}")
 
-    def test_single_label_is_used_by_following_size_study(self):
-        self.assertIn(r"\label{eq:ch4-margin-only-objective}", self.src)
-        self.assertIn(r"\eqref{eq:ch4-margin-only-objective}", self.src)
+    def test_chapter4_reuses_chapter3_margin_loss_without_duplicate_equation(self):
+        self.assertNotIn(r"\label{eq:ch4-margin-only-objective}", self.src)
+        self.assertNotIn(r"\eqref{eq:ch4-margin-only-objective}", self.src)
+        self.assertIn(r"\eqref{eq:ch3-js-sigmoid-balanced-objective}", self.src)
         self.assertNotIn(r"\label{eq:ch4-sigmoid-direct-training-loss}", self.src)
 
 
