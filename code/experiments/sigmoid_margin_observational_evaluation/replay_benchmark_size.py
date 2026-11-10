@@ -17,7 +17,7 @@ import numpy as np
 import torch
 
 HERE = Path(__file__).resolve().parent
-ROOT = HERE.parents[3]
+ROOT = HERE.parents[2]
 BENCHMARK = HERE.parent / "benchmark_v1"
 sys.path.insert(0, str(BENCHMARK))
 sys.path.insert(0, str(ROOT / "code/data_generator"))
