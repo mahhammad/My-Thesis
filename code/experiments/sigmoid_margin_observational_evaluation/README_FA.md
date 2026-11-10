@@ -1,4 +1,4 @@
-# E-CH4-07 — ارزیابی مشاهده‌ای زیان حاشیه‌ای سیگموئیدی
+# E-CH4-07 — ارزیابی تجربی زیان حاشیه‌ای سیگموئیدی
 
 **شناسه پایدار:** `E-CH4-07` | **گزارش:** [REPORT_FA.md](REPORT_FA.md) | **قرارداد:** [COMMON_METRICS_CONTRACT.json](../COMMON_METRICS_CONTRACT.json)
 
