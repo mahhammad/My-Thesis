@@ -121,7 +121,11 @@ class EvaluatorTest(unittest.TestCase):
         np.testing.assert_allclose(np.diag(D),0)
         self.assertAlmostEqual(S[0,2],0.0,places=12)
         self.assertGreater(S[0,1],S[0,2])
-        np.testing.assert_array_equal(classify(x,x)['prediction'],np.arange(3))
+        # Three candidate centers require three label dimensions; the
+        # preceding x is intentionally 3-by-2 for the pairwise JS check.
+        # Supply a valid 3-by-3 fixture for the classification contract.
+        eye = np.eye(3)
+        np.testing.assert_array_equal(classify(eye,eye)['prediction'],np.arange(3))
 
     def test_invalid_policy_rejected(self):
         with self.assertRaises(ValueError): load_policy(HERE/'policy_uniform.json', 2)
