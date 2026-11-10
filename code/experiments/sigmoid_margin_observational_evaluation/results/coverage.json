@@ -27,7 +27,8 @@
     "benchmark_size_policy_families": [
       "shared",
       "class"
-    ]
+    ],
+    "benchmark_full_v2_verified_runs": 36
   },
   "measured": [
     {
@@ -133,6 +134,28 @@
         "three_seed_sample_sd"
       ],
       "source": "benchmark_v1/results/master_runs_76.csv and two immutable size-study ZIP archives"
+    },
+    {
+      "scope": "36 Benchmark size runs, full Train/Validation common contract",
+      "ids": [
+        "R_KL",
+        "R_JS",
+        "R_sqrt_JS",
+        "T",
+        "BT",
+        "TNL",
+        "BTNL",
+        "I",
+        "pairwise_JS",
+        "pairwise_sqrt_JS",
+        "confusion",
+        "per_class_recall",
+        "margin_quantiles",
+        "NLL",
+        "BA",
+        "Acc"
+      ],
+      "source": "exact replay of stored logits with SHA256 cross-check"
     }
   ],
   "not_measured": [
@@ -193,7 +216,7 @@
       "reason": "The 26 historical CSVs store only aggregate BA/I/R_JS/loss; per-sample representation and complete checkpoint policy matrices are not contained in these two summary files; cannot reconstruct full v2 common report without those detailed checkpoints."
     },
     {
-      "scope": "standardized Benchmark size study, extra v2 fields beyond flat source",
+      "scope": "standardized Benchmark size study, extra v2 fields beyond flat source (superseded by verified full forward replay)",
       "ids": [
         "T",
         "BT",
@@ -204,7 +227,7 @@
         "margin_quantiles",
         "NLL"
       ],
-      "reason": "Not present in master_runs_76.csv; raw checkpoint ZIPs remain available to backfill, not imputed."
+      "reason": "Not present in master_runs_76.csv; raw checkpoint ZIPs remain available to backfill, not imputed. Recovered via benchmark_size_metrics_full.json."
     }
   ],
   "not_verified": [
@@ -242,5 +265,13 @@
   "statistical_warning": "Full300 saved policies verified with 50-step budget. Official size study: 36 runs, six sizes, two families, 3 independent generator seeds with fixed 25 steps. Older 72/26 runs archive only. Never conflate 25 and 50 budgets. Test not accessed.",
   "full300_replay_verified": true,
   "primary_training_reference_n": 300,
-  "historical_72_and_26_run_role": "archived_only_not_used_for_main_comparison"
+  "historical_72_and_26_run_role": "archived_only_not_used_for_main_comparison",
+  "benchmark_full_v2_replay": {
+    "status": "36/36 exact forward passes verified against original Benchmark",
+    "source": "results/benchmark_size_metrics_full.json",
+    "complete_train_validation_metrics": true,
+    "new_training": false,
+    "independent_data_seeds": 3,
+    "test": false
+  }
 }
