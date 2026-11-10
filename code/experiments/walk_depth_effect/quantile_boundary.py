@@ -132,10 +132,10 @@ def tex(data):
             qv=v["first_reported_percentile_above_error_fraction"]
             out.append(
                 f"{name} & {h} & {t['errors']} & "
-                f"{'---' if qt is None else str(int(qt*100))+'\\%'} & "
+                f"{level_label(qt)} & "
                 f"{fmt(t['margin_at_first_reported_percentile_above_error_fraction'])} & "
                 f"{v['errors']} & "
-                f"{'---' if qv is None else str(int(qv*100))+'\\%'} & "
+                f"{level_label(qv)} & "
                 f"{fmt(v['margin_at_first_reported_percentile_above_error_fraction'])}"+r"\\"
             )
         out.append(r"\hline")
