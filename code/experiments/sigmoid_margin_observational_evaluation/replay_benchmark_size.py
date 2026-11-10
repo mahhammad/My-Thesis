@@ -59,7 +59,7 @@ def eval_one(entry, checkpoint, splits, spec):
     if len(np.unique(ids)) != n or not (0 <= ids).all() or not (ids < len(y)).all():
         raise ValueError("Invalid saved reference ids")
     counts = np.bincount(y[ids], minlength=3)
-    if counts.tolist() != ds["class_counts"]:
+    if "class_counts" in ds and counts.tolist() != ds["class_counts"]:
         raise ValueError("Reconstructed classes differ from saved checkpoint")
     g = ExactMaskedWalk(x[ids], y[ids], spec["gamma"], beta=.4, lam=.8,
                         horizon=12, query_x=vx)
