@@ -12,3 +12,5 @@
 - `analyze.py`: تشخیص اختصاصی و مقایسه چرخش رتبه برای τ؛ `test_analyze.py`: تست‌های سبک.
 
 از ریشه مخزن: `python -m unittest discover -s code/experiments/sigmoid_margin_observational_evaluation -p 'test_*.py' -v`. بازساخت گزارش عمومی از داده خام با `code/experiments/benchmark_v1/report_snapshot.py` انجام می‌شود، نه `analyze.py`. داده خام checkpointهای مشاهده‌ای در `code/experiments/target_center_guidance_trajectory/results/representations_*.json` و بایگانی قدیمی محفوظ‌اند. **آمار ۷۶ اجرای تاریخی بازاجرا نشده‌اند.**
+
+نمودار [حساسیت میانگین بر حسب τ](figures/sensitivity_vs_tau.svg) از داده تاریخی CSV ساخته شده و در محاسبه معیارهای عمومی دخالت ندارد. تست اختصاصی از طریق گردش‌کار [chapter4-e07-sigmoid.yml](../../.github/workflows/chapter4-e07-sigmoid.yml) روی GitHub Actions اجرا می‌شود.
