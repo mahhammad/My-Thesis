@@ -12,7 +12,8 @@
     "training_independent_data_splits": 1,
     "training_72_subset_seeds": 3,
     "training_300_reference_seeds": 1,
-    "extra_size_study_historical_runs": 26
+    "extra_size_study_historical_runs": 26,
+    "full300_policy_checkpoints_verified_v2": 3
   },
   "measured": [
     {
@@ -79,11 +80,33 @@
         "subset_sample_SD_for_n_under_300"
       ],
       "source": "results/size_study/runs.csv and aggregate.csv; exact copies of archived summaries, not new v2 measurements"
+    },
+    {
+      "scope": "three full300 trained policies, final 50-step saved-Z",
+      "ids": [
+        "R_KL",
+        "R_JS",
+        "R_sqrt_JS",
+        "T",
+        "BT",
+        "TNL",
+        "BTNL",
+        "I",
+        "pairwise_center_JS",
+        "BA",
+        "ordinary_accuracy",
+        "confusion",
+        "per_class_recall",
+        "margins",
+        "NLL",
+        "sigmoid_margin"
+      ],
+      "source": "no-training replay of persisted rounded final matrices; numeric checks against archive summary"
     }
   ],
   "not_measured": [
     {
-      "scope": "twelve training runs, before and after",
+      "scope": "nine 72-member subset training runs (full300 final policies verified separately)",
       "ids": [
         "R_KL",
         "R_sqrt_JS",
@@ -141,7 +164,7 @@
   ],
   "not_verified": [
     {
-      "scope": "twelve training runs",
+      "scope": "nine 72-member subset training runs (full300 final policies verified separately)",
       "ids": [
         "I",
         "R_JS",
@@ -171,5 +194,6 @@
       "reason": "Analysis varies tau on fixed saved scores; no optimization step."
     }
   ],
-  "statistical_warning": "No Test observations are imported or used. Guided and uniform inference protocols differ. Historical round 4 was selected previously, not an independent new seed. Size-study 5 nested subset selections at each n<300 are dependent; at n=300 nrep=1 so SD undefined."
+  "statistical_warning": "No Test observations are imported or used. Guided and uniform inference protocols differ. Historical round 4 was selected previously, not an independent new seed. Size-study 5 nested subset selections at each n<300 are dependent; at n=300 nrep=1 so SD undefined.",
+  "full300_replay_verified": true
 }
