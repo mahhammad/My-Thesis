@@ -29,9 +29,9 @@
 | [results/representations_uniform.json](results/representations_uniform.json) | بازنمایی نمونه‌های Uniform |
 | [results/representations_guided_round0.json](results/representations_guided_round0.json)، [results/representations_guided_round4.json](results/representations_guided_round4.json) | بازنمایی تک‌نمونه‌ای دو وضعیت Guided |
 | [tables/three_cases.tex](tables/three_cases.tex) | جدول اصلی سه وضعیت و caveat درباره پروتکل |
-| [tables/selected_rounds.tex](tables/selected_rounds.tex) | جدول منتخب دورها با BA خالی برای موارد اندازه‌گیری‌نشده |
-| [figures/trajectory_geometry.tex](figures/trajectory_geometry.tex) / [SVG](figures/trajectory_geometry.svg) | روند $I$ و $R_{\mathrm{JS}}$ در ۴۹ دور |
-| [figures/observed_validation_ba.tex](figures/observed_validation_ba.tex) / [SVG](figures/observed_validation_ba.svg) | **تنها ۲۵ نقطه BA واقعاً اندازه‌گیری‌شده** |
+| [tables/selected_rounds_balanced.tex](tables/selected_rounds_balanced.tex) | جدول چاپی با $R_{\mathrm{JS}}$ متوازن و BA تاریخی؛ دورهای فاقد اندازه‌گیری در تاریخچه اولیه مشخص شده‌اند |
+| [figures/trajectory_geometry_balanced.tex](figures/trajectory_geometry_balanced.tex) / [SVG](figures/trajectory_geometry_balanced.svg) | روند $I$ و $R_{\mathrm{JS}}$ متوازن در ۴۹ دور بازپخش |
+| [figures/validation_ba_replayed_49.tex](figures/validation_ba_replayed_49.tex) / [SVG](figures/validation_ba_replayed_49.svg) | ۲۵ مقدار BA تاریخی با نشان پر، ۲۴ مقدار بازپخش جدید با نشان توخالی |
 | [analyze.py](analyze.py)، [detailed_metrics.py](detailed_metrics.py) | اسکریپت‌های تحلیل از آرشیو، بدون تکرار گشت |
 | [test_analyze.py](test_analyze.py)، [test_detailed_metrics.py](test_detailed_metrics.py)، [test_report_assets.py](test_report_assets.py) | تست‌های عددی و کنترل شواهد |
 
@@ -43,6 +43,6 @@
 
 `python -m unittest discover -v -s code/experiments/target_center_guidance_trajectory -p 'test_*.py'`
 
-تست‌ها باید تداوم مراکز هدف، فرمول معیارهای JSD، گزینش دور چهار فقط از مقادیر اندازه‌گیری‌شده، ۴۹ دور/۲۵ BA و انطباق جدول و شکل با داده خام را بررسی کنند. نیازی به تولید داده، آموزش سیاست یا آزمون تاریخی ندارند.
+تست‌های سبک تداوم مراکز هدف، فرمول‌های JSD، گزینش دور چهار از ۲۵ مقدار تاریخی و انطباق جدول‌ها و شکل‌های تاریخی را کنترل می‌کنند. آزمون تکمیلی `test_replay_presentation.py` نیز هر ۴۹ دورِ بازپخش‌شده، تجمیع متوازن $R_{\mathrm{JS}}$، ۴۴ اختلاف قدیمی و ۲۵/۲۴ نقطه شکل جدید را کنترل می‌کند؛ این آزمون‌ها گشت یا آموزش جدید اجرا نمی‌کنند.
 
 [الگوی مشترک گزارش‌های فصل چهارم](../EXPERIMENT_REPORT_STANDARD_FA.md) برای آزمایش‌های بعدی نیز مبناست.
