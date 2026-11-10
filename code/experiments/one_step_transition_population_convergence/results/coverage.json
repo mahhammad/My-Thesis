@@ -29,7 +29,20 @@
       "reason": "This study compares one-step transition label distributions against a population reference; it does not construct class centers or a classifier."
     }
   ],
-  "not_measured": [],
+  "not_measured": [
+    {
+      "ids": [
+        "per_query_Q_distance_arrays_all_12_trials"
+      ],
+      "reason": "Individual 416 query-feature comparison distances per reference replicate were not retained; only trial means and p95 TV are available."
+    },
+    {
+      "ids": [
+        "replicate_mean_JSD"
+      ],
+      "reason": "The original run retained mean(sqrt(JSD)) for replicates; mean JSD cannot be inferred by squaring mean sqrt(JSD). A separate mean JSD is recorded for the single original N=300 reference."
+    }
+  ],
   "not_verified": [],
   "historical_test_accessed": false,
   "full_evidence": [
@@ -37,5 +50,13 @@
     "results/replicates.csv",
     "results/summary.csv",
     "results/per_feature.csv"
-  ]
+  ],
+  "full_report": "results/metrics_full.json",
+  "measured_details": [
+    "single reference N=300: mean/median/p95 TV, mean JSD, sqrt-JSD, L1 and per-feature TV",
+    "12 independent reference samples nested across N=300,1000,3000,10000, each recorded mean TV, mean sqrt-JSD and p95(TV)",
+    "reference-size comparison mean and between-seed standard deviation of mean TV, per-feature TV aggregate"
+  ],
+  "independent_reference_replicates_per_size": 12,
+  "nested_sizes_within_replication": true
 }
