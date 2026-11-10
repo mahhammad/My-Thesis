@@ -1,0 +1,130 @@
+"""Chapter-4 evidence-contract regression for fully saved experiment reports.
+
+Stdlib only, no original walk replay, no model fitting, no Test access.
+Complete means every APPLICABLE metric is present or carries an explicit,
+scientifically justified not_measured/undefined status.
+"""
+from __future__ import annotations
+
+import json
+from pathlib import Path
+import unittest
+
+HERE = Path(__file__).resolve().parent
+CONTRACT = json.loads((HERE/"COMMON_METRICS_CONTRACT.json").read_text("utf8"))
+
+
+def load(slug, name="metrics_full.json"):
+    return json.loads((HERE/slug/"results"/name).read_text("utf8"))
+
+
+def ensure_metrics(case, caseid):
+    train, validation, geometry = case["train"],case["validation"],case["center_geometry"]
+    for split, obj in [("train",train),("validation",validation)]:
+        for name in ("R_KL","R_JS","R_sqrt_JS","R","balanced_accuracy",
+                     "ordinary_accuracy","per_class","margin_quantiles",
+                     "balanced_sigmoid_margin_loss","balanced_JS_similarity_NLL",
+                     "NLL_KL_simple"):
+            if name not in obj:
+                raise AssertionError(f"{caseid} {split} missing {name}")
+        if obj["R_KL"] is not None:
+            if abs(obj["R"]-obj["R_KL"])>1e-12:
+                raise AssertionError(f"{caseid}: R is not R_KL")
+        if len(obj["per_class"])!=3:
+            raise AssertionError(f"{caseid}: only {len(obj['per_class'])} per-class entries")
+        for row in obj["per_class"]:
+            for name in ("R_JS","R_sqrt_JS","R_KL"):
+                if name not in row:
+                    raise AssertionError(f"{caseid}: missing per-class {name}")
+    for key in ("T","BT","TNL","BTNL","I","pairwise_JS",
+                "pairwise_sqrt_JS","nearest_center_sqrt_JS_per_class",
+                "min_pairwise_sqrt_JS","mean_pairwise_sqrt_JS"):
+        if key not in geometry:
+            raise AssertionError(f"{caseid} geometry missing {key}")
+    if len(geometry["pairwise_JS"])!=3:
+        raise AssertionError(f"{caseid}: invalid pairwise matrix")
+
+
+class CompleteExperimentEvidence(unittest.TestCase):
+    def test_machine_readable_contract_is_versioned(self):
+        self.assertEqual(CONTRACT["schema"],"chapter4-common-evaluation-contract-v2")
+        self.assertIn("center_geometry",[
+            x["group"] for x in CONTRACT["metric_groups"]])
+
+    def test_Q_only_diagnostic_has_full_measured_48_and_declared_na(self):
+        slug="one_step_transition_population_convergence"
+        m,c=load(slug),load(slug,"coverage.json")
+        self.assertEqual(m["experiment_id"],"E-CH4-03")
+        self.assertTrue(m["representative_Q_only"])
+        self.assertEqual(len(m["all_replicate_observations"]),48)
+        self.assertEqual(len(m["reference_sizes"]),4)
+        self.assertEqual(m["independent_replicates_per_size"],12)
+        self.assertTrue(c["not_applicable"])
+        self.assertTrue(any(
+            "R_KL" in str(item) and "BA" in str(item)
+            for item in c["not_applicable"]))
+        self.assertFalse(c["historical_test_accessed"])
+
+    def test_nine_uniform_runs_have_all_applicable_metrics(self):
+        slug="uniform_policy_hyperparameter_sensitivity"
+        m,c=load(slug),load(slug,"coverage.json")
+        self.assertEqual(len(m["runs"]),9)
+        self.assertEqual(c["configurations"],9)
+        for x in m["runs"]:
+            ensure_metrics(x,x["run_id"])
+        self.assertEqual(c["not_measured"],[])
+        self.assertTrue((HERE/slug/"tables/complete_metrics.tex").is_file())
+
+    def test_five_guided_runs_have_all_applicable_metrics(self):
+        slug="guided_informative_uniform_mixture"
+        m,c=load(slug),load(slug,"coverage.json")
+        self.assertEqual(len(m["runs"]),5)
+        self.assertEqual(c["configurations"],5)
+        self.assertEqual([x["setting"]["alpha"] for x in m["runs"]],
+                         [0,.25,.5,.75,1])
+        for x in m["runs"]:
+            ensure_metrics(x,x["run_id"])
+        self.assertEqual(c["not_measured"],[])
+        self.assertTrue((HERE/slug/"tables/complete_metrics.tex").is_file())
+
+    def test_center_trajectory_has_49_geometries_and_3_complete_checkpoint_reports(self):
+        slug="target_center_guidance_trajectory"
+        m,c=load(slug),load(slug,"coverage.json")
+        self.assertEqual(len(m["guided_rounds"]),49)
+        self.assertEqual(len(m["selected_cases"]),3)
+        self.assertEqual(sum(
+            r["validation"]["balanced_accuracy"] is not None
+            for r in m["guided_rounds"]),25)
+        for case in m["selected_cases"]:
+            st=case["standard_v2"]
+            ensure_metrics({"train":st["train"],
+                            "validation":st["validation"],
+                            "center_geometry":case["center_geometry"]},case["case_id"])
+        for row in m["guided_rounds"]:
+            for key in ("T","BT","TNL","BTNL","I",
+                        "pairwise_JS","pairwise_sqrt_JS"):
+                self.assertIn(key,row["center_geometry"])
+            self.assertIn("R_JS",row["train"])
+        self.assertEqual(c["measurement_counts"]["guided_rounds"],49)
+        self.assertEqual(c["measurement_counts"]["measured_validation_BA"],25)
+        self.assertEqual(c["measurement_counts"]["fully_diagnosed_cases"],3)
+        self.assertEqual(c["measurement_counts"]["measured_guided_train_R_KL"],2)
+        self.assertTrue(any(x.get("count")==47 for x in c["not_measured"]))
+        self.assertTrue((HERE/slug/"tables/complete_metrics.tex").is_file())
+        self.assertTrue((HERE/slug/"results/metrics_summary.csv").is_file())
+
+    def test_all_four_experiment_reports_link_to_full_metric_records(self):
+        for slug in (
+            "one_step_transition_population_convergence",
+            "uniform_policy_hyperparameter_sensitivity",
+            "guided_informative_uniform_mixture",
+            "target_center_guidance_trajectory",
+        ):
+            report=(HERE/slug/"REPORT_FA.md").read_text("utf8")
+            self.assertIn("results/metrics_full.json",report,slug)
+            self.assertIn("results/coverage.json",report,slug)
+            self.assertTrue((HERE/slug/"results/metrics_full.json").is_file())
+
+
+if __name__=="__main__":
+    unittest.main()
