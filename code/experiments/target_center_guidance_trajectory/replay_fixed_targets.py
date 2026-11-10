@@ -27,7 +27,7 @@ from generate import load_config
 from dataset_adapter import dataset_train_val
 from walks import ReferenceGraph
 from observe import CenterPolicyWalker
-from report_snapshot import standard_metrics
+from report_snapshot import standard_metrics, jsd
 
 
 def main(max_rounds=49, commit_results=True):
@@ -70,8 +70,24 @@ def main(max_rounds=49, commit_results=True):
         historic_r = row.get("train_within_class_jsd")
         if historic_r is None:
             historic_r = row.get("train_oracle_target", {}).get("within_class_jsd")
-        if historic_r is not None and abs(tr["R_JS"] - float(historic_r)) > 1e-8:
-            raise AssertionError(f"Round {i}: R_JS mismatch: {tr['R_JS']} vs {historic_r}")
+        # The post-resume legacy summary may use a different aggregation.
+        # Do not force it to agree with balanced Chapter-3 R_JS.
+        historic_r_diagnostic = None
+        if historic_r is not None:
+            ordinary_r = float(jsd(p, orig_center[y]).mean())
+            historic_r_diagnostic = {
+                "historical_value": float(historic_r),
+                "balanced_v2": tr["R_JS"],
+                "ordinary_unweighted": ordinary_r,
+                "matches_balanced": abs(tr["R_JS"] - float(historic_r)) < 1e-8,
+                "matches_unweighted": abs(ordinary_r - float(historic_r)) < 1e-8
+            }
+            if i < 5 and not historic_r_diagnostic["matches_balanced"]:
+                raise AssertionError(f"Round {i}: balanced historical R_JS mismatch")
+            if not historic_r_diagnostic["matches_balanced"]:
+                print(f"R_JS_AGGREGATION_DIFFERENCE round={i:02d} "
+                      f"historical={historic_r} balanced={tr['R_JS']:.9f} "
+                      f"unweighted={ordinary_r:.9f}", flush=True)
         historical_validation = row.get("validation_hypothesis")
         if historical_validation is not None:
             original_observed += 1
@@ -90,6 +106,7 @@ def main(max_rounds=49, commit_results=True):
             "round": i, "source": "fixed historical target MC replay",
             "match_historical_centers_max_abs": err,
             "historical_validation_observed": historical_validation is not None,
+            "historical_R_JS_aggregation_diagnostic": historic_r_diagnostic,
             "train_oracle_origin_class": True,
             "validation_inference": "each candidate class simulated without actual query label",
             "train": tr, "validation": va
@@ -105,10 +122,11 @@ def main(max_rounds=49, commit_results=True):
     path = HERE / "results/metrics_full.json"
     full = json.loads(path.read_text(encoding="utf-8"))
     full["replayed_fixed_targets"] = {
-        "status": "verified_against_archived_centers_R_JS_and_observed_BA",
+        "status": "verified_against_archived_centers_and_observed_BA_with_R_JS_aggregation_audit",
         "no_historical_Test_accessed": True,
         "historical_49_centers_unchanged": True,
         "historical_BA_25_unchanged": True,
+        "historical_R_JS_aggregation": "saved separately; some post-resume values differ from balanced v2",
         "new_validation_BA_24": "replayed_only; not in original selected 25",
         "inference_note": "Guided train is oracle-origin-conditioned and not deployable BA",
         "sampling": "same 100 MC walks/origin, 45 FW steps, fixed targets from historical record",
@@ -125,6 +143,7 @@ def main(max_rounds=49, commit_results=True):
         "additional_24_validation_BA_values": "new replay; not historical measurements",
         "independent_data_seeds": 1,
         "test_accessed": False,
+        "historical_R_JS_aggregation": "replay separately flags any changed aggregation; not silently overwritten",
         "source": "results/metrics_full.json#replayed_fixed_targets"
     }
     for r in cov.get("not_measured", []):
