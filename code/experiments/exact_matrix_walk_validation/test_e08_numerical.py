@@ -104,7 +104,8 @@ class TestE08Numerical(unittest.TestCase):
         size=graph_size(self.g)
         self.assertEqual(size["m_sample_feature_nodes"],10)
         self.assertEqual(size["directed_vertical_possible"],6*5+4*3)
-        self.assertEqual(size["horizontal_possible"],8)
+        self.assertEqual(size["horizontal_possible"],18)
+        self.assertTrue(size["horizontal_feature_self_choices_included"])
         with self.assertRaises(ValueError):
             forward_steps(self.g,self.z,"train",0)
         with self.assertRaises(ValueError):

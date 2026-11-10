@@ -142,12 +142,13 @@ def graph_size(g):
     avail = g.available.numpy()
     m = int(avail.sum())
     vertical = int(sum(int(n) * (int(n) - 1) for n in avail.sum(0)))
-    horizontal = int(np.sum(avail.sum(1) * (avail.sum(1) - 1)))
+    horizontal = int(np.sum(avail.sum(1) ** 2))  # Include legal a->a feature self-choices.
     return {
         "n": g.n, "d": g.d, "k": g.k,
         "m_sample_feature_nodes": m,
         "directed_vertical_possible": vertical,
         "horizontal_possible": horizontal,
+        "horizontal_feature_self_choices_included": True,
         "old_dense_n_d_n_n_bytes": int(g.n*g.d*g.n*g.n*8),
         "actual_implementation": "factored dense Torch kernels; no n*d*n*n allocation",
     }

@@ -31,6 +31,8 @@ def audit():
         raise AssertionError("Test access not forbidden")
     if report["training_performed"] or source["retrained"]:
         raise AssertionError("Training unexpectedly performed")
+    if report["graph_size"]["horizontal_possible"]!=6334 or not report["graph_size"].get("horizontal_feature_self_choices_included"):
+        raise AssertionError("Horizontal count must include feature self-choices")
     if coverage["train_validation_policy_depth_rows"]!=24:
         raise AssertionError("Incomplete depth-by-policy coverage")
     if len(report["monte_carlo"]["raw"])!=72:
