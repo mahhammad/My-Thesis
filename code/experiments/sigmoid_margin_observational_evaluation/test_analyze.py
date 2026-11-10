@@ -32,7 +32,8 @@ class SigmoidObservationalTests(unittest.TestCase):
         self.assertFalse(j["historical_test_accessed"])
         self.assertEqual(len(j["cases"]),3)
         self.assertEqual(len(j["training_runs"]),12)
-        self.assertTrue(coverage["not_measured"])
+        self.assertEqual(coverage["measurement_counts"]["benchmark_full_v2_verified_runs"],36)
+        self.assertTrue(coverage["archive_only_or_resolved_coverage"])
         for c in j["cases"]:
             for split in ("train","validation"):
                 x=c[split]
