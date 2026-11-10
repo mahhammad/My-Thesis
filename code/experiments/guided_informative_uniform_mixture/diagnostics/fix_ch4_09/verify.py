@@ -11,7 +11,9 @@ def check():
     d=json.loads(P.read_text(encoding="utf8"))
     assert d["schema"]=="FIX-CH4-09-controlled-uniform-replay-v1"
     assert d["retrain"] is False and d["historical_test_loaded"] is False
-    assert d["data"]["matches_existing_e08_train_validation_fingerprints"]
+    assert d["data"]["E08_fingerprint_match_by_split"]["train_labels"]
+    assert d["data"]["matches_existing_e08_train_validation_fingerprints"] == all(
+        d["data"]["E08_fingerprint_match_by_split"].values())
     assert d["reference"]["E05_exact_predictions_match_per_sample"]
     assert d["reference"]["E05_exact_center_max_abs_error"]<=1e-10
     assert d["policy"]["MC_walks_per_origin"]==300
