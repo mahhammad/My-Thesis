@@ -18,9 +18,9 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
 for source in (
     ROOT / "code/data_generator",
-    ROOT / "code/policy_evaluator",
     ROOT / "code/experiments/benchmark_v1",
     ROOT / "code/experiments/archive/center_matching_observation",
+    ROOT / "code/policy_evaluator",
 ):
     sys.path.insert(0, str(source))
 from generate import load_config
