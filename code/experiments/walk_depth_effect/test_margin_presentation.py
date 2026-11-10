@@ -78,7 +78,7 @@ class MarginPresentationQA(unittest.TestCase):
             path=HERE/"figures"/f"{split}_margin_median_vs_H.tex"
             src=path.read_text(encoding="utf8")
             self.assertEqual(src.count(r"\label{fig:ch4-e09-"+split+"-margin}"),1)
-            self.assertEqual(src.count(r"\begin{tikzpicture}"),0)
+            self.assertEqual(src.count(r"\begin{tikzpicture}"),1)
             self.assertEqual(src.count(r"\begin{tikzpicture}["),1)
             self.assertEqual(src.count(r"\end{tikzpicture}"),1)
 
