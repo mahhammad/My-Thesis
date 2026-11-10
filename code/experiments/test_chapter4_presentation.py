@@ -78,28 +78,47 @@ class Chapter43to47PresentationTests(unittest.TestCase):
             if ref.startswith(("tab:ch4-","fig:ch4-")):
                 self.assertIn(ref,active)
 
-    def test_size_study_is_preserved_not_recomputed(self):
-        p=HERE/"sigmoid_margin_observational_evaluation/results/size_study"
-        orig=HERE/"archive/margin_training/results/size_study"
-        for name in ("runs.csv","aggregate.csv"):
-            self.assertEqual((p/name).read_bytes(),(orig/name).read_bytes())
-        with (p/"runs.csv").open(encoding="utf-8",newline="") as f:
+    def test_size_study_uses_independent_generator_seeds(self):
+        root=HERE/"sigmoid_margin_observational_evaluation"
+        with (HERE/"benchmark_v1/results/master_runs_76.csv").open(encoding="utf8",newline="") as f:
+            master=list(csv.DictReader(f))
+        expected=[r for r in master if r["study"]=="size_25steps"
+                  and r["objective"]=="margin_JSD" and r["tau"]=="0.005"
+                  and r["family"] in ("shared","class") and r["steps"]=="25"]
+        with (root/"results/benchmark_size_3seeds.csv").open(encoding="utf8",newline="") as f:
             runs=list(csv.DictReader(f))
-        with (p/"aggregate.csv").open(encoding="utf-8",newline="") as f:
-            aggregate=list(csv.DictReader(f))
-        self.assertEqual(len(runs),26)
-        self.assertEqual(len(aggregate),6)
-        self.assertEqual([int(x["n_train"]) for x in aggregate],[50,100,150,200,250,300])
-        self.assertEqual([int(x["repeats"]) for x in aggregate],[5,5,5,5,5,1])
-        cov=json.loads((HERE/"sigmoid_margin_observational_evaluation/results/coverage.json").read_text("utf-8"))
-        self.assertEqual(cov["measurement_counts"]["extra_size_study_historical_runs"],26)
-        self.assertTrue(any(x.get("scope")=="size study, 26 archived runs" for x in cov["not_measured"]))
+        with (root/"results/benchmark_size_aggregate.csv").open(encoding="utf8",newline="") as f:
+            groups=list(csv.DictReader(f))
+        self.assertEqual(len(expected),36)
+        self.assertEqual(len(runs),36)
+        self.assertEqual(len(groups),12)
+        self.assertEqual({int(r["n"]) for r in runs},{50,100,150,200,250,300})
+        self.assertEqual({r["family"] for r in runs},{"shared","class"})
+        self.assertEqual({r["data_seed"] for r in runs},{"20261102","20261103","20261104"})
+        originals={(r["n"],r["family"],r["data_seed"]):r for r in expected}
+        for r in runs:
+            old=originals[(r["n"],r["family"],r["data_seed"])]
+            self.assertEqual(r["source_sha256"],old["sha256"])
+            for k in ("train_BA","val_BA","I","R_JS","R_KL","R_sqrt_JS","objective_loss"):
+                self.assertAlmostEqual(float(r[k]),float(old[k]),places=13)
+        for group in groups:
+            subset=[r for r in runs if r["n"]==group["n"] and r["family"]==group["family"]]
+            self.assertEqual(len(subset),3)
+            for key in ("train_BA","val_BA","I","R_JS","R_KL","R_sqrt_JS"):
+                mean=sum(float(r[key]) for r in subset)/3
+                sd=(sum((float(r[key])-mean)**2 for r in subset)/2)**.5
+                self.assertAlmostEqual(float(group[key+"_mean"]),mean,places=12)
+                self.assertAlmostEqual(float(group[key+"_std_sample"]),sd,places=12)
+        cov=json.loads((root/"results/coverage.json").read_text("utf8"))
+        self.assertEqual(cov["measurement_counts"]["benchmark_size_study_standard_runs"],36)
+        self.assertEqual(cov["primary_training_reference_n"],300)
 
     def test_chapter_47_distinguishes_two_study_phases(self):
         x=sections()[-1][1]
         self.assertIn(r"\subsection{آموزش مقدماتی سیاست",x)
-        self.assertIn(r"\subsection{حساسیت دقت آموزش",x)
-        for f in ("direct_training_300.tex","direct_training_72.tex"):
+        self.assertIn(r"\subsection{حساسیت عملکرد به اندازه مرجع",x)
+        self.assertNotIn("direct_training_72.tex}",x)
+        for f in ("direct_training_300.tex",):
             source=(HERE/"sigmoid_margin_observational_evaluation/tables"/f).read_text("utf-8")
             self.assertIn("دقت متوازن آموزش",source)
             self.assertIn("دقت متوازن اعتبارسنجی",source)
