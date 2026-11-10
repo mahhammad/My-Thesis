@@ -52,7 +52,7 @@ class E09Presentation(unittest.TestCase):
             ("dispersion_vs_H.tex","fig:ch4-e09-RJS")):
             s=(HERE/"figures"/name).read_text(encoding="utf8")
             self.assertEqual(s.count("\\label{"+tag+"}"),1)
-            self.assertEqual(s.count("\\begin{tikzpicture}"),1)
+            self.assertEqual(s.count("\\begin{tikzpicture}["),1)
             self.assertEqual(s.count("\\end{tikzpicture}"),1)
         report=(HERE/"REPORT_FA.md").read_text(encoding="utf8")
         self.assertIn("زمان اجرای موتور گشت",report)
