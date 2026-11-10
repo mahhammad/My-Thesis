@@ -52,8 +52,20 @@ jobs:
           else
             echo "E09 results already exist; no recomputation."
           fi
-      - name: Build margin tables, figures and 24-row report from existing common metrics
-        run: python code/experiments/walk_depth_effect/margin_presentation.py
+      - name: Preserve already persisted overall-margin report
+        run: |
+          if [ ! -f code/experiments/walk_depth_effect/results/margin_summary.json ]; then
+            python code/experiments/walk_depth_effect/margin_presentation.py
+          else
+            echo "E09 overall margin evidence exists; do not regenerate."
+          fi
+      - name: Derive error-conditional margins only from existing per-sample scores
+        run: |
+          if [ ! -f code/experiments/walk_depth_effect/results/margin_analysis.json ]; then
+            python code/experiments/walk_depth_effect/margins.py --write
+          else
+            python code/experiments/walk_depth_effect/margins.py --verify
+          fi
       - name: Independent read-only verification
         run: python code/experiments/walk_depth_effect/verify.py
       - name: Regression test persisted E09 evidence and E08 controls

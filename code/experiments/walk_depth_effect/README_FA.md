@@ -53,3 +53,7 @@ python code/experiments/walk_depth_effect/analyze.py
 ## گزارش کامل حاشیه تصمیم
 
 حاشیهٔ علامت‌دار، چندک‌های ۰، ۱۰، ۲۵، ۵۰، ۷۵، ۹۰ و ۱۰۰ درصد، میانگین متوازن هر کلاس، زیان سیگموئیدی متوازن، نرخ و شمار حاشیه‌های غیرمثبت و tie برای **۲۴ ترکیب سیاست/عمق/Train یا Validation** از خروجی ثبت‌شدهٔ گزارشگر مشترک استخراج می‌شود. داده اصلی دوباره تولید نشده است. فایل‌های [margin_summary.json](results/margin_summary.json)، [margin_summary.csv](results/margin_summary.csv)، جدول `tables/margin_by_H.tex` و نمودارهای Train و Validation در `figures/` مبنای گزارش هستند. برای بازسازی فقط جدول و گزارش حاشیه، دستور `python code/experiments/walk_depth_effect/margin_presentation.py` کافی است.
+
+## حاشیهٔ مخصوص نمونه‌های خطا
+
+تکمیل پسینی E09 با استخراج **میانگین حاشیهٔ نمونه‌های اشتباه‌طبقه‌بندی‌شده** و مقایسه آن با میانگین نمونه‌های درست در همه ۲۴ حالت سیاست/عمق/Train یا Validation صورت گرفت. فایل `results/margin_analysis.json` شامل تعداد خطا، شدت میانگین حاشیه منفی، خلاصه توزیع، آمار هر کلاس و میانگین متوازن فقط روی کلاس‌های دارای خطاست. مقدار شرطی برای کلاس بدون خطا `null` است. فایل `results/margin_analysis.csv` و جدول چاپی `tables/error_margins_by_depth.tex` نیز ساخته می‌شوند. بازتولید فقط از داده نمونه‌ای ثبت‌شده است: `python code/experiments/walk_depth_effect/margins.py --verify`؛ **بدون بازاجرای گشت یا Test**.

@@ -130,6 +130,8 @@ def audit():
             raise AssertionError("Margin loss not from shared reporter")
         if abs(row["hard_margin_error_balanced"]-src["hard_margin_error_conservative"])>1e-13:
             raise AssertionError("Margin hard error mismatch")
+    from margins import verify as verify_error_margins
+    verify_error_margins()
     print("E09_MARGIN_PASS: 24 signed margin rows and common losses checked without any walk.")
     print("E09_PASS: archived source CRC/digests, labels, coefficients, 12 true-H cases, "
           "24 common metric blocks, per-sample decisions, H12 E08 and E04 comparisons.")
