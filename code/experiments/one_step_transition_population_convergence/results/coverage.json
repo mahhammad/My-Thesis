@@ -1,0 +1,41 @@
+{
+  "schema": "chapter4-metric-coverage-v2",
+  "experiment_id": "E-CH4-03",
+  "contract": "code/experiments/COMMON_METRICS_CONTRACT.json",
+  "protocol": "Population one-step Q convergence with fixed validation queries, no class-center classifier; four reference sizes and 12 independent reference replicates",
+  "measured": [
+    "TV(Qfinite,Qpopulation)",
+    "sqrt_JS(Qfinite,Qpopulation)",
+    "per_feature_TV",
+    "mean,SD,95th percentile per reference size",
+    "Q reference-size and seed metadata"
+  ],
+  "not_applicable": [
+    {
+      "ids": [
+        "R_KL",
+        "R_JS",
+        "R_sqrt_JS",
+        "T",
+        "BT",
+        "TNL",
+        "BTNL",
+        "I",
+        "pairwise_center_JS",
+        "BA",
+        "class_decision_margin",
+        "NLL"
+      ],
+      "reason": "This study compares one-step transition label distributions against a population reference; it does not construct class centers or a classifier."
+    }
+  ],
+  "not_measured": [],
+  "not_verified": [],
+  "historical_test_accessed": false,
+  "full_evidence": [
+    "results/metrics.json",
+    "results/replicates.csv",
+    "results/summary.csv",
+    "results/per_feature.csv"
+  ]
+}
