@@ -109,6 +109,10 @@ def fmt(v):
     return "---" if v is None else f"{v:.5f}"
 
 
+def level_label(q):
+    return "---" if q is None else str(int(q*100)) + r"\%"
+
+
 def tex(data):
     by={(r["policy"],r["H"],r["split"]):r for r in data["rows"]}
     out=[
