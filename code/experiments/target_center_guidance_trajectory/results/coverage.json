@@ -35,17 +35,17 @@
         "NLL_KL",
         "sigmoid_margin"
       ],
-      "scope": "guided rounds except 0 and 4",
+      "scope": "guided rounds except 0 and 4 (original archived trajectory only; recovered in replay addendum)",
       "count": 47,
-      "reason": "No per-sample full walk representations for other guided rounds were persisted; cannot derive these metrics from centers alone."
+      "reason": "No per-sample full walk representations for other guided rounds were persisted; cannot derive these metrics from centers alone. New fixed-target replay is reported separately; not counted as originally observed."
     },
     {
       "ids": [
         "validation_BA"
       ],
-      "scope": "24 of 49 rounds",
+      "scope": "24 of 49 rounds (original archived trajectory only; recovered in replay addendum)",
       "count": 24,
-      "reason": "Validation was evaluated only in 25 saved rounds; blank is not zero."
+      "reason": "Validation was evaluated only in 25 saved rounds; blank is not zero. New fixed-target replay is reported separately; not counted as originally observed."
     },
     {
       "ids": [
@@ -66,5 +66,15 @@
   "not_verified": [],
   "source_archive": "code/experiments/archive/center_matching_comparison/results",
   "raw_files_byte_identical": true,
-  "historical_test_accessed": false
+  "historical_test_accessed": false,
+  "replay_addendum": {
+    "status": "49/49 fixed-target replay verified",
+    "train_and_validation_common_metrics": "49 rounds, all metric groups",
+    "historical_25_BA_values": "unchanged and verified",
+    "additional_24_validation_BA_values": "new replay; not historical measurements",
+    "independent_data_seeds": 1,
+    "test_accessed": false,
+    "historical_R_JS_aggregation": "replay separately flags any changed aggregation; not silently overwritten",
+    "source": "results/metrics_full.json#replayed_fixed_targets"
+  }
 }
