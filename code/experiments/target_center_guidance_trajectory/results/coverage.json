@@ -1,0 +1,70 @@
+{
+  "schema": "chapter4-metric-coverage-v2",
+  "experiment_id": "E-CH4-06",
+  "contract": "code/experiments/COMMON_METRICS_CONTRACT.json",
+  "full_report": "results/metrics_full.json",
+  "protocol": "49 dependent rounds of a single Monte Carlo center-guidance trajectory, 100 walks/sample, no refit or Monte Carlo rerun",
+  "measurement_counts": {
+    "guided_rounds": 49,
+    "measured_center_geometry": 49,
+    "measured_train_R_JS": 49,
+    "measured_guided_train_R_KL": 2,
+    "measured_guided_train_R_sqrt_JS": 2,
+    "measured_validation_BA": 25,
+    "missing_validation_BA": 24,
+    "fully_diagnosed_cases": 3,
+    "fully_diagnosed_guided_rounds": [
+      0,
+      4
+    ],
+    "extra_uniform_baseline": true
+  },
+  "measured": [
+    "49 center matrices and T/BT/TNL/BTNL/I",
+    "49 full pairwise JS/sqrtJS center matrices and per-class nearest center distances",
+    "49 Train R_JS measurements (class-hypothesis-conditioned oracle train)",
+    "25 guided candidate-class-conditional validation BA",
+    "three cases (Uniform, Guided 0, Guided 4) all 3 Train/Validation R, KL/JS NLL and descriptive metrics"
+  ],
+  "not_measured": [
+    {
+      "ids": [
+        "R_KL",
+        "R_sqrt_JS",
+        "R_per_class",
+        "NLL_KL",
+        "sigmoid_margin"
+      ],
+      "scope": "guided rounds except 0 and 4",
+      "count": 47,
+      "reason": "No per-sample full walk representations for other guided rounds were persisted; cannot derive these metrics from centers alone."
+    },
+    {
+      "ids": [
+        "validation_BA"
+      ],
+      "scope": "24 of 49 rounds",
+      "count": 24,
+      "reason": "Validation was evaluated only in 25 saved rounds; blank is not zero."
+    },
+    {
+      "ids": [
+        "independent_seed_SD",
+        "independent_seed_CI"
+      ],
+      "reason": "one generator/MC trajectory, not multiple independent data splits"
+    }
+  ],
+  "not_applicable": [
+    {
+      "ids": [
+        "same_protocol_Uniform_vs_Guided_accuracies"
+      ],
+      "reason": "Uniform uses class-independent shared query representations; Guided uses candidate-class-conditioned query trajectories."
+    }
+  ],
+  "not_verified": [],
+  "source_archive": "code/experiments/archive/center_matching_comparison/results",
+  "raw_files_byte_identical": true,
+  "historical_test_accessed": false
+}
