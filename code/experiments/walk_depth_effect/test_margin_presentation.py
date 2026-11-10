@@ -79,7 +79,7 @@ class MarginPresentationQA(unittest.TestCase):
             src=path.read_text(encoding="utf8")
             self.assertEqual(src.count(r"\label{fig:ch4-e09-"+split+"-margin}"),1)
             self.assertEqual(src.count(r"\begin{tikzpicture}"),0)
-            self.assertEqual(src.count(r"\begin{tikzpicture}"),0)
+            self.assertEqual(src.count(r"\begin{tikzpicture}["),1)
             self.assertEqual(src.count(r"\end{tikzpicture}"),1)
 
     def test_chapter_and_report_include_train_and_validation(self):
