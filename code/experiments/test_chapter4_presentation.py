@@ -22,7 +22,13 @@ SPECS = (
 def sections():
     manuscript=TEX.read_text(encoding="utf-8")
     first=manuscript.index(r"\section{اعتبارسنجی همگرایی")
-    last=manuscript.index(r"\section{اعتبارسنجی محاسبه ماتریسی")
+    # E09 may be inserted between 4.7 and E08; only sections 4.3–4.7
+    # belong to this historical five-section presentation contract.
+    boundaries=(
+        r"\section{اثر سقف واقعی طول گشت",
+        r"\section{اعتبارسنجی محاسبه ماتریسی"
+    )
+    last=min(manuscript.index(tag) for tag in boundaries if tag in manuscript)
     text=manuscript[first:last]
     return re.findall(r"\\section\{([^}]+)\}(.*?)(?=\\section\{|\Z)", text,re.S)
 
