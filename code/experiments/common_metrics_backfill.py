@@ -25,7 +25,7 @@ BENCH = HERE / "benchmark_v1"
 MIXTURE = HERE / "guided_informative_uniform_mixture"
 sys.path.insert(0, str(BENCH))
 sys.path.insert(0, str(MIXTURE))
-sys.path.insert(0, str(ROOT / "data_generator"))
+sys.path.insert(0, str(ROOT / "code" / "data_generator"))
 
 from dataset_adapter import dataset_train_val
 from engine import DT, ExactMaskedWalk
@@ -109,7 +109,7 @@ def guided_mixture_runs(x,y,vx,vy,config):
 
 
 def run(mode,output):
-    config=load_config(ROOT/"data_generator/config.json")
+    config=load_config(ROOT/"code/data_generator/config.json")
     data=dataset_train_val(config)
     x,y=data["train"]
     vx,vy=data["validation"]
