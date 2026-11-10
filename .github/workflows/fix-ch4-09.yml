@@ -6,6 +6,11 @@ on:
     paths:
       - 'code/experiments/guided_informative_uniform_mixture/diagnostics/fix_ch4_09/**'
       - '.github/workflows/fix-ch4-09.yml'
+      - 'code/policy_evaluator/test_evaluator.py'
+      - 'code/experiments/guided_informative_uniform_mixture/README_FA.md'
+      - 'code/experiments/guided_informative_uniform_mixture/REPORT_FA.md'
+      - 'tex/chapter4.tex'
+      - 'research_journal/2026-11-10-FIX-CH4-09-mc-exact.md'
   workflow_dispatch:
 
 permissions:
