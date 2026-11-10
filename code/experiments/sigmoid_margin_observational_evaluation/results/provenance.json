@@ -9,5 +9,5 @@
     "code/experiments/archive/margin_training/results/size_study/"
   ],
   "processing": "No new training, Monte Carlo or Test. Common metrics copied from v2 common reporter output; specialized analyses copied from historical diagnostics and checked on tau=.005; raw archived untouched.",
-  "verification": "Connector-side lightweight cardinality and tau=.005 agreement assertions passed; Python unittest execution not performed in this environment."
+  "verification": "Historical connector-side 3x6 + 12 cardinality and tau=.005 common agreement assertions passed; dedicated Python unittest GitHub Actions run completed success: https://github.com/mahhammad/My-Thesis/actions/runs/42775070311; full LaTeX compilation not verified."
 }
