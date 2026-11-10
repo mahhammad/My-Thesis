@@ -130,8 +130,8 @@ class TrajectoryReportEvidence(unittest.TestCase):
                 "figures/geometry.tex",
             ]),
             ("target_center_guidance_trajectory",[
-                "tables/selected_rounds.tex", "figures/trajectory_geometry.tex",
-                "figures/observed_validation_ba.tex",
+                "tables/selected_rounds_balanced.tex", "figures/trajectory_geometry_balanced.tex",
+                "figures/validation_ba_replayed_49.tex",
             ]),
         ):
             for name in names:
