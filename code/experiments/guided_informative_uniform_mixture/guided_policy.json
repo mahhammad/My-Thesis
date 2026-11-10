@@ -1,0 +1,77 @@
+{
+  "schema": "ch4-guided-probability-policy-v1",
+  "policy_id": "guided_informative_uniform_zero_noise",
+  "source_dataset_config": "code/data_generator/config.json",
+  "feature_indexing": "zero_based",
+  "informative_features": [
+    0,
+    1,
+    3
+  ],
+  "noise_features": [
+    2,
+    4
+  ],
+  "start_row_index": 5,
+  "matrix_role": "unnormalized_nonnegative_transition_weights_not_logits",
+  "transition_weights": [
+    [
+      1,
+      1,
+      0,
+      1,
+      0
+    ],
+    [
+      1,
+      1,
+      0,
+      1,
+      0
+    ],
+    [
+      1,
+      1,
+      0,
+      1,
+      0
+    ],
+    [
+      1,
+      1,
+      0,
+      1,
+      0
+    ],
+    [
+      1,
+      1,
+      0,
+      1,
+      0
+    ],
+    [
+      1,
+      1,
+      0,
+      1,
+      0
+    ]
+  ],
+  "normalization": "for each current sample and row, restrict to currently allowed observable/traversable feature destinations, then normalize positive weights",
+  "mixture": "pi_alpha=(1-alpha)*pi_uniform_valid+alpha*pi_guided_valid",
+  "alpha_grid": [
+    0,
+    0.25,
+    0.5,
+    0.75,
+    1
+  ],
+  "notes": [
+    "All six rows intentionally identical: the policy does not condition feature preference on the previous feature.",
+    "Feature 0 is always observed in the registered base generator, so at least one informative feature is available.",
+    "Zero support for noise is exact only at alpha=1. For alpha<1 the uniform component gives noise positive probability when it is valid.",
+    "This is a probability-space mixture, NOT softmax(alpha*guided_logits); do not feed these weights as finite logits into the current ExactMaskedWalk.",
+    "Known noninformative features may be excluded by design, but improvement in finite-sample class-balanced accuracy is an empirical hypothesis, not a mathematical guarantee."
+  ]
+}
