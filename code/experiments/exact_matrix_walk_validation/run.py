@@ -121,6 +121,7 @@ def model_sources():
         "checkpoint_tau": TAU,
         "checkpoint_steps": 50,
         "source_reference_ids": ids.tolist(),
+        "reference_seed": int(checkpoint["dataset"].get("reference_seed", 20261107)),
         "reference_order_sha256": array_fingerprint(ids),
         "generator_config": CONFIG.relative_to(ROOT).as_posix(),
         "generator_config_sha256": hash_file(CONFIG),
@@ -256,13 +257,13 @@ def run(*, code_commit=None):
                 raise AssertionError("Independent common reporter metrics differ")
 
     mc = monte_carlo(graph, policies, exact_train, exact_validation)
+    mc_h1 = {}
     for policy_name in POLICY_NAMES:
         e128 = next(x["mean_tv"] for x in mc["summary"]
                     if x["policy"]==policy_name and x["nwalks"]==128)
         e2048 = next(x["mean_tv"] for x in mc["summary"]
                      if x["policy"]==policy_name and x["nwalks"]==2048)
-        if e2048 >= e128:
-            raise AssertionError("Preregistered MC mean TV H1 not supported: " + policy_name)
+        mc_h1[policy_name] = bool(e2048 < e128)  # Falsifiable; preserve failures.
 
     # Median of 3 AFTER one warm-up per case, CPU one thread.
     positions = np.linspace(0, graph.n-1, 24, dtype=int)
@@ -306,7 +307,7 @@ def run(*, code_commit=None):
         },
         "hypothesis_outcomes": {
             "independent_forward_matches_engine": True,
-            "preregistered_mc_mean_tv_decreases_from_128_to_2048": True,
+            "preregistered_mc_mean_tv_decreases_from_128_to_2048": mc_h1,
             "all_individual_and_center_truncation_bounds_hold": True,
         },
         "historical_test_accessed": False, "training_performed": False
