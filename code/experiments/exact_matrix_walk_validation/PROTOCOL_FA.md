@@ -12,7 +12,7 @@
 
 ## قرارداد ثابت قبل از اجرا
 
-- مولد code/data_generator/config.json، بذر داده 20261102، مرجع *تمام* ۳۰۰ نمونه Train با اندیس و ترتیب اولیه؛ Validation ۹۰ نمونه. Test تاریخی به‌هیچ‌وجه تولید، بارگذاری یا برای انتخاب استفاده نمی‌شود. داده و هش config ثبت شوند.
+- مولد code/data_generator/config.json، بذر داده 20261102، مرجع *تمام* ۳۰۰ نمونه Train با **اندیس‌ها و ترتیب ثبت‌شده در checkpoint رسمی Benchmark** (به‌صورت یک جایگشت از کل ۳۰۰ اندیس؛ نه زیرمجموعه). سیاست یکنواخت نیز با همین ترتیب ارزیابی می‌شود؛ Validation ۹۰ نمونه. Test تاریخی به‌هیچ‌وجه تولید، بارگذاری یا برای انتخاب استفاده نمی‌شود. داده و هش config ثبت شوند.
 - دو سیاست shared (هر دو شکل (d+1,d)): سیاست A = ماتریس Z صفر و سیاست B = checkpoint رسمی Benchmark v1 با n=300، objective=margin_JSD، tau=.005، steps=50، data_seed=20261102، فایل core_50_16runs.zip با کنترل SHA256 مانیفست. سیاست و ابرپارامتر جدید یاد گرفته نمی‌شود.
 - beta=.4، lambda=.8، H=12، float64، gamma و ماسک مولد؛ ممنوعیت برگشت به مبدأ Train در تمام گام‌ها، حذف self عمودی، امتیاز شروع Validation بدون دسترسی به برچسب واقعی.
 - عمق‌های تحلیل r∈{2,3,4,6,8,12}، همه با ضرایب مدل ثابت H=12 و ε_r=Σ_(t>r)α_t؛ نسخه r=12 پاسخ دقیق است.
@@ -30,3 +30,5 @@
 - tex/chapter4.tex: بخش ۴.۲ قرارداد مشترک و متن اولیه ۴.۸.
 - code/experiments/EXPERIMENT_REPORT_STANDARD_FA.md، COMMON_METRICS_FA.md، COMMON_METRICS_CONTRACT.json، REPORT_PRESENTATION_FA.md و benchmark_v1/PIPELINE_FA.md.
 - آرشیو multistep_policy_target_match و bayes_center_inverse، موتور benchmark_v1/engine.py و گزارشگر گزارش استاندارد report_snapshot.py.
+
+**شفاف‌سازی پیش از اجرا:** اندیس‌های MC، «موقعیت در ترتیب مرجع ثبت‌شده checkpoint» هستند، نه اندیس مرتب‌شده مولد؛ برچسب نمونه هرگز برای گزینش این موقعیت‌ها استفاده نمی‌شود.
