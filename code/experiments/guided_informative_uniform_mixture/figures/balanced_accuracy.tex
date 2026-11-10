@@ -1,0 +1,40 @@
+% Direct probability mixture results: results/summary.json
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[x=.88cm,y=.86cm]
+\draw[->] (.85,.90)--(11.40,.90);
+\draw[->] (.85,.90)--(.85,4.18);
+\draw[gray!25] (.85,1.000)--(11.3,1.000);
+\node[font=\scriptsize,anchor=east] at (.78,1.000) {$80\%$};
+\draw[gray!25] (.85,1.750)--(11.3,1.750);
+\node[font=\scriptsize,anchor=east] at (.78,1.750) {$85\%$};
+\draw[gray!25] (.85,2.500)--(11.3,2.500);
+\node[font=\scriptsize,anchor=east] at (.78,2.500) {$90\%$};
+\draw[gray!25] (.85,3.250)--(11.3,3.250);
+\node[font=\scriptsize,anchor=east] at (.78,3.250) {$95\%$};
+\draw[gray!25] (.85,4.000)--(11.3,4.000);
+\node[font=\scriptsize,anchor=east] at (.78,4.000) {$100\%$};
+\node[font=\scriptsize,anchor=north] at (1.000,.78) {$0.00$};
+\node[font=\scriptsize,anchor=north] at (3.500,.78) {$0.25$};
+\node[font=\scriptsize,anchor=north] at (6.000,.78) {$0.50$};
+\node[font=\scriptsize,anchor=north] at (8.500,.78) {$0.75$};
+\node[font=\scriptsize,anchor=north] at (11.000,.78) {$1.00$};
+\draw[very thick,blue] plot coordinates {(1.000,1.547) (3.500,1.649) (6.000,1.621) (8.500,1.587) (11.000,1.587)};
+\draw[very thick,red!85!black] plot coordinates {(1.000,3.515) (3.500,3.413) (6.000,3.413) (8.500,3.413) (11.000,3.413)};
+\fill[blue] (1.000,1.547) circle (2.1pt);
+\fill[red!85!black] (1.000,3.515) circle (2.1pt);
+\fill[blue] (3.500,1.649) circle (2.1pt);
+\fill[red!85!black] (3.500,3.413) circle (2.1pt);
+\fill[blue] (6.000,1.621) circle (2.1pt);
+\fill[red!85!black] (6.000,3.413) circle (2.1pt);
+\fill[blue] (8.500,1.587) circle (2.1pt);
+\fill[red!85!black] (8.500,3.413) circle (2.1pt);
+\fill[blue] (11.000,1.587) circle (2.1pt);
+\fill[red!85!black] (11.000,3.413) circle (2.1pt);
+\node[font=\scriptsize,blue] at (6.8,4.18) {آموزش};
+\node[font=\scriptsize,red!85!black] at (9.4,4.18) {اعتبارسنجی};
+\node[font=\small] at (6.1,.25) {$\alpha$};
+\end{tikzpicture}
+\caption{دقت متوازن آموزش و اعتبارسنجی در اختلاط خطی احتمال‌های سیاست یکنواخت و Guided بدون نویز. محور عمودی از $80\%$ شروع شده است و مقادیر از یک تقسیم ثابت به دست آمده‌اند؛ نقطه‌ها تکرار مستقل نیستند.}
+\label{fig:ch4-guided-mixture-ba}
+\end{figure}
