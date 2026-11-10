@@ -224,7 +224,7 @@ class UniformExperimentReportTests(unittest.TestCase):
             chapter,
         )
         self.assertEqual(chapter.count(r"\label{sec:ch4-uniform-hyperparameter-sensitivity}"), 1)
-        self.assertIn(r"\section{ارزیابی سیاست ثابت هدایت‌شده و مقایسه معیارها}", chapter)
+        self.assertIn(r"\section{ارزیابی سیاست یکنواختِ بدون نویز و مقایسه معیارها}", chapter)
         self.assertEqual(chapter.count(r"\label{sec:ch4-guided-policy-comparison}"), 1)
         # Every figure/table is sourced once from this experiment, not duplicated.
         inputs = (
