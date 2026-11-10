@@ -52,3 +52,26 @@ For fixed \(V_c\), the mean of \(d_i\) is a KL-based within-class dispersion mea
 
 ## Acceptance criteria for future investigation
 Reproducible script and seed manifest; raw distance vectors and sample IDs; coverage plots; fixed/optimized-center definitions kept distinct; predeclared validation protocol; balanced accuracy and uncertainty on untouched Test. No claims of improved generalization without independent evidence.
+
+
+## Clarification from the idea's originator — center-only outlier handling (2026-11-10)
+
+**This is a clarification of the original research intent, not a correction of the earlier author's work.** The first formulation was broader because the distinction had not yet been communicated explicitly. For the proposed primary experiment, the intended intervention is **robust estimation of class centers**, **not deletion of outlier samples from the dataset or graph**.
+
+**Crucial structural reason:** An atypical training sample can need its *own specialized feature-selection/random-walk policy*. If it is deleted from training or the sample-feature graph, we lose the opportunity to discover that policy, and may also remove meaningful graph nodes and transitions. A sample being far from the *current* class center does not show that the sample is inherently uninformative, mislabeled, or unlearnable.
+
+Accordingly, preserve **all** training samples and their graph participation, including candidate outliers, during learning and evaluation. The intervention is restricted to **their contribution to constructing the class center**. For a fixed set of training neighborhood distributions \(P_i\), consider
+
+\[
+\widetilde V_c=
+\frac{\sum_{i\in\mathcal I_c}w_iP_i}
+{\sum_{i\in\mathcal I_c}w_i},
+\qquad w_i\ge0,\quad
+\sum_{i\in\mathcal I_c}w_i>0.
+\]
+
+Here \(w_i=1\) reproduces the ordinary center; setting \(w_i=0\) for sufficiently distant samples **removes them only from the center average**; soft weights \(0<w_i<1\) give an alternative. In every case those samples remain in the learning population and graph. The initial KL quantile-radius curve provides candidate weights or thresholds, rather than serving as a data-deletion rule.
+
+**Primary comparison to test:** with the *same retained dataset and clearly specified policy/inference protocol*, compare ordinary centers against center-only trimming/reweighting at predeclared quantiles such as 90%, 95%, and 99%. Select thresholds using Train/Validation only; preserve an untouched Test set for final evaluation. Report class-balanced metrics, per-class recall, minority-pattern effects, retained weight mass per class, and sensitivity across independent seeds. Also investigate whether alternating policy updates with center updates changes conclusions; because policies and centers can interact, fixed-policy and joint-refitting experiments must be distinguished. Avoid circular assessment of distances using the same fitted representations (e.g. validate with out-of-fold scores where feasible). Numerical support, including possible accuracy gains, remains **an open hypothesis**.
+
+**Interpretation of the preceding proposal:** references above to removing or downweighting samples should *for this central idea* be read as removing or downweighting **their contribution to class-center estimation**, not eliminating samples, policies, or graph connectivity. Whole-sample deletion, if ever studied, is only a separate ablation/control and is **not** the proposed main method. No experiments have been run or current thesis results altered by this clarification.
