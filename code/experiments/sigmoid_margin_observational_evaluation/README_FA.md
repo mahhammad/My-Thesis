@@ -1,20 +1,17 @@
 # E-CH4-07 — ارزیابی تجربی زیان حاشیه‌ای سیگموئیدی
 
-**شناسه پایدار:** `E-CH4-07` | **گزارش:** [REPORT_FA.md](REPORT_FA.md) | **قرارداد:** [COMMON_METRICS_CONTRACT.json](../COMMON_METRICS_CONTRACT.json)
+**شناسه رسمی:** E-CH4-07؛ مرجع استاندارد: Benchmark v1؛ [گزارش](REPORT_FA.md)، [معیارها](results/metrics_full.json)، [پوشش](results/coverage.json).
 
-**وضعیت:** انتقال و تطبیق خروجی‌های تاریخی، بدون آموزش/گشت/دسترسی Test جدید؛ سه checkpoint مشاهده‌ای دارای گزارش عمومی نسخه ۲، در مقابل ۱۲ اجرای تاریخی آموزش که معیارهای عمومی ناقص دارند. بررسی نحوی TeX و اجرای Python unittest ویژه آزمایش در GitHub Actions با موفقیت تأیید شد؛ کامپایل کامل LaTeX در این مأموریت تأیید نشده است.
+## سه دسته شواهد (بدون مخلوط‌کردن پروتکل‌ها)
 
-- `results/metrics_full.json`: خروجی عمومی جدا از تشخیص سیگموئید؛ سه وضعیت مشاهده‌ای از گزارشگر مشترک فصل ۴.۶؛ ۱۲ خلاصه آموزش تاریخی با علامت عدم تأیید مجدد.
-- `results/sigmoid_validation_summary.csv`: ۱۸ سطر اختصاصی؛ سه checkpoint × شش پهنا؛ بایگانی بدون حذف در `archive/sigmoid_margin_diagnostics/`.
-- `results/margin_training_summary.csv`: ۱۲ اجرای آموزش با هدف فقط سیگموئیدی؛ نسخه اصلی در `archive/margin_training/results/summary.csv`.
-- `results/coverage.json`: وضعیت و دلیل داده‌های ناقص؛ `results/provenance.json`: منشأ و روش.
-- `tables/*.tex`: جداول آماده ورود از `tex/chapter4.tex` با `\\input`.
-- `analyze.py`: تشخیص اختصاصی و مقایسه چرخش رتبه برای τ؛ `test_analyze.py`: تست‌های سبک.
+- **تحلیل تشخیصی:** سه بازنمایی ذخیره‌شده از E-CH4-06 × شش پهنای τ، فقط برای مطالعه حساسیت نسبت به حاشیه. Uniform و Guided استنتاج هم‌پروتکل ندارند و برنده مستقیم ندارند.
+- **آموزش مستقیم روی مرجع کامل ۳۰۰تایی:** خانواده shared، سه τ، ۵۰ گام Adam. سه ماتریس نهایی ذخیره‌شده بدون آموزش دوباره بازسنجی شده‌اند؛ گزارش کامل سه R، پنج جدایی، حاشیه، دقت و NLL در results/metrics_full.json و تأیید آن در GitHub Actions ثبت است.
+- **مطالعه استاندارد اندازه مرجع:** شش اندازه ۵۰/۱۰۰/۱۵۰/۲۰۰/۲۵۰/۳۰۰ × دو خانواده shared/class × سه بذر مستقل مولد 20261102/03/04 = **۳۶ اجرا** با بودجه یکسان ۲۵ گام. جدول اصلی tables/size_study.tex از results/benchmark_size_3seeds.csv و results/benchmark_size_aggregate.csv ساخته شده است. منبع خام benchmark_v1/results/master_runs_76.csv با شناسه SHA هر اجرا و فایل‌های ZIP Benchmark است.
 
-از ریشه مخزن: `python -m unittest discover -s code/experiments/sigmoid_margin_observational_evaluation -p 'test_*.py' -v`. بازساخت گزارش عمومی از داده خام با `code/experiments/benchmark_v1/report_snapshot.py` انجام می‌شود، نه `analyze.py`. داده خام checkpointهای مشاهده‌ای در `code/experiments/target_center_guidance_trajectory/results/representations_*.json` و بایگانی قدیمی محفوظ‌اند. **آمار ۷۶ اجرای تاریخی بازاجرا نشده‌اند.**
+## فایل‌ها و حدود اعتبار
 
-نمودار [حساسیت میانگین بر حسب τ](figures/sensitivity_vs_tau.svg) از داده تاریخی CSV ساخته شده و در محاسبه معیارهای عمومی دخالت ندارد. تست اختصاصی از طریق گردش‌کار [chapter4-e07-sigmoid.yml](../../.github/workflows/chapter4-e07-sigmoid.yml) روی GitHub Actions اجرا می‌شود.
+README_FA.md نقشه پیوست، REPORT_FA.md گزارش پژوهشی، results/coverage.json دلیل هر فقدان، results/metrics_full.json بازسنجی مرجع ۳۰۰تایی، tables/ و figures/ منابع مستقیم فصل هستند. کد replay_saved_full300.py بازسنجی بدون آموزش را انجام می‌دهد.
 
-**تأیید تست اختصاصی:** [GitHub Actions — موفق](https://github.com/mahhammad/My-Thesis/actions/runs/42775070311) (چهار unittest سبک؛ بدون Train/Test مجدد).
+**مطالعات غیرهم‌پروتکل صرفاً آرشیوی:** اجرای ۷۲تایی و مطالعه ۲۶ اجرای زیرمجموعه‌ای از یک مولد در archive/margin_training و فایل‌های results/size_study، tables/direct_training_72.tex، tables/size_study_legacy_26.tex باقی مانده‌اند؛ این‌ها دیگر منبع نتیجه یا جدول اصلی بخش ۴.۷ نیستند. گزارش پیشین به‌عنوان REPORT_LEGACY_FA.md حفظ شده است.
 
-**مطالعه اندازه مرجع:** `results/size_study/runs.csv` (۲۶ اجرا) و `results/size_study/aggregate.csv` (شش اندازه)، کپی بدون تغییر از آرشیو قدیمی هستند. معیارهای عمومی فاقد بازنمایی در این بخش `not_measured` باقی مانده‌اند؛ این دو فایل بدون بازآموزی افزوده شدند.
+مقایسه آموزش ۵۰گامی روی ۳۰۰ نمونه با اندازه‌مطالعه ۲۵گامی هم‌بودجه نیست. از Test تاریخی استفاده نشده و کامپایل کامل LaTeX هنوز مستقل تأیید نشده است.

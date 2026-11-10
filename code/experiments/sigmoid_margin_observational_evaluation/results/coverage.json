@@ -13,7 +13,21 @@
     "training_72_subset_seeds": 3,
     "training_300_reference_seeds": 1,
     "extra_size_study_historical_runs": 26,
-    "full300_policy_checkpoints_verified_v2": 3
+    "full300_policy_checkpoints_verified_v2": 3,
+    "benchmark_size_study_standard_runs": 36,
+    "benchmark_size_independent_data_seeds": 3,
+    "benchmark_size_n_values": [
+      50,
+      100,
+      150,
+      200,
+      250,
+      300
+    ],
+    "benchmark_size_policy_families": [
+      "shared",
+      "class"
+    ]
   },
   "measured": [
     {
@@ -102,6 +116,23 @@
         "sigmoid_margin"
       ],
       "source": "no-training replay of persisted rounded final matrices; numeric checks against archive summary"
+    },
+    {
+      "scope": "Benchmark standardized size study, 36 runs: 6 sizes x shared/class x 3 independent generator seeds, 25 steps",
+      "ids": [
+        "train_BA",
+        "val_BA",
+        "I",
+        "R_KL",
+        "R_JS",
+        "R_sqrt_JS",
+        "objective_loss",
+        "elapsed_s",
+        "data_seed",
+        "source_sha256",
+        "three_seed_sample_sd"
+      ],
+      "source": "benchmark_v1/results/master_runs_76.csv and two immutable size-study ZIP archives"
     }
   ],
   "not_measured": [
@@ -160,6 +191,20 @@
         "NLL"
       ],
       "reason": "The 26 historical CSVs store only aggregate BA/I/R_JS/loss; per-sample representation and complete checkpoint policy matrices are not contained in these two summary files; cannot reconstruct full v2 common report without those detailed checkpoints."
+    },
+    {
+      "scope": "standardized Benchmark size study, extra v2 fields beyond flat source",
+      "ids": [
+        "T",
+        "BT",
+        "TNL",
+        "BTNL",
+        "pairwise_JS",
+        "confusion",
+        "margin_quantiles",
+        "NLL"
+      ],
+      "reason": "Not present in master_runs_76.csv; raw checkpoint ZIPs remain available to backfill, not imputed."
     }
   ],
   "not_verified": [
@@ -194,6 +239,8 @@
       "reason": "Analysis varies tau on fixed saved scores; no optimization step."
     }
   ],
-  "statistical_warning": "No Test observations are imported or used. Guided and uniform inference protocols differ. Historical round 4 was selected previously, not an independent new seed. Size-study 5 nested subset selections at each n<300 are dependent; at n=300 nrep=1 so SD undefined.",
-  "full300_replay_verified": true
+  "statistical_warning": "Full300 saved policies verified with 50-step budget. Official size study: 36 runs, six sizes, two families, 3 independent generator seeds with fixed 25 steps. Older 72/26 runs archive only. Never conflate 25 and 50 budgets. Test not accessed.",
+  "full300_replay_verified": true,
+  "primary_training_reference_n": 300,
+  "historical_72_and_26_run_role": "archived_only_not_used_for_main_comparison"
 }
