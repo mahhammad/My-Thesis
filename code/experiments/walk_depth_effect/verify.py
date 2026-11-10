@@ -132,6 +132,8 @@ def audit():
             raise AssertionError("Margin hard error mismatch")
     from margins import verify as verify_error_margins
     verify_error_margins()
+    from quantile_boundary import check as verify_error_quantiles
+    verify_error_quantiles()
     print("E09_MARGIN_PASS: 24 signed margin rows and common losses checked without any walk.")
     print("E09_PASS: archived source CRC/digests, labels, coefficients, 12 true-H cases, "
           "24 common metric blocks, per-sample decisions, H12 E08 and E04 comparisons.")

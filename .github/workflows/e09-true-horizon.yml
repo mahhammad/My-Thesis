@@ -66,6 +66,13 @@ jobs:
           else
             python code/experiments/walk_depth_effect/margins.py --verify
           fi
+      - name: Extract first quantile strictly above observed error rate (no new walk)
+        run: |
+          if [ ! -f code/experiments/walk_depth_effect/results/error_quantile_boundary.json ]; then
+            python code/experiments/walk_depth_effect/quantile_boundary.py --write
+          else
+            python code/experiments/walk_depth_effect/quantile_boundary.py --verify
+          fi
       - name: Independent read-only verification
         run: python code/experiments/walk_depth_effect/verify.py
       - name: Regression test persisted E09 evidence and E08 controls

@@ -57,3 +57,7 @@ python code/experiments/walk_depth_effect/analyze.py
 ## حاشیهٔ مخصوص نمونه‌های خطا
 
 تکمیل پسینی E09 با استخراج **میانگین حاشیهٔ نمونه‌های اشتباه‌طبقه‌بندی‌شده** و مقایسه آن با میانگین نمونه‌های درست در همه ۲۴ حالت سیاست/عمق/Train یا Validation صورت گرفت. فایل `results/margin_analysis.json` شامل تعداد خطا، شدت میانگین حاشیه منفی، خلاصه توزیع، آمار هر کلاس و میانگین متوازن فقط روی کلاس‌های دارای خطاست. مقدار شرطی برای کلاس بدون خطا `null` است. فایل `results/margin_analysis.csv` و جدول چاپی `tables/error_margins_by_depth.tex` نیز ساخته می‌شوند. بازتولید فقط از داده نمونه‌ای ثبت‌شده است: `python code/experiments/walk_depth_effect/margins.py --verify`؛ **بدون بازاجرای گشت یا Test**.
+
+## نخستین چندک بالاتر از نرخ خطای مشاهده‌شده
+
+تحلیل مکمل از `results/margin_summary.json` (چندک‌های همان گزارشگر مشترک) و `results/margin_analysis.json` (شمار خطاها و مرز حاشیه) استفاده می‌کند. اگر `e = n_errors/n` باشد، نخستین چندک در شبکهٔ ثابت `0%,10%,25%,50%,75%,90%,100%` با مرتبه **اکیداً بزرگ‌تر** از `e` گزارش می‌شود؛ این `e` نرخ خطای نمونه‌ای است و نباید با `1−BA` جایگزین شود. نخستین حاشیهٔ مثبت و آخرین حاشیهٔ منفی به‌عنوان مرز واقعی داده‌ها جدا ثبت می‌شوند. فایل‌ها: [نتیجه کامل](results/error_quantile_boundary.json)، [خلاصه CSV](results/error_quantile_boundary.csv)، `tables/error_quantile_boundary.tex`. کنترل تکرارپذیر: `python code/experiments/walk_depth_effect/quantile_boundary.py --verify`؛ بدون اجرای جدید گشت.
