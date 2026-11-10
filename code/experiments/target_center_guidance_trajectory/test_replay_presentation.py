@@ -48,7 +48,7 @@ class BalancedReplayPresentation(unittest.TestCase):
         data=[v for v in ba.findall(".//s:circle",ns) if float(v.attrib["cy"])<360]
         self.assertEqual(len(data),49)
         self.assertEqual(sum(v.attrib["fill"]=="white" for v in data),24)
-        self.assertEqual(sum(v.attrib["fill"]!=="white" for v in data),25)
+        self.assertEqual(sum(v.attrib["fill"]!="white" for v in data),25)
 
 if __name__=="__main__":
     unittest.main()
