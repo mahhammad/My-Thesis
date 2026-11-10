@@ -19,7 +19,8 @@ from presentation import load
 
 REQUIRED_RESULTS = (
     "metrics_full.json", "coefficients.json", "coverage.json",
-    "comparisons.json", "provenance.json", "metrics_summary.csv"
+    "comparisons.json", "provenance.json", "metrics_summary.csv",
+    "margin_summary.json", "margin_summary.csv"
 )
 REQUIRED_PRINT = (
     "tables/main_depth_effect.tex",
@@ -27,6 +28,9 @@ REQUIRED_PRINT = (
     "figures/validation_ba_vs_H.tex",
     "figures/center_information_vs_H.tex",
     "figures/dispersion_vs_H.tex",
+    "tables/margin_by_H.tex",
+    "figures/train_margin_median_vs_H.tex",
+    "figures/validation_margin_median_vs_H.tex",
     "REPORT_FA.md",
 )
 
@@ -113,6 +117,20 @@ def audit():
         content=(HERE/path).read_text(encoding="utf8")
         if content.count("\\label{"+label+"}")!=1:
             raise AssertionError("Missing/multiple TeX label: "+label)
+    margin=load(OUT/"margin_summary.json")
+    if margin["schema"]!="e09-margin-from-common-metrics-v1" or len(margin["rows"])!=24:
+        raise AssertionError("Incomplete signed-margin report")
+    for row in margin["rows"]:
+        case=next(c for c in metrics["cases"] if c["policy"]==row["policy"] and c["H"]==row["H"])
+        src=case[row["split"]]
+        for key,q in (("p10","0.1"),("median","0.5"),("p90","0.9")):
+            if abs(row["quantiles"][key]-src["margin_quantiles"][q])>1e-13:
+                raise AssertionError("Margin quantile not from shared reporter")
+        if abs(row["sigmoid_margin_loss_balanced"]-src["balanced_sigmoid_margin_loss"])>1e-13:
+            raise AssertionError("Margin loss not from shared reporter")
+        if abs(row["hard_margin_error_balanced"]-src["hard_margin_error_conservative"])>1e-13:
+            raise AssertionError("Margin hard error mismatch")
+    print("E09_MARGIN_PASS: 24 signed margin rows and common losses checked without any walk.")
     print("E09_PASS: archived source CRC/digests, labels, coefficients, 12 true-H cases, "
           "24 common metric blocks, per-sample decisions, H12 E08 and E04 comparisons.")
     print("E09_SUMMARY",[(d["policy"],d["H"],

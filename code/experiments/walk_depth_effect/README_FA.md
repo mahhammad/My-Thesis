@@ -49,3 +49,7 @@ python code/experiments/walk_depth_effect/analyze.py
 - [CI اختصاصی](../../../.github/workflows/e09-true-horizon.yml) خروجی‌ها را فقط در غیاب داده قبلی تولید می‌کند و در دفعات بعدی read-only بررسی می‌کند.
 
 **کنترل‌های انجام‌شده:** سلامت آرشیو NPZ، تطبیق digestهای checkpoint و logits دو سیاست، تطبیق هش برچسب Train و ترتیب مرجع، مجموع واحد ضرایب هر H، H1 و H2/H3 مستقل، H12 با E08 و Uniform با ۴.۴. نتیجه بدون هیچ بازاجرای موتور، آموزش یا تولید داده به دست آمد.
+
+## گزارش کامل حاشیه تصمیم
+
+حاشیهٔ علامت‌دار، چندک‌های ۰، ۱۰، ۲۵، ۵۰، ۷۵، ۹۰ و ۱۰۰ درصد، میانگین متوازن هر کلاس، زیان سیگموئیدی متوازن، نرخ و شمار حاشیه‌های غیرمثبت و tie برای **۲۴ ترکیب سیاست/عمق/Train یا Validation** از خروجی ثبت‌شدهٔ گزارشگر مشترک استخراج می‌شود. داده اصلی دوباره تولید نشده است. فایل‌های [margin_summary.json](results/margin_summary.json)، [margin_summary.csv](results/margin_summary.csv)، جدول `tables/margin_by_H.tex` و نمودارهای Train و Validation در `figures/` مبنای گزارش هستند. برای بازسازی فقط جدول و گزارش حاشیه، دستور `python code/experiments/walk_depth_effect/margin_presentation.py` کافی است.

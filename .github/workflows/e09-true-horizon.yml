@@ -52,6 +52,8 @@ jobs:
           else
             echo "E09 results already exist; no recomputation."
           fi
+      - name: Build margin tables, figures and 24-row report from existing common metrics
+        run: python code/experiments/walk_depth_effect/margin_presentation.py
       - name: Independent read-only verification
         run: python code/experiments/walk_depth_effect/verify.py
       - name: Regression test persisted E09 evidence and E08 controls
