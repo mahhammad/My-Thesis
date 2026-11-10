@@ -5,6 +5,9 @@ on:
     branches: [chapter4]
     paths:
       - 'code/experiments/target_center_guidance_trajectory/**'
+      - 'tex/chapter4.tex'
+      - 'code/experiments/guided_informative_uniform_mixture/tables/**'
+      - 'code/experiments/guided_informative_uniform_mixture/figures/**'
       - '.github/workflows/chapter4-target-center-trajectory.yml'
   workflow_dispatch:
 
