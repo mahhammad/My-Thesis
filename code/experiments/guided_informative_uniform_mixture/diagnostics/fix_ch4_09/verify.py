@@ -36,6 +36,24 @@ def check():
         assert all(0<=x["validation_position"]<90 for x in v)
     # Original stored data are NOT committed: never assert byte-identity.
     assert d["data"]["original_historical_generated_data_byte_identity_verifiable"] is False
+
+    new=HERE/"results"/"mc_convergence.json"
+    if new.is_file():
+        e=json.loads(new.read_text(encoding="utf8"))
+        assert e["schema"]=="FIX-CH4-09-MC-convergence-v1"
+        assert e["historical_test_accessed"] is False and e["research_new_training"] is False
+        assert e["budgets_are_nested"] is False
+        assert e["rows"][0]["walks"]==300
+        assert abs(e["rows"][0]["validation_BA"]-d["cases"]["mc_val_mc_centers"]["balanced_accuracy"])<1e-12
+        assert [z["walks"] for z in e["rows"]]==[300,1200,4800,9600]
+        for z in e["rows"][1:]:
+            assert len(z["validation_predictions"])==90
+            assert len(z["MC_train_representations"])==300
+            assert len(z["MC_validation_representations"])==90
+            assert z["validation_disagreement_count_vs_exact"]==len(z["disagreement_rows"])
+            assert 0<=z["validation_BA"]<=1
+            assert z["validation_TV_mean"]>=0
+        print("PASS: independent higher-budget convergence output verified without rerunning MC.")
     print("PASS: FIX09 stored results consistent, historical files untouched, no rerun.")
     print("MC replay matches published two-decimal BA:",
           d["replayed_MC_BA_equals_historical_to_two_decimals"])

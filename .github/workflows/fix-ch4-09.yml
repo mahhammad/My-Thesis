@@ -31,13 +31,21 @@ jobs:
           else
             echo "FIX09 saved replay exists: do NOT run it again."
           fi
+      - name: Controlled higher-budget comparison ONCE if absent
+        run: |
+          if [ ! -f code/experiments/guided_informative_uniform_mixture/diagnostics/fix_ch4_09/results/mc_convergence.json ]; then
+            python code/experiments/guided_informative_uniform_mixture/diagnostics/fix_ch4_09/convergence.py --execute
+          else
+            echo "FIX09 higher-budget evidence already exists; no repeat."
+          fi
       - name: Verify the saved evidence read-only
         run: python code/experiments/guided_informative_uniform_mixture/diagnostics/fix_ch4_09/verify.py
       - name: Persist only the new diagnostic evidence on integration branch
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add code/experiments/guided_informative_uniform_mixture/diagnostics/fix_ch4_09/results/controlled_uniform_replay.json
+          git add code/experiments/guided_informative_uniform_mixture/diagnostics/fix_ch4_09/results/controlled_uniform_replay.json \
+                  code/experiments/guided_informative_uniform_mixture/diagnostics/fix_ch4_09/results/mc_convergence.json
           if ! git diff --cached --quiet; then
             git commit -m 'test(ch4): persist controlled MC versus exact source replay'
             git push origin HEAD:integration/ch4-release
