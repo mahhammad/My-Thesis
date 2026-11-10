@@ -16,3 +16,5 @@
 نمودار [حساسیت میانگین بر حسب τ](figures/sensitivity_vs_tau.svg) از داده تاریخی CSV ساخته شده و در محاسبه معیارهای عمومی دخالت ندارد. تست اختصاصی از طریق گردش‌کار [chapter4-e07-sigmoid.yml](../../.github/workflows/chapter4-e07-sigmoid.yml) روی GitHub Actions اجرا می‌شود.
 
 **تأیید تست اختصاصی:** [GitHub Actions — موفق](https://github.com/mahhammad/My-Thesis/actions/runs/42775070311) (چهار unittest سبک؛ بدون Train/Test مجدد).
+
+**مطالعه اندازه مرجع:** `results/size_study/runs.csv` (۲۶ اجرا) و `results/size_study/aggregate.csv` (شش اندازه)، کپی بدون تغییر از آرشیو قدیمی هستند. معیارهای عمومی فاقد بازنمایی در این بخش `not_measured` باقی مانده‌اند؛ این دو فایل بدون بازآموزی افزوده شدند.

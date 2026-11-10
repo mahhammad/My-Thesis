@@ -12,7 +12,7 @@
     "training_independent_data_splits": 1,
     "training_72_subset_seeds": 3,
     "training_300_reference_seeds": 1,
-    "extra_size_study_historical_runs": "archived, not integrated in this checkpoint-level common report"
+    "extra_size_study_historical_runs": 26
   },
   "measured": [
     {
@@ -67,6 +67,18 @@
         "training_objective"
       ],
       "source": "historical summary.csv; not independently verified with v2 common reporter"
+    },
+    {
+      "scope": "size study, 26 historical selections of 6 train sizes",
+      "ids": [
+        "train_BA",
+        "validation_BA",
+        "I_before_after",
+        "R_JS_before_after",
+        "train_loss_before_after",
+        "subset_sample_SD_for_n_under_300"
+      ],
+      "source": "results/size_study/runs.csv and aggregate.csv; exact copies of archived summaries, not new v2 measurements"
     }
   ],
   "not_measured": [
@@ -107,6 +119,24 @@
         "independent_seed_CI"
       ],
       "reason": "Three 72-member subsets derive from the same training split, and 300-member runs reuse one seed/split. Not independent generator replicates."
+    },
+    {
+      "scope": "size study, 26 archived runs",
+      "ids": [
+        "R_KL",
+        "R_sqrt_JS",
+        "T",
+        "BT",
+        "TNL",
+        "BTNL",
+        "pairwise_JS",
+        "pairwise_sqrt_JS",
+        "per_class_compactness",
+        "full_margin_distribution",
+        "confusion",
+        "NLL"
+      ],
+      "reason": "The 26 historical CSVs store only aggregate BA/I/R_JS/loss; per-sample representation and complete checkpoint policy matrices are not contained in these two summary files; cannot reconstruct full v2 common report without those detailed checkpoints."
     }
   ],
   "not_verified": [
@@ -119,6 +149,17 @@
         "training_objective"
       ],
       "reason": "Preserved from historical summary; not recomputed by current v2 reporter."
+    },
+    {
+      "scope": "size study, 26 historical runs",
+      "ids": [
+        "train_BA",
+        "validation_BA",
+        "I_before_after",
+        "R_JS_before_after",
+        "train_loss_before_after"
+      ],
+      "reason": "Copied byte-identically from archived summary CSV, not re-evaluated with common reporter."
     }
   ],
   "not_applicable": [
@@ -130,5 +171,5 @@
       "reason": "Analysis varies tau on fixed saved scores; no optimization step."
     }
   ],
-  "statistical_warning": "No Test observations are imported or used. Guided and uniform inference protocols differ. Historical round 4 was selected previously, not an independent new seed."
+  "statistical_warning": "No Test observations are imported or used. Guided and uniform inference protocols differ. Historical round 4 was selected previously, not an independent new seed. Size-study 5 nested subset selections at each n<300 are dependent; at n=300 nrep=1 so SD undefined."
 }

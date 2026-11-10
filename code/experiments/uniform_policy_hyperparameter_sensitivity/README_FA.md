@@ -18,7 +18,7 @@
 | [tables/diagnostics.tex](tables/diagnostics.tex) | جدول کمکی شامل تراکم، حاشیه، Accuracy و BA |
 | [figures/depth_sensitivity.tex](figures/depth_sensitivity.tex) | نمودار عمق مؤثر و سه پارامتر گشت |
 | [figures/geometry_vs_depth.tex](figures/geometry_vs_depth.tex) | نمودار دو معیار جدایی/تراکم برحسب عمق مؤثر |
-| [figures/balanced_accuracy.tex](figures/balanced_accuracy.tex) | نمودار Train/Validation BA برای ۹ تنظیم |
+| [figures/balanced_accuracy.tex](figures/balanced_accuracy.tex) | نمودار آرشیوی Train/Validation BA برای ۹ تنظیم؛ به دلیل ثابت‌بودن دقت اعتبارسنجی در متن اصلی وارد نمی‌شود |
 | [figures/depth_sensitivity.svg](figures/depth_sensitivity.svg)، [geometry_vs_depth.svg](figures/geometry_vs_depth.svg)، [balanced_accuracy.svg](figures/balanced_accuracy.svg) | نمودارهای قابل‌پیش‌نمایش مستقیم GitHub، با همان داده |
 | [test_report_assets.py](test_report_assets.py) | کنترل تطبیق CSV اصلی، داده مشتق، جدول، نمودار، مرجع شماره فصل و عدم استفاده از Test |
 

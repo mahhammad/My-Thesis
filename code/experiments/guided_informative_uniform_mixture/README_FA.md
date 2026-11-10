@@ -50,3 +50,5 @@ A_X^* = A_X\cap\{0,1,3\}.
 `python -m unittest discover -v -s code/experiments/guided_informative_uniform_mixture -p 'test_*.py'`
 
 **نتیجه مهم تفسیر:** با افزایش سهم Guided، هر سه فاصله جفتی مراکز و معیار جدایی (I) افزایش یافته‌اند، ولی (R_{\mathrm{JS}}) هم در هر سه کلاس افزایش یافته است؛ BA اعتبارسنجی فقط به اندازه **یک نمونه از ۹۰ نمونه** تغییر کرد. این تغییر کوچک را نباید نشانه قطعی افت عملکرد دانست. [مراکز با دقت کامل](results/centers_comparison.json)، [جدول مقایسه مراکز](tables/centers_endpoints.tex) و [روند فاصله/پراکندگی](tables/center_distances.tex) در پوشه ثبت شده‌اند.
+
+**انتخاب نمایش در متن:** نمودار `figures/balanced_accuracy.tex` در ضمیمه نگهداری می‌شود؛ اختلاف دقت در متن پایان‌نامه با جدول و توضیح یک‌نمونه‌ای گزارش شده و نمودار تکراری چاپ نمی‌شود. جدول‌های تاریخی سیاست امتیازمحور، جدا از اختلاط احتمالات، در `tables/historical_fixed_policy.tex` و `tables/exact_fixed_policy.tex` وارد می‌شوند و مقایسه هم‌پروتکل تلقی نمی‌شوند.
