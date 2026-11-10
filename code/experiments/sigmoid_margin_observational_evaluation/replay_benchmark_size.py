@@ -52,8 +52,8 @@ def eval_one(entry, checkpoint, splits, spec):
     ids = np.asarray(ds["reference_ids"], dtype=int)
     x, y = splits["train"]
     vx, vy = splits["validation"]
-    if (len(ids) != n or ds["seed"] != int(entry["data_seed"]) or
-            ds["n_reference"] != n or model["family"] != family or
+    if (len(ids) != n or ds["data_seed"] != int(entry["data_seed"]) or
+            ds["ref_n"] != n or model["family"] != family or
             model["objective"] != "margin_JSD" or model["steps"] != 25):
         raise ValueError("Run metadata disagrees with official Benchmark CSV")
     if len(np.unique(ids)) != n or not (0 <= ids).all() or not (ids < len(y)).all():
