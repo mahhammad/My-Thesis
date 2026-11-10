@@ -33,8 +33,8 @@ class E09Presentation(unittest.TestCase):
     def test_two_tables_grounded_in_saved_cases(self):
         main=(HERE/"tables"/"main_depth_effect.tex").read_text(encoding="utf8")
         other=(HERE/"tables"/"true_H_vs_E08_truncation.tex").read_text(encoding="utf8")
-        self.assertEqual(main.count(r"\begin{table}"),1)
-        self.assertEqual(other.count(r"\begin{table}"),1)
+        self.assertEqual(main.count(r"\begin{table}[htbp]"),1)
+        self.assertEqual(other.count(r"\begin{table}[htbp]"),1)
         for case in self.data["cases"]:
             n=f"{case['train']['I']:.5f}"
             ba=f"{100*case['validation']['balanced_accuracy']:.2f}"
