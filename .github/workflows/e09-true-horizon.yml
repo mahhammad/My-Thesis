@@ -1,0 +1,98 @@
+name: E-CH4-09 true horizon effect (saved E08 steps only)
+
+on:
+  push:
+    branches: [experiment/ch4-depth-effect]
+    paths:
+      - 'code/experiments/walk_depth_effect/**'
+      - '.github/workflows/e09-true-horizon.yml'
+      - 'research_journal/2026-11-10-E-CH4-09-depth-effect.md'
+      - 'tex/chapter4.tex'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  offline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Checkout only E09 branch
+        uses: actions/checkout@v4
+        with:
+          ref: experiment/ch4-depth-effect
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install CPU offline analysis dependencies
+        run: |
+          python -m pip install numpy
+          python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+      - name: Coefficient and boundary tests (no E08 rerun)
+        run: |
+          python -m unittest discover -s code/experiments/walk_depth_effect -p test_*.py -v
+      - name: Strict source inventory and provenance preflight
+        run: |
+          python - <<'PY'
+          import sys
+          from pathlib import Path
+          p=Path("code/experiments/walk_depth_effect").resolve()
+          sys.path.insert(0,str(p))
+          from analyze import source_inventory
+          d=source_inventory()
+          print("E09_PREFLIGHT_PASS",d["source_checks"]["source_raw_steps_sha256"])
+          print("No Test and no data generation; E08 policy checkpoints verified")
+          PY
+      - name: Offline true-H reaggregation ONCE if no results exist
+        run: |
+          if [ ! -f code/experiments/walk_depth_effect/results/metrics_full.json ]; then
+            python code/experiments/walk_depth_effect/analyze.py --execute
+          else
+            echo "E09 results already exist; no recomputation."
+          fi
+      - name: Preserve already persisted overall-margin report
+        run: |
+          if [ ! -f code/experiments/walk_depth_effect/results/margin_summary.json ]; then
+            python code/experiments/walk_depth_effect/margin_presentation.py
+          else
+            echo "E09 overall margin evidence exists; do not regenerate."
+          fi
+      - name: Derive error-conditional margins only from existing per-sample scores
+        run: |
+          if [ ! -f code/experiments/walk_depth_effect/results/margin_analysis.json ]; then
+            python code/experiments/walk_depth_effect/margins.py --write
+          else
+            python code/experiments/walk_depth_effect/margins.py --verify
+          fi
+      - name: Extract first quantile strictly above observed error rate (no new walk)
+        run: |
+          if [ ! -f code/experiments/walk_depth_effect/results/error_quantile_boundary.json ]; then
+            python code/experiments/walk_depth_effect/quantile_boundary.py --write
+          else
+            python code/experiments/walk_depth_effect/quantile_boundary.py --verify
+          fi
+      - name: Independent read-only verification
+        run: python code/experiments/walk_depth_effect/verify.py
+      - name: Regression test persisted E09 evidence and E08 controls
+        run: |
+          python -m unittest discover -s code/experiments/walk_depth_effect -p test_*.py -v
+          python -m unittest discover -s code/experiments/exact_matrix_walk_validation -p test_*.py -v
+          python -m unittest discover -s code/experiments/uniform_policy_hyperparameter_sensitivity -p test_*.py -v
+          python -m unittest discover -s code/experiments -p test_chapter4_presentation.py -v
+          python -m unittest discover -s code/experiments/benchmark_v1 -p test_chapter4_latex_syntax.py -v
+      - name: Commit ONLY new E09 evidence on isolated branch
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add code/experiments/walk_depth_effect/results \
+                  code/experiments/walk_depth_effect/tables \
+                  code/experiments/walk_depth_effect/figures \
+                  code/experiments/walk_depth_effect/REPORT_FA.md
+          if ! git diff --cached --quiet; then
+            git commit -m 'research(ch4): persist verified real-H depth effects'
+            git push origin HEAD:experiment/ch4-depth-effect
+          else
+            echo "Existing E09 evidence confirmed; no commit or experiment rerun."
+          fi
