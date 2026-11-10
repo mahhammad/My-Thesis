@@ -13,8 +13,13 @@ ARCHIVE = HERE.parent / "archive/center_matching_comparison/results"
 
 
 def read_csv(name):
+    # The byte-preserved legacy CSV embeds two audit metadata lines before
+    # the real index,... header. Preserve source bytes; skip only at read time.
     with (RAW / name).open(encoding="utf8", newline="") as f:
-        return list(csv.DictReader(f))
+        lines = f.readlines()
+    offset = next(i for i, line in enumerate(lines)
+                  if line.startswith("index,"))
+    return list(csv.DictReader(lines[offset:]))
 
 
 class TrajectoryReportEvidence(unittest.TestCase):
