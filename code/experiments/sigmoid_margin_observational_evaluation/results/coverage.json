@@ -158,89 +158,8 @@
       "source": "exact replay of stored logits with SHA256 cross-check"
     }
   ],
-  "not_measured": [
-    {
-      "scope": "nine 72-member subset training runs (full300 final policies verified separately)",
-      "ids": [
-        "R_KL",
-        "R_sqrt_JS",
-        "mean_true_class_similarity",
-        "T",
-        "BT",
-        "TNL",
-        "BTNL",
-        "min_pairwise_sqrt_JS",
-        "mean_pairwise_sqrt_JS",
-        "mean_pairwise_JS",
-        "pairwise_sqrt_JS",
-        "pairwise_JS",
-        "nearest_center_sqrt_JS_per_class",
-        "ordinary_accuracy",
-        "confusion_true_rows_pred_cols",
-        "per_class_recall",
-        "tie_count",
-        "margin_quantiles",
-        "hard_margin_error_conservative",
-        "balanced_sigmoid_margin_loss",
-        "balanced_JS_similarity_NLL",
-        "balanced_softplus_all_rivals",
-        "NLL_KL_simple",
-        "NLL_KL_normalized_historical"
-      ],
-      "reason": "Historical summary.csv does not retain the full per-sample train and validation distributions/centers necessary to compute the common contract. These numbers cannot be reconstructed solely from BA, I and R_JS; no new walk/evaluation was authorized."
-    },
-    {
-      "scope": "independent generalization uncertainty",
-      "ids": [
-        "independent_seed_SD",
-        "independent_seed_CI"
-      ],
-      "reason": "Three 72-member subsets derive from the same training split, and 300-member runs reuse one seed/split. Not independent generator replicates."
-    },
-    {
-      "scope": "size study, 26 archived runs",
-      "ids": [
-        "R_KL",
-        "R_sqrt_JS",
-        "T",
-        "BT",
-        "TNL",
-        "BTNL",
-        "pairwise_JS",
-        "pairwise_sqrt_JS",
-        "per_class_compactness",
-        "full_margin_distribution",
-        "confusion",
-        "NLL"
-      ],
-      "reason": "The 26 historical CSVs store only aggregate BA/I/R_JS/loss; per-sample representation and complete checkpoint policy matrices are not contained in these two summary files; cannot reconstruct full v2 common report without those detailed checkpoints."
-    },
-    {
-      "scope": "standardized Benchmark size study, extra v2 fields beyond flat source (superseded by verified full forward replay)",
-      "ids": [
-        "T",
-        "BT",
-        "TNL",
-        "BTNL",
-        "pairwise_JS",
-        "confusion",
-        "margin_quantiles",
-        "NLL"
-      ],
-      "reason": "Not present in master_runs_76.csv; raw checkpoint ZIPs remain available to backfill, not imputed. Recovered via benchmark_size_metrics_full.json."
-    }
-  ],
+  "not_measured": [],
   "not_verified": [
-    {
-      "scope": "nine 72-member subset training runs (full300 final policies verified separately)",
-      "ids": [
-        "I",
-        "R_JS",
-        "balanced_accuracy",
-        "training_objective"
-      ],
-      "reason": "Preserved from historical summary; not recomputed by current v2 reporter."
-    },
     {
       "scope": "size study, 26 historical runs",
       "ids": [
@@ -272,6 +191,95 @@
     "complete_train_validation_metrics": true,
     "new_training": false,
     "independent_data_seeds": 3,
-    "test": false
-  }
+    "test": false,
+    "workflow": "https://github.com/mahhammad/My-Thesis/actions/runs/42786885281",
+    "all_36_verified": true
+  },
+  "archive_only_or_resolved_coverage": [
+    {
+      "scope": "nine 72-member subset training runs (full300 final policies verified separately)",
+      "ids": [
+        "R_KL",
+        "R_sqrt_JS",
+        "mean_true_class_similarity",
+        "T",
+        "BT",
+        "TNL",
+        "BTNL",
+        "min_pairwise_sqrt_JS",
+        "mean_pairwise_sqrt_JS",
+        "mean_pairwise_JS",
+        "pairwise_sqrt_JS",
+        "pairwise_JS",
+        "nearest_center_sqrt_JS_per_class",
+        "ordinary_accuracy",
+        "confusion_true_rows_pred_cols",
+        "per_class_recall",
+        "tie_count",
+        "margin_quantiles",
+        "hard_margin_error_conservative",
+        "balanced_sigmoid_margin_loss",
+        "balanced_JS_similarity_NLL",
+        "balanced_softplus_all_rivals",
+        "NLL_KL_simple",
+        "NLL_KL_normalized_historical"
+      ],
+      "reason": "Historical summary.csv does not retain the full per-sample train and validation distributions/centers necessary to compute the common contract. These numbers cannot be reconstructed solely from BA, I and R_JS; no new walk/evaluation was authorized.",
+      "status": "archive_only_or_resolved"
+    },
+    {
+      "scope": "independent generalization uncertainty",
+      "ids": [
+        "independent_seed_SD",
+        "independent_seed_CI"
+      ],
+      "reason": "Three 72-member subsets derive from the same training split, and 300-member runs reuse one seed/split. Not independent generator replicates.",
+      "status": "archive_only_or_resolved"
+    },
+    {
+      "scope": "size study, 26 archived runs",
+      "ids": [
+        "R_KL",
+        "R_sqrt_JS",
+        "T",
+        "BT",
+        "TNL",
+        "BTNL",
+        "pairwise_JS",
+        "pairwise_sqrt_JS",
+        "per_class_compactness",
+        "full_margin_distribution",
+        "confusion",
+        "NLL"
+      ],
+      "reason": "The 26 historical CSVs store only aggregate BA/I/R_JS/loss; per-sample representation and complete checkpoint policy matrices are not contained in these two summary files; cannot reconstruct full v2 common report without those detailed checkpoints.",
+      "status": "archive_only_or_resolved"
+    },
+    {
+      "scope": "standardized Benchmark size study, extra v2 fields beyond flat source (superseded by verified full forward replay)",
+      "ids": [
+        "T",
+        "BT",
+        "TNL",
+        "BTNL",
+        "pairwise_JS",
+        "confusion",
+        "margin_quantiles",
+        "NLL"
+      ],
+      "reason": "Not present in master_runs_76.csv; raw checkpoint ZIPs remain available to backfill, not imputed. Recovered via benchmark_size_metrics_full.json.",
+      "status": "archive_only_or_resolved"
+    },
+    {
+      "scope": "nine 72-member subset training runs (full300 final policies verified separately)",
+      "ids": [
+        "I",
+        "R_JS",
+        "balanced_accuracy",
+        "training_objective"
+      ],
+      "reason": "Preserved from historical summary; not recomputed by current v2 reporter.",
+      "status": "archive_only_or_resolved"
+    }
+  ]
 }
