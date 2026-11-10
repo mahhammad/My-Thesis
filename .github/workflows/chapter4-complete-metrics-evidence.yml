@@ -26,4 +26,4 @@ jobs:
         with:
           python-version: '3.11'
       - name: Verify all published metric reports and missingness declarations
-        run: python -m unittest -v code/experiments/test_common_reports_complete.py
+        run: python -m unittest discover -v -s code/experiments -p 'test_common_reports_complete.py'
