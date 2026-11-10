@@ -8,6 +8,12 @@ on:
       - 'tex/chapter4.tex'
       - 'code/experiments/guided_informative_uniform_mixture/tables/**'
       - 'code/experiments/guided_informative_uniform_mixture/figures/**'
+      - 'code/experiments/test_complete_metric_reports.py'
+      - 'code/experiments/COMMON_METRICS_FA.md'
+      - 'code/experiments/COMMON_METRICS_CONTRACT.json'
+      - 'code/experiments/**/results/metrics_full.json'
+      - 'code/experiments/**/results/coverage.json'
+      - 'code/experiments/guided_informative_uniform_mixture/tables/complete_compactness.tex'
       - '.github/workflows/chapter4-target-center-trajectory.yml'
   workflow_dispatch:
 
@@ -42,6 +48,10 @@ jobs:
           path: /tmp/ch4-e06-common/
           retention-days: 30
           if-no-files-found: error
+      - name: Verify common metric artifact completeness and honest missingness
+        run: |
+          python -m unittest discover -v \
+            -s code/experiments -p 'test_complete_metric_reports.py'
       - name: Check manuscript LaTeX syntax guards
         run: |
           python -m unittest discover -v \
