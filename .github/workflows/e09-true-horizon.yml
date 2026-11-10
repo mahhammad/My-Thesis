@@ -59,6 +59,8 @@ jobs:
           python -m unittest discover -s code/experiments/walk_depth_effect -p test_*.py -v
           python -m unittest discover -s code/experiments/exact_matrix_walk_validation -p test_*.py -v
           python -m unittest discover -s code/experiments/uniform_policy_hyperparameter_sensitivity -p test_*.py -v
+          python -m unittest discover -s code/experiments -p test_chapter4_presentation.py -v
+          python -m unittest discover -s code/experiments/benchmark_v1 -p test_chapter4_latex_syntax.py -v
       - name: Commit ONLY new E09 evidence on isolated branch
         run: |
           git config user.name 'github-actions[bot]'
