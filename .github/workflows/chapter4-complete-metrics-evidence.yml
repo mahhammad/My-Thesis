@@ -1,0 +1,29 @@
+name: Chapter 4 complete metric evidence contract
+
+on:
+  push:
+    branches: [chapter4]
+    paths:
+      - 'code/experiments/COMMON_METRICS_CONTRACT.json'
+      - 'code/experiments/test_common_reports_complete.py'
+      - 'code/experiments/*/results/metrics_full.json'
+      - 'code/experiments/*/results/coverage.json'
+      - 'code/experiments/*/tables/complete_metrics.tex'
+      - 'code/experiments/*/REPORT_FA.md'
+      - '.github/workflows/chapter4-complete-metrics-evidence.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  report-coverage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify all published metric reports and missingness declarations
+        run: python -m unittest -v code/experiments/test_common_reports_complete.py
