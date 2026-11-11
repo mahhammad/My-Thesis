@@ -43,10 +43,10 @@
       "new_center_lower": 0.36000000000000004,
       "new_center_upper": 0.36000000000000004,
       "difference_metrics": {
-        "max_abs_vs_independent_enumeration": 0,
-        "max_abs_vs_reference_dense_DP": 0,
-        "max_realized_lower_excess_center": 0,
-        "max_realized_upper_shortfall_center": 0
+        "max_abs_vs_independent_enumeration": 0.0,
+        "max_abs_vs_reference_dense_DP": 0.0,
+        "max_realized_lower_excess_center": 0.0,
+        "max_realized_upper_shortfall_center": 0.0
       },
       "expected_origin_exact": 0.36,
       "invalid_historical_return_bound": 0.18933333333333333
@@ -74,8 +74,8 @@
       "new_center_upper": 0.38333333333380004,
       "difference_metrics": {
         "max_abs_vs_independent_enumeration": 2.220446049250313e-16,
-        "max_abs_vs_reference_dense_DP": 0,
-        "max_realized_lower_excess_center": 0,
+        "max_abs_vs_reference_dense_DP": 0.0,
+        "max_realized_lower_excess_center": 0.0,
         "max_realized_upper_shortfall_center": 2.220446049250313e-16
       },
       "expected_center_approx": 0.3833333333338,
