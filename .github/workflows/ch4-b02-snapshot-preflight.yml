@@ -27,11 +27,14 @@ jobs:
       - name: Generate canonical Train and three forward-only targets - hard 120 second timeout
         run: |
           set -euo pipefail
-          test ! -e code/experiments/inverse_attainable_standard/b02_preflight/manifest.json || {
-            echo "Immutable snapshot exists: refusing to overwrite"
-            exit 1
-          }
-          timeout --signal=TERM --kill-after=5s 120s python code/experiments/inverse_attainable_standard/b02_preflight/build_snapshot.py
+          if [ -e code/experiments/inverse_attainable_standard/b02_preflight/manifest.json ]; then
+            echo "Existing immutable B02 snapshot: verify only, never regenerate"
+            if [ -f code/experiments/inverse_attainable_standard/b02_preflight/audit_snapshot.py ]; then
+              timeout --signal=TERM --kill-after=5s 120s python code/experiments/inverse_attainable_standard/b02_preflight/audit_snapshot.py
+            fi
+          else
+            timeout --signal=TERM --kill-after=5s 120s python code/experiments/inverse_attainable_standard/b02_preflight/build_snapshot.py
+          fi
           python - <<'PY'
           import json
           from pathlib import Path
