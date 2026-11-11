@@ -279,13 +279,23 @@ def inspect_b02_bundle(bundle: Bundle, trusted: TrustedSpec) -> VerifiedB02Input
         target_rows.append(t)
     need(set(bundle.source_bytes)==set(SOURCES) and set(bundle.source_paths)==set(SOURCES),
          "E_SOURCE_SHA","G15","source set")
+    verified_source_pins=[]
+    verified_source_paths={}
     for key in SOURCES:
-        need(sha(bundle.source_bytes[key])==trusted.source_sha256[key] and
-             sha(Path(bundle.source_paths[key]).read_bytes())==trusted.source_sha256[key] and
-             m.get("source_sha256",{}).get(key)==trusted.source_sha256[key],
+        # Read/copy exactly once, then hash the SAME bytes handed to any future
+        # consumer. Never re-read Bundle mutable mappings at return time.
+        copied=bytes(bundle.source_bytes[key])
+        location=Path(bundle.source_paths[key]).resolve(strict=True)
+        loaded=location.read_bytes()
+        digest=trusted.source_sha256[key]
+        need(sha(copied)==digest and sha(loaded)==digest and
+             m.get("source_sha256",{}).get(key)==digest,
              "E_SOURCE_SHA","G15",key)
-    need(bundle.plan==bundle.source_bytes["plan"],"E_SOURCE_SHA","G15","plan bytes mismatch")
-    imports=_check_import_paths(bundle.source_paths, trusted.source_sha256)
+        verified_source_pins.append((key,str(location),digest,copied))
+        verified_source_paths[key]=location
+    need(bundle.plan==next(item[3] for item in verified_source_pins if item[0]=="plan"),
+         "E_SOURCE_SHA","G15","plan bytes mismatch")
+    imports=_check_import_paths(verified_source_paths, trusted.source_sha256)
     need(m.get("seed",{}).get("data")==20261102 and m["seed"].get("reference")==20261201 and
          m["seed"].get("teacher")==20261211 and m.get("walk")==
          {"H":12,"beta":.4,"lambda":.8,"dtype":"torch.float64","method":"exact_no_grad_three_forwards"},
@@ -336,8 +346,7 @@ def inspect_b02_bundle(bundle: Bundle, trusted: TrustedSpec) -> VerifiedB02Input
         X=tuple(tuple(xx[i*5:(i+1)*5]) for i in range(300)),
         y=y, mask=tuple(tuple(mask[i*5:(i+1)*5]) for i in range(300)),
         ids=ids,targets=tuple(target_rows),snapshot_sha256=sha(bundle.snapshot),targets_sha256=sha(bundle.targets),
-        source_pins=tuple((key, str(Path(bundle.source_paths[key]).resolve(strict=True)),
-                           trusted.source_sha256[key], bytes(bundle.source_bytes[key])) for key in SOURCES),
+        source_pins=tuple(verified_source_pins),
         import_attestation=imports, import_path_at_verify=tuple(sys.path),
         meta_finder_ids_at_verify=tuple(id(finder) for finder in sys.meta_path),
         trust_manifest_sha256=trusted.manifest_sha256)
