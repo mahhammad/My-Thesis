@@ -90,7 +90,7 @@ def run():
     timings=[]
     src_config=ROOT/"code/data_generator/config.json"
     spec=load_config(src_config)
-    if spec["seed"]!=DATA_SEED or spec["split_sizes"]["train"]!=300:
+    if spec["seed"]!=DATA_SEED or spec["sizes"]["train"]!=300:
         raise AssertionError("Generator source seed/size changed")
     started=time.perf_counter()
     def make_graph():
