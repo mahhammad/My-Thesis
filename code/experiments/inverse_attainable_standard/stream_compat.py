@@ -31,7 +31,7 @@ from run import ExactGraph,DT,jsd
 from stream_graph import StreamGraph
 from bootstrap_inverse import warm_q,exact_adam,damped_gauss_newton,exact_error
 
-OUT=HERE/"results"/"streamgraph_compat_cost.json"
+OUT=HERE/"results"/"streamgraph_compat_cost_v2.json"
 BASE_SHA="de02fdda91e23db177de4429b3e1a9693c046d83"
 
 
@@ -152,6 +152,18 @@ def tiny_equivalence(x,y,gamma):
     errs["GN_final_logits"]=matrix_error(b0,b1)
     errs["GN_trace"]=max(abs(l["error"]-r["error"]) for l,r in zip(tb0,tb1))
     validate_trace(tb1,cb1,target,b1,stream,idx)
+    # End-to-end retry from NEUTRAL after an unsuccessful GN warm-start:
+    # identical to the restart call used in D09::benchmark.
+    neutral=torch.zeros_like(q0)
+    r0,_,cr0,trr0=damped_gauss_newton(legacy,idx,target,neutral,2,1e-12)
+    r1,_,cr1,trr1=damped_gauss_newton(stream,idx,target,neutral,2,1e-12)
+    errs["GN_neutral_restart_final_logits"]=matrix_error(r0,r1)
+    errs["GN_neutral_restart_trace"]=max(abs(a["error"]-b["error"]) for a,b in zip(trr0,trr1))
+    validate_trace(trr1,cr1,target,r1,stream,idx)
+    # Match D09's best-of-two-retries decision, with both routes computed.
+    selected_legacy=r0 if trr0[-1]["error"]<tb0[-1]["error"] else b0
+    selected_stream=r1 if trr1[-1]["error"]<tb1[-1]["error"] else b1
+    errs["GN_hybrid_best_of_two_policy"]=matrix_error(selected_legacy,selected_stream)
     # Force the alternative EXACT-JSD gradient branch through max_backtrack=0:
     # zero GN line-search slots; the original solver still performs a full
     # fallback-gradient line search. This does not change production behavior.
@@ -166,7 +178,8 @@ def tiny_equivalence(x,y,gamma):
     derivatives={
       "warm_start":derivative_check(stream,q1,idx,target),
       "GN_endpoint":derivative_check(stream,b1,idx,target),
-      "fallback_endpoint":derivative_check(stream,f1,idx,target)
+      "fallback_endpoint":derivative_check(stream,f1,idx,target),
+      "neutral_restart_endpoint":derivative_check(stream,r1,idx,target)
     }
     if any(v>3e-10 for v in errs.values()):
         raise AssertionError(f"D09 solver output mismatch: {errs}")
@@ -176,8 +189,11 @@ def tiny_equivalence(x,y,gamma):
        "Exact_Adam_cost_stream":ca1,
        "GN_normal_cost_legacy":cb0,"GN_normal_cost_stream":cb1,
        "GN_fallback_cost_legacy":cf0,"GN_fallback_cost_stream":cf1,
+       "GN_neutral_restart_cost_legacy":cr0,"GN_neutral_restart_cost_stream":cr1,
        "GN_normal":validate_trace(tb1,cb1,target,b1,stream,idx),
        "GN_fallback":validate_trace(tf1,cf1,target,f1,stream,idx),
+       "GN_neutral_restart":validate_trace(trr1,cr1,target,r1,stream,idx),
+       "hybrid_best_of_two_error":min(tb1[-1]["error"],trr1[-1]["error"]),
        "derivatives":derivatives}
 
 
@@ -208,6 +224,12 @@ def cost_one_size(x,y,spec,n,reference_seed,teacher_seed):
     ((za,sec_a,ca,ta),t)=timed("D09_Exact_Adam_2_gradient_steps",lambda:exact_adam(g,idx,target,2,.12,1e-12));timings.append(t)
     ((zb,sec_b,cb,tb),t)=timed("D09_GN_2_iterations_from_Q",lambda:damped_gauss_newton(g,idx,target,zq,2,1e-12));timings.append(t)
     gn_norm=validate_trace(tb,cb,target,zb,g,idx)
+    # D09 also retries from zero if the Q-start GN attempt misses threshold.
+    # Measure that actual end-to-end solver branch, capped to one correction.
+    if tb[-1]["error"]<=1e-8:raise AssertionError("Preflight retry unexpectedly unnecessary")
+    ((zr,sec_r,cr,tr),t)=timed("D09_GN_neutral_restart_1_iteration",
+                        lambda:damped_gauss_newton(g,idx,target,z0,1,1e-12));timings.append(t)
+    gn_restart=validate_trace(tr,cr,target,zr,g,idx)
     ((zf,sec_f,cf,tf),t)=timed("D09_GN_forced_fallback_1_iteration",lambda:damped_gauss_newton(g,idx,target,zq,1,1e-12,max_backtrack=0));timings.append(t)
     gn_fallback=validate_trace(tf,cf,target,zf,g,idx)
     if cf["exact_grad"]!=1:raise AssertionError("GN fallback exact gradient not exercised at n="+str(n))
@@ -223,8 +245,13 @@ def cost_one_size(x,y,spec,n,reference_seed,teacher_seed):
       "Exact_Adam_exact_JS":exact_error(g,za,idx,target),
       "GN_exact_JS":exact_error(g,zb,idx,target),
       "GN_fallback_exact_JS":exact_error(g,zf,idx,target),
-      "costs":{"Q_only":cq,"Exact_Adam":ca,"GN":cb,"GN_fallback":cf},
-      "solver_trace":{"Exact_Adam":ta,"GN":gn_norm,"GN_fallback":gn_fallback},
+      "GN_neutral_restart_exact_JS":exact_error(g,zr,idx,target),
+      "GN_best_of_two_exact_JS":min(exact_error(g,zb,idx,target),exact_error(g,zr,idx,target)),
+      "hybrid_with_retry_wall_s_Q_plus_GN_plus_retry":sec_q+sec_b+sec_r,
+      "costs":{"Q_only":cq,"Exact_Adam":ca,"GN":cb,
+                "GN_fallback":cf,"GN_neutral_restart":cr},
+      "solver_trace":{"Exact_Adam":ta,"GN":gn_norm,
+                      "GN_fallback":gn_fallback,"GN_neutral_restart":gn_restart},
       "derivative_finite_difference":d_check,
       "timings":timings,"peak_process_rss_mib_after":peak_mb()}
     del g
@@ -254,7 +281,7 @@ def measure():
        "config":{"H":12,"beta":.4,"lambda":.8,"tol_future":1e-8,
           "tiny_n":36,"n_reference_sizes":[150,300],"only_class_for_cost":0,
           "solver_caps":{"q_grad":2,"exact_adam_grad":2,"GN_jacobian":2,
-                          "GN_forced_fallback":1},
+                          "GN_forced_fallback":1,"GN_neutral_restart":1},
           "no_monte_carlo":True,"no_main_runs":True,"test_used":False,
           "same_data_generator_train_seed":20261102,"reference_seed":20261117,
           "teacher_seed":20261118},
@@ -271,7 +298,8 @@ def measure():
     print("INV01_STREAM_PASS",json.dumps({"sizes":[{"n":z["size"],
           "times":{t["operation"]:t["wall_s"] for t in z["timings"]},
           "peak_mib":z["peak_process_rss_mib_after"],
-          "GN_cost":z["costs"]["GN"],"fallback_cost":z["costs"]["GN_fallback"]}
+          "GN_cost":z["costs"]["GN"],"fallback_cost":z["costs"]["GN_fallback"],
+          "restart_cost":z["costs"]["GN_neutral_restart"]}
        for z in rows],"tiny_max_diff":max(tiny["maximum_legacy_to_stream_errors"].values()),
        "total_seconds":record["environment"]["wall_total_seconds"]}))
 
@@ -287,6 +315,8 @@ def verify():
     for r in a["measurements"]:
         if r["costs"]["GN_fallback"]["exact_grad"]!=1:
             raise AssertionError("Fallback derivative not validated")
+        if r["costs"]["GN_neutral_restart"]["jacobian"]!=1:
+            raise AssertionError("Neutral restart not completed")
         if r["derivative_finite_difference"]["max_jacobian_fd_error"]>3e-6:
             raise AssertionError("GN Jacobian mismatch")
         if r["derivative_finite_difference"]["max_exact_jsd_gradient_fd_error"]>3e-6:
