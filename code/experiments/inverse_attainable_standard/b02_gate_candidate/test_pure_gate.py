@@ -2,6 +2,13 @@
 from __future__ import annotations
 from dataclasses import replace
 import hashlib
+import importlib.abc
+import importlib.machinery
+import importlib.util
+import os
+import threading
+import types
+from concurrent.futures import ThreadPoolExecutor
 import importlib.metadata
 import json
 from pathlib import Path
@@ -13,10 +20,10 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
-from audit_candidate import audit
+from audit_candidate import audit, audit_preflight_attempt, write_record
 from pure_gate import (BLOCK, MAGIC, SNAPSHOT_COMMIT, PLAN_COMMIT, CH4_COMMIT,
     SOURCES, Bundle, TrustedSpec, GateError, sha, inspect_b02_bundle,
-    verify_b02_inputs, read_pinned_bundle)
+    verify_b02_inputs, read_pinned_bundle, check_preuse_stub)
 
 
 def jb(x):return (json.dumps(x,sort_keys=True,ensure_ascii=True,indent=2)+"\n").encode()
@@ -279,5 +286,235 @@ class PureGateTests(unittest.TestCase):
         self.assertEqual(cm.exception.code,"E_NOT_AUTHORIZED")
     def test_no_assert_used_in_candidate(self):
         self.assertNotIn(b"assert ",Path(__file__).with_name("pure_gate.py").read_bytes())
+
+    # V2 targeted adversarial suite. All paths, source texts and arrays are
+    # synthetic private temporary fixtures; no graph/module/solver imported.
+    def test_g15_meta_path_effective_shadow(self):
+        shadow=self.root/"adversarial";shadow.mkdir()
+        (shadow/"run.py").write_text("MARKER='shadow'\n")
+        class ShadowFinder(importlib.abc.MetaPathFinder):
+            def find_spec(self, fullname, path=None, target=None):
+                if fullname=="run":
+                    return importlib.util.spec_from_file_location(fullname,shadow/"run.py")
+                return None
+        finder=ShadowFinder()
+        old=list(sys.meta_path)
+        try:
+            sys.meta_path.insert(0,finder)
+            # PathFinder alone still points at the expected path.
+            legacy=importlib.machinery.PathFinder.find_spec("run",sys.path)
+            self.assertEqual(Path(legacy.origin).resolve(),self.base.source_paths["graph_run"].resolve())
+            with self.assertRaises(GateError) as cm:
+                inspect_b02_bundle(self.base,self.trust)
+            self.assertEqual(cm.exception.code,"E_IMPORT_RESOLUTION")
+        finally:
+            sys.meta_path[:]=old
+        self.assertNotIn("run",sys.modules)
+
+    def test_g15_sys_modules_shadow(self):
+        shadow=types.ModuleType("run")
+        shadow.__file__=str(self.root/"shadow_fake_run.py")
+        old=sys.modules.get("run")
+        sys.modules["run"]=shadow
+        try:
+            with self.assertRaises(GateError) as cm:
+                inspect_b02_bundle(self.base,self.trust)
+            self.assertEqual(cm.exception.code,"E_IMPORT_CACHED")
+        finally:
+            if old is None:sys.modules.pop("run",None)
+            else:sys.modules["run"]=old
+
+    def test_g15_origin_is_pinned_but_loader_is_not(self):
+        expected=self.base.source_paths["graph_run"]
+        class SpoofFinder(importlib.abc.MetaPathFinder):
+            def find_spec(self,fullname,path=None,target=None):
+                if fullname=="run":
+                    return importlib.machinery.ModuleSpec("run",object(),origin=str(expected))
+                return None
+        old=list(sys.meta_path)
+        try:
+            sys.meta_path.insert(0,SpoofFinder())
+            with self.assertRaises(GateError) as cm:
+                inspect_b02_bundle(self.base,self.trust)
+            self.assertEqual(cm.exception.code,"E_IMPORT_LOADER")
+        finally:sys.meta_path[:]=old
+
+    def test_g20_immutable_values_and_preuse_still_denied(self):
+        candidate=inspect_b02_bundle(self.base,self.trust)
+        self.assertTrue(isinstance(candidate.X,tuple) and isinstance(candidate.source_pins,tuple))
+        self.assertEqual(candidate.source_pins[0][3],self.base.source_bytes["config"])
+        self.base.source_bytes["config"]=b"mutated Bundle mapping after verify"
+        self.assertNotEqual(candidate.source_pins[0][3],self.base.source_bytes["config"])
+        with self.assertRaises(GateError) as cm:
+            check_preuse_stub(candidate,self.trust)
+        self.assertEqual(cm.exception.code,"INTEGRATION_REQUIRED")
+        self.assertEqual(candidate.ids,tuple(range(300)))
+
+    def test_g20_concurrent_source_swap_before_use(self):
+        candidate=inspect_b02_bundle(self.base,self.trust)
+        go=threading.Event();done=threading.Event()
+        source=self.base.source_paths["graph_run"]
+        def attacker():
+            if not go.wait(2):return
+            source.write_bytes(b"# SWAPPED AFTER VERIFICATION\n")
+            done.set()
+        th=threading.Thread(target=attacker)
+        th.start()
+        go.set()
+        self.assertTrue(done.wait(2))
+        try:
+            with self.assertRaises(GateError) as cm:
+                check_preuse_stub(candidate,self.trust)
+            self.assertEqual(cm.exception.code,"E_PREUSE_SOURCE")
+        finally:th.join(timeout=2)
+        self.assertFalse(th.is_alive())
+
+    def test_g20_sys_modules_import_appears_before_use(self):
+        candidate=inspect_b02_bundle(self.base,self.trust)
+        old=sys.modules.get("run")
+        sys.modules["run"]=types.ModuleType("run")
+        try:
+            with self.assertRaises(GateError) as cm:
+                check_preuse_stub(candidate,self.trust)
+            self.assertEqual(cm.exception.code,"E_PREUSE_IMPORT")
+        finally:
+            if old is None:sys.modules.pop("run",None)
+            else:sys.modules["run"]=old
+
+    def test_g20_meta_path_changes_before_use(self):
+        candidate=inspect_b02_bundle(self.base,self.trust)
+        old=list(sys.meta_path)
+        try:
+            sys.meta_path.insert(0,object())
+            with self.assertRaises(GateError) as cm:
+                check_preuse_stub(candidate,self.trust)
+            self.assertEqual(cm.exception.code,"E_PREUSE_IMPORT_ENV")
+        finally:sys.meta_path[:]=old
+
+    def _audited_preflight(self, trust_path, *, snap=None, root=None, scope="SOLVE", refs=None):
+        out=self.root/"preflight-log"
+        start,end,record=audit_preflight_attempt(
+            snapshot_dir=snap or self.root/"snapshot-scratch",
+            repo_root=root or self.root/"checkout-scratch",
+            trusted_path=trust_path,audit_output=out,
+            scope=scope,refs=refs)
+        self.assertTrue(start.is_file() and end.is_file())
+        self.assertEqual(json.loads(start.read_text())["status"],"STARTED")
+        saved=json.loads(end.read_text())
+        self.assertEqual(saved["code"],record["code"])
+        self.assertEqual(saved["stage"],record["stage"])
+        self.assertEqual(saved["attempt_id"],json.loads(start.read_text())["attempt_id"])
+        self.assertEqual(saved["graph_constructed"],0)
+        self.assertEqual(saved["optimizer_steps"],0)
+        self.assertEqual(saved["phase"],"terminal")
+        return record
+
+    def test_audit_preflight_missing_trust_recorded(self):
+        record=self._audited_preflight(self.root/"nonexistent-trust.json")
+        self.assertEqual((record["code"],record["stage"]),("E_TRUST_MISSING","PREFLIGHT_TRUST"))
+        record2=self._audited_preflight(None)
+        self.assertEqual(record2["code"],"E_TRUST_MISSING")
+
+    def test_audit_preflight_malformed_trust_recorded(self):
+        p=self.root/"trust.json"
+        p.write_text("{not valid")
+        record=self._audited_preflight(p)
+        self.assertEqual((record["code"],record["stage"]),("E_TRUST_JSON","PREFLIGHT_TRUST"))
+
+    def test_audit_preflight_trust_inside_repo_and_symlink(self):
+        repo=self.root/"checkout-scratch";repo.mkdir(exist_ok=True)
+        trust=repo/"trust.json";trust.write_text("{}")
+        record=self._audited_preflight(trust,root=repo)
+        self.assertEqual(record["code"],"E_TRUST_UNSAFE")
+        link=self.root/"trust-alias.json";link.symlink_to(trust)
+        record2=self._audited_preflight(link,root=repo)
+        self.assertEqual(record2["code"],"E_TRUST_UNSAFE")
+
+    def test_audit_preflight_invalid_trust_schema(self):
+        p=self.root/"trust-unexpected.json"
+        p.write_text(json.dumps({"manifest_sha256":"missing others"}))
+        record=self._audited_preflight(p)
+        self.assertEqual(record["code"],"E_TRUST_SCHEMA")
+
+    def test_audit_preflight_loader_missing_path_and_wrong_refs(self):
+        from dataclasses import asdict
+        trust=self.root/"trust-proposal-test.json"
+        trust.write_text(json.dumps(asdict(self.trust)))
+        missing=self._audited_preflight(trust,snap=self.root/"not-a-snapshot")
+        self.assertEqual((missing["code"],missing["stage"]),
+                         ("E_INPUT_MISSING","PREFLIGHT_BUNDLE"))
+        drift=self._audited_preflight(trust,
+                 refs={"snapshot":"wrong","plan":PLAN_COMMIT,"chapter4":CH4_COMMIT})
+        self.assertEqual((drift["code"],drift["stage"]),("E_COMMIT_PIN","PREFLIGHT_BUNDLE"))
+
+    def test_audit_preflight_snapshot_symlink_attempt_logged(self):
+        from dataclasses import asdict
+        trust=self.root/"trust-test.json"
+        trust.write_text(json.dumps(asdict(self.trust)))
+        repo=self.root/"checkout-scratch";repo.mkdir(exist_ok=True)
+        snap=self.root/"snapshot-scratch";snap.mkdir(exist_ok=True)
+        (snap/"manifest.json").symlink_to(self.root/"untrusted-source")
+        record=self._audited_preflight(trust,snap=snap,root=repo)
+        self.assertEqual(record["stage"],"PREFLIGHT_BUNDLE")
+        self.assertIn(record["code"],("E_UNSAFE_PATH","E_INPUT_MISSING"))
+
+    def test_audit_repeated_and_concurrent_exclusive_create(self):
+        out=self.root/"append-root"
+        records=[{"attempt_id":f"{i+1:032x}","phase":"terminal","code":"E_TEST"} for i in range(4)]
+        with ThreadPoolExecutor(max_workers=4) as ex:
+            paths=list(ex.map(lambda rec:write_record(out,rec),records))
+        self.assertEqual(len({str(p) for p in paths}),4)
+        self.assertEqual(len(list(out.glob("*.json"))),4)
+        original=paths[0].read_bytes()
+        with self.assertRaises(GateError) as cm:
+            write_record(out,records[0])
+        self.assertEqual(cm.exception.code,"E_AUDIT_WRITE")
+        self.assertEqual(paths[0].read_bytes(),original)
+
+    def test_audit_unavailable_root_denies_without_claim(self):
+        bad=self.root/"unsafe-absent-parent"/"audit"
+        with self.assertRaises(GateError) as cm:
+            audit_preflight_attempt(snapshot_dir=None,repo_root=None,
+                 trusted_path=None,audit_output=bad,scope="SOLVE")
+        self.assertEqual(cm.exception.code,"E_AUDIT_ROOT_UNAVAILABLE")
+        self.assertFalse(bad.exists())
+        real=self.root/"secure";real.mkdir()
+        aliased=self.root/"symlink-audit"
+        aliased.symlink_to(real,target_is_directory=True)
+        with self.assertRaises(GateError) as cm2:
+            write_record(aliased,{"code":"E_TEST"})
+        self.assertEqual(cm2.exception.code,"E_AUDIT_ROOT_UNAVAILABLE")
+
+    def test_audit_python_O_starts_then_rejects(self):
+        from dataclasses import asdict
+        out=self.root/"optimized-audit"
+        p=self.root/"trust-test.json";p.write_text(json.dumps(asdict(self.trust)))
+        script=("from audit_candidate import audit_preflight_attempt;"
+                "from pathlib import Path;"
+                "import sys;"
+                "_,_,r=audit_preflight_attempt(snapshot_dir=Path(sys.argv[1]),"
+                "repo_root=Path(sys.argv[2]),trusted_path=Path(sys.argv[3]),"
+                "audit_output=Path(sys.argv[4]),scope='SOLVE');"
+                "print(r['code']);sys.exit(0 if r['code']=='E_RUNTIME_OPTIMIZED' else 1)")
+        r=subprocess.run([sys.executable,"-O","-c",script,str(self.root/"snapshot-scratch"),
+                          str(self.root/"checkout-scratch"),str(p),str(out)],
+                          cwd=Path(__file__).parent,capture_output=True,text=True,timeout=4)
+        self.assertEqual(r.returncode,0,r.stderr)
+        self.assertIn("E_RUNTIME_OPTIMIZED",r.stdout)
+        entries=list(out.glob("*.json"))
+        self.assertEqual(len(entries),2)
+        self.assertEqual({json.loads(x.read_text())["phase"] for x in entries},{"start","terminal"})
+
+    def test_audit_nongrant_exit_and_stage(self):
+        from dataclasses import asdict
+        out=self.root/"cli-audit"
+        trust=self.root/"missing-trust-json"
+        cmd=[sys.executable,str(Path(__file__).with_name("audit_candidate.py")),
+             "--audit-output",str(out),"--trusted-spec",str(trust),"--scope","SOLVE"]
+        p=subprocess.run(cmd,capture_output=True,text=True,timeout=4)
+        self.assertEqual(p.returncode,2,p.stderr)
+        result=json.loads(p.stdout)
+        self.assertEqual(result["code"],"E_TRUST_MISSING")
+        self.assertEqual(len(list(out.glob("*.json"))),2)
 
 if __name__=="__main__":unittest.main(verbosity=2)
