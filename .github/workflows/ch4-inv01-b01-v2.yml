@@ -1,0 +1,62 @@
+name: RESEARCHER-01 — B01-v2 diagnostic-only plateau rerun
+
+on:
+  push:
+    branches: [experiment/ch4-inv01-standard-plan]
+    paths:
+      - 'code/experiments/inverse_attainable_standard/standard_plan/b01_v2_run.py'
+      - 'code/experiments/inverse_attainable_standard/standard_plan/p2_v2_instrumentation.py'
+      - '.github/workflows/ch4-inv01-b01-v2.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  researcher-01-b01-v2:
+    runs-on: ubuntu-latest
+    timeout-minutes: 21
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: experiment/ch4-inv01-standard-plan
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install CPU-only dependencies (CI overhead, excluded from numerical clock)
+        run: |
+          python -m pip install numpy
+          python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+      - name: Stage unchanged historical StreamGraph and D09 source at legacy import locations
+        run: |
+          mkdir -p code/experiments/multistep_policy_target_match code/experiments/diag_max_full300
+          cp code/experiments/archive/multistep_policy_target_match/{run.py,bootstrap_inverse.py,test_bootstrap_inverse.py} code/experiments/multistep_policy_target_match/
+          cp code/experiments/archive/diag_max_full300/stream_graph.py code/experiments/diag_max_full300/
+      - name: B01-v2 prechecks — forced plateau must NOT stop; exact JSD threshold MUST stop
+        run: |
+          python code/experiments/inverse_attainable_standard/standard_plan/b01_v2_run.py --precheck
+      - name: Historical D09 light regression tests
+        run: |
+          python -m unittest discover -s code/experiments/multistep_policy_target_match -p 'test_bootstrap_inverse.py' -v
+      - name: B01-v2 single strictly bounded 18-solver numerical block ONLY
+        shell: bash
+        run: |
+          if [ -f code/experiments/inverse_attainable_standard/standard_plan/results/B01_v2/summary.json ]; then
+            echo 'B01_v2 already recorded; no overwrite and no duplicate execution.'
+          else
+            timeout --signal=INT --kill-after=5s 870s python code/experiments/inverse_attainable_standard/standard_plan/b01_v2_run.py --run
+          fi
+      - name: Verify B01-v2 best-policy selection, original problem identity and resource guards
+        run: |
+          python code/experiments/inverse_attainable_standard/standard_plan/b01_v2_run.py --verify
+      - name: Preserve partial/successful B01-v2 evidence — original B01 untouched
+        if: always()
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -f code/experiments/inverse_attainable_standard/standard_plan/results/B01_v2/ || true
+          if ! git diff --cached --quiet; then
+            git commit -m 'RESEARCHER-01: preserve versioned B01-v2 solver traces and exact best policies'
+            git push origin HEAD:experiment/ch4-inv01-standard-plan
+          fi
