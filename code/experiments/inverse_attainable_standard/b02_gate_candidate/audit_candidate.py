@@ -26,8 +26,8 @@ def _private_audit_directory(directory: Path, protected_dirs=()):
         if directory == check or directory.is_relative_to(check):
             raise GateError("E_AUDIT_ROOT_UNAVAILABLE", "AUDIT_ROOT",
                             "output within historical/source tree")
-    if directory.is_symlink() or directory.parent.is_symlink():
-        raise GateError("E_AUDIT_ROOT_UNAVAILABLE", "AUDIT_ROOT", "symlink audit directory/parent")
+    if any(ancestor.is_symlink() for ancestor in (directory, *directory.parents)):
+        raise GateError("E_AUDIT_ROOT_UNAVAILABLE", "AUDIT_ROOT", "symlink audit directory/ancestor")
     try:
         parent = directory.parent.resolve(strict=True)
         parent_stat = parent.stat()
@@ -154,7 +154,15 @@ def _external_trust(trust_path, snapshot_dir, repo_root):
     except OSError as exc:
         raise GateError("E_TRUST_IO", "PREFLIGHT_TRUST", type(exc).__name__) from exc
     try:
-        obj = json.loads(raw, parse_constant=lambda v: (_ for _ in ()).throw(ValueError(v)))
+        def no_duplicates(pairs):
+            output = {}
+            for key, value in pairs:
+                if key in output:
+                    raise ValueError("duplicate JSON trust key")
+                output[key] = value
+            return output
+        obj = json.loads(raw, object_pairs_hook=no_duplicates,
+                         parse_constant=lambda v: (_ for _ in ()).throw(ValueError(v)))
         if not isinstance(obj, dict):
             raise TypeError("trust mapping required")
     except (UnicodeError, ValueError, TypeError) as exc:
@@ -182,6 +190,7 @@ def audit_preflight_attempt(*, snapshot_dir, repo_root, trusted_path,
     attempt = uuid.uuid4().hex
     roots = tuple(Path(r).absolute() for r in (snapshot_dir, repo_root) if r is not None)
     record = _base_record(attempt, scope)
+    stage = "PREFLIGHT_TRUST"
     # If this fails, no audit evidence is claimed. No admission path exists.
     startpath = write_record(audit_output, dict(record, phase="start",
                             status="STARTED", stage="PREFLIGHT"),
@@ -191,9 +200,15 @@ def audit_preflight_attempt(*, snapshot_dir, repo_root, trusted_path,
             raise GateError("E_RUNTIME_OPTIMIZED", "G19", "python -O/-OO forbidden")
         trust = _external_trust(trusted_path, snapshot_dir, repo_root)
         record["trusted_manifest_sha256"] = trust.manifest_sha256
+        stage = "PREFLIGHT_BUNDLE"
         if snapshot_dir is None or repo_root is None:
             raise GateError("E_INPUT_MISSING", "PREFLIGHT_BUNDLE", "snapshot/repo root required")
         try:
+            for root in (snapshot_dir, repo_root):
+                path = Path(root).absolute()
+                if any(ancestor.is_symlink() for ancestor in (path, *path.parents)):
+                    raise GateError("E_UNSAFE_PATH", "PREFLIGHT_BUNDLE",
+                                    "symlink checkout/snapshot root")
             bundle = read_pinned_bundle(snapshot_dir, repo_root, refs=refs or {
                 "snapshot": SNAPSHOT_COMMIT, "plan": PLAN_COMMIT, "chapter4": CH4_COMMIT})
         except GateError as exc:
@@ -203,9 +218,16 @@ def audit_preflight_attempt(*, snapshot_dir, repo_root, trusted_path,
         except (PermissionError, OSError, ValueError) as exc:
             raise GateError("E_INPUT_LOADER", "PREFLIGHT_BUNDLE",
                             type(exc).__name__) from exc
+        except Exception as exc:
+            raise GateError("E_INPUT_LOADER", "PREFLIGHT_BUNDLE",
+                            type(exc).__name__) from exc
+        stage = "PREFLIGHT_VERIFY"
         verify_b02_inputs(bundle=bundle, trusted_spec=trust, requested_scope=scope)
-    except BaseException as exc:
+    except GateError as exc:
         _reject(record, exc, started)
+    except BaseException as exc:
+        _reject(record, GateError("E_PRECHECK_UNEXPECTED", stage,
+                                  type(exc).__name__), started)
     else:
         record.update(status="REJECTED", code="E_FAIL_OPEN", stage="AUDIT",
                       phase="terminal", wall_seconds=time.monotonic()-started)
