@@ -4,7 +4,7 @@
 **وضعیت:** `B01_v2: COMPLETED / CI PASS / INDEPENDENT AUDIT PENDING`.  
 **مرجع ثابت:** `chapter4@de02fdda91e23db177de4429b3e1a9693c046d83`.  
 **کد اجرا:** `3aeb504505bfff8841417683dbaa509fed5d13c5`؛ **شاهد داده خام:** `f13f28d70a5ff90c8c894a5a2ced375637cdb316`؛ [CI PASS #42986545002](https://github.com/mahhammad/My-Thesis/actions/runs/42986545002).  
-**دسترسی به شواهد:** [manifest v2](results/B01_v2/validated_run_01/manifest.json)، [trace خام](results/B01_v2/validated_run_01/trace.json)، [منحنی هزینه JSD](results/B01_v2/validated_run_01/curve.csv)، [۱۸ پاسخ و سیاست منتخب](results/B01_v2/validated_run_01/summary.json)، [جدول paired CSV](results/B01_v2/validated_run_01/paired_18.csv)، [گزارش ماشین‌خوان paired](results/B01_v2/validated_run_01/paired_summary.json)، [نسخه تاریخی B01](results/B01/summary.json).
+**دسترسی به شواهد:** [manifest v2](../results/B01_v2/validated_run_01/manifest.json)، [trace خام](../results/B01_v2/validated_run_01/trace.json)، [منحنی هزینه JSD](../results/B01_v2/validated_run_01/curve.csv)، [۱۸ پاسخ و سیاست منتخب](../results/B01_v2/validated_run_01/summary.json)، [جدول paired CSV](../results/B01_v2/validated_run_01/paired_18.csv)، [گزارش ماشین‌خوان paired](../results/B01_v2/validated_run_01/paired_summary.json)، [نسخه تاریخی B01](../results/B01/summary.json).
 
 ## ۱. گیت قرارداد و بازتولید داده
 
@@ -12,7 +12,7 @@
 
 **آزمون قبل از اجرا:** با شبیه‌سازی رکود در همه گام‌ها، Q-only و Exact-Adam تا cap و GN نیز بدون توقف ناشی از plateau ادامه پیدا کردند؛ تست آستانه موفقیت از گام صفر نیز PASS شد. تست‌های رگرسیون تاریخی D09 هم چهار مورد PASS دادند. شرط `plateau` در v2 فقط در trace به‌عنوان تشخیص ذخیره می‌شود؛ مجوز توقف فقط تلرانس، cap، شکست عددی/عدم امکان اصلاح واقعی GN یا سقف منابع است. معیار **انتخاب سیاست منتخب**، کمترین JSD دقیق مشاهده‌شده در checkpointهای همان مسئله است؛ `best` و `final` هر دو جدا ثبت و سیاست انتخابی دوباره ارزیابی شده است. **هیچ وضعیت `stop_reason=plateau` در v2 وجود ندارد**.
 
-**ثبت ایراد زیرساخت:** تلاش نخست v2 هنگام گیت هش Train، **قبل از اجرای هر حلگر** متوقف شد و trace توقف آن در `results/B01_v2/summary.json` و `trace.json` حفظ شده است. یک آزمایش تشخیصی مستقل بعدی تطابق کامل هش‌های داده/هدف را نشان داد ([diagnostic ذخیره‌شده](results/B01_v2/pairing_diagnostic.json))؛ اجرای نهایی، دوباره تطابق سخت داده/هدف را کنترل کرد و موفق شد ([diagnostic نهایی](results/B01_v2/pairing_diagnostic_run01.json)). این رویداد هشدار می‌دهد بازتولید بین runnerها را فقط از روی seed قطعی ندانیم؛ برای اجرای آینده snapshot داده در کنار fingerprint قفل شود. شکست پیشین هیچ مقایسه حلگرِ جدیدی ایجاد نکرده است.
+**ثبت ایراد زیرساخت:** تلاش نخست v2 هنگام گیت هش Train، **قبل از اجرای هر حلگر** متوقف شد و trace توقف آن در `results/B01_v2/summary.json` و `trace.json` حفظ شده است. یک آزمایش تشخیصی مستقل بعدی تطابق کامل هش‌های داده/هدف را نشان داد ([diagnostic ذخیره‌شده](../results/B01_v2/pairing_diagnostic.json))؛ اجرای نهایی، دوباره تطابق سخت داده/هدف را کنترل کرد و موفق شد ([diagnostic نهایی](../results/B01_v2/pairing_diagnostic_run01.json)). این رویداد هشدار می‌دهد بازتولید بین runnerها را فقط از روی seed قطعی ندانیم؛ برای اجرای آینده snapshot داده در کنار fingerprint قفل شود. شکست پیشین هیچ مقایسه حلگرِ جدیدی ایجاد نکرده است.
 
 ## ۲. خلاصه مقایسه B01 و B01-v2
 
