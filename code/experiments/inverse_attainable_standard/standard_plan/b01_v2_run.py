@@ -28,7 +28,7 @@ from generate import generate,load_config
 from stream_graph import StreamGraph
 from run import DT,jsd
 
-RESULT=HERE/"results"/"B01_v2"
+RESULT=HERE/"results"/"B01_v2"/"validated_run_01"
 LEGACY=HERE/"results"/"B01"
 M=RESULT/"manifest.json"
 RAW=RESULT/"trace.json"
@@ -380,9 +380,13 @@ def diagnose_pairing():
        "observed_masked_counts":np.sum(~np.isfinite(x),axis=0).tolist(),
        "strict_pairing_pass":all(v["equal"] for v in checks.values()) and
           all(z["exact_binary_hash_equal"] for z in deltas)}
- RESULT.mkdir(parents=True,exist_ok=True)
- p2.atomic_json(RESULT/"pairing_diagnostic.json",diag)
+ diag_path=HERE/"results"/"B01_v2"/"pairing_diagnostic_run01.json"
+ if diag_path.exists():raise FileExistsError("Pairing diagnostic already exists: no duplicate run")
+ diag_path.parent.mkdir(parents=True,exist_ok=True)
+ p2.atomic_json(diag_path,diag)
  print("RESEARCHER-01_B01_V2_PAIRING_DIAGNOSIS",json.dumps(diag,ensure_ascii=False),flush=True)
+ if not diag["strict_pairing_pass"]:
+  raise AssertionError("Stop before solve: source/target fingerprints did not match original B01")
 
 def precheck():
  """Tiny non-persistent regression: plateau fires each iteration but NEVER terminates."""
