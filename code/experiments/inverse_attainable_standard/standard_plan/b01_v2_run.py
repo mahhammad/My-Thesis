@@ -337,6 +337,53 @@ def verify():
 
 
 
+
+
+def diagnose_pairing():
+ """Never solve: identify raw-data vs witness/target fingerprint drift."""
+ torch.set_num_threads(1)
+ old=json.loads((LEGACY/"manifest.json").read_text(encoding="utf8"))
+ spec=load_config(ROOT/"code/data_generator/config.json")
+ with tempfile.TemporaryDirectory() as temp:
+  data=generate(spec,temp,finite_q=False)
+ x_all,y_all=data["train"][0],data["train"][2]
+ rseed=20261201
+ rng=np.random.default_rng(rseed)
+ selected=np.concatenate([rng.choice(np.flatnonzero(y_all==c),50,replace=False) for c in range(3)])
+ rng.shuffle(selected)
+ x,y=x_all[selected],y_all[selected]
+ g=StreamGraph(x,y,spec["gamma"],None,beta=.4,lam=.8,horizon=12)
+ centers,wit_hash=target_per_class(g,y,teacher_seed=20261211)
+ keys={"source_train_X_sha256":sha_arr(x_all),
+       "source_train_y_sha256":sha_arr(y_all),
+       "selected_reference_ids_sha256":sha_arr(selected),
+       "teacher_logits_sha256_ONLY":wit_hash,
+       "generator_config_sha256":p2.sha256_file(ROOT/"code/data_generator/config.json"),
+       "plan_sha256":p2.sha256_file(PLAN)}
+ checks={key:{"baseline":old.get(key),"new":value,"equal":old.get(key)==value}
+         for key,value in keys.items()}
+ deltas=[]
+ for c,t in enumerate(centers):
+  prev=old["targets"][c]
+  arr=torch.as_tensor(prev["target"],dtype=DT)
+  e=float(jsd(t,arr).item())
+  diff=float(torch.max(torch.abs(t-arr)).item())
+  deltas.append({"class":c,"old_target_sha256":prev["target_sha256"],
+                 "new_target_sha256":sha_arr(t.numpy()),
+                 "exact_binary_hash_equal":prev["target_sha256"]==sha_arr(t.numpy()),
+                 "max_absolute_component_difference":diff,
+                 "JSD_of_recomputed_teacher_center_against_old_target":e})
+ diag={"version":"RESEARCHER-01_B01_V2_PRE_SOLVE_PAIRING_DIAGNOSTIC",
+       "no_solver_run":True,"source_manifest":str(LEGACY/"manifest.json"),
+       "key_comparisons":checks,"target_comparisons":deltas,
+       "new_class_counts":np.bincount(y,minlength=3).tolist(),
+       "observed_masked_counts":np.sum(~np.isfinite(x),axis=0).tolist(),
+       "strict_pairing_pass":all(v["equal"] for v in checks.values()) and
+          all(z["exact_binary_hash_equal"] for z in deltas)}
+ RESULT.mkdir(parents=True,exist_ok=True)
+ p2.atomic_json(RESULT/"pairing_diagnostic.json",diag)
+ print("RESEARCHER-01_B01_V2_PAIRING_DIAGNOSIS",json.dumps(diag,ensure_ascii=False),flush=True)
+
 def precheck():
  """Tiny non-persistent regression: plateau fires each iteration but NEVER terminates."""
  old=(p2.persist,p2.stopcheck,p2.plateau,p2.state,p2.START,p2.DEADLINE)
@@ -375,7 +422,9 @@ if __name__=="__main__":
  grp=ap.add_mutually_exclusive_group(required=True)
  grp.add_argument("--run",action="store_true");grp.add_argument("--verify",action="store_true")
  grp.add_argument("--precheck",action="store_true")
+ grp.add_argument("--diagnose-pairing",action="store_true")
  arg=ap.parse_args()
  if arg.run:run()
  elif arg.precheck:precheck()
+ elif arg.diagnose_pairing:diagnose_pairing()
  else:verify()

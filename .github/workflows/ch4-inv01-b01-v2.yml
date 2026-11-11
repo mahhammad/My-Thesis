@@ -38,17 +38,12 @@ jobs:
       - name: Historical D09 light regression tests
         run: |
           python -m unittest discover -s code/experiments/multistep_policy_target_match -p 'test_bootstrap_inverse.py' -v
-      - name: B01-v2 single strictly bounded 18-solver numerical block ONLY
-        shell: bash
+      - name: Diagnose deterministic generator & teacher-center pairing BEFORE any solver
         run: |
-          if [ -f code/experiments/inverse_attainable_standard/standard_plan/results/B01_v2/summary.json ]; then
-            echo 'B01_v2 already recorded; no overwrite and no duplicate execution.'
-          else
-            timeout --signal=INT --kill-after=5s 870s python code/experiments/inverse_attainable_standard/standard_plan/b01_v2_run.py --run
-          fi
-      - name: Verify B01-v2 best-policy selection, original problem identity and resource guards
+          python code/experiments/inverse_attainable_standard/standard_plan/b01_v2_run.py --diagnose-pairing
+      - name: Prevent auto-run until pairing discrepancy is resolved
         run: |
-          python code/experiments/inverse_attainable_standard/standard_plan/b01_v2_run.py --verify
+          echo 'Pre-solve mismatch gate remains closed; only diagnostic evidence is saved.'
       - name: Preserve partial/successful B01-v2 evidence — original B01 untouched
         if: always()
         shell: bash
