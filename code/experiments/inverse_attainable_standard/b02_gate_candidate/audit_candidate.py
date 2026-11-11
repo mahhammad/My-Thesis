@@ -24,7 +24,7 @@ def _private_audit_directory(directory: Path, protected_dirs=()):
     for protected in protected_dirs:
         check = Path(protected).absolute()
         if directory == check or directory.is_relative_to(check):
-            raise GateError("E_AUDIT_ROOT_UNAVAILABLE", "AUDIT_ROOT",
+            raise GateError("E_UNSAFE_PATH", "AUDIT",
                             "output within historical/source tree")
     if any(ancestor.is_symlink() for ancestor in (directory, *directory.parents)):
         raise GateError("E_AUDIT_ROOT_UNAVAILABLE", "AUDIT_ROOT", "symlink audit directory/ancestor")
