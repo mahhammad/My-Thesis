@@ -143,8 +143,14 @@ def main():
         coverage={status:counts[(key,status)] for status in vocabulary}
         if sum(coverage.values())!=76:raise ValueError("Coverage count mismatch "+key)
         fullcov["metric_coverage_counts"][key]=coverage
-    if any(fullcov["metric_coverage_counts"]["center."+k]["measured"]!=76 for k in REQUIRED):
-        raise ValueError("Not all 76 centers measured")
+    contracted={k for k in fullcov["metric_ids"] if k.startswith("center.")}
+    if contracted!={"center."+k for k in REQUIRED if k!="pairwise_JS_similarity"}:
+        raise ValueError("Center-only metric contract unexpectedly changed")
+    if any(fullcov["metric_coverage_counts"][k]["measured"]!=76 for k in contracted):
+        raise ValueError("Not all 76 required center metrics measured")
+    if any(r.get("auxiliary_center_metrics",{}).get("pairwise_JS_similarity",{}).get("status")!="measured"
+           for r in fullcov["runs"]):
+        raise ValueError("Optional center similarity coverage incomplete")
 
     with (OUT/"coverage_manifest_76.json").open("w",encoding="utf8") as fh:
         json.dump(fullcov,fh,ensure_ascii=False,indent=2,allow_nan=False)
