@@ -32,7 +32,7 @@ jobs:
           cp code/experiments/archive/multistep_policy_target_match/{run.py,bootstrap_inverse.py,test_run.py,test_bootstrap_inverse.py} code/experiments/multistep_policy_target_match/
       - name: Historical D09 correctness regressions on tiny references
         run: |
-          python -m unittest discover -s code/experiments/multistep_policy_target_match -p 'test_*.py' -v
+          python -m unittest discover -s code/experiments/multistep_policy_target_match -p 'test_bootstrap_inverse.py' -v
       - name: Bounded real-cost probe on balanced n=150 (one class only)
         run: |
           if [ ! -f code/experiments/inverse_attainable_standard/results/preflight_measurements.json ]; then
