@@ -339,6 +339,25 @@ class PureGateTests(unittest.TestCase):
             self.assertEqual(cm.exception.code,"E_IMPORT_LOADER")
         finally:sys.meta_path[:]=old
 
+    def test_g15_effective_loader_source_byte_spoof(self):
+        expected=self.base.source_paths["graph_run"]
+        class SpoofLoader(importlib.machinery.SourceFileLoader):
+            def get_data(self,path):
+                return b"malicious bytes from loader, not source file"
+        class SpoofFinder(importlib.abc.MetaPathFinder):
+            def find_spec(self,fullname,path=None,target=None):
+                if fullname=="run":
+                    return importlib.util.spec_from_loader(fullname,
+                        SpoofLoader(fullname,str(expected)),origin=str(expected))
+                return None
+        old=list(sys.meta_path)
+        try:
+            sys.meta_path.insert(0,SpoofFinder())
+            with self.assertRaises(GateError) as cm:
+                inspect_b02_bundle(self.base,self.trust)
+            self.assertEqual(cm.exception.code,"E_IMPORT_LOADER_HASH")
+        finally:sys.meta_path[:]=old
+
     def test_g20_immutable_values_and_preuse_still_denied(self):
         candidate=inspect_b02_bundle(self.base,self.trust)
         self.assertTrue(isinstance(candidate.X,tuple) and isinstance(candidate.source_pins,tuple))
@@ -446,6 +465,16 @@ class PureGateTests(unittest.TestCase):
         record2=self._audited_preflight(link,root=repo)
         self.assertEqual(record2["code"],"E_TRUST_UNSAFE")
 
+    def test_audit_trust_grandparent_symlink(self):
+        outside=self.root/"external";outside.mkdir()
+        trust=outside/"trust.json";trust.write_text("{}")
+        ancestor=self.root/"alias-dir";ancestor.symlink_to(outside,target_is_directory=True)
+        nested=ancestor/"subdir";(outside/"subdir").mkdir()
+        t=nested/"trust.json";t.write_text("{}")
+        record=self._audited_preflight(t)
+        self.assertEqual((record["code"],record["stage"]),
+                         ("E_TRUST_UNSAFE","PREFLIGHT_TRUST"))
+
     def test_audit_preflight_invalid_trust_schema(self):
         p=self.root/"trust-unexpected.json"
         p.write_text(json.dumps({"manifest_sha256":"missing others"}))
@@ -486,6 +515,17 @@ class PureGateTests(unittest.TestCase):
             write_record(out,records[0])
         self.assertEqual(cm.exception.code,"E_AUDIT_WRITE")
         self.assertEqual(paths[0].read_bytes(),original)
+
+    def test_audit_concurrent_missing_trust_attempts_both_logged(self):
+        out=self.root/"concurrent-preflight"
+        def attempt(_):
+            return audit_preflight_attempt(snapshot_dir=None,repo_root=None,
+                  trusted_path=None,audit_output=out,scope="SOLVE")
+        with ThreadPoolExecutor(max_workers=2) as ex:
+            results=list(ex.map(attempt,range(2)))
+        self.assertEqual(len({rec["attempt_id"] for _,_,rec in results}),2)
+        self.assertTrue(all(rec["code"]=="E_TRUST_MISSING" for _,_,rec in results))
+        self.assertEqual(len(list(out.glob("*.json"))),4)
 
     def test_audit_unavailable_root_denies_without_claim(self):
         bad=self.root/"unsafe-absent-parent"/"audit"
