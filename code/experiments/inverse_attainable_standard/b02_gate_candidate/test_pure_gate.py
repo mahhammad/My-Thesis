@@ -124,6 +124,13 @@ class PureGateTests(unittest.TestCase):
         with self.assertRaises(GateError) as cm:
             inspect_b02_bundle(bundle,trust)
         self.assertEqual(cm.exception.code,expected,str(cm.exception))
+        # Each negative fixture is independently logged, not merely asserted.
+        path,record=audit(bundle,trust,"RESOURCE_PROBE",self.root/"fixture-audit-append-only")
+        self.assertEqual(record["code"],expected)
+        self.assertEqual(record["trusted_manifest_sha256"],trust.manifest_sha256)
+        self.assertEqual(record["graph_constructed"],0)
+        self.assertEqual(record["optimizer_steps"],0)
+        self.assertTrue(record["attempt_id"] and path.is_file())
         return cm.exception
     def test_valid_semantic_bundle_but_denied(self):
         v=inspect_b02_bundle(self.base,self.trust)
