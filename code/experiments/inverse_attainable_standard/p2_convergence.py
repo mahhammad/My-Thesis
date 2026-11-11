@@ -26,7 +26,7 @@ import numpy as np
 import torch
 
 HERE=Path(__file__).resolve().parent
-ROOT=HERE.parents[3]
+ROOT=HERE.parents[2]
 sys.path.insert(0,str(ROOT/"code/data_generator"))
 sys.path.insert(0,str(ROOT/"code/experiments/multistep_policy_target_match"))
 sys.path.insert(0,str(ROOT/"code/experiments/diag_max_full300"))
@@ -171,7 +171,7 @@ def trace_point(run,kind,step,error,begin,cost,offset=0,surrogate=None,accepted=
  stopcheck()
  if not np.isfinite(error):raise ArithmeticError("nonfinite traced center error")
  t=time.perf_counter()
- best=min(error,run["best_JSD"])
+ best=error if run["best_JSD"] is None else min(error,run["best_JSD"])
  run["best_JSD"]=best
  row={"stage":kind,"step":step,"exact_center_JSD":error,"best_JSD":best,
       "method_wall_s":t-begin,"inclusive_wall_s":t-begin+offset,
@@ -199,7 +199,7 @@ def plateau(history,step):
 
 def new_run(problem,method,initial):
  r={"problem":problem,"method":method,"initialization":initial,
-    "status":"in_progress","stop_reason":None,"best_JSD":float("inf"),
+    "status":"in_progress","stop_reason":None,"best_JSD":None,
     "final_JSD":None,"reached_tolerance":False,"counts":counts(),"trace":[]}
  state["runs"].append(r);persist()
  return r
