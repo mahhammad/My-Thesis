@@ -7,6 +7,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 import hashlib
 import importlib.machinery
+import importlib.util
 import importlib.metadata
 import json
 import math
@@ -128,6 +129,13 @@ class VerifiedB02Inputs:
     targets: tuple[tuple[float, ...], ...]
     snapshot_sha256: str
     targets_sha256: str
+    # Only immutable value objects / byte payloads cross the verifier boundary.
+    # Never retain mutable Bundle.mapping or live Path objects for subsequent use.
+    source_pins: tuple[tuple[str, str, str, bytes], ...] = ()
+    import_attestation: tuple[tuple[str, str, str], ...] = ()
+    import_path_at_verify: tuple[str, ...] = ()
+    meta_finder_ids_at_verify: tuple[int, ...] = ()
+    trust_manifest_sha256: str = ""
 
 
 def _required_manifest(m):
@@ -165,18 +173,46 @@ def _runtime_info():
     return {"python":platform.python_version(),"numpy":dist("numpy"),"torch":dist("torch")}
 
 
-def _check_import_paths(source_paths):
-    # PathFinder.find_spec resolves module names without importing model code.
-    # Protect both import-resolution and already loaded modules.
-    for name, source_name in (("run","graph_run"),("stream_graph","streamgraph"),("generate","generator")):
-        expected=Path(source_paths[source_name]).resolve(strict=True)
-        spec=importlib.machinery.PathFinder.find_spec(name,sys.path)
-        need(spec is not None and spec.origin is not None and Path(spec.origin).resolve()==expected,
-             "E_IMPORT_RESOLUTION","G15",name)
-        existing=sys.modules.get(name)
-        if existing is not None:
-            need(Path(getattr(existing,"__file__", "")).resolve()==expected,
-                 "E_IMPORT_RESOLUTION","G15","already loaded "+name)
+def _check_import_paths(source_paths, expected_hashes):
+    """Observe EFFECTIVE import resolution, without importing target modules.
+
+    Checking PathFinder alone ignores sys.meta_path and sys.modules; this check
+    consults effective finder order and pins SourceFileLoader raw bytes. This is
+    only a PRE-USE observation: a runner must independently bind actual imports
+    and protect this state until the first graph operation.
+    """
+    records = []
+    for name, source_name in (("run", "graph_run"), ("stream_graph", "streamgraph"), ("generate", "generator")):
+        need(name not in sys.modules, "E_IMPORT_CACHED", "G15",
+             "import already present before preflight: " + name)
+        expected = Path(source_paths[source_name])
+        need(expected.is_file() and not expected.is_symlink(),
+             "E_IMPORT_RESOLUTION", "G15", "unsafe expected module path " + name)
+        expected = expected.resolve(strict=True)
+        # importlib.util.find_spec uses the effective sys.meta_path order. It
+        # may invoke a finder but MUST NOT import the target module here.
+        try:
+            actual = importlib.util.find_spec(name)
+        except (ImportError, AttributeError, ValueError, TypeError, OSError) as exc:
+            raise GateError("E_IMPORT_RESOLUTION", "G15", "finder error for " + name) from exc
+        need(name not in sys.modules, "E_IMPORT_CACHED", "G15",
+             "finder imported the target module " + name)
+        need(actual is not None and isinstance(actual.loader, importlib.machinery.SourceFileLoader)
+             and actual.origin is not None, "E_IMPORT_LOADER", "G15", name)
+        origin = Path(actual.origin).resolve(strict=True)
+        need(origin == expected and Path(actual.loader.path).resolve(strict=True) == expected,
+             "E_IMPORT_RESOLUTION", "G15", "effective meta_path origin " + name)
+        need(actual.loader.name == name, "E_IMPORT_LOADER", "G15", name)
+        try:
+            read_by_loader = actual.loader.get_data(str(expected))
+            read_by_path = expected.read_bytes()
+        except OSError as exc:
+            raise GateError("E_IMPORT_LOADER", "G15", "loader cannot read pinned source") from exc
+        expected_hash = expected_hashes[source_name]
+        need(sha(read_by_loader) == expected_hash and sha(read_by_path) == expected_hash,
+             "E_IMPORT_LOADER_HASH", "G15", "loader/source-byte mismatch for " + name)
+        records.append((name, str(expected), expected_hash))
+    return tuple(records)
 
 
 def inspect_b02_bundle(bundle: Bundle, trusted: TrustedSpec) -> VerifiedB02Inputs:
@@ -249,7 +285,7 @@ def inspect_b02_bundle(bundle: Bundle, trusted: TrustedSpec) -> VerifiedB02Input
              m.get("source_sha256",{}).get(key)==trusted.source_sha256[key],
              "E_SOURCE_SHA","G15",key)
     need(bundle.plan==bundle.source_bytes["plan"],"E_SOURCE_SHA","G15","plan bytes mismatch")
-    _check_import_paths(bundle.source_paths)
+    imports=_check_import_paths(bundle.source_paths, trusted.source_sha256)
     need(m.get("seed",{}).get("data")==20261102 and m["seed"].get("reference")==20261201 and
          m["seed"].get("teacher")==20261211 and m.get("walk")==
          {"H":12,"beta":.4,"lambda":.8,"dtype":"torch.float64","method":"exact_no_grad_three_forwards"},
@@ -299,7 +335,12 @@ def inspect_b02_bundle(bundle: Bundle, trusted: TrustedSpec) -> VerifiedB02Input
     return VerifiedB02Inputs(
         X=tuple(tuple(xx[i*5:(i+1)*5]) for i in range(300)),
         y=y, mask=tuple(tuple(mask[i*5:(i+1)*5]) for i in range(300)),
-        ids=ids,targets=tuple(target_rows),snapshot_sha256=sha(bundle.snapshot),targets_sha256=sha(bundle.targets))
+        ids=ids,targets=tuple(target_rows),snapshot_sha256=sha(bundle.snapshot),targets_sha256=sha(bundle.targets),
+        source_pins=tuple((key, str(Path(bundle.source_paths[key]).resolve(strict=True)),
+                           trusted.source_sha256[key], bytes(bundle.source_bytes[key])) for key in SOURCES),
+        import_attestation=imports, import_path_at_verify=tuple(sys.path),
+        meta_finder_ids_at_verify=tuple(id(finder) for finder in sys.meta_path),
+        trust_manifest_sha256=trusted.manifest_sha256)
 
 
 def verify_b02_inputs(*, bundle:Bundle, trusted_spec:TrustedSpec, requested_scope:str):
@@ -310,3 +351,43 @@ def verify_b02_inputs(*, bundle:Bundle, trusted_spec:TrustedSpec, requested_scop
     need(requested_scope in ("RESOURCE_PROBE","SOLVE"),"E_NOT_AUTHORIZED","G18","unsupported scope")
     inspect_b02_bundle(bundle,trusted_spec)
     raise GateError("DENY_NO_AUTHORIZATION","G18", "candidate gate has no grant mechanism")
+
+def check_preuse_stub(verified: VerifiedB02Inputs, trusted_spec: TrustedSpec):
+    """TOCTOU diagnostic ONLY, never a permission or runner integration.
+
+    Future runner must consume ONLY VerifiedB02Inputs immutable X/y/mask/ids,
+    targets and source bytes; it must never re-open a mutable Bundle or a source
+    path. Source code imports are not bound to verified bytes in this candidate.
+    Even an unchanged pre-use snapshot therefore DENIES with INTEGRATION_REQUIRED.
+    """
+    need(sys.flags.optimize == 0, "E_RUNTIME_OPTIMIZED", "G19")
+    need(type(verified) is VerifiedB02Inputs and type(trusted_spec) is TrustedSpec,
+         "E_PREUSE_TYPE", "G20")
+    need(verified.trust_manifest_sha256 == trusted_spec.manifest_sha256 and
+         verified.snapshot_sha256 == trusted_spec.snapshot_sha256 and
+         verified.targets_sha256 == trusted_spec.targets_sha256,
+         "E_PREUSE_TRUST", "G20")
+    need(tuple(sys.path) == verified.import_path_at_verify and
+         tuple(id(finder) for finder in sys.meta_path) == verified.meta_finder_ids_at_verify,
+         "E_PREUSE_IMPORT_ENV", "G20", "sys.path or sys.meta_path drift")
+    for key, name, digest, immutable_content in verified.source_pins:
+        need(digest == trusted_spec.source_sha256[key] and sha(immutable_content) == digest,
+             "E_PREUSE_SOURCE", "G20", "immutable source pin drift")
+        source_path = Path(name)
+        need(not source_path.is_symlink() and source_path.is_file(),
+             "E_PREUSE_SOURCE", "G20", "symlink/missing source")
+        try:
+            current = source_path.read_bytes()
+        except OSError as exc:
+            raise GateError("E_PREUSE_SOURCE", "G20", "source changed/unreadable") from exc
+        need(sha(current) == digest, "E_PREUSE_SOURCE", "G20", "disk content mutated")
+    try:
+        live = _check_import_paths(
+            {source_key: Path(path) for source_key, path, _, _ in verified.source_pins},
+            trusted_spec.source_sha256,
+        )
+    except GateError as exc:
+        raise GateError("E_PREUSE_IMPORT", "G20", exc.code + ":" + exc.explanation) from exc
+    need(live == verified.import_attestation, "E_PREUSE_IMPORT", "G20", "import origin drift")
+    raise GateError("INTEGRATION_REQUIRED", "G20",
+                    "pre-use observation is not an authorized import/graph operation")
