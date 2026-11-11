@@ -33,7 +33,7 @@ jobs:
           cp code/experiments/archive/diag_max_full300/stream_graph.py code/experiments/diag_max_full300/
       - name: StreamGraph versus historical D09 full solver paths and bounded real costs
         run: |
-          if [ ! -f code/experiments/inverse_attainable_standard/results/streamgraph_compat_cost.json ]; then
+          if [ ! -f code/experiments/inverse_attainable_standard/results/streamgraph_compat_cost_v2.json ]; then
             python code/experiments/inverse_attainable_standard/stream_compat.py --measure
           else
             echo "Preserved evidence already exists; avoiding duplicate run"
@@ -44,7 +44,7 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add code/experiments/inverse_attainable_standard/results/streamgraph_compat_cost.json
+          git add code/experiments/inverse_attainable_standard/results/streamgraph_compat_cost_v2.json
           if ! git diff --cached --quiet; then
             git commit -m 'research(ch4): save StreamGraph/D09 full-GN derivative compatibility and real-cost evidence'
             git push origin HEAD:experiment/ch4-inv01-preflight
