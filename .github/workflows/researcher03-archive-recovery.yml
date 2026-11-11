@@ -1,0 +1,159 @@
+name: RESEARCHER-03 archive recovery — bounded center-only 76 candidate
+
+on:
+  push:
+    branches: [experiment/ch4-metrics-backfill-v2]
+    paths:
+      - '.github/workflows/researcher03-archive-recovery.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: researcher03-archive-recovery-only
+  cancel-in-progress: false
+
+jobs:
+  contract-tests:
+    name: Independent N00 boundary tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Dependency installation (excluded from numerical budget)
+        run: |
+          python -m pip install --disable-pip-version-check numpy
+          python -m pip install --disable-pip-version-check torch --index-url https://download.pytorch.org/whl/cpu
+          python - <<'PY'
+          import sys,numpy,torch
+          print("RESEARCHER-03 CI DEPENDENCIES:",sys.version,numpy.__version__,torch.__version__)
+          PY
+      - name: Execute existing imported boundary tests within 30s and 1 GiB
+        run: |
+          python code/experiments/benchmark_v1/report_backfill_v2/budget_guard.py \
+            --seconds 30 --rss-mib 1024 \
+            --log /tmp/r03-unit-test-budget.json -- \
+            python -m unittest discover -v \
+              -s code/experiments/benchmark_v1/report_backfill_v2 \
+              -p 'test_backfill_boundaries.py'
+      - name: Upload independent test budget log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: researcher03-unit-test-budget
+          path: /tmp/r03-unit-test-budget.json
+          if-no-files-found: warn
+
+  center-only-recovery:
+    name: Four-archive SHA preflight and 76 center-only rebuild
+    needs: contract-tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Dependency installation (excluded from numerical budget)
+        run: |
+          python -m pip install --disable-pip-version-check numpy
+          python - <<'PY'
+          import sys,numpy
+          print("RESEARCHER-03 RECOVERY DEPENDENCIES:",sys.version,numpy.__version__)
+          PY
+      - name: Immutable source tree gate — no Test or re-training
+        env:
+          SOURCE_SHA: de02fdda91e23db177de4429b3e1a9693c046d83
+          PREVIOUS_SHA: 868a3167413a9590a581fc1d2a682969fedeff9e
+        run: |
+          python - <<'PY'
+          import os,subprocess
+          def blob(ref,path):
+              return subprocess.check_output(["git","rev-parse",ref+":"+path],text=True).strip()
+          origin=os.environ["SOURCE_SHA"]
+          for path in [
+              "code/policy_evaluator/metrics.py",
+              "code/experiments/COMMON_METRICS_CONTRACT.json",
+              "code/experiments/benchmark_v1/results/master_runs_76.csv",
+              "code/experiments/benchmark_v1/results/core_50_16runs.zip",
+              "code/experiments/benchmark_v1/results/extra_25_12runs.zip",
+              "code/experiments/benchmark_v1/results/size_25_24runs_seed20261102.zip",
+              "code/experiments/benchmark_v1/results/size_25_24runs_seeds20261103_20261104.zip"]:
+              if blob("HEAD",path)!=blob(origin,path):
+                  raise SystemExit("STOP: locked scientific source mutated: "+path)
+              print("LOCKED_TREE_MATCH",path,blob(origin,path))
+          for path in [
+              "code/experiments/benchmark_v1/report_backfill_v2/center_only_rebuild.py",
+              "code/experiments/benchmark_v1/report_backfill_v2/test_backfill_boundaries.py",
+              "code/experiments/benchmark_v1/report_backfill_v2/coverage_manifest.json",
+              "code/experiments/benchmark_v1/report_backfill_v2/center_only_metrics.csv",
+              "code/experiments/benchmark_v1/report_backfill_v2/verified_sources_36.json"]:
+              if blob("HEAD",path)!=blob(os.environ["PREVIOUS_SHA"],path):
+                  raise SystemExit("STOP: prior RESEARCHER-03 evidence mutated: "+path)
+              print("PRIOR_EVIDENCE_MATCH",path)
+          PY
+      - name: Preflight all four SHA256 ZIPs and 76 members BEFORE computation; rebuild ONLY centers
+        run: |
+          python code/experiments/benchmark_v1/report_backfill_v2/budget_guard.py \
+            --seconds 140 --rss-mib 1024 \
+            --log /tmp/r03-recovery-budget.json -- \
+            python code/experiments/benchmark_v1/report_backfill_v2/run_recovery.py
+      - name: Include runtime budget, exact commit and environment provenance
+        run: |
+          cp /tmp/r03-recovery-budget.json code/experiments/benchmark_v1/report_backfill_v2/full_76_candidate/recovery_budget.json
+          python - <<'PY'
+          import json,os,platform,sys,numpy
+          from pathlib import Path
+          d=Path("code/experiments/benchmark_v1/report_backfill_v2/full_76_candidate")
+          data={"schema":"r03-ci-source-provenance-v1",
+                "workflow_run_id":os.environ.get("GITHUB_RUN_ID"),
+                "workflow_attempt":os.environ.get("GITHUB_RUN_ATTEMPT"),
+                "source_head_sha":os.environ.get("GITHUB_SHA"),
+                "runner_os":platform.platform(),"python":sys.version,
+                "numpy":numpy.__version__,
+                "torch":"not installed in center-recovery job",
+                "calculation":"center-only; no walk; no optimizer; no Test"}
+          (d/"ci_provenance.json").write_text(json.dumps(data,indent=2)+"\n")
+          PY
+      - name: Upload candidate evidence (also available if commit fails)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: researcher03-76-center-candidate
+          path: |
+            code/experiments/benchmark_v1/report_backfill_v2/full_76_candidate/
+            /tmp/r03-recovery-budget.json
+          if-no-files-found: warn
+      - name: Publish verified candidate ONLY to researcher 03 branch (no PR/merge)
+        env:
+          TARGET_BRANCH: experiment/ch4-metrics-backfill-v2
+        run: |
+          test -f code/experiments/benchmark_v1/report_backfill_v2/full_76_candidate/recovery_audit.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("code/experiments/benchmark_v1/report_backfill_v2/full_76_candidate/recovery_audit.json")
+          a=json.loads(p.read_text())
+          assert a["archive_sha_member_verified"]==76
+          assert a["center_metric_complete"]==76
+          assert a["previous_36_preserved"]
+          assert a["optimizer_steps"]==0 and a["inference_replays"]==0
+          PY
+          CURRENT=$(git ls-remote origin "refs/heads/$TARGET_BRANCH" | cut -f1)
+          test "$CURRENT" = "$GITHUB_SHA" || { echo "STOP: branch changed; no push"; exit 1; }
+          git config user.name "RESEARCHER-03"
+          git config user.email "77788591+mahhammad@users.noreply.github.com"
+          git add -- code/experiments/benchmark_v1/report_backfill_v2/full_76_candidate/
+          git diff --cached --quiet && { echo "No candidate to commit"; exit 1; }
+          git commit -m "RESEARCHER-03: Publish SHA-verified full 76 center-only candidate"
+          git push origin "HEAD:refs/heads/$TARGET_BRANCH"
