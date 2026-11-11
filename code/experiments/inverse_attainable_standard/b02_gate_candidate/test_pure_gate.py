@@ -350,6 +350,22 @@ class PureGateTests(unittest.TestCase):
         self.assertEqual(cm.exception.code,"INTEGRATION_REQUIRED")
         self.assertEqual(candidate.ids,tuple(range(300)))
 
+    def test_g20_mutable_bundle_swap_during_inspection_uses_pinned_bytes(self):
+        import pure_gate
+        original=self.base.source_bytes["config"]
+        actual_check=pure_gate._check_import_paths
+        def mutate_after_hash(source_paths, expected_hashes):
+            result=actual_check(source_paths,expected_hashes)
+            self.base.source_bytes["config"]=b"attacker changed mutable Bundle mapping"
+            return result
+        with patch("pure_gate._check_import_paths", side_effect=mutate_after_hash):
+            verified=inspect_b02_bundle(self.base,self.trust)
+        self.assertEqual(verified.source_pins[0][3],original)
+        self.assertNotEqual(verified.source_pins[0][3],self.base.source_bytes["config"])
+        with self.assertRaises(GateError) as cm:
+            check_preuse_stub(verified,self.trust)
+        self.assertEqual(cm.exception.code,"INTEGRATION_REQUIRED")
+
     def test_g20_concurrent_source_swap_before_use(self):
         candidate=inspect_b02_bundle(self.base,self.trust)
         go=threading.Event();done=threading.Event()
