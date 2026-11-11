@@ -505,6 +505,31 @@ class PureGateTests(unittest.TestCase):
         self.assertEqual(len(entries),2)
         self.assertEqual({json.loads(x.read_text())["phase"] for x in entries},{"start","terminal"})
 
+    def test_audit_preflight_loader_exception_has_stage(self):
+        from dataclasses import asdict
+        p=self.root/"trust-loader.json";p.write_text(json.dumps(asdict(self.trust)))
+        with patch("audit_candidate.read_pinned_bundle",side_effect=RuntimeError("toy loader failure")):
+            record=self._audited_preflight(p)
+        self.assertEqual((record["code"],record["stage"]),
+                         ("E_INPUT_LOADER","PREFLIGHT_BUNDLE"))
+        self.assertIn("RuntimeError",record["reason"])
+
+    def test_audit_preflight_checkout_root_symlink(self):
+        from dataclasses import asdict
+        p=self.root/"trust-root.json";p.write_text(json.dumps(asdict(self.trust)))
+        actual=self.root/"real-snapshot";actual.mkdir()
+        alias=self.root/"aliased-snapshot";alias.symlink_to(actual,target_is_directory=True)
+        record=self._audited_preflight(p,snap=alias)
+        self.assertEqual((record["code"],record["stage"]),
+                         ("E_UNSAFE_PATH","PREFLIGHT_BUNDLE"))
+
+    def test_audit_preflight_duplicate_json_trust_key(self):
+        p=self.root/"double-trust.json"
+        p.write_text('{"manifest_sha256":"a","manifest_sha256":"b"}')
+        record=self._audited_preflight(p)
+        self.assertEqual((record["code"],record["stage"]),
+                         ("E_TRUST_JSON","PREFLIGHT_TRUST"))
+
     def test_audit_nongrant_exit_and_stage(self):
         from dataclasses import asdict
         out=self.root/"cli-audit"
