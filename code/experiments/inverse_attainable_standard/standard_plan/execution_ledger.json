@@ -1,6 +1,6 @@
 {
   "schema": "P3_EXECUTION_LEDGER_V1",
-  "status": "B01_COMPLETED_QA_REVISE_B02_BLOCKED",
+  "status": "B01_V2_COMPLETED_AWAIT_INDEPENDENT_AUDIT_B02_TO_B06_BLOCKED",
   "plan_commit": "43f6f688149e818933c50510688500570802107a",
   "code_commit": "c882208a4438ef4b343c0ac062cf3dd1142ca6dc",
   "evidence_commit": "f8739623b405905d8f5c83497903179ffee827c0",
@@ -11,44 +11,46 @@
     "not_started": 90,
     "planned_blocks": 6,
     "completed_blocks": 1,
-    "data_generators_executed": 1
+    "data_generators_executed": 1,
+    "versioned_solver_instances_across_B01_and_B01_v2": 36,
+    "completed_v2_repeat_instances": 18
   },
   "blocks": [
     {
       "block_id": "INV01-B01-n150-data20261102",
-      "status": "COMPLETED_QA_REVISE",
+      "status": "B01_ORIGINAL_PRESERVED_AND_B01_V2_COMPLETED_PENDING_INDEPENDENT_AUDIT",
       "solver_runs_completed": 18,
-      "blocker": "Stopping-rule confounding identified; audit and revise before further experiments"
+      "blocker": "B01-v2 passed CI, awaiting independent scientific/resource and stop-rule audit"
     },
     {
       "block_id": "INV01-B02-n300-data20261102",
       "status": "NOT_STARTED_BLOCKED",
       "solver_runs_completed": 0,
-      "blocker": "Await B01 stopping-rule QA signoff; do not auto-start"
+      "blocker": "Independent B01-v2 audit and manager approval required"
     },
     {
       "block_id": "INV01-B03-n150-data20261103",
       "status": "NOT_STARTED_BLOCKED",
       "solver_runs_completed": 0,
-      "blocker": "Await B01 stopping-rule QA signoff; do not auto-start"
+      "blocker": "Independent B01-v2 audit and manager approval required"
     },
     {
       "block_id": "INV01-B04-n300-data20261103",
       "status": "NOT_STARTED_BLOCKED",
       "solver_runs_completed": 0,
-      "blocker": "Await B01 stopping-rule QA signoff; do not auto-start"
+      "blocker": "Independent B01-v2 audit and manager approval required"
     },
     {
       "block_id": "INV01-B05-n150-data20261104",
       "status": "NOT_STARTED_BLOCKED",
       "solver_runs_completed": 0,
-      "blocker": "Await B01 stopping-rule QA signoff; do not auto-start"
+      "blocker": "Independent B01-v2 audit and manager approval required"
     },
     {
       "block_id": "INV01-B06-n300-data20261104",
       "status": "NOT_STARTED_BLOCKED",
       "solver_runs_completed": 0,
-      "blocker": "Await B01 stopping-rule QA signoff; do not auto-start"
+      "blocker": "Independent B01-v2 audit and manager approval required"
     }
   ],
   "completed_runs": [
@@ -437,5 +439,28 @@
     "chapter4_untouched": true,
     "historical_72_untouched": true,
     "test_unused": true
+  },
+  "B01_v2": {
+    "versioned_result_sha": "f13f28d70a5ff90c8c894a5a2ced375637cdb316",
+    "ci": "https://github.com/mahhammad/My-Thesis/actions/runs/42986545002",
+    "method_successes": {
+      "Q-only": {
+        "original": 0,
+        "v2": 0
+      },
+      "Exact-Adam": {
+        "original": 3,
+        "v2": 5
+      },
+      "Q+Bootstrap-GN": {
+        "original": 6,
+        "v2": 6
+      }
+    },
+    "paired_comparison_file": "results/B01_v2/validated_run_01/paired_18.csv",
+    "has_18_independent_versioned_repeats": true,
+    "all_targets_bitwise_unchanged": true,
+    "stop_rule": "plateau diagnostic only",
+    "approval_for_B02": false
   }
 }
