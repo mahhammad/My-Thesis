@@ -26,7 +26,7 @@ import numpy as np
 import torch
 
 HERE=Path(__file__).resolve().parent
-ROOT=HERE.parents[2]
+ROOT=HERE.parents[3]
 sys.path.insert(0,str(ROOT/"code/data_generator"))
 sys.path.insert(0,str(ROOT/"code/experiments/multistep_policy_target_match"))
 sys.path.insert(0,str(ROOT/"code/experiments/diag_max_full300"))
