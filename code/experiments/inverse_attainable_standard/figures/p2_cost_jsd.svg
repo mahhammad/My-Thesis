@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="580" viewBox="0 0 1100 580" role="img" aria-label="P2 D09 exact JSD reconstruction error versus measured cumulative solver wall time for n150 and n300">
+<rect width="1100" height="580" fill="#fff"/>
+<text x="550" y="36" text-anchor="middle" font-family="sans-serif" font-weight="bold" font-size="23">D09 / StreamGraph — Cost vs. center reconstruction JSD</text>
+<text x="550" y="59" text-anchor="middle" font-family="sans-serif" font-size="13" fill="#555">Bounded P2 pilot · class 0 · one generated dataset · exact expectations · no Test</text>
+<text x="324" y="82" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="bold">n = 150</text>
+<line x1="84" y1="100.00" x2="564" y2="100.00" stroke="#e7e7e7" stroke-width="1"/>
+<text x="72" y="104.00" text-anchor="end" font-family="sans-serif" font-size="11" fill="#555">10^-2</text>
+<line x1="84" y1="150.00" x2="564" y2="150.00" stroke="#e7e7e7" stroke-width="1"/>
+<text x="72" y="154.00" text-anchor="end" font-family="sans-serif" font-size="11" fill="#555">10^-3</text>
+<line x1="84" y1="200.00" x2="564" y2="200.00" stroke="#e7e7e7" stroke-width="1"/>
+<text x="72" y="204.00" text-anchor="end" font-family="sans-serif" font-size="11" fill="#555">10^-4</text>
+<line x1="84" y1="250.00" x2="564" y2="250.00" stroke="#e7e7e7" stroke-width="1"/>
+<text x="72" y="254.00" text-anchor="end" font-family="sans-serif" font-size="11" fill="#555">10^-5</text>
+<line x1="84" y1="300.00" x2="564" y2="300.00" stroke="#e7e7e7" stroke-width="1"/>
+<text x="72" y="304.00" text-anchor="end" font-family="sans-serif" font-size="11" fill="#555">10^-6</text>
+<line x1="84" y1="350.00" x2="564" y2="350.00" stroke="#e7e7e7" stroke-width="1"/>
+<text x="72" y="354.00" text-anchor="end" font-family="sans-serif" font-size="11" fill="#555">10^-7</text>
+<line x1="84" y1="400.00" x2="564" y2="400.00" stroke="#e7e7e7" stroke-width="1"/>
+<text x="72" y="404.00" text-anchor="end" font-family="sans-serif" font-size="11" fill="#555">10^-8</text>
+<line x1="84" y1="450.00" x2="564" y2="450.00" stroke="#e7e7e7" stroke-width="1"/>
+<text x="72" y="454.00" text-anchor="end" font-family="sans-serif" font-size="11" fill="#555">10^-9</text>
+<line x1="84.00" y1="100" x2="84.00" y2="450" stroke="#eee"/>
+<text x="84.00" y="470" text-anchor="middle" font-family="sans-serif" font-size="11">0</text>
+<line x1="177.20" y1="100" x2="177.20" y2="450" stroke="#eee"/>
+<text x="177.20" y="470" text-anchor="middle" font-family="sans-serif" font-size="11">1</text>
+<line x1="270.41" y1="100" x2="270.41" y2="450" stroke="#eee"/>
+<text x="270.41" y="470" text-anchor="middle" font-family="sans-serif" font-size="11">2</text>
+<line x1="363.61" y1="100" x2="363.61" y2="450" stroke="#eee"/>
+<text x="363.61" y="470" text-anchor="middle" font-family="sans-serif" font-size="11">3</text>
+<line x1="456.82" y1="100" x2="456.82" y2="450" stroke="#eee"/>
+<text x="456.82" y="470" text-anchor="middle" font-family="sans-serif" font-size="11">4</text>
+<line x1="550.02" y1="100" x2="550.02" y2="450" stroke="#eee"/>
+<text x="550.02" y="470" text-anchor="middle" font-family="sans-serif" font-size="11">5</text>
+<line x1="84" y1="100" x2="84" y2="450" stroke="#333" stroke-width="1.2"/>
+<line x1="84" y1="450" x2="564" y2="450" stroke="#333" stroke-width="1.2"/>
+<line x1="84" y1="400" x2="564" y2="400" stroke="#c43c39" stroke-dasharray="6 5" stroke-width="1.4"/>
+<text x="559" y="392" text-anchor="end" font-family="sans-serif" font-size="12" fill="#c43c39">success ≤ 1e−8</text>
+<polyline fill="none" stroke="#0072B2" stroke-width="2.5"  points="85.34,118.44 88.20,127.36 91.01,137.12 93.84,147.58 96.69,158.41 99.54,169.03 102.23,178.48 104.96,185.61 107.71,189.75 110.48,191.28 113.23,191.18 115.90,190.37 118.60,189.38 121.35,188.48 124.10,187.76 126.82,187.25 129.60,186.94 132.36,186.81 135.06,186.83 137.74,187.00 140.41,187.29 143.11,187.69 145.80,188.18 148.53,188.76 151.24,189.40 153.94,190.10 156.62,190.86 159.30,191.67 161.93,192.51 164.54,193.38 167.25,194.28 169.96,195.19 172.72,196.11 175.51,197.04 178.39,197.97 181.17,198.89 183.85,199.80 186.69,200.70 189.54,201.57 192.50,202.42 196.04,203.25 199.13,204.05 202.01,204.81 204.74,205.54 207.56,206.24 210.33,206.89 213.03,207.51 215.69,208.10 218.42,208.64 221.40,209.14 224.33,209.61 227.32,210.04 230.17,210.43 233.18,210.79 236.08,211.11 238.95,211.40 241.81,211.66 244.84,211.89 247.77,212.08 250.57,212.25 253.51,212.40 256.41,212.52 259.21,212.61 261.97,212.68 264.61,212.74 267.43,212.77 270.45,212.79 273.32,212.80 276.11,212.78 278.99,212.76 281.87,212.72 284.71,212.68 287.44,212.62 290.34,212.56 293.31,212.49 296.38,212.41 299.44,212.33 302.52,212.24 305.58,212.16 308.61,212.07 311.64,211.97 314.73,211.88 317.76,211.79 320.81,211.70 323.79,211.61 326.64,211.53"/>
+<circle cx="326.64" cy="211.53" r="3.6" fill="#0072B2"/>
+<polyline fill="none" stroke="#E69F00" stroke-width="2.5"  points="85.27,118.44 89.93,127.48 94.73,137.35 99.22,147.83 103.76,158.58 108.27,168.98 112.73,178.18 117.13,185.26 121.61,189.73 126.01,191.89 130.41,192.56 134.93,192.50 139.43,192.22 143.92,191.99 148.32,191.91 152.74,192.02 157.13,192.32 161.58,192.79 165.99,193.40 170.61,194.14 175.16,195.00 179.66,196.00 184.19,197.16 188.65,198.49 193.22,200.01 197.67,201.71 202.10,203.58 206.69,205.60 211.26,207.74 215.79,209.98 220.31,212.31 224.92,214.70 229.51,217.16 233.99,219.67 238.43,222.21 242.97,224.77 247.58,227.32 252.06,229.85 256.63,232.34 261.17,234.76 265.93,237.11 270.51,239.38 275.09,241.57 279.72,243.69 284.35,245.75 288.93,247.74 293.55,249.68 298.15,251.58 302.69,253.43 307.23,255.25 311.68,257.04 316.16,258.79 320.75,260.53 325.40,262.24 329.98,263.94 334.49,265.61 339.10,267.27 343.60,268.92 348.29,270.56 352.80,272.19 357.24,273.82 362.00,275.46 366.55,277.11 371.12,278.78 375.63,280.47 380.13,282.20 384.84,283.98 389.56,285.81 394.20,287.70 398.88,289.67 403.53,291.74 408.13,293.90 412.76,296.18 417.40,298.59 422.00,301.15 426.65,303.87 431.22,306.78 435.79,309.88 440.40,313.22 445.02,316.80 449.65,320.67 454.71,324.85 459.38,329.39 464.08,334.34 468.78,339.76 473.50,345.73 478.25,352.33 482.88,359.68 487.53,367.90 492.12,377.10 496.82,387.20 501.46,397.58 506.15,406.10"/>
+<circle cx="506.15" cy="406.10" r="3.6" fill="#E69F00"/>
+<polyline fill="none" stroke="#009E73" stroke-width="2.5"  points="85.34,118.44 88.20,127.36 91.01,137.12 93.84,147.58 96.69,158.41 99.54,169.03 102.23,178.48 104.96,185.61 107.71,189.75 110.48,191.28 113.23,191.18 115.90,190.37 118.60,189.38 121.35,188.48 124.10,187.76 126.82,187.25 129.60,186.94 132.36,186.81 135.06,186.83 137.74,187.00 140.41,187.29 143.11,187.69 145.80,188.18 148.53,188.76 151.24,189.40 153.94,190.10 156.62,190.86 159.30,191.67 161.93,192.51 164.54,193.38 167.25,194.28 169.96,195.19 172.72,196.11 175.51,197.04 178.39,197.97 181.17,198.89 183.85,199.80 186.69,200.70 189.54,201.57 192.50,202.42 196.04,203.25 199.13,204.05 202.01,204.81 204.74,205.54 207.56,206.24 210.33,206.89 213.03,207.51 215.69,208.10 218.42,208.64 221.40,209.14 224.33,209.61 227.32,210.04 230.17,210.43 233.18,210.79 236.08,211.11 238.95,211.40 241.81,211.66 244.84,211.89 247.77,212.08 250.57,212.25 253.51,212.40 256.41,212.52 259.21,212.61 261.97,212.68 264.61,212.74 267.43,212.77 270.45,212.79 273.32,212.80 276.11,212.78 278.99,212.76 281.87,212.72 284.71,212.68 287.44,212.62 290.34,212.56 293.31,212.49 296.38,212.41 299.44,212.33 302.52,212.24 305.58,212.16 308.61,212.07 311.64,211.97 314.73,211.88 317.76,211.79 320.81,211.70 323.79,211.61 326.64,211.53 329.52,211.53 335.54,232.63 341.75,243.56 348.04,255.97 354.19,276.50 360.58,309.85 366.97,357.56 373.23,418.57"/>
+<circle cx="373.23" cy="418.57" r="3.6" fill="#009E73"/>
+<polyline fill="none" stroke="#E69F00" stroke-width="1.5" stroke-dasharray="3 4" points="85.23,114.42 89.73,123.17 94.46,132.79 99.15,143.15 103.79,154.01 108.57,164.93 113.27,175.19 118.03,183.75 122.79,189.66 127.59,192.68 132.31,193.49 136.97,193.11 141.63,192.28 146.35,191.43 151.07,190.77 155.81,190.36 160.51,190.23 165.30,190.36 170.08,190.74 174.64,191.33 179.35,192.10 184.06,193.02 188.77,194.07 193.44,195.21 198.13,196.45 202.80,197.80 207.53,199.26 212.28,200.87 217.01,202.62 221.81,204.51 226.54,206.51 231.32,208.62 236.09,210.80 240.76,213.04 245.49,215.32 250.27,217.64 255.03,220.00 259.83,222.40 264.77,224.84 269.53,227.30 274.40,229.80 279.11,232.30 283.83,234.81 288.57,237.30 293.36,239.76 298.24,242.18 303.00,244.54 307.79,246.83 312.48,249.06 317.42,251.21 322.26,253.29"/>
+<circle cx="322.26" cy="253.29" r="3.6" fill="#E69F00"/>
+<text x="324" y="500" font-family="sans-serif" font-size="14" text-anchor="middle">Cumulative measured solver time (seconds)</text>
+<text x="870" y="82" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="bold">n = 300</text>
+<line x1="630" y1="100.00" x2="1110" y2="100.00" stroke="#e7e7e7" stroke-width="1"/>
+<text x="618" y="104.00" text-anchor="end" font-family="sans-serif" font-size="11" fill="#555">10^-2</text>
+<line x1="630" y1="150.00" x2="1110" y2="150.00" stroke="#e7e7e7" stroke-width="1"/>
+<text x="618" y="154.00" text-anchor="end" font-family="sans-serif" font-size="11" fill="#555">10^-3</text>
+<line x1="630" y1="200.00" x2="1110" y2="200.00" stroke="#e7e7e7" stroke-width="1"/>
+<text x="618" y="204.00" text-anchor="end" font-family="sans-serif" font-size="11" fill="#555">10^-4</text>
+<line x1="630" y1="250.00" x2="1110" y2="250.00" stroke="#e7e7e7" stroke-width="1"/>
+<text x="618" y="254.00" text-anchor="end" font-family="sans-serif" font-size="11" fill="#555">10^-5</text>
+<line x1="630" y1="300.00" x2="1110" y2="300.00" stroke="#e7e7e7" stroke-width="1"/>
+<text x="618" y="304.00" text-anchor="end" font-family="sans-serif" font-size="11" fill="#555">10^-6</text>
+<line x1="630" y1="350.00" x2="1110" y2="350.00" stroke="#e7e7e7" stroke-width="1"/>
+<text x="618" y="354.00" text-anchor="end" font-family="sans-serif" font-size="11" fill="#555">10^-7</text>
+<line x1="630" y1="400.00" x2="1110" y2="400.00" stroke="#e7e7e7" stroke-width="1"/>
+<text x="618" y="404.00" text-anchor="end" font-family="sans-serif" font-size="11" fill="#555">10^-8</text>
+<line x1="630" y1="450.00" x2="1110" y2="450.00" stroke="#e7e7e7" stroke-width="1"/>
+<text x="618" y="454.00" text-anchor="end" font-family="sans-serif" font-size="11" fill="#555">10^-9</text>
+<line x1="630.00" y1="100" x2="630.00" y2="450" stroke="#eee"/>
+<text x="630.00" y="470" text-anchor="middle" font-family="sans-serif" font-size="11">0</text>
+<line x1="747.07" y1="100" x2="747.07" y2="450" stroke="#eee"/>
+<text x="747.07" y="470" text-anchor="middle" font-family="sans-serif" font-size="11">1</text>
+<line x1="864.15" y1="100" x2="864.15" y2="450" stroke="#eee"/>
+<text x="864.15" y="470" text-anchor="middle" font-family="sans-serif" font-size="11">2</text>
+<line x1="981.22" y1="100" x2="981.22" y2="450" stroke="#eee"/>
+<text x="981.22" y="470" text-anchor="middle" font-family="sans-serif" font-size="11">3</text>
+<line x1="1098.29" y1="100" x2="1098.29" y2="450" stroke="#eee"/>
+<text x="1098.29" y="470" text-anchor="middle" font-family="sans-serif" font-size="11">4</text>
+<line x1="630" y1="100" x2="630" y2="450" stroke="#333" stroke-width="1.2"/>
+<line x1="630" y1="450" x2="1110" y2="450" stroke="#333" stroke-width="1.2"/>
+<line x1="630" y1="400" x2="1110" y2="400" stroke="#c43c39" stroke-dasharray="6 5" stroke-width="1.4"/>
+<text x="1105" y="392" text-anchor="end" font-family="sans-serif" font-size="12" fill="#c43c39">success ≤ 1e−8</text>
+<polyline fill="none" stroke="#0072B2" stroke-width="2.5"  points="634.78,124.40 645.78,133.14 655.89,142.76 666.29,153.14 676.81,164.11 687.38,175.41 697.25,186.84 707.35,198.39 717.31,210.21 727.37,222.72 737.47,236.52 747.15,252.32 757.13,269.90 767.34,282.54 777.17,278.07 787.18,265.75 797.11,254.83 806.76,246.35 816.64,239.77 826.67,234.58 836.78,230.41 847.02,227.02 857.17,224.23 867.41,221.90 877.58,219.94 887.64,218.28"/>
+<circle cx="887.64" cy="218.28" r="3.6" fill="#0072B2"/>
+<polyline fill="none" stroke="#E69F00" stroke-width="2.5"  points="634.88,124.40 651.32,133.38 668.07,143.36 684.20,154.29 700.53,166.14 716.61,178.77 733.32,191.92 750.21,204.86 767.68,215.96 784.16,222.78 800.34,224.38 816.27,222.51 833.19,219.41 850.14,216.28 866.88,213.55 883.82,211.30 900.72,209.50 917.61,208.07 934.51,206.97 951.14,206.14 967.43,205.54 983.48,205.12 1000.47,204.87 1016.92,204.75 1033.63,204.75 1050.50,204.85"/>
+<circle cx="1050.50" cy="204.85" r="3.6" fill="#E69F00"/>
+<polyline fill="none" stroke="#009E73" stroke-width="2.5"  points="634.78,124.40 645.78,133.14 655.89,142.76 666.29,153.14 676.81,164.11 687.38,175.41 697.25,186.84 707.35,198.39 717.31,210.21 727.37,222.72 737.47,236.52 747.15,252.32 757.13,269.90 767.34,282.54 777.17,278.07 787.18,265.75 797.11,254.83 806.76,246.35 816.64,239.77 826.67,234.58 836.78,230.41 847.02,227.02 857.17,224.23 867.41,221.90 877.58,219.94 887.64,218.28 898.24,218.28 920.88,234.63 944.92,267.41 966.68,316.89 988.44,371.63 1011.11,427.27"/>
+<circle cx="1011.11" cy="427.27" r="3.6" fill="#009E73"/>
+<text x="870" y="500" font-family="sans-serif" font-size="14" text-anchor="middle">Cumulative measured solver time (seconds)</text>
+<text transform="translate(21 278) rotate(-90)" font-family="sans-serif" font-size="15" text-anchor="middle">Exact center JSD (log scale)</text>
+<line x1="140" x2="172" y1="535" y2="535" stroke="#0072B2" stroke-width="3" /><text x="179" y="539" font-family="sans-serif" font-size="12">Q-only</text>
+<line x1="350" x2="382" y1="535" y2="535" stroke="#E69F00" stroke-width="3" /><text x="389" y="539" font-family="sans-serif" font-size="12">Exact-Adam</text>
+<line x1="540" x2="572" y1="535" y2="535" stroke="#009E73" stroke-width="3" /><text x="579" y="539" font-family="sans-serif" font-size="12">Q + Bootstrap-GN (including Q)</text>
+<line x1="840" x2="872" y1="535" y2="535" stroke="#E69F00" stroke-width="1.5" stroke-dasharray="3 4"/><text x="879" y="539" font-family="sans-serif" font-size="12">Adam random start (n150)</text>
+<text x="550" y="565" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#777">Each line is one bounded pilot trace; GN includes the actual Q warm-start wall time; no interpolation of observed points.</text>
+</svg>
