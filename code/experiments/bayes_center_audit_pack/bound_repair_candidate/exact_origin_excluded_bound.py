@@ -17,7 +17,7 @@ from __future__ import annotations
 
 import numpy as np
 
-BOUND_KERNEL_VERSION = "exact_origin_excluded_low_memory_candidate_v1"
+BOUND_KERNEL_VERSION = "exact_origin_excluded_low_memory_candidate_v2_direct_numerator"
 _MASK_TOLERANCE = 1e-12  # matches the historical ExactGraph.valid implementation
 
 
@@ -73,16 +73,27 @@ def _continuation(base: np.ndarray, value: np.ndarray, origin: int,
                   den: np.ndarray, legal: np.ndarray) -> np.ndarray:
     """E_T[value(j,b) | i,b], with actual renormalized q_b^(origin).
 
-    E_T[f] = (sum_j B[b,i,j] f[j,b] - B[b,i,origin] f[origin,b])
-              / sum_{j != origin} B[b,i,j].
-    Crucially, B is only an algebraic shared-kernel convenience, NOT itself
-    the transition used by the dynamic program.
+    Numerator: sum_{j != origin} B[b,i,j] f[j,b] -- computed DIRECTLY.
+    Divisor: sum_{j != origin} B[b,i,j], also directly slice-summed.
+
+    Do not form the full dot product and subtract the origin contribution:
+    that calculation catastrophically cancels when B[b,i,origin] is near 1.
+    A temporary n*d value copy adds O(nd) space, not a 4-D kernel.
     """
-    dot = np.einsum("bij,jb->ib", base, value, optimize=True)
-    dot -= base[:, :, origin].T * value[origin][None, :]
-    np.divide(dot, den, out=dot, where=legal)
-    dot[~legal] = 0.0
-    return dot
+    if not np.all(np.isfinite(value)):
+        raise ArithmeticError("nonfinite Bellman continuation input")
+    if not np.all(np.isfinite(den)) or np.any(den[legal] <= _MASK_TOLERANCE):
+        raise ArithmeticError("invalid origin-excluded denominator or mask")
+    value_excluded = value.copy()
+    value_excluded[origin, :] = 0.0
+    numerator = np.einsum("bij,jb->ib", base, value_excluded, optimize=True)
+    if not np.all(np.isfinite(numerator)):
+        raise ArithmeticError("nonfinite origin-excluded numerator")
+    result = np.zeros_like(numerator)
+    np.divide(numerator, den, out=result, where=legal)
+    if not np.all(np.isfinite(result)):
+        raise ArithmeticError("nonfinite origin-excluded continuation")
+    return result
 
 
 def exact_origin_excluded_center_bounds(
@@ -161,9 +172,16 @@ def exact_origin_excluded_center_bounds(
 
     lower = np.stack([low_per_origin[labels == c].mean(axis=0) for c in range(k)])
     upper = np.stack([high_per_origin[labels == c].mean(axis=0) for c in range(k)])
-    # Only roundoff-size excursions are allowed; never clip large violations.
-    if np.any(lower > upper + 1e-10):
-        raise ArithmeticError("invalid Bellman outer interval")
+    # Guard both per-origin and aggregated probabilities: do not silently clip.
+    # A small tolerance accommodates roundoff; it is NOT a certified error envelope.
+    for name, lo, hi in (("per-origin", low_per_origin, high_per_origin),
+                         ("class-center", lower, upper)):
+        if not np.all(np.isfinite(lo)) or not np.all(np.isfinite(hi)):
+            raise ArithmeticError(f"nonfinite {name} Bellman interval")
+        if np.any(lo > hi + 1e-10):
+            raise ArithmeticError(f"invalid {name} Bellman outer interval")
+        if np.any(lo < -1e-10) or np.any(hi < -1e-10) or np.any(lo > 1 + 1e-10) or np.any(hi > 1 + 1e-10):
+            raise ArithmeticError(f"out-of-range {name} Bellman probability")
     result = {
         "kernel_version": BOUND_KERNEL_VERSION,
         "kernel_contract": "exact_origin_excluded_and_renormalized_after_first_hop",
