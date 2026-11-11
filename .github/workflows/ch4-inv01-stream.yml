@@ -1,0 +1,51 @@
+name: CH4-EXP-INV-01 StreamGraph bounded compatibility and cost
+
+on:
+  push:
+    branches: [experiment/ch4-inv01-preflight]
+    paths:
+      - 'code/experiments/inverse_attainable_standard/stream_compat.py'
+      - '.github/workflows/ch4-inv01-stream.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  compat-cost:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: experiment/ch4-inv01-preflight
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install CPU numerical dependencies
+        run: |
+          python -m pip install numpy
+          python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+      - name: Stage unchanged archived D09 and StreamGraph modules at legacy import paths
+        run: |
+          mkdir -p code/experiments/multistep_policy_target_match code/experiments/diag_max_full300
+          cp code/experiments/archive/multistep_policy_target_match/{run.py,bootstrap_inverse.py} code/experiments/multistep_policy_target_match/
+          cp code/experiments/archive/diag_max_full300/stream_graph.py code/experiments/diag_max_full300/
+      - name: StreamGraph versus historical D09 full solver paths and bounded real costs
+        run: |
+          if [ ! -f code/experiments/inverse_attainable_standard/results/streamgraph_compat_cost.json ]; then
+            python code/experiments/inverse_attainable_standard/stream_compat.py --measure
+          else
+            echo "Preserved evidence already exists; avoiding duplicate run"
+          fi
+      - name: Read-only verification of locked, bounded evidence
+        run: python code/experiments/inverse_attainable_standard/stream_compat.py --verify
+      - name: Preserve bounded measurements on the isolated branch only
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add code/experiments/inverse_attainable_standard/results/streamgraph_compat_cost.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'research(ch4): save StreamGraph/D09 full-GN derivative compatibility and real-cost evidence'
+            git push origin HEAD:experiment/ch4-inv01-preflight
+          fi
