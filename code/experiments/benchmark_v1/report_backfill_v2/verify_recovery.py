@@ -106,13 +106,22 @@ def main():
         previous["source_evidence"]="original_archive_bytes_sha_verified_center_only"
         previous["metric_contract_version"]="legacy-v1-plus-center-only-v2"
         for key in REQUIRED:
-            entry=previous["metrics"]["center."+key]
-            entry["status"]="measured"
-            entry["reason"]="center_recomputed_from_sha_verified_original_checkpoint"
-            entry["metric_version"]="chapter4-common-evaluation-contract-v2:center_only"
             value=typed(row[key])
             if value is None or delta(value,value)!=0:
                 raise ValueError("Invalid center metric "+name+" "+key)
+            slot="center."+key
+            if slot in previous["metrics"]:
+                entry=previous["metrics"][slot]
+            elif key=="pairwise_JS_similarity":
+                # Optional center-only diagnostic, not part of the 55 metric IDs
+                # in chapter4-common-evaluation-contract-v2. Do not fabricate
+                # a required contract field or silently change the schema.
+                entry=previous.setdefault("auxiliary_center_metrics",{}).setdefault(key,{})
+            else:
+                raise ValueError("Unexpected missing contract metric "+slot)
+            entry["status"]="measured"
+            entry["reason"]="center_recomputed_from_sha_verified_original_checkpoint"
+            entry["metric_version"]="chapter4-common-evaluation-contract-v2:center_only"
             entry["value"]=value
     fullcov["schema"]="researcher03-benchmark-v1-center-only-coverage-v2-76-candidate"
     fullcov["source"]="four SHA-verified original ZIP archives + historical master CSV + original 36 SHA-verified evidence; center-only Chapter-3 canonical NumPy metrics"
