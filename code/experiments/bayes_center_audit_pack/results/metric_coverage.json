@@ -1,0 +1,60 @@
+{
+  "schema": "CH4-D10D11-coverage-v1",
+  "agent": "RESEARCHER-02",
+  "metric_contract_version": "chapter4-common-evaluation-contract-v2",
+  "reference_commit": "de02fdda91e23db177de4429b3e1a9693c046d83",
+  "counts": {
+    "D10_configurations": 37,
+    "D10_full300_positive_coordinate_certificates": 111,
+    "D10_subset72_positive_coordinate_certificates": 111,
+    "D11_componentwise_target_rows": 18,
+    "D11_class_trace_files": 6,
+    "D10_realized_centers": 15,
+    "D11_realized_centers": 3
+  },
+  "semantics": "Complete per-metric status and reason attached to each of the 18 models in center_geometry_metrics.json",
+  "statuses": [
+    "measured",
+    "not_measured",
+    "not_applicable",
+    "undefined_or_infinite",
+    "not_verified"
+  ],
+  "missing": "R_sqrt_JS, individual predictions, NLL, margin quantiles and full confusion are not inferable from center-only summaries; do not replace unavailable with zero.",
+  "historical_legacy": "R_KL historical uses clipped log at 1e-300; status measured as historical, alignment with exact KL not_verified. Do not confuse with new common-contract validated R_KL.",
+  "provenance": {
+    "grid": {
+      "path": "code/experiments/archive/bayes_center_inverse/results/depth_sensitivity_full300_and_subset72.json",
+      "blob_sha": "1c0e1e393361742ad7ede179d00c6247d86da75f"
+    },
+    "bound": {
+      "path": "code/experiments/archive/bayes_center_inverse/results/full_reference_bounds.json",
+      "blob_sha": "43d55261ccdf3ffd007c933c5fbc4bef59f587d3"
+    },
+    "compact": {
+      "path": "code/experiments/archive/bayes_center_inverse/results/full300_maxdiag_compact_summary.json",
+      "blob_sha": "37431cc4b0eb3603260940c9514deab3861c1974"
+    },
+    "summary": {
+      "path": "code/experiments/archive/bayes_center_inverse/results/summary.json",
+      "blob_sha": "3309103d2449d643827cafd18efd4819a6ebd584"
+    },
+    "bayes7": {
+      "path": "code/experiments/archive/bayes_center_inverse/results/bayes_seed_20261107_gn10.json",
+      "blob_sha": "af52d91ff3096666cdc636dc3f07f405ec515092"
+    },
+    "bayes8": {
+      "path": "code/experiments/archive/bayes_center_inverse/results/bayes_seed_20261108.json",
+      "blob_sha": "2d5f2805c15c6b611fe2e7cdd753b81c513b23ba"
+    },
+    "bayes9": {
+      "path": "code/experiments/archive/bayes_center_inverse/results/bayes_seed_20261109_gn10.json",
+      "blob_sha": "74c36046fef1d63b3bb79401d988616e79d8b7e3"
+    },
+    "zip": {
+      "path": "code/experiments/archive/historical_archive/archives/full300_maxdiag_bootstrap_experiment.zip",
+      "blob_sha": "c85dc00fc5ea23bffb45481261b3e4d32dd9e659"
+    }
+  },
+  "warning": "H parameter grid is not 37 independent generators. This is not an independent computation of the Bellman solver or new training."
+}
