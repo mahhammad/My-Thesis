@@ -137,8 +137,8 @@ def _external_trust(trust_path, snapshot_dir, repo_root):
     if trust_path is None:
         raise GateError("E_TRUST_MISSING", "PREFLIGHT_TRUST", "trust path not supplied")
     candidate = Path(trust_path).absolute()
-    if candidate.is_symlink() or candidate.parent.is_symlink():
-        raise GateError("E_TRUST_UNSAFE", "PREFLIGHT_TRUST", "symlink trust file")
+    if any(ancestor.is_symlink() for ancestor in (candidate, *candidate.parents)):
+        raise GateError("E_TRUST_UNSAFE", "PREFLIGHT_TRUST", "symlink trust path/ancestor")
     try:
         trusted = candidate.resolve(strict=True)
         if not trusted.is_file():
