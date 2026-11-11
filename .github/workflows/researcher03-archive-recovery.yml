@@ -5,6 +5,7 @@ on:
     branches: [experiment/ch4-metrics-backfill-v2]
     paths:
       - '.github/workflows/researcher03-archive-recovery.yml'
+      - 'code/experiments/benchmark_v1/report_backfill_v2/verify_recovery.py'
 
 permissions:
   contents: read
