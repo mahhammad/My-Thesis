@@ -1,0 +1,130 @@
+{
+  "mission": "CH4-D10D11-RECALC-PREFLIGHT-01",
+  "type": "PLAN_ONLY_NOT_EXECUTABLE",
+  "agent": "RESEARCHER-02",
+  "date": "2026-11-11",
+  "source_v2_commit": "9a19dcb2c14f831374eadcb638fa3974e56560e9",
+  "source_v2_blob": "7fe3ae82f10b3120054854f82ee3916c55605f30",
+  "source_v2_function": "exact_origin_excluded_center_bounds",
+  "source_v2_kernel_version": "exact_origin_excluded_low_memory_candidate_v2_direct_numerator",
+  "freeze": {
+    "chapter3_commit": "b60bab9f30453e9b5634793135e7b0251bfcf9d0",
+    "chapter4_commit": "de02fdda91e23db177de4429b3e1a9693c046d83",
+    "data_seed": 20261102,
+    "subset_seed": 20261107,
+    "data_generator_blob": "bd9fd2c57a7c37201e44978c599a5a07999a35bb",
+    "data_config_blob": "047d3758417618740b1217eb573db60dcb92607b",
+    "train_candidate": {
+      "name": "B02 audited canonical ONLY if D10 identity proven",
+      "commit": "05acde39b76b49e0b55337301251594be0ad6d92",
+      "file_sha256": "2986b25a1dcb2421f9c2b15445a75b6ade5595469ad1362b6da6656ec1b30e93",
+      "X_sha256": "51699bbe51504fa82d3e27aaa9ea81428bf341c4a0f2e5de67dcb3badd9a6852",
+      "y_sha256": "6172de6b43091361c783185cd6547de18481f9fa5",
+      "mask_sha256": "33ee2cef2e0315fb15c0d07b5025af631a6dbcfefc59bdfe6997d8873a7ccebc",
+      "ids_sha256": "98e038d3a30a991777ce2f66d2e9b9f377e44b6444635d2b5dd70d38ae78f241",
+      "B02_targets_different": true
+    },
+    "n_train": 300,
+    "d": 5,
+    "k": 3,
+    "class_counts": [
+      72,
+      147,
+      81
+    ],
+    "gamma": [
+      0.8,
+      1.2,
+      0.5,
+      1,
+      0.6
+    ],
+    "posterior_targets": {
+      "source_blob": "1c0e1e393361742ad7ede179d00c6247d86da75f",
+      "field": "bayes_target_centers",
+      "float64_le_rowmajor_sha256": "57ac66bf228737e9461ef2ae8c1b569768ac02b0391f14aa30791676ce30eaf6"
+    },
+    "d11_equal": {
+      "source_blob": "37431cc4b0eb3603260940c9514deab3861c1974",
+      "source_field": "equal.target",
+      "float64_le_rowmajor_sha256": "162d7373baf930a831ff72b1bcf0c5ef52575846d064610b8468d069b8a26eb2"
+    },
+    "d11_bounded_equal": {
+      "source_blob": "37431cc4b0eb3603260940c9514deab3861c1974",
+      "source_field": "bounded_equal.target",
+      "float64_le_rowmajor_sha256": "d44b7e23791c8112600c47a3bf876062a540913272a29f592371b3055921e54a"
+    },
+    "historical_invalid_bounds_blob": "43d55261ccdf3ffd007c933c5fbc4bef59f587d3",
+    "historical_grid_blob": "1c0e1e393361742ad7ede179d00c6247d86da75f",
+    "subset72_ordered_indices_sha256": "TO_BE_PINNED_AT_GATE_A"
+  },
+  "proposed_one_case": {
+    "id": "one_case_full300_H2_beta0.4_lambda0.8",
+    "n": 300,
+    "H": 2,
+    "beta": 0.4,
+    "lambda": 0.8,
+    "alpha_source": "original coefficients(beta,lambda,H) from run.py pinned blob 3485b1c9c1c2d97ecf3fa8f91fe5bd5b1ed656e9",
+    "first_decision_target": "D10 Bayes only",
+    "all_other_cases_forbidden_without_separate_approval": true
+  },
+  "limits_proposed": {
+    "OPENBLAS_NUM_THREADS": 1,
+    "OMP_NUM_THREADS": 1,
+    "MKL_NUM_THREADS": 1,
+    "NUMEXPR_NUM_THREADS": 1,
+    "wall_soft_seconds": 600,
+    "wall_hard_seconds": 900,
+    "cpu_soft_seconds": 840,
+    "cpu_hard_seconds": 900,
+    "rss_warn_mib": 768,
+    "rss_hard_mib": 1024,
+    "checkpoint_every_origins": 25,
+    "fail_on_no_supervisor": true,
+    "output_append_only": true
+  },
+  "outputs_expected": [
+    "input_lock_manifest.json",
+    "approval.json",
+    "numeric_env.json",
+    "progress.jsonl",
+    "resource_timeseries.jsonl",
+    "origin_interval_results.json",
+    "center_bounds_v2.json",
+    "target_gap_assessment.json",
+    "checksums.sha256",
+    "independent_review.json_or_later",
+    "failure.jsonl_on_error"
+  ],
+  "interpretation": {
+    "outside_with_demonstrated_interval_error_margin": "UNATTAINABLE_BY_VALID_OUTER_BOUND_PROPOSED_FOR_QA",
+    "outside_without_error_margin": "INCONCLUSIVE",
+    "inside_all_necessary_intervals": "INCONCLUSIVE",
+    "numerical_failure": "FAIL_CLOSED"
+  },
+  "stages": [
+    "A:SHA/integrity/approval",
+    "B:single preregistered H2 full300 only",
+    "C:independent review plus precision gate",
+    "D:manager decision for further case",
+    "E:separate H12 fixed-target D11/remainder only by new authorization"
+  ],
+  "violations_forbidden": [
+    "full300_now",
+    "subset72_now",
+    "grid37_now",
+    "optimizers",
+    "training",
+    "Test",
+    "Validation queries",
+    "CI heavy",
+    "LaTeX edits",
+    "PR or merge"
+  ],
+  "options": [
+    "GO_LATER_WITH_LIMITS",
+    "NEEDS_PRECISION_DESIGN",
+    "BLOCKED_PROVENANCE"
+  ],
+  "status": "PREFLIGHT_PLAN_ONLY_PENDING_MANAGER_DECISION"
+}
