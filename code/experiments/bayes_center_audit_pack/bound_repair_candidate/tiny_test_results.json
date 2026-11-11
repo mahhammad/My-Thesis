@@ -1,0 +1,97 @@
+{
+  "mission": "CH4-D10D11-BOUND-REPAIR-01",
+  "agent": "RESEARCHER-02",
+  "status": "PASS_TINY_FIXTURES_ONLY",
+  "numeric_budget_seconds": 120,
+  "numeric_elapsed_wall_seconds": 0.045605233999992834,
+  "rss_peak_kib_linux": 98188,
+  "peak_rss_gib": 0.09363937377929688,
+  "python_version": "3.13.5",
+  "numpy_version": "2.3.5",
+  "policy_seed": 20261111,
+  "source_reference": "code/experiments/archive/bayes_center_inverse/feasibility_bound.py::bounds_for_all_origins",
+  "reference_code_blob_sha": "79251967ed0d799185d502c8da44548eddd6e3ed",
+  "unit_test_count": 6,
+  "unit_test_failures": 0,
+  "unit_test_errors": 0,
+  "fixture_reports": [
+    {
+      "name": "auditor_counterexample",
+      "n": 3,
+      "d": 1,
+      "K": 2,
+      "H": 2,
+      "alpha": [
+        0.7333333333333334,
+        0.26666666666666666
+      ],
+      "max_abs_error_vs_original_DP": {
+        "origin_lower": 0.0,
+        "origin_upper": 0.0,
+        "center_lower": 0.0,
+        "center_upper": 0.0
+      },
+      "max_realized_outer_bound_violation": 0.0,
+      "fixed_policy_logits_seed": 20261111,
+      "fixed_class_policies_tested": 2,
+      "counterexample": {
+        "origin": 0,
+        "label_component": 1,
+        "original_walk_value": 0.36000000000000004,
+        "original_walk_expected_exact": 0.36,
+        "original_error_abs": 5.551115123125783e-17,
+        "invalid_old_return_upper": 0.18933333333333333,
+        "invalid_upper_excess": 0.17066666666666672
+      }
+    },
+    {
+      "name": "H1",
+      "n": 4,
+      "d": 1,
+      "K": 2,
+      "H": 1,
+      "alpha": [
+        1.0
+      ],
+      "max_abs_error_vs_original_DP": {
+        "origin_lower": 0.0,
+        "origin_upper": 0.0,
+        "center_lower": 0.0,
+        "center_upper": 0.0
+      },
+      "max_realized_outer_bound_violation": 0.0,
+      "fixed_policy_logits_seed": 20261111,
+      "fixed_class_policies_tested": 2
+    },
+    {
+      "name": "masked_multifeature",
+      "n": 6,
+      "d": 3,
+      "K": 2,
+      "H": 3,
+      "alpha": [
+        0.6808743169398906,
+        0.22469945355191254,
+        0.09442622950819672
+      ],
+      "max_abs_error_vs_original_DP": {
+        "origin_lower": 5.551115123125783e-17,
+        "origin_upper": 0.0,
+        "center_lower": 0.0,
+        "center_upper": 0.0
+      },
+      "max_realized_outer_bound_violation": 0.0,
+      "fixed_policy_logits_seed": 20261111,
+      "fixed_class_policies_tested": 2
+    }
+  ],
+  "forbidden_executions": {
+    "full300": false,
+    "grid_37": false,
+    "optimizer": false,
+    "train": false,
+    "MC": false,
+    "validation_or_test_queries": false
+  },
+  "limitation": "Only checks n<=6 and tiny fixed policies; no proof of general numerical implementation or full300 results."
+}
