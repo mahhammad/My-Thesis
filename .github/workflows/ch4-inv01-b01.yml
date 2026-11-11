@@ -1,0 +1,56 @@
+name: CH4-EXP-INV-01 B01 one-seed 18-solver gated standard block
+
+on:
+  push:
+    branches: [experiment/ch4-inv01-standard-plan]
+    paths:
+      - 'code/experiments/inverse_attainable_standard/standard_plan/b01_run.py'
+      - '.github/workflows/ch4-inv01-b01.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  b01-18-solver-block:
+    runs-on: ubuntu-latest
+    timeout-minutes: 21
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: experiment/ch4-inv01-standard-plan
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install CPU-only numerical dependencies
+        run: |
+          python -m pip install numpy
+          python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+      - name: Stage original archived engines and D09 solvers unchanged
+        run: |
+          mkdir -p code/experiments/multistep_policy_target_match code/experiments/diag_max_full300
+          cp code/experiments/archive/multistep_policy_target_match/{run.py,bootstrap_inverse.py,test_bootstrap_inverse.py} code/experiments/multistep_policy_target_match/
+          cp code/experiments/archive/diag_max_full300/stream_graph.py code/experiments/diag_max_full300/
+      - name: Nonexecuting 108-case matrix QA
+        run: python code/experiments/inverse_attainable_standard/standard_plan/verify_plan.py
+      - name: Regression tests of historical D09 on tiny reference
+        run: python -m unittest discover -s code/experiments/multistep_policy_target_match -p 'test_bootstrap_inverse.py' -v
+      - name: B01 bounded first 18-case solver run (never full 108)
+        run: |
+          if [ -f code/experiments/inverse_attainable_standard/standard_plan/results/B01/summary.json ]; then
+            echo 'Preserving already-recorded B01; no duplicate computation.'
+          else
+            timeout --signal=INT --kill-after=5s 870s python code/experiments/inverse_attainable_standard/standard_plan/b01_run.py --run
+          fi
+      - name: Verify B01 record, 18-run coverage and bounds
+        run: python code/experiments/inverse_attainable_standard/standard_plan/b01_run.py --verify
+      - name: Commit partial or completed B01 evidence on isolated branch
+        if: always()
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -f code/experiments/inverse_attainable_standard/standard_plan/results/B01/ || true
+          if ! git diff --cached --quiet; then
+            git commit -m 'research(ch4): preserve first bounded B01 block of standard D09 solver evidence'
+            git push origin HEAD:experiment/ch4-inv01-standard-plan
+          fi
