@@ -1,0 +1,43 @@
+{
+  "schema": "CH4-D10D11-static-checks-v1",
+  "agent": "RESEARCHER-02",
+  "reference_commit": "de02fdda91e23db177de4429b3e1a9693c046d83",
+  "test_kind": "In-memory readback assertions from frozen original JSON and DEFLATE ZIP. No original unit test, graph replay, solver run or training.",
+  "status": "PASS",
+  "assertions": [
+    "D10 37 unique config records; H=1 one representative; every full300 and subset72 diagonal target-minus-bound gap strictly positive",
+    "D10 all saved per-record diagonal_target_minus_upper fields match independent subtraction",
+    "D10 per-class full300 maxima reproduce saved summary",
+    "D11 original ZIP has 20 files, with six class JSONs, two summary JSONs and one uniform baseline",
+    "D11 equal violation coordinates exactly (0,1),(2,1); bounded_equal has none",
+    "D11 all six traces contain step0 plus exactly 30 GN corrections; final JS matches last trace and JS(center,target)",
+    "D11 two mean residuals, center I, R_JS and Validation BA agree with committed compact summary",
+    "D10 15 + D11 three center-only models reproduce original saved I/mean pairwise JS/min sqrt JS to 1e-10",
+    "No R_sqrt_JS inferred from R_JS and no missing value changed to zero"
+  ],
+  "numeric_summary": {
+    "D10_configs": 37,
+    "D10_full300_gaps": 111,
+    "D10_subset72_gaps": 111,
+    "D10_full300_min_gaps_per_class": [
+      0.16038170293090048,
+      0.011507981424726643,
+      0.1715324412470306
+    ],
+    "D11_equal_violations": [
+      [
+        0,
+        1
+      ],
+      [
+        2,
+        1
+      ]
+    ],
+    "D11_equal_mean_JS_lower_bound": 0.004524194453713252,
+    "D11_bounded_violations": [],
+    "D11_saved_GN_traces": 6,
+    "D11_all_six_status": "not_recovered_within_budget",
+    "center_metric_models": 18
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "schema": "CH4-D10-certificate-v1",
+  "agent": "RESEARCHER-02",
+  "reference_commit": "de02fdda91e23db177de4429b3e1a9693c046d83",
+  "source": {
+    "path": "code/experiments/archive/bayes_center_inverse/results/depth_sensitivity_full300_and_subset72.json",
+    "blob_sha": "1c0e1e393361742ad7ede179d00c6247d86da75f"
+  },
+  "records": 37,
+  "coordinate_rows_full300": 111,
+  "coordinate_rows_subset72": 111,
+  "generator_seed": 20261102,
+  "subset_seed": 20261107,
+  "grid": {
+    "H": [
+      1,
+      2,
+      3,
+      4,
+      12
+    ],
+    "H1_single": {
+      "beta": 0.4,
+      "lambda": 0.8
+    },
+    "H_gt1": {
+      "beta": [
+        0.2,
+        0.4,
+        0.7
+      ],
+      "lambda": [
+        0.4,
+        0.8,
+        1
+      ]
+    }
+  },
+  "target_Bayes_centers": [
+    [
+      0.7786352661736342,
+      0.21928110527447797,
+      0.002083628551887826
+    ],
+    [
+      0.1624270985661503,
+      0.7318229635896072,
+      0.1057499378442424
+    ],
+    [
+      0.0016181879372700126,
+      0.12564189466674763,
+      0.8727399173959823
+    ]
+  ],
+  "full300_max_upper_diagonal": [
+    0.6182535632427337,
+    0.7203149821648805,
+    0.7012074761489517
+  ],
+  "full300_min_positive_gap_by_class": [
+    0.16038170293090048,
+    0.011507981424726643,
+    0.1715324412470306
+  ],
+  "subset72_min_positive_gap": 0.03257177644443665,
+  "proof_contract": "Bound includes policy-dependent feature selection by state, origin, time and target coordinate. The full300 relaxation permits returns to origin. Both are outer/necessary coordinatewise bounds, not optimal stationary Z centers.",
+  "claim_scope": "Exactly the 37 listed configs on one fixed generator/graph; no continuous-grid or cross-dataset assertion."
+}

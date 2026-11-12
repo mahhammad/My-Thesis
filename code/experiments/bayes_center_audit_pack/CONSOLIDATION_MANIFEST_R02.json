@@ -1,0 +1,487 @@
+{
+  "schema": "ch4-r02-consolidation-manifest-v1",
+  "mission": "CH4-R02-CONSOLIDATE-01",
+  "repository": "mahhammad/My-Thesis",
+  "branch": "researcher/02-chapter4",
+  "frozen_chapter4": {
+    "commit": "de02fdda91e23db177de4429b3e1a9693c046d83",
+    "tree": "d07eba05eb8e5a20f4d9ccd4cf809f5e7b99097a",
+    "changed": false
+  },
+  "incorporation_strategy": "OCTOPUS_MERGE_COMMIT_WITH_FIRST_PARENT_PREFLIGHT_SECOND_EVIDENCE_THIRD_JOURNAL",
+  "tree_policy": "PRE-FLIGHT-TREE_PLUS_EXACT_BLOBS_FROM_EVIDENCE_AND_JOURNAL_PLUS_THIS_MANIFEST",
+  "scientific_claim_status": "SCIENTIFIC_HOLD",
+  "global_labels": [
+    "HISTORICAL_INVALID",
+    "NUMERIC_V2_TOY_ACCEPTED_ONLY",
+    "PLAN_ONLY",
+    "OLD_BRANCHES_NOT_DELETED"
+  ],
+  "sources": [
+    {
+      "branch": "research/ch4-d10d11-bound-repair",
+      "head_commit": "75ae4aa54ec412bfbf2d4dd2f531f899f3597145",
+      "complete_git_tree": "641f5e5e6a3f42770d085c8add418056feac7e7d",
+      "role": "HISTORICAL_PROTOTYPE",
+      "incorporate_by": "ANCESTOR_OF_PREFLIGHT",
+      "change_set_relative_to_chapter4": [
+        {
+          "path": "code/experiments/bayes_center_audit_pack/bound_repair_candidate/CLAIM_STATUS_AND_D11_RECHECK_FA.md",
+          "blob_sha": "81a5d96ffa07d84474672fe003707c891cd1e04a",
+          "size_bytes": 5768,
+          "merged_tree_blob_sha": "81a5d96ffa07d84474672fe003707c891cd1e04a",
+          "preservation": "EXACT",
+          "scientific_status": "HISTORICAL_PROTOTYPE"
+        },
+        {
+          "path": "code/experiments/bayes_center_audit_pack/bound_repair_candidate/COST_AND_QA_PLAN_FA.md",
+          "blob_sha": "c8650a091ea05a3b8679a30b7ac674a909877f57",
+          "size_bytes": 6398,
+          "merged_tree_blob_sha": "c8650a091ea05a3b8679a30b7ac674a909877f57",
+          "preservation": "EXACT",
+          "scientific_status": "HISTORICAL_PROTOTYPE"
+        },
+        {
+          "path": "code/experiments/bayes_center_audit_pack/bound_repair_candidate/exact_origin_excluded_bound.py",
+          "blob_sha": "c0b26a8d42fe6985a1b7fcd1c4e3d036f072c68e",
+          "size_bytes": 9084,
+          "merged_tree_blob_sha": "7fe3ae82f10b3120054854f82ee3916c55605f30",
+          "preservation": "PRESERVED_WITH_CHANGES_ARCHIVED_IN_GIT_ANCESTRY",
+          "scientific_status": "HISTORICAL_PROTOTYPE"
+        },
+        {
+          "path": "code/experiments/bayes_center_audit_pack/bound_repair_candidate/PROOF_AND_ASSUMPTIONS_FA.md",
+          "blob_sha": "5ea0234df84ac881894fdf86b0308d60b250de85",
+          "size_bytes": 10658,
+          "merged_tree_blob_sha": "5ea0234df84ac881894fdf86b0308d60b250de85",
+          "preservation": "EXACT",
+          "scientific_status": "HISTORICAL_PROTOTYPE"
+        },
+        {
+          "path": "code/experiments/bayes_center_audit_pack/bound_repair_candidate/README_FA.md",
+          "blob_sha": "931764ceacd0affe4fed89e4d5579385d2b706a6",
+          "size_bytes": 5897,
+          "merged_tree_blob_sha": "931764ceacd0affe4fed89e4d5579385d2b706a6",
+          "preservation": "EXACT",
+          "scientific_status": "HISTORICAL_PROTOTYPE"
+        },
+        {
+          "path": "code/experiments/bayes_center_audit_pack/bound_repair_candidate/test_exact_origin_excluded_bound.py",
+          "blob_sha": "abd4668bd1e5986473b1f5c579f3f84bf08afe36",
+          "size_bytes": 9349,
+          "merged_tree_blob_sha": "abd4668bd1e5986473b1f5c579f3f84bf08afe36",
+          "preservation": "EXACT",
+          "scientific_status": "HISTORICAL_PROTOTYPE"
+        },
+        {
+          "path": "code/experiments/bayes_center_audit_pack/bound_repair_candidate/tiny_test_results.json",
+          "blob_sha": "f2dffa4d54512185302c424ce2df487b8467f270",
+          "size_bytes": 2740,
+          "merged_tree_blob_sha": "f2dffa4d54512185302c424ce2df487b8467f270",
+          "preservation": "EXACT",
+          "scientific_status": "HISTORICAL_PROTOTYPE"
+        },
+        {
+          "path": "code/experiments/bayes_center_audit_pack/bound_repair_candidate/tiny_validation.py",
+          "blob_sha": "e0de18648c73f07ebd1904a6c66e0da754e234c7",
+          "size_bytes": 5844,
+          "merged_tree_blob_sha": "e0de18648c73f07ebd1904a6c66e0da754e234c7",
+          "preservation": "EXACT",
+          "scientific_status": "HISTORICAL_PROTOTYPE"
+        }
+      ]
+    },
+    {
+      "branch": "research/ch4-d10d11-evidence-pack",
+      "head_commit": "0cddf6a5995907bc735698874f04335c01d94704",
+      "complete_git_tree": "a6036f7e2b5e162fed088d956665c61bc644f19b",
+      "role": "HISTORICAL_INVALID_CERTIFICATE_AND_DESCRIPTIVE_EVIDENCE",
+      "incorporate_by": "DIRECT_MERGE_PARENT",
+      "change_set_relative_to_chapter4": [
+        {
+          "path": "code/experiments/bayes_center_audit_pack/EDITING_HANDOFF_FA.md",
+          "blob_sha": "6ff42b694ccc638b925e64d3cc212a1fa0d70b13",
+          "size_bytes": 6842,
+          "merged_tree_blob_sha": "6ff42b694ccc638b925e64d3cc212a1fa0d70b13",
+          "preservation": "EXACT",
+          "scientific_status": "HISTORICAL_INVALID_FOR_CERTIFICATE_CLAIMS"
+        },
+        {
+          "path": "code/experiments/bayes_center_audit_pack/README_FA.md",
+          "blob_sha": "8bd6c48c3927430e80ce8aa280f25c78c8763334",
+          "size_bytes": 6419,
+          "merged_tree_blob_sha": "8bd6c48c3927430e80ce8aa280f25c78c8763334",
+          "preservation": "EXACT",
+          "scientific_status": "HISTORICAL_INVALID_FOR_CERTIFICATE_CLAIMS"
+        },
+        {
+          "path": "code/experiments/bayes_center_audit_pack/results/center_geometry_metrics.json",
+          "blob_sha": "96649a88c51dae6a78f5b76f9b9147d241735016",
+          "size_bytes": 95335,
+          "merged_tree_blob_sha": "96649a88c51dae6a78f5b76f9b9147d241735016",
+          "preservation": "EXACT",
+          "scientific_status": "HISTORICAL_INVALID_CERTIFICATE_AND_DESCRIPTIVE_EVIDENCE"
+        },
+        {
+          "path": "code/experiments/bayes_center_audit_pack/results/d10_certificate_summary.json",
+          "blob_sha": "04845c91e101b6bd4bbf82db364d546013c640bf",
+          "size_bytes": 1729,
+          "merged_tree_blob_sha": "04845c91e101b6bd4bbf82db364d546013c640bf",
+          "preservation": "EXACT",
+          "scientific_status": "HISTORICAL_INVALID_FOR_CERTIFICATE_CLAIMS"
+        },
+        {
+          "path": "code/experiments/bayes_center_audit_pack/results/d10_coordinate_certificate.csv",
+          "blob_sha": "3a5c2f220de9f796b1abbf1bf072a704c520ffd3",
+          "size_bytes": 108830,
+          "merged_tree_blob_sha": "3a5c2f220de9f796b1abbf1bf072a704c520ffd3",
+          "preservation": "EXACT",
+          "scientific_status": "HISTORICAL_INVALID_FOR_CERTIFICATE_CLAIMS"
+        },
+        {
+          "path": "code/experiments/bayes_center_audit_pack/results/d11_coordinate_and_optimizer_evidence.json",
+          "blob_sha": "be3e45fbe69a81a0eebf6ea08ea55ae0589bf044",
+          "size_bytes": 20980,
+          "merged_tree_blob_sha": "be3e45fbe69a81a0eebf6ea08ea55ae0589bf044",
+          "preservation": "EXACT",
+          "scientific_status": "HISTORICAL_INVALID_FOR_CERTIFICATE_CLAIMS"
+        },
+        {
+          "path": "code/experiments/bayes_center_audit_pack/results/metric_coverage.json",
+          "blob_sha": "987d27a8503d10dc2020e8a41f411217908bae1f",
+          "size_bytes": 2774,
+          "merged_tree_blob_sha": "987d27a8503d10dc2020e8a41f411217908bae1f",
+          "preservation": "EXACT",
+          "scientific_status": "HISTORICAL_INVALID_CERTIFICATE_AND_DESCRIPTIVE_EVIDENCE"
+        },
+        {
+          "path": "code/experiments/bayes_center_audit_pack/results/static_validation_checks.json",
+          "blob_sha": "a6398fbaad8ff92676f733c1cd3a42a7647b77e8",
+          "size_bytes": 1784,
+          "merged_tree_blob_sha": "a6398fbaad8ff92676f733c1cd3a42a7647b77e8",
+          "preservation": "EXACT",
+          "scientific_status": "HISTORICAL_INVALID_CERTIFICATE_AND_DESCRIPTIVE_EVIDENCE"
+        }
+      ]
+    },
+    {
+      "branch": "research/ch4-d10d11-numerical-repair-v2",
+      "head_commit": "9a19dcb2c14f831374eadcb638fa3974e56560e9",
+      "complete_git_tree": "e8d7a3c8a7e702dae6f2b427aa689f78ea76c9ee",
+      "role": "NUMERIC_V2_TOY_ACCEPTED_ONLY",
+      "incorporate_by": "ANCESTOR_OF_PREFLIGHT",
+      "change_set_relative_to_chapter4": [
+        {
+          "path": "code/experiments/bayes_center_audit_pack/bound_repair_candidate/CLAIM_STATUS_AND_D11_RECHECK_FA.md",
+          "blob_sha": "81a5d96ffa07d84474672fe003707c891cd1e04a",
+          "size_bytes": 5768,
+          "merged_tree_blob_sha": "81a5d96ffa07d84474672fe003707c891cd1e04a",
+          "preservation": "EXACT",
+          "scientific_status": "NUMERIC_V2_TOY_ACCEPTED_ONLY"
+        },
+        {
+          "path": "code/experiments/bayes_center_audit_pack/bound_repair_candidate/COST_AND_QA_PLAN_FA.md",
+          "blob_sha": "c8650a091ea05a3b8679a30b7ac674a909877f57",
+          "size_bytes": 6398,
+          "merged_tree_blob_sha": "c8650a091ea05a3b8679a30b7ac674a909877f57",
+          "preservation": "EXACT",
+          "scientific_status": "NUMERIC_V2_TOY_ACCEPTED_ONLY"
+        },
+        {
+          "path": "code/experiments/bayes_center_audit_pack/bound_repair_candidate/exact_origin_excluded_bound.py",
+          "blob_sha": "7fe3ae82f10b3120054854f82ee3916c55605f30",
+          "size_bytes": 10328,
+          "merged_tree_blob_sha": "7fe3ae82f10b3120054854f82ee3916c55605f30",
+          "preservation": "EXACT",
+          "scientific_status": "NUMERIC_V2_TOY_ACCEPTED_ONLY"
+        },
+        {
+          "path": "code/experiments/bayes_center_audit_pack/bound_repair_candidate/NUMERIC_V2_AMENDMENT_FA.md",
+          "blob_sha": "430e19adfcab8b1c9d69eb327fec67c7bafe6813",
+          "size_bytes": 4992,
+          "merged_tree_blob_sha": "430e19adfcab8b1c9d69eb327fec67c7bafe6813",
+          "preservation": "EXACT",
+          "scientific_status": "NUMERIC_V2_TOY_ACCEPTED_ONLY"
+        },
+        {
+          "path": "code/experiments/bayes_center_audit_pack/bound_repair_candidate/numeric_v2_test_results.json",
+          "blob_sha": "b23f4f644a32729d21b2a1ff8aad8b621df2b556",
+          "size_bytes": 3108,
+          "merged_tree_blob_sha": "b23f4f644a32729d21b2a1ff8aad8b621df2b556",
+          "preservation": "EXACT",
+          "scientific_status": "NUMERIC_V2_TOY_ACCEPTED_ONLY"
+        },
+        {
+          "path": "code/experiments/bayes_center_audit_pack/bound_repair_candidate/numeric_v2_validation.py",
+          "blob_sha": "3150aeb30fa21cce557444c8f0561ea077c3d628",
+          "size_bytes": 6179,
+          "merged_tree_blob_sha": "3150aeb30fa21cce557444c8f0561ea077c3d628",
+          "preservation": "EXACT",
+          "scientific_status": "NUMERIC_V2_TOY_ACCEPTED_ONLY"
+        },
+        {
+          "path": "code/experiments/bayes_center_audit_pack/bound_repair_candidate/PROOF_AND_ASSUMPTIONS_FA.md",
+          "blob_sha": "5ea0234df84ac881894fdf86b0308d60b250de85",
+          "size_bytes": 10658,
+          "merged_tree_blob_sha": "5ea0234df84ac881894fdf86b0308d60b250de85",
+          "preservation": "EXACT",
+          "scientific_status": "NUMERIC_V2_TOY_ACCEPTED_ONLY"
+        },
+        {
+          "path": "code/experiments/bayes_center_audit_pack/bound_repair_candidate/README_FA.md",
+          "blob_sha": "931764ceacd0affe4fed89e4d5579385d2b706a6",
+          "size_bytes": 5897,
+          "merged_tree_blob_sha": "931764ceacd0affe4fed89e4d5579385d2b706a6",
+          "preservation": "EXACT",
+          "scientific_status": "NUMERIC_V2_TOY_ACCEPTED_ONLY"
+        },
+        {
+          "path": "code/experiments/bayes_center_audit_pack/bound_repair_candidate/test_exact_origin_excluded_bound.py",
+          "blob_sha": "abd4668bd1e5986473b1f5c579f3f84bf08afe36",
+          "size_bytes": 9349,
+          "merged_tree_blob_sha": "abd4668bd1e5986473b1f5c579f3f84bf08afe36",
+          "preservation": "EXACT",
+          "scientific_status": "NUMERIC_V2_TOY_ACCEPTED_ONLY"
+        },
+        {
+          "path": "code/experiments/bayes_center_audit_pack/bound_repair_candidate/test_numerical_v2.py",
+          "blob_sha": "af68374c8876a434950a674c4435c426bdb0f509",
+          "size_bytes": 8720,
+          "merged_tree_blob_sha": "af68374c8876a434950a674c4435c426bdb0f509",
+          "preservation": "EXACT",
+          "scientific_status": "NUMERIC_V2_TOY_ACCEPTED_ONLY"
+        },
+        {
+          "path": "code/experiments/bayes_center_audit_pack/bound_repair_candidate/tiny_test_results.json",
+          "blob_sha": "f2dffa4d54512185302c424ce2df487b8467f270",
+          "size_bytes": 2740,
+          "merged_tree_blob_sha": "f2dffa4d54512185302c424ce2df487b8467f270",
+          "preservation": "EXACT",
+          "scientific_status": "NUMERIC_V2_TOY_ACCEPTED_ONLY"
+        },
+        {
+          "path": "code/experiments/bayes_center_audit_pack/bound_repair_candidate/tiny_validation.py",
+          "blob_sha": "e0de18648c73f07ebd1904a6c66e0da754e234c7",
+          "size_bytes": 5844,
+          "merged_tree_blob_sha": "e0de18648c73f07ebd1904a6c66e0da754e234c7",
+          "preservation": "EXACT",
+          "scientific_status": "NUMERIC_V2_TOY_ACCEPTED_ONLY"
+        }
+      ]
+    },
+    {
+      "branch": "research/ch4-d10d11-recalc-preflight",
+      "head_commit": "d87ae396ccad473c436047e36e7766c75f00618d",
+      "complete_git_tree": "39445944448ae1dbdd5235883af492075a306015",
+      "role": "PLAN_ONLY",
+      "incorporate_by": "FIRST_MERGE_PARENT_AND_BASE_TREE",
+      "change_set_relative_to_chapter4": [
+        {
+          "path": "code/experiments/bayes_center_audit_pack/bound_repair_candidate/CLAIM_STATUS_AND_D11_RECHECK_FA.md",
+          "blob_sha": "81a5d96ffa07d84474672fe003707c891cd1e04a",
+          "size_bytes": 5768,
+          "merged_tree_blob_sha": "81a5d96ffa07d84474672fe003707c891cd1e04a",
+          "preservation": "EXACT",
+          "scientific_status": "PLAN_ONLY"
+        },
+        {
+          "path": "code/experiments/bayes_center_audit_pack/bound_repair_candidate/COST_AND_QA_PLAN_FA.md",
+          "blob_sha": "c8650a091ea05a3b8679a30b7ac674a909877f57",
+          "size_bytes": 6398,
+          "merged_tree_blob_sha": "c8650a091ea05a3b8679a30b7ac674a909877f57",
+          "preservation": "EXACT",
+          "scientific_status": "PLAN_ONLY"
+        },
+        {
+          "path": "code/experiments/bayes_center_audit_pack/bound_repair_candidate/exact_origin_excluded_bound.py",
+          "blob_sha": "7fe3ae82f10b3120054854f82ee3916c55605f30",
+          "size_bytes": 10328,
+          "merged_tree_blob_sha": "7fe3ae82f10b3120054854f82ee3916c55605f30",
+          "preservation": "EXACT",
+          "scientific_status": "PLAN_ONLY"
+        },
+        {
+          "path": "code/experiments/bayes_center_audit_pack/bound_repair_candidate/NUMERIC_V2_AMENDMENT_FA.md",
+          "blob_sha": "430e19adfcab8b1c9d69eb327fec67c7bafe6813",
+          "size_bytes": 4992,
+          "merged_tree_blob_sha": "430e19adfcab8b1c9d69eb327fec67c7bafe6813",
+          "preservation": "EXACT",
+          "scientific_status": "PLAN_ONLY"
+        },
+        {
+          "path": "code/experiments/bayes_center_audit_pack/bound_repair_candidate/numeric_v2_test_results.json",
+          "blob_sha": "b23f4f644a32729d21b2a1ff8aad8b621df2b556",
+          "size_bytes": 3108,
+          "merged_tree_blob_sha": "b23f4f644a32729d21b2a1ff8aad8b621df2b556",
+          "preservation": "EXACT",
+          "scientific_status": "PLAN_ONLY"
+        },
+        {
+          "path": "code/experiments/bayes_center_audit_pack/bound_repair_candidate/numeric_v2_validation.py",
+          "blob_sha": "3150aeb30fa21cce557444c8f0561ea077c3d628",
+          "size_bytes": 6179,
+          "merged_tree_blob_sha": "3150aeb30fa21cce557444c8f0561ea077c3d628",
+          "preservation": "EXACT",
+          "scientific_status": "PLAN_ONLY"
+        },
+        {
+          "path": "code/experiments/bayes_center_audit_pack/bound_repair_candidate/PROOF_AND_ASSUMPTIONS_FA.md",
+          "blob_sha": "5ea0234df84ac881894fdf86b0308d60b250de85",
+          "size_bytes": 10658,
+          "merged_tree_blob_sha": "5ea0234df84ac881894fdf86b0308d60b250de85",
+          "preservation": "EXACT",
+          "scientific_status": "PLAN_ONLY"
+        },
+        {
+          "path": "code/experiments/bayes_center_audit_pack/bound_repair_candidate/README_FA.md",
+          "blob_sha": "931764ceacd0affe4fed89e4d5579385d2b706a6",
+          "size_bytes": 5897,
+          "merged_tree_blob_sha": "931764ceacd0affe4fed89e4d5579385d2b706a6",
+          "preservation": "EXACT",
+          "scientific_status": "PLAN_ONLY"
+        },
+        {
+          "path": "code/experiments/bayes_center_audit_pack/bound_repair_candidate/test_exact_origin_excluded_bound.py",
+          "blob_sha": "abd4668bd1e5986473b1f5c579f3f84bf08afe36",
+          "size_bytes": 9349,
+          "merged_tree_blob_sha": "abd4668bd1e5986473b1f5c579f3f84bf08afe36",
+          "preservation": "EXACT",
+          "scientific_status": "PLAN_ONLY"
+        },
+        {
+          "path": "code/experiments/bayes_center_audit_pack/bound_repair_candidate/test_numerical_v2.py",
+          "blob_sha": "af68374c8876a434950a674c4435c426bdb0f509",
+          "size_bytes": 8720,
+          "merged_tree_blob_sha": "af68374c8876a434950a674c4435c426bdb0f509",
+          "preservation": "EXACT",
+          "scientific_status": "PLAN_ONLY"
+        },
+        {
+          "path": "code/experiments/bayes_center_audit_pack/bound_repair_candidate/tiny_test_results.json",
+          "blob_sha": "f2dffa4d54512185302c424ce2df487b8467f270",
+          "size_bytes": 2740,
+          "merged_tree_blob_sha": "f2dffa4d54512185302c424ce2df487b8467f270",
+          "preservation": "EXACT",
+          "scientific_status": "PLAN_ONLY"
+        },
+        {
+          "path": "code/experiments/bayes_center_audit_pack/bound_repair_candidate/tiny_validation.py",
+          "blob_sha": "e0de18648c73f07ebd1904a6c66e0da754e234c7",
+          "size_bytes": 5844,
+          "merged_tree_blob_sha": "e0de18648c73f07ebd1904a6c66e0da754e234c7",
+          "preservation": "EXACT",
+          "scientific_status": "PLAN_ONLY"
+        },
+        {
+          "path": "code/experiments/bayes_center_audit_pack/recalc_preflight/00_PREFLIGHT_DECISION_FA.md",
+          "blob_sha": "8a1d9a13daa084411941af3e6a035fb9fb45f6f4",
+          "size_bytes": 15293,
+          "merged_tree_blob_sha": "8a1d9a13daa084411941af3e6a035fb9fb45f6f4",
+          "preservation": "EXACT",
+          "scientific_status": "PLAN_ONLY"
+        },
+        {
+          "path": "code/experiments/bayes_center_audit_pack/recalc_preflight/01_CLAIM_LEDGER_FA.md",
+          "blob_sha": "372c86f82137f90a38147f70733840a29da2011d",
+          "size_bytes": 6858,
+          "merged_tree_blob_sha": "372c86f82137f90a38147f70733840a29da2011d",
+          "preservation": "EXACT",
+          "scientific_status": "PLAN_ONLY"
+        },
+        {
+          "path": "code/experiments/bayes_center_audit_pack/recalc_preflight/02_PROTOCOL_MANIFEST.json",
+          "blob_sha": "2d43bc0607a2427cdbb8716ca9924dbd226847e4",
+          "size_bytes": 4567,
+          "merged_tree_blob_sha": "2d43bc0607a2427cdbb8716ca9924dbd226847e4",
+          "preservation": "EXACT",
+          "scientific_status": "PLAN_ONLY"
+        }
+      ]
+    },
+    {
+      "branch": "research/ch4-bellman-bound-audit-journal-20261111",
+      "head_commit": "6bff5773aadbd165b65a67ff7430a6c700800fee",
+      "complete_git_tree": "5b47083b48e4a274ea3b986d257bf217d51f29ae",
+      "role": "NEGATIVE_AUDIT_OF_HISTORICAL_INVALID_KERNEL",
+      "incorporate_by": "DIRECT_MERGE_PARENT",
+      "change_set_relative_to_chapter4": [
+        {
+          "path": "research_journal/2026-11-11-d10d11-return-kernel-counterexample.md",
+          "blob_sha": "5d47c6229f819484dda22a5012feedc7ef4d3a57",
+          "size_bytes": 4538,
+          "merged_tree_blob_sha": "5d47c6229f819484dda22a5012feedc7ef4d3a57",
+          "preservation": "EXACT",
+          "scientific_status": "NEGATIVE_AUDIT_OF_HISTORICAL_INVALID_KERNEL"
+        }
+      ]
+    }
+  ],
+  "deliberate_version_conflict": {
+    "path": "code/experiments/bayes_center_audit_pack/bound_repair_candidate/exact_origin_excluded_bound.py",
+    "v1_historical_invalid": {
+      "commit": "75ae4aa54ec412bfbf2d4dd2f531f899f3597145",
+      "blob": "c0b26a8d42fe6985a1b7fcd1c4e3d036f072c68e",
+      "scientific_status": "PROTOTYPE_SUPERSEDED_NUMERICALLY"
+    },
+    "v2_active_toy_only": {
+      "commit": "9a19dcb2c14f831374eadcb638fa3974e56560e9",
+      "blob": "7fe3ae82f10b3120054854f82ee3916c55605f30",
+      "scientific_status": "NUMERIC_V2_TOY_ACCEPTED_ONLY"
+    },
+    "disposition": "V2_ACTIVE_IN_TIP;V1_EXTRACTABLE_FROM_ANCESTOR_COMMIT;NO_SILENT_OVERWRITE"
+  },
+  "negative_audit": {
+    "path": "research_journal/2026-11-11-d10d11-return-kernel-counterexample.md",
+    "blob": "5d47c6229f819484dda22a5012feedc7ef4d3a57",
+    "finding": "old full300 return-allowed kernel invalid as a necessary upper bound for H>1",
+    "scientific_status": "VALID_NEGATIVE_AUDIT_NOT_NEW_FULL300_CERTIFICATE"
+  },
+  "known_invalid": [
+    "D10 full300 return-allowed 37-configuration 111 diagonal certificates",
+    "D11 equal target diagonal infeasibility and historic JS lower bound",
+    "subset72 111 certificates not independently numerically QA'd"
+  ],
+  "historical_descriptive_only": [
+    "18 center geometry metric records",
+    "solver GN traces and validation BA from frozen archive"
+  ],
+  "future_gate": "NEW_BOUND_CALCULATION_REQUIRES_SEPARATE_AUTHORIZATION",
+  "old_branches": {
+    "current": "KEEP_UNTIL_ARCHIVE_VERIFIED_AND_INDEPENDENT_TREE_QA_AND_OWNER_APPROVAL",
+    "conditional_candidates": "READY_TO_RETIRE_AFTER_ARCHIVE_AND_QA",
+    "delete_performed": false,
+    "names": [
+      "research/ch4-d10d11-bound-repair",
+      "research/ch4-d10d11-evidence-pack",
+      "research/ch4-d10d11-numerical-repair-v2",
+      "research/ch4-d10d11-recalc-preflight",
+      "research/ch4-bellman-bound-audit-journal-20261111"
+    ]
+  },
+  "protected": {
+    "branch_deletions": 0,
+    "solver_runs": 0,
+    "full300_runs": 0,
+    "grid37_runs": 0,
+    "latex_edits": 0,
+    "pr50_edits": 0,
+    "pr51_edits": 0,
+    "force_pushes": 0
+  },
+  "qa_contract": {
+    "expected_added_exact_blobs": 9,
+    "expected_final_direct_merge_parents": [
+      "d87ae396ccad473c436047e36e7766c75f00618d",
+      "0cddf6a5995907bc735698874f04335c01d94704",
+      "6bff5773aadbd165b65a67ff7430a6c700800fee"
+    ],
+    "expected_v1_and_v2_ancestor_heads": [
+      "75ae4aa54ec412bfbf2d4dd2f531f899f3597145",
+      "0cddf6a5995907bc735698874f04335c01d94704",
+      "9a19dcb2c14f831374eadcb638fa3974e56560e9",
+      "d87ae396ccad473c436047e36e7766c75f00618d",
+      "6bff5773aadbd165b65a67ff7430a6c700800fee"
+    ],
+    "scope": "git-tree-and-ancestry;NO_SCIENTIFIC_RECOMPUTATION"
+  }
+}

@@ -1,0 +1,563 @@
+{
+  "schema": "CH4-D11-certificate-v1",
+  "agent": "RESEARCHER-02",
+  "reference_commit": "de02fdda91e23db177de4429b3e1a9693c046d83",
+  "source_bounds": {
+    "path": "code/experiments/archive/bayes_center_inverse/results/full_reference_bounds.json",
+    "blob_sha": "43d55261ccdf3ffd007c933c5fbc4bef59f587d3"
+  },
+  "source_archive": {
+    "path": "code/experiments/archive/historical_archive/archives/full300_maxdiag_bootstrap_experiment.zip",
+    "blob_sha": "c85dc00fc5ea23bffb45481261b3e4d32dd9e659",
+    "members": 20
+  },
+  "source_compact": {
+    "path": "code/experiments/archive/bayes_center_inverse/results/full300_maxdiag_compact_summary.json",
+    "blob_sha": "37431cc4b0eb3603260940c9514deab3861c1974"
+  },
+  "fixed_protocol": {
+    "n_train": 300,
+    "n_validation": 90,
+    "class_counts": [
+      72,
+      147,
+      81
+    ],
+    "H": 12,
+    "beta": 0.4,
+    "lambda": 0.8,
+    "Q_steps": 45,
+    "GN_corrections": 30,
+    "restart": false,
+    "success_threshold_JSD": 1e-8
+  },
+  "theoretical_limit": "componentwise relaxed interval test is necessary, never sufficient for jointly attainable matrix with one fixed class-specific policy",
+  "targets": [
+    {
+      "kind": "equal",
+      "target": [
+        [
+          0.6023781703724579,
+          0.19881091481377106,
+          0.19881091481377106
+        ],
+        [
+          0.14011420403901742,
+          0.7197715919219652,
+          0.14011420403901742
+        ],
+        [
+          0.1577272489810062,
+          0.1577272489810062,
+          0.6845455020379876
+        ]
+      ],
+      "violations": [
+        [
+          0,
+          1
+        ],
+        [
+          2,
+          1
+        ]
+      ],
+      "per_class_binary_JSD_lower_bound": [
+        0.006420065157586863,
+        0,
+        0.007152518203552893
+      ],
+      "mean_JSD_lower_bound": 0.004524194453713252,
+      "structural_status": "proved_unattainable_partial_rows",
+      "GN_status": "not_recovered_within_budget",
+      "GN_class_corrections": [
+        30,
+        30,
+        30
+      ],
+      "observed_mean_target_JSD": 0.024868889896846103,
+      "observed_I": 0.09205656144386787,
+      "observed_R_JS": 0.01919048398234917,
+      "observed_R_KL_legacy": 0.07482075263648391,
+      "observed_validation_BA": 0.8520408163265306,
+      "source_zip_member": "code/experiments/diag_max_full300/results/full300_equal_summary.json"
+    },
+    {
+      "kind": "bounded_equal",
+      "target": [
+        [
+          0.6023781703724579,
+          0.2963777752351273,
+          0.1012440543924148
+        ],
+        [
+          0.14011420403901742,
+          0.7197715919219652,
+          0.14011420403901742
+        ],
+        [
+          0.061362713494273635,
+          0.2540917844677388,
+          0.6845455020379876
+        ]
+      ],
+      "violations": [],
+      "per_class_binary_JSD_lower_bound": [
+        0,
+        0,
+        0
+      ],
+      "mean_JSD_lower_bound": 0,
+      "structural_status": "UNKNOWN_simultaneous_attainability",
+      "GN_status": "not_recovered_within_budget",
+      "GN_class_corrections": [
+        30,
+        30,
+        30
+      ],
+      "observed_mean_target_JSD": 0.008091434482492721,
+      "observed_I": 0.16324280842800298,
+      "observed_R_JS": 0.0240922868599743,
+      "observed_R_KL_legacy": 0.09357974982766272,
+      "observed_validation_BA": 0.8928571428571429,
+      "source_zip_member": "code/experiments/diag_max_full300/results/full300_bounded_equal_summary.json"
+    }
+  ],
+  "coordinates": [
+    {
+      "target_kind": "equal",
+      "claim_id": "D11-equal-coordinate-0-0",
+      "class_id": 0,
+      "coordinate_col": 0,
+      "target_value": 0.6023781703724579,
+      "relaxed_lower_bound": 0.1629286062699988,
+      "relaxed_upper_bound": 0.6023781703724579,
+      "positive_lower_violation": 0,
+      "positive_upper_violation": 0,
+      "interval_violation": false,
+      "structural_status": "not_excluded_by_componentwise_bound",
+      "source_full300_bounds_blob": "43d55261ccdf3ffd007c933c5fbc4bef59f587d3",
+      "source_archive_blob": "c85dc00fc5ea23bffb45481261b3e4d32dd9e659",
+      "zip_member": "code/experiments/diag_max_full300/results/equal_class0.json"
+    },
+    {
+      "target_kind": "equal",
+      "claim_id": "D11-equal-coordinate-0-1",
+      "class_id": 0,
+      "coordinate_col": 1,
+      "target_value": 0.19881091481377106,
+      "relaxed_lower_bound": 0.2963777752351273,
+      "relaxed_upper_bound": 0.6308988126594988,
+      "positive_lower_violation": 0.09756686042135626,
+      "positive_upper_violation": 0,
+      "interval_violation": true,
+      "structural_status": "proved_unattainable_by_valid_bound",
+      "source_full300_bounds_blob": "43d55261ccdf3ffd007c933c5fbc4bef59f587d3",
+      "source_archive_blob": "c85dc00fc5ea23bffb45481261b3e4d32dd9e659",
+      "zip_member": "code/experiments/diag_max_full300/results/equal_class0.json"
+    },
+    {
+      "target_kind": "equal",
+      "claim_id": "D11-equal-coordinate-0-2",
+      "class_id": 0,
+      "coordinate_col": 2,
+      "target_value": 0.19881091481377106,
+      "relaxed_lower_bound": 0.015367698484706205,
+      "relaxed_upper_bound": 0.38706875397749013,
+      "positive_lower_violation": 0,
+      "positive_upper_violation": 0,
+      "interval_violation": false,
+      "structural_status": "not_excluded_by_componentwise_bound",
+      "source_full300_bounds_blob": "43d55261ccdf3ffd007c933c5fbc4bef59f587d3",
+      "source_archive_blob": "c85dc00fc5ea23bffb45481261b3e4d32dd9e659",
+      "zip_member": "code/experiments/diag_max_full300/results/equal_class0.json"
+    },
+    {
+      "target_kind": "equal",
+      "claim_id": "D11-equal-coordinate-1-0",
+      "class_id": 1,
+      "coordinate_col": 0,
+      "target_value": 0.14011420403901742,
+      "relaxed_lower_bound": 0.08379938357947249,
+      "relaxed_upper_bound": 0.3793373168444387,
+      "positive_lower_violation": 0,
+      "positive_upper_violation": 0,
+      "interval_violation": false,
+      "structural_status": "not_excluded_by_componentwise_bound",
+      "source_full300_bounds_blob": "43d55261ccdf3ffd007c933c5fbc4bef59f587d3",
+      "source_archive_blob": "c85dc00fc5ea23bffb45481261b3e4d32dd9e659",
+      "zip_member": "code/experiments/diag_max_full300/results/equal_class1.json"
+    },
+    {
+      "target_kind": "equal",
+      "claim_id": "D11-equal-coordinate-1-1",
+      "class_id": 1,
+      "coordinate_col": 1,
+      "target_value": 0.7197715919219652,
+      "relaxed_lower_bound": 0.394286180962714,
+      "relaxed_upper_bound": 0.7197715919219652,
+      "positive_lower_violation": 0,
+      "positive_upper_violation": 0,
+      "interval_violation": false,
+      "structural_status": "not_excluded_by_componentwise_bound",
+      "source_full300_bounds_blob": "43d55261ccdf3ffd007c933c5fbc4bef59f587d3",
+      "source_archive_blob": "c85dc00fc5ea23bffb45481261b3e4d32dd9e659",
+      "zip_member": "code/experiments/diag_max_full300/results/equal_class1.json"
+    },
+    {
+      "target_kind": "equal",
+      "claim_id": "D11-equal-coordinate-1-2",
+      "class_id": 1,
+      "coordinate_col": 2,
+      "target_value": 0.14011420403901742,
+      "relaxed_lower_bound": 0.0788131090323266,
+      "relaxed_upper_bound": 0.41100313326240395,
+      "positive_lower_violation": 0,
+      "positive_upper_violation": 0,
+      "interval_violation": false,
+      "structural_status": "not_excluded_by_componentwise_bound",
+      "source_full300_bounds_blob": "43d55261ccdf3ffd007c933c5fbc4bef59f587d3",
+      "source_archive_blob": "c85dc00fc5ea23bffb45481261b3e4d32dd9e659",
+      "zip_member": "code/experiments/diag_max_full300/results/equal_class1.json"
+    },
+    {
+      "target_kind": "equal",
+      "claim_id": "D11-equal-coordinate-2-0",
+      "class_id": 2,
+      "coordinate_col": 0,
+      "target_value": 0.1577272489810062,
+      "relaxed_lower_bound": 0.012726386860189575,
+      "relaxed_upper_bound": 0.34867577053437143,
+      "positive_lower_violation": 0,
+      "positive_upper_violation": 0,
+      "interval_violation": false,
+      "structural_status": "not_excluded_by_componentwise_bound",
+      "source_full300_bounds_blob": "43d55261ccdf3ffd007c933c5fbc4bef59f587d3",
+      "source_archive_blob": "c85dc00fc5ea23bffb45481261b3e4d32dd9e659",
+      "zip_member": "code/experiments/diag_max_full300/results/equal_class2.json"
+    },
+    {
+      "target_kind": "equal",
+      "claim_id": "D11-equal-coordinate-2-1",
+      "class_id": 2,
+      "coordinate_col": 1,
+      "target_value": 0.1577272489810062,
+      "relaxed_lower_bound": 0.2540917844677388,
+      "relaxed_upper_bound": 0.6250984195732112,
+      "positive_lower_violation": 0.09636453548673257,
+      "positive_upper_violation": 0,
+      "interval_violation": true,
+      "structural_status": "proved_unattainable_by_valid_bound",
+      "source_full300_bounds_blob": "43d55261ccdf3ffd007c933c5fbc4bef59f587d3",
+      "source_archive_blob": "c85dc00fc5ea23bffb45481261b3e4d32dd9e659",
+      "zip_member": "code/experiments/diag_max_full300/results/equal_class2.json"
+    },
+    {
+      "target_kind": "equal",
+      "claim_id": "D11-equal-coordinate-2-2",
+      "class_id": 2,
+      "coordinate_col": 2,
+      "target_value": 0.6845455020379876,
+      "relaxed_lower_bound": 0.17254288682363605,
+      "relaxed_upper_bound": 0.6845455020379876,
+      "positive_lower_violation": 0,
+      "positive_upper_violation": 0,
+      "interval_violation": false,
+      "structural_status": "not_excluded_by_componentwise_bound",
+      "source_full300_bounds_blob": "43d55261ccdf3ffd007c933c5fbc4bef59f587d3",
+      "source_archive_blob": "c85dc00fc5ea23bffb45481261b3e4d32dd9e659",
+      "zip_member": "code/experiments/diag_max_full300/results/equal_class2.json"
+    },
+    {
+      "target_kind": "bounded_equal",
+      "claim_id": "D11-bounded_equal-coordinate-0-0",
+      "class_id": 0,
+      "coordinate_col": 0,
+      "target_value": 0.6023781703724579,
+      "relaxed_lower_bound": 0.1629286062699988,
+      "relaxed_upper_bound": 0.6023781703724579,
+      "positive_lower_violation": 0,
+      "positive_upper_violation": 0,
+      "interval_violation": false,
+      "structural_status": "not_excluded_by_componentwise_bound",
+      "source_full300_bounds_blob": "43d55261ccdf3ffd007c933c5fbc4bef59f587d3",
+      "source_archive_blob": "c85dc00fc5ea23bffb45481261b3e4d32dd9e659",
+      "zip_member": "code/experiments/diag_max_full300/results/bounded_equal_class0.json"
+    },
+    {
+      "target_kind": "bounded_equal",
+      "claim_id": "D11-bounded_equal-coordinate-0-1",
+      "class_id": 0,
+      "coordinate_col": 1,
+      "target_value": 0.2963777752351273,
+      "relaxed_lower_bound": 0.2963777752351273,
+      "relaxed_upper_bound": 0.6308988126594988,
+      "positive_lower_violation": 0,
+      "positive_upper_violation": 0,
+      "interval_violation": false,
+      "structural_status": "not_excluded_by_componentwise_bound",
+      "source_full300_bounds_blob": "43d55261ccdf3ffd007c933c5fbc4bef59f587d3",
+      "source_archive_blob": "c85dc00fc5ea23bffb45481261b3e4d32dd9e659",
+      "zip_member": "code/experiments/diag_max_full300/results/bounded_equal_class0.json"
+    },
+    {
+      "target_kind": "bounded_equal",
+      "claim_id": "D11-bounded_equal-coordinate-0-2",
+      "class_id": 0,
+      "coordinate_col": 2,
+      "target_value": 0.1012440543924148,
+      "relaxed_lower_bound": 0.015367698484706205,
+      "relaxed_upper_bound": 0.38706875397749013,
+      "positive_lower_violation": 0,
+      "positive_upper_violation": 0,
+      "interval_violation": false,
+      "structural_status": "not_excluded_by_componentwise_bound",
+      "source_full300_bounds_blob": "43d55261ccdf3ffd007c933c5fbc4bef59f587d3",
+      "source_archive_blob": "c85dc00fc5ea23bffb45481261b3e4d32dd9e659",
+      "zip_member": "code/experiments/diag_max_full300/results/bounded_equal_class0.json"
+    },
+    {
+      "target_kind": "bounded_equal",
+      "claim_id": "D11-bounded_equal-coordinate-1-0",
+      "class_id": 1,
+      "coordinate_col": 0,
+      "target_value": 0.14011420403901742,
+      "relaxed_lower_bound": 0.08379938357947249,
+      "relaxed_upper_bound": 0.3793373168444387,
+      "positive_lower_violation": 0,
+      "positive_upper_violation": 0,
+      "interval_violation": false,
+      "structural_status": "not_excluded_by_componentwise_bound",
+      "source_full300_bounds_blob": "43d55261ccdf3ffd007c933c5fbc4bef59f587d3",
+      "source_archive_blob": "c85dc00fc5ea23bffb45481261b3e4d32dd9e659",
+      "zip_member": "code/experiments/diag_max_full300/results/bounded_equal_class1.json"
+    },
+    {
+      "target_kind": "bounded_equal",
+      "claim_id": "D11-bounded_equal-coordinate-1-1",
+      "class_id": 1,
+      "coordinate_col": 1,
+      "target_value": 0.7197715919219652,
+      "relaxed_lower_bound": 0.394286180962714,
+      "relaxed_upper_bound": 0.7197715919219652,
+      "positive_lower_violation": 0,
+      "positive_upper_violation": 0,
+      "interval_violation": false,
+      "structural_status": "not_excluded_by_componentwise_bound",
+      "source_full300_bounds_blob": "43d55261ccdf3ffd007c933c5fbc4bef59f587d3",
+      "source_archive_blob": "c85dc00fc5ea23bffb45481261b3e4d32dd9e659",
+      "zip_member": "code/experiments/diag_max_full300/results/bounded_equal_class1.json"
+    },
+    {
+      "target_kind": "bounded_equal",
+      "claim_id": "D11-bounded_equal-coordinate-1-2",
+      "class_id": 1,
+      "coordinate_col": 2,
+      "target_value": 0.14011420403901742,
+      "relaxed_lower_bound": 0.0788131090323266,
+      "relaxed_upper_bound": 0.41100313326240395,
+      "positive_lower_violation": 0,
+      "positive_upper_violation": 0,
+      "interval_violation": false,
+      "structural_status": "not_excluded_by_componentwise_bound",
+      "source_full300_bounds_blob": "43d55261ccdf3ffd007c933c5fbc4bef59f587d3",
+      "source_archive_blob": "c85dc00fc5ea23bffb45481261b3e4d32dd9e659",
+      "zip_member": "code/experiments/diag_max_full300/results/bounded_equal_class1.json"
+    },
+    {
+      "target_kind": "bounded_equal",
+      "claim_id": "D11-bounded_equal-coordinate-2-0",
+      "class_id": 2,
+      "coordinate_col": 0,
+      "target_value": 0.061362713494273635,
+      "relaxed_lower_bound": 0.012726386860189575,
+      "relaxed_upper_bound": 0.34867577053437143,
+      "positive_lower_violation": 0,
+      "positive_upper_violation": 0,
+      "interval_violation": false,
+      "structural_status": "not_excluded_by_componentwise_bound",
+      "source_full300_bounds_blob": "43d55261ccdf3ffd007c933c5fbc4bef59f587d3",
+      "source_archive_blob": "c85dc00fc5ea23bffb45481261b3e4d32dd9e659",
+      "zip_member": "code/experiments/diag_max_full300/results/bounded_equal_class2.json"
+    },
+    {
+      "target_kind": "bounded_equal",
+      "claim_id": "D11-bounded_equal-coordinate-2-1",
+      "class_id": 2,
+      "coordinate_col": 1,
+      "target_value": 0.2540917844677388,
+      "relaxed_lower_bound": 0.2540917844677388,
+      "relaxed_upper_bound": 0.6250984195732112,
+      "positive_lower_violation": 0,
+      "positive_upper_violation": 0,
+      "interval_violation": false,
+      "structural_status": "not_excluded_by_componentwise_bound",
+      "source_full300_bounds_blob": "43d55261ccdf3ffd007c933c5fbc4bef59f587d3",
+      "source_archive_blob": "c85dc00fc5ea23bffb45481261b3e4d32dd9e659",
+      "zip_member": "code/experiments/diag_max_full300/results/bounded_equal_class2.json"
+    },
+    {
+      "target_kind": "bounded_equal",
+      "claim_id": "D11-bounded_equal-coordinate-2-2",
+      "class_id": 2,
+      "coordinate_col": 2,
+      "target_value": 0.6845455020379876,
+      "relaxed_lower_bound": 0.17254288682363605,
+      "relaxed_upper_bound": 0.6845455020379876,
+      "positive_lower_violation": 0,
+      "positive_upper_violation": 0,
+      "interval_violation": false,
+      "structural_status": "not_excluded_by_componentwise_bound",
+      "source_full300_bounds_blob": "43d55261ccdf3ffd007c933c5fbc4bef59f587d3",
+      "source_archive_blob": "c85dc00fc5ea23bffb45481261b3e4d32dd9e659",
+      "zip_member": "code/experiments/diag_max_full300/results/bounded_equal_class2.json"
+    }
+  ],
+  "per_class_optimizer_traces": [
+    {
+      "target_kind": "equal",
+      "class_id": 0,
+      "source_zip_member": "code/experiments/diag_max_full300/results/equal_class0.json",
+      "saved_policy_Z": true,
+      "GN_trace_records": 31,
+      "GN_corrections_observed": 30,
+      "q_warmup_JSD": 0.04164357913620387,
+      "GN_final_JSD": 0.0330616374133923,
+      "GN_final_trace_JSD": 0.0330616374133923,
+      "realized_center": [
+        0.42162206921736745,
+        0.4359852783514487,
+        0.14239265243118357
+      ],
+      "target_center": [
+        0.6023781703724579,
+        0.19881091481377106,
+        0.19881091481377106
+      ],
+      "train_R_KL_legacy": 0.040903790993968486,
+      "train_R_JS_legacy": 0.01058925512809848,
+      "optimizer_status": "not_recovered_within_budget"
+    },
+    {
+      "target_kind": "equal",
+      "class_id": 1,
+      "source_zip_member": "code/experiments/diag_max_full300/results/equal_class1.json",
+      "saved_policy_Z": true,
+      "GN_trace_records": 31,
+      "GN_corrections_observed": 30,
+      "q_warmup_JSD": 0.01485543515483334,
+      "GN_final_JSD": 0.0039251493668526205,
+      "GN_final_trace_JSD": 0.0039251493668526205,
+      "realized_center": [
+        0.17938400138923827,
+        0.6371440307427354,
+        0.18347196786802633
+      ],
+      "target_center": [
+        0.14011420403901742,
+        0.7197715919219652,
+        0.14011420403901742
+      ],
+      "train_R_KL_legacy": 0.13858212760219552,
+      "train_R_JS_legacy": 0.03539045181022258,
+      "optimizer_status": "not_recovered_within_budget"
+    },
+    {
+      "target_kind": "equal",
+      "class_id": 2,
+      "source_zip_member": "code/experiments/diag_max_full300/results/equal_class2.json",
+      "saved_policy_Z": true,
+      "GN_trace_records": 31,
+      "GN_corrections_observed": 30,
+      "q_warmup_JSD": 0.046735899903208256,
+      "GN_final_JSD": 0.03761988291029339,
+      "GN_final_trace_JSD": 0.03761988291029339,
+      "realized_center": [
+        0.10175497804465516,
+        0.4000131791084202,
+        0.49823184284692473
+      ],
+      "target_center": [
+        0.1577272489810062,
+        0.1577272489810062,
+        0.6845455020379876
+      ],
+      "train_R_KL_legacy": 0.04497633931328773,
+      "train_R_JS_legacy": 0.011591745008726442,
+      "optimizer_status": "not_recovered_within_budget"
+    },
+    {
+      "target_kind": "bounded_equal",
+      "class_id": 0,
+      "source_zip_member": "code/experiments/diag_max_full300/results/bounded_equal_class0.json",
+      "saved_policy_Z": true,
+      "GN_trace_records": 31,
+      "GN_corrections_observed": 30,
+      "q_warmup_JSD": 0.024470499866120266,
+      "GN_final_JSD": 0.010217633102825863,
+      "GN_final_trace_JSD": 0.010217633102825863,
+      "realized_center": [
+        0.4843255952669164,
+        0.433711488994418,
+        0.0819629157386655
+      ],
+      "target_center": [
+        0.6023781703724579,
+        0.2963777752351273,
+        0.1012440543924148
+      ],
+      "train_R_KL_legacy": 0.0660623286755455,
+      "train_R_JS_legacy": 0.01719100437808754,
+      "optimizer_status": "not_recovered_within_budget"
+    },
+    {
+      "target_kind": "bounded_equal",
+      "class_id": 1,
+      "source_zip_member": "code/experiments/diag_max_full300/results/bounded_equal_class1.json",
+      "saved_policy_Z": true,
+      "GN_trace_records": 31,
+      "GN_corrections_observed": 30,
+      "q_warmup_JSD": 0.01485543515483334,
+      "GN_final_JSD": 0.0039251493668526205,
+      "GN_final_trace_JSD": 0.0039251493668526205,
+      "realized_center": [
+        0.17938400138923827,
+        0.6371440307427354,
+        0.18347196786802633
+      ],
+      "target_center": [
+        0.14011420403901742,
+        0.7197715919219652,
+        0.14011420403901742
+      ],
+      "train_R_KL_legacy": 0.13858212760219552,
+      "train_R_JS_legacy": 0.03539045181022258,
+      "optimizer_status": "not_recovered_within_budget"
+    },
+    {
+      "target_kind": "bounded_equal",
+      "class_id": 2,
+      "source_zip_member": "code/experiments/diag_max_full300/results/bounded_equal_class2.json",
+      "saved_policy_Z": true,
+      "GN_trace_records": 31,
+      "GN_corrections_observed": 30,
+      "q_warmup_JSD": 0.030592361103894294,
+      "GN_final_JSD": 0.01013152097779968,
+      "GN_final_trace_JSD": 0.01013152097779968,
+      "realized_center": [
+        0.04507791480327543,
+        0.3859387209101017,
+        0.5689833642866227
+      ],
+      "target_center": [
+        0.061362713494273635,
+        0.2540917844677388,
+        0.6845455020379876
+      ],
+      "train_R_KL_legacy": 0.07609479320524716,
+      "train_R_JS_legacy": 0.019695404391612784,
+      "optimizer_status": "not_recovered_within_budget"
+    }
+  ],
+  "uniform_baseline_source_member": "full300_uniform_baseline.json"
+}

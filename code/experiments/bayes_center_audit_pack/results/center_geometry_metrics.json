@@ -1,0 +1,2981 @@
+{
+  "schema": "CH4-center-geometry-backfill-v1",
+  "agent": "RESEARCHER-02",
+  "metric_contract_version": "chapter4-common-evaluation-contract-v2",
+  "reference_commit": "de02fdda91e23db177de4429b3e1a9693c046d83",
+  "canonical_reference": "code/policy_evaluator/metrics.py::center_metrics:167-187",
+  "computation": "Static only, from saved 3x3 realized Train centers; natural-log JS; all class weights =1/K. No engine replay.",
+  "verification": "All 18 I, mean-pairwise-JS and min-pairwise-sqrt-JS match archived values to 1e-10.",
+  "models": [
+    {
+      "record_id": "D10-20261107-uniform",
+      "study": "D10",
+      "seed": 20261107,
+      "method": "uniform",
+      "reference_size": 72,
+      "kind": "realized_centers",
+      "metric_contract_version": "chapter4-common-evaluation-contract-v2",
+      "source_blob_sha": "af52d91ff3096666cdc636dc3f07f405ec515092",
+      "source_path": "code/experiments/archive/bayes_center_inverse/results/bayes_seed_20261107_gn10.json",
+      "realized_centers": [
+        [
+          0.4100781547379737,
+          0.3359565230502628,
+          0.2539653222117635
+        ],
+        [
+          0.309636585768196,
+          0.39497061376830134,
+          0.29539280046350275
+        ],
+        [
+          0.2463032965353331,
+          0.30855059008138885,
+          0.445146113383278
+        ]
+      ],
+      "center_geometry": {
+        "T": 0.41673162729651764,
+        "BT": 0.41673162729651764,
+        "TNL": 0.8765680448456883,
+        "BTNL": 0.8765680448456883,
+        "I": 0.018685088835183272,
+        "pairwise_JS_matrix": [
+          [
+            0,
+            0.005490045796965548,
+            0.02385427301002796
+          ],
+          [
+            0.005490045796965548,
+            0,
+            0.012091649002605065
+          ],
+          [
+            0.02385427301002796,
+            0.012091649002605065,
+            0
+          ]
+        ],
+        "pairwise_sqrt_JS_matrix": [
+          [
+            0,
+            0.07409484325488211,
+            0.15444828587597845
+          ],
+          [
+            0.07409484325488211,
+            0,
+            0.10996203436916337
+          ],
+          [
+            0.15444828587597845,
+            0.10996203436916337,
+            0
+          ]
+        ],
+        "pairwise_JS_similarity_matrix": [
+          [
+            1,
+            0.9920795381544645,
+            0.9655855586244212
+          ],
+          [
+            0.9920795381544645,
+            1,
+            0.9825554379477717
+          ],
+          [
+            0.9655855586244212,
+            0.9825554379477717,
+            1
+          ]
+        ],
+        "mean_pairwise_JS": 0.01381198926986619,
+        "mean_pairwise_sqrt_JS": 0.11283505450000797,
+        "min_pairwise_sqrt_JS": 0.07409484325488211,
+        "nearest_center_sqrt_JS_per_class": [
+          0.07409484325488211,
+          0.07409484325488211,
+          0.10996203436916337
+        ],
+        "nearest_center_index_per_class": [
+          1,
+          0,
+          1
+        ],
+        "per_class_center_entropy": [
+          1.080073318874844,
+          1.0901263862999535,
+          1.06821353536134
+        ],
+        "class_weights": [
+          0.3333333333333333,
+          0.3333333333333333,
+          0.3333333333333333
+        ]
+      },
+      "coverage": {
+        "metric_contract_version": "chapter4-common-evaluation-contract-v2",
+        "T/BT/TNL/BTNL/I/pairwise_JS/pairwise_sqrt_JS": {
+          "status": "measured",
+          "reason": "Recomputed from stored realized centers with equal class weights; checked against historical I, mean JS, min sqrt JS"
+        },
+        "R_KL": {
+          "status": "measured",
+          "value": 0.007822961323753477,
+          "definition_version": "legacy_kl_clip_at_1e-300",
+          "contract_equivalence": "not_verified",
+          "reason": "Stored old R_KL finite with clamped logarithms; exact zero-support alignment not independently tested"
+        },
+        "R_JS": {
+          "status": "measured",
+          "value": 0.0019624127350740075,
+          "definition_version": "legacy_js_natural_logs",
+          "contract_equivalence": "not_verified",
+          "reason": "Reported historical class-balanced within JSD, not reproduced by a per-origin replay"
+        },
+        "R_sqrt_JS": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Mean sqrt(JS) requires per-origin representations and is not sqrt(mean JS); no broad replay permitted"
+        },
+        "per_class_R_JS_R_KL": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Some archived methods have per-class values but not all, so not normalized across D10/D11"
+        },
+        "validation_BA": {
+          "status": "measured",
+          "value": 0.9387755102040817,
+          "reason": "Saved candidate-hypothesis diagnostic with frozen train centers; NOT a center-only metric"
+        },
+        "validation_accuracy_confusion_recall": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Individual predictions are absent in reviewed summary records"
+        },
+        "train_BA_margin_ties": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Individual training predictions/representations not stored in center-only summary"
+        },
+        "sigmoid_NLL": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Not calculated under current metric contract for archived center-inverse experiments"
+        },
+        "classification_of_target_without_policy": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "A Bayes/relaxed target center alone is not a query-time classifier"
+        }
+      }
+    },
+    {
+      "record_id": "D10-20261107-q_only",
+      "study": "D10",
+      "seed": 20261107,
+      "method": "q_only",
+      "reference_size": 72,
+      "kind": "realized_centers",
+      "metric_contract_version": "chapter4-common-evaluation-contract-v2",
+      "source_blob_sha": "af52d91ff3096666cdc636dc3f07f405ec515092",
+      "source_path": "code/experiments/archive/bayes_center_inverse/results/bayes_seed_20261107_gn10.json",
+      "realized_centers": [
+        [
+          0.5104106024541266,
+          0.3471004783552773,
+          0.14248891919059617
+        ],
+        [
+          0.3005605760627161,
+          0.4479142782588401,
+          0.25152514567844375
+        ],
+        [
+          0.14726014359526868,
+          0.25535847553660174,
+          0.5973813808681298
+        ]
+      ],
+      "center_geometry": {
+        "T": 0.5185687538603655,
+        "BT": 0.5185687538603655,
+        "TNL": 0.6636309076702814,
+        "BTNL": 0.6636309076702814,
+        "I": 0.09960880210399836,
+        "pairwise_JS_matrix": [
+          [
+            0,
+            0.02457851945190681,
+            0.13172735728488183
+          ],
+          [
+            0.02457851945190681,
+            0,
+            0.0630112797194613
+          ],
+          [
+            0.13172735728488183,
+            0.0630112797194613,
+            0
+          ]
+        ],
+        "pairwise_sqrt_JS_matrix": [
+          [
+            0,
+            0.1567753789722953,
+            0.36294263635577706
+          ],
+          [
+            0.1567753789722953,
+            0,
+            0.2510204766935584
+          ],
+          [
+            0.36294263635577706,
+            0.2510204766935584,
+            0
+          ]
+        ],
+        "pairwise_JS_similarity_matrix": [
+          [
+            1,
+            0.9645406918743411,
+            0.8099575948956923
+          ],
+          [
+            0.9645406918743411,
+            1,
+            0.9090939392286659
+          ],
+          [
+            0.8099575948956923,
+            0.9090939392286659,
+            1
+          ]
+        ],
+        "mean_pairwise_JS": 0.07310571881874998,
+        "mean_pairwise_sqrt_JS": 0.25691283067387694,
+        "min_pairwise_sqrt_JS": 0.1567753789722953,
+        "nearest_center_sqrt_JS_per_class": [
+          0.1567753789722953,
+          0.1567753789722953,
+          0.2510204766935584
+        ],
+        "nearest_center_index_per_class": [
+          1,
+          0,
+          1
+        ],
+        "per_class_center_entropy": [
+          0.9881910536907008,
+          1.06820764199784,
+          0.9384419729242702
+        ],
+        "class_weights": [
+          0.3333333333333333,
+          0.3333333333333333,
+          0.3333333333333333
+        ]
+      },
+      "coverage": {
+        "metric_contract_version": "chapter4-common-evaluation-contract-v2",
+        "T/BT/TNL/BTNL/I/pairwise_JS/pairwise_sqrt_JS": {
+          "status": "measured",
+          "reason": "Recomputed from stored realized centers with equal class weights; checked against historical I, mean JS, min sqrt JS"
+        },
+        "R_KL": {
+          "status": "measured",
+          "value": 0.026345608096929447,
+          "definition_version": "legacy_kl_clip_at_1e-300",
+          "contract_equivalence": "not_verified",
+          "reason": "Stored old R_KL finite with clamped logarithms; exact zero-support alignment not independently tested"
+        },
+        "R_JS": {
+          "status": "measured",
+          "value": 0.0065738783053469795,
+          "definition_version": "legacy_js_natural_logs",
+          "contract_equivalence": "not_verified",
+          "reason": "Reported historical class-balanced within JSD, not reproduced by a per-origin replay"
+        },
+        "R_sqrt_JS": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Mean sqrt(JS) requires per-origin representations and is not sqrt(mean JS); no broad replay permitted"
+        },
+        "per_class_R_JS_R_KL": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Some archived methods have per-class values but not all, so not normalized across D10/D11"
+        },
+        "validation_BA": {
+          "status": "measured",
+          "value": 0.913265306122449,
+          "reason": "Saved candidate-hypothesis diagnostic with frozen train centers; NOT a center-only metric"
+        },
+        "validation_accuracy_confusion_recall": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Individual predictions are absent in reviewed summary records"
+        },
+        "train_BA_margin_ties": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Individual training predictions/representations not stored in center-only summary"
+        },
+        "sigmoid_NLL": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Not calculated under current metric contract for archived center-inverse experiments"
+        },
+        "classification_of_target_without_policy": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "A Bayes/relaxed target center alone is not a query-time classifier"
+        }
+      }
+    },
+    {
+      "record_id": "D10-20261107-exact_adam",
+      "study": "D10",
+      "seed": 20261107,
+      "method": "exact_adam",
+      "reference_size": 72,
+      "kind": "realized_centers",
+      "metric_contract_version": "chapter4-common-evaluation-contract-v2",
+      "source_blob_sha": "af52d91ff3096666cdc636dc3f07f405ec515092",
+      "source_path": "code/experiments/archive/bayes_center_inverse/results/bayes_seed_20261107_gn10.json",
+      "realized_centers": [
+        [
+          0.5861365822149266,
+          0.35999092307167824,
+          0.05387249471339526
+        ],
+        [
+          0.3098785025556718,
+          0.5165501995786185,
+          0.1735712978657097
+        ],
+        [
+          0.0605350978654676,
+          0.20869117941552393,
+          0.7307737227190086
+        ]
+      ],
+      "center_geometry": {
+        "T": 0.6111535015041846,
+        "BT": 0.6111535015041846,
+        "TNL": 0.5028122188081668,
+        "BTNL": 0.5028122188081668,
+        "I": 0.23932677738374775,
+        "pairwise_JS_matrix": [
+          [
+            0,
+            0.0452439445261541,
+            0.3076045845455553
+          ],
+          [
+            0.0452439445261541,
+            0,
+            0.17193741634028692
+          ],
+          [
+            0.3076045845455553,
+            0.17193741634028692,
+            0
+          ]
+        ],
+        "pairwise_sqrt_JS_matrix": [
+          [
+            0,
+            0.21270623997935298,
+            0.554621118012608
+          ],
+          [
+            0.21270623997935298,
+            0,
+            0.4146533689002019
+          ],
+          [
+            0.554621118012608,
+            0.4146533689002019,
+            0
+          ]
+        ],
+        "pairwise_JS_similarity_matrix": [
+          [
+            1,
+            0.9347267856018622,
+            0.5562203913214174
+          ],
+          [
+            0.9347267856018622,
+            1,
+            0.751946742102607
+          ],
+          [
+            0.5562203913214174,
+            0.751946742102607,
+            1
+          ]
+        ],
+        "mean_pairwise_JS": 0.17492864847066544,
+        "mean_pairwise_sqrt_JS": 0.39399357563072096,
+        "min_pairwise_sqrt_JS": 0.21270623997935298,
+        "nearest_center_sqrt_JS_per_class": [
+          0.21270623997935298,
+          0.21270623997935298,
+          0.4146533689002019
+        ],
+        "nearest_center_index_per_class": [
+          1,
+          0,
+          1
+        ],
+        "per_class_center_entropy": [
+          0.8382786879365794,
+          1.0082223796979584,
+          0.7259789788938416
+        ],
+        "class_weights": [
+          0.3333333333333333,
+          0.3333333333333333,
+          0.3333333333333333
+        ]
+      },
+      "coverage": {
+        "metric_contract_version": "chapter4-common-evaluation-contract-v2",
+        "T/BT/TNL/BTNL/I/pairwise_JS/pairwise_sqrt_JS": {
+          "status": "measured",
+          "reason": "Recomputed from stored realized centers with equal class weights; checked against historical I, mean JS, min sqrt JS"
+        },
+        "R_KL": {
+          "status": "measured",
+          "value": 0.12198362348271212,
+          "definition_version": "legacy_kl_clip_at_1e-300",
+          "contract_equivalence": "not_verified",
+          "reason": "Stored old R_KL finite with clamped logarithms; exact zero-support alignment not independently tested"
+        },
+        "R_JS": {
+          "status": "measured",
+          "value": 0.03060100009534116,
+          "definition_version": "legacy_js_natural_logs",
+          "contract_equivalence": "not_verified",
+          "reason": "Reported historical class-balanced within JSD, not reproduced by a per-origin replay"
+        },
+        "R_sqrt_JS": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Mean sqrt(JS) requires per-origin representations and is not sqrt(mean JS); no broad replay permitted"
+        },
+        "per_class_R_JS_R_KL": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Some archived methods have per-class values but not all, so not normalized across D10/D11"
+        },
+        "validation_BA": {
+          "status": "measured",
+          "value": 0.8996598639455783,
+          "reason": "Saved candidate-hypothesis diagnostic with frozen train centers; NOT a center-only metric"
+        },
+        "validation_accuracy_confusion_recall": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Individual predictions are absent in reviewed summary records"
+        },
+        "train_BA_margin_ties": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Individual training predictions/representations not stored in center-only summary"
+        },
+        "sigmoid_NLL": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Not calculated under current metric contract for archived center-inverse experiments"
+        },
+        "classification_of_target_without_policy": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "A Bayes/relaxed target center alone is not a query-time classifier"
+        }
+      }
+    },
+    {
+      "record_id": "D10-20261107-q_bootstrap_gn",
+      "study": "D10",
+      "seed": 20261107,
+      "method": "q_bootstrap_gn",
+      "reference_size": 72,
+      "kind": "realized_centers",
+      "metric_contract_version": "chapter4-common-evaluation-contract-v2",
+      "source_blob_sha": "af52d91ff3096666cdc636dc3f07f405ec515092",
+      "source_path": "code/experiments/archive/bayes_center_inverse/results/bayes_seed_20261107_gn10.json",
+      "realized_centers": [
+        [
+          0.587009095549327,
+          0.3600856785254863,
+          0.052905225925186816
+        ],
+        [
+          0.30989086659343684,
+          0.5171052001681442,
+          0.17300393323841903
+        ],
+        [
+          0.05986471510378095,
+          0.20777696227057377,
+          0.7323583226256449
+        ]
+      ],
+      "center_geometry": {
+        "T": 0.6121575394477053,
+        "BT": 0.6121575394477053,
+        "TNL": 0.5012364268443719,
+        "BTNL": 0.5012364268443719,
+        "I": 0.2412407596698779,
+        "pairwise_JS_matrix": [
+          [
+            0,
+            0.045638957160498594,
+            0.3100393228091688
+          ],
+          [
+            0.045638957160498594,
+            0,
+            0.1733218320422958
+          ],
+          [
+            0.3100393228091688,
+            0.1733218320422958,
+            0
+          ]
+        ],
+        "pairwise_sqrt_JS_matrix": [
+          [
+            0,
+            0.21363276237622963,
+            0.5568117480883182
+          ],
+          [
+            0.21363276237622963,
+            0,
+            0.41631938706033833
+          ],
+          [
+            0.5568117480883182,
+            0.41631938706033833,
+            0
+          ]
+        ],
+        "pairwise_JS_similarity_matrix": [
+          [
+            1,
+            0.9341569028332048,
+            0.5527078065026396
+          ],
+          [
+            0.9341569028332048,
+            1,
+            0.74994945243479
+          ],
+          [
+            0.5527078065026396,
+            0.74994945243479,
+            1
+          ]
+        ],
+        "mean_pairwise_JS": 0.17633337067065438,
+        "mean_pairwise_sqrt_JS": 0.39558796584162875,
+        "min_pairwise_sqrt_JS": 0.21363276237622963,
+        "nearest_center_sqrt_JS_per_class": [
+          0.21363276237622963,
+          0.21363276237622963,
+          0.41631938706033833
+        ],
+        "nearest_center_index_per_class": [
+          1,
+          0,
+          1
+        ],
+        "per_class_center_entropy": [
+          0.8360066756257765,
+          1.0076087122267323,
+          0.7231559464697199
+        ],
+        "class_weights": [
+          0.3333333333333333,
+          0.3333333333333333,
+          0.3333333333333333
+        ]
+      },
+      "coverage": {
+        "metric_contract_version": "chapter4-common-evaluation-contract-v2",
+        "T/BT/TNL/BTNL/I/pairwise_JS/pairwise_sqrt_JS": {
+          "status": "measured",
+          "reason": "Recomputed from stored realized centers with equal class weights; checked against historical I, mean JS, min sqrt JS"
+        },
+        "R_KL": {
+          "status": "measured",
+          "value": 0.12515638241547042,
+          "definition_version": "legacy_kl_clip_at_1e-300",
+          "contract_equivalence": "not_verified",
+          "reason": "Stored old R_KL finite with clamped logarithms; exact zero-support alignment not independently tested"
+        },
+        "R_JS": {
+          "status": "measured",
+          "value": 0.03146085192246629,
+          "definition_version": "legacy_js_natural_logs",
+          "contract_equivalence": "not_verified",
+          "reason": "Reported historical class-balanced within JSD, not reproduced by a per-origin replay"
+        },
+        "R_sqrt_JS": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Mean sqrt(JS) requires per-origin representations and is not sqrt(mean JS); no broad replay permitted"
+        },
+        "per_class_R_JS_R_KL": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Some archived methods have per-class values but not all, so not normalized across D10/D11"
+        },
+        "validation_BA": {
+          "status": "measured",
+          "value": 0.8996598639455783,
+          "reason": "Saved candidate-hypothesis diagnostic with frozen train centers; NOT a center-only metric"
+        },
+        "validation_accuracy_confusion_recall": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Individual predictions are absent in reviewed summary records"
+        },
+        "train_BA_margin_ties": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Individual training predictions/representations not stored in center-only summary"
+        },
+        "sigmoid_NLL": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Not calculated under current metric contract for archived center-inverse experiments"
+        },
+        "classification_of_target_without_policy": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "A Bayes/relaxed target center alone is not a query-time classifier"
+        }
+      }
+    },
+    {
+      "record_id": "D10-20261107-shared_exact_adam",
+      "study": "D10",
+      "seed": 20261107,
+      "method": "shared_exact_adam",
+      "reference_size": 72,
+      "kind": "realized_centers",
+      "metric_contract_version": "chapter4-common-evaluation-contract-v2",
+      "source_blob_sha": "af52d91ff3096666cdc636dc3f07f405ec515092",
+      "source_path": "code/experiments/archive/bayes_center_inverse/results/bayes_seed_20261107_gn10.json",
+      "realized_centers": [
+        [
+          0.5863860891152435,
+          0.36000752819180426,
+          0.05360638269295239
+        ],
+        [
+          0.3099061106665288,
+          0.5161584637140333,
+          0.17393542561943784
+        ],
+        [
+          0.06049406826222573,
+          0.20858472292118505,
+          0.7309212088165893
+        ]
+      ],
+      "center_geometry": {
+        "T": 0.6111552538819554,
+        "BT": 0.6111552538819554,
+        "TNL": 0.5028559740509583,
+        "BTNL": 0.5028559740509583,
+        "I": 0.239497771407864,
+        "pairwise_JS_matrix": [
+          [
+            0,
+            0.045415503750518615,
+            0.3080419972604356
+          ],
+          [
+            0.045415503750518615,
+            0,
+            0.17178878335186032
+          ],
+          [
+            0.3080419972604356,
+            0.17178878335186032,
+            0
+          ]
+        ],
+        "pairwise_sqrt_JS_matrix": [
+          [
+            0,
+            0.21310913577441634,
+            0.5550153126359989
+          ],
+          [
+            0.21310913577441634,
+            0,
+            0.41447410456126244
+          ],
+          [
+            0.5550153126359989,
+            0.41447410456126244,
+            0
+          ]
+        ],
+        "pairwise_JS_similarity_matrix": [
+          [
+            1,
+            0.9344792779596527,
+            0.555589338166838
+          ],
+          [
+            0.9344792779596527,
+            1,
+            0.7521611741779226
+          ],
+          [
+            0.555589338166838,
+            0.7521611741779226,
+            1
+          ]
+        ],
+        "mean_pairwise_JS": 0.17508209478760484,
+        "mean_pairwise_sqrt_JS": 0.39419951765722594,
+        "min_pairwise_sqrt_JS": 0.21310913577441634,
+        "nearest_center_sqrt_JS_per_class": [
+          0.21310913577441634,
+          0.21310913577441634,
+          0.41447410456126244
+        ],
+        "nearest_center_index_per_class": [
+          1,
+          0,
+          1
+        ],
+        "per_class_center_entropy": [
+          0.8376508791758117,
+          1.0086330676521649,
+          0.7257433066842554
+        ],
+        "class_weights": [
+          0.3333333333333333,
+          0.3333333333333333,
+          0.3333333333333333
+        ]
+      },
+      "coverage": {
+        "metric_contract_version": "chapter4-common-evaluation-contract-v2",
+        "T/BT/TNL/BTNL/I/pairwise_JS/pairwise_sqrt_JS": {
+          "status": "measured",
+          "reason": "Recomputed from stored realized centers with equal class weights; checked against historical I, mean JS, min sqrt JS"
+        },
+        "R_KL": {
+          "status": "measured",
+          "value": 0.12297662122406931,
+          "definition_version": "legacy_kl_clip_at_1e-300",
+          "contract_equivalence": "not_verified",
+          "reason": "Stored old R_KL finite with clamped logarithms; exact zero-support alignment not independently tested"
+        },
+        "R_JS": {
+          "status": "measured",
+          "value": 0.030874093732110003,
+          "definition_version": "legacy_js_natural_logs",
+          "contract_equivalence": "not_verified",
+          "reason": "Reported historical class-balanced within JSD, not reproduced by a per-origin replay"
+        },
+        "R_sqrt_JS": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Mean sqrt(JS) requires per-origin representations and is not sqrt(mean JS); no broad replay permitted"
+        },
+        "per_class_R_JS_R_KL": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Some archived methods have per-class values but not all, so not normalized across D10/D11"
+        },
+        "validation_BA": {
+          "status": "measured",
+          "value": 0.8996598639455783,
+          "reason": "Saved candidate-hypothesis diagnostic with frozen train centers; NOT a center-only metric"
+        },
+        "validation_accuracy_confusion_recall": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Individual predictions are absent in reviewed summary records"
+        },
+        "train_BA_margin_ties": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Individual training predictions/representations not stored in center-only summary"
+        },
+        "sigmoid_NLL": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Not calculated under current metric contract for archived center-inverse experiments"
+        },
+        "classification_of_target_without_policy": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "A Bayes/relaxed target center alone is not a query-time classifier"
+        }
+      }
+    },
+    {
+      "record_id": "D10-20261108-uniform",
+      "study": "D10",
+      "seed": 20261108,
+      "method": "uniform",
+      "reference_size": 72,
+      "kind": "realized_centers",
+      "metric_contract_version": "chapter4-common-evaluation-contract-v2",
+      "source_blob_sha": "2d5f2805c15c6b611fe2e7cdd753b81c513b23ba",
+      "source_path": "code/experiments/archive/bayes_center_inverse/results/bayes_seed_20261108.json",
+      "realized_centers": [
+        [
+          0.39274771892200194,
+          0.3554674286945025,
+          0.25178485238349557
+        ],
+        [
+          0.309233514708153,
+          0.3815830378085912,
+          0.3091834474832557
+        ],
+        [
+          0.24611752980594634,
+          0.34791904515007643,
+          0.40596342504397726
+        ]
+      ],
+      "center_geometry": {
+        "T": 0.3934313939248568,
+        "BT": 0.3934313939248568,
+        "TNL": 0.9331689366492251,
+        "BTNL": 0.9331689366492251,
+        "I": 0.012195929405418138,
+        "pairwise_JS_matrix": [
+          [
+            0,
+            0.0041920204558656415,
+            0.017628853070321693
+          ],
+          [
+            0.0041920204558656415,
+            0,
+            0.005470028178458097
+          ],
+          [
+            0.017628853070321693,
+            0.005470028178458097,
+            0
+          ]
+        ],
+        "pairwise_sqrt_JS_matrix": [
+          [
+            0,
+            0.06474581419571185,
+            0.1327736911828608
+          ],
+          [
+            0.06474581419571185,
+            0,
+            0.07395963884753695
+          ],
+          [
+            0.1327736911828608,
+            0.07395963884753695,
+            0
+          ]
+        ],
+        "pairwise_JS_similarity_matrix": [
+          [
+            1,
+            0.9939521928770175,
+            0.9745669410988868
+          ],
+          [
+            0.9939521928770175,
+            1,
+            0.9921084174734156
+          ],
+          [
+            0.9745669410988868,
+            0.9921084174734156,
+            1
+          ]
+        ],
+        "mean_pairwise_JS": 0.009096967234881811,
+        "mean_pairwise_sqrt_JS": 0.09049304807536988,
+        "min_pairwise_sqrt_JS": 0.06474581419571185,
+        "nearest_center_sqrt_JS_per_class": [
+          0.06474581419571185,
+          0.06474581419571185,
+          0.07395963884753695
+        ],
+        "nearest_center_index_per_class": [
+          1,
+          0,
+          1
+        ],
+        "per_class_center_entropy": [
+          1.081981602009215,
+          1.0934877561330587,
+          1.0783442419763118
+        ],
+        "class_weights": [
+          0.3333333333333333,
+          0.3333333333333333,
+          0.3333333333333333
+        ]
+      },
+      "coverage": {
+        "metric_contract_version": "chapter4-common-evaluation-contract-v2",
+        "T/BT/TNL/BTNL/I/pairwise_JS/pairwise_sqrt_JS": {
+          "status": "measured",
+          "reason": "Recomputed from stored realized centers with equal class weights; checked against historical I, mean JS, min sqrt JS"
+        },
+        "R_KL": {
+          "status": "measured",
+          "value": 0.008174200480772904,
+          "definition_version": "legacy_kl_clip_at_1e-300",
+          "contract_equivalence": "not_verified",
+          "reason": "Stored old R_KL finite with clamped logarithms; exact zero-support alignment not independently tested"
+        },
+        "R_JS": {
+          "status": "measured",
+          "value": 0.002046432093582419,
+          "definition_version": "legacy_js_natural_logs",
+          "contract_equivalence": "not_verified",
+          "reason": "Reported historical class-balanced within JSD, not reproduced by a per-origin replay"
+        },
+        "R_sqrt_JS": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Mean sqrt(JS) requires per-origin representations and is not sqrt(mean JS); no broad replay permitted"
+        },
+        "per_class_R_JS_R_KL": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Some archived methods have per-class values but not all, so not normalized across D10/D11"
+        },
+        "validation_BA": {
+          "status": "measured",
+          "value": 0.913265306122449,
+          "reason": "Saved candidate-hypothesis diagnostic with frozen train centers; NOT a center-only metric"
+        },
+        "validation_accuracy_confusion_recall": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Individual predictions are absent in reviewed summary records"
+        },
+        "train_BA_margin_ties": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Individual training predictions/representations not stored in center-only summary"
+        },
+        "sigmoid_NLL": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Not calculated under current metric contract for archived center-inverse experiments"
+        },
+        "classification_of_target_without_policy": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "A Bayes/relaxed target center alone is not a query-time classifier"
+        }
+      }
+    },
+    {
+      "record_id": "D10-20261108-q_only",
+      "study": "D10",
+      "seed": 20261108,
+      "method": "q_only",
+      "reference_size": 72,
+      "kind": "realized_centers",
+      "metric_contract_version": "chapter4-common-evaluation-contract-v2",
+      "source_blob_sha": "2d5f2805c15c6b611fe2e7cdd753b81c513b23ba",
+      "source_path": "code/experiments/archive/bayes_center_inverse/results/bayes_seed_20261108.json",
+      "realized_centers": [
+        [
+          0.523259461523814,
+          0.33682114636823307,
+          0.13991939210795287
+        ],
+        [
+          0.29185143235248895,
+          0.41259317393283973,
+          0.2955553937146714
+        ],
+        [
+          0.13658485431172823,
+          0.3296512508741947,
+          0.533763894814077
+        ]
+      ],
+      "center_geometry": {
+        "T": 0.48987217675691025,
+        "BT": 0.48987217675691025,
+        "TNL": 0.7202575801492207,
+        "BTNL": 0.7202575801492207,
+        "I": 0.08424871696835701,
+        "pairwise_JS_matrix": [
+          [
+            0,
+            0.032788798231768945,
+            0.1218542862019576
+          ],
+          [
+            0.032788798231768945,
+            0,
+            0.034063247557943654
+          ],
+          [
+            0.1218542862019576,
+            0.034063247557943654,
+            0
+          ]
+        ],
+        "pairwise_sqrt_JS_matrix": [
+          [
+            0,
+            0.1810767744128687,
+            0.34907633291582174
+          ],
+          [
+            0.1810767744128687,
+            0,
+            0.18456231348231322
+          ],
+          [
+            0.34907633291582174,
+            0.18456231348231322,
+            0
+          ]
+        ],
+        "pairwise_JS_similarity_matrix": [
+          [
+            1,
+            0.9526957633943182,
+            0.8242014255853714
+          ],
+          [
+            0.9526957633943182,
+            1,
+            0.9508571216715815
+          ],
+          [
+            0.8242014255853714,
+            0.9508571216715815,
+            1
+          ]
+        ],
+        "mean_pairwise_JS": 0.06290211066389007,
+        "mean_pairwise_sqrt_JS": 0.2382384736036679,
+        "min_pairwise_sqrt_JS": 0.1810767744128687,
+        "nearest_center_sqrt_JS_per_class": [
+          0.1810767744128687,
+          0.1810767744128687,
+          0.18456231348231322
+        ],
+        "nearest_center_index_per_class": [
+          1,
+          0,
+          1
+        ],
+        "per_class_center_entropy": [
+          0.9806113093566047,
+          1.0849361890621143,
+          0.9728328433688362
+        ],
+        "class_weights": [
+          0.3333333333333333,
+          0.3333333333333333,
+          0.3333333333333333
+        ]
+      },
+      "coverage": {
+        "metric_contract_version": "chapter4-common-evaluation-contract-v2",
+        "T/BT/TNL/BTNL/I/pairwise_JS/pairwise_sqrt_JS": {
+          "status": "measured",
+          "reason": "Recomputed from stored realized centers with equal class weights; checked against historical I, mean JS, min sqrt JS"
+        },
+        "R_KL": {
+          "status": "measured",
+          "value": 0.028966590971020337,
+          "definition_version": "legacy_kl_clip_at_1e-300",
+          "contract_equivalence": "not_verified",
+          "reason": "Stored old R_KL finite with clamped logarithms; exact zero-support alignment not independently tested"
+        },
+        "R_JS": {
+          "status": "measured",
+          "value": 0.0073625860455450165,
+          "definition_version": "legacy_js_natural_logs",
+          "contract_equivalence": "not_verified",
+          "reason": "Reported historical class-balanced within JSD, not reproduced by a per-origin replay"
+        },
+        "R_sqrt_JS": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Mean sqrt(JS) requires per-origin representations and is not sqrt(mean JS); no broad replay permitted"
+        },
+        "per_class_R_JS_R_KL": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Some archived methods have per-class values but not all, so not normalized across D10/D11"
+        },
+        "validation_BA": {
+          "status": "measured",
+          "value": 0.7429356357927787,
+          "reason": "Saved candidate-hypothesis diagnostic with frozen train centers; NOT a center-only metric"
+        },
+        "validation_accuracy_confusion_recall": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Individual predictions are absent in reviewed summary records"
+        },
+        "train_BA_margin_ties": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Individual training predictions/representations not stored in center-only summary"
+        },
+        "sigmoid_NLL": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Not calculated under current metric contract for archived center-inverse experiments"
+        },
+        "classification_of_target_without_policy": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "A Bayes/relaxed target center alone is not a query-time classifier"
+        }
+      }
+    },
+    {
+      "record_id": "D10-20261108-exact_adam",
+      "study": "D10",
+      "seed": 20261108,
+      "method": "exact_adam",
+      "reference_size": 72,
+      "kind": "realized_centers",
+      "metric_contract_version": "chapter4-common-evaluation-contract-v2",
+      "source_blob_sha": "2d5f2805c15c6b611fe2e7cdd753b81c513b23ba",
+      "source_path": "code/experiments/archive/bayes_center_inverse/results/bayes_seed_20261108.json",
+      "realized_centers": [
+        [
+          0.6106309525200937,
+          0.3363513448638235,
+          0.05301770261608282
+        ],
+        [
+          0.27215037060957786,
+          0.4347530507697999,
+          0.29309657862062216
+        ],
+        [
+          0.05612482303610885,
+          0.3164052493568869,
+          0.6274699276070044
+        ]
+      ],
+      "center_geometry": {
+        "T": 0.5576179769656326,
+        "BT": 0.5576179769656326,
+        "TNL": 0.597433049907761,
+        "BTNL": 0.597433049907761,
+        "I": 0.190747763734345,
+        "pairwise_JS_matrix": [
+          [
+            0,
+            0.08229271573772023,
+            0.27767080504408326
+          ],
+          [
+            0.08229271573772023,
+            0,
+            0.07444170138897499
+          ],
+          [
+            0.27767080504408326,
+            0.07444170138897499,
+            0
+          ]
+        ],
+        "pairwise_sqrt_JS_matrix": [
+          [
+            0,
+            0.28686706980362914,
+            0.5269447836766992
+          ],
+          [
+            0.28686706980362914,
+            0,
+            0.27284006558600404
+          ],
+          [
+            0.5269447836766992,
+            0.27284006558600404,
+            0
+          ]
+        ],
+        "pairwise_JS_similarity_matrix": [
+          [
+            1,
+            0.8812767071039058,
+            0.599405706563255
+          ],
+          [
+            0.8812767071039058,
+            1,
+            0.8926033265707887
+          ],
+          [
+            0.599405706563255,
+            0.8926033265707887,
+            1
+          ]
+        ],
+        "mean_pairwise_JS": 0.14480174072359284,
+        "mean_pairwise_sqrt_JS": 0.3622173063554441,
+        "min_pairwise_sqrt_JS": 0.27284006558600404,
+        "nearest_center_sqrt_JS_per_class": [
+          0.28686706980362914,
+          0.27284006558600404,
+          0.27284006558600404
+        ],
+        "nearest_center_index_per_class": [
+          1,
+          2,
+          1
+        ],
+        "per_class_center_entropy": [
+          0.8234092963834944,
+          1.0760196623178997,
+          0.818185242975159
+        ],
+        "class_weights": [
+          0.3333333333333333,
+          0.3333333333333333,
+          0.3333333333333333
+        ]
+      },
+      "coverage": {
+        "metric_contract_version": "chapter4-common-evaluation-contract-v2",
+        "T/BT/TNL/BTNL/I/pairwise_JS/pairwise_sqrt_JS": {
+          "status": "measured",
+          "reason": "Recomputed from stored realized centers with equal class weights; checked against historical I, mean JS, min sqrt JS"
+        },
+        "R_KL": {
+          "status": "measured",
+          "value": 0.0716944830638429,
+          "definition_version": "legacy_kl_clip_at_1e-300",
+          "contract_equivalence": "not_verified",
+          "reason": "Stored old R_KL finite with clamped logarithms; exact zero-support alignment not independently tested"
+        },
+        "R_JS": {
+          "status": "measured",
+          "value": 0.018121866043059588,
+          "definition_version": "legacy_js_natural_logs",
+          "contract_equivalence": "not_verified",
+          "reason": "Reported historical class-balanced within JSD, not reproduced by a per-origin replay"
+        },
+        "R_sqrt_JS": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Mean sqrt(JS) requires per-origin representations and is not sqrt(mean JS); no broad replay permitted"
+        },
+        "per_class_R_JS_R_KL": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Some archived methods have per-class values but not all, so not normalized across D10/D11"
+        },
+        "validation_BA": {
+          "status": "measured",
+          "value": 0.7157247514390371,
+          "reason": "Saved candidate-hypothesis diagnostic with frozen train centers; NOT a center-only metric"
+        },
+        "validation_accuracy_confusion_recall": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Individual predictions are absent in reviewed summary records"
+        },
+        "train_BA_margin_ties": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Individual training predictions/representations not stored in center-only summary"
+        },
+        "sigmoid_NLL": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Not calculated under current metric contract for archived center-inverse experiments"
+        },
+        "classification_of_target_without_policy": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "A Bayes/relaxed target center alone is not a query-time classifier"
+        }
+      }
+    },
+    {
+      "record_id": "D10-20261108-q_bootstrap_gn",
+      "study": "D10",
+      "seed": 20261108,
+      "method": "q_bootstrap_gn",
+      "reference_size": 72,
+      "kind": "realized_centers",
+      "metric_contract_version": "chapter4-common-evaluation-contract-v2",
+      "source_blob_sha": "2d5f2805c15c6b611fe2e7cdd753b81c513b23ba",
+      "source_path": "code/experiments/archive/bayes_center_inverse/results/bayes_seed_20261108.json",
+      "realized_centers": [
+        [
+          0.6116105173444546,
+          0.3361621981094458,
+          0.052227284546099755
+        ],
+        [
+          0.27200167003549097,
+          0.43494263748103396,
+          0.29305569248347535
+        ],
+        [
+          0.055385968555272634,
+          0.3161538022855516,
+          0.6284602291591759
+        ]
+      ],
+      "center_geometry": {
+        "T": 0.5583377946615548,
+        "BT": 0.5583377946615548,
+        "TNL": 0.5962277550059161,
+        "BTNL": 0.5962277550059161,
+        "I": 0.1921243521466317,
+        "pairwise_JS_matrix": [
+          [
+            0,
+            0.0829714177498394,
+            0.27967040117644726
+          ],
+          [
+            0.0829714177498394,
+            0,
+            0.07500070226115574
+          ],
+          [
+            0.27967040117644726,
+            0.07500070226115574,
+            0
+          ]
+        ],
+        "pairwise_sqrt_JS_matrix": [
+          [
+            0,
+            0.2880475963271338,
+            0.5288387288923224
+          ],
+          [
+            0.2880475963271338,
+            0,
+            0.27386256089716926
+          ],
+          [
+            0.5288387288923224,
+            0.27386256089716926,
+            0
+          ]
+        ],
+        "pairwise_JS_similarity_matrix": [
+          [
+            1,
+            0.8802975470767802,
+            0.5965208991393126
+          ],
+          [
+            0.8802975470767802,
+            1,
+            0.891796858784641
+          ],
+          [
+            0.5965208991393126,
+            0.891796858784641,
+            1
+          ]
+        ],
+        "mean_pairwise_JS": 0.14588084039581414,
+        "mean_pairwise_sqrt_JS": 0.36358296203887513,
+        "min_pairwise_sqrt_JS": 0.27386256089716926,
+        "nearest_center_sqrt_JS_per_class": [
+          0.2880475963271338,
+          0.27386256089716926,
+          0.27386256089716926
+        ],
+        "nearest_center_index_per_class": [
+          1,
+          2,
+          1
+        ],
+        "per_class_center_entropy": [
+          0.8213580647359839,
+          1.0759338022483949,
+          0.8162236368550573
+        ],
+        "class_weights": [
+          0.3333333333333333,
+          0.3333333333333333,
+          0.3333333333333333
+        ]
+      },
+      "coverage": {
+        "metric_contract_version": "chapter4-common-evaluation-contract-v2",
+        "T/BT/TNL/BTNL/I/pairwise_JS/pairwise_sqrt_JS": {
+          "status": "measured",
+          "reason": "Recomputed from stored realized centers with equal class weights; checked against historical I, mean JS, min sqrt JS"
+        },
+        "R_KL": {
+          "status": "measured",
+          "value": 0.07287533043823059,
+          "definition_version": "legacy_kl_clip_at_1e-300",
+          "contract_equivalence": "not_verified",
+          "reason": "Stored old R_KL finite with clamped logarithms; exact zero-support alignment not independently tested"
+        },
+        "R_JS": {
+          "status": "measured",
+          "value": 0.01843804679047317,
+          "definition_version": "legacy_js_natural_logs",
+          "contract_equivalence": "not_verified",
+          "reason": "Reported historical class-balanced within JSD, not reproduced by a per-origin replay"
+        },
+        "R_sqrt_JS": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Mean sqrt(JS) requires per-origin representations and is not sqrt(mean JS); no broad replay permitted"
+        },
+        "per_class_R_JS_R_KL": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Some archived methods have per-class values but not all, so not normalized across D10/D11"
+        },
+        "validation_BA": {
+          "status": "measured",
+          "value": 0.7157247514390371,
+          "reason": "Saved candidate-hypothesis diagnostic with frozen train centers; NOT a center-only metric"
+        },
+        "validation_accuracy_confusion_recall": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Individual predictions are absent in reviewed summary records"
+        },
+        "train_BA_margin_ties": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Individual training predictions/representations not stored in center-only summary"
+        },
+        "sigmoid_NLL": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Not calculated under current metric contract for archived center-inverse experiments"
+        },
+        "classification_of_target_without_policy": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "A Bayes/relaxed target center alone is not a query-time classifier"
+        }
+      }
+    },
+    {
+      "record_id": "D10-20261108-shared_exact_adam",
+      "study": "D10",
+      "seed": 20261108,
+      "method": "shared_exact_adam",
+      "reference_size": 72,
+      "kind": "realized_centers",
+      "metric_contract_version": "chapter4-common-evaluation-contract-v2",
+      "source_blob_sha": "2d5f2805c15c6b611fe2e7cdd753b81c513b23ba",
+      "source_path": "code/experiments/archive/bayes_center_inverse/results/bayes_seed_20261108.json",
+      "realized_centers": [
+        [
+          0.6105655495867411,
+          0.33639424801751633,
+          0.05304020239574277
+        ],
+        [
+          0.3089939903713355,
+          0.40250076574478966,
+          0.28850524388387483
+        ],
+        [
+          0.056092911575244514,
+          0.316370530817037,
+          0.6275365576077184
+        ]
+      ],
+      "center_geometry": {
+        "T": 0.5468676243130831,
+        "BT": 0.5468676243130831,
+        "TNL": 0.6231270836852992,
+        "BTNL": 0.6231270836852992,
+        "I": 0.18805495174213183,
+        "pairwise_JS_matrix": [
+          [
+            0,
+            0.07130291322749849,
+            0.2776801084804825
+          ],
+          [
+            0.07130291322749849,
+            0,
+            0.0829366286038331
+          ],
+          [
+            0.2776801084804825,
+            0.0829366286038331,
+            0
+          ]
+        ],
+        "pairwise_sqrt_JS_matrix": [
+          [
+            0,
+            0.26702605346201425,
+            0.5269536113174313
+          ],
+          [
+            0.26702605346201425,
+            0,
+            0.2879872021528615
+          ],
+          [
+            0.5269536113174313,
+            0.2879872021528615,
+            0
+          ]
+        ],
+        "pairwise_JS_similarity_matrix": [
+          [
+            1,
+            0.8971316406857519,
+            0.5993922845416985
+          ],
+          [
+            0.8971316406857519,
+            1,
+            0.8803477372052002
+          ],
+          [
+            0.5993922845416985,
+            0.8803477372052002,
+            1
+          ]
+        ],
+        "mean_pairwise_JS": 0.1439732167706047,
+        "mean_pairwise_sqrt_JS": 0.36065562231076903,
+        "min_pairwise_sqrt_JS": 0.26702605346201425,
+        "nearest_center_sqrt_JS_per_class": [
+          0.26702605346201425,
+          0.26702605346201425,
+          0.2879872021528615
+        ],
+        "nearest_center_index_per_class": [
+          1,
+          0,
+          1
+        ],
+        "per_class_center_entropy": [
+          0.8234898565539047,
+          1.0878161730773654,
+          0.8180844196318069
+        ],
+        "class_weights": [
+          0.3333333333333333,
+          0.3333333333333333,
+          0.3333333333333333
+        ]
+      },
+      "coverage": {
+        "metric_contract_version": "chapter4-common-evaluation-contract-v2",
+        "T/BT/TNL/BTNL/I/pairwise_JS/pairwise_sqrt_JS": {
+          "status": "measured",
+          "reason": "Recomputed from stored realized centers with equal class weights; checked against historical I, mean JS, min sqrt JS"
+        },
+        "R_KL": {
+          "status": "measured",
+          "value": 0.1216840751619744,
+          "definition_version": "legacy_kl_clip_at_1e-300",
+          "contract_equivalence": "not_verified",
+          "reason": "Stored old R_KL finite with clamped logarithms; exact zero-support alignment not independently tested"
+        },
+        "R_JS": {
+          "status": "measured",
+          "value": 0.03182386813750677,
+          "definition_version": "legacy_js_natural_logs",
+          "contract_equivalence": "not_verified",
+          "reason": "Reported historical class-balanced within JSD, not reproduced by a per-origin replay"
+        },
+        "R_sqrt_JS": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Mean sqrt(JS) requires per-origin representations and is not sqrt(mean JS); no broad replay permitted"
+        },
+        "per_class_R_JS_R_KL": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Some archived methods have per-class values but not all, so not normalized across D10/D11"
+        },
+        "validation_BA": {
+          "status": "measured",
+          "value": 0.8180272108843538,
+          "reason": "Saved candidate-hypothesis diagnostic with frozen train centers; NOT a center-only metric"
+        },
+        "validation_accuracy_confusion_recall": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Individual predictions are absent in reviewed summary records"
+        },
+        "train_BA_margin_ties": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Individual training predictions/representations not stored in center-only summary"
+        },
+        "sigmoid_NLL": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Not calculated under current metric contract for archived center-inverse experiments"
+        },
+        "classification_of_target_without_policy": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "A Bayes/relaxed target center alone is not a query-time classifier"
+        }
+      }
+    },
+    {
+      "record_id": "D10-20261109-uniform",
+      "study": "D10",
+      "seed": 20261109,
+      "method": "uniform",
+      "reference_size": 72,
+      "kind": "realized_centers",
+      "metric_contract_version": "chapter4-common-evaluation-contract-v2",
+      "source_blob_sha": "74c36046fef1d63b3bb79401d988616e79d8b7e3",
+      "source_path": "code/experiments/archive/bayes_center_inverse/results/bayes_seed_20261109_gn10.json",
+      "realized_centers": [
+        [
+          0.4282595032505601,
+          0.31534662606292246,
+          0.25639387068651737
+        ],
+        [
+          0.3044012224574955,
+          0.3808676109345995,
+          0.3147311666079049
+        ],
+        [
+          0.2546501467426528,
+          0.31630603241027094,
+          0.42904382084707615
+        ]
+      ],
+      "center_geometry": {
+        "T": 0.41272364501074527,
+        "BT": 0.41272364501074527,
+        "TNL": 0.8865085373351608,
+        "BTNL": 0.8865085373351608,
+        "I": 0.016862853826553836,
+        "pairwise_JS_matrix": [
+          [
+            0,
+            0.008296012274344289,
+            0.02214601125409721
+          ],
+          [
+            0.008296012274344289,
+            0,
+            0.007014854994504827
+          ],
+          [
+            0.02214601125409721,
+            0.007014854994504827,
+            0
+          ]
+        ],
+        "pairwise_sqrt_JS_matrix": [
+          [
+            0,
+            0.09108244767431477,
+            0.1488153596040987
+          ],
+          [
+            0.09108244767431477,
+            0,
+            0.08375473117684056
+          ],
+          [
+            0.1488153596040987,
+            0.08375473117684056,
+            0
+          ]
+        ],
+        "pairwise_JS_similarity_matrix": [
+          [
+            1,
+            0.9880313842326496,
+            0.9680500593882427
+          ],
+          [
+            0.9880313842326496,
+            1,
+            0.9898797034868727
+          ],
+          [
+            0.9680500593882427,
+            0.9898797034868727,
+            1
+          ]
+        ],
+        "mean_pairwise_JS": 0.012485626174315442,
+        "mean_pairwise_sqrt_JS": 0.10788417948508468,
+        "min_pairwise_sqrt_JS": 0.08375473117684056,
+        "nearest_center_sqrt_JS_per_class": [
+          0.09108244767431477,
+          0.08375473117684056,
+          0.08375473117684056
+        ],
+        "nearest_center_index_per_class": [
+          1,
+          2,
+          1
+        ],
+        "per_class_center_entropy": [
+          1.0760737354996763,
+          1.0935509575628855,
+          1.0754646940306862
+        ],
+        "class_weights": [
+          0.3333333333333333,
+          0.3333333333333333,
+          0.3333333333333333
+        ]
+      },
+      "coverage": {
+        "metric_contract_version": "chapter4-common-evaluation-contract-v2",
+        "T/BT/TNL/BTNL/I/pairwise_JS/pairwise_sqrt_JS": {
+          "status": "measured",
+          "reason": "Recomputed from stored realized centers with equal class weights; checked against historical I, mean JS, min sqrt JS"
+        },
+        "R_KL": {
+          "status": "measured",
+          "value": 0.010516510079383909,
+          "definition_version": "legacy_kl_clip_at_1e-300",
+          "contract_equivalence": "not_verified",
+          "reason": "Stored old R_KL finite with clamped logarithms; exact zero-support alignment not independently tested"
+        },
+        "R_JS": {
+          "status": "measured",
+          "value": 0.002627400263218921,
+          "definition_version": "legacy_js_natural_logs",
+          "contract_equivalence": "not_verified",
+          "reason": "Reported historical class-balanced within JSD, not reproduced by a per-origin replay"
+        },
+        "R_sqrt_JS": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Mean sqrt(JS) requires per-origin representations and is not sqrt(mean JS); no broad replay permitted"
+        },
+        "per_class_R_JS_R_KL": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Some archived methods have per-class values but not all, so not normalized across D10/D11"
+        },
+        "validation_BA": {
+          "status": "measured",
+          "value": 0.9285714285714285,
+          "reason": "Saved candidate-hypothesis diagnostic with frozen train centers; NOT a center-only metric"
+        },
+        "validation_accuracy_confusion_recall": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Individual predictions are absent in reviewed summary records"
+        },
+        "train_BA_margin_ties": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Individual training predictions/representations not stored in center-only summary"
+        },
+        "sigmoid_NLL": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Not calculated under current metric contract for archived center-inverse experiments"
+        },
+        "classification_of_target_without_policy": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "A Bayes/relaxed target center alone is not a query-time classifier"
+        }
+      }
+    },
+    {
+      "record_id": "D10-20261109-q_only",
+      "study": "D10",
+      "seed": 20261109,
+      "method": "q_only",
+      "reference_size": 72,
+      "kind": "realized_centers",
+      "metric_contract_version": "chapter4-common-evaluation-contract-v2",
+      "source_blob_sha": "74c36046fef1d63b3bb79401d988616e79d8b7e3",
+      "source_path": "code/experiments/archive/bayes_center_inverse/results/bayes_seed_20261109_gn10.json",
+      "realized_centers": [
+        [
+          0.5889972622094564,
+          0.29065610183741897,
+          0.12034663595312474
+        ],
+        [
+          0.2876002532630187,
+          0.41301481624572484,
+          0.2993849304912564
+        ],
+        [
+          0.12785301141648361,
+          0.30372750587604613,
+          0.5684194827074701
+        ]
+      ],
+      "center_geometry": {
+        "T": 0.5234771870542171,
+        "BT": 0.5234771870542171,
+        "TNL": 0.6595003874879405,
+        "BTNL": 0.6595003874879405,
+        "I": 0.11310151864717277,
+        "pairwise_JS_matrix": [
+          [
+            0,
+            0.05150765364509846,
+            0.15960596348253264
+          ],
+          [
+            0.05150765364509846,
+            0,
+            0.04114013883432799
+          ],
+          [
+            0.15960596348253264,
+            0.04114013883432799,
+            0
+          ]
+        ],
+        "pairwise_sqrt_JS_matrix": [
+          [
+            0,
+            0.2269529767266745,
+            0.39950715072765924
+          ],
+          [
+            0.2269529767266745,
+            0,
+            0.2028303203032722
+          ],
+          [
+            0.39950715072765924,
+            0.2028303203032722,
+            0
+          ]
+        ],
+        "pairwise_JS_similarity_matrix": [
+          [
+            1,
+            0.9256901635183901,
+            0.7697372679874451
+          ],
+          [
+            0.9256901635183901,
+            1,
+            0.9406473257222315
+          ],
+          [
+            0.7697372679874451,
+            0.9406473257222315,
+            1
+          ]
+        ],
+        "mean_pairwise_JS": 0.08408458532065304,
+        "mean_pairwise_sqrt_JS": 0.27643014925253534,
+        "min_pairwise_sqrt_JS": 0.2028303203032722,
+        "nearest_center_sqrt_JS_per_class": [
+          0.2269529767266745,
+          0.2028303203032722,
+          0.2028303203032722
+        ],
+        "nearest_center_index_per_class": [
+          1,
+          2,
+          1
+        ],
+        "per_class_center_entropy": [
+          0.9257344649462675,
+          1.0846858814226377,
+          0.9460042959323758
+        ],
+        "class_weights": [
+          0.3333333333333333,
+          0.3333333333333333,
+          0.3333333333333333
+        ]
+      },
+      "coverage": {
+        "metric_contract_version": "chapter4-common-evaluation-contract-v2",
+        "T/BT/TNL/BTNL/I/pairwise_JS/pairwise_sqrt_JS": {
+          "status": "measured",
+          "reason": "Recomputed from stored realized centers with equal class weights; checked against historical I, mean JS, min sqrt JS"
+        },
+        "R_KL": {
+          "status": "measured",
+          "value": 0.03473849832727613,
+          "definition_version": "legacy_kl_clip_at_1e-300",
+          "contract_equivalence": "not_verified",
+          "reason": "Stored old R_KL finite with clamped logarithms; exact zero-support alignment not independently tested"
+        },
+        "R_JS": {
+          "status": "measured",
+          "value": 0.00877081729680553,
+          "definition_version": "legacy_js_natural_logs",
+          "contract_equivalence": "not_verified",
+          "reason": "Reported historical class-balanced within JSD, not reproduced by a per-origin replay"
+        },
+        "R_sqrt_JS": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Mean sqrt(JS) requires per-origin representations and is not sqrt(mean JS); no broad replay permitted"
+        },
+        "per_class_R_JS_R_KL": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Some archived methods have per-class values but not all, so not normalized across D10/D11"
+        },
+        "validation_BA": {
+          "status": "measured",
+          "value": 0.8502093144950288,
+          "reason": "Saved candidate-hypothesis diagnostic with frozen train centers; NOT a center-only metric"
+        },
+        "validation_accuracy_confusion_recall": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Individual predictions are absent in reviewed summary records"
+        },
+        "train_BA_margin_ties": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Individual training predictions/representations not stored in center-only summary"
+        },
+        "sigmoid_NLL": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Not calculated under current metric contract for archived center-inverse experiments"
+        },
+        "classification_of_target_without_policy": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "A Bayes/relaxed target center alone is not a query-time classifier"
+        }
+      }
+    },
+    {
+      "record_id": "D10-20261109-exact_adam",
+      "study": "D10",
+      "seed": 20261109,
+      "method": "exact_adam",
+      "reference_size": 72,
+      "kind": "realized_centers",
+      "metric_contract_version": "chapter4-common-evaluation-contract-v2",
+      "source_blob_sha": "74c36046fef1d63b3bb79401d988616e79d8b7e3",
+      "source_path": "code/experiments/archive/bayes_center_inverse/results/bayes_seed_20261109_gn10.json",
+      "realized_centers": [
+        [
+          0.6858532736011118,
+          0.2828124222112923,
+          0.031334304187595946
+        ],
+        [
+          0.2676329576787188,
+          0.4408944880286376,
+          0.29147255429264357
+        ],
+        [
+          0.03397014909151302,
+          0.2962696515152134,
+          0.6697601993932735
+        ]
+      ],
+      "center_geometry": {
+        "T": 0.5988359870076744,
+        "BT": 0.5988359870076744,
+        "TNL": 0.5322922637868889,
+        "BTNL": 0.5322922637868889,
+        "I": 0.2514202940896597,
+        "pairwise_JS_matrix": [
+          [
+            0,
+            0.11661404531532726,
+            0.36008454723409544
+          ],
+          [
+            0.11661404531532726,
+            0,
+            0.09683176367723667
+          ],
+          [
+            0.36008454723409544,
+            0.09683176367723667,
+            0
+          ]
+        ],
+        "pairwise_sqrt_JS_matrix": [
+          [
+            0,
+            0.34148798707323114,
+            0.6000704518921887
+          ],
+          [
+            0.34148798707323114,
+            0,
+            0.31117802569789
+          ],
+          [
+            0.6000704518921887,
+            0.31117802569789,
+            0
+          ]
+        ],
+        "pairwise_JS_similarity_matrix": [
+          [
+            1,
+            0.8317614951255765,
+            0.4805078094046228
+          ],
+          [
+            0.8317614951255765,
+            1,
+            0.8603012947423185
+          ],
+          [
+            0.4805078094046228,
+            0.8603012947423185,
+            1
+          ]
+        ],
+        "mean_pairwise_JS": 0.19117678540888647,
+        "mean_pairwise_sqrt_JS": 0.41757882155443654,
+        "min_pairwise_sqrt_JS": 0.31117802569789,
+        "nearest_center_sqrt_JS_per_class": [
+          0.34148798707323114,
+          0.31117802569789,
+          0.31117802569789
+        ],
+        "nearest_center_index_per_class": [
+          1,
+          2,
+          1
+        ],
+        "per_class_center_entropy": [
+          0.7243254932931016,
+          1.0731779025270376,
+          0.7437676767135709
+        ],
+        "class_weights": [
+          0.3333333333333333,
+          0.3333333333333333,
+          0.3333333333333333
+        ]
+      },
+      "coverage": {
+        "metric_contract_version": "chapter4-common-evaluation-contract-v2",
+        "T/BT/TNL/BTNL/I/pairwise_JS/pairwise_sqrt_JS": {
+          "status": "measured",
+          "reason": "Recomputed from stored realized centers with equal class weights; checked against historical I, mean JS, min sqrt JS"
+        },
+        "R_KL": {
+          "status": "measured",
+          "value": 0.09574272348688007,
+          "definition_version": "legacy_kl_clip_at_1e-300",
+          "contract_equivalence": "not_verified",
+          "reason": "Stored old R_KL finite with clamped logarithms; exact zero-support alignment not independently tested"
+        },
+        "R_JS": {
+          "status": "measured",
+          "value": 0.024573871348963352,
+          "definition_version": "legacy_js_natural_logs",
+          "contract_equivalence": "not_verified",
+          "reason": "Reported historical class-balanced within JSD, not reproduced by a per-origin replay"
+        },
+        "R_sqrt_JS": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Mean sqrt(JS) requires per-origin representations and is not sqrt(mean JS); no broad replay permitted"
+        },
+        "per_class_R_JS_R_KL": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Some archived methods have per-class values but not all, so not normalized across D10/D11"
+        },
+        "validation_BA": {
+          "status": "measured",
+          "value": 0.8485086342229199,
+          "reason": "Saved candidate-hypothesis diagnostic with frozen train centers; NOT a center-only metric"
+        },
+        "validation_accuracy_confusion_recall": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Individual predictions are absent in reviewed summary records"
+        },
+        "train_BA_margin_ties": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Individual training predictions/representations not stored in center-only summary"
+        },
+        "sigmoid_NLL": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Not calculated under current metric contract for archived center-inverse experiments"
+        },
+        "classification_of_target_without_policy": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "A Bayes/relaxed target center alone is not a query-time classifier"
+        }
+      }
+    },
+    {
+      "record_id": "D10-20261109-q_bootstrap_gn",
+      "study": "D10",
+      "seed": 20261109,
+      "method": "q_bootstrap_gn",
+      "reference_size": 72,
+      "kind": "realized_centers",
+      "metric_contract_version": "chapter4-common-evaluation-contract-v2",
+      "source_blob_sha": "74c36046fef1d63b3bb79401d988616e79d8b7e3",
+      "source_path": "code/experiments/archive/bayes_center_inverse/results/bayes_seed_20261109_gn10.json",
+      "realized_centers": [
+        [
+          0.6870056757993924,
+          0.28259034768480923,
+          0.03040397651579864
+        ],
+        [
+          0.2762479650187052,
+          0.44185861495268863,
+          0.28189342002860623
+        ],
+        [
+          0.033188098551752865,
+          0.2961103006263323,
+          0.6707016008219148
+        ]
+      ],
+      "center_geometry": {
+        "T": 0.5998552971913319,
+        "BT": 0.5998552971913319,
+        "TNL": 0.5305363326373099,
+        "BTNL": 0.5305363326373099,
+        "I": 0.2532398591084539,
+        "pairwise_JS_matrix": [
+          [
+            0,
+            0.11243549887627269,
+            0.3628201240278309
+          ],
+          [
+            0.11243549887627269,
+            0,
+            0.1026244085647392
+          ],
+          [
+            0.3628201240278309,
+            0.1026244085647392,
+            0
+          ]
+        ],
+        "pairwise_sqrt_JS_matrix": [
+          [
+            0,
+            0.3353140302407173,
+            0.6023455188077943
+          ],
+          [
+            0.3353140302407173,
+            0,
+            0.32035044648749783
+          ],
+          [
+            0.6023455188077943,
+            0.32035044648749783,
+            0
+          ]
+        ],
+        "pairwise_JS_similarity_matrix": [
+          [
+            1,
+            0.8377898633513248,
+            0.4765612063303297
+          ],
+          [
+            0.8377898633513248,
+            1,
+            0.8519442746894879
+          ],
+          [
+            0.4765612063303297,
+            0.8519442746894879,
+            1
+          ]
+        ],
+        "mean_pairwise_JS": 0.19262667715628093,
+        "mean_pairwise_sqrt_JS": 0.4193366651786698,
+        "min_pairwise_sqrt_JS": 0.32035044648749783,
+        "nearest_center_sqrt_JS_per_class": [
+          0.3353140302407173,
+          0.32035044648749783,
+          0.32035044648749783
+        ],
+        "nearest_center_index_per_class": [
+          1,
+          2,
+          1
+        ],
+        "per_class_center_entropy": [
+          0.7212428125648982,
+          1.0732165956717379,
+          0.7412962912365468
+        ],
+        "class_weights": [
+          0.3333333333333333,
+          0.3333333333333333,
+          0.3333333333333333
+        ]
+      },
+      "coverage": {
+        "metric_contract_version": "chapter4-common-evaluation-contract-v2",
+        "T/BT/TNL/BTNL/I/pairwise_JS/pairwise_sqrt_JS": {
+          "status": "measured",
+          "reason": "Recomputed from stored realized centers with equal class weights; checked against historical I, mean JS, min sqrt JS"
+        },
+        "R_KL": {
+          "status": "measured",
+          "value": 0.0918200819964851,
+          "definition_version": "legacy_kl_clip_at_1e-300",
+          "contract_equivalence": "not_verified",
+          "reason": "Stored old R_KL finite with clamped logarithms; exact zero-support alignment not independently tested"
+        },
+        "R_JS": {
+          "status": "measured",
+          "value": 0.023433664756267177,
+          "definition_version": "legacy_js_natural_logs",
+          "contract_equivalence": "not_verified",
+          "reason": "Reported historical class-balanced within JSD, not reproduced by a per-origin replay"
+        },
+        "R_sqrt_JS": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Mean sqrt(JS) requires per-origin representations and is not sqrt(mean JS); no broad replay permitted"
+        },
+        "per_class_R_JS_R_KL": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Some archived methods have per-class values but not all, so not normalized across D10/D11"
+        },
+        "validation_BA": {
+          "status": "measured",
+          "value": 0.8229984301412873,
+          "reason": "Saved candidate-hypothesis diagnostic with frozen train centers; NOT a center-only metric"
+        },
+        "validation_accuracy_confusion_recall": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Individual predictions are absent in reviewed summary records"
+        },
+        "train_BA_margin_ties": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Individual training predictions/representations not stored in center-only summary"
+        },
+        "sigmoid_NLL": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Not calculated under current metric contract for archived center-inverse experiments"
+        },
+        "classification_of_target_without_policy": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "A Bayes/relaxed target center alone is not a query-time classifier"
+        }
+      }
+    },
+    {
+      "record_id": "D10-20261109-shared_exact_adam",
+      "study": "D10",
+      "seed": 20261109,
+      "method": "shared_exact_adam",
+      "reference_size": 72,
+      "kind": "realized_centers",
+      "metric_contract_version": "chapter4-common-evaluation-contract-v2",
+      "source_blob_sha": "74c36046fef1d63b3bb79401d988616e79d8b7e3",
+      "source_path": "code/experiments/archive/bayes_center_inverse/results/bayes_seed_20261109_gn10.json",
+      "realized_centers": [
+        [
+          0.6859144828026801,
+          0.28281589156314185,
+          0.031269625634178046
+        ],
+        [
+          0.26226236261152075,
+          0.4398455938456434,
+          0.2978920435428358
+        ],
+        [
+          0.034010593307866765,
+          0.2962828041965044,
+          0.669706602495629
+        ]
+      ],
+      "center_geometry": {
+        "T": 0.5984888930479841,
+        "BT": 0.5984888930479841,
+        "TNL": 0.5330831418765233,
+        "BTNL": 0.5330831418765233,
+        "I": 0.25148079931838974,
+        "pairwise_JS_matrix": [
+          [
+            0,
+            0.12004563510472077,
+            0.36011744140238044
+          ],
+          [
+            0.12004563510472077,
+            0,
+            0.09357993070894954
+          ],
+          [
+            0.36011744140238044,
+            0.09357993070894954,
+            0
+          ]
+        ],
+        "pairwise_sqrt_JS_matrix": [
+          [
+            0,
+            0.3464760238526192,
+            0.6000978598548578
+          ],
+          [
+            0.3464760238526192,
+            0,
+            0.305908369792246
+          ],
+          [
+            0.6000978598548578,
+            0.305908369792246,
+            0
+          ]
+        ],
+        "pairwise_JS_similarity_matrix": [
+          [
+            1,
+            0.8268107575540533,
+            0.48046035315116387
+          ],
+          [
+            0.8268107575540533,
+            1,
+            0.8649926980394657
+          ],
+          [
+            0.48046035315116387,
+            0.8649926980394657,
+            1
+          ]
+        ],
+        "mean_pairwise_JS": 0.19124766907201693,
+        "mean_pairwise_sqrt_JS": 0.4174940844999077,
+        "min_pairwise_sqrt_JS": 0.305908369792246,
+        "nearest_center_sqrt_JS_per_class": [
+          0.3464760238526192,
+          0.305908369792246,
+          0.305908369792246
+        ],
+        "nearest_center_index_per_class": [
+          1,
+          2,
+          1
+        ],
+        "per_class_center_entropy": [
+          0.7241289023731222,
+          1.0730280503062022,
+          0.7438989600972099
+        ],
+        "class_weights": [
+          0.3333333333333333,
+          0.3333333333333333,
+          0.3333333333333333
+        ]
+      },
+      "coverage": {
+        "metric_contract_version": "chapter4-common-evaluation-contract-v2",
+        "T/BT/TNL/BTNL/I/pairwise_JS/pairwise_sqrt_JS": {
+          "status": "measured",
+          "reason": "Recomputed from stored realized centers with equal class weights; checked against historical I, mean JS, min sqrt JS"
+        },
+        "R_KL": {
+          "status": "measured",
+          "value": 0.1363156330569434,
+          "definition_version": "legacy_kl_clip_at_1e-300",
+          "contract_equivalence": "not_verified",
+          "reason": "Stored old R_KL finite with clamped logarithms; exact zero-support alignment not independently tested"
+        },
+        "R_JS": {
+          "status": "measured",
+          "value": 0.035886465887360754,
+          "definition_version": "legacy_js_natural_logs",
+          "contract_equivalence": "not_verified",
+          "reason": "Reported historical class-balanced within JSD, not reproduced by a per-origin replay"
+        },
+        "R_sqrt_JS": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Mean sqrt(JS) requires per-origin representations and is not sqrt(mean JS); no broad replay permitted"
+        },
+        "per_class_R_JS_R_KL": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Some archived methods have per-class values but not all, so not normalized across D10/D11"
+        },
+        "validation_BA": {
+          "status": "measured",
+          "value": 0.8384353741496599,
+          "reason": "Saved candidate-hypothesis diagnostic with frozen train centers; NOT a center-only metric"
+        },
+        "validation_accuracy_confusion_recall": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Individual predictions are absent in reviewed summary records"
+        },
+        "train_BA_margin_ties": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Individual training predictions/representations not stored in center-only summary"
+        },
+        "sigmoid_NLL": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Not calculated under current metric contract for archived center-inverse experiments"
+        },
+        "classification_of_target_without_policy": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "A Bayes/relaxed target center alone is not a query-time classifier"
+        }
+      }
+    },
+    {
+      "record_id": "D11-equal",
+      "study": "D11",
+      "method": "Q45+GN30",
+      "reference_size": 300,
+      "kind": "realized_centers",
+      "metric_contract_version": "chapter4-common-evaluation-contract-v2",
+      "source_path": "code/experiments/archive/historical_archive/archives/full300_maxdiag_bootstrap_experiment.zip",
+      "source_blob_sha": "c85dc00fc5ea23bffb45481261b3e4d32dd9e659",
+      "source_zip_member": "code/experiments/diag_max_full300/results/full300_equal_summary.json",
+      "realized_centers": [
+        [
+          0.42162206921736745,
+          0.4359852783514487,
+          0.14239265243118357
+        ],
+        [
+          0.17938400138923827,
+          0.6371440307427354,
+          0.18347196786802633
+        ],
+        [
+          0.10175497804465516,
+          0.4000131791084202,
+          0.49823184284692473
+        ]
+      ],
+      "center_geometry": {
+        "T": 0.5189993142690091,
+        "BT": 0.5189993142690091,
+        "TNL": 0.6703650800806747,
+        "BTNL": 0.6703650800806747,
+        "I": 0.09205656144386787,
+        "pairwise_JS_matrix": [
+          [
+            0,
+            0.0358976801194093,
+            0.10520842519734297
+          ],
+          [
+            0.0358976801194093,
+            0,
+            0.0568525566752075
+          ],
+          [
+            0.10520842519734297,
+            0.0568525566752075,
+            0
+          ]
+        ],
+        "pairwise_sqrt_JS_matrix": [
+          [
+            0,
+            0.18946683118532728,
+            0.3243584825426074
+          ],
+          [
+            0.18946683118532728,
+            0,
+            0.23843774171721954
+          ],
+          [
+            0.3243584825426074,
+            0.23843774171721954,
+            0
+          ]
+        ],
+        "pairwise_JS_similarity_matrix": [
+          [
+            1,
+            0.9482105949123099,
+            0.8482163267080558
+          ],
+          [
+            0.9482105949123099,
+            1,
+            0.9179790984228194
+          ],
+          [
+            0.8482163267080558,
+            0.9179790984228194,
+            1
+          ]
+        ],
+        "mean_pairwise_JS": 0.06598622066398659,
+        "mean_pairwise_sqrt_JS": 0.2507543518150514,
+        "min_pairwise_sqrt_JS": 0.18946683118532728,
+        "nearest_center_sqrt_JS_per_class": [
+          0.18946683118532728,
+          0.18946683118532728,
+          0.23843774171721954
+        ],
+        "nearest_center_index_per_class": [
+          1,
+          0,
+          1
+        ],
+        "per_class_center_entropy": [
+          1.003611013234924,
+          0.9065333004359242,
+          0.9461574206393941
+        ],
+        "class_weights": [
+          0.3333333333333333,
+          0.3333333333333333,
+          0.3333333333333333
+        ]
+      },
+      "coverage": {
+        "metric_contract_version": "chapter4-common-evaluation-contract-v2",
+        "T/BT/TNL/BTNL/I/pairwise_JS/pairwise_sqrt_JS": {
+          "status": "measured",
+          "reason": "Recomputed from stored realized centers with equal class weights; checked against historical I, mean JS, min sqrt JS"
+        },
+        "R_KL": {
+          "status": "measured",
+          "value": 0.07482075263648391,
+          "definition_version": "legacy_kl_clip_at_1e-300",
+          "contract_equivalence": "not_verified",
+          "reason": "Stored old R_KL finite with clamped logarithms; exact zero-support alignment not independently tested"
+        },
+        "R_JS": {
+          "status": "measured",
+          "value": 0.01919048398234917,
+          "definition_version": "legacy_js_natural_logs",
+          "contract_equivalence": "not_verified",
+          "reason": "Reported historical class-balanced within JSD, not reproduced by a per-origin replay"
+        },
+        "R_sqrt_JS": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Mean sqrt(JS) requires per-origin representations and is not sqrt(mean JS); no broad replay permitted"
+        },
+        "per_class_R_JS_R_KL": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Some archived methods have per-class values but not all, so not normalized across D10/D11"
+        },
+        "validation_BA": {
+          "status": "measured",
+          "value": 0.8520408163265306,
+          "reason": "Saved candidate-hypothesis diagnostic with frozen train centers; NOT a center-only metric"
+        },
+        "validation_accuracy_confusion_recall": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Individual predictions are absent in reviewed summary records"
+        },
+        "train_BA_margin_ties": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Individual training predictions/representations not stored in center-only summary"
+        },
+        "sigmoid_NLL": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Not calculated under current metric contract for archived center-inverse experiments"
+        },
+        "classification_of_target_without_policy": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "A Bayes/relaxed target center alone is not a query-time classifier"
+        }
+      }
+    },
+    {
+      "record_id": "D11-bounded_equal",
+      "study": "D11",
+      "method": "Q45+GN30",
+      "reference_size": 300,
+      "kind": "realized_centers",
+      "metric_contract_version": "chapter4-common-evaluation-contract-v2",
+      "source_path": "code/experiments/archive/historical_archive/archives/full300_maxdiag_bootstrap_experiment.zip",
+      "source_blob_sha": "c85dc00fc5ea23bffb45481261b3e4d32dd9e659",
+      "source_zip_member": "code/experiments/diag_max_full300/results/full300_bounded_equal_summary.json",
+      "realized_centers": [
+        [
+          0.4843255952669164,
+          0.433711488994418,
+          0.0819629157386655
+        ],
+        [
+          0.17938400138923827,
+          0.6371440307427354,
+          0.18347196786802633
+        ],
+        [
+          0.04507791480327543,
+          0.3859387209101017,
+          0.5689833642866227
+        ]
+      ],
+      "center_geometry": {
+        "T": 0.5634843300987581,
+        "BT": 0.5634843300987581,
+        "TNL": 0.5798871680116071,
+        "BTNL": 0.5798871680116071,
+        "I": 0.16324280842800298,
+        "pairwise_JS_matrix": [
+          [
+            0,
+            0.05605341090421345,
+            0.20949623048144228
+          ],
+          [
+            0.05605341090421345,
+            0,
+            0.08888576620448774
+          ],
+          [
+            0.20949623048144228,
+            0.08888576620448774,
+            0
+          ]
+        ],
+        "pairwise_sqrt_JS_matrix": [
+          [
+            0,
+            0.23675601556077397,
+            0.4577075818483263
+          ],
+          [
+            0.23675601556077397,
+            0,
+            0.29813716005303287
+          ],
+          [
+            0.4577075818483263,
+            0.29813716005303287,
+            0
+          ]
+        ],
+        "pairwise_JS_similarity_matrix": [
+          [
+            1,
+            0.9191320220635799,
+            0.697760827199492
+          ],
+          [
+            0.9191320220635799,
+            1,
+            0.8717649458911697
+          ],
+          [
+            0.697760827199492,
+            0.8717649458911697,
+            1
+          ]
+        ],
+        "mean_pairwise_JS": 0.11814513586338116,
+        "mean_pairwise_sqrt_JS": 0.33086691915404437,
+        "min_pairwise_sqrt_JS": 0.23675601556077397,
+        "nearest_center_sqrt_JS_per_class": [
+          0.23675601556077397,
+          0.23675601556077397,
+          0.29813716005303287
+        ],
+        "nearest_center_index_per_class": [
+          1,
+          0,
+          1
+        ],
+        "per_class_center_entropy": [
+          0.9184763667869936,
+          0.9065333004359242,
+          0.8280081107012123
+        ],
+        "class_weights": [
+          0.3333333333333333,
+          0.3333333333333333,
+          0.3333333333333333
+        ]
+      },
+      "coverage": {
+        "metric_contract_version": "chapter4-common-evaluation-contract-v2",
+        "T/BT/TNL/BTNL/I/pairwise_JS/pairwise_sqrt_JS": {
+          "status": "measured",
+          "reason": "Recomputed from stored realized centers with equal class weights; checked against historical I, mean JS, min sqrt JS"
+        },
+        "R_KL": {
+          "status": "measured",
+          "value": 0.09357974982766272,
+          "definition_version": "legacy_kl_clip_at_1e-300",
+          "contract_equivalence": "not_verified",
+          "reason": "Stored old R_KL finite with clamped logarithms; exact zero-support alignment not independently tested"
+        },
+        "R_JS": {
+          "status": "measured",
+          "value": 0.0240922868599743,
+          "definition_version": "legacy_js_natural_logs",
+          "contract_equivalence": "not_verified",
+          "reason": "Reported historical class-balanced within JSD, not reproduced by a per-origin replay"
+        },
+        "R_sqrt_JS": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Mean sqrt(JS) requires per-origin representations and is not sqrt(mean JS); no broad replay permitted"
+        },
+        "per_class_R_JS_R_KL": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Some archived methods have per-class values but not all, so not normalized across D10/D11"
+        },
+        "validation_BA": {
+          "status": "measured",
+          "value": 0.8928571428571429,
+          "reason": "Saved candidate-hypothesis diagnostic with frozen train centers; NOT a center-only metric"
+        },
+        "validation_accuracy_confusion_recall": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Individual predictions are absent in reviewed summary records"
+        },
+        "train_BA_margin_ties": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Individual training predictions/representations not stored in center-only summary"
+        },
+        "sigmoid_NLL": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Not calculated under current metric contract for archived center-inverse experiments"
+        },
+        "classification_of_target_without_policy": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "A Bayes/relaxed target center alone is not a query-time classifier"
+        }
+      }
+    },
+    {
+      "record_id": "D11-uniform",
+      "study": "D11",
+      "method": "uniform_policy",
+      "reference_size": 300,
+      "kind": "realized_centers",
+      "metric_contract_version": "chapter4-common-evaluation-contract-v2",
+      "source_path": "code/experiments/archive/historical_archive/archives/full300_maxdiag_bootstrap_experiment.zip",
+      "source_blob_sha": "c85dc00fc5ea23bffb45481261b3e4d32dd9e659",
+      "source_zip_member": "code/experiments/diag_max_full300/results/full300_uniform_baseline.json",
+      "realized_centers": [
+        [
+          0.3194868513057187,
+          0.4801922781398513,
+          0.20032087055442982
+        ],
+        [
+          0.22053454163010028,
+          0.5451048733656244,
+          0.2343605850042755
+        ],
+        [
+          0.18135469110238353,
+          0.4579098317516137,
+          0.3607354771460025
+        ]
+      ],
+      "center_geometry": {
+        "T": 0.40844240060578185,
+        "BT": 0.40844240060578185,
+        "TNL": 0.9224755247170565,
+        "BTNL": 0.9224755247170565,
+        "I": 0.016882854979976214,
+        "pairwise_JS_matrix": [
+          [
+            0,
+            0.006253862731058657,
+            0.02140893717963621
+          ],
+          [
+            0.006253862731058657,
+            0,
+            0.00961446491681528
+          ],
+          [
+            0.02140893717963621,
+            0.00961446491681528,
+            0
+          ]
+        ],
+        "pairwise_sqrt_JS_matrix": [
+          [
+            0,
+            0.07908136778697406,
+            0.1463179318458138
+          ],
+          [
+            0.07908136778697406,
+            0,
+            0.09805337789599744
+          ],
+          [
+            0.1463179318458138,
+            0.09805337789599744,
+            0
+          ]
+        ],
+        "pairwise_JS_similarity_matrix": [
+          [
+            1,
+            0.9909775832515013,
+            0.9691134325002355
+          ],
+          [
+            0.9909775832515013,
+            1,
+            0.9861292591437096
+          ],
+          [
+            0.9691134325002355,
+            0.9861292591437096,
+            1
+          ]
+        ],
+        "mean_pairwise_JS": 0.012425754942503383,
+        "mean_pairwise_sqrt_JS": 0.10781755917626175,
+        "min_pairwise_sqrt_JS": 0.07908136778697406,
+        "nearest_center_sqrt_JS_per_class": [
+          0.07908136778697406,
+          0.07908136778697406,
+          0.09805337789599744
+        ],
+        "nearest_center_index_per_class": [
+          1,
+          0,
+          1
+        ],
+        "per_class_center_entropy": [
+          1.0388838979704187,
+          1.0041718729958764,
+          1.0351021651468657
+        ],
+        "class_weights": [
+          0.3333333333333333,
+          0.3333333333333333,
+          0.3333333333333333
+        ]
+      },
+      "coverage": {
+        "metric_contract_version": "chapter4-common-evaluation-contract-v2",
+        "T/BT/TNL/BTNL/I/pairwise_JS/pairwise_sqrt_JS": {
+          "status": "measured",
+          "reason": "Recomputed from stored realized centers with equal class weights; checked against historical I, mean JS, min sqrt JS"
+        },
+        "R_KL": {
+          "status": "measured",
+          "value": 0.00803315974896632,
+          "definition_version": "legacy_kl_clip_at_1e-300",
+          "contract_equivalence": "not_verified",
+          "reason": "Stored old R_KL finite with clamped logarithms; exact zero-support alignment not independently tested"
+        },
+        "R_JS": {
+          "status": "measured",
+          "value": 0.002013830063120666,
+          "definition_version": "legacy_js_natural_logs",
+          "contract_equivalence": "not_verified",
+          "reason": "Reported historical class-balanced within JSD, not reproduced by a per-origin replay"
+        },
+        "R_sqrt_JS": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Mean sqrt(JS) requires per-origin representations and is not sqrt(mean JS); no broad replay permitted"
+        },
+        "per_class_R_JS_R_KL": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Some archived methods have per-class values but not all, so not normalized across D10/D11"
+        },
+        "validation_BA": {
+          "status": "measured",
+          "value": 0.9676870748299321,
+          "reason": "Saved candidate-hypothesis diagnostic with frozen train centers; NOT a center-only metric"
+        },
+        "validation_accuracy_confusion_recall": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Individual predictions are absent in reviewed summary records"
+        },
+        "train_BA_margin_ties": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Individual training predictions/representations not stored in center-only summary"
+        },
+        "sigmoid_NLL": {
+          "status": "not_measured",
+          "value": null,
+          "reason": "Not calculated under current metric contract for archived center-inverse experiments"
+        },
+        "classification_of_target_without_policy": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "A Bayes/relaxed target center alone is not a query-time classifier"
+        }
+      }
+    }
+  ]
+}
