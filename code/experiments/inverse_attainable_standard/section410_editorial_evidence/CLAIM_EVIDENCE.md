@@ -1,4 +1,4 @@
-# `۴.۱۰ — دفتر شواهد نگارش (append-only)
+# ۴.۱۰ — دفتر شواهد نگارش (append-only)
 
 **مأموریت:** CH4-R05-SEC410-EDITORIAL-PR-01  
 **مبنای متن:** `chapter4@de02fdda91e23db177de4429b3e1a9693c046d83`  
@@ -30,10 +30,10 @@
 
 ## کنترل‌های نگارشی و آمادگی QA
 
-- Labelهای موجود حفظ شدند: `sec:ch4-inverse-attainable`، `subsec:ch4-inverse-protocol`، `eq:ch4-inverse-success`، `subsec:ch4-inverse-algorithms`، `tab:ch4-inverse-bootstrap-cost`. Labelهای جدید فقط در `۴.۱۰: `subsec:ch4-inverse-pilot-results`، `subsec:ch4-inverse-b01v2-results`، `tab:ch4-inverse-b01v2`، `subsec:ch4-inverse-interpretation`.
+- Labelهای موجود حفظ شدند: `sec:ch4-inverse-attainable`، `subsec:ch4-inverse-protocol`، `eq:ch4-inverse-success`، `subsec:ch4-inverse-algorithms`، `tab:ch4-inverse-bootstrap-cost`. Labelهای جدید فقط در بخش ۴.۱۰: `subsec:ch4-inverse-pilot-results`، `subsec:ch4-inverse-b01v2-results`، `tab:ch4-inverse-b01v2`، `subsec:ch4-inverse-interpretation`.
 - ارجاع فصل سوم: `sec:ch3-inverse-center-policy` در Chapter 3 موجود است؛ تعریف معادله مسئله معکوس دوباره نقل نشده است.
-- کنترل متنی: مرزهای section قبل و بعد از `۴.۱۰ بدون تغییر و همه labelهای موجود حفظ؛ جدول‌ها هویت مستقل دارند.
+- کنترل متنی: مرزهای section قبل و بعد از بخش ۴.۱۰ بدون تغییر و همه labelهای موجود حفظ؛ جدول‌ها هویت مستقل دارند.
 - **XeLaTeX compile: NOT_CHECKED**؛ **PDF visual inspection: NOT_CHECKED**؛ **CI: NOT_CHECKED**. reviewer قبل از merge کنترل کند.
-- Reviewer باید احتمال conflict با PR مستقل نگارش `۴.۱۲ بر همان فایل `tex/chapter4.tex` را کنترل کند. هیچ ادغام یا ویرایش `۴.۱۱/۴.۱۲، verifier B02، raw قدیمی یا مسیر main/chapter4 انجام نشود.
+- Reviewer باید احتمال conflict با PR مستقل نگارش بخش ۴.۱۲ بر همان فایل `tex/chapter4.tex` را کنترل کند. هیچ ادغام یا ویرایش بخش‌های ۴.۱۱/۴.۱۲، verifier B02، raw قدیمی یا مسیر main/chapter4 انجام نشود.
 
 **وضعیت: READY_FOR_EDITORIAL_AND_LATEX_QA**. این دفتر فقط شواهد نگارشی است، بدون graph، optimizer، solve، resource probe یا استفاده جدید از Test/Validation.
