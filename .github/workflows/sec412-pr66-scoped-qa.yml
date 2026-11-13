@@ -13,14 +13,14 @@ jobs:
       - name: Checkout exact bounded PR candidate
         uses: actions/checkout@v4
         with:
-          ref: 30a07614f127511ad00c72efe522895af74dc423
+          ref: 7ff58c7935897b776e31147f22b83f9c2c49670b
           fetch-depth: 0
           persist-credentials: false
       - name: Byte scope, raw-center linkage, tables, and references
         shell: bash
         run: |
           set -euo pipefail
-          test "$(git rev-parse HEAD)" = "30a07614f127511ad00c72efe522895af74dc423"
+          test "$(git rev-parse HEAD)" = "7ff58c7935897b776e31147f22b83f9c2c49670b"
           git show 7cb01ef3894a223ebaf4973cd0583ad77353ce11:tex/chapter4.tex > /tmp/sec412-chapter4-base.tex
           python - <<'PY'
           from pathlib import Path
