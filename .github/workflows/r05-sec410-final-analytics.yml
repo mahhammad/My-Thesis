@@ -38,6 +38,8 @@ jobs:
           test "$(git hash-object "$base/analysis_v3/reconstruct_metrics.py")" = "5ed49e3f49a7d1c6b105e017020ffeb0cedda3ae"
           test "$(git hash-object "$base/analysis_v3/aggregate.py")" = "fbd31e0759cc14a8cf7e99915ca1e8735aa6a62d"
           python -m py_compile "$base/analysis_v3/reconstruct_metrics.py" "$base/analysis_v3/aggregate.py"
+          test "$(git hash-object "$base/analysis_v3/latex_export.py")" = "2a8eadef76ed05d230aec2ad18be0ad5d81eff32"
+          python -m py_compile "$base/analysis_v3/latex_export.py"
       - name: Verify B02/B04/B06 selected centers and sample-level R with immutable snapshots
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -70,6 +72,7 @@ jobs:
           export OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 PYTHONDONTWRITEBYTECODE=1
           base=code/experiments/inverse_attainable_standard
           timeout --signal=TERM --kill-after=5s 180s python "$base/analysis_v3/aggregate.py" --complete
+          python "$base/analysis_v3/latex_export.py"
           python - <<'PY'
           import json
           from pathlib import Path
