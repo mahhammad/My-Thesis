@@ -1,0 +1,39 @@
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm]
+\draw[->] (1.45,1.05)--(7.5,1.05);
+\draw[->] (1.45,1.05)--(1.45,4.60);
+\draw[gray!25] (1.46,1.425)--(7.30,1.425);\node[font=\scriptsize,anchor=east] at (1.35,1.425) {0.16};
+\draw[gray!25] (1.46,2.805)--(7.30,2.805);\node[font=\scriptsize,anchor=east] at (1.35,2.805) {0.18};
+\draw[gray!25] (1.46,4.185)--(7.30,4.185);\node[font=\scriptsize,anchor=east] at (1.35,4.185) {0.20};
+\node[font=\scriptsize,anchor=north] at (1.450,0.99) {1};
+\node[font=\scriptsize,anchor=north] at (1.920,0.99) {2};
+\node[font=\scriptsize,anchor=north] at (2.390,0.99) {3};
+\node[font=\scriptsize,anchor=north] at (2.860,0.99) {4};
+\node[font=\scriptsize,anchor=north] at (6.620,0.99) {12};
+\draw[very thick,blue] plot coordinates {(1.450,2.221) (1.920,2.956) (2.390,3.246) (2.860,3.361) (6.620,3.443)};
+\fill[blue] (1.450,2.221) circle (1.7pt);
+\fill[blue] (1.920,2.956) circle (1.7pt);
+\fill[blue] (2.390,3.246) circle (1.7pt);
+\fill[blue] (2.860,3.361) circle (1.7pt);
+\fill[blue] (6.620,3.443) circle (1.7pt);
+\draw[very thick,orange!80!black] plot coordinates {(1.450,1.914) (1.920,2.415) (2.390,2.617) (2.860,2.700) (6.620,2.759)};
+\fill[orange!80!black] (1.450,1.914) circle (1.7pt);
+\fill[orange!80!black] (1.920,2.415) circle (1.7pt);
+\fill[orange!80!black] (2.390,2.617) circle (1.7pt);
+\fill[orange!80!black] (2.860,2.700) circle (1.7pt);
+\fill[orange!80!black] (6.620,2.759) circle (1.7pt);
+\draw[very thick,teal!80!black] plot coordinates {(1.450,2.169) (1.920,2.920) (2.390,3.203) (2.860,3.312) (6.620,3.387)};
+\fill[teal!80!black] (1.450,2.169) circle (1.7pt);
+\fill[teal!80!black] (1.920,2.920) circle (1.7pt);
+\fill[teal!80!black] (2.390,3.203) circle (1.7pt);
+\fill[teal!80!black] (2.860,3.312) circle (1.7pt);
+\fill[teal!80!black] (6.620,3.387) circle (1.7pt);
+\node[font=\scriptsize] at (4.4,.48) {$H$};
+\node[font=\scriptsize,blue] at (2.10,4.85) {بذر ۲۰۲۶۱۱۰۲};
+\node[font=\scriptsize,orange!80!black] at (4.10,4.85) {بذر ۲۰۲۶۱۱۰۳};
+\node[font=\scriptsize,teal!80!black] at (6.10,4.85) {بذر ۲۰۲۶۱۱۰۴};
+\end{tikzpicture}
+\caption{تغییر شکاف عددیِ بیشینه بین هدف بیزی و جعبهٔ بلمن با عمق واقعی $H$ برای مرجع $n=300$ و $\beta=0.4,\lambda=0.8$. مقادیر فقط تحلیل حساسیت عددی‌اند؛ گواه مستقل عدم‌دستیابی به $H=12$ محدود است.}
+\label{fig:ch4-sec411-depth-sensitivity}
+\end{figure>
