@@ -51,8 +51,14 @@ jobs:
           from pathlib import Path
           sys.path.insert(0,'code/experiments/inverse_attainable_standard/runner_v3')
           import data_contract as d
-          root,rd=d.owner_root(6852723096)
-          assert root["allow_numeric"] is False
+          old_root,_=d.owner_root(6852723096)
+          try:
+              d.attested_sources(old_root)
+          except d.Deny as exc:
+              assert exc.code=="SOURCE_BLOB_runner",exc.code
+          else: raise AssertionError("Historical unversioned runner pin was wrongly accepted")
+          root,rd=d.owner_root(6853301767)
+          assert root["allow_numeric"] is True
           captured=d.attested_sources(root)
           assert len(captured)==9,sorted(captured)
           for block in ('B02','B03','B04','B05','B06'):
