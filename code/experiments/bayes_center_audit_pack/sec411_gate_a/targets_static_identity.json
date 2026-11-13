@@ -1,0 +1,48 @@
+{
+  "all_three_target_hashes_match": true,
+  "d10_rawblob": "1c0e1e393361742ad7ede179d00c6247d86da75f",
+  "d11_rawblob": "37431cc4b0eb3603260940c9514deab3861c1974",
+  "schema": "sec411-targets-static-identity-v1",
+  "source": "GitHub live archived JSON, no generator or train data loaded",
+  "subset72": {
+    "distinct_count": 72,
+    "n_indices": 72,
+    "ordered_int64_le_sha256": "9605b121258b33d17dff06c5f4fa8b01e52e1042e93f1bb64a2ae4959b68a5ba",
+    "range": [
+      6,
+      299
+    ]
+  },
+  "targets": {
+    "D10_bayes": {
+      "expected": "57ac66bf228737e9461ef2ae8c1b569768ac02b0391f14aa30791676ce30eaf6",
+      "float64_le_sha256": "57ac66bf228737e9461ef2ae8c1b569768ac02b0391f14aa30791676ce30eaf6",
+      "match": true,
+      "row_sum_max_abs_error": 1.1102230246251565e-16,
+      "shape": [
+        3,
+        3
+      ]
+    },
+    "D11_bounded_equal": {
+      "expected": "d44b7e23791c8112600c47a3bf876062a540913272a29f592371b3055921e54a",
+      "float64_le_sha256": "d44b7e23791c8112600c47a3bf876062a540913272a29f592371b3055921e54a",
+      "match": true,
+      "row_sum_max_abs_error": 0.0,
+      "shape": [
+        3,
+        3
+      ]
+    },
+    "D11_equal": {
+      "expected": "162d7373baf930a831ff72b1bcf0c5ef52575846d064610b8468d069b8a26eb2",
+      "float64_le_sha256": "162d7373baf930a831ff72b1bcf0c5ef52575846d064610b8468d069b8a26eb2",
+      "match": true,
+      "row_sum_max_abs_error": 0.0,
+      "shape": [
+        3,
+        3
+      ]
+    }
+  }
+}

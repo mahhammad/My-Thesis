@@ -1,0 +1,97 @@
+{
+  "case_results": [
+    {
+      "H": 2,
+      "bound_kernel_version": "exact_origin_excluded_low_memory_candidate_v2_direct_numerator",
+      "case": "auditor_origin_return_counterexample",
+      "d": 1,
+      "independent_fixed_Z_checks": 3,
+      "max_interval_violation": 0.0,
+      "n": 3,
+      "true_class0_center": [
+        0.6400000000000001,
+        0.36000000000000004
+      ],
+      "true_reference_origin0": [
+        0.6400000000000001,
+        0.36000000000000004
+      ]
+    },
+    {
+      "H": 2,
+      "bound_kernel_version": "exact_origin_excluded_low_memory_candidate_v2_direct_numerator",
+      "case": "auditor_numerator_cancellation_counterexample",
+      "d": 1,
+      "independent_fixed_Z_checks": 3,
+      "max_interval_violation": 2.220446049250313e-16,
+      "n": 3,
+      "true_class0_center": [
+        0.38333333333380004,
+        0.6166666666662001
+      ],
+      "true_reference_origin0": [
+        0.2666666666676,
+        0.7333333333324001
+      ]
+    },
+    {
+      "H": 1,
+      "bound_kernel_version": "exact_origin_excluded_low_memory_candidate_v2_direct_numerator",
+      "case": "masked_n6_H1",
+      "d": 3,
+      "independent_fixed_Z_checks": 18,
+      "max_interval_violation": 0.0,
+      "n": 6,
+      "true_class0_center": [
+        0.3692458810623623,
+        0.6307541189376377
+      ],
+      "true_reference_origin0": [
+        0.42810075746351933,
+        0.5718992425364806
+      ]
+    },
+    {
+      "H": 3,
+      "bound_kernel_version": "exact_origin_excluded_low_memory_candidate_v2_direct_numerator",
+      "case": "masked_n6_H3",
+      "d": 3,
+      "independent_fixed_Z_checks": 18,
+      "max_interval_violation": 0.0,
+      "n": 6,
+      "true_class0_center": [
+        0.3787168651030814,
+        0.6212831348969186
+      ],
+      "true_reference_origin0": [
+        0.4141408194716092,
+        0.5858591805283907
+      ]
+    }
+  ],
+  "frozen_sha": {
+    "exact_origin_excluded_bound.py": {
+      "git_blob_sha": "7fe3ae82f10b3120054854f82ee3916c55605f30",
+      "sha256": "b5c5d3544c557b0b6bfa880bbf737c13c1e865bbf0388a2be586efd57708efd5"
+    },
+    "test_exact_origin_excluded_bound.py": {
+      "git_blob_sha": "abd4668bd1e5986473b1f5c579f3f84bf08afe36",
+      "sha256": "ef25bd519f43e3a64e38fe748751a848ac8d2e2e5e91afc71ab182226ef9fbff"
+    },
+    "test_numerical_v2.py": {
+      "git_blob_sha": "af68374c8876a434950a674c4435c426bdb0f509",
+      "sha256": "39630c73f03d072b514c600bcb7f715a1fc9535c7fd91d7f54cfba454f901883"
+    }
+  },
+  "mission": "R02-SEC411-SELF-MANAGED-GATE-A-01",
+  "notes": "Reuses the frozen test_numerical_v2 independent path oracle; not a second independently developed numerical implementation or an interval certificate.",
+  "numpy": "2.3.5",
+  "peak_rss_kib_linux": 100116,
+  "python": "3.13.5",
+  "scientific_status": "NO_NEW_FULL_DATA_CERTIFICATE",
+  "scope": "toy_snapshot_recheck_only",
+  "source_snapshot": "numeric_v2_candidate_zip_and_Git_blob_SHA",
+  "status": "PASS_TOY_SMOKE_ONLY",
+  "total_independent_policy_oracle_calls": 42,
+  "wall_seconds": 0.040444331999992755
+}
