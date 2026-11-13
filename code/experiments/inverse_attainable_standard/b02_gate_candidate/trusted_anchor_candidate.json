@@ -1,0 +1,26 @@
+{
+  "snapshot_commit": "05acde39b76b49e0b55337301251594be0ad6d92",
+  "plan_commit": "968675cde8783adf69db13efd7de0fb3aab703c5",
+  "chapter4_commit": "de02fdda91e23db177de4429b3e1a9693c046d83",
+  "manifest_sha256": "5007534aaee94817e28168c5adcf1194e6ba546a84486497b7f8566e70657b60",
+  "snapshot_sha256": "2986b25a1dcb2421f9c2b15445a75b6ade5595469ad1362b6da6656ec1b30e93",
+  "targets_sha256": "6833cc0479b545c2ce1c6526eaf1367e76022aece3c1e9415d388e69cb692e58",
+  "array_sha256": {
+    "X": "51699bbe51504fa82d3e27aaa9ea81428bf341c4a0f2e5de67dcb3badd9a6852",
+    "y": "6172de6b43091361c783185cd6547de18481f9fa5a84609e675e0dd3e262d271",
+    "mask": "33ee2cef2e0315fb15c0d07b5025af631a6dbcfefc59bdfe6997d8873a7ccebc",
+    "ids": "98e038d3a30a991777ce2f66d2e9b9f377e44b6444635d2b5dd70d38ae78f241"
+  },
+  "source_sha256": {
+    "config": "c8b673b37ca70b3cb9793b93efcbb13dcf9a86d8e90d61692af2a6acf8f1c0ef",
+    "generator": "5b0786a7786feb76f80acd236e30c95606bf9453cf6e189303287b6c448b09e5",
+    "graph_run": "9cdd1319a7178efd0003194f386eb292763cd4c9df8bf5f6fc07ffa79f00e885",
+    "streamgraph": "e6287a0dab06fe2ac2862dfb128215b936b468ce6449726cd613474880bff419",
+    "plan": "be350c56e82badac9d1b8b64df76ddb7d47e56dd9d18c670768fcb1d45e15272"
+  },
+  "approved_runtime": {
+    "python": "3.11.18",
+    "numpy": "2.4.6",
+    "torch": "2.15.0+cpu"
+  }
+}

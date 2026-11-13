@@ -1,7 +1,7 @@
 name: Chapter 4 sections 4.3-4.7 presentation contract
 on:
   push:
-    branches: [chapter4, research/ch4-narrative]
+    branches: [chapter4]
     paths:
       - 'tex/chapter4.tex'
       - 'code/experiments/REPORT_PRESENTATION_FA.md'

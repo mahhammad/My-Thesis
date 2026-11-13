@@ -1,0 +1,89 @@
+{
+  "manifest_stage": "LOCKED_BEFORE_SOLVE",
+  "source_chapter4": "7f32e07119b768155bc0163e9383c7eb007cc983",
+  "code_execution_SHA": "e9e478e90b5753aa444eeae8f782255f8e0df87a",
+  "script_file_sha256": "76159f0b075285b8edf5a03ad363170503189bab19359fc334524cdea3103ef7",
+  "streamgraph_sha256": "e6287a0dab06fe2ac2862dfb128215b936b468ce6449726cd613474880bff419",
+  "D09_solver_sha256": "23bd58a1efdb55541b71a73c60aac6ec0c079254147a0ebdc22ec7464c305f93",
+  "config_file_sha256": "c8b673b37ca70b3cb9793b93efcbb13dcf9a86d8e90d61692af2a6acf8f1c0ef",
+  "train_X_sha256": "51699bbe51504fa82d3e27aaa9ea81428bf341c4a0f2e5de67dcb3badd9a6852",
+  "train_y_sha256": "6172de6b43091361c783185cd6547de18481f9fa5a84609e675e0dd3e262d271",
+  "fixed_settings": {
+    "phase": "P2_BOUNDED_PILOT_NOT_STANDARD_D09",
+    "data_seed": 20261102,
+    "reference_seed": 20261117,
+    "teacher_seed": 20261118,
+    "solver_initialization_seed": 20261221,
+    "n_primary": 150,
+    "c_primary": 0,
+    "n_secondary": 300,
+    "c_secondary": 0,
+    "beta": 0.4,
+    "lambda": 0.8,
+    "H": 12,
+    "float": "float64",
+    "threshold_JSD": 1e-08,
+    "learning_rate": 0.12,
+    "budget_numerical_seconds": 840.0,
+    "monitor_soft_rss_mib": 1430.0,
+    "memory_hard_ceiling_mib": 1536.0,
+    "checkpoint_steps": [
+      0,
+      1,
+      2,
+      5,
+      10,
+      25,
+      50,
+      100
+    ],
+    "stop_patience": 18,
+    "stop_min_step": 25,
+    "stop_relative_improvement": 0.0001,
+    "primary_caps": {
+      "Q_only": 100,
+      "Exact_Adam": 100,
+      "GN": 30,
+      "GN_neutral_restart": 30
+    },
+    "optional_random_init_Exact_Adam_steps": 50,
+    "secondary_caps": {
+      "Q_only": 25,
+      "Exact_Adam": 25,
+      "GN": 10,
+      "GN_neutral_restart": 10
+    },
+    "secondary_only_after_primary_completed": true,
+    "secondary_requires_any_primary_solver_tolerance": true,
+    "no_Monte_Carlo": true,
+    "no_Test": true,
+    "no_LaTeX": true,
+    "no_standard_108_runs": true
+  },
+  "primary_problem": {
+    "n": 150,
+    "class_counts": [
+      50,
+      50,
+      50
+    ],
+    "target": [
+      0.3679772030445257,
+      0.3065001143920176,
+      0.32552268256345657
+    ],
+    "target_sha256": "dad7e903553cf3a5f4879952550141053f78129cb6156668635701328c62f747",
+    "reference_ids_sha256": "9d6c36d7dc08b7c9cf700e2b1cd414647f9e06a3ef5f9c57fa8b2f4e659f8801",
+    "witness_sha256_only": "3ec026b8ee9fe4a695914e146becde322122a3c790c40641225dd5bffa4ffe6a",
+    "witness_self_jsd": 0.0,
+    "witness_given_to_solvers": false
+  },
+  "one_numeric_job": true,
+  "CI_install_excluded_from_solver_time": true,
+  "Test_read": false,
+  "expected_results": [
+    "p2_trace.json",
+    "p2_curve.csv",
+    "p2_summary.json"
+  ]
+}

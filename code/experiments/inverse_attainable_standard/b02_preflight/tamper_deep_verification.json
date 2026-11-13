@@ -1,0 +1,29 @@
+{
+  "forwards": 0,
+  "mode": "read_only_no_forward",
+  "numeric_steps": 0,
+  "optimizers": 0,
+  "rss_mib": 289.0078125,
+  "snapshot_file_sha256": "2986b25a1dcb2421f9c2b15445a75b6ade5595469ad1362b6da6656ec1b30e93",
+  "status": "PASS",
+  "tamper_semantic": {
+    "id_swap": {
+      "PASS": true,
+      "reason": "ID corruption"
+    },
+    "mask_bit": {
+      "PASS": true,
+      "reason": "mask inconsistency"
+    },
+    "numeric_byte": {
+      "PASS": true,
+      "reason": "X SHA mismatch"
+    },
+    "target_byte": {
+      "PASS": true,
+      "reason": "target SHA mismatch"
+    }
+  },
+  "target_file_sha256": "6833cc0479b545c2ce1c6526eaf1367e76022aece3c1e9415d388e69cb692e58",
+  "wall_seconds": 0.0017346109999962778
+}
