@@ -1,0 +1,88 @@
+{
+  "schema": "researcher03-N00-small-fixture-result-v1",
+  "execution": "actual expression-equivalent Python NumPy/Torch fixture run in this assistant container; not a repository unittest/CI invocation",
+  "source_reference": "chapter4@de02fdda91e23db177de4429b3e1a9693c046d83",
+  "python_torch": "2.10.0+cpu",
+  "numpy": "2.3.5",
+  "dataset": "hand-constructed vectors, no generated Train/Validation/Test",
+  "passes": true,
+  "optimizer_steps": 0,
+  "walk_inference_replays": 0,
+  "KL": {
+    "p": [
+      1,
+      0
+    ],
+    "q": [
+      0,
+      1
+    ],
+    "legacy_clipped": 690.7755278982137,
+    "exact_support_aware": "+Infinity",
+    "assertion": "PASS"
+  },
+  "masked_softmax": {
+    "logits": [
+      4,
+      -2
+    ],
+    "all_false_mask_output": [
+      0.5,
+      0.5
+    ],
+    "mask_true_false_output": [
+      1,
+      0
+    ],
+    "zero_state_mass_contribution": [
+      0,
+      0
+    ],
+    "positive_state_mass_contribution": [
+      0.5,
+      0.5
+    ],
+    "assertion": "PASS"
+  },
+  "ties": [
+    {
+      "scores": [
+        1,
+        1
+      ],
+      "actual": 0,
+      "argmax": 0,
+      "near_tie": true,
+      "conservative_error": true,
+      "classification_error": false
+    },
+    {
+      "scores": [
+        0.7,
+        0.7000000000005
+      ],
+      "actual": 1,
+      "argmax": 1,
+      "near_tie": true,
+      "conservative_error": false,
+      "classification_error": false
+    },
+    {
+      "scores": [
+        0.7,
+        0.7000000000005
+      ],
+      "actual": 0,
+      "argmax": 1,
+      "near_tie": true,
+      "conservative_error": true,
+      "classification_error": true
+    }
+  ],
+  "timing": {
+    "wall_seconds": 0.005335474,
+    "max_process_rss_mib": 253.308594,
+    "scope": "single tiny Python invocation; RSS is whole process including Torch, not test incremental memory"
+  },
+  "caveats": "No archive/inference scan for tie count; positive masked rows on invalid transitions are a risk fixture, not evidence of reachable positive-mass state."
+}

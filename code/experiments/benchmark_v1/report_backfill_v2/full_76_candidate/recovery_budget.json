@@ -1,0 +1,17 @@
+{
+  "schema": "researcher03-run-budget-v1",
+  "utc": "2026-11-11T09:51:51.677449+00:00",
+  "command": [
+    "python",
+    "code/experiments/benchmark_v1/report_backfill_v2/run_recovery.py"
+  ],
+  "seconds_budget": 140.0,
+  "rss_mib_budget": 1024.0,
+  "elapsed_seconds": 0.8063560890000048,
+  "peak_tree_rss_mib": 102.9296875,
+  "child_exit_status": 0,
+  "status": "OK",
+  "test_accessed": false,
+  "optimizer_steps": 0,
+  "inference_replays": 0
+}
