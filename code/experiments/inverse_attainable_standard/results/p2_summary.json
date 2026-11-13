@@ -1,0 +1,722 @@
+{
+  "status": "completed",
+  "stop_reason": "bounded_protocol_completed",
+  "wall_numerical_seconds": 18.229624603000005,
+  "peak_rss_mib": 488.42578125,
+  "primary_summary": {
+    "problem": "n150_class0",
+    "n": 150,
+    "class": 0,
+    "Q_only": 5.547520258608607e-05,
+    "Exact_Adam": 7.54936846369958e-09,
+    "Q+Bootstrap-GN": 4.251847984804158e-09,
+    "GN_first": 4.251847984804158e-09,
+    "GN_retry": null,
+    "random_Exact_Adam": 8.595610527795117e-06,
+    "wall_problem_s": 10.277420132999993,
+    "any_reached_tolerance": true
+  },
+  "secondary_summary": {
+    "problem": "n300_class0",
+    "n": 300,
+    "class": 0,
+    "Q_only": 2.234570817050141e-06,
+    "Exact_Adam": 3.2538851891139586e-05,
+    "Q+Bootstrap-GN": 2.847859947863185e-09,
+    "GN_first": 2.847859947863185e-09,
+    "GN_retry": null,
+    "random_Exact_Adam": null,
+    "wall_problem_s": 6.9837322119999925,
+    "any_reached_tolerance": true
+  },
+  "secondary_skip_reason": null,
+  "curve_budget_comparison": {
+    "n150_class0": {
+      "Q-only/zero": [
+        {
+          "budget_wall_s": 0.05,
+          "checkpoint_wall_s": 0.0450201119999889,
+          "step": 1,
+          "best_JSD_at_or_before_budget": 0.0028365968914618733,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 0.1,
+          "checkpoint_wall_s": 0.07515783099999851,
+          "step": 2,
+          "best_JSD_at_or_before_budget": 0.0018096435367029873,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 0.2,
+          "checkpoint_wall_s": 0.19554347999999777,
+          "step": 6,
+          "best_JSD_at_or_before_budget": 0.0002693910085567186,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 0.5,
+          "checkpoint_wall_s": 0.4892285389999955,
+          "step": 16,
+          "best_JSD_at_or_before_budget": 0.00014941987936478718,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 1,
+          "checkpoint_wall_s": 0.9818547619999975,
+          "step": 33,
+          "best_JSD_at_or_before_budget": 0.00011459846758343772,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 2,
+          "checkpoint_wall_s": 1.9680988629999945,
+          "step": 65,
+          "best_JSD_at_or_before_budget": 5.55282522178846e-05,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 5,
+          "checkpoint_wall_s": 2.603377980999994,
+          "step": 85,
+          "best_JSD_at_or_before_budget": 5.547520258608607e-05,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 10,
+          "checkpoint_wall_s": 2.603377980999994,
+          "step": 85,
+          "best_JSD_at_or_before_budget": 5.547520258608607e-05,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 20,
+          "checkpoint_wall_s": 2.603377980999994,
+          "step": 85,
+          "best_JSD_at_or_before_budget": 5.547520258608607e-05,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 40,
+          "checkpoint_wall_s": 2.603377980999994,
+          "step": 85,
+          "best_JSD_at_or_before_budget": 5.547520258608607e-05,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 60,
+          "checkpoint_wall_s": 2.603377980999994,
+          "step": 85,
+          "best_JSD_at_or_before_budget": 5.547520258608607e-05,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 90,
+          "checkpoint_wall_s": 2.603377980999994,
+          "step": 85,
+          "best_JSD_at_or_before_budget": 5.547520258608607e-05,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 120,
+          "checkpoint_wall_s": 2.603377980999994,
+          "step": 85,
+          "best_JSD_at_or_before_budget": 5.547520258608607e-05,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 180,
+          "checkpoint_wall_s": 2.603377980999994,
+          "step": 85,
+          "best_JSD_at_or_before_budget": 5.547520258608607e-05,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 240,
+          "checkpoint_wall_s": 2.603377980999994,
+          "step": 85,
+          "best_JSD_at_or_before_budget": 5.547520258608607e-05,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        }
+      ],
+      "Exact-Adam/zero": [
+        {
+          "budget_wall_s": 0.05,
+          "checkpoint_wall_s": 0.0136442379999977,
+          "step": 0,
+          "best_JSD_at_or_before_budget": 0.004276966727749354,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 0.1,
+          "checkpoint_wall_s": 0.0636695689999982,
+          "step": 1,
+          "best_JSD_at_or_before_budget": 0.002820763429325357,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 0.2,
+          "checkpoint_wall_s": 0.1632726640000044,
+          "step": 3,
+          "best_JSD_at_or_before_budget": 0.0011048485792228835,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 0.5,
+          "checkpoint_wall_s": 0.4979760399999975,
+          "step": 10,
+          "best_JSD_at_or_before_budget": 0.00014088890456753767,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 1,
+          "checkpoint_wall_s": 0.9780656479999976,
+          "step": 20,
+          "best_JSD_at_or_before_budget": 0.00012587205542247126,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 2,
+          "checkpoint_wall_s": 1.951954078,
+          "step": 40,
+          "best_JSD_at_or_before_budget": 1.8107166848357892e-05,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 5,
+          "checkpoint_wall_s": 4.529353780000008,
+          "step": 92,
+          "best_JSD_at_or_before_budget": 7.54936846369958e-09,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 10,
+          "checkpoint_wall_s": 4.529353780000008,
+          "step": 92,
+          "best_JSD_at_or_before_budget": 7.54936846369958e-09,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 20,
+          "checkpoint_wall_s": 4.529353780000008,
+          "step": 92,
+          "best_JSD_at_or_before_budget": 7.54936846369958e-09,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 40,
+          "checkpoint_wall_s": 4.529353780000008,
+          "step": 92,
+          "best_JSD_at_or_before_budget": 7.54936846369958e-09,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 60,
+          "checkpoint_wall_s": 4.529353780000008,
+          "step": 92,
+          "best_JSD_at_or_before_budget": 7.54936846369958e-09,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 90,
+          "checkpoint_wall_s": 4.529353780000008,
+          "step": 92,
+          "best_JSD_at_or_before_budget": 7.54936846369958e-09,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 120,
+          "checkpoint_wall_s": 4.529353780000008,
+          "step": 92,
+          "best_JSD_at_or_before_budget": 7.54936846369958e-09,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 180,
+          "checkpoint_wall_s": 4.529353780000008,
+          "step": 92,
+          "best_JSD_at_or_before_budget": 7.54936846369958e-09,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 240,
+          "checkpoint_wall_s": 4.529353780000008,
+          "step": 92,
+          "best_JSD_at_or_before_budget": 7.54936846369958e-09,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        }
+      ],
+      "Q+Bootstrap-GN/from_Q": [
+        {
+          "budget_wall_s": 5,
+          "checkpoint_wall_s": 3.103224181999991,
+          "step": 7,
+          "best_JSD_at_or_before_budget": 4.251847984804158e-09,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 10,
+          "checkpoint_wall_s": 3.103224181999991,
+          "step": 7,
+          "best_JSD_at_or_before_budget": 4.251847984804158e-09,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 20,
+          "checkpoint_wall_s": 3.103224181999991,
+          "step": 7,
+          "best_JSD_at_or_before_budget": 4.251847984804158e-09,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 40,
+          "checkpoint_wall_s": 3.103224181999991,
+          "step": 7,
+          "best_JSD_at_or_before_budget": 4.251847984804158e-09,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 60,
+          "checkpoint_wall_s": 3.103224181999991,
+          "step": 7,
+          "best_JSD_at_or_before_budget": 4.251847984804158e-09,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 90,
+          "checkpoint_wall_s": 3.103224181999991,
+          "step": 7,
+          "best_JSD_at_or_before_budget": 4.251847984804158e-09,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 120,
+          "checkpoint_wall_s": 3.103224181999991,
+          "step": 7,
+          "best_JSD_at_or_before_budget": 4.251847984804158e-09,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 180,
+          "checkpoint_wall_s": 3.103224181999991,
+          "step": 7,
+          "best_JSD_at_or_before_budget": 4.251847984804158e-09,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 240,
+          "checkpoint_wall_s": 3.103224181999991,
+          "step": 7,
+          "best_JSD_at_or_before_budget": 4.251847984804158e-09,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        }
+      ],
+      "Exact-Adam/independent_random": [
+        {
+          "budget_wall_s": 0.05,
+          "checkpoint_wall_s": 0.013199624999998605,
+          "step": 0,
+          "best_JSD_at_or_before_budget": 0.005147230256780322,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 0.1,
+          "checkpoint_wall_s": 0.06142720399999746,
+          "step": 1,
+          "best_JSD_at_or_before_budget": 0.0034406306744472204,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 0.2,
+          "checkpoint_wall_s": 0.16254860299999052,
+          "step": 3,
+          "best_JSD_at_or_before_budget": 0.0013710803407547267,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 0.5,
+          "checkpoint_wall_s": 0.46765508499998987,
+          "step": 9,
+          "best_JSD_at_or_before_budget": 0.00014011065122887523,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 1,
+          "checkpoint_wall_s": 0.9725169969999996,
+          "step": 19,
+          "best_JSD_at_or_before_budget": 0.0001349383829674089,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 2,
+          "checkpoint_wall_s": 1.9905408070000021,
+          "step": 39,
+          "best_JSD_at_or_before_budget": 2.8438848798106875e-05,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 5,
+          "checkpoint_wall_s": 2.5563143629999985,
+          "step": 50,
+          "best_JSD_at_or_before_budget": 8.595610527795117e-06,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 10,
+          "checkpoint_wall_s": 2.5563143629999985,
+          "step": 50,
+          "best_JSD_at_or_before_budget": 8.595610527795117e-06,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 20,
+          "checkpoint_wall_s": 2.5563143629999985,
+          "step": 50,
+          "best_JSD_at_or_before_budget": 8.595610527795117e-06,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 40,
+          "checkpoint_wall_s": 2.5563143629999985,
+          "step": 50,
+          "best_JSD_at_or_before_budget": 8.595610527795117e-06,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 60,
+          "checkpoint_wall_s": 2.5563143629999985,
+          "step": 50,
+          "best_JSD_at_or_before_budget": 8.595610527795117e-06,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 90,
+          "checkpoint_wall_s": 2.5563143629999985,
+          "step": 50,
+          "best_JSD_at_or_before_budget": 8.595610527795117e-06,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 120,
+          "checkpoint_wall_s": 2.5563143629999985,
+          "step": 50,
+          "best_JSD_at_or_before_budget": 8.595610527795117e-06,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 180,
+          "checkpoint_wall_s": 2.5563143629999985,
+          "step": 50,
+          "best_JSD_at_or_before_budget": 8.595610527795117e-06,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 240,
+          "checkpoint_wall_s": 2.5563143629999985,
+          "step": 50,
+          "best_JSD_at_or_before_budget": 8.595610527795117e-06,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        }
+      ]
+    },
+    "n300_class0": {
+      "Q-only/zero": [
+        {
+          "budget_wall_s": 0.05,
+          "checkpoint_wall_s": 0.040849627000000055,
+          "step": 0,
+          "best_JSD_at_or_before_budget": 0.0032507393139382668,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 0.1,
+          "checkpoint_wall_s": 0.040849627000000055,
+          "step": 0,
+          "best_JSD_at_or_before_budget": 0.0032507393139382668,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 0.2,
+          "checkpoint_wall_s": 0.13480394599999102,
+          "step": 1,
+          "best_JSD_at_or_before_budget": 0.002173270727071186,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 0.5,
+          "checkpoint_wall_s": 0.4900961040000027,
+          "step": 5,
+          "best_JSD_at_or_before_budget": 0.0003103813372713482,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 1,
+          "checkpoint_wall_s": 0.9179373019999986,
+          "step": 10,
+          "best_JSD_at_or_before_budget": 1.860335478487407e-05,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 2,
+          "checkpoint_wall_s": 1.9404486419999927,
+          "step": 22,
+          "best_JSD_at_or_before_budget": 2.234570817050141e-06,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 5,
+          "checkpoint_wall_s": 2.2006645200000037,
+          "step": 25,
+          "best_JSD_at_or_before_budget": 2.234570817050141e-06,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 10,
+          "checkpoint_wall_s": 2.2006645200000037,
+          "step": 25,
+          "best_JSD_at_or_before_budget": 2.234570817050141e-06,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 20,
+          "checkpoint_wall_s": 2.2006645200000037,
+          "step": 25,
+          "best_JSD_at_or_before_budget": 2.234570817050141e-06,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 40,
+          "checkpoint_wall_s": 2.2006645200000037,
+          "step": 25,
+          "best_JSD_at_or_before_budget": 2.234570817050141e-06,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 60,
+          "checkpoint_wall_s": 2.2006645200000037,
+          "step": 25,
+          "best_JSD_at_or_before_budget": 2.234570817050141e-06,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 90,
+          "checkpoint_wall_s": 2.2006645200000037,
+          "step": 25,
+          "best_JSD_at_or_before_budget": 2.234570817050141e-06,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 120,
+          "checkpoint_wall_s": 2.2006645200000037,
+          "step": 25,
+          "best_JSD_at_or_before_budget": 2.234570817050141e-06,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 180,
+          "checkpoint_wall_s": 2.2006645200000037,
+          "step": 25,
+          "best_JSD_at_or_before_budget": 2.234570817050141e-06,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 240,
+          "checkpoint_wall_s": 2.2006645200000037,
+          "step": 25,
+          "best_JSD_at_or_before_budget": 2.234570817050141e-06,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        }
+      ],
+      "Exact-Adam/zero": [
+        {
+          "budget_wall_s": 0.05,
+          "checkpoint_wall_s": 0.04171522800000105,
+          "step": 0,
+          "best_JSD_at_or_before_budget": 0.0032507393139382668,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 0.1,
+          "checkpoint_wall_s": 0.04171522800000105,
+          "step": 0,
+          "best_JSD_at_or_before_budget": 0.0032507393139382668,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 0.2,
+          "checkpoint_wall_s": 0.18214967400000148,
+          "step": 1,
+          "best_JSD_at_or_before_budget": 0.0021494485445749945,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 0.5,
+          "checkpoint_wall_s": 0.4629511530000059,
+          "step": 3,
+          "best_JSD_at_or_before_budget": 0.0008206132394676935,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 1,
+          "checkpoint_wall_s": 0.8825197139999972,
+          "step": 6,
+          "best_JSD_at_or_before_budget": 0.00014508834635806878,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 2,
+          "checkpoint_wall_s": 1.880365464999997,
+          "step": 13,
+          "best_JSD_at_or_before_budget": 3.2538851891139586e-05,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 5,
+          "checkpoint_wall_s": 3.5917984080000025,
+          "step": 25,
+          "best_JSD_at_or_before_budget": 3.2538851891139586e-05,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 10,
+          "checkpoint_wall_s": 3.5917984080000025,
+          "step": 25,
+          "best_JSD_at_or_before_budget": 3.2538851891139586e-05,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 20,
+          "checkpoint_wall_s": 3.5917984080000025,
+          "step": 25,
+          "best_JSD_at_or_before_budget": 3.2538851891139586e-05,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 40,
+          "checkpoint_wall_s": 3.5917984080000025,
+          "step": 25,
+          "best_JSD_at_or_before_budget": 3.2538851891139586e-05,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 60,
+          "checkpoint_wall_s": 3.5917984080000025,
+          "step": 25,
+          "best_JSD_at_or_before_budget": 3.2538851891139586e-05,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 90,
+          "checkpoint_wall_s": 3.5917984080000025,
+          "step": 25,
+          "best_JSD_at_or_before_budget": 3.2538851891139586e-05,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 120,
+          "checkpoint_wall_s": 3.5917984080000025,
+          "step": 25,
+          "best_JSD_at_or_before_budget": 3.2538851891139586e-05,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 180,
+          "checkpoint_wall_s": 3.5917984080000025,
+          "step": 25,
+          "best_JSD_at_or_before_budget": 3.2538851891139586e-05,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 240,
+          "checkpoint_wall_s": 3.5917984080000025,
+          "step": 25,
+          "best_JSD_at_or_before_budget": 3.2538851891139586e-05,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        }
+      ],
+      "Q+Bootstrap-GN/from_Q": [
+        {
+          "budget_wall_s": 5,
+          "checkpoint_wall_s": 3.255352541999997,
+          "step": 5,
+          "best_JSD_at_or_before_budget": 2.847859947863185e-09,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 10,
+          "checkpoint_wall_s": 3.255352541999997,
+          "step": 5,
+          "best_JSD_at_or_before_budget": 2.847859947863185e-09,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 20,
+          "checkpoint_wall_s": 3.255352541999997,
+          "step": 5,
+          "best_JSD_at_or_before_budget": 2.847859947863185e-09,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 40,
+          "checkpoint_wall_s": 3.255352541999997,
+          "step": 5,
+          "best_JSD_at_or_before_budget": 2.847859947863185e-09,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 60,
+          "checkpoint_wall_s": 3.255352541999997,
+          "step": 5,
+          "best_JSD_at_or_before_budget": 2.847859947863185e-09,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 90,
+          "checkpoint_wall_s": 3.255352541999997,
+          "step": 5,
+          "best_JSD_at_or_before_budget": 2.847859947863185e-09,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 120,
+          "checkpoint_wall_s": 3.255352541999997,
+          "step": 5,
+          "best_JSD_at_or_before_budget": 2.847859947863185e-09,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 180,
+          "checkpoint_wall_s": 3.255352541999997,
+          "step": 5,
+          "best_JSD_at_or_before_budget": 2.847859947863185e-09,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        },
+        {
+          "budget_wall_s": 240,
+          "checkpoint_wall_s": 3.255352541999997,
+          "step": 5,
+          "best_JSD_at_or_before_budget": 2.847859947863185e-09,
+          "note": "last saved checkpoint at/before time; no interpolation"
+        }
+      ]
+    }
+  },
+  "retries": [],
+  "internal_regression": {
+    "same_q_logits_max_abs": 0.0,
+    "same_adam_logits_max_abs": 0.0,
+    "same_gn_logits_max_abs": 0.0,
+    "GN_jacobians": 3,
+    "original_GN_fallback_count": 0,
+    "first_Q_final_error": 0.0023116047294963193
+  },
+  "manifest_sha256": "2ee3391fb2dbaa3ac764f34ce7e24a0e3561094de0f77d0cdfe47de3bead2d9e",
+  "notes": [
+    "Same teacher-generated target; the witness policy is never given to the solver.",
+    "Q-only optimizes a local surrogate; success is exact multi-step JSD.",
+    "GN inclusive elapsed and evaluation counts include Q warm start and actual retries.",
+    "RSS peak is whole Python process; 15 min is the whole numerical mission, not every method.",
+    "Any time-grid comparison uses last available checkpoint at/before, never interpolation.",
+    "n300 is optional and gated; no complete n300 optimization and no 108-run matrix."
+  ]
+}
