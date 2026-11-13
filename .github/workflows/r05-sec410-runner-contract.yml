@@ -32,6 +32,13 @@ jobs:
           test "$(git hash-object "$p/data_contract.py")" = "4984961c6a8fd8057a7c1ff3d292d30ad6c9afcb"
           test "$(git hash-object "$p/run_one.py")" = "15d24c5d6cd11c1010214a52117ab37469b8322a"
           python -m py_compile "$p/data_contract.py" "$p/run_one.py"
+      - name: Pure regression for ALL 90 planned B02-B06 IDs (no graph, no solver)
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=3s 30s python -m unittest discover \
+            -s code/experiments/inverse_attainable_standard/runner_v3 \
+            -p 'test_run_ids.py' -v
       - name: Actual historical+four new byte snapshots, negative trust fixtures
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
