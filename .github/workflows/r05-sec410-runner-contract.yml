@@ -1,0 +1,73 @@
+name: R05 Sec410 owner-root and five snapshot contract (PURE / NO GRAPH)
+
+on:
+  push:
+    branches:
+      - researcher/05/r05-sec410-endtoend-01-infra
+    paths:
+      - 'code/experiments/inverse_attainable_standard/runner_v3/**'
+      - '.github/workflows/r05-sec410-runner-contract.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: read
+
+jobs:
+  real-data-contract-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install NumPy for canonical binary decoding only
+        run: python -m pip install numpy==2.4.6
+      - name: Source byte and syntax attestation (NO graph import)
+        shell: bash
+        run: |
+          set -euo pipefail
+          p=code/experiments/inverse_attainable_standard/runner_v3
+          test "$(git hash-object "$p/data_contract.py")" = "4984961c6a8fd8057a7c1ff3d292d30ad6c9afcb"
+          test "$(git hash-object "$p/run_one.py")" = "6684f4baf03f7b0071c4a5e42007fc31921c5b4f"
+          python -m py_compile "$p/data_contract.py" "$p/run_one.py"
+      - name: Actual historical+four new byte snapshots, negative trust fixtures
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          export OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1
+          timeout --signal=TERM --kill-after=3s 110s python - <<'PY'
+          import copy,sys
+          from pathlib import Path
+          sys.path.insert(0,'code/experiments/inverse_attainable_standard/runner_v3')
+          import data_contract as d
+          root,rd=d.owner_root(6852723096)
+          assert root["allow_numeric"] is False
+          captured=d.attested_sources(root)
+          assert len(captured)==9,sorted(captured)
+          for block in ('B02','B03','B04','B05','B06'):
+              obj=d.decoded_block(root,block)
+              assert len(obj["y"])==obj["block"]["nref"]
+              assert obj["X"].flags.writeable is False
+              assert len(obj["plan_rows"])==18
+              print('R05_PURE_REAL_SNAPSHOT_PASS',block,
+                    obj["input_sha256"]["snapshot"],flush=True)
+          fake=copy.deepcopy(root)
+          fake["blocks"]["B03"]["snapshot_sha256"]="0"*64
+          try:
+              d.decoded_block(fake,'B03')
+          except d.Deny as e:
+              assert e.code=='SNAPSHOT_OWNER_SHA',e.code
+          else: raise AssertionError('tampered root accepted')
+          fake=copy.deepcopy(root)
+          fake["blocks"]["B03"]["reference_seed"]=None
+          try:
+              d.decoded_block(fake,'B03')
+          except d.Deny as e:
+              assert e.code=='SNAPSHOT_REF_SEED',e.code
+          else: raise AssertionError('false reference selection accepted')
+          print('R05_PURE_ROOT_ATTESTATION_NEGATIVE_TESTS_PASS',rd,flush=True)
+          PY
