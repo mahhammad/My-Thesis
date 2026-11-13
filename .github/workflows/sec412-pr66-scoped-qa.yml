@@ -1,0 +1,118 @@
+name: "SEC412 exact scoped PR #66 evidence + two-pass XeLaTeX QA"
+on:
+  push:
+    branches:
+      - qa/sec412-scoped-compile-01
+permissions:
+  contents: read
+jobs:
+  verify-and-compile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 28
+    steps:
+      - name: Checkout exact bounded PR candidate
+        uses: actions/checkout@v4
+        with:
+          ref: 30a07614f127511ad00c72efe522895af74dc423
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Byte scope, raw-center linkage, tables, and references
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "30a07614f127511ad00c72efe522895af74dc423"
+          git show 7cb01ef3894a223ebaf4973cd0583ad77353ce11:tex/chapter4.tex > /tmp/sec412-chapter4-base.tex
+          python - <<'PY'
+          from pathlib import Path
+          import csv, math, re, collections, statistics
+          a=Path('/tmp/sec412-chapter4-base.tex').read_bytes()
+          b=Path('tex/chapter4.tex').read_bytes()
+          start=r'\section{بازآزمایی استاندارد سیاست‌ها با قرارداد یکسان}'.encode()
+          end=r'\section{مقایسه توابع هدف و نقش سیاست آغاز در تعمیم}'.encode()
+          assert a.count(start)==b.count(start)==1
+          assert a.count(end)==b.count(end)==1
+          assert a.split(start,1)[0]==b.split(start,1)[0], "PRE_412_BYTES_DRIFT"
+          assert a.split(end,1)[1]==b.split(end,1)[1], "POST_412_BYTES_DRIFT"
+          print('SEC410_SEC411_AND_POST412_BYTES_PRESERVED')
+          sec=b.split(start,1)[1].split(end,1)[0].decode('utf-8')
+          all_labs=(Path('tex/chapter3.tex').read_text(encoding='utf8')+'\n'+b.decode('utf8'))
+          labels=re.findall(r'\\label\{([^}]+)\}', all_labs)
+          assert len(labels)==len(set(labels)), "DUPLICATE_LATEX_LABEL"
+          refs=re.findall(r'\\(?:ref|eqref|pageref)\{([^}]+)\}',sec)
+          assert not(set(refs)-set(labels)), "MISSING_LATEX_REFS:"+str(set(refs)-set(labels))
+          for env in ('table','tabular'):
+              assert sec.count('\\begin{'+env+'}')==sec.count('\\end{'+env+'}'), "MISMATCHED_ENV:"+env
+          root=Path('code/experiments/benchmark_v1')
+          with (root/'results/master_runs_76.csv').open() as f: main=list(csv.DictReader(f))
+          with (root/'report_backfill_v2/full_76_candidate/center_only_metrics.csv').open() as f: cm=list(csv.DictReader(f))
+          assert len(main)==len(cm)==76
+          mmap={v['run_id']:v for v in cm}
+          assert len(mmap)==76
+          assert len(set(v['file'] for v in main))==76
+          for v in main:
+              assert v['file'] in mmap and v['sha256']==mmap[v['file']]['member_sha256']
+              assert abs(float(v['I'])-float(mmap[v['file']]['I']))<1e-12
+          groups=collections.Counter(v['family'] for v in main)
+          assert groups=={'shared':25,'class':25,'node':13,'node_class':13}, groups
+          assert sum(v['val_BA']=='' for v in main)==26
+          studies=collections.Counter(v['study'] for v in main)
+          assert sorted(studies.values())==[12,16,48], studies
+          main8=[v for v in main if v['data_seed']=='20261102' and v['n']=='300' and v['steps']=='50' and (v['objective']=='max_I' or (v['objective']=='margin_JSD' and v['tau']=='0.005'))]
+          assert len(main8)==8
+          for v in main8:
+              assert f"{float(mmap[v['file']]['I']):.5f}" in sec, ('MISSING_CENTER_I',v['file'])
+          seq=[v for v in main if v['study']=='size_25steps' and v['family'] in ('shared','class')]
+          assert len(seq)==36
+          for n in (50,100,150,200,250,300):
+              for family in ('shared','class'):
+                  values=[float(v['val_BA'])*100 for v in seq if int(v['n'])==n and v['family']==family]
+                  assert len(values)==3, (n,family,values)
+                  s=f"{statistics.mean(values):.2f}"+r"\pm"+f"{statistics.stdev(values):.2f}"
+                  assert s in sec, (n,family,s)
+          for needle in (r'R_{\mathrm{KL}}^{\mathrm{legacy}}','clipping','clip'):
+              if needle in sec: break
+          else: raise AssertionError('LEGACY_CLIPPED_KL_SCOPE_NOT_DISCLOSED')
+          assert 'آزمون تاریخی' not in sec, 'OLD_TEST_TABLE_REINTRODUCED'
+          evidence=root/'report_backfill_v2/section412_editorial_evidence/README_FA.md'
+          assert evidence.is_file()
+          print('SEC412_76_RAW_CENTER_SHA_LINK_8_MAIN_12_SIZE_55_ID_SCOPE_PASS')
+          PY
+      - name: Install XeLaTeX / Persian thesis dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends \
+            texlive-xetex texlive-lang-arabic texlive-latex-extra texlive-fonts-recommended \
+            texlive-science texlive-pictures xindy poppler-utils
+      - name: Two bounded full XeLaTeX passes
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout --kill-after=5s 600s xelatex -interaction=nonstopmode -halt-on-error -file-line-error -no-shell-escape main.tex > sec412-xelatex-pass1.log 2>&1
+          timeout --kill-after=5s 600s xelatex -interaction=nonstopmode -halt-on-error -file-line-error -no-shell-escape main.tex > sec412-xelatex-pass2.log 2>&1
+          test -s main.pdf
+          pdfinfo main.pdf | tee sec412-pdfinfo.txt
+          pdftoppm -f 215 -l 245 -scale-to 950 -png main.pdf sec412-pg
+          echo "SEC412_TWO_PASS_XELATEX_PASS"
+      - name: Error diagnostics
+        if: failure()
+        shell: bash
+        run: |
+          for f in sec412-xelatex-pass1.log sec412-xelatex-pass2.log; do
+            if [ -f "$f" ]; then echo "=== $f ==="; tail -n 100 "$f"; fi
+          done
+      - name: Preserve PDF/logs and rendered pages
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sec412-pr66-exact-sha-qa-artifacts
+          path: |
+            main.pdf
+            main.log
+            sec412-xelatex-pass1.log
+            sec412-xelatex-pass2.log
+            sec412-pdfinfo.txt
+            sec412-pg*.png
+          if-no-files-found: warn
+          retention-days: 21
