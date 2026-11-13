@@ -51,8 +51,15 @@ def run() -> dict:
     start = tex.index(r"\section{بازیابی معکوس سیاست از مراکز دست‌یافتنی}")
     end = tex.index(r"\section{مراکز برچسبی بیزی، فضای قابل‌دستیابی و معیارهای بازنمایی}", start)
     section = tex[start:end]
-    escaped_filename = r"\lr{metrics\_full.json}"
-    need(escaped_filename in section, "MISSING_ESCAPED_METRICS_FILENAME")
+    conclusion = r"\subsection{نتیجه‌گیری و تفسیر نتایج}"
+    need(section.count(conclusion) == 1, "CONCLUSION_SECTION_NOT_UNIQUE")
+    final_section = section.split(conclusion, 1)[1]
+    folder = r"\lr{inverse\_attainable\_standard}"
+    need(folder in final_section, "CONCLUSION_EVIDENCE_FOLDER_MISSING")
+    need(final_section.rstrip().endswith("نگهداری می‌شوند."),
+         "CONCLUSION_FOLDER_NOT_LAST_REFERENCE")
+    need(re.search(r"\.(?:json|csv|pdf|tex)\b", final_section) is None,
+         "CONCLUSION_CONTAINS_FILE_REFERENCE")
     for match in re.finditer(r"\\(?:lr|texttt)\{[^{}]*\}", section):
         need(re.search(r"(?<!\\)_", match.group()) is None,
              "UNESCAPED_UNDERSCORE_IN_LATEX_TEXT:" + match.group())
