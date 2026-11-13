@@ -23,14 +23,14 @@ jobs:
       - name: Checkout EXACT minimal chapter4 integration commit
         uses: actions/checkout@v4
         with:
-          ref: 1bba1d532034a913940b9eab6ad06f80fb8f7356
+          ref: e803d4fb650ff448d32b1c909198b6079ce28441
           persist-credentials: false
       - name: Check integration tree and source pin
         shell: bash
         run: |
           set -euo pipefail
-          test "$(git rev-parse HEAD)" = "1bba1d532034a913940b9eab6ad06f80fb8f7356"
-          test "$(git hash-object tex/chapter4.tex)" = "a5883e21e807f78a96b88de5cfc64ad158086e8d"
+          test "$(git rev-parse HEAD)" = "e803d4fb650ff448d32b1c909198b6079ce28441"
+          test "$(git hash-object tex/chapter4.tex)" = "1a5ae36003090dd631c379b488f11284a77f6c1b"
           test -f code/experiments/inverse_attainable_standard/tables/sec410_success.tex
           test -f code/experiments/inverse_attainable_standard/figures/best_jsd_by_n.pdf
           printf 'PINNED_SCOPED_TREE_OK\n'
@@ -53,6 +53,16 @@ jobs:
           pdfinfo main.pdf | tee sec410-pdfinfo.txt
           pdftoppm -f 1 -l 1 -scale-to 900 -png -singlefile main.pdf sec410-page1
           printf 'SEC410_FULL_XELATEX_TWO_PASS_OK\n'
+      - name: Print XeLaTeX failure diagnostics
+        if: failure()
+        shell: bash
+        run: |
+          for file in sec410-xelatex-pass1.stdout sec410-xelatex-pass2.stdout; do
+            if [ -f "$file" ]; then
+              echo "==== $file last 100 lines ===="
+              tail -n 100 "$file"
+            fi
+          done
       - name: Save PDF, log and first-page render (no source fonts)
         if: always()
         uses: actions/upload-artifact@v4
