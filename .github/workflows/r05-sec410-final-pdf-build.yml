@@ -1,4 +1,4 @@
-name: Sec410 scoped integration full XeLaTeX build (NO SOLVER)
+name: Sec410 scoped editorial conclusion full XeLaTeX build (NO SOLVER)
 
 on:
   push:
@@ -23,14 +23,14 @@ jobs:
       - name: Checkout EXACT minimal chapter4 integration commit
         uses: actions/checkout@v4
         with:
-          ref: e803d4fb650ff448d32b1c909198b6079ce28441
+          ref: 2c678e5f33e4b386b267a7244c6a5e2d9c974508
           persist-credentials: false
       - name: Check integration tree and source pin
         shell: bash
         run: |
           set -euo pipefail
-          test "$(git rev-parse HEAD)" = "e803d4fb650ff448d32b1c909198b6079ce28441"
-          test "$(git hash-object tex/chapter4.tex)" = "1a5ae36003090dd631c379b488f11284a77f6c1b"
+          test "$(git rev-parse HEAD)" = "2c678e5f33e4b386b267a7244c6a5e2d9c974508"
+          test "$(git hash-object tex/chapter4.tex)" = "efa560d02d61dbe929e2c34688d7ff1c31765ebd"
           test -f code/experiments/inverse_attainable_standard/tables/sec410_success.tex
           test -f code/experiments/inverse_attainable_standard/figures/best_jsd_by_n.pdf
           printf 'PINNED_SCOPED_TREE_OK\n'
