@@ -1,0 +1,114 @@
+name: R05 Sec410 final exact replay and 108-row metrics/figures (NO SOLVER)
+on:
+  push:
+    branches: [researcher/05/r05-sec410-endtoend-01-infra]
+    paths: ['.github/workflows/r05-sec410-final-analytics.yml']
+
+permissions:
+  contents: write
+  issues: read
+
+concurrency:
+  group: r05-sec410-final-analytics
+  cancel-in-progress: false
+
+jobs:
+  forensic-and-analytics:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: true}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Install CPU numerical runtime and plotted-output tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install numpy==2.4.6
+          python -m pip install torch==2.15.0 --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install matplotlib
+      - name: Require exact selected-center and 108-row source scripts
+        shell: bash
+        run: |
+          set -euo pipefail
+          base=code/experiments/inverse_attainable_standard
+          test "$(git hash-object "$base/runner_v3/data_contract.py")" = "4984961c6a8fd8057a7c1ff3d292d30ad6c9afcb"
+          test "$(git hash-object "$base/runner_v3/run_one.py")" = "15d24c5d6cd11c1010214a52117ab37469b8322a"
+          test "$(git hash-object "$base/analysis_v3/reconstruct_metrics.py")" = "5ed49e3f49a7d1c6b105e017020ffeb0cedda3ae"
+          test "$(git hash-object "$base/analysis_v3/aggregate.py")" = "fbd31e0759cc14a8cf7e99915ca1e8735aa6a62d"
+          python -m py_compile "$base/analysis_v3/reconstruct_metrics.py" "$base/analysis_v3/aggregate.py"
+          test "$(git hash-object "$base/analysis_v3/latex_export.py")" = "2a8eadef76ed05d230aec2ad18be0ad5d81eff32"
+          python -m py_compile "$base/analysis_v3/latex_export.py"
+      - name: Verify B02/B04/B06 selected centers and sample-level R with immutable snapshots
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          export OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 PYTHONDONTWRITEBYTECODE=1
+          base=code/experiments/inverse_attainable_standard
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for block in B02 B04 B06; do
+            if [ -f "$base/results/reconstructed/$block/metrics.json" ]; then
+              echo "R05_SKIP_REPLAY_PRIOR=$block"
+              continue
+            fi
+            timeout --signal=TERM --kill-after=5s 600s python -u \
+              "$base/analysis_v3/reconstruct_metrics.py" --block "$block" \
+              --owner-root-comment 6853301767
+            git add -f "$base/results/reconstructed/"
+            if ! git diff --cached --quiet; then
+              git commit -m "R05 Sec410: checkpoint exact Train-only center and density replay $block"
+              git push origin HEAD:researcher/05/r05-sec410-endtoend-01-infra
+              echo "R05_METRIC_REPLAY_CHECKPOINT_SHA=$(git rev-parse HEAD)"
+            fi
+          done
+      - name: Require 108 valid raw results and 6 complete exact reconstructions
+        shell: bash
+        run: |
+          set -euo pipefail
+          export OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 PYTHONDONTWRITEBYTECODE=1
+          base=code/experiments/inverse_attainable_standard
+          timeout --signal=TERM --kill-after=5s 180s python "$base/analysis_v3/aggregate.py" --complete
+          python "$base/analysis_v3/latex_export.py"
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          b=Path("code/experiments/inverse_attainable_standard")
+          v=json.loads((b/"results/coverage.json").read_text())
+          m=json.loads((b/"results/metrics_full.json").read_text())
+          assert v["planned_count"]==108
+          assert v["status_counts"]=={"COMPLETED":108}
+          assert v["B01_v2_independently_accepted"]==18
+          assert v["new_run_count"]==90
+          assert v["complete_all"] is True
+          assert len(m["reconstructed_center_density_and_geometry"])==6
+          assert m["missing_reconstruction_blocks"]==[]
+          assert all(len(x["combinations"])==6 for x in m["reconstructed_center_density_and_geometry"])
+          print("R05_108_FULL_RAW_METRICS_TABLES_FIGURES_PASS",flush=True)
+          PY
+      - name: Commit versioned complete coverage/metrics/tables/plots and Persian report
+        shell: bash
+        run: |
+          set -euo pipefail
+          base=code/experiments/inverse_attainable_standard
+          git add -f "$base/results/coverage.json" "$base/results/metrics_full.json" \
+            "$base/results/analysis_manifest.json" "$base/tables/" "$base/figures/" \
+            "$base/REPORT_FA.md"
+          git commit -m "R05 Sec410: complete 108/108 raw-backed metrics and PDF figures"
+          git push origin HEAD:researcher/05/r05-sec410-endtoend-01-infra
+          echo "R05_FULL_METRICS_SHA=$(git rev-parse HEAD)"
+      - name: Preserve final analysis even if failed
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: r05-sec410-full-analytic-evidence
+          path: |
+            code/experiments/inverse_attainable_standard/results/coverage.json
+            code/experiments/inverse_attainable_standard/results/metrics_full.json
+            code/experiments/inverse_attainable_standard/tables/
+            code/experiments/inverse_attainable_standard/figures/
+            code/experiments/inverse_attainable_standard/REPORT_FA.md
+          if-no-files-found: warn
