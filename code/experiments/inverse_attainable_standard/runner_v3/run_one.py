@@ -116,10 +116,23 @@ def check_attested_modules(captured,loaded):
     # One final intentional verification before creating the first graph.
     # Worktree must remain isolated; actual executing code is in-memory captures.
 
+def planned_run_id(block, class_index, initialization, method):
+    """Pure plan-ID mapping. Data seed belongs to BLOCK, not reference size."""
+    cases={"B02":(300,20261102),"B03":(150,20261103),
+           "B04":(300,20261103),"B05":(150,20261104),"B06":(300,20261104)}
+    require(block in cases and class_index in (0,1,2) and
+            initialization in ("zero","independent_random") and method in ORDER,
+            "RUN_DESCRIPTOR_UNSUPPORTED")
+    nref,data_seed=cases[block]
+    letter="Z" if initialization=="zero" else "R"
+    m={"Q-only":"Q","Exact-Adam":"A","Q+Bootstrap-GN":"G"}[method]
+    return f"INV01-{block}-n{nref}-data{data_seed}-C{class_index}-{letter}-{m}"
+
+
 def run_solve(args):
     attempt=uuid.uuid4().hex
     now=time.time()
-    run_id=f"INV01-{args.block}-n{150 if args.block in ('B03','B05') else 300}-data{20261103 if args.block in ('B03','B04') else 20261104}-C{args.class_index}-{'Z' if args.initialization=='zero' else 'R'}-{'Q' if args.method=='Q-only' else 'A' if args.method=='Exact-Adam' else 'G'}"
+    run_id=planned_run_id(args.block,args.class_index,args.initialization,args.method)
     audit_dir=mk_audit_root()
     start_digest=exclusive_record(audit_dir,attempt+".start.json",{
         "phase":"START","attempt_id":attempt,"run_id":run_id,

@@ -30,7 +30,7 @@ jobs:
           set -euo pipefail
           p=code/experiments/inverse_attainable_standard/runner_v3
           test "$(git hash-object "$p/data_contract.py")" = "4984961c6a8fd8057a7c1ff3d292d30ad6c9afcb"
-          test "$(git hash-object "$p/run_one.py")" = "6684f4baf03f7b0071c4a5e42007fc31921c5b4f"
+          test "$(git hash-object "$p/run_one.py")" = "15d24c5d6cd11c1010214a52117ab37469b8322a"
           python -m py_compile "$p/data_contract.py" "$p/run_one.py"
       - name: Actual historical+four new byte snapshots, negative trust fixtures
         env:
