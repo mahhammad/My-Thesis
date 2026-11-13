@@ -1,0 +1,70 @@
+name: R05 Sec410 first at-use canary B03-C0-Z-Q (bounded, provisional)
+
+on:
+  push:
+    branches:
+      - researcher/05/r05-sec410-endtoend-01-infra
+    paths:
+      - '.github/workflows/r05-sec410-canary.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: read
+
+jobs:
+  bounded-one-solve:
+    runs-on: ubuntu-latest
+    timeout-minutes: 19
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install historical CPU runtime (outside numerical clock)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install numpy==2.4.6
+          python -m pip install torch==2.15.0 --index-url https://download.pytorch.org/whl/cpu
+      - name: Bounded first-graph / method canary, pinned owner root, no Test
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          export OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 PYTHONDONTWRITEBYTECODE=1
+          timeout --signal=INT --kill-after=5s 900s python -u \
+            code/experiments/inverse_attainable_standard/runner_v3/run_one.py \
+            --block B03 --class-index 0 --initialization zero --method Q-only \
+            --owner-root-comment 6852780179
+      - name: Preserve success/failure/partial trace with unique attempt path (never overwrite)
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          p=code/experiments/inverse_attainable_standard/results/raw
+          mkdir -p "$p"
+          if [ -d "$RUNNER_TEMP/r05-sec410-append-only-audit" ]; then
+            mkdir -p code/experiments/inverse_attainable_standard/results/audit_attachments
+            cp -n "$RUNNER_TEMP"/r05-sec410-append-only-audit/*.json code/experiments/inverse_attainable_standard/results/audit_attachments/ 2>/dev/null || true
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -f code/experiments/inverse_attainable_standard/results/raw/ \
+                   code/experiments/inverse_attainable_standard/results/audit_attachments/ || true
+          if ! git diff --cached --quiet; then
+            git commit -m 'R05 Sec410: persist first bounded at-use canary attempt including failures'
+            git push origin HEAD:researcher/05/r05-sec410-endtoend-01-infra
+          fi
+      - name: Upload full canary trace and protected-audit attachments
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: r05-sec410-first-canary
+          path: |
+            code/experiments/inverse_attainable_standard/results/raw/
+            code/experiments/inverse_attainable_standard/results/audit_attachments/
+          if-no-files-found: warn
