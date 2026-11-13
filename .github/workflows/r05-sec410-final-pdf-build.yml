@@ -1,0 +1,69 @@
+name: Sec410 scoped integration full XeLaTeX build (NO SOLVER)
+
+on:
+  push:
+    branches:
+      - researcher/05-chapter4
+    paths:
+      - '.github/workflows/r05-sec410-final-pdf-build.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: r05-sec410-final-xelatex-build
+  cancel-in-progress: false
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout EXACT minimal chapter4 integration commit
+        uses: actions/checkout@v4
+        with:
+          ref: 1bba1d532034a913940b9eab6ad06f80fb8f7356
+          persist-credentials: false
+      - name: Check integration tree and source pin
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "1bba1d532034a913940b9eab6ad06f80fb8f7356"
+          test "$(git hash-object tex/chapter4.tex)" = "a5883e21e807f78a96b88de5cfc64ad158086e8d"
+          test -f code/experiments/inverse_attainable_standard/tables/sec410_success.tex
+          test -f code/experiments/inverse_attainable_standard/figures/best_jsd_by_n.pdf
+          printf 'PINNED_SCOPED_TREE_OK\n'
+      - name: Install XeLaTeX and Persian thesis dependencies (OS packages)
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends \
+            texlive-xetex texlive-lang-arabic texlive-latex-extra \
+            texlive-fonts-recommended texlive-science texlive-pictures xindy poppler-utils
+      - name: Full thesis first and second XeLaTeX pass, bounded
+        shell: bash
+        run: |
+          set -euo pipefail
+          command -v xelatex
+          timeout --kill-after=5s 600s xelatex -interaction=nonstopmode -halt-on-error -file-line-error -no-shell-escape main.tex > sec410-xelatex-pass1.stdout 2>&1
+          timeout --kill-after=5s 600s xelatex -interaction=nonstopmode -halt-on-error -file-line-error -no-shell-escape main.tex > sec410-xelatex-pass2.stdout 2>&1
+          test -s main.pdf
+          pdfinfo main.pdf | tee sec410-pdfinfo.txt
+          pdftoppm -f 1 -l 1 -scale-to 900 -png -singlefile main.pdf sec410-page1
+          printf 'SEC410_FULL_XELATEX_TWO_PASS_OK\n'
+      - name: Save PDF, log and first-page render (no source fonts)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sec410-scoped-integration-xelatex-evidence
+          path: |
+            sec410-xelatex-pass1.stdout
+            sec410-xelatex-pass2.stdout
+            sec410-pdfinfo.txt
+            sec410-page1.png
+            main.log
+            main.pdf
+          if-no-files-found: warn
+          retention-days: 14
