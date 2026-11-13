@@ -1,0 +1,267 @@
+{
+  "started": 1794574626.521837,
+  "finished": null,
+  "status": "in_progress",
+  "stop_reason": null,
+  "runs": [
+    {
+      "problem": "INV01-B06-n300-data20261104-C0-Z",
+      "method": "Q+Bootstrap-GN",
+      "initialization": "from_Q",
+      "status": "complete",
+      "stop_reason": "tolerance",
+      "best_JSD": 3.995948905100022e-09,
+      "final_JSD": 3.995948905100022e-09,
+      "reached_tolerance": true,
+      "counts": {
+        "q_grad": 0,
+        "exact_grad": 0,
+        "exact_forward": 7,
+        "jacobian": 6,
+        "line_search": 6,
+        "retries": 0
+      },
+      "trace": [
+        {
+          "stage": "warm",
+          "step": 0,
+          "exact_center_JSD": 0.0022311133242733927,
+          "best_JSD": 0.0022311133242733927,
+          "method_wall_s": 0.05217942000001585,
+          "inclusive_wall_s": 11.048999162999962,
+          "global_compute_wall_s": 0.10972416699996757,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 0,
+            "exact_forward": 1,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 331.63671875
+        },
+        {
+          "stage": "warm",
+          "step": 1,
+          "exact_center_JSD": 4.033292610916561e-05,
+          "best_JSD": 4.033292610916561e-05,
+          "method_wall_s": 0.3185805470000105,
+          "inclusive_wall_s": 11.315400289999957,
+          "global_compute_wall_s": 0.3761252939999622,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 0,
+            "exact_forward": 2,
+            "jacobian": 1,
+            "line_search": 1,
+            "retries": 0
+          },
+          "rss_mib": 374.26171875,
+          "accepted": true
+        },
+        {
+          "stage": "warm",
+          "step": 2,
+          "exact_center_JSD": 1.7274086115515175e-05,
+          "best_JSD": 1.7274086115515175e-05,
+          "method_wall_s": 0.5673591190000025,
+          "inclusive_wall_s": 11.564178861999949,
+          "global_compute_wall_s": 0.6249038659999542,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 0,
+            "exact_forward": 3,
+            "jacobian": 2,
+            "line_search": 2,
+            "retries": 0
+          },
+          "rss_mib": 377.0703125,
+          "accepted": true
+        },
+        {
+          "stage": "warm",
+          "step": 3,
+          "exact_center_JSD": 3.837924356098199e-06,
+          "best_JSD": 3.837924356098199e-06,
+          "method_wall_s": 0.8120237660000384,
+          "inclusive_wall_s": 11.808843508999985,
+          "global_compute_wall_s": 0.8695685129999902,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 0,
+            "exact_forward": 4,
+            "jacobian": 3,
+            "line_search": 3,
+            "retries": 0
+          },
+          "rss_mib": 376.57421875,
+          "accepted": true
+        },
+        {
+          "stage": "warm",
+          "step": 4,
+          "exact_center_JSD": 5.774370932520867e-07,
+          "best_JSD": 5.774370932520867e-07,
+          "method_wall_s": 1.0554093599999987,
+          "inclusive_wall_s": 12.052229102999945,
+          "global_compute_wall_s": 1.1129541069999505,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 0,
+            "exact_forward": 5,
+            "jacobian": 4,
+            "line_search": 4,
+            "retries": 0
+          },
+          "rss_mib": 375.9140625,
+          "accepted": true
+        },
+        {
+          "stage": "warm",
+          "step": 5,
+          "exact_center_JSD": 6.095932958416483e-08,
+          "best_JSD": 6.095932958416483e-08,
+          "method_wall_s": 1.3054022750000058,
+          "inclusive_wall_s": 12.302222017999952,
+          "global_compute_wall_s": 1.3629470219999575,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 0,
+            "exact_forward": 6,
+            "jacobian": 5,
+            "line_search": 5,
+            "retries": 0
+          },
+          "rss_mib": 376.73828125,
+          "accepted": true
+        },
+        {
+          "stage": "warm",
+          "step": 6,
+          "exact_center_JSD": 3.995948905100022e-09,
+          "best_JSD": 3.995948905100022e-09,
+          "method_wall_s": 1.5531345470000133,
+          "inclusive_wall_s": 12.54995428999996,
+          "global_compute_wall_s": 1.610679293999965,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 0,
+            "exact_forward": 7,
+            "jacobian": 6,
+            "line_search": 6,
+            "retries": 0
+          },
+          "rss_mib": 377.5625,
+          "accepted": true
+        }
+      ],
+      "selected_policy_logits": [
+        [
+          -2.541874594090039,
+          0.5025688438691716,
+          3.332532351852546,
+          -1.7481979927329045,
+          1.819044575529968
+        ],
+        [
+          -2.3694891639533995,
+          0.5180633951116874,
+          3.3471485773506093,
+          -2.2062561666396094,
+          1.8192473732017058
+        ],
+        [
+          -1.8335339012739174,
+          -0.558489615004575,
+          2.8655785065258637,
+          -2.2118437105217916,
+          1.5351165580112591
+        ],
+        [
+          -2.5071667778779188,
+          0.455254296763793,
+          3.3320300283730115,
+          -1.765882025382368,
+          1.7725181077104837
+        ],
+        [
+          -1.9734184336672196,
+          -0.04363054270004314,
+          3.2192082360180123,
+          -2.03006361275945,
+          1.5763987168701408
+        ],
+        [
+          -0.07711653983254524,
+          -1.6061496619051472,
+          -0.06803328370217734,
+          1.2141295692617113,
+          0.6226997117116999
+        ]
+      ],
+      "selected_policy_step": 6,
+      "selected_policy_exact_JSD": 3.995948905100022e-09,
+      "final_verification_forward_wall_s": 0.0544597389999808,
+      "final_verification_exact_forward": 1,
+      "final_policy_logits": [
+        [
+          -2.541874594090039,
+          0.5025688438691716,
+          3.332532351852546,
+          -1.7481979927329045,
+          1.819044575529968
+        ],
+        [
+          -2.3694891639533995,
+          0.5180633951116874,
+          3.3471485773506093,
+          -2.2062561666396094,
+          1.8192473732017058
+        ],
+        [
+          -1.8335339012739174,
+          -0.558489615004575,
+          2.8655785065258637,
+          -2.2118437105217916,
+          1.5351165580112591
+        ],
+        [
+          -2.5071667778779188,
+          0.455254296763793,
+          3.3320300283730115,
+          -1.765882025382368,
+          1.7725181077104837
+        ],
+        [
+          -1.9734184336672196,
+          -0.04363054270004314,
+          3.2192082360180123,
+          -2.03006361275945,
+          1.5763987168701408
+        ],
+        [
+          -0.07711653983254524,
+          -1.6061496619051472,
+          -0.06803328370217734,
+          1.2141295692617113,
+          0.6226997117116999
+        ]
+      ],
+      "selection_verification_exact_forward": 1,
+      "selected_policy_JSD_verified": 3.995948905100022e-09,
+      "elapsed_solver_wall_s": 1.6655273369999577,
+      "offset_warmup_s": 10.996819742999946,
+      "inclusive_cost": {
+        "q_grad": 100,
+        "exact_grad": 0,
+        "exact_forward": 108,
+        "jacobian": 6,
+        "line_search": 6,
+        "retries": 0
+      }
+    }
+  ],
+  "errors": [],
+  "wall_numerical_seconds": 1.7230869709999297,
+  "peak_rss_mib": 397.03515625
+}

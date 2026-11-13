@@ -1,0 +1,77 @@
+{
+  "stage": "LOCKED_BEFORE_FIRST_SOLVER_STEP",
+  "block": "INV01-B01-n150-data20261102",
+  "source_reference_chapter4": "de02fdda91e23db177de4429b3e1a9693c046d83",
+  "parent_p2_report": "05316dd81d97170f61c46cef40048c5f1d2e46f2",
+  "code_sha": "c882208a4438ef4b343c0ac062cf3dd1142ca6dc",
+  "script_sha256": "3c0baddefb99cc1d6c4435150b9767b1acd88c071eec4e4e09445dc4cc764890",
+  "instrumentation_sha256": "76159f0b075285b8edf5a03ad363170503189bab19359fc334524cdea3103ef7",
+  "streamgraph_sha256": "e6287a0dab06fe2ac2862dfb128215b936b468ce6449726cd613474880bff419",
+  "generator_config_sha256": "c8b673b37ca70b3cb9793b93efcbb13dcf9a86d8e90d61692af2a6acf8f1c0ef",
+  "plan_sha256": "be350c56e82badac9d1b8b64df76ddb7d47e56dd9d18c670768fcb1d45e15272",
+  "data_seed": 20261102,
+  "source_train_X_sha256": "51699bbe51504fa82d3e27aaa9ea81428bf341c4a0f2e5de67dcb3badd9a6852",
+  "source_train_y_sha256": "6172de6b43091361c783185cd6547de18481f9fa5a84609e675e0dd3e262d271",
+  "reference_selection_seed": 20261201,
+  "selected_reference_ids_sha256": "dbe477c65d28e526a31f18930f41d9213c66dd34d6f2966f7be8d78ab59475cd",
+  "teacher_seed": 20261211,
+  "teacher_logits_sha256_ONLY": "ee1f8991bcdede20af1a010dc3ccca910e82730dd53e633efc8bb7d35f87959e",
+  "teacher_given_to_solver": false,
+  "targets": [
+    {
+      "class": 0,
+      "target": [
+        0.4069184192057229,
+        0.29816948308849134,
+        0.29491209770578575
+      ],
+      "target_sha256": "0b8c6e949e9d5ee264c50e3286682e76035b27ca3904d39cb824a2b99406785d",
+      "self_jsd": 0.0
+    },
+    {
+      "class": 1,
+      "target": [
+        0.30806950982534803,
+        0.385689307245881,
+        0.306241182928771
+      ],
+      "target_sha256": "8599514d794c4704564d3f5b3bb5800f3f6d199b145763ccfedf4f9b27315862",
+      "self_jsd": 0.0
+    },
+    {
+      "class": 2,
+      "target": [
+        0.19967707834041284,
+        0.3090532836016165,
+        0.49126963805797047
+      ],
+      "target_sha256": "58660088908ae1520f4be89c52e4b48b6c7c77fde44c9e94301fe99190f5263c",
+      "self_jsd": 0.0
+    }
+  ],
+  "no_Test": true,
+  "no_Monte_Carlo": true,
+  "nref": 150,
+  "beta": 0.4,
+  "lambda": 0.8,
+  "H": 12,
+  "float64": true,
+  "JSD_success_tol": 1e-08,
+  "caps": {
+    "Q_only": 100,
+    "Exact_Adam": 150,
+    "GN": 30,
+    "GN_neutral_restart": 30
+  },
+  "stop": {
+    "min_step": 25,
+    "patience": 18,
+    "min_relative_improvement": 0.0001
+  },
+  "time_guard_seconds": 840.0,
+  "rss_soft_limit_mib": 1430.0,
+  "rss_ceiling_mib": 1536,
+  "expected_solver_runs": 18,
+  "test_forbidden": true,
+  "chapter4_and_LaTeX_untouched": true
+}
