@@ -1,0 +1,130 @@
+name: R05 Sec410 B02+B04+B06 n300 54-case sequential bounded raw (provisional)
+on:
+  push:
+    branches: [researcher/05/r05-sec410-endtoend-01-infra]
+    paths: ['.github/workflows/r05-sec410-n300.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: read
+
+concurrency:
+  group: r05-sec410-n300-execute
+  cancel-in-progress: false
+
+jobs:
+  bounded-n300:
+    runs-on: ubuntu-latest
+    timeout-minutes: 160
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install reproducible CPU runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install numpy==2.4.6
+          python -m pip install torch==2.15.0 --index-url https://download.pytorch.org/whl/cpu
+      - name: Require pinned runner, canonical plan, authorized root and three successful n300 resource probes
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          p=code/experiments/inverse_attainable_standard
+          test "$(git hash-object "$p/runner_v3/data_contract.py")" = "4984961c6a8fd8057a7c1ff3d292d30ad6c9afcb"
+          test "$(git hash-object "$p/runner_v3/run_one.py")" = "6684f4baf03f7b0071c4a5e42007fc31921c5b4f"
+          export OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1
+          python - <<'PY'
+          import json,sys
+          from pathlib import Path
+          sys.path.insert(0,'code/experiments/inverse_attainable_standard/runner_v3')
+          import data_contract as d
+          root,rsha=d.owner_root(6852780179)
+          assert root["allow_numeric"] is True
+          assert root["limits"]=={"soft_wall_s":840,"hard_wall_s":900,
+                                  "soft_rss_mib":1430,"hard_rss_mib":1536}
+          base=Path('code/experiments/inverse_attainable_standard/results/resource_probes')
+          for block in ('B02','B04','B06'):
+              files=list((base/block).glob('*/probe.json'))
+              assert len(files)==1,(block,files)
+              p=json.loads(files[0].read_text())
+              assert p['status']=='PASS_INTERNAL_RESOURCE_PROBE'
+              assert p['solver_steps']==0 and p['first_graph_attested'] is True
+              assert p['peak_rss_mib']<1024 and p['wall_total_s']<110
+              assert p['snapshot_sha256']==root['blocks'][block]['snapshot_sha256']
+              print('R05_N300_PROBE_ACCEPTED_FOR_BOUNDED_RUN',block,p['peak_rss_mib'],flush=True)
+          PY
+      - name: Sequential 54 n300 solves, each immutable trace+failure and checkpoint immediately pushed
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          export OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 PYTHONDONTWRITEBYTECODE=1
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          base=code/experiments/inverse_attainable_standard
+          save() {
+            mkdir -p "$base/results/audit_attachments"
+            cp -n "$RUNNER_TEMP"/r05-sec410-append-only-audit/*.json "$base/results/audit_attachments/" 2>/dev/null || true
+            git add -f "$base/results/raw/" "$base/results/audit_attachments/" || true
+            if ! git diff --cached --quiet; then
+              git commit -m "R05 Sec410: checkpoint bounded n300 method instance (success/failure)"
+              git push origin HEAD:researcher/05/r05-sec410-endtoend-01-infra
+              echo "R05_SOLVE_SHA=$(git rev-parse HEAD)"
+            fi
+          }
+          for block in B02 B04 B06; do
+            case "$block" in
+              B02) bid=INV01-B02-n300-data20261102 ;;
+              B04) bid=INV01-B04-n300-data20261103 ;;
+              B06) bid=INV01-B06-n300-data20261104 ;;
+            esac
+            for cl in 0 1 2; do
+              for init in Z R; do
+                if [ "$init" = Z ]; then initial=zero; else initial=independent_random; fi
+                for method in Q A G; do
+                  case "$method" in
+                    Q) solver=Q-only ;;
+                    A) solver=Exact-Adam ;;
+                    G) solver=Q+Bootstrap-GN ;;
+                  esac
+                  rid="$bid-C$cl-$init-$method"
+                  destination="$base/results/raw/$bid/$rid"
+                  if [ -d "$destination" ] && find "$destination" -name summary.json -print -quit | grep -q .; then
+                    echo "R05_SKIP_ALREADY_COMMITTED=$rid"
+                    continue
+                  fi
+                  echo "R05_SOLVE_START=$rid"
+                  set +e
+                  timeout --signal=INT --kill-after=5s 900s python -u "$base/runner_v3/run_one.py" \
+                    --block "$block" --class-index "$cl" --initialization "$initial" \
+                    --method "$solver" --owner-root-comment 6852780179
+                  rc=$?
+                  set -e
+                  save
+                  if [ "$rc" -ne 0 ]; then
+                    echo "R05_STOP_NUMERICAL_FAILURE=$rid RC=$rc"
+                    exit "$rc"
+                  fi
+                  echo "R05_SOLVE_DONE=$rid"
+                done
+              done
+            done
+          done
+          echo "R05_N300_54_COMPLETE_CHECKPOINTED"
+      - name: Upload all partial and complete raw and external-audit copies
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: r05-sec410-n300-raw-and-audit
+          path: |
+            code/experiments/inverse_attainable_standard/results/raw/
+            code/experiments/inverse_attainable_standard/results/audit_attachments/
+          if-no-files-found: warn
