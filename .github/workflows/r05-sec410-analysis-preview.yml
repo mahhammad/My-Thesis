@@ -26,7 +26,7 @@ jobs:
         run: |
           set -euo pipefail
           p=code/experiments/inverse_attainable_standard/analysis_v3/aggregate.py
-          test "$(git hash-object "$p")" = "682c3cd3d52decea8dc22982ccae4021e19c78c4"
+          test "$(git hash-object "$p")" = "fbd31e0759cc14a8cf7e99915ca1e8735aa6a62d"
           python -m py_compile "$p"
           python "$p"
           python - <<'PY'

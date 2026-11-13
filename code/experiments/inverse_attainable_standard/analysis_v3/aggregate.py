@@ -127,7 +127,8 @@ def sample_raw(row,accepted,allow_missing=True):
             assert d["witness_given_to_solver"] is False and d["test_used"] is False
             attempt=d["attempt_id"]
             assert len(attempt)==32 and p.parent.name==attempt
-            assert d["owner_comment_id"]==6852780179
+            expected_root=6852780179 if row["block_id"].split("-")[1] in ("B03","B05") else 6853301767
+            assert d["owner_comment_id"]==expected_root,("UNEXPECTED_OWNER_ROOT",run)
             audit_ref=p.parent/"audit_ref.json";pins=p.parent/"input_pins.json"
             trace=p.parent/"trace.json";curve=p.parent/"curve.csv"
             assert all(q.is_file() for q in (audit_ref,pins,trace,curve))
