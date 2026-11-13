@@ -18,7 +18,8 @@ def check():
         assert rec["certified_balanced_mean_jsd_lower_nats_floor"] in t1
     t2 = (ROOT/"tables/d11_fixed_targets.tex").read_text(encoding="utf-8")
     for rec in c["D11"]:
-        assert rec["target"] in t2
+        # LaTeX escapes underscores in the displayed fixed target name.
+        assert rec["target"].replace("_", r"\_") in t2
         assert rec["certified_mean_jsd_lower_nats_floor"] in t2
     m = load("results/metric_seed_summary.json")["rows"]
     assert len(m) == 4
