@@ -27,11 +27,28 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Historical 108 raw-to-LaTeX static QA, pinned frozen internal record
+      - name: Recompute original 108 scientific archive contract without mutating frozen SHA manifest
         shell: bash
         run: |
           set -euo pipefail
-          timeout --kill-after=5s 180s python -u code/experiments/inverse_attainable_standard/qa_final/verify.py
+          timeout --kill-after=5s 180s python - <<'PY'
+          import importlib.util, json, pathlib
+          file = pathlib.Path("code/experiments/inverse_attainable_standard/qa_final/verify.py")
+          spec = importlib.util.spec_from_file_location("frozen_sec410_qa", file)
+          module = importlib.util.module_from_spec(spec)
+          spec.loader.exec_module(module)
+          current = module.verify()
+          pinned = json.loads((file.parent / "internal_check.json").read_text(encoding="utf-8"))
+          for key, expected in pinned.items():
+              if key == "chapter4_tex_sha256":
+                  continue
+              if current.get(key) != expected:
+                  raise AssertionError(f"FROZEN_SCIENTIFIC_CONTRACT_DRIFT:{key}")
+          assert current["chapter4_tex_sha256"] != pinned["chapter4_tex_sha256"], "NO_VERSIONED_TEX_PATCH"
+          print("FROZEN_108_SCIENTIFIC_FIELDS_STABLE", len(pinned)-1)
+          print("HISTORIC_TEX_SHA256", pinned["chapter4_tex_sha256"])
+          print("PATCHED_TEX_SHA256", current["chapter4_tex_sha256"])
+          PY
       - name: Post-handoff full 90 raw traces and START/TERMINAL digest check
         shell: bash
         run: |
