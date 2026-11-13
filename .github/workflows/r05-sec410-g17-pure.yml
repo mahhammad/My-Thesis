@@ -1,0 +1,39 @@
+name: R05 Sec410 G17 V3 pure verifier regression (NO GRAPH / NO SOLVER)
+
+on:
+  push:
+    branches:
+      - researcher/05/r05-sec410-endtoend-01-infra
+    paths:
+      - 'code/experiments/inverse_attainable_standard/b02_gate_v3/**'
+      - '.github/workflows/r05-sec410-g17-pure.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pure-g17-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify exact Git blobs for G17 corrective source (no graph import)
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd code/experiments/inverse_attainable_standard/b02_gate_v3
+          test "$(git hash-object pure_gate.py)" = "9427965f2ac9cbbe516796b47ca34662f71f3956"
+          test "$(git hash-object audit_candidate.py)" = "a1ff114674c7d1689aaab2a3457abeebb17740c7"
+          test "$(git hash-object test_pure_gate.py)" = "88c210e57827fac38141795ae08f7f9764c06454"
+      - name: Execute versioned V3 actual candidate pure-fixture tests under hard cap
+        shell: bash
+        run: |
+          set -euo pipefail
+          export OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1
+          timeout --signal=TERM --kill-after=5s 140s prlimit --as=1073741824 --rss=1073741824 -- \
+            python -m unittest discover -s code/experiments/inverse_attainable_standard/b02_gate_v3 -p 'test_pure_gate.py' -v
+          echo 'R05_G17_V3_PURE_TESTS_COMPLETE_NO_GRAPH_NO_SOLVE'
