@@ -1,0 +1,61 @@
+name: R05 Sec410 analytics dry-run on 54 available raw instances
+on:
+  push:
+    branches: [researcher/05/r05-sec410-endtoend-01-analysis]
+    paths:
+      - 'code/experiments/inverse_attainable_standard/analysis_v3/aggregate.py'
+      - '.github/workflows/r05-sec410-analysis-preview.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  analysis-54:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install plotting dependency only; no graph or solver
+        run: python -m pip install matplotlib
+      - name: Analysis syntax and partial expected coverage 54/108
+        shell: bash
+        run: |
+          set -euo pipefail
+          p=code/experiments/inverse_attainable_standard/analysis_v3/aggregate.py
+          test "$(git hash-object "$p")" = "7bfadccd29b74ac6def1ac7fc7a4f4387e48b7ba"
+          python -m py_compile "$p"
+          python "$p"
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('code/experiments/inverse_attainable_standard/analysis_v3/preview/coverage.json')
+          a=json.loads(p.read_text())
+          assert a['planned_count']==108
+          assert a['status_counts'].get('COMPLETED')==54
+          assert a['status_counts'].get('NOT_RUN')==54
+          assert a['B01_v2_independently_accepted']==18
+          assert a['complete_all'] is False
+          print('R05_ANALYSIS_PREVIEW_RAW_COVERAGE_PASS',a['status_counts'])
+          PY
+      - name: Commit versioned partial-output audit to analytics branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -f code/experiments/inverse_attainable_standard/analysis_v3/preview/
+          if ! git diff --cached --quiet; then
+            git commit -m 'R05 Sec410: checkpoint validated 54/108 raw analysis preview (no solve)'
+            git push origin HEAD:researcher/05/r05-sec410-endtoend-01-analysis
+          fi
+      - name: Preserve analytic generated preview artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: r05-sec410-partial-analytics-preview
+          path: code/experiments/inverse_attainable_standard/analysis_v3/preview/
+          if-no-files-found: warn
