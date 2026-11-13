@@ -45,16 +45,16 @@ def run() -> dict:
     need(len(rows) == len(observed) == 108, "PLAN_108_MISMATCH")
     need(set(rows) == {r["run_id"] for r in observed}, "RUN_ID_SET_MISMATCH")
 
-    # Regression for first exact full XeLaTeX failure: an unescaped underscore
-    # in the section-4.10 evidence filename used inside \\lr{...}.
+    # Regression: reject unescaped underscores in section 4.10
+    # text commands; the first two-pass XeLaTeX job failed on this exact case.
     tex = (BASE.parents[2] / "tex/chapter4.tex").read_text(encoding="utf-8")
-    start = tex.index(r"\\section{بازیابی معکوس سیاست از مراکز دست‌یافتنی}")
-    end = tex.index(r"\\section{مراکز برچسبی بیزی، فضای قابل‌دستیابی و معیارهای بازنمایی}", start)
+    start = tex.index(r"\section{بازیابی معکوس سیاست از مراکز دست‌یافتنی}")
+    end = tex.index(r"\section{مراکز برچسبی بیزی، فضای قابل‌دستیابی و معیارهای بازنمایی}", start)
     section = tex[start:end]
-    escaped_filename = r"\\lr{metrics\\_full.json}"
+    escaped_filename = r"\lr{metrics\_full.json}"
     need(escaped_filename in section, "MISSING_ESCAPED_METRICS_FILENAME")
-    for match in re.finditer(r"\\\\(?:lr|texttt)\\{[^{}]*\\}", section):
-        need(re.search(r"(?<!\\\\)_", match.group()) is None,
+    for match in re.finditer(r"\\(?:lr|texttt)\{[^{}]*\}", section):
+        need(re.search(r"(?<!\\)_", match.group()) is None,
              "UNESCAPED_UNDERSCORE_IN_LATEX_TEXT:" + match.group())
 
     counts: Counter[str] = Counter()
