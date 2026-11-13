@@ -1,0 +1,78 @@
+name: R05 Sec410 versioned Train-only snapshots B03-B06 (NO SOLVERS)
+
+on:
+  push:
+    branches:
+      - researcher/05/r05-sec410-endtoend-01-infra
+    paths:
+      - 'code/experiments/inverse_attainable_standard/snapshot_v2/build_standard_snapshots.py'
+      - '.github/workflows/r05-sec410-snapshots.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: r05-sec410-snapshots
+  cancel-in-progress: false
+
+jobs:
+  snapshot-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install CPU libraries (outside numerical clock)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install numpy
+          python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+      - name: Validate exact versioned source, syntax, plan and no historic overwrite
+        shell: bash
+        run: |
+          set -euo pipefail
+          p=code/experiments/inverse_attainable_standard/snapshot_v2/build_standard_snapshots.py
+          test "$(git hash-object "$p")" = "d95e3d0c98702c907b17fadced0086f04b5d5e6a"
+          python -m py_compile "$p"
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('code/experiments/inverse_attainable_standard/standard_plan/plan_108.json')
+          v=json.loads(p.read_text())
+          for b in ('B03','B04','B05','B06'):
+              rows=[r for r in v['runs'] if r['block_id'].split('-')[1]==b]
+              assert len(rows)==18 and all(r['state']=='NOT_RUN' for r in rows)
+              assert all(r['reference_seed'] is None for r in rows) if b in ('B04','B06') else all(type(r['reference_seed']) is int for r in rows)
+          print('R05_SNAPSHOT_PREFLIGHT_PLAN_PASS')
+          PY
+          test -f code/experiments/inverse_attainable_standard/b02_preflight/train_canonical.bin
+      - name: Create four immutable Train-only snapshots and checkpoint each block (NO SOLVERS)
+        shell: bash
+        run: |
+          set -euo pipefail
+          export OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for block in B03 B05 B04 B06; do
+            echo "SNAPSHOT_BLOCK_START=$block"
+            timeout --signal=TERM --kill-after=5s 150s python code/experiments/inverse_attainable_standard/snapshot_v2/build_standard_snapshots.py "$block"
+            git add -f code/experiments/inverse_attainable_standard/snapshot_v2/results/
+            if ! git diff --cached --quiet; then
+              git commit -m "R05 Sec410: immutable Train-only snapshot $block (zero solves)"
+              git push origin HEAD:researcher/05/r05-sec410-endtoend-01-infra
+            fi
+            echo "SNAPSHOT_BLOCK_CHECKPOINT=$block"
+          done
+      - name: Upload partial or complete snapshot evidence including failures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: r05-sec410-versioned-train-snapshots
+          path: code/experiments/inverse_attainable_standard/snapshot_v2/results/
+          if-no-files-found: warn
