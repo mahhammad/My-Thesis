@@ -182,8 +182,9 @@ def aggregate(args):
     full=status["COMPLETED"]==108 and len(status)==1
     if args.complete and not full:raise RuntimeError("COVERAGE_NOT_COMPLETE "+str(status))
     out=ROOT/("analysis_v3/preview" if not args.complete else "results")
-    tab=out/"tables"
-    fig=out/"figures"
+    tab=out/"tables" if not args.complete else ROOT/"tables"
+    fig=out/"figures" if not args.complete else ROOT/"figures"
+    report_path=(out/"REPORT_FA.md") if not args.complete else ROOT/"REPORT_FA.md"
     groups=[]
     for block in plan["blocks"]:
         bid=block["block_id"]
@@ -226,14 +227,37 @@ def aggregate(args):
               "seed_generators":3,"data_seeds":[20261102,20261103,20261104],
               "nref_levels":[150,300],"complete_all":full,
               "records":records}
+    # Independent exact-forward replay of selected class policies. This checks
+    # sample-level densities and geometry; never infer R from center JSD alone.
+    reconstructed=[]
+    missing_recon=[]
+    for block in plan["blocks"]:
+        bid=block["block_id"]
+        short=bid.split("-")[1]
+        path=ROOT/"results/reconstructed"/short/"metrics.json"
+        if not path.is_file():
+            missing_recon.append(short)
+            continue
+        evidence=read(path)
+        assert (evidence["status"]=="PASS_INTERNAL_EXACT_REPLAY" and
+                evidence["block"]==short and evidence["replayed_policy_count"]==18 and
+                len(evidence["combinations"])==6 and evidence["never_read_Test_or_Validation"] is True),short
+        for value in evidence["combinations"]:
+            assert len(value["matrix_of_reconstructed_class_centers"])==3
+            assert len(value["per_class"])==3
+            assert max(abs(c["exact_center_JSD"]-c["raw_center_JSD"])
+                       for c in value["per_class"])<=1e-12
+        reconstructed.append(evidence)
+    if args.complete and len(reconstructed)!=6:
+        raise RuntimeError("MISSING_INDEPENDENT_RECONSTRUCTED_METRICS "+str(missing_recon))
     limits={
       "classification":{"BA":"NOT_APPLICABLE_TO_CORE_INVERSE","confusion":"NOT_APPLICABLE_TO_CORE_INVERSE",
                         "decision_margin":"NOT_APPLICABLE_TO_CORE_INVERSE"},
-      "density":{"R_KL":"NOT_MEASURED_NO_SAMPLE_NEIGHBOR_DISTRIBUTIONS",
-                 "R_JSD":"NOT_MEASURED_NO_SAMPLE_NEIGHBOR_DISTRIBUTIONS",
-                 "R_sqrt_JSD":"NOT_MEASURED_NO_SAMPLE_NEIGHBOR_DISTRIBUTIONS"},
+      "density":{"R_KL":"MEASURED_REPLAYED_TRAIN_ONLY" if len(reconstructed)==6 else "PARTIALLY_MEASURED_REPLAYED_TRAIN_ONLY",
+                 "R_JSD":"MEASURED_REPLAYED_TRAIN_ONLY" if len(reconstructed)==6 else "PARTIALLY_MEASURED_REPLAYED_TRAIN_ONLY",
+                 "R_sqrt_JSD":"MEASURED_REPLAYED_TRAIN_ONLY" if len(reconstructed)==6 else "PARTIALLY_MEASURED_REPLAYED_TRAIN_ONLY"},
       "centers_geometry":{"I_T_BT_TNL_BTNL":"MEASURED_TARGET_CENTERS",
-                          "selected_policy_I_T_BT_TNL_BTNL":"NOT_VERIFIED_UNTIL_SELECTED_CENTER_EXACT_FORWARD"},
+                          "selected_policy_I_T_BT_TNL_BTNL":"MEASURED_REPLAYED_TRAIN_ONLY" if len(reconstructed)==6 else "PARTIALLY_MEASURED_REPLAYED_TRAIN_ONLY"},
       "inverse":{"best_final_exact_JSD":"MEASURED_PER_COMPLETED_RUN",
                  "wall_resource_and_counts":"MEASURED_WHEN_RAW_AVAILABLE"},
       "surrogate_losses":{"Q_loss_per_checkpoint":"PRESENT_IN_METHOD_RAW_TRACES_NOT_AGGREGATED",
@@ -244,8 +268,10 @@ def aggregate(args):
                          "dtype":"float64","method_order":list(METHODS),
                          "independent_data_generators":3,
                          "no_Validation_or_Test":True,
-                         "B01_v2_replayed":False},
+                         "B01_v2_replayed":any(r["block"]=="B01" for r in reconstructed)},
              "group_metrics":groups,"target_center_geometry":geom,
+             "reconstructed_center_density_and_geometry":reconstructed,
+             "missing_reconstruction_blocks":missing_recon,
              "metric_coverage":limits,
              "aggregation_note":"108 runs are within only 3 independent data-generator seeds; class and initialization rows are dependent.",
              "wall_note":"inclusive method walls overlap in Q->GN; never sum across methods as physical job wall."}
@@ -266,6 +292,20 @@ def aggregate(args):
         geoRows.append(base)
     table(tab/"target_geometry.csv",geoRows,
           ["block_id","nref","data_seed","I","T","BT","TNL","BTNL","status","weighting"])
+    reconRows=[]
+    for block in reconstructed:
+        for v in block["combinations"]:
+            reconRows.append({"block":block["block"],"nref":block["nref"],
+              "data_seed":block["data_seed"],"solver":v["method"],
+              "initialization":v["initialization"],
+              "I":v["I"],"T":v["T"],"BT":v["BT"],"TNL":v["TNL"],"BTNL":v["BTNL"],
+              "R_KL":v["R_KL_uniform_class"],"R_JSD":v["R_JSD_uniform_class"],
+              "R_sqrt_JSD":v["R_sqrt_JSD_uniform_class"],
+              "I_target":v["target_geometry"]["I"],
+              "evidence_status":v["evidence_status"]})
+    table(tab/"reconstructed_geometry_density.csv",reconRows,
+          ["block","nref","data_seed","solver","initialization","I","T","BT",
+           "TNL","BTNL","R_KL","R_JSD","R_sqrt_JSD","I_target","evidence_status"])
     pairs=[dict(block_id=z["block_id"],**p) for z in geom for p in z["pairwise"]]
     table(tab/"target_pairwise_distances.csv",pairs,
           ["block_id","class_a","class_b","KL_a_to_b","KL_b_to_a","JSD","sqrt_JSD"])
@@ -307,15 +347,15 @@ def aggregate(args):
       "",
       "آمار توصیفی را باید در سطح بذر مولد تحلیل کرد؛ ۱۰۸ نتیجه تکرار مستقل نیستند.",
       "آمار زمان روش Q+GN شامل آغاز گرمِ Q است؛ برای جلوگیری از دوباره‌شماری، مجموع زمان‌های روش‌ها با زمان واقعی کل کار برابر فرض نمی‌شود.",
-      "برای معیارهای `I,T,BT,TNL,BTNL` مقادیر مراکز **هدف** با وزن برابر طبقات محاسبه شده است.",
-      "معیار `R` به توزیع همسایگی نمونه‌ها نیاز دارد و از خطای مرکز استنتاج نشده است.",
+      "معیارهای `I,T,BT,TNL,BTNL` هم برای مراکز هدف و هم برای مراکز بازپخش‌شده با وزن برابر طبقات محاسبه شده‌اند.",
+      "معیار `R` با بازپخش توزیع همسایگی **هر نمونهٔ Train** پیرامون مرکز مربوط به خودش به دست آمده است؛ از JSD مراکز استنتاج نشده است.",
       "BA، confusion و margin بدون پروتکل مجاز طبقه‌بندی محاسبه نشده‌اند.",
       "",
       "دادهٔ اصلی: `results/coverage.json` و `results/metrics_full.json`؛ جدول‌ها در `tables/` هستند.",
       "تا صدور رأی ممیزی مستقل نهایی، تمام خروجی‌های جدید `PROVISIONAL_PENDING_FINAL_QA`اند.",
       "",
     ])
-    (out/"REPORT_FA.md").write_text("\n".join(report),encoding="utf-8")
+    report_path.write_text("\n".join(report),encoding="utf-8")
     # Pure JSON summary is the authoritative source; plots are presentation only.
     import matplotlib
     matplotlib.use("Agg")
@@ -357,13 +397,44 @@ def aggregate(args):
     figg.savefig(fig/"best_jsd_by_n.pdf",bbox_inches="tight")
     figg.savefig(fig/"best_jsd_by_n.png",dpi=170,bbox_inches="tight")
     plt.close(figg)
+    if reconstructed:
+        figg,ax=plt.subplots(figsize=(8.8,4.9))
+        ordmap={"B01":0,"B02":1,"B03":2,"B04":3,"B05":4,"B06":5}
+        for method in METHODS:
+            records_plot=[v for r in reconstructed for v in r["combinations"] if v["method"]==method]
+            xx=[ordmap[z["block"]]+(-.20 if z["initialization"]=="zero" else .20)
+                for z in records_plot]
+            ax.scatter(xx,[z["I"] for z in records_plot],color=COLORS[method],
+                       label=method,s=29,alpha=.7)
+        ax.set_xticks(range(6),list(ordmap))
+        ax.set_xlabel("Block (fixed seed and n)")
+        ax.set_ylabel("I of reconstructed class centers (nats)")
+        ax.set_title("Information separation of reconstructed centers")
+        ax.legend(frameon=False,ncol=3)
+        figg.tight_layout()
+        figg.savefig(fig/"reconstructed_I.pdf",bbox_inches="tight")
+        figg.savefig(fig/"reconstructed_I.png",dpi=170,bbox_inches="tight")
+        plt.close(figg)
+        figg,ax=plt.subplots(figsize=(8.7,5.1))
+        for method in METHODS:
+            subset=[v for r in reconstructed for v in r["combinations"] if v["method"]==method]
+            ax.scatter([v["R_KL_uniform_class"] for v in subset],[v["I"] for v in subset],
+                       color=COLORS[method],label=method,s=33,alpha=.74)
+        ax.set_xlabel("Within-class density R (KL, nats)")
+        ax.set_ylabel("Between-class information I (nats)")
+        ax.set_title("Density-separation geometry; same center does not imply same R")
+        ax.legend(frameon=False)
+        figg.tight_layout()
+        figg.savefig(fig/"density_vs_separation.pdf",bbox_inches="tight")
+        figg.savefig(fig/"density_vs_separation.png",dpi=170,bbox_inches="tight")
+        plt.close(figg)
     emit(out/"analysis_manifest.json",{"source_plan_sha256":sha(PLAN.read_bytes()),
          "source_b01_summary_sha256":sha((B01/"summary.json").read_bytes()),
          "total_planned":108,"coverage":dict(status),"complete":full,
          "files":["coverage.json","metrics_full.json","tables/run_metrics.csv",
                   "tables/success_by_block_method.csv","tables/protocol_blocks.csv",
                   "tables/target_geometry.csv","tables/target_pairwise_distances.csv",
-                  "tables/seed_n_method.csv","figures/success_n150.pdf",
+                  "tables/reconstructed_geometry_density.csv","tables/seed_n_method.csv","figures/success_n150.pdf",
                   "figures/success_n300.pdf","figures/best_jsd_by_n.pdf",
                   "REPORT_FA.md"],
          "no_solver_executed":True,"evidence_status":"PROVISIONAL_PENDING_FINAL_QA"})
