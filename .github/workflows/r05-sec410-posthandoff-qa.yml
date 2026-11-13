@@ -1,0 +1,46 @@
+name: R05 Sec410 post-handoff immutable raw and trace validation (NO SOLVER)
+
+on:
+  push:
+    branches:
+      - researcher/05-chapter4
+    paths:
+      - 'code/experiments/inverse_attainable_standard/qa_final/verify_trace_contract.py'
+      - '.github/workflows/r05-sec410-posthandoff-qa.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: r05-sec410-posthandoff-qa
+  cancel-in-progress: false
+
+jobs:
+  read-only-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Historical 108 raw-to-LaTeX static QA, pinned frozen internal record
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout --kill-after=5s 180s python -u code/experiments/inverse_attainable_standard/qa_final/verify.py
+      - name: Post-handoff full 90 raw traces and START/TERMINAL digest check
+        shell: bash
+        run: |
+          set -euo pipefail
+          p=code/experiments/inverse_attainable_standard/qa_final/verify_trace_contract.py
+          python -m py_compile "$p"
+          timeout --kill-after=5s 180s python -u "$p"
+      - name: Same trace contract under optimized Python (assertions disabled)
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout --kill-after=5s 180s python -O -u code/experiments/inverse_attainable_standard/qa_final/verify_trace_contract.py
