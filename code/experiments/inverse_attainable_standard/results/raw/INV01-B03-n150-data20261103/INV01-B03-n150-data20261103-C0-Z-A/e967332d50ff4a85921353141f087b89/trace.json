@@ -1,0 +1,2159 @@
+{
+  "started": 1794572835.2690895,
+  "finished": null,
+  "status": "in_progress",
+  "stop_reason": null,
+  "runs": [
+    {
+      "problem": "INV01-B03-n150-data20261103-C0-Z",
+      "method": "Exact-Adam",
+      "initialization": "zero",
+      "status": "complete",
+      "stop_reason": "tolerance",
+      "best_JSD": 4.887390825381033e-09,
+      "final_JSD": 4.887390825381033e-09,
+      "reached_tolerance": true,
+      "counts": {
+        "q_grad": 0,
+        "exact_grad": 105,
+        "exact_forward": 106,
+        "jacobian": 0,
+        "line_search": 0,
+        "retries": 0
+      },
+      "trace": [
+        {
+          "stage": "Exact-Adam",
+          "step": 0,
+          "exact_center_JSD": 0.005707224684342371,
+          "best_JSD": 0.005707224684342371,
+          "method_wall_s": 0.7643679460000001,
+          "inclusive_wall_s": 0.7643679460000001,
+          "global_compute_wall_s": 0.764844201999999,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 0,
+            "exact_forward": 1,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 409.8359375
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 1,
+          "exact_center_JSD": 0.0037190771396526934,
+          "best_JSD": 0.0037190771396526934,
+          "method_wall_s": 0.8005790870000027,
+          "inclusive_wall_s": 0.8005790870000027,
+          "global_compute_wall_s": 0.8010553430000016,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 1,
+            "exact_forward": 2,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 422.14453125,
+          "surrogate": 0.005707224684342371
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 2,
+          "exact_center_JSD": 0.002120544942571412,
+          "best_JSD": 0.002120544942571412,
+          "method_wall_s": 0.8414523980000013,
+          "inclusive_wall_s": 0.8414523980000013,
+          "global_compute_wall_s": 0.8419286540000002,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 2,
+            "exact_forward": 3,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 429.59765625,
+          "surrogate": 0.0037190771396526934
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 3,
+          "exact_center_JSD": 0.0009871235823458724,
+          "best_JSD": 0.0009871235823458724,
+          "method_wall_s": 0.8753791749999991,
+          "inclusive_wall_s": 0.8753791749999991,
+          "global_compute_wall_s": 0.875855430999998,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 3,
+            "exact_forward": 4,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 427.484375,
+          "surrogate": 0.002120544942571412
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 4,
+          "exact_center_JSD": 0.0003320411092756492,
+          "best_JSD": 0.0003320411092756492,
+          "method_wall_s": 0.9088237209999974,
+          "inclusive_wall_s": 0.9088237209999974,
+          "global_compute_wall_s": 0.9092999769999963,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 4,
+            "exact_forward": 5,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 426.01171875,
+          "surrogate": 0.0009871235823458724
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 5,
+          "exact_center_JSD": 9.625888343223199e-05,
+          "best_JSD": 9.625888343223199e-05,
+          "method_wall_s": 0.9436362289999991,
+          "inclusive_wall_s": 0.9436362289999991,
+          "global_compute_wall_s": 0.944112484999998,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 5,
+            "exact_forward": 6,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 428.578125,
+          "surrogate": 0.0003320411092756492
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 6,
+          "exact_center_JSD": 0.0001618050302925056,
+          "best_JSD": 9.625888343223199e-05,
+          "method_wall_s": 0.9781157859999965,
+          "inclusive_wall_s": 0.9781157859999965,
+          "global_compute_wall_s": 0.9785920419999954,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 6,
+            "exact_forward": 7,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 427.15234375,
+          "surrogate": 9.625888343223199e-05
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 7,
+          "exact_center_JSD": 0.00038495517562742165,
+          "best_JSD": 9.625888343223199e-05,
+          "method_wall_s": 1.011671253000003,
+          "inclusive_wall_s": 1.011671253000003,
+          "global_compute_wall_s": 1.0121475090000018,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 7,
+            "exact_forward": 8,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 425.84375,
+          "surrogate": 0.0001618050302925056
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 8,
+          "exact_center_JSD": 0.0006356986675101206,
+          "best_JSD": 9.625888343223199e-05,
+          "method_wall_s": 1.044825412999998,
+          "inclusive_wall_s": 1.044825412999998,
+          "global_compute_wall_s": 1.045301668999997,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 8,
+            "exact_forward": 9,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 428.578125,
+          "surrogate": 0.00038495517562742165
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 9,
+          "exact_center_JSD": 0.0008275159967342516,
+          "best_JSD": 9.625888343223199e-05,
+          "method_wall_s": 1.0770544709999967,
+          "inclusive_wall_s": 1.0770544709999967,
+          "global_compute_wall_s": 1.0775307269999956,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 9,
+            "exact_forward": 10,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 428.5859375,
+          "surrogate": 0.0006356986675101206
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 10,
+          "exact_center_JSD": 0.0009240074453955582,
+          "best_JSD": 9.625888343223199e-05,
+          "method_wall_s": 1.1093402959999992,
+          "inclusive_wall_s": 1.1093402959999992,
+          "global_compute_wall_s": 1.109816551999998,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 10,
+            "exact_forward": 11,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 428.5859375,
+          "surrogate": 0.0008275159967342516
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 11,
+          "exact_center_JSD": 0.0009258482231002674,
+          "best_JSD": 9.625888343223199e-05,
+          "method_wall_s": 1.1432760360000032,
+          "inclusive_wall_s": 1.1432760360000032,
+          "global_compute_wall_s": 1.143752292000002,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 11,
+            "exact_forward": 12,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 426.41796875,
+          "surrogate": 0.0009240074453955582
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 12,
+          "exact_center_JSD": 0.0008531655505968905,
+          "best_JSD": 9.625888343223199e-05,
+          "method_wall_s": 1.1767145299999981,
+          "inclusive_wall_s": 1.1767145299999981,
+          "global_compute_wall_s": 1.177190785999997,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 12,
+            "exact_forward": 13,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 427.84765625,
+          "surrogate": 0.0009258482231002674
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 13,
+          "exact_center_JSD": 0.0007324516437179351,
+          "best_JSD": 9.625888343223199e-05,
+          "method_wall_s": 1.213220837999998,
+          "inclusive_wall_s": 1.213220837999998,
+          "global_compute_wall_s": 1.213697093999997,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 13,
+            "exact_forward": 14,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 426.36328125,
+          "surrogate": 0.0008531655505968905
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 14,
+          "exact_center_JSD": 0.0005892468767477732,
+          "best_JSD": 9.625888343223199e-05,
+          "method_wall_s": 1.248365434,
+          "inclusive_wall_s": 1.248365434,
+          "global_compute_wall_s": 1.248841689999999,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 14,
+            "exact_forward": 15,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 426.3828125,
+          "surrogate": 0.0007324516437179351
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 15,
+          "exact_center_JSD": 0.00044497850647251536,
+          "best_JSD": 9.625888343223199e-05,
+          "method_wall_s": 1.285455810000002,
+          "inclusive_wall_s": 1.285455810000002,
+          "global_compute_wall_s": 1.2859320660000009,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 15,
+            "exact_forward": 16,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 426.3828125,
+          "surrogate": 0.0005892468767477732
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 16,
+          "exact_center_JSD": 0.000316086927266479,
+          "best_JSD": 9.625888343223199e-05,
+          "method_wall_s": 1.3230113500000016,
+          "inclusive_wall_s": 1.3230113500000016,
+          "global_compute_wall_s": 1.3234876060000005,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 16,
+            "exact_forward": 17,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 426.38671875,
+          "surrogate": 0.00044497850647251536
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 17,
+          "exact_center_JSD": 0.0002139900321493915,
+          "best_JSD": 9.625888343223199e-05,
+          "method_wall_s": 1.359714230999998,
+          "inclusive_wall_s": 1.359714230999998,
+          "global_compute_wall_s": 1.360190486999997,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 17,
+            "exact_forward": 18,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 426.41796875,
+          "surrogate": 0.000316086927266479
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 18,
+          "exact_center_JSD": 0.00014509232876758205,
+          "best_JSD": 9.625888343223199e-05,
+          "method_wall_s": 1.3972211760000022,
+          "inclusive_wall_s": 1.3972211760000022,
+          "global_compute_wall_s": 1.397697432000001,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 18,
+            "exact_forward": 19,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 426.4375,
+          "surrogate": 0.0002139900321493915
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 19,
+          "exact_center_JSD": 0.00011072741698414656,
+          "best_JSD": 9.625888343223199e-05,
+          "method_wall_s": 1.4331566970000011,
+          "inclusive_wall_s": 1.4331566970000011,
+          "global_compute_wall_s": 1.433632953,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 19,
+            "exact_forward": 20,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 426.4375,
+          "surrogate": 0.00014509232876758205
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 20,
+          "exact_center_JSD": 0.00010735234841807717,
+          "best_JSD": 9.625888343223199e-05,
+          "method_wall_s": 1.4699414330000025,
+          "inclusive_wall_s": 1.4699414330000025,
+          "global_compute_wall_s": 1.4704176890000014,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 20,
+            "exact_forward": 21,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 427.01171875,
+          "surrogate": 0.00011072741698414656
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 21,
+          "exact_center_JSD": 0.00012736471188501408,
+          "best_JSD": 9.625888343223199e-05,
+          "method_wall_s": 1.5058653970000009,
+          "inclusive_wall_s": 1.5058653970000009,
+          "global_compute_wall_s": 1.5063416529999998,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 21,
+            "exact_forward": 22,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 425.01171875,
+          "surrogate": 0.00010735234841807717
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 22,
+          "exact_center_JSD": 0.00016064834226336977,
+          "best_JSD": 9.625888343223199e-05,
+          "method_wall_s": 1.5411339930000025,
+          "inclusive_wall_s": 1.5411339930000025,
+          "global_compute_wall_s": 1.5416102490000014,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 22,
+            "exact_forward": 23,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 426.44140625,
+          "surrogate": 0.00012736471188501408
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 23,
+          "exact_center_JSD": 0.00019657268765571612,
+          "best_JSD": 9.625888343223199e-05,
+          "method_wall_s": 1.576248591999999,
+          "inclusive_wall_s": 1.576248591999999,
+          "global_compute_wall_s": 1.5767248479999978,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 23,
+            "exact_forward": 24,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 426.4453125,
+          "surrogate": 0.00016064834226336977
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 24,
+          "exact_center_JSD": 0.0002259355765577009,
+          "best_JSD": 9.625888343223199e-05,
+          "method_wall_s": 1.6108569840000015,
+          "inclusive_wall_s": 1.6108569840000015,
+          "global_compute_wall_s": 1.6113332400000004,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 24,
+            "exact_forward": 25,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 426.328125,
+          "surrogate": 0.00019657268765571612
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 25,
+          "exact_center_JSD": 0.0002423827283262181,
+          "best_JSD": 9.625888343223199e-05,
+          "method_wall_s": 1.6453677160000026,
+          "inclusive_wall_s": 1.6453677160000026,
+          "global_compute_wall_s": 1.6458439720000015,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 25,
+            "exact_forward": 26,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 425.0234375,
+          "surrogate": 0.0002259355765577009,
+          "plateau_diagnostic": true
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 26,
+          "exact_center_JSD": 0.00024306861385758882,
+          "best_JSD": 9.625888343223199e-05,
+          "method_wall_s": 1.6812615229999963,
+          "inclusive_wall_s": 1.6812615229999963,
+          "global_compute_wall_s": 1.6817377789999952,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 26,
+            "exact_forward": 27,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 424.8984375,
+          "surrogate": 0.0002423827283262181,
+          "plateau_diagnostic": true
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 27,
+          "exact_center_JSD": 0.00022856533818171876,
+          "best_JSD": 9.625888343223199e-05,
+          "method_wall_s": 1.7170287450000004,
+          "inclusive_wall_s": 1.7170287450000004,
+          "global_compute_wall_s": 1.7175050009999993,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 27,
+            "exact_forward": 28,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 424.9140625,
+          "surrogate": 0.00024306861385758882,
+          "plateau_diagnostic": true
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 28,
+          "exact_center_JSD": 0.00020218231604773873,
+          "best_JSD": 9.625888343223199e-05,
+          "method_wall_s": 1.7530192810000003,
+          "inclusive_wall_s": 1.7530192810000003,
+          "global_compute_wall_s": 1.7534955369999992,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 28,
+            "exact_forward": 29,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 426.34375,
+          "surrogate": 0.00022856533818171876,
+          "plateau_diagnostic": true
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 29,
+          "exact_center_JSD": 0.00016892627154441175,
+          "best_JSD": 9.625888343223199e-05,
+          "method_wall_s": 1.7877924060000012,
+          "inclusive_wall_s": 1.7877924060000012,
+          "global_compute_wall_s": 1.7882686620000001,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 29,
+            "exact_forward": 30,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 425.0390625,
+          "surrogate": 0.00020218231604773873,
+          "plateau_diagnostic": true
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 30,
+          "exact_center_JSD": 0.00013433751533431515,
+          "best_JSD": 9.625888343223199e-05,
+          "method_wall_s": 1.8255575880000023,
+          "inclusive_wall_s": 1.8255575880000023,
+          "global_compute_wall_s": 1.8260338440000012,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 30,
+            "exact_forward": 31,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 426.34375,
+          "surrogate": 0.00016892627154441175,
+          "plateau_diagnostic": true
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 31,
+          "exact_center_JSD": 0.00010341069912467304,
+          "best_JSD": 9.625888343223199e-05,
+          "method_wall_s": 1.861082672000002,
+          "inclusive_wall_s": 1.861082672000002,
+          "global_compute_wall_s": 1.861558928000001,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 31,
+            "exact_forward": 32,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 426.34375,
+          "surrogate": 0.00013433751533431515,
+          "plateau_diagnostic": true
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 32,
+          "exact_center_JSD": 7.976309842072649e-05,
+          "best_JSD": 7.976309842072649e-05,
+          "method_wall_s": 1.897022978999999,
+          "inclusive_wall_s": 1.897022978999999,
+          "global_compute_wall_s": 1.897499234999998,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 32,
+            "exact_forward": 33,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 426.63671875,
+          "surrogate": 0.00010341069912467304
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 33,
+          "exact_center_JSD": 6.515863738076888e-05,
+          "best_JSD": 6.515863738076888e-05,
+          "method_wall_s": 1.9312714140000011,
+          "inclusive_wall_s": 1.9312714140000011,
+          "global_compute_wall_s": 1.93174767,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 33,
+            "exact_forward": 34,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 425.08984375,
+          "surrogate": 7.976309842072649e-05
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 34,
+          "exact_center_JSD": 5.9432318935348505e-05,
+          "best_JSD": 5.9432318935348505e-05,
+          "method_wall_s": 1.9666373869999987,
+          "inclusive_wall_s": 1.9666373869999987,
+          "global_compute_wall_s": 1.9671136429999976,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 34,
+            "exact_forward": 35,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 426.51953125,
+          "surrogate": 6.515863738076888e-05
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 35,
+          "exact_center_JSD": 6.078840891754478e-05,
+          "best_JSD": 5.9432318935348505e-05,
+          "method_wall_s": 2.000297087,
+          "inclusive_wall_s": 2.000297087,
+          "global_compute_wall_s": 2.0007733429999988,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 35,
+            "exact_forward": 36,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 425.08984375,
+          "surrogate": 5.9432318935348505e-05
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 36,
+          "exact_center_JSD": 6.637595530079032e-05,
+          "best_JSD": 5.9432318935348505e-05,
+          "method_wall_s": 2.0344896880000007,
+          "inclusive_wall_s": 2.0344896880000007,
+          "global_compute_wall_s": 2.0349659439999996,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 36,
+            "exact_forward": 37,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 425.10546875,
+          "surrogate": 6.078840891754478e-05
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 37,
+          "exact_center_JSD": 7.29958614616999e-05,
+          "best_JSD": 5.9432318935348505e-05,
+          "method_wall_s": 2.0722732939999986,
+          "inclusive_wall_s": 2.0722732939999986,
+          "global_compute_wall_s": 2.0727495499999975,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 37,
+            "exact_forward": 38,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 428.83203125,
+          "surrogate": 6.637595530079032e-05
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 38,
+          "exact_center_JSD": 7.778207306441409e-05,
+          "best_JSD": 5.9432318935348505e-05,
+          "method_wall_s": 2.1069407689999977,
+          "inclusive_wall_s": 2.1069407689999977,
+          "global_compute_wall_s": 2.1074170249999966,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 38,
+            "exact_forward": 39,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 426.4296875,
+          "surrogate": 7.29958614616999e-05
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 39,
+          "exact_center_JSD": 7.872705833877891e-05,
+          "best_JSD": 5.9432318935348505e-05,
+          "method_wall_s": 2.141589664999998,
+          "inclusive_wall_s": 2.141589664999998,
+          "global_compute_wall_s": 2.142065920999997,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 39,
+            "exact_forward": 40,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 426.4296875,
+          "surrogate": 7.778207306441409e-05
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 40,
+          "exact_center_JSD": 7.497292220426388e-05,
+          "best_JSD": 5.9432318935348505e-05,
+          "method_wall_s": 2.1768601149999967,
+          "inclusive_wall_s": 2.1768601149999967,
+          "global_compute_wall_s": 2.1773363709999956,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 40,
+            "exact_forward": 41,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 427.2890625,
+          "surrogate": 7.872705833877891e-05
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 41,
+          "exact_center_JSD": 6.684388822209009e-05,
+          "best_JSD": 5.9432318935348505e-05,
+          "method_wall_s": 2.211628380999997,
+          "inclusive_wall_s": 2.211628380999997,
+          "global_compute_wall_s": 2.212104636999996,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 41,
+            "exact_forward": 42,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 425.98046875,
+          "surrogate": 7.497292220426388e-05
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 42,
+          "exact_center_JSD": 5.56416132529991e-05,
+          "best_JSD": 5.56416132529991e-05,
+          "method_wall_s": 2.2472547059999997,
+          "inclusive_wall_s": 2.2472547059999997,
+          "global_compute_wall_s": 2.2477309619999986,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 42,
+            "exact_forward": 43,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 428.72265625,
+          "surrogate": 6.684388822209009e-05
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 43,
+          "exact_center_JSD": 4.326037009361183e-05,
+          "best_JSD": 4.326037009361183e-05,
+          "method_wall_s": 2.282028558999997,
+          "inclusive_wall_s": 2.282028558999997,
+          "global_compute_wall_s": 2.282504814999996,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 43,
+            "exact_forward": 44,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 427.00390625,
+          "surrogate": 5.56416132529991e-05
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 44,
+          "exact_center_JSD": 3.170671655339241e-05,
+          "best_JSD": 3.170671655339241e-05,
+          "method_wall_s": 2.316322782999997,
+          "inclusive_wall_s": 2.316322782999997,
+          "global_compute_wall_s": 2.3167990389999957,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 44,
+            "exact_forward": 45,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 425.1171875,
+          "surrogate": 4.326037009361183e-05
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 45,
+          "exact_center_JSD": 2.2626675203252233e-05,
+          "best_JSD": 2.2626675203252233e-05,
+          "method_wall_s": 2.3508111780000007,
+          "inclusive_wall_s": 2.3508111780000007,
+          "global_compute_wall_s": 2.3512874339999996,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 45,
+            "exact_forward": 46,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 425.1171875,
+          "surrogate": 3.170671655339241e-05
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 46,
+          "exact_center_JSD": 1.6946141358054057e-05,
+          "best_JSD": 1.6946141358054057e-05,
+          "method_wall_s": 2.3909225009999986,
+          "inclusive_wall_s": 2.3909225009999986,
+          "global_compute_wall_s": 2.3913987569999975,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 46,
+            "exact_forward": 47,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 426.55078125,
+          "surrogate": 2.2626675203252233e-05
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 47,
+          "exact_center_JSD": 1.4709143050684048e-05,
+          "best_JSD": 1.4709143050684048e-05,
+          "method_wall_s": 2.4258707779999966,
+          "inclusive_wall_s": 2.4258707779999966,
+          "global_compute_wall_s": 2.4263470339999955,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 47,
+            "exact_forward": 48,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 425.12890625,
+          "surrogate": 1.6946141358054057e-05
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 48,
+          "exact_center_JSD": 1.5151267534152524e-05,
+          "best_JSD": 1.4709143050684048e-05,
+          "method_wall_s": 2.460896339999998,
+          "inclusive_wall_s": 2.460896339999998,
+          "global_compute_wall_s": 2.461372595999997,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 48,
+            "exact_forward": 49,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 425.12890625,
+          "surrogate": 1.4709143050684048e-05
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 49,
+          "exact_center_JSD": 1.6981207241806295e-05,
+          "best_JSD": 1.4709143050684048e-05,
+          "method_wall_s": 2.4955555820000015,
+          "inclusive_wall_s": 2.4955555820000015,
+          "global_compute_wall_s": 2.4960318380000004,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 49,
+            "exact_forward": 50,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 425.1328125,
+          "surrogate": 1.5151267534152524e-05
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 50,
+          "exact_center_JSD": 1.8782411665640986e-05,
+          "best_JSD": 1.4709143050684048e-05,
+          "method_wall_s": 2.531147824999998,
+          "inclusive_wall_s": 2.531147824999998,
+          "global_compute_wall_s": 2.531624080999997,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 50,
+            "exact_forward": 51,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 426.5625,
+          "surrogate": 1.6981207241806295e-05
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 51,
+          "exact_center_JSD": 1.9412624263415168e-05,
+          "best_JSD": 1.4709143050684048e-05,
+          "method_wall_s": 2.5671664199999995,
+          "inclusive_wall_s": 2.5671664199999995,
+          "global_compute_wall_s": 2.5676426759999984,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 51,
+            "exact_forward": 52,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 426.56640625,
+          "surrogate": 1.8782411665640986e-05
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 52,
+          "exact_center_JSD": 1.8285630474901282e-05,
+          "best_JSD": 1.4709143050684048e-05,
+          "method_wall_s": 2.603062889999997,
+          "inclusive_wall_s": 2.603062889999997,
+          "global_compute_wall_s": 2.6035391459999957,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 52,
+            "exact_forward": 53,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 426.5703125,
+          "surrogate": 1.9412624263415168e-05
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 53,
+          "exact_center_JSD": 1.5463598895593123e-05,
+          "best_JSD": 1.4709143050684048e-05,
+          "method_wall_s": 2.637784426000003,
+          "inclusive_wall_s": 2.637784426000003,
+          "global_compute_wall_s": 2.638260682000002,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 53,
+            "exact_forward": 54,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 426.58203125,
+          "surrogate": 1.8285630474901282e-05
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 54,
+          "exact_center_JSD": 1.1551792062469701e-05,
+          "best_JSD": 1.1551792062469701e-05,
+          "method_wall_s": 2.6731052319999975,
+          "inclusive_wall_s": 2.6731052319999975,
+          "global_compute_wall_s": 2.6735814879999964,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 54,
+            "exact_forward": 55,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 426.58203125,
+          "surrogate": 1.5463598895593123e-05
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 55,
+          "exact_center_JSD": 7.447141238237087e-06,
+          "best_JSD": 7.447141238237087e-06,
+          "method_wall_s": 2.708530453999998,
+          "inclusive_wall_s": 2.708530453999998,
+          "global_compute_wall_s": 2.709006709999997,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 55,
+            "exact_forward": 56,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 425.15234375,
+          "surrogate": 1.1551792062469701e-05
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 56,
+          "exact_center_JSD": 4.030283355382913e-06,
+          "best_JSD": 4.030283355382913e-06,
+          "method_wall_s": 2.744427907000002,
+          "inclusive_wall_s": 2.744427907000002,
+          "global_compute_wall_s": 2.744904163000001,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 56,
+            "exact_forward": 57,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 426.58203125,
+          "surrogate": 7.447141238237087e-06
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 57,
+          "exact_center_JSD": 1.8987051375596309e-06,
+          "best_JSD": 1.8987051375596309e-06,
+          "method_wall_s": 2.778977193000003,
+          "inclusive_wall_s": 2.778977193000003,
+          "global_compute_wall_s": 2.779453449000002,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 57,
+            "exact_forward": 58,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 425.1640625,
+          "surrogate": 4.030283355382913e-06
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 58,
+          "exact_center_JSD": 1.2173452494934622e-06,
+          "best_JSD": 1.2173452494934622e-06,
+          "method_wall_s": 2.8137630760000008,
+          "inclusive_wall_s": 2.8137630760000008,
+          "global_compute_wall_s": 2.8142393319999996,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 58,
+            "exact_forward": 59,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 425.16796875,
+          "surrogate": 1.8987051375596309e-06
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 59,
+          "exact_center_JSD": 1.720455579556912e-06,
+          "best_JSD": 1.2173452494934622e-06,
+          "method_wall_s": 2.850135430999998,
+          "inclusive_wall_s": 2.850135430999998,
+          "global_compute_wall_s": 2.850611686999997,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 59,
+            "exact_forward": 60,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 426.609375,
+          "surrogate": 1.2173452494934622e-06
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 60,
+          "exact_center_JSD": 2.848332979921153e-06,
+          "best_JSD": 1.2173452494934622e-06,
+          "method_wall_s": 2.8845537409999977,
+          "inclusive_wall_s": 2.8845537409999977,
+          "global_compute_wall_s": 2.8850299969999966,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 60,
+            "exact_forward": 61,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 425.1796875,
+          "surrogate": 1.720455579556912e-06
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 61,
+          "exact_center_JSD": 3.960859785712145e-06,
+          "best_JSD": 1.2173452494934622e-06,
+          "method_wall_s": 2.9213139000000012,
+          "inclusive_wall_s": 2.9213139000000012,
+          "global_compute_wall_s": 2.921790156,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 61,
+            "exact_forward": 62,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 428.328125,
+          "surrogate": 2.848332979921153e-06
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 62,
+          "exact_center_JSD": 4.550245424783661e-06,
+          "best_JSD": 1.2173452494934622e-06,
+          "method_wall_s": 2.958516693,
+          "inclusive_wall_s": 2.958516693,
+          "global_compute_wall_s": 2.958992948999999,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 62,
+            "exact_forward": 63,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 426.90234375,
+          "surrogate": 3.960859785712145e-06
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 63,
+          "exact_center_JSD": 4.383491564508013e-06,
+          "best_JSD": 1.2173452494934622e-06,
+          "method_wall_s": 2.9931692150000018,
+          "inclusive_wall_s": 2.9931692150000018,
+          "global_compute_wall_s": 2.9936454710000007,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 63,
+            "exact_forward": 64,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 425.6015625,
+          "surrogate": 4.550245424783661e-06
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 64,
+          "exact_center_JSD": 3.53597275271067e-06,
+          "best_JSD": 1.2173452494934622e-06,
+          "method_wall_s": 3.0273804739999974,
+          "inclusive_wall_s": 3.0273804739999974,
+          "global_compute_wall_s": 3.0278567299999963,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 64,
+            "exact_forward": 65,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 428.33984375,
+          "surrogate": 4.383491564508013e-06
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 65,
+          "exact_center_JSD": 2.3182725210624255e-06,
+          "best_JSD": 1.2173452494934622e-06,
+          "method_wall_s": 3.062616351999999,
+          "inclusive_wall_s": 3.062616351999999,
+          "global_compute_wall_s": 3.063092607999998,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 65,
+            "exact_forward": 66,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 428.34375,
+          "surrogate": 3.53597275271067e-06
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 66,
+          "exact_center_JSD": 1.1340719563435187e-06,
+          "best_JSD": 1.1340719563435187e-06,
+          "method_wall_s": 3.1006660990000015,
+          "inclusive_wall_s": 3.1006660990000015,
+          "global_compute_wall_s": 3.1011423550000004,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 66,
+            "exact_forward": 67,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 426.625,
+          "surrogate": 2.3182725210624255e-06
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 67,
+          "exact_center_JSD": 3.2596243437765793e-07,
+          "best_JSD": 3.2596243437765793e-07,
+          "method_wall_s": 3.136008746999998,
+          "inclusive_wall_s": 3.136008746999998,
+          "global_compute_wall_s": 3.136485002999997,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 67,
+            "exact_forward": 68,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 426.63671875,
+          "surrogate": 1.1340719563435187e-06
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 68,
+          "exact_center_JSD": 6.375585459572619e-08,
+          "best_JSD": 6.375585459572619e-08,
+          "method_wall_s": 3.1710545799999963,
+          "inclusive_wall_s": 3.1710545799999963,
+          "global_compute_wall_s": 3.171530835999995,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 68,
+            "exact_forward": 69,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 426.640625,
+          "surrogate": 3.2596243437765793e-07
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 69,
+          "exact_center_JSD": 3.088630909919843e-07,
+          "best_JSD": 6.375585459572619e-08,
+          "method_wall_s": 3.206634555000001,
+          "inclusive_wall_s": 3.206634555000001,
+          "global_compute_wall_s": 3.2071108109999997,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 69,
+            "exact_forward": 70,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 425.2109375,
+          "surrogate": 6.375585459572619e-08
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 70,
+          "exact_center_JSD": 8.574901784186295e-07,
+          "best_JSD": 6.375585459572619e-08,
+          "method_wall_s": 3.241659636999998,
+          "inclusive_wall_s": 3.241659636999998,
+          "global_compute_wall_s": 3.242135892999997,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 70,
+            "exact_forward": 71,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 425.2109375,
+          "surrogate": 3.088630909919843e-07
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 71,
+          "exact_center_JSD": 1.4367313359020528e-06,
+          "best_JSD": 6.375585459572619e-08,
+          "method_wall_s": 3.276835724999998,
+          "inclusive_wall_s": 3.276835724999998,
+          "global_compute_wall_s": 3.277311980999997,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 71,
+            "exact_forward": 72,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 425.21484375,
+          "surrogate": 8.574901784186295e-07
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 72,
+          "exact_center_JSD": 1.8116283517777276e-06,
+          "best_JSD": 6.375585459572619e-08,
+          "method_wall_s": 3.3133315769999996,
+          "inclusive_wall_s": 3.3133315769999996,
+          "global_compute_wall_s": 3.3138078329999985,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 72,
+            "exact_forward": 73,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 426.65625,
+          "surrogate": 1.4367313359020528e-06
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 73,
+          "exact_center_JSD": 1.8627309614771548e-06,
+          "best_JSD": 6.375585459572619e-08,
+          "method_wall_s": 3.3490262239999993,
+          "inclusive_wall_s": 3.3490262239999993,
+          "global_compute_wall_s": 3.349502479999998,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 73,
+            "exact_forward": 74,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 425.35546875,
+          "surrogate": 1.8116283517777276e-06
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 74,
+          "exact_center_JSD": 1.6100682618258588e-06,
+          "best_JSD": 6.375585459572619e-08,
+          "method_wall_s": 3.3848630649999976,
+          "inclusive_wall_s": 3.3848630649999976,
+          "global_compute_wall_s": 3.3853393209999965,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 74,
+            "exact_forward": 75,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 425.23046875,
+          "surrogate": 1.8627309614771548e-06
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 75,
+          "exact_center_JSD": 1.1825934383979941e-06,
+          "best_JSD": 6.375585459572619e-08,
+          "method_wall_s": 3.421136292,
+          "inclusive_wall_s": 3.421136292,
+          "global_compute_wall_s": 3.421612547999999,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 75,
+            "exact_forward": 76,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 426.66015625,
+          "surrogate": 1.6100682618258588e-06
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 76,
+          "exact_center_JSD": 7.52448788499116e-07,
+          "best_JSD": 6.375585459572619e-08,
+          "method_wall_s": 3.456823297999996,
+          "inclusive_wall_s": 3.456823297999996,
+          "global_compute_wall_s": 3.457299553999995,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 76,
+            "exact_forward": 77,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 425.234375,
+          "surrogate": 1.1825934383979941e-06
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 77,
+          "exact_center_JSD": 4.6365362038613966e-07,
+          "best_JSD": 6.375585459572619e-08,
+          "method_wall_s": 3.497123225000003,
+          "inclusive_wall_s": 3.497123225000003,
+          "global_compute_wall_s": 3.4975994810000017,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 77,
+            "exact_forward": 78,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 425.23828125,
+          "surrogate": 7.52448788499116e-07
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 78,
+          "exact_center_JSD": 3.8262928259147344e-07,
+          "best_JSD": 6.375585459572619e-08,
+          "method_wall_s": 3.5323357380000004,
+          "inclusive_wall_s": 3.5323357380000004,
+          "global_compute_wall_s": 3.5328119939999993,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 78,
+            "exact_forward": 79,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 425.2421875,
+          "surrogate": 4.6365362038613966e-07
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 79,
+          "exact_center_JSD": 4.858286160036585e-07,
+          "best_JSD": 6.375585459572619e-08,
+          "method_wall_s": 3.5740941959999972,
+          "inclusive_wall_s": 3.5740941959999972,
+          "global_compute_wall_s": 3.574570451999996,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 79,
+            "exact_forward": 80,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 425.25,
+          "surrogate": 3.8262928259147344e-07
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 80,
+          "exact_center_JSD": 6.834880228456797e-07,
+          "best_JSD": 6.375585459572619e-08,
+          "method_wall_s": 3.6094241549999992,
+          "inclusive_wall_s": 3.6094241549999992,
+          "global_compute_wall_s": 3.609900410999998,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 80,
+            "exact_forward": 81,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 425.25,
+          "surrogate": 4.858286160036585e-07
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 81,
+          "exact_center_JSD": 8.648818865530927e-07,
+          "best_JSD": 6.375585459572619e-08,
+          "method_wall_s": 3.6464297719999976,
+          "inclusive_wall_s": 3.6464297719999976,
+          "global_compute_wall_s": 3.6469060279999965,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 81,
+            "exact_forward": 82,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 426.6796875,
+          "surrogate": 6.834880228456797e-07
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 82,
+          "exact_center_JSD": 9.443614286119839e-07,
+          "best_JSD": 6.375585459572619e-08,
+          "method_wall_s": 3.8870631989999964,
+          "inclusive_wall_s": 3.8870631989999964,
+          "global_compute_wall_s": 3.8875394549999953,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 82,
+            "exact_forward": 83,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 426.6796875,
+          "surrogate": 8.648818865530927e-07
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 83,
+          "exact_center_JSD": 8.90278958332047e-07,
+          "best_JSD": 6.375585459572619e-08,
+          "method_wall_s": 4.006924388000002,
+          "inclusive_wall_s": 4.006924388000002,
+          "global_compute_wall_s": 4.0074006440000005,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 83,
+            "exact_forward": 84,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 426.6875,
+          "surrogate": 9.443614286119839e-07
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 84,
+          "exact_center_JSD": 7.282867726665643e-07,
+          "best_JSD": 6.375585459572619e-08,
+          "method_wall_s": 4.107079061,
+          "inclusive_wall_s": 4.107079061,
+          "global_compute_wall_s": 4.107555316999999,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 84,
+            "exact_forward": 85,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 425.2578125,
+          "surrogate": 8.90278958332047e-07
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 85,
+          "exact_center_JSD": 5.218105485482738e-07,
+          "best_JSD": 6.375585459572619e-08,
+          "method_wall_s": 4.189809234000002,
+          "inclusive_wall_s": 4.189809234000002,
+          "global_compute_wall_s": 4.190285490000001,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 85,
+            "exact_forward": 86,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 425.265625,
+          "surrogate": 7.282867726665643e-07
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 86,
+          "exact_center_JSD": 3.409899296258345e-07,
+          "best_JSD": 6.375585459572619e-08,
+          "method_wall_s": 4.247384545000003,
+          "inclusive_wall_s": 4.247384545000003,
+          "global_compute_wall_s": 4.247860801000002,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 86,
+            "exact_forward": 87,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 425.26953125,
+          "surrogate": 5.218105485482738e-07,
+          "plateau_diagnostic": true
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 87,
+          "exact_center_JSD": 2.3413423066998007e-07,
+          "best_JSD": 6.375585459572619e-08,
+          "method_wall_s": 4.389256043000003,
+          "inclusive_wall_s": 4.389256043000003,
+          "global_compute_wall_s": 4.389732299000002,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 87,
+            "exact_forward": 88,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 426.69921875,
+          "surrogate": 3.409899296258345e-07,
+          "plateau_diagnostic": true
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 88,
+          "exact_center_JSD": 2.1253656978803548e-07,
+          "best_JSD": 6.375585459572619e-08,
+          "method_wall_s": 4.466353552999998,
+          "inclusive_wall_s": 4.466353552999998,
+          "global_compute_wall_s": 4.4668298089999965,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 88,
+            "exact_forward": 89,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 425.3984375,
+          "surrogate": 2.3413423066998007e-07,
+          "plateau_diagnostic": true
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 89,
+          "exact_center_JSD": 2.524854549879052e-07,
+          "best_JSD": 6.375585459572619e-08,
+          "method_wall_s": 4.601347687999997,
+          "inclusive_wall_s": 4.601347687999997,
+          "global_compute_wall_s": 4.601823943999996,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 89,
+            "exact_forward": 90,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 426.703125,
+          "surrogate": 2.1253656978803548e-07,
+          "plateau_diagnostic": true
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 90,
+          "exact_center_JSD": 3.108601139834022e-07,
+          "best_JSD": 6.375585459572619e-08,
+          "method_wall_s": 4.749185019000002,
+          "inclusive_wall_s": 4.749185019000002,
+          "global_compute_wall_s": 4.749661275000001,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 90,
+            "exact_forward": 91,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 426.70703125,
+          "surrogate": 2.524854549879052e-07,
+          "plateau_diagnostic": true
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 91,
+          "exact_center_JSD": 3.458418667001695e-07,
+          "best_JSD": 6.375585459572619e-08,
+          "method_wall_s": 5.0184272269999965,
+          "inclusive_wall_s": 5.0184272269999965,
+          "global_compute_wall_s": 5.0189034829999954,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 91,
+            "exact_forward": 92,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 425.27734375,
+          "surrogate": 3.108601139834022e-07,
+          "plateau_diagnostic": true
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 92,
+          "exact_center_JSD": 3.335789212632889e-07,
+          "best_JSD": 6.375585459572619e-08,
+          "method_wall_s": 5.057726920999997,
+          "inclusive_wall_s": 5.057726920999997,
+          "global_compute_wall_s": 5.058203176999996,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 92,
+            "exact_forward": 93,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 425.27734375,
+          "surrogate": 3.458418667001695e-07,
+          "plateau_diagnostic": true
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 93,
+          "exact_center_JSD": 2.7475256636488865e-07,
+          "best_JSD": 6.375585459572619e-08,
+          "method_wall_s": 5.097085673999999,
+          "inclusive_wall_s": 5.097085673999999,
+          "global_compute_wall_s": 5.097561929999998,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 93,
+            "exact_forward": 94,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 426.7109375,
+          "surrogate": 3.335789212632889e-07,
+          "plateau_diagnostic": true
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 94,
+          "exact_center_JSD": 1.9006103102459093e-07,
+          "best_JSD": 6.375585459572619e-08,
+          "method_wall_s": 5.135255399999998,
+          "inclusive_wall_s": 5.135255399999998,
+          "global_compute_wall_s": 5.135731655999997,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 94,
+            "exact_forward": 95,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 426.71484375,
+          "surrogate": 2.7475256636488865e-07,
+          "plateau_diagnostic": true
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 95,
+          "exact_center_JSD": 1.0829954832924926e-07,
+          "best_JSD": 6.375585459572619e-08,
+          "method_wall_s": 5.173167268999997,
+          "inclusive_wall_s": 5.173167268999997,
+          "global_compute_wall_s": 5.173643524999996,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 95,
+            "exact_forward": 96,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 426.71484375,
+          "surrogate": 1.9006103102459093e-07,
+          "plateau_diagnostic": true
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 96,
+          "exact_center_JSD": 5.3136468780579094e-08,
+          "best_JSD": 5.3136468780579094e-08,
+          "method_wall_s": 5.211083774000002,
+          "inclusive_wall_s": 5.211083774000002,
+          "global_compute_wall_s": 5.211560030000001,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 96,
+            "exact_forward": 97,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 426.734375,
+          "surrogate": 1.0829954832924926e-07
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 97,
+          "exact_center_JSD": 3.422679462072864e-08,
+          "best_JSD": 3.422679462072864e-08,
+          "method_wall_s": 5.246278631000003,
+          "inclusive_wall_s": 5.246278631000003,
+          "global_compute_wall_s": 5.246754887000002,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 97,
+            "exact_forward": 98,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 426.734375,
+          "surrogate": 5.3136468780579094e-08
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 98,
+          "exact_center_JSD": 4.560260746799827e-08,
+          "best_JSD": 3.422679462072864e-08,
+          "method_wall_s": 5.281912175999999,
+          "inclusive_wall_s": 5.281912175999999,
+          "global_compute_wall_s": 5.282388431999998,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 98,
+            "exact_forward": 99,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 426.7421875,
+          "surrogate": 3.422679462072864e-08
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 99,
+          "exact_center_JSD": 7.079556307854062e-08,
+          "best_JSD": 3.422679462072864e-08,
+          "method_wall_s": 5.317582156,
+          "inclusive_wall_s": 5.317582156,
+          "global_compute_wall_s": 5.318058411999999,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 99,
+            "exact_forward": 100,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 426.74609375,
+          "surrogate": 4.560260746799827e-08
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 100,
+          "exact_center_JSD": 9.144321888587825e-08,
+          "best_JSD": 3.422679462072864e-08,
+          "method_wall_s": 5.352614297999999,
+          "inclusive_wall_s": 5.352614297999999,
+          "global_compute_wall_s": 5.353090553999998,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 100,
+            "exact_forward": 101,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 425.31640625,
+          "surrogate": 7.079556307854062e-08
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 101,
+          "exact_center_JSD": 9.521093791153845e-08,
+          "best_JSD": 3.422679462072864e-08,
+          "method_wall_s": 5.3883622660000015,
+          "inclusive_wall_s": 5.3883622660000015,
+          "global_compute_wall_s": 5.388838522,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 101,
+            "exact_forward": 102,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 425.31640625,
+          "surrogate": 9.144321888587825e-08
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 102,
+          "exact_center_JSD": 7.982982808130146e-08,
+          "best_JSD": 3.422679462072864e-08,
+          "method_wall_s": 5.424646459999998,
+          "inclusive_wall_s": 5.424646459999998,
+          "global_compute_wall_s": 5.425122715999997,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 102,
+            "exact_forward": 103,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 426.74609375,
+          "surrogate": 9.521093791153845e-08
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 103,
+          "exact_center_JSD": 5.220594456734062e-08,
+          "best_JSD": 3.422679462072864e-08,
+          "method_wall_s": 5.460373877000002,
+          "inclusive_wall_s": 5.460373877000002,
+          "global_compute_wall_s": 5.460850133000001,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 103,
+            "exact_forward": 104,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 426.75390625,
+          "surrogate": 7.982982808130146e-08
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 104,
+          "exact_center_JSD": 2.380400232482316e-08,
+          "best_JSD": 2.380400232482316e-08,
+          "method_wall_s": 5.496808496,
+          "inclusive_wall_s": 5.496808496,
+          "global_compute_wall_s": 5.497284751999999,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 104,
+            "exact_forward": 105,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 426.7734375,
+          "surrogate": 5.220594456734062e-08
+        },
+        {
+          "stage": "Exact-Adam",
+          "step": 105,
+          "exact_center_JSD": 4.887390825381033e-09,
+          "best_JSD": 4.887390825381033e-09,
+          "method_wall_s": 5.532604044999999,
+          "inclusive_wall_s": 5.532604044999999,
+          "global_compute_wall_s": 5.533080300999998,
+          "cost": {
+            "q_grad": 0,
+            "exact_grad": 105,
+            "exact_forward": 106,
+            "jacobian": 0,
+            "line_search": 0,
+            "retries": 0
+          },
+          "rss_mib": 426.77734375,
+          "surrogate": 2.380400232482316e-08
+        }
+      ],
+      "monitor_exact_forward_wall_s": 1.0973341319999435,
+      "monitor_exact_forward_count": 106,
+      "selected_policy_logits": [
+        [
+          -0.07452747396412034,
+          0.4458592392340341,
+          -0.2357588039995041,
+          1.166410346416067,
+          -0.5071442208980815
+        ],
+        [
+          -1.9442950900738416,
+          4.15689759904137,
+          -3.2415452263757403,
+          -2.590331290041257,
+          -1.719742865693929
+        ],
+        [
+          -0.13508421781099858,
+          2.4014575421217534,
+          -2.626358977213399,
+          -2.381767372026415,
+          -3.251103339250934
+        ],
+        [
+          0.44849612262835276,
+          0.36266179926614933,
+          -0.33045520866454003,
+          -0.0976714642802151,
+          -0.6186547445704722
+        ],
+        [
+          0.2542969035314844,
+          0.36892571282792824,
+          -0.9588731355070939,
+          1.5764149700290562,
+          -1.892102514179038
+        ],
+        [
+          0.7960988121019406,
+          -0.3871691987604969,
+          -0.8569058077705118,
+          0.4971518056343444,
+          -1.012562304573946
+        ]
+      ],
+      "selected_policy_step": 105,
+      "selected_policy_exact_JSD": 4.887390825381033e-09,
+      "first_plateau_step": 25,
+      "plateau_diagnostic_count": 17,
+      "final_verification_forward_wall_s": 0.009672852999997872,
+      "final_verification_exact_forward": 1,
+      "final_policy_logits": [
+        [
+          -0.07452747396412034,
+          0.4458592392340341,
+          -0.2357588039995041,
+          1.166410346416067,
+          -0.5071442208980815
+        ],
+        [
+          -1.9442950900738416,
+          4.15689759904137,
+          -3.2415452263757403,
+          -2.590331290041257,
+          -1.719742865693929
+        ],
+        [
+          -0.13508421781099858,
+          2.4014575421217534,
+          -2.626358977213399,
+          -2.381767372026415,
+          -3.251103339250934
+        ],
+        [
+          0.44849612262835276,
+          0.36266179926614933,
+          -0.33045520866454003,
+          -0.0976714642802151,
+          -0.6186547445704722
+        ],
+        [
+          0.2542969035314844,
+          0.36892571282792824,
+          -0.9588731355070939,
+          1.5764149700290562,
+          -1.892102514179038
+        ],
+        [
+          0.7960988121019406,
+          -0.3871691987604969,
+          -0.8569058077705118,
+          0.4971518056343444,
+          -1.012562304573946
+        ]
+      ],
+      "selection_verification_exact_forward": 1,
+      "selected_policy_JSD_verified": 4.887390825381033e-09
+    }
+  ],
+  "errors": [],
+  "wall_numerical_seconds": 5.555104649999997,
+  "peak_rss_mib": 431.28515625
+}
