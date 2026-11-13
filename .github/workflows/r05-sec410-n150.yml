@@ -1,0 +1,114 @@
+name: R05 Sec410 B03+B05 n150 full 36-case bounded raw (provisional)
+
+on:
+  push:
+    branches:
+      - researcher/05/r05-sec410-endtoend-01-infra
+    paths:
+      - '.github/workflows/r05-sec410-n150.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: read
+
+concurrency:
+  group: r05-sec410-n150-runs
+  cancel-in-progress: false
+
+jobs:
+  bounded-n150:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install pinned CPU-only runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install numpy==2.4.6
+          python -m pip install torch==2.15.0 --index-url https://download.pytorch.org/whl/cpu
+      - name: Exact source pins and pre-registered scope
+        shell: bash
+        run: |
+          set -euo pipefail
+          p=code/experiments/inverse_attainable_standard/runner_v3
+          test "$(git hash-object "$p/data_contract.py")" = "4984961c6a8fd8057a7c1ff3d292d30ad6c9afcb"
+          test "$(git hash-object "$p/run_one.py")" = "6684f4baf03f7b0071c4a5e42007fc31921c5b4f"
+          python -m py_compile "$p/data_contract.py" "$p/run_one.py"
+      - name: Sequential bounded n150 methods; every attempt checkpoint pushed
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          export OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 PYTHONDONTWRITEBYTECODE=1
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          snapshotroot=code/experiments/inverse_attainable_standard/results
+          save() {
+            mkdir -p "$snapshotroot/audit_attachments"
+            if [ -d "$RUNNER_TEMP/r05-sec410-append-only-audit" ]; then
+              cp -n "$RUNNER_TEMP"/r05-sec410-append-only-audit/*.json "$snapshotroot/audit_attachments/" 2>/dev/null || true
+            fi
+            git add -f "$snapshotroot/raw/" "$snapshotroot/audit_attachments/" || true
+            if ! git diff --cached --quiet; then
+              git commit -m "R05 Sec410: checkpoint one bounded n150 solver instance (success/failure)"
+              git push origin HEAD:researcher/05/r05-sec410-endtoend-01-infra
+              echo "CHECKPOINT_SHA=$(git rev-parse HEAD)"
+            fi
+          }
+          for block in B03 B05; do
+            if [ "$block" = B03 ]; then
+              bid=INV01-B03-n150-data20261103
+            else
+              bid=INV01-B05-n150-data20261104
+            fi
+            for c in 0 1 2; do
+              for init in Z R; do
+                if [ "$init" = Z ]; then begin=zero; else begin=independent_random; fi
+                for method in Q A G; do
+                  case "$method" in
+                    Q) solver=Q-only ;;
+                    A) solver=Exact-Adam ;;
+                    G) solver=Q+Bootstrap-GN ;;
+                  esac
+                  rid="$bid-C$c-$init-$method"
+                  f="$snapshotroot/raw/$bid/$rid"
+                  if [ -d "$f" ] && find "$f" -name summary.json -print -quit | grep -q . ; then
+                    echo "SKIP_PRIOR_COMMITTED_COMPLETED=$rid"
+                    continue
+                  fi
+                  echo "START_R05_RUN=$rid"
+                  set +e
+                  timeout --signal=INT --kill-after=5s 900s python -u \
+                    code/experiments/inverse_attainable_standard/runner_v3/run_one.py \
+                    --block "$block" --class-index "$c" --initialization "$begin" --method "$solver" \
+                    --owner-root-comment 6852780179
+                  rc=$?
+                  set -e
+                  save
+                  if [ "$rc" -ne 0 ]; then
+                    echo "STOP_BLOCK_ON_REAL_FAILURE=$rid EXIT=$rc"
+                    exit "$rc"
+                  fi
+                  echo "COMPLETE_R05_RUN=$rid"
+                done
+              done
+            done
+          done
+          echo "R05_N150_36_CASES_PERSISTED_IN_GIT"
+      - name: Upload any remaining immutable evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: r05-sec410-n150-run-traces
+          path: |
+            code/experiments/inverse_attainable_standard/results/raw/
+            code/experiments/inverse_attainable_standard/results/audit_attachments/
+          if-no-files-found: warn
