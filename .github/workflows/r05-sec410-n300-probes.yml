@@ -1,11 +1,8 @@
-name: R05 Sec410 three n300 F0-Q1-A1-J1-M1 resource probes (NO SOLVER)
-
+name: R05 Sec410 n300 worst-class F0 Q1 A1 J1 M1 resource probes (NO SOLVES)
 on:
   push:
-    branches:
-      - researcher/05/r05-sec410-endtoend-01-infra
-    paths:
-      - '.github/workflows/r05-sec410-n300-probes.yml'
+    branches: [researcher/05/r05-sec410-endtoend-01-infra]
+    paths: ['.github/workflows/r05-sec410-n300-probes.yml']
   workflow_dispatch:
 
 permissions:
@@ -13,13 +10,13 @@ permissions:
   issues: read
 
 concurrency:
-  group: r05-sec410-n300-probes
+  group: r05-sec410-n300
   cancel-in-progress: false
 
 jobs:
-  bounded-probe:
+  bounded-n300-probes:
     runs-on: ubuntu-latest
-    timeout-minutes: 18
+    timeout-minutes: 16
     steps:
       - uses: actions/checkout@v4
         with:
@@ -27,65 +24,53 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Install pinned historical CPU libraries
-        shell: bash
+      - name: Install historical numerical CPU versions
         run: |
-          set -euo pipefail
           python -m pip install numpy==2.4.6
           python -m pip install torch==2.15.0 --index-url https://download.pytorch.org/whl/cpu
-      - name: Source pin and syntax (only at-use probe)
-        shell: bash
+      - name: Controlled source and signed-by-owner Issue root checks
         run: |
           set -euo pipefail
-          p=code/experiments/inverse_attainable_standard/runner_v3
-          test "$(git hash-object "$p/probe_n300.py")" = "16e42aded87301757e68ad0d35b1a5f048d306a2"
-          test "$(git hash-object "$p/data_contract.py")" = "4984961c6a8fd8057a7c1ff3d292d30ad6c9afcb"
-          test "$(git hash-object "$p/run_one.py")" = "6684f4baf03f7b0071c4a5e42007fc31921c5b4f"
-          python -m py_compile "$p/probe_n300.py"
-      - name: Execute three bounded no-step resource probes, checkpoint after each
-        shell: bash
+          p=code/experiments/inverse_attainable_standard
+          test "$(git hash-object "$p/runner_v3/run_one.py")" = "6684f4baf03f7b0071c4a5e42007fc31921c5b4f"
+          test "$(git hash-object "$p/runner_v3/data_contract.py")" = "4984961c6a8fd8057a7c1ff3d292d30ad6c9afcb"
+          test "$(git hash-object "$p/probe_v3/probe_n300.py")" = "54393787271b22ad016a61fa082b9cfece96f605"
+          python -m py_compile "$p/probe_v3/probe_n300.py"
+      - name: Worst class separate F0 Q1 A1 J1 M1 for B02, B04, B06; preserve each
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
         run: |
           set -euo pipefail
           export OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 PYTHONDONTWRITEBYTECODE=1
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          p=code/experiments/inverse_attainable_standard/results
-          save() {
-            mkdir -p "$p/audit_attachments"
-            if [ -d "$RUNNER_TEMP/r05-sec410-append-only-audit" ]; then
-              cp -n "$RUNNER_TEMP"/r05-sec410-append-only-audit/*.json "$p/audit_attachments/" 2>/dev/null || true
-            fi
-            git add -f "$p/probes/" "$p/audit_attachments/" || true
-            if ! git diff --cached --quiet; then
-              git commit -m "R05 Sec410: bounded at-use n300 resource probe, zero optimizer steps"
-              git push origin HEAD:researcher/05/r05-sec410-endtoend-01-infra
-              echo "CHECKPOINT_SHA=$(git rev-parse HEAD)"
-            fi
-          }
+          base=code/experiments/inverse_attainable_standard
           for block in B02 B04 B06; do
-            echo "PROBE_START=$block"
+            echo "R05_PROBE_START=$block"
             set +e
-            timeout --signal=TERM --kill-after=5s 170s python -u \
-              code/experiments/inverse_attainable_standard/runner_v3/probe_n300.py \
-              --block "$block" --owner-root-comment 6852780179
+            timeout --signal=TERM --kill-after=5s 140s python -u "$base/probe_v3/probe_n300.py" "$block" 6852780179
             rc=$?
             set -e
-            save
+            mkdir -p "$base/results/audit_attachments"
+            cp -n "$RUNNER_TEMP"/r05-sec410-append-only-audit/*.json "$base/results/audit_attachments/" 2>/dev/null || true
+            git add -f "$base/results/resource_probes/" "$base/results/audit_attachments/" || true
+            if ! git diff --cached --quiet; then
+              git commit -m "R05 Sec410: bounded worst-class resource probe $block no solver"
+              git push origin HEAD:researcher/05/r05-sec410-endtoend-01-infra
+              echo "PROBE_CHECKPOINT_SHA=$(git rev-parse HEAD)"
+            fi
             if [ "$rc" -ne 0 ]; then
-              echo "STOP_N300_PROBE_FAILURE=$block EXIT=$rc"
+              echo "PROBE_RESOURCE_GATE_FAILED=$block RC=$rc"
               exit "$rc"
             fi
-            echo "PROBE_COMPLETE=$block"
           done
-          echo "R05_N300_ALL_THREE_PROBES_PASS"
-      - name: Upload probes, including failures
+      - name: Upload complete and partial probe evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: r05-sec410-n300-probes
+          name: r05-sec410-n300-probe-evidence
           path: |
-            code/experiments/inverse_attainable_standard/results/probes/
+            code/experiments/inverse_attainable_standard/results/resource_probes/
             code/experiments/inverse_attainable_standard/results/audit_attachments/
           if-no-files-found: warn
