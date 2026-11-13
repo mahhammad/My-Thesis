@@ -10,6 +10,7 @@ from __future__ import annotations
 import hashlib
 import json
 import math
+import re
 from collections import Counter
 from pathlib import Path
 
@@ -43,6 +44,18 @@ def run() -> dict:
     observed = coverage["records"]
     need(len(rows) == len(observed) == 108, "PLAN_108_MISMATCH")
     need(set(rows) == {r["run_id"] for r in observed}, "RUN_ID_SET_MISMATCH")
+
+    # Regression for first exact full XeLaTeX failure: an unescaped underscore
+    # in the section-4.10 evidence filename used inside \\lr{...}.
+    tex = (BASE.parents[2] / "tex/chapter4.tex").read_text(encoding="utf-8")
+    start = tex.index(r"\\section{بازیابی معکوس سیاست از مراکز دست‌یافتنی}")
+    end = tex.index(r"\\section{مراکز برچسبی بیزی، فضای قابل‌دستیابی و معیارهای بازنمایی}", start)
+    section = tex[start:end]
+    escaped_filename = r"\\lr{metrics\\_full.json}"
+    need(escaped_filename in section, "MISSING_ESCAPED_METRICS_FILENAME")
+    for match in re.finditer(r"\\\\(?:lr|texttt)\\{[^{}]*\\}", section):
+        need(re.search(r"(?<!\\\\)_", match.group()) is None,
+             "UNESCAPED_UNDERSCORE_IN_LATEX_TEXT:" + match.group())
 
     counts: Counter[str] = Counter()
     wall_inversion: Counter[str] = Counter()
@@ -148,6 +161,7 @@ def run() -> dict:
         "schema": "SEC410_POSTHANDOFF_TRACE_CONTRACT_V1",
         "status": "SELF_VALIDATED_PURE_ARCHIVE_REGRESSION",
         "new_raw_summaries_checked": sum(counts.values()),
+        "section410_escaped_filename_preflight": True,
         "new_raw_trace_minima_checked": sum(counts.values()),
         "new_raw_audit_sha256_pairs_checked": sum(counts.values()),
         "new_successes_by_method": dict(successes),
