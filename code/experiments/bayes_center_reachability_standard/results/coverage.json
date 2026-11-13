@@ -22,5 +22,10 @@
     "optimizer_global_optimum",
     "full_grid_37_certification"
   ],
-  "missing_in_git_tree": "raw ZIP files remain in owner Library, see provenance; do not treat overview JSON as complete raw repository archive"
+  "missing_in_git_tree": null,
+  "raw_zip_git_paths": [
+    "code/experiments/bayes_center_reachability_standard/raw/section411_standard_S_103_audit_package.zip",
+    "code/experiments/bayes_center_reachability_standard/raw/V_R02_SEC411_INDEPENDENT_QA_EVIDENCE.zip"
+  ],
+  "reproducibility_note": "103 raw archive units and independent QA code are SHA256-pinned in complete ZIPs under raw; individual per-run JSONs remain within ZIP; light presentation data live outside ZIP."
 }

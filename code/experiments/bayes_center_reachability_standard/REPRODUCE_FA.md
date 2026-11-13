@@ -1,13 +1,14 @@
 # بازتولید فنی آزمایش S-103 و گواه مستقل
 
 ## محل داده خام
-دو ZIP مالک در Library زیر مسیر `/My-Thesis/Section-4-11/`:
+دو ZIP کامل در پوشه `code/experiments/bayes_center_reachability_standard/raw/` داخل GitHub ثبت شده‌اند و نسخه‌های مستقل در Library مالک زیر مسیر `/My-Thesis/Section-4-11/` محفوظ‌اند:
 - `section411_standard_S_103_audit_package.zip`: SHA256 `742b38249fccf904fc5bf6e783a4110853a1a7051433f7b8417b32c1774493f4`.
 - `V_R02_SEC411_INDEPENDENT_QA_EVIDENCE.zip`: SHA256 `1d6c42e297b4c00c654bb4dec96d7f9d114240b3fb56974353968f0ade96c086`.
 
-**این دو ZIP در GitHub tree فعلی کپی نشده‌اند.** در مکانی مطمئن آن‌ها را قرار دهید؛ قبل از اعتماد به فایل‌ها، SHA کامل را بازحساب کنید.
+**هر دو ZIP در GitHub tree حاضرند.** برای بازتولید، از پوشه `raw/` نسخه پروژه استفاده کنید؛ پیش از اعتماد به نتایج SHA کامل را بازحساب کنید.
 
 ```bash
+cd code/experiments/bayes_center_reachability_standard/raw
 sha256sum section411_standard_S_103_audit_package.zip V_R02_SEC411_INDEPENDENT_QA_EVIDENCE.zip
 python - <<'PY'
 import zipfile, hashlib
