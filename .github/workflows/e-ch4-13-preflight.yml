@@ -26,6 +26,12 @@ jobs:
         run: |
           python -m py_compile code/experiments/ch4_loss_controlled_comparison/run_experiment.py
           python code/experiments/ch4_loss_controlled_comparison/run_experiment.py
+      - name: Diagnose cross-run generator fingerprints with fixed BLAS dispatch
+        run: |
+          for core in Haswell SkylakeX Zen generic; do
+            echo "E-CH4-13 diagnostic OPENBLAS_CORETYPE=$core"
+            OPENBLAS_CORETYPE="$core" OPENBLAS_NUM_THREADS=1 python code/experiments/ch4_loss_controlled_comparison/diagnose_fingerprints.py
+          done
       - name: Run independent E-CH4-13 tests without any training or Test split
         run: python -m unittest discover -v -s code/experiments/ch4_loss_controlled_comparison -p 'test_*.py'
       - name: Run canonical snapshot and metric contract regression tests
