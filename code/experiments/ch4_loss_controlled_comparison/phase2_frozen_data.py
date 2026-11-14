@@ -23,7 +23,7 @@ from dataset_adapter import dataset_train_val
 def array_fingerprint(array):
     a=np.ascontiguousarray(np.asarray(array))
     header=json.dumps({"dtype":a.dtype.str,"shape":list(a.shape)},sort_keys=True).encode("utf8")
-    return sha256(header+b"\\0"+a.tobytes()).hexdigest()
+    return sha256(header+bytes((0,))+a.tobytes()).hexdigest()
 
 def config_fingerprint(path):
     return sha256(Path(path).read_bytes()).hexdigest()
