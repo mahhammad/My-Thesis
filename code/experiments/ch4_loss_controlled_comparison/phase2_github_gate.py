@@ -48,9 +48,11 @@ def comment_matches(comment,word,sha):
     if comment.get("author_association") not in ("OWNER","MEMBER","COLLABORATOR"):
         return False
     body=comment.get("body") or ""
+    declared_sha=re.findall(r"candidate_sha=([0-9a-f]{40})",body)
+    declared_cap=re.findall(r"max_fits=([0-9]+)",body)
     return (re.search(r"(?<![A-Z0-9_])"+word+r"(?![A-Z0-9_])",body) is not None
-            and ("candidate_sha="+sha) in body
-            and "max_fits=12" in body
+            and declared_sha==[sha]
+            and declared_cap==["12"]
             and not comment.get("performed_via_github_app"))
 
 def select_authorizations(comments,sha):
@@ -112,6 +114,9 @@ def reserve_once(sha,token,api_fn=api):
     return name
 
 def issue_gate(sha,branch,token,out,*,validate=validate_online,reserve=reserve_once):
+    out=Path(out)
+    if out.exists():
+        raise FileExistsError("Authorization gate already exists; refuse to spend budget")
     proof=validate(sha,branch,token)
     # Claim BEFORE emitting a valid gate. Even failure after this call consumes
     # the global batch budget. Recovery is audit-only; no silent new batch.
