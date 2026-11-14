@@ -74,11 +74,15 @@ def finalize(folder):
         ids=arrays["reference_ids"]
         if len(ids)!=50 or len(np.unique(ids))!=50 or np.max(ids)>=len(tx):
             raise ValueError("Reference IDs invalid")
-        if (array_fingerprint(tx[ids])!=info["train_reference_x_sha256"]
-            or array_fingerprint(ty[ids].astype(np.int64))!=info["train_reference_y_sha256"]
-            or array_fingerprint(vx)!=info["validation_x_sha256"]
-            or config_fingerprint(CFG)!=info["config_sha256"]):
-            raise ValueError("Train/Val/config integrity failure")
+        fingerprints={
+            "train_x":(array_fingerprint(tx[ids]),info["train_reference_x_sha256"]),
+            "train_y":(array_fingerprint(ty[ids].astype(np.int64)),info["train_reference_y_sha256"]),
+            "validation_x":(array_fingerprint(vx),info["validation_x_sha256"]),
+            "generator_config":(config_fingerprint(CFG),info["config_sha256"])}
+        bad={key:{"recomputed":a,"stored":b}
+             for key,(a,b) in fingerprints.items() if a!=b}
+        if bad:
+            raise ValueError("Train/Val/config integrity mismatch: "+json.dumps(bad,sort_keys=True))
         if common_ids is None:common_ids=ids.copy()
         else:np.testing.assert_array_equal(common_ids,ids)
         trace=json.loads(files["trace.json"].read_text("utf8"))
