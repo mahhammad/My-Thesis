@@ -123,6 +123,17 @@
 - سیاست‌های آموزش و نسخه تاریخی clipping در [Benchmark](../code/experiments/benchmark_v1/RESULTS_FA.md)، قرارداد جمع معیار در [COMMON_METRICS_FA](../code/experiments/COMMON_METRICS_FA.md).
 - IDEA-001 پیش از مأموریت در [پوشه آینده](../research/future-ideas/IDEA-001-quantile-kl-radius.md) ثبت شده؛ IDEA-002 تا 009 در همین مأموریت **فرضیه اجرا‌نشده** هستند.
 
+### دو ژورنال نظری R02 خارج از main، اکنون با محتوای کامل حفظ‌شده
+
+این دو سند در شمار ۳۱ فایل اولیهٔ main نبودند. از **commit و Git blob قفل‌شدهٔ اصلی** خوانده و **با متن بایت‌به‌بایت معادل** در آرشیو این PR افزوده شدند؛ وضعیت تاریخیِ `UNMERGED_ONLY / THEORY_DRAFT` به خودی خود رأی پذیرش نهایی نیست. ملاک نظری جاری همچنان فصل سوم منتشرشده در main است.
+
+| نسخهٔ اصلی قفل‌شده | Git blob اصلی | کپی قابل دسترس در PR |
+|---|---|---|
+| [Bayes posterior vs neighbor labels](https://github.com/mahhammad/My-Thesis/blob/b20239b654b6adc267292f3eacdeef3716122875/research_journal/2026-11-14-sec411-bayes-posterior-vs-neighborhood-reachability.md) | `4ec413ebbc1ed27da8ed01dba5039fbc1189389a` | [archive/unmerged-r02/2026-11-14-sec411-bayes-posterior-vs-neighborhood-reachability.md](archive/unmerged-r02/2026-11-14-sec411-bayes-posterior-vs-neighborhood-reachability.md) |
+| [Bellman full theoretical draft](https://github.com/mahhammad/My-Thesis/blob/99fd893a167fdb1196a7142b6764cf90297ef824/research_journal/2026-11-14-ch3-bellman-two-sided-proof-and-feasibility-bridge.md) | `3d233de4cfe040634cda2f9a361a645ee40eaf60` | [archive/unmerged-r02/2026-11-14-ch3-bellman-two-sided-proof-and-feasibility-bridge.md](archive/unmerged-r02/2026-11-14-ch3-bellman-two-sided-proof-and-feasibility-bridge.md) |
+
+یادداشت قدیمی `2026-11-11-d10d11-return-kernel-counterexample.md` در نمایهٔ تاریخی نام برده شده، ولی از SHA بررسی‌شدهٔ فعلی **قابل بازیابی نبود**؛ به‌جای ادعای انتقال کامل، ارجاع به [نمونهٔ نقض ممیزی در Issue #49](https://github.com/mahhammad/My-Thesis/issues/49#issuecomment-6796470635) محفوظ است.
+
 ## ۶. تصمیم نگهداری تاریخی و ریسک‌های شناخته‌شده
 - هیچ raw/کد/داده، ژورنال تاریخ‌دار، متن نظری و تاریخچه Issue حذف نشده. **عدم جابه‌جایی فیزیکی ۳۰ ژورنال** تصمیم محافظتی برای جلوگیری از شکستن نشانی‌های ارجاع‌شده در دیگر گزارش‌ها و Issueها است؛ [README جدید](README_FA.md) فقط هشت سند جاری را در ناوبری اصلی نشان می‌دهد و بقیه را به این inventory ارجاع می‌دهد.
 - Issue #55، #53، #57 و #58–#60 حاوی دستورهای قدیمی «دائمی بودن شاخه پژوهشگر»اند؛ وضعیت جاری فقط [WORKFLOW](WORKFLOW_FA.md) است.
