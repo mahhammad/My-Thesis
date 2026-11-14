@@ -32,3 +32,10 @@
 
 ## درخواست رأی مدیر
 گیت اصلاحات فنی `P0_FIXES_SUBMITTED_FOR_MANAGER_REVIEW`؛ پس از CI نهاییِ SHA جاری، مدیر می‌تواند این سه اصلاح را مستقل بازبینی کند. برای فعال‌سازی، دو رأی رسمی متوالی صاحب مخزن در **Issue #81** با markerها و `candidate_sha` قفل‌شده لازم‌اند. تا ثبت آن‌ها `NO_NEW_FIT` قطعی است. اجرای واقعی این workflow و پذیرفته‌شدن علمی نتایج هنوز `NOT_RUN / NOT_VERIFIED` است؛ PR #79 Draft/بدون merge.
+
+## گیت استقرار GitHub Actions — محدودیت جداگانه و باز
+طبق مستندات رسمی GitHub، `workflow_dispatch` تنها وقتی در دسترس قرار می‌گیرد که فایل workflow روی **default branch** موجود باشد. در بررسی این تحویل، `.github/workflows/e-ch4-13-phase2-authorized.yml` روی `main` موجود **نیست** و تنها روی شاخه آزمایش اضافه شده است. بنابراین **با وجود PASS تست‌های mock/CI، workflow اجرای دستی هنوز عملیاتی/قابل dispatch تأییدشده نیست** و این بخش `DEPLOYMENT_BLOCKED / NOT_RUN` باقی می‌ماند.
+
+**تصمیم لازم مدیر:** پیش از هر fit، با یک مجوز مستند جداگانه فقط bootstrapِ فایل workflow حفاظت‌شده روی default branch را انجام دهد (بدون ادغام PR #79 یا کد/داده/LaTeX آزمایش)، یا راهکار اجرایی معادل و مستقل را تعیین و ممیزی کند. تا آن زمان هیچ اجرای واقعی نباید شروع شود. بعد از bootstrap، SHA شاخه آزمایش باید دوباره CI PASS بگیرد و workflow با همان SHA/کامنت‌های واقعی امتحان شود؛ آزمون مجوز بدون fit می‌تواند با رأی مدیر انجام شود، ولی خلق tag مصرف بودجه تنها هنگام اجرای اصلی مجاز است.
+
+**منبع:** https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#workflow_dispatch
