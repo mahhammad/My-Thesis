@@ -41,6 +41,16 @@ CFG=ROOT/"code/data_generator/config.json"
 def sha(path):
     return sha256(Path(path).read_bytes()).hexdigest()
 
+def finite_metric_value(value):
+    """Nested margin quantile dicts are measured metrics, not numeric scalars."""
+    if value is None:return False
+    if isinstance(value,dict):
+        return all(finite_metric_value(v) for v in value.values())
+    try:
+        return bool(np.isfinite(np.asarray(value,dtype=float)).all())
+    except (ValueError,TypeError):
+        return False
+
 def proportional_ids(y,n,seed):
     y=np.asarray(y,int)
     count=np.bincount(y)
@@ -188,8 +198,7 @@ def run_pair(output, *, source_sha):
                     value=section.get(mid)
                     if gname=="center_geometry":
                         value=section.get("center_geometry",{}).get(mid,section.get(mid))
-                    status=("measured" if value is not None
-                            and np.all(np.isfinite(np.asarray(value,dtype=float)))
+                    status=("measured" if finite_metric_value(value)
                             else ("undefined_or_infinite" if mid in
                                   ("R_KL","NLL_KL_simple","NLL_KL_normalized_historical")
                                   else "not_measured"))
