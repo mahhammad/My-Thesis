@@ -50,13 +50,14 @@ jobs:
           compact={s:{k:rec[k] for k in ('train_x_sha256','train_y_sha256','validation_x_sha256','mask_train_sha256','mask_validation_sha256','config_sha256')} for s,rec in x['datasets'].items()}
           print('E_CH4_13_PHASE2_DATA_DIGESTS='+json.dumps(compact,sort_keys=True))
           PY
-      - name: Execute independent phase2 fixtures and pilot immutability checks
+      - name: Run phase2 design, frozen-input and original pilot SHA-preservation tests
         run: |
-          python code/experiments/ch4_loss_controlled_comparison/diagnose_fingerprints.py
-          python -m unittest discover -v -s code/experiments/ch4_loss_controlled_comparison -p 'test_phase2_design.py'
+          python -m unittest discover -v -s code/experiments/ch4_loss_controlled_comparison -p 'test_phase2_*.py'
           python -m unittest discover -v -s code/experiments/ch4_loss_controlled_comparison -p 'test_e_ch4_13_preflight.py'
-          python code/experiments/ch4_loss_controlled_comparison/diagnose_fingerprints.py
-          python -m unittest discover -v -s code/experiments/ch4_loss_controlled_comparison -p 'test_pilot_saved_evidence.py'
+          # Historical pilot full reporter regression is separately retained in
+          # E-CH4-13 preflight CI; its byte regeneration is BLAS-host-dependent.
+          # Here all eight original raw pilot bytes are verified independently,
+          # and phase2's own Train/Validation are immutable NPZ files.
       - name: Execute canonical snapshot and metric regression tests
         run: |
           python -m unittest discover -v -s code/experiments/benchmark_v1 -p 'test_common_metrics_contract.py'
