@@ -10,7 +10,9 @@ permissions:
   contents: write
 jobs:
   guard-and-test:
-    if: contains(github.event.head_commit.message, '[RUN_APPROVED_PILOT]')
+    # The approved two-fit budget was consumed in run 43614497613.
+    # A new explicit manager mission and workflow revision are required for ANY new fit.
+    if: false
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
