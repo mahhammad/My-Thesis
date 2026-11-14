@@ -11,6 +11,10 @@
 7. [**KNOWLEDGE_AUDIT_2026-11-14_FA.md**](KNOWLEDGE_AUDIT_2026-11-14_FA.md) — گزارش ممیزی این تجمیع، حسابرسی عملیات Git و Issueها.
 8. [**archive/**](archive/) — [نمایه قدیمی (کپی سالم)](archive/README_FA-legacy-2026-11-14.md)، [۱۱۱ کامنت Issue مادر #49](archive/ISSUE49_COMMENT_INDEX_FA.md) و جدول لینک به ژورنال‌های تاریخ‌دار. نسخه‌های قبلی در مسیرهای تاریخی **حذف نشده‌اند**.
 
+### بایگانی دو پیش‌نویس نظری خارج از main
+
+دو ژورنال R02 که فقط در کامیت‌های تاریخی وجود داشتند، **با متن و Git blob اصلی** در [archive/unmerged-r02](archive/unmerged-r02/2026-11-14-ch3-bellman-two-sided-proof-and-feasibility-bridge.md) و [تعبیر پسین بیزی](archive/unmerged-r02/2026-11-14-sec411-bayes-posterior-vs-neighborhood-reachability.md) نگهداری شدند؛ این دو فایل تاریخچه و منشأ هستند و نباید به‌جای برهان منتشرشده در LaTeX خوانده شوند. [جزئیات](PROVENANCE_FA.md).
+
 ## ایده‌های آینده — محل ثبت یکتا
 [IDEA-001: منحنی پوشش چندکی شعاع KL](../research/future-ideas/IDEA-001-quantile-kl-radius.md)؛
 [IDEA-002: فیبر هم‌مرکز](../research/future-ideas/IDEA-002-fixed-center-policy-optimization.md)؛
