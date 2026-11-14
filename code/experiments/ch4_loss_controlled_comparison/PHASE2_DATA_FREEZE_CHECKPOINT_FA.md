@@ -10,3 +10,6 @@
 **گیت:** صرفاً بعد از اجرای موفق workflow و بررسی مستقل checksum `DATA_FROZEN_NO_FIT` ثبت خواهد شد. این عمل هیچ مجوزی برای ۱۲ آموزش صادر نمی‌کند؛ `phase2_execution_gate.json` باید تا مجوز رسمی مدیر BLOCKED باقی بماند.
 
 **Checkpoint commit trigger:** فقط درخواست قفل ورودی، نه درخواست آموزش.
+
+## Freeze attempt 1: NOT_RUN
+اولین CI freeze به دلیل import غیرضروری torch در ابزار fingerprint قبل از ساخت فایل شکست خورد. این وابستگی حذف شد و fingerprint NumPy-only با canonical fingerprint در fixture سنجیده می‌شود. هیچ مجموعه داده‌ای در شاخه commit نشده و هیچ آموزش انجام نشده بود. تلاش دوم فقط برای ساخت داده ثابت Train/Validation است.
