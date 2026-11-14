@@ -19,7 +19,7 @@ from report_snapshot import standard_metrics
 from phase2_protocol import (SEEDS,FAMILIES,LOSSES,N_UPDATES,grid,validate_grid,
     reference_ids,plan_manifest,charge_attempt,new_ledger,atomic_new_json,
     expected_data_gate,evidence_gate)
-from phase2_runner import canonical_loss,gradients_at_policy,numeric_nested,make_coverage
+from phase2_runner import canonical_loss,gradients_at_policy,numeric_nested,make_coverage,execute
 from phase2_data_preflight import inspect
 
 def graph():
@@ -76,6 +76,23 @@ class Phase2DesignTests(unittest.TestCase):
         self.assertFalse(committed["training_authorized"])
         self.assertEqual(committed["technical_audit_status"],"NOT_RECORDED")
         self.assertEqual(committed["final_scientific_audit"],"DEFERRED_UNTIL_AFTER_PHASE2")
+
+
+    def test_execute_refuses_optimizer_before_data_or_files_without_approval(self):
+        with tempfile.TemporaryDirectory() as d:
+            p=Path(d)/"should_not_exist"
+            with mock.patch.dict(os.environ,{
+                    "E_CH4_13_PHASE2_OPT_IN":"NOT_AUTHORIZED",
+                    "E_CH4_13_PHASE2_EXTERNAL_GATE_VERIFIED":"false"}):
+                with self.assertRaises(PermissionError):
+                    execute(p,"a"*40,"fake")
+                self.assertFalse(p.exists())
+            with mock.patch.dict(os.environ,{
+                    "E_CH4_13_PHASE2_OPT_IN":"I_ACCEPT_12_FIT_CAP",
+                    "E_CH4_13_PHASE2_EXTERNAL_GATE_VERIFIED":"false"}):
+                with self.assertRaises(PermissionError):
+                    execute(p,"a"*40,"fake")
+                self.assertFalse(p.exists())
 
     def test_immutable_outputs_and_attempt_charges(self):
         with tempfile.TemporaryDirectory() as d:
