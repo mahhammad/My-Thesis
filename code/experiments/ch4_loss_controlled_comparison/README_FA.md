@@ -27,3 +27,8 @@ python -m unittest discover -v -s code/experiments/benchmark_v1 -p 'test_snapsho
 `finalize_existing.py` تنها raw موجود را بازخوانی و خروجی دیجیتال را از آن بازسازی می‌کند؛ در آن optimizer وجود ندارد. `run_experiment.py` به‌طور پیش‌فرض dry-run و در حالت --execute fail-closed است؛ با پایان بودجه دو fit این مرحله مجوز تکرار آن وجود ندارد.
 
 **درخواست گیت:** `PILOT_READY_FOR_QA`؛ هیچ پذیرش نتیجه علمی یا مجوز مرحله اصلی پیش از رأی ممیزی مستقل.
+
+## بازتولید عددی با محیط ثابت
+در ممیزی بعدی مشخص شد که توابع تولید داده NumPy می‌توانند با dispatch مختلف OpenBLAS خروجی بایت‌به‌بایت متفاوت تولید کنند، حتی وقتی seed/config/برچسب‌ها یکسان‌اند. [تشخیص CI](https://github.com/mahhammad/My-Thesis/actions/runs/43615893696) نشان داد generic و SkylakeX با raw منطبق بودند؛ SkylakeX روی بعضی CPU runnerها غیرمجاز است، بنابراین اجرای رسمی به `OPENBLAS_CORETYPE=generic`, `OPENBLAS_NUM_THREADS=1`, `numpy==2.4.6`, و `torch==2.15.0+cpu` محدود شده است. روی سیستم دیگری که هش‌ها تطبیق نکنند، QA باید FAIL اعلام شود؛ raw به‌صورت خودکار جایگزین نمی‌شود.
+
+**گیت اجرا مصرف شده است:** هیچ آموزش جدیدی در این مرحله مجاز نیست؛ فایل workflow پایلوت `if: false` دارد. گیت بعدی فقط ممیزی مستقل raw و تحلیل نتایج است.
