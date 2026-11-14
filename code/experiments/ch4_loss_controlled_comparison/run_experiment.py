@@ -139,6 +139,12 @@ def run_pair(output, *, source_sha):
         report=report_snapshot(run_dir)
         if report["validation"]["status"]!="ok":
             raise AssertionError("Required validation not available")
+        conf=np.asarray(report["validation"]["confusion_true_rows_pred_cols"],int)
+        counts=conf.sum(axis=1)
+        if (counts==0).any():raise AssertionError("Class missing from Validation")
+        report["validation"]["per_class_recall"]=(np.diag(conf)/counts).tolist()
+        tr_conf=np.asarray(report["train"]["confusion_true_rows_pred_cols"],int)
+        report["train"]["per_class_recall"]=(np.diag(tr_conf)/tr_conf.sum(axis=1)).tolist()
         if report["source"]["historical_test_accessed"]:
             raise AssertionError("Unexpected Test access")
         p=run_dir/"metrics_full.json"
@@ -163,24 +169,34 @@ def run_pair(output, *, source_sha):
         manifest["runs"].append(run)
         run_rows.append(run)
     if len(manifest["runs"])!=2:raise AssertionError("Exactly two fits required")
-    coverage={
-        "schema":"chapter4-common-evaluation-contract-v2",
-        "test":{"status":"not_applicable","reason":"Test access forbidden under issue 78"},
-        "train":{"status":"measured","source":"Train-only snapshot"},
-        "validation":{"status":"measured","source":"held-out query; Train-fixed centers"},
-        "runtime_memory_peak_bytes":{"status":"not_measured","reason":"optional OS-dependent metric"},
-        "optimization_gradient":{"status":"measured","source":"trace.json"},
-        "R_KL":{
-            name:{"train":{"status":"measured" if np.isfinite(row["R_KL"]) else "undefined_or_infinite",
-                            "reason":"support-aware KL; never legacy clipped"},
-                  "validation":{"status":"measured" if np.isfinite(
-                     report_snapshot(output/name)["validation"]["R_KL"] or float("nan"))
-                     else "undefined_or_infinite",
-                     "reason":"exact support-aware held-out KL"}}
-            for name,row in zip(OBJECTIVES,run_rows)
-        },
-        "all_common_metric_groups":{"status":"measured","source":"per-run metrics_full.json; null fields carry reasons per reporter"}
-    }
+    contract=json.loads((ROOT/"code/experiments/COMMON_METRICS_CONTRACT.json").read_text("utf8"))
+    coverage={"schema":contract["schema"],
+              "test":{"status":"not_applicable","reason":"Test access forbidden for E-CH4-13"},
+              "optimization":{"status":"measured","reason":"trace.json: gradient L2/Linf per update"},
+              "runtime_memory_peak_bytes":{"status":"not_measured","reason":"not instrumented"},
+              "objectives":{}}
+    for name in OBJECTIVES:
+        report=json.loads((output/name/"metrics_full.json").read_text("utf8"))
+        per={}
+        for group in contract["metric_groups"]:
+            gname=group["group"]
+            if gname=="experiment_specific":continue
+            locations=("train",) if group.get("center_only") else ("train","validation")
+            for split in locations:
+                for mid in group["ids"]:
+                    section=report[split]
+                    value=section.get(mid)
+                    if gname=="center_geometry":
+                        value=section.get("center_geometry",{}).get(mid,section.get(mid))
+                    status=("measured" if value is not None
+                            and np.all(np.isfinite(np.asarray(value,dtype=float)))
+                            else ("undefined_or_infinite" if mid in
+                                  ("R_KL","NLL_KL_simple","NLL_KL_normalized_historical")
+                                  else "not_measured"))
+                    per[f"{split}.{mid}"]={"status":status,
+                        "reason":("value in metrics_full.json" if status=="measured"
+                                  else "missing/undefined in canonical reporter; no invented zero")}
+        coverage["objectives"][name]=per
     (output/"manifest.json").write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+"\n",encoding="utf8")
     (output/"coverage.json").write_text(json.dumps(coverage,ensure_ascii=False,indent=2)+"\n",encoding="utf8")
     with (output/"metrics_summary.csv").open("w",encoding="utf8",newline="") as file:
