@@ -22,6 +22,10 @@ jobs:
         run: |
           python -m pip install numpy
           python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+      - name: Syntax and dry-run guard (zero optimizer updates)
+        run: |
+          python -m py_compile code/experiments/ch4_loss_controlled_comparison/run_experiment.py
+          python code/experiments/ch4_loss_controlled_comparison/run_experiment.py
       - name: Run independent E-CH4-13 tests without any training or Test split
         run: python -m unittest discover -v -s code/experiments/ch4_loss_controlled_comparison -p 'test_*.py'
       - name: Run canonical snapshot and metric contract regression tests
