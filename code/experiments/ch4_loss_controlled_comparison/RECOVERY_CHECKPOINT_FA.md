@@ -11,3 +11,6 @@
 
 ## Recovery attempt 1 (zero training)
 [CI #43614895487](https://github.com/mahhammad/My-Thesis/actions/runs/43614895487): دانلود هر ۸ فایل raw موفق شد؛ کنترل fingerprint با پیام کلی FAIL شد و بدون گزارش عددی توقف کرد. کد بازیابی فقط برای چاپ کلید و هش نامنطبق سخت‌گیرانه‌تر شد؛ هیچ تغییری در raw یا optimizer وجود ندارد. اجرای بازیابی بعدی هم فقط read/recompute است.
+
+## Root cause verified — BLAS dispatch, not extra training
+[CI #43615893696](https://github.com/mahhammad/My-Thesis/actions/runs/43615893696) با `OPENBLAS_CORETYPE=Haswell/Zen` X hashes را متفاوت و با `SkylakeX/generic` دقیقاً برابر داده خام اولیه پیدا کرد؛ config hash و labels بدون اختلاف. مولد از NumPy multivariate_normal و مسیر محاسباتی BLAS استفاده می‌کند؛ seed به تنهایی تضمین بایت‌به‌بایت بین dispatchهای متفاوت نیست. CI جدید با `OPENBLAS_CORETYPE=generic`, `OPENBLAS_NUM_THREADS=1`, NumPy 2.4.6 قفل شد؛ عدم انطباق همچنان FAIL است، هیچ fingerprint جعلی/ریست نمی‌شود. پایلوت دوباره آموزش داده نشده و trigger آن در .github/workflows/e-ch4-13-pilot.yml با if:false قفل شد.
