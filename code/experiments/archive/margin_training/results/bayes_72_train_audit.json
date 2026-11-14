@@ -1,0 +1,60 @@
+{
+  "data_seed": 20261102,
+  "reference_sample_size": 72,
+  "reference_class_counts": [
+    24,
+    24,
+    24
+  ],
+  "selection": "Three independently sampled balanced subsets from the SAME fixed train split of 300, not 3 independent datasets",
+  "evaluation": "Empirical balanced accuracy on same 72 labeled reference examples; Bayes posterior computed from true generating parameters and observed feature masks",
+  "subsets": [
+    {
+      "seed": 20261107,
+      "bayes": 0.875,
+      "ord": 0.875,
+      "posterior": 0.8601954610369477,
+      "uniform": 0.8611111111111112,
+      "trained": {
+        ".002": 0.9027777777777778,
+        ".005": 0.8888888888888888,
+        ".020": 0.8472222222222222
+      }
+    },
+    {
+      "seed": 20261108,
+      "bayes": 0.7916666666666666,
+      "ord": 0.7916666666666666,
+      "posterior": 0.8402460891933575,
+      "uniform": 0.7361111111111112,
+      "trained": {
+        ".002": 0.8194444444444444,
+        ".005": 0.8194444444444444,
+        ".020": 0.8194444444444444
+      }
+    },
+    {
+      "seed": 20261109,
+      "bayes": 0.8194444444444445,
+      "ord": 0.8194444444444444,
+      "posterior": 0.8678433563859989,
+      "uniform": 0.7916666666666666,
+      "trained": {
+        ".002": 0.875,
+        ".005": 0.875,
+        ".020": 0.8055555555555556
+      }
+    }
+  ],
+  "averages": {
+    "bayes_empirical_train_balanced": 0.8287037037037037,
+    "bayes_expected_ordinary_probability_max": 0.8560949688721013,
+    "uniform_in_sample_balanced": 0.7962962962962963,
+    "trained_in_sample_balanced": {
+      "tau0.002": 0.8657407407407408,
+      "tau0.005": 0.861111111111111,
+      "tau0.020": 0.8240740740740741
+    }
+  },
+  "warning": "In-sample policy accuracy can exceed empirical Bayes oracle accuracy without contradicting Bayes optimality in population expectation; its 72 labels were used both to fit Z and estimate class centers."
+}

@@ -1,0 +1,79 @@
+{
+  "schema": "SEC411_AUDITED_PRESENTATION_V1",
+  "source": "independent reviewer comment 6866250000 and S103 raw ZIP SHA256 742b38249fccf904fc5bf6e783a4110853a1a7051433f7b8417b32c1774493f4",
+  "h12_params": {
+    "H": 12,
+    "beta": 0.4,
+    "lambda": 0.8
+  },
+  "seed_graphs": [
+    {
+      "seed": 20261102,
+      "n": 150,
+      "max_positive_coordinate_gap_approx": 0.1364339044059646,
+      "certified_balanced_mean_jsd_lower_nats_floor": "0.00509557810924",
+      "input_type": "stored_binary64",
+      "proof_scope": "conditional_on_auditor_arithmetic_assumptions"
+    },
+    {
+      "seed": 20261102,
+      "n": 300,
+      "max_positive_coordinate_gap_approx": 0.1892430000285057,
+      "certified_balanced_mean_jsd_lower_nats_floor": "0.0112485885576",
+      "input_type": "stored_binary64",
+      "proof_scope": "conditional_on_auditor_arithmetic_assumptions"
+    },
+    {
+      "seed": 20261103,
+      "n": 150,
+      "max_positive_coordinate_gap_approx": 0.1843321844063619,
+      "certified_balanced_mean_jsd_lower_nats_floor": "0.00971738218772",
+      "input_type": "stored_binary64",
+      "proof_scope": "conditional_on_auditor_arithmetic_assumptions"
+    },
+    {
+      "seed": 20261103,
+      "n": 300,
+      "max_positive_coordinate_gap_approx": 0.17933447395760305,
+      "certified_balanced_mean_jsd_lower_nats_floor": "0.00722744118459",
+      "input_type": "stored_binary64",
+      "proof_scope": "conditional_on_auditor_arithmetic_assumptions"
+    },
+    {
+      "seed": 20261104,
+      "n": 150,
+      "max_positive_coordinate_gap_approx": 0.25907621492503197,
+      "certified_balanced_mean_jsd_lower_nats_floor": "0.01340326403575",
+      "input_type": "stored_binary64",
+      "proof_scope": "conditional_on_auditor_arithmetic_assumptions"
+    },
+    {
+      "seed": 20261104,
+      "n": 300,
+      "max_positive_coordinate_gap_approx": 0.18842829502699754,
+      "certified_balanced_mean_jsd_lower_nats_floor": "0.00973844342739",
+      "input_type": "stored_binary64",
+      "proof_scope": "conditional_on_auditor_arithmetic_assumptions"
+    }
+  ],
+  "D11": [
+    {
+      "target": "equal",
+      "seed": 20261102,
+      "n": 300,
+      "max_positive_coordinate_gap_approx": 0.09828203200282387,
+      "certified_mean_jsd_lower_nats_floor": "0.00318062155626"
+    },
+    {
+      "target": "bounded_equal",
+      "seed": 20261102,
+      "n": 300,
+      "max_positive_coordinate_gap_approx": 0.0012789175983316525,
+      "certified_mean_jsd_lower_nats_floor": "0.000000512161713096"
+    }
+  ],
+  "nonbaseline": {
+    "count": 48,
+    "status": "NUMERICAL_ONLY"
+  }
+}

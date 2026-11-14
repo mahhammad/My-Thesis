@@ -1,0 +1,59 @@
+name: Chapter 4 target center trajectory evidence
+
+on:
+  push:
+    branches: [chapter4]
+    paths:
+      - 'code/experiments/target_center_guidance_trajectory/**'
+      - 'tex/chapter4.tex'
+      - 'code/experiments/benchmark_v1/test_chapter4_latex_syntax.py'
+      - 'code/experiments/guided_informative_uniform_mixture/tables/**'
+      - 'code/experiments/guided_informative_uniform_mixture/figures/**'
+      - 'code/experiments/test_complete_metric_reports.py'
+      - 'code/experiments/COMMON_METRICS_FA.md'
+      - 'code/experiments/COMMON_METRICS_CONTRACT.json'
+      - 'code/experiments/**/results/metrics_full.json'
+      - 'code/experiments/**/results/coverage.json'
+      - 'code/experiments/guided_informative_uniform_mixture/tables/complete_compactness.tex'
+      - '.github/workflows/chapter4-target-center-trajectory.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-historical-evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install light dependency for archived diagnostic tests
+        run: |
+          python -m pip install numpy
+          python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+      - name: Validate original metric identities and canonical charts/tables without rerunning walks
+        run: |
+          python -m unittest discover -v \
+            -s code/experiments/target_center_guidance_trajectory -p 'test_*.py'
+      - name: Backfill center-only metrics for all 49 rounds and complete 3 checkpoint metrics
+        run: |
+          python code/experiments/target_center_guidance_trajectory/backfill_common_metrics.py \
+            --execute --out-dir /tmp/ch4-e06-common
+      - name: Archive common metrics evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: chapter4-e06-common-metrics
+          path: /tmp/ch4-e06-common/
+          retention-days: 30
+          if-no-files-found: error
+      - name: Verify common metric artifact completeness and honest missingness
+        run: |
+          python -m unittest discover -v \
+            -s code/experiments -p 'test_complete_metric_reports.py'
+      - name: Check manuscript LaTeX syntax guards
+        run: |
+          python -m unittest discover -v \
+            -s code/experiments/benchmark_v1 -p 'test_chapter4_latex_syntax.py'

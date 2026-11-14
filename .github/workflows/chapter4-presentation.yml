@@ -1,0 +1,33 @@
+name: Chapter 4 sections 4.3-4.7 presentation contract
+on:
+  push:
+    branches: [chapter4]
+    paths:
+      - 'tex/chapter4.tex'
+      - 'code/experiments/REPORT_PRESENTATION_FA.md'
+      - 'code/experiments/EXPERIMENT_REPORT_STANDARD_FA.md'
+      - 'code/experiments/test_chapter4_presentation.py'
+      - 'code/experiments/*/tables/*.tex'
+      - 'code/experiments/*/figures/*.tex'
+      - 'code/experiments/sigmoid_margin_observational_evaluation/results/size_study/**'
+      - 'code/experiments/sigmoid_margin_observational_evaluation/results/coverage.json'
+      - '.github/workflows/chapter4-presentation.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify all presentation inputs and preserved historical data
+        run: |
+          python -m unittest discover -s code/experiments -p test_chapter4_presentation.py -v
+          python -m unittest discover -s code/experiments/benchmark_v1 -p test_chapter4_latex_syntax.py -v
+          python -m unittest discover -s code/experiments/target_center_guidance_trajectory -p test_unified_narrative.py -v
+          python -m unittest discover -s code/experiments/target_center_guidance_trajectory -p test_replay_presentation.py -v
+          python -m unittest discover -s code/experiments/target_center_guidance_trajectory -p test_report_assets.py -v

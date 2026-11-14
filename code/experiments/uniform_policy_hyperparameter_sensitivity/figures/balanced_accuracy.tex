@@ -1,0 +1,50 @@
+% Source: results/uniform_runs.csv, balanced accuracy on two splits.
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[x=.88cm,y=.80cm]
+\draw[gray!20] (.60,0.850)--(13.20,0.850);
+\node[font=\scriptsize,anchor=east] at (.53,0.850) {$0\%$};
+\draw[gray!20] (.60,1.737)--(13.20,1.737);
+\node[font=\scriptsize,anchor=east] at (.53,1.737) {$25\%$};
+\draw[gray!20] (.60,2.625)--(13.20,2.625);
+\node[font=\scriptsize,anchor=east] at (.53,2.625) {$50\%$};
+\draw[gray!20] (.60,3.512)--(13.20,3.512);
+\node[font=\scriptsize,anchor=east] at (.53,3.512) {$75\%$};
+\draw[gray!20] (.60,4.400)--(13.20,4.400);
+\node[font=\scriptsize,anchor=east] at (.53,4.400) {$100\%$};
+\draw[->] (.60,.85)--(13.3,.85);
+\draw[very thick,blue] plot coordinates {(1.050,3.811) (2.430,3.819) (3.810,3.819) (5.190,3.819) (6.570,3.819) (7.950,3.819) (9.330,3.819) (10.710,3.819) (12.090,3.819)};
+\draw[very thick,red!85!black] plot coordinates {(1.050,4.285) (2.430,4.285) (3.810,4.285) (5.190,4.285) (6.570,4.285) (7.950,4.285) (9.330,4.285) (10.710,4.285) (12.090,4.285)};
+\fill[blue] (1.050,3.811) circle (2.0pt);
+\fill[red!85!black] (1.050,4.285) circle (2.0pt);
+\node[font=\scriptsize,anchor=north] at (1.050,.63) {$\beta=0.2$};
+\fill[blue] (2.430,3.819) circle (2.0pt);
+\fill[red!85!black] (2.430,4.285) circle (2.0pt);
+\node[font=\scriptsize,anchor=north] at (2.430,.63) {$\mathrm{base}$};
+\fill[blue] (3.810,3.819) circle (2.0pt);
+\fill[red!85!black] (3.810,4.285) circle (2.0pt);
+\node[font=\scriptsize,anchor=north] at (3.810,.63) {$\beta=0.7$};
+\fill[blue] (5.190,3.819) circle (2.0pt);
+\fill[red!85!black] (5.190,4.285) circle (2.0pt);
+\node[font=\scriptsize,anchor=north] at (5.190,.63) {$\lambda=0.4$};
+\fill[blue] (6.570,3.819) circle (2.0pt);
+\fill[red!85!black] (6.570,4.285) circle (2.0pt);
+\node[font=\scriptsize,anchor=north] at (6.570,.63) {$\lambda=1.0$};
+\fill[blue] (7.950,3.819) circle (2.0pt);
+\fill[red!85!black] (7.950,4.285) circle (2.0pt);
+\node[font=\scriptsize,anchor=north] at (7.950,.63) {$H=1$};
+\fill[blue] (9.330,3.819) circle (2.0pt);
+\fill[red!85!black] (9.330,4.285) circle (2.0pt);
+\node[font=\scriptsize,anchor=north] at (9.330,.63) {$H=2$};
+\fill[blue] (10.710,3.819) circle (2.0pt);
+\fill[red!85!black] (10.710,4.285) circle (2.0pt);
+\node[font=\scriptsize,anchor=north] at (10.710,.63) {$H=3$};
+\fill[blue] (12.090,3.819) circle (2.0pt);
+\fill[red!85!black] (12.090,4.285) circle (2.0pt);
+\node[font=\scriptsize,anchor=north] at (12.090,.63) {$H=4$};
+\node[font=\scriptsize,blue] at (9.8,4.95) {آموزش};
+\node[font=\scriptsize,red!85!black] at (11.9,4.95) {اعتبارسنجی};
+\end{tikzpicture}
+\caption{دقت متوازن آموزش و اعتبارسنجی در نه اجرای یکتای سیاست یکنواخت. هر مقدار نسبت به کلاس متوازن شده است؛ مقدار اعتبارسنجی در تمام نه تنظیم برابر بوده، اما این برابری به‌تنهایی یکسان‌بودن پیش‌بینی تک‌تک نمونه‌ها را اثبات نمی‌کند.}
+\label{fig:ch4-uniform-balanced-accuracy}
+\end{figure}

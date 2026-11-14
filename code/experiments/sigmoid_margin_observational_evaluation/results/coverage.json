@@ -1,0 +1,285 @@
+{
+  "schema": "chapter4-metric-coverage-v2",
+  "experiment_id": "E-CH4-07",
+  "historical_test_accessed": false,
+  "contract": "code/experiments/COMMON_METRICS_CONTRACT.json",
+  "measurement_counts": {
+    "observational_checkpoints": 3,
+    "observational_validation_rows_per_checkpoint": 90,
+    "observational_tau_values": 6,
+    "observational_diagnostic_rows": 18,
+    "training_historical_runs": 12,
+    "training_independent_data_splits": 1,
+    "training_72_subset_seeds": 3,
+    "training_300_reference_seeds": 1,
+    "extra_size_study_historical_runs": 26,
+    "full300_policy_checkpoints_verified_v2": 3,
+    "benchmark_size_study_standard_runs": 36,
+    "benchmark_size_independent_data_seeds": 3,
+    "benchmark_size_n_values": [
+      50,
+      100,
+      150,
+      200,
+      250,
+      300
+    ],
+    "benchmark_size_policy_families": [
+      "shared",
+      "class"
+    ],
+    "benchmark_full_v2_verified_runs": 36
+  },
+  "measured": [
+    {
+      "scope": "three observational checkpoints",
+      "ids": [
+        "R_KL",
+        "R_JS",
+        "R_sqrt_JS",
+        "mean_true_class_similarity",
+        "T",
+        "BT",
+        "TNL",
+        "BTNL",
+        "I",
+        "min_pairwise_sqrt_JS",
+        "mean_pairwise_sqrt_JS",
+        "mean_pairwise_JS",
+        "pairwise_sqrt_JS",
+        "pairwise_JS",
+        "nearest_center_sqrt_JS_per_class",
+        "balanced_accuracy",
+        "ordinary_accuracy",
+        "confusion_true_rows_pred_cols",
+        "per_class_recall",
+        "tie_count",
+        "margin_quantiles",
+        "hard_margin_error_conservative",
+        "balanced_sigmoid_margin_loss",
+        "balanced_JS_similarity_NLL",
+        "balanced_softplus_all_rivals",
+        "NLL_KL_simple",
+        "NLL_KL_normalized_historical"
+      ],
+      "source": "precomputed standard_v2 train/validation report, tau=.005; per-class recall in per_class[].accuracy"
+    },
+    {
+      "scope": "three observational checkpoints x six tau",
+      "ids": [
+        "balanced_sigmoid_margin_loss",
+        "relative_sensitivity",
+        "margin_region_mass",
+        "margin_region_sensitivity_share"
+      ],
+      "source": "archived sigmoid_validation_summary.csv"
+    },
+    {
+      "scope": "twelve training runs",
+      "ids": [
+        "I",
+        "R_JS",
+        "balanced_accuracy",
+        "training_objective"
+      ],
+      "source": "historical summary.csv; not independently verified with v2 common reporter"
+    },
+    {
+      "scope": "size study, 26 historical selections of 6 train sizes",
+      "ids": [
+        "train_BA",
+        "validation_BA",
+        "I_before_after",
+        "R_JS_before_after",
+        "train_loss_before_after",
+        "subset_sample_SD_for_n_under_300"
+      ],
+      "source": "results/size_study/runs.csv and aggregate.csv; exact copies of archived summaries, not new v2 measurements"
+    },
+    {
+      "scope": "three full300 trained policies, final 50-step saved-Z",
+      "ids": [
+        "R_KL",
+        "R_JS",
+        "R_sqrt_JS",
+        "T",
+        "BT",
+        "TNL",
+        "BTNL",
+        "I",
+        "pairwise_center_JS",
+        "BA",
+        "ordinary_accuracy",
+        "confusion",
+        "per_class_recall",
+        "margins",
+        "NLL",
+        "sigmoid_margin"
+      ],
+      "source": "no-training replay of persisted rounded final matrices; numeric checks against archive summary"
+    },
+    {
+      "scope": "Benchmark standardized size study, 36 runs: 6 sizes x shared/class x 3 independent generator seeds, 25 steps",
+      "ids": [
+        "train_BA",
+        "val_BA",
+        "I",
+        "R_KL",
+        "R_JS",
+        "R_sqrt_JS",
+        "objective_loss",
+        "elapsed_s",
+        "data_seed",
+        "source_sha256",
+        "three_seed_sample_sd"
+      ],
+      "source": "benchmark_v1/results/master_runs_76.csv and two immutable size-study ZIP archives"
+    },
+    {
+      "scope": "36 Benchmark size runs, full Train/Validation common contract",
+      "ids": [
+        "R_KL",
+        "R_JS",
+        "R_sqrt_JS",
+        "T",
+        "BT",
+        "TNL",
+        "BTNL",
+        "I",
+        "pairwise_JS",
+        "pairwise_sqrt_JS",
+        "confusion",
+        "per_class_recall",
+        "margin_quantiles",
+        "NLL",
+        "BA",
+        "Acc"
+      ],
+      "source": "exact replay of stored logits with SHA256 cross-check"
+    }
+  ],
+  "not_measured": [],
+  "not_verified": [
+    {
+      "scope": "size study, 26 historical runs",
+      "ids": [
+        "train_BA",
+        "validation_BA",
+        "I_before_after",
+        "R_JS_before_after",
+        "train_loss_before_after"
+      ],
+      "reason": "Copied byte-identically from archived summary CSV, not re-evaluated with common reporter."
+    }
+  ],
+  "not_applicable": [
+    {
+      "scope": "observational three checkpoints",
+      "ids": [
+        "optimizer_gradient_with_respect_to_policy"
+      ],
+      "reason": "Analysis varies tau on fixed saved scores; no optimization step."
+    }
+  ],
+  "statistical_warning": "Full300 saved policies verified with 50-step budget. Official size study: 36 runs, six sizes, two families, 3 independent generator seeds with fixed 25 steps. Older 72/26 runs archive only. Never conflate 25 and 50 budgets. Test not accessed.",
+  "full300_replay_verified": true,
+  "primary_training_reference_n": 300,
+  "historical_72_and_26_run_role": "archived_only_not_used_for_main_comparison",
+  "benchmark_full_v2_replay": {
+    "status": "36/36 exact forward passes verified against original Benchmark",
+    "source": "results/benchmark_size_metrics_full.json",
+    "complete_train_validation_metrics": true,
+    "new_training": false,
+    "independent_data_seeds": 3,
+    "test": false,
+    "workflow": "https://github.com/mahhammad/My-Thesis/actions/runs/42786885281",
+    "all_36_verified": true
+  },
+  "archive_only_or_resolved_coverage": [
+    {
+      "scope": "nine 72-member subset training runs (full300 final policies verified separately)",
+      "ids": [
+        "R_KL",
+        "R_sqrt_JS",
+        "mean_true_class_similarity",
+        "T",
+        "BT",
+        "TNL",
+        "BTNL",
+        "min_pairwise_sqrt_JS",
+        "mean_pairwise_sqrt_JS",
+        "mean_pairwise_JS",
+        "pairwise_sqrt_JS",
+        "pairwise_JS",
+        "nearest_center_sqrt_JS_per_class",
+        "ordinary_accuracy",
+        "confusion_true_rows_pred_cols",
+        "per_class_recall",
+        "tie_count",
+        "margin_quantiles",
+        "hard_margin_error_conservative",
+        "balanced_sigmoid_margin_loss",
+        "balanced_JS_similarity_NLL",
+        "balanced_softplus_all_rivals",
+        "NLL_KL_simple",
+        "NLL_KL_normalized_historical"
+      ],
+      "reason": "Historical summary.csv does not retain the full per-sample train and validation distributions/centers necessary to compute the common contract. These numbers cannot be reconstructed solely from BA, I and R_JS; no new walk/evaluation was authorized.",
+      "status": "archive_only_or_resolved"
+    },
+    {
+      "scope": "independent generalization uncertainty",
+      "ids": [
+        "independent_seed_SD",
+        "independent_seed_CI"
+      ],
+      "reason": "Three 72-member subsets derive from the same training split, and 300-member runs reuse one seed/split. Not independent generator replicates.",
+      "status": "archive_only_or_resolved"
+    },
+    {
+      "scope": "size study, 26 archived runs",
+      "ids": [
+        "R_KL",
+        "R_sqrt_JS",
+        "T",
+        "BT",
+        "TNL",
+        "BTNL",
+        "pairwise_JS",
+        "pairwise_sqrt_JS",
+        "per_class_compactness",
+        "full_margin_distribution",
+        "confusion",
+        "NLL"
+      ],
+      "reason": "The 26 historical CSVs store only aggregate BA/I/R_JS/loss; per-sample representation and complete checkpoint policy matrices are not contained in these two summary files; cannot reconstruct full v2 common report without those detailed checkpoints.",
+      "status": "archive_only_or_resolved"
+    },
+    {
+      "scope": "standardized Benchmark size study, extra v2 fields beyond flat source (superseded by verified full forward replay)",
+      "ids": [
+        "T",
+        "BT",
+        "TNL",
+        "BTNL",
+        "pairwise_JS",
+        "confusion",
+        "margin_quantiles",
+        "NLL"
+      ],
+      "reason": "Not present in master_runs_76.csv; raw checkpoint ZIPs remain available to backfill, not imputed. Recovered via benchmark_size_metrics_full.json.",
+      "status": "archive_only_or_resolved"
+    },
+    {
+      "scope": "nine 72-member subset training runs (full300 final policies verified separately)",
+      "ids": [
+        "I",
+        "R_JS",
+        "balanced_accuracy",
+        "training_objective"
+      ],
+      "reason": "Preserved from historical summary; not recomputed by current v2 reporter.",
+      "status": "archive_only_or_resolved"
+    }
+  ]
+}

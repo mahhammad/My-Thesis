@@ -1,0 +1,58 @@
+{
+  "schema": "e08-coverage-v1",
+  "policies": [
+    "uniform",
+    "trained_shared"
+  ],
+  "depths": [
+    2,
+    3,
+    4,
+    6,
+    8,
+    12
+  ],
+  "train_samples_per_run": 300,
+  "validation_samples_per_run": 90,
+  "metrics_complete": true,
+  "common_metrics": [
+    "R_KL",
+    "R_JS",
+    "R_sqrt_JS",
+    "T",
+    "BT",
+    "TNL",
+    "BTNL",
+    "I",
+    "balanced_accuracy",
+    "ordinary_accuracy",
+    "confusion_true_rows_pred_cols",
+    "balanced_sigmoid_margin_loss",
+    "balanced_JS_similarity_NLL",
+    "balanced_softplus_all_rivals",
+    "center_geometry",
+    "margin_quantiles"
+  ],
+  "train_validation_policy_depth_rows": 24,
+  "monte_carlo_records": 72,
+  "train_origins": [
+    0,
+    149,
+    299
+  ],
+  "validation_origins": [
+    0,
+    44,
+    89
+  ],
+  "MC_budgets": [
+    128,
+    512,
+    2048
+  ],
+  "MC_seeds": [
+    20261121,
+    20261122
+  ],
+  "historical_test_accessed": false
+}

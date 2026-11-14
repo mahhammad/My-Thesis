@@ -1,0 +1,84 @@
+{
+  "schema": "e-ch4-06-source-manifest-v1",
+  "experiment_id": "E-CH4-06",
+  "title_fa": "هدایت گشت به مراکز هدف و تحلیل مسیر معیارهای بازنمایی",
+  "branch": "chapter4",
+  "original_archive": "code/experiments/archive/center_matching_comparison/results/",
+  "source_initial_commit": "94df46a04bd029f26c9464d74c027f709a985c7c",
+  "initial_five_rounds": "code/experiments/center_matching_observation/results/center_matching_round1.json",
+  "continued_from": "round 4 next_targets; saved faithful continuation",
+  "round4_replay_exact": true,
+  "data_integrity": "all Git blob SHAs of 11 result files are byte-identical to archive",
+  "raw_files": {
+    "center_geometry_49.csv": {
+      "git_blob_sha": "437efa0a095697a7ba3b24aab0b8d3e5d78f958c",
+      "bytes": 12211
+    },
+    "center_geometry_49.json": {
+      "git_blob_sha": "0c90c6f47702103c5f82302a51ad877343220cc7",
+      "bytes": 111223
+    },
+    "detailed_three_cases.csv": {
+      "git_blob_sha": "595785c384fbfd531287969d8a6b8087cb6f9a74",
+      "bytes": 2045
+    },
+    "detailed_three_cases.json": {
+      "git_blob_sha": "c2d69da81e76f633fa4a633b2804cda7ef90c85e",
+      "bytes": 21076
+    },
+    "history_00_48.json": {
+      "git_blob_sha": "6fcb045d7e8c3a80e340f251bab623397445851b",
+      "bytes": 96818
+    },
+    "representations_guided_round0.json": {
+      "git_blob_sha": "0f4e83fd9a03947be833991dc22cbc04089dbec6",
+      "bytes": 50298
+    },
+    "representations_guided_round4.json": {
+      "git_blob_sha": "2728f16b238336c705ee1ad84484e941d5f616fe",
+      "bytes": 50350
+    },
+    "representations_uniform.json": {
+      "git_blob_sha": "44bebe0d74cea3a6c04b98dcdb7036cbc7743410",
+      "bytes": 26123
+    },
+    "three_cases.csv": {
+      "git_blob_sha": "f8251cfb8dbb856e744495cd8829b803c5e73851",
+      "bytes": 1071
+    },
+    "three_cases.json": {
+      "git_blob_sha": "c4672f000cb28bab903e6c9598158aa3b65be12e",
+      "bytes": 7322
+    },
+    "trajectory_metrics.csv": {
+      "git_blob_sha": "4d5c6f6aaccf4fc3b85f81d8c10ae2cd31bcd6c6",
+      "bytes": 11875
+    }
+  },
+  "protocol": {
+    "rounds": 49,
+    "rounds_index": [
+      0,
+      48
+    ],
+    "observed_validation_round_count": 25,
+    "best_measured_validation_round": 4,
+    "walk_seed": 20261104,
+    "walks_per_sample": 100,
+    "eta": 0.5,
+    "epsilon": 0.08,
+    "beta": 0.4,
+    "lambda": 0.8,
+    "horizon": 12,
+    "FW_max_steps": 45,
+    "train_n": 300,
+    "validation_n": 90,
+    "uniform_protocol": "single class-independent walk",
+    "guided_protocol": "candidate class-conditioned walk",
+    "train_guided_oracle_origin": true,
+    "historical_test_used_for_selection": false
+  },
+  "scope": "Archival observational Monte Carlo results: no new walk executed, no Test accessed; scripts are for analysis only.",
+  "public_report": "REPORT_FA.md",
+  "thesis_section": "tex/chapter4.tex#sec:ch4-center-target-observation"
+}

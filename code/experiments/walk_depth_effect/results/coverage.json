@@ -1,0 +1,28 @@
+{
+  "schema": "e-ch4-09-coverage-v1",
+  "policies": [
+    "uniform",
+    "trained_shared"
+  ],
+  "real_horizons": [
+    1,
+    2,
+    3,
+    4,
+    8,
+    12
+  ],
+  "splits": [
+    "train",
+    "validation"
+  ],
+  "common_metric_blocks": 24,
+  "source_n_train": 300,
+  "source_n_validation": 90,
+  "all_required_metric_groups_present": true,
+  "historical_test_accessed": false,
+  "data_generated": false,
+  "trained_policy_updated": false,
+  "monte_carlo_run": false,
+  "original_E08_engine_rerun": false
+}

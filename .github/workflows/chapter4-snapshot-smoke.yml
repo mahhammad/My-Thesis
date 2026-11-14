@@ -1,0 +1,28 @@
+name: Chapter 4 snapshot smoke tests
+
+on:
+  push:
+    branches: [chapter4]
+    paths:
+      - 'code/experiments/benchmark_v1/**'
+      - '.github/workflows/chapter4-snapshot-smoke.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  snapshots:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install lightweight test dependencies
+        run: |
+          python -m pip install numpy
+          python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+      - name: Run Train/Validation-only unit and round-trip checks
+        run: python -m unittest discover -v -s code/experiments/benchmark_v1 -p 'test_*.py'

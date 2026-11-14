@@ -1,0 +1,13 @@
+{
+  "experiment_id": "E-CH4-07",
+  "base_commit": "bfce728a9e5f9604efba6bb7e15d155aa7a5d50f",
+  "source_paths": [
+    "code/experiments/archive/sigmoid_margin_diagnostics/results/sigmoid_validation_summary.csv",
+    "code/experiments/archive/sigmoid_margin_diagnostics/results/sigmoid_validation_diagnostics.json",
+    "code/experiments/target_center_guidance_trajectory/results/metrics_full.json",
+    "code/experiments/archive/margin_training/results/summary.csv",
+    "code/experiments/archive/margin_training/results/size_study/"
+  ],
+  "processing": "No new training, Monte Carlo or Test. Common metrics copied from v2 common reporter output; specialized analyses copied from historical diagnostics and checked on tau=.005; raw archived untouched.",
+  "verification": "Historical connector-side 3x6 + 12 cardinality and tau=.005 common agreement assertions passed; dedicated Python unittest GitHub Actions run completed success: https://github.com/mahhammad/My-Thesis/actions/runs/42775070311; full LaTeX compilation not verified."
+}

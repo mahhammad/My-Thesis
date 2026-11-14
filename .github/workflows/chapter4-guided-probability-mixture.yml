@@ -1,0 +1,44 @@
+name: Chapter 4 Guided probability mixture smoke experiment
+
+on:
+  push:
+    branches: [chapter4]
+    paths:
+      - 'code/experiments/guided_informative_uniform_mixture/*.py'
+      - 'code/experiments/guided_informative_uniform_mixture/guided_policy.json'
+      - '.github/workflows/chapter4-guided-probability-mixture.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-guided-mixture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install CPU numeric dependencies
+        run: |
+          python -m pip install numpy
+          python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+      - name: Verify policy endpoints, masks and exact alpha=0 equivalence
+        run: |
+          python -m unittest discover -v \
+            -s code/experiments/guided_informative_uniform_mixture \
+            -p 'test_*.py'
+      - name: Evaluate five probability mixtures - Train/Validation only
+        run: |
+          python code/experiments/guided_informative_uniform_mixture/experiment_mixture.py \
+            --execute \
+            --out-dir /tmp/ch4-guided-mixture-evidence
+      - name: Upload all measured reports and distributions
+        uses: actions/upload-artifact@v4
+        with:
+          name: chapter4-guided-probability-mixture
+          path: /tmp/ch4-guided-mixture-evidence/
+          retention-days: 30
+          if-no-files-found: error

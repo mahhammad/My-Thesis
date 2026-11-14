@@ -1,0 +1,75 @@
+% Unified scientific plot of all 49 validation BA measurements.
+% The earlier provenance-marked plot is retained unchanged for auditing.
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[x=.20cm,y=.052cm]
+\draw[->] (0,0)--(51,0);
+\draw[->] (0,0)--(0,103);
+\foreach \x in {0,12,24,36,48}{
+  \draw[gray!25] (\x,0)--(\x,100);
+  \node[font=\scriptsize,anchor=north] at (\x,-1) {\x};
+}
+\foreach \y in {0,25,50,75,100}{
+  \draw[gray!25] (0,\y)--(48,\y);
+  \node[font=\scriptsize,anchor=east] at (-.7,\y) {\y};
+}
+\draw[gray!75!black,dashed] (0,33.3333)--(48,33.3333);
+\draw[blue!65!black,thin] plot coordinates {
+(0,72.6060) (1,77.1978) (2,76.5044) (3,79.3956) (4,83.8305) (5,80.0628) (6,75.4710) (7,77.5249) (8,74.9738) (9,74.4505) (10,64.3773) (11,74.1104) (12,74.7776) (13,70.3428) (14,56.6981) (15,54.8273) (16,64.5735) (17,53.6499) (18,50.2355) (19,54.5264) (20,47.5275) (21,44.4662) (22,38.1606) (23,40.0445) (24,42.5955) (25,39.5343) (26,42.6086) (27,38.6839) (28,34.9163) (29,41.9021) (30,31.1617) (31,30.8216) (32,30.1413) (33,32.5353) (34,32.5353) (35,35.0863) (36,34.5761) (37,36.9571) (38,36.7739) (39,34.7200) (40,32.1559) (41,36.0806) (42,37.4673) (43,35.9105) (44,35.9105) (45,36.6039) (46,35.2433) (47,34.0398) (48,34.0398)
+};
+\fill[blue!75!black] (0,72.6060) circle (1.6pt);
+\fill[blue!75!black] (1,77.1978) circle (1.6pt);
+\fill[blue!75!black] (2,76.5044) circle (1.6pt);
+\fill[blue!75!black] (3,79.3956) circle (1.6pt);
+\fill[red!75!black] (4,83.8305) circle (2.4pt);
+\fill[blue!75!black] (5,80.0628) circle (1.6pt);
+\fill[blue!75!black] (6,75.4710) circle (1.6pt);
+\fill[blue!75!black] (7,77.5249) circle (1.6pt);
+\fill[blue!75!black] (8,74.9738) circle (1.6pt);
+\fill[blue!75!black] (9,74.4505) circle (1.6pt);
+\fill[blue!75!black] (10,64.3773) circle (1.6pt);
+\fill[blue!75!black] (11,74.1104) circle (1.6pt);
+\fill[blue!75!black] (12,74.7776) circle (1.6pt);
+\fill[blue!75!black] (13,70.3428) circle (1.6pt);
+\fill[blue!75!black] (14,56.6981) circle (1.6pt);
+\fill[blue!75!black] (15,54.8273) circle (1.6pt);
+\fill[blue!75!black] (16,64.5735) circle (1.6pt);
+\fill[blue!75!black] (17,53.6499) circle (1.6pt);
+\fill[blue!75!black] (18,50.2355) circle (1.6pt);
+\fill[blue!75!black] (19,54.5264) circle (1.6pt);
+\fill[blue!75!black] (20,47.5275) circle (1.6pt);
+\fill[blue!75!black] (21,44.4662) circle (1.6pt);
+\fill[blue!75!black] (22,38.1606) circle (1.6pt);
+\fill[blue!75!black] (23,40.0445) circle (1.6pt);
+\fill[blue!75!black] (24,42.5955) circle (1.6pt);
+\fill[blue!75!black] (25,39.5343) circle (1.6pt);
+\fill[blue!75!black] (26,42.6086) circle (1.6pt);
+\fill[blue!75!black] (27,38.6839) circle (1.6pt);
+\fill[blue!75!black] (28,34.9163) circle (1.6pt);
+\fill[blue!75!black] (29,41.9021) circle (1.6pt);
+\fill[blue!75!black] (30,31.1617) circle (1.6pt);
+\fill[blue!75!black] (31,30.8216) circle (1.6pt);
+\fill[blue!75!black] (32,30.1413) circle (1.6pt);
+\fill[blue!75!black] (33,32.5353) circle (1.6pt);
+\fill[blue!75!black] (34,32.5353) circle (1.6pt);
+\fill[blue!75!black] (35,35.0863) circle (1.6pt);
+\fill[blue!75!black] (36,34.5761) circle (1.6pt);
+\fill[blue!75!black] (37,36.9571) circle (1.6pt);
+\fill[blue!75!black] (38,36.7739) circle (1.6pt);
+\fill[blue!75!black] (39,34.7200) circle (1.6pt);
+\fill[blue!75!black] (40,32.1559) circle (1.6pt);
+\fill[blue!75!black] (41,36.0806) circle (1.6pt);
+\fill[blue!75!black] (42,37.4673) circle (1.6pt);
+\fill[blue!75!black] (43,35.9105) circle (1.6pt);
+\fill[blue!75!black] (44,35.9105) circle (1.6pt);
+\fill[blue!75!black] (45,36.6039) circle (1.6pt);
+\fill[blue!75!black] (46,35.2433) circle (1.6pt);
+\fill[blue!75!black] (47,34.0398) circle (1.6pt);
+\fill[blue!75!black] (48,34.0398) circle (1.6pt);
+\node[font=\scriptsize,anchor=south west] at (5,86) {دور $4$: بیشینه مشاهده‌شده};
+\node[font=\small] at (24,-12) {دور};
+\node[font=\small,rotate=90] at (-7.5,50) {دقت متوازن اعتبارسنجی (درصد)};
+\end{tikzpicture}
+\caption{مسیر یکپارچه دقت متوازن اعتبارسنجی در تمام $49$ دور هدایت مراکز. خط‌چین مرجع $1/3$ سه‌کلاسه است؛ دور چهار بیشترین دقت ثبت‌شده را دارد. دورهای مسیر وابسته‌اند و تکرارهای آماری مستقل محسوب نمی‌شوند.}
+\label{fig:ch4-target-center-trajectory-validation}
+\end{figure}

@@ -1,0 +1,118 @@
+{
+  "H": 12,
+  "beta": 0.4,
+  "block_id": "INV01-B04-n300-data20261103",
+  "class_counts": [
+    81,
+    134,
+    85
+  ],
+  "data_seed": 20261103,
+  "forward_count": 3,
+  "id_semantics": "original Train indices, order preserved",
+  "jacobian_count": 0,
+  "lambda": 0.8,
+  "nref": 300,
+  "observed_per_feature": [
+    300,
+    283,
+    256,
+    293,
+    245
+  ],
+  "planned_run_ids": [
+    "INV01-B04-n300-data20261103-C0-Z-Q",
+    "INV01-B04-n300-data20261103-C0-Z-A",
+    "INV01-B04-n300-data20261103-C0-Z-G",
+    "INV01-B04-n300-data20261103-C0-R-Q",
+    "INV01-B04-n300-data20261103-C0-R-A",
+    "INV01-B04-n300-data20261103-C0-R-G",
+    "INV01-B04-n300-data20261103-C1-Z-Q",
+    "INV01-B04-n300-data20261103-C1-Z-A",
+    "INV01-B04-n300-data20261103-C1-Z-G",
+    "INV01-B04-n300-data20261103-C1-R-Q",
+    "INV01-B04-n300-data20261103-C1-R-A",
+    "INV01-B04-n300-data20261103-C1-R-G",
+    "INV01-B04-n300-data20261103-C2-Z-Q",
+    "INV01-B04-n300-data20261103-C2-Z-A",
+    "INV01-B04-n300-data20261103-C2-Z-G",
+    "INV01-B04-n300-data20261103-C2-R-Q",
+    "INV01-B04-n300-data20261103-C2-R-A",
+    "INV01-B04-n300-data20261103-C2-R-G"
+  ],
+  "precision": "float64",
+  "reference_seed_label_in_block": 20261202,
+  "reference_selection_seed": null,
+  "resource": {
+    "hard_RSS_MiB": 1024.0,
+    "hard_wall_s": 120.0
+  },
+  "schema": "INV01_TRAIN_REFERENCE_V2",
+  "snapshot": {
+    "array_sha256": {
+      "X": "c8e87d1fcdaca9066cad36429ab9264ed255cee2e7d2734b0ef279d80d6286f1",
+      "ids": "98e038d3a30a991777ce2f66d2e9b9f377e44b6444635d2b5dd70d38ae78f241",
+      "mask": "1f16c93e60f178e6954e1c830088402cfbda3d7e17f8a32d7416b115cb7b0051",
+      "y": "6e8a545b6c96c35a25d9f94dc980bf4b56af8889ef8fa6f7bd6a0bb45a0aa28f"
+    },
+    "canonical_little_endian": true,
+    "file": "train_canonical.bin",
+    "magic": "INV01_TRAIN_REFERENCE_V2",
+    "sha256": "cf8f068ec2723d3bee2197f4651776e18bb115a265670b5684ed096a8244bf6b",
+    "shape": [
+      300,
+      5
+    ]
+  },
+  "solver_count": 0,
+  "source_commit": "5f0ea799f37b6d7791b5cbf42597672506a539c6",
+  "source_sha256": {
+    "config": "c8b673b37ca70b3cb9793b93efcbb13dcf9a86d8e90d61692af2a6acf8f1c0ef",
+    "generator": "5b0786a7786feb76f80acd236e30c95606bf9453cf6e189303287b6c448b09e5",
+    "graph_run": "9cdd1319a7178efd0003194f386eb292763cd4c9df8bf5f6fc07ffa79f00e885",
+    "plan": "be350c56e82badac9d1b8b64df76ddb7d47e56dd9d18c670768fcb1d45e15272",
+    "streamgraph": "e6287a0dab06fe2ac2862dfb128215b936b468ce6449726cd613474880bff419"
+  },
+  "status": "LOCKED_NO_SOLVERS",
+  "targets": {
+    "file": "targets_float64_le.bin",
+    "per_class": [
+      {
+        "class": 0,
+        "sha256": "7c7275f798b4a2676417779d180b2adda2c8296725fb8cadb49f6e8bedc73013",
+        "values": [
+          0.4658066369624468,
+          0.3799699858118128,
+          0.1542233772257402
+        ]
+      },
+      {
+        "class": 1,
+        "sha256": "b11349eb776ceca15e804abff4d9ebcf81b23a96557e881d3b5b15d5b34c9c56",
+        "values": [
+          0.2701684695559332,
+          0.4662762732009016,
+          0.2635552572431652
+        ]
+      },
+      {
+        "class": 2,
+        "sha256": "8a7fcf54b2944a226ca7201c2bc29e5cdfb06dbe947ac211820420596eee5ce6",
+        "values": [
+          0.1673405088181568,
+          0.4234587052588558,
+          0.4092007859229874
+        ]
+      }
+    ],
+    "sha256": "4a9718ccd2e3dfc6810e855243ce117e45681c3f1b4de093812ed27bc0a67351"
+  },
+  "teacher_seed": 20261212,
+  "versions": {
+    "numpy": "2.4.6",
+    "python": "3.11.18",
+    "torch": "2.15.0+cpu"
+  },
+  "witness_given_to_solver": false,
+  "witness_logits_sha256_ONLY": "b203f776f836b3945d95f8a6b07de7c1a30a6d70b8a905783499e6671befb5b8"
+}
