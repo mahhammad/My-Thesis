@@ -32,3 +32,24 @@ python -m unittest discover -v -s code/experiments/benchmark_v1 -p 'test_snapsho
 در ممیزی بعدی مشخص شد که توابع تولید داده NumPy می‌توانند با dispatch مختلف OpenBLAS خروجی بایت‌به‌بایت متفاوت تولید کنند، حتی وقتی seed/config/برچسب‌ها یکسان‌اند. [تشخیص CI](https://github.com/mahhammad/My-Thesis/actions/runs/43615893696) نشان داد generic و SkylakeX با raw منطبق بودند؛ SkylakeX روی بعضی CPU runnerها غیرمجاز است، بنابراین اجرای رسمی به `OPENBLAS_CORETYPE=generic`, `OPENBLAS_NUM_THREADS=1`, `numpy==2.4.6`, و `torch==2.15.0+cpu` محدود شده است. روی سیستم دیگری که هش‌ها تطبیق نکنند، QA باید FAIL اعلام شود؛ raw به‌صورت خودکار جایگزین نمی‌شود.
 
 **گیت اجرا مصرف شده است:** هیچ آموزش جدیدی در این مرحله مجاز نیست؛ فایل workflow پایلوت `if: false` دارد. گیت بعدی فقط ممیزی مستقل raw و تحلیل نتایج است.
+
+
+## مرحله دوم: مقایسه ۳۰۰نمونه‌ای چندمولدی — PHASE2_DESIGN_READY / NO_FIT
+
+**مأموریت جاری:** [Issue #81](https://github.com/mahhammad/My-Thesis/issues/81). مدیر مقرر کرده ممیزی **علمی نهایی** پس از گردآوری شواهد چندمولدی صورت گیرد. صدور **مجوز اجرای آموزش‌ها** منوط به **ممیزی فنی مقدماتی مستقل و مجوز کتبی جداگانه در GitHub** است. هیچ‌کدام تاکنون ثبت نشده‌اند؛ فایل `phase2_execution_gate.json` عمداً BLOCKED است. اجرای Test و مرج PR #79 نیز ممنوع‌اند.
+
+- [phase2_preregistration.md](phase2_preregistration.md) — سؤال علمی، جدول `3 seeds × 2 families × 2 losses = 12 fits`، ۲۵ گام، β/λ/H، گرادیان و محدودیت تعمیم
+- [phase2_inventory_reuse.csv](phase2_inventory_reuse.csv) — ۱۲ خانه هدف و وضعیت نامطمئن reuse تاریخی؛ هم‌نامی seed یا تشابه تعداد گام‌ها برای reuse کافی نیست
+- [phase2_protocol.py](phase2_protocol.py) و [phase2_execution_gate.json](phase2_execution_gate.json) — قرارداد ثابت ۱۲ fit، گیت فنی/مدیریتی و ledger ضد تکرار
+- [phase2_runner.py](phase2_runner.py) — dry-run پیش‌فرض؛ ۱۲ fit فقط با احراز رسمی مجوز، PASS همان SHA، opt-in و سقف سخت، بدون Test
+- [phase2_frozen_data.py](phase2_frozen_data.py) — ساخت ورودی بدون آموزش و بازخوانی SHA-verified
+- [inputs/phase2_train_validation/manifest.json](inputs/phase2_train_validation/manifest.json) — **سه Train/Validation منجمد**؛ هر seed دارای فایل NPZ و SHA256 مستقل، `n_train=300` و `n_validation=90`؛ [CI داده‌ای موفق #43622826092](https://github.com/mahhammad/My-Thesis/actions/runs/43622826092)
+- [phase2_report.py](phase2_report.py) — محاسبه تمام COMMON metrics با `standard_metrics` از snapshot و **همان داده‌های منجمد**، بدون بازسازی وابسته به CPU یا افشای Validation labels هنگام inference
+- [phase2_aggregate.py](phase2_aggregate.py) — پس از تکمیل ۱۲ raw، دلتای جفتی BA، flip count، اختلاف Recall، mean/SD سه seed؛ خروجی `PROVISIONAL` تا QA نهایی
+- `test_phase2_*.py` و `.github/workflows/e-ch4-13-phase2-design.yml` — آزمون‌های بدون fit و CI مقید به NumPy/Torch و محیط BLAS؛ تأیید raw پایلوت **با هش فایل‌های اصلی**، بدون ادعای بازتولید بیت‌به‌بیت مولد تاریخی روی هر CPU
+
+**محل مورد انتظار raw آموزش‌های آینده:** `results/phase2_300_25/` — **هنوز وجود ندارد**؛ هیچ آموزش مرحله دوم انجام نشده است. اجرای برنامهٔ dry-run:
+```bash
+python code/experiments/ch4_loss_controlled_comparison/phase2_runner.py
+```
+این دستور فقط فهرست ۱۲ کار را چاپ می‌کند، نه اینکه آموزش را آغاز کند. اجرای `--execute` با گیت فعلی PermissionError می‌دهد و نباید تا صدور مجوز رسمی تکرار شود. تغییر در `tex/` یا خام پایلوت اعمال نشده است.
