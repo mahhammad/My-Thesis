@@ -86,5 +86,17 @@ class SavedPilotIntegrity(unittest.TestCase):
                         (420,self.manifest["runs"][1]["validation_BA"])):
             self.assertIn(f'cx="{x}" cy="{250-200*value:.3f}"',svg)
 
+    def test_publication_table_and_figure_are_raw_derived(self):
+        table=(HERE/"tables/pilot_summary.tex").read_text("utf8")
+        result_svg=(BASE/"validation_ba.svg").read_bytes()
+        figure_svg=(HERE/"figures/validation_ba.svg").read_bytes()
+        self.assertEqual(result_svg,figure_svg)
+        for i,run in enumerate(self.manifest["runs"]):
+            name="Sigmoid-JS" if i==0 else "Softplus-JS"
+            row=(f"{name} & {run['train_BA']*100:.4f} & {run['validation_BA']*100:.4f} "
+                 f"& {run['I']:.6f} & {run['R_JS']:.6f} "
+                 f"& {run['R_KL']:.6f} & {run['R_sqrt_JS']:.6f}")
+            self.assertIn(row,table)
+
 if __name__=="__main__":
     unittest.main()
