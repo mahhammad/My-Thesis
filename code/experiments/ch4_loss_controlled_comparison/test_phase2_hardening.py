@@ -187,6 +187,61 @@ class CrashSafetyTests(unittest.TestCase):
                 fit.assert_not_called()
             self.assertFalse(dest.exists())
 
+    def test_full_synthetic_12_fit_runner_wiring_without_optimizer(self):
+        """Full online gate -> frozen hashes -> ledger -> mock snapshot/report.
+        No optimizer is constructed. This is an interface fixture only.
+        """
+        env,remote=self.mocks()
+        with tempfile.TemporaryDirectory() as tmp:
+            auth=self.authorize(tmp)
+            dest=Path(tmp)/"raw"
+            def synthetic_fit(graph,family,objective,checkpoint_dir=None):
+                d=Path(checkpoint_dir)
+                d.mkdir(parents=True,exist_ok=False)
+                (d/"step_00.json").write_text(json.dumps({"mock":True}))
+                trace=[{"update_completed":i,"gradient_l2":float(i+1),
+                    "objective_loss":1.0/(i+1)} for i in range(26)]
+                return np.zeros((6,5)).tolist(),trace,0.01
+            def synthetic_snapshot(folder,*a,**kw):
+                folder=Path(folder)
+                folder.mkdir(parents=True,exist_ok=False)
+                (folder/"model.json").write_text('{"synthetic":true}')
+                (folder/"distributions.npz").write_bytes(b"mock fixture")
+            def synthetic_report(folder,seed):
+                return {"train":{"balanced_accuracy":0.8,"I":0.02,
+                    "R_KL":0.01,"R_JS":0.005,"R_sqrt_JS":0.02},
+                    "validation":{"status":"ok","balanced_accuracy":0.7,
+                    "margin_quantiles":{"0.5":0.02}},
+                    "source":{"historical_test_accessed":False}}
+            with (mock.patch.dict(os.environ,env),
+                  mock.patch.object(np,"__version__","2.4.6"),
+                  mock.patch.object(runner.torch,"__version__","2.15.0+cpu"),
+                  mock.patch.object(runner,"verify_github_gate",return_value=remote),
+                  mock.patch.object(runner,"github_api",return_value={
+                      "ref":"refs/tags/e-ch4-13-phase2-budget-spent-"+SHA,
+                      "object":{"sha":SHA}}),
+                  mock.patch.object(runner,"ExactMaskedWalk",return_value=object()),
+                  mock.patch.object(runner,"fit_once",side_effect=synthetic_fit) as fit,
+                  mock.patch.object(runner,"save_snapshot",side_effect=synthetic_snapshot),
+                  mock.patch.object(runner,"load_snapshot",return_value=({"data":{}},{})),
+                  mock.patch.object(runner,"fingerprint_match"),
+                  mock.patch.object(runner,"report_from_frozen",side_effect=synthetic_report),
+                  mock.patch.object(runner,"make_coverage",
+                                    return_value={"test":{"status":"not_applicable"}})):
+                out=runner.execute(dest,SHA,"synthetic_token",auth)
+            self.assertEqual(fit.call_count,12)
+            self.assertEqual(out["fit_count"],12)
+            self.assertTrue((dest/"manifest.json").exists())
+            self.assertTrue((dest/"metrics_summary.csv").exists())
+            self.assertEqual(len(list((dest/"attempt_charges").glob("*.json"))),12)
+            self.assertEqual(len(list((dest/"budget_checkpoints").glob("*.json"))),12)
+            self.assertEqual(len(list((dest/"success_checkpoints").glob("*.json"))),12)
+            for job in grid():
+                folder=dest/job.key()
+                for file in ("trace.json","metrics_full.json","coverage.json","run_evidence.json"):
+                    self.assertTrue((folder/file).exists())
+            self.assertFalse(out["test_accessed"])
+
 class SyntheticReducerTests(unittest.TestCase):
     def test_all_12_complete_synthetic_pairs_reduce_without_optimizer(self):
         from phase2_frozen_data import load
