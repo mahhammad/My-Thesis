@@ -8,3 +8,6 @@
 - طبق سقف دو fit مدیریتی، **هیچ training دیگری مجاز نیست**. فقط بازیابی raw از همان artifact، اعتبارسنجی هش/داده/فایل‌های مدل و بازساخت بدون optimizerِ `manifest.json`، `coverage.json`، `metrics_summary.csv` و SVG توسط `finalize_existing.py` انجام می‌شود.
 - این checkpoint گواه موفقیت نهایی نیست؛ provenance نهایی مربوط به کامیت اجرای اولیه `66a007928e129ad6dd5acffeaa93fc2485ee9775` می‌ماند. کل commitهای بعدی صرفاً recovery و reporting هستند. هر عدم تطابق یا شکست بازخوانی باید `PILOT_BLOCKED` شود و raw حفظ شود.
 - گیت بعدی: `PILOT_READY_FOR_QA` فقط در صورت موفقیت بازیابی و ممیزی مستقلی که مدیر تعیین کند. PR #79 همچنان Draft و unmerged است.
+
+## Recovery attempt 1 (zero training)
+[CI #43614895487](https://github.com/mahhammad/My-Thesis/actions/runs/43614895487): دانلود هر ۸ فایل raw موفق شد؛ کنترل fingerprint با پیام کلی FAIL شد و بدون گزارش عددی توقف کرد. کد بازیابی فقط برای چاپ کلید و هش نامنطبق سخت‌گیرانه‌تر شد؛ هیچ تغییری در raw یا optimizer وجود ندارد. اجرای بازیابی بعدی هم فقط read/recompute است.
