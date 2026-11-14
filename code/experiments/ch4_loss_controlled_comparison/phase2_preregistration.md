@@ -1,6 +1,6 @@
 # E-CH4-13 / Phase 2 — پیش‌ثبت مقایسه کنترل‌شده n=300
 
-**وضعیت:** `PHASE2_DESIGN_ONLY / NO_FIT` — ۱۴ نوامبر ۲۰۲۶، RESEARCHER-06، Issue [#81](https://github.com/mahhammad/My-Thesis/issues/81). **ممیزی مستقل پایلوت:** Issue [#80](https://github.com/mahhammad/My-Thesis/issues/80) در هنگام پیش‌ثبت باز و بدون کامنت/رأی `ACCEPT_PILOT_SCOPED` بود. طراحی مجاز است؛ هر fit جدید ممنوع تا رأی مستقل و گیت تست.
+**وضعیت:** `PHASE2_DESIGN_ONLY / NO_FIT` — ۱۴ نوامبر ۲۰۲۶، RESEARCHER-06، Issue [#81](https://github.com/mahhammad/My-Thesis/issues/81). **دستور جدید مدیر:** ممیزی **علمی نهایی** تا پس از تکمیل شواهد چندمولدی به تعویق افتاده است. Issue [#80](https://github.com/mahhammad/My-Thesis/issues/80) هنگام بررسی باز و فاقد رأی بود؛ برای هر fit جدید، **ممیزی فنی مقدماتیِ جداگانه و مجوز رسمی اجرای آموزش در GitHub** به‌علاوه PASS واقعی CI لازم است. نبود هرکدام → NO_FIT.
 
 ## پرسش علمی و فرضیه پیشینی
 آیا تغییر تابع زیان از `sigmoid_JS_margin_tau005` به `softplus_JS_tau005` در جفت‌هایی با موتور و داده یکسان، جهت `Δ Validation BA` و رابطه `R_KL/R_JS/R_sqrt_JS`, `I` و حاشیه را در مولدهای مستقل و دو policy خانواده حفظ می‌کند؟ فرض صفر توصیفی: نشانه و بزرگی دلتا میان مولد/خانواده ناپایدار است؛ هیچ inferential p-value/CI قوی یا «برتری عمومی» با سه مولد ادعا نمی‌شود.
@@ -18,7 +18,7 @@
 
 ## ترتیب گیت و شرط توقف
 1. `PHASE2_DESIGN_READY`: قرارداد، موجودی reuse، runner محافظت‌شده و fixture/tests بدون آموزش، ثبت SHA و checkpoint Issue #81.
-2. در Issue #80 رأی مستقل `ACCEPT_PILOT_SCOPED` یا در حالت `ACCEPT_WITH_FIXES` رفع و قبول اصلاحات بحرانی **باید ثبت شده باشد**؛ نبود رأی یا REJECT → `NO_FIT`.
+2. بر اساس دستور جدید مدیر، رأی **علمی نهایی** بعد از مطالعه اصلی خواهد بود. پیش از هر fit جدید باید ممیزی **فنی مقدماتی مستقل** و **مجوز رسمی اجرای آموزش** با پیوند GitHub قابل‌تأیید ثبت شده باشند؛ نبود این دو → `NO_FIT`. نه گزارش پژوهشگر و نه فایل JSON به‌تنهایی مجوز محسوب نمی‌شوند.
 3. تمام preflightهای engine/origin/mask/gradient/tau/class multi-hypothesis/Train-only center/label leakage/KL/coverage/snapshot/fingerprint و budget/opt-in واقعی روی **همان SHA** PASS با log. `NOT_RUN` اجازه نیست.
 4. فقط opt-in صریح همراه evidence و گیت فعال‌شده توسط مدیر، batch دقیقاً تا سقف ۱۲ fit. هر mismatch یا NaN/خرابی raw/سنجه → `STOP` و جلوگیری از retry. هر تلاش به‌محض ورود به optimizer در دفتر بودجه مصرف می‌شود.
 5. `PHASE2_READY_FOR_INDEPENDENT_QA` با raw، checksum، گزارش علمی، provenance و جدول/شکل واقعی. تا پیش از QA هیچ نتیجه عام یا تغییر `tex/`.
