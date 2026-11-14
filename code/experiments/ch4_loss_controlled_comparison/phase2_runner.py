@@ -155,6 +155,9 @@ def execute(out,source_sha,one_time_gate_token,authorization_path=None):
     """Protected expensive code; never reached by default dry-run or CI tests."""
     if not source_sha or len(source_sha)!=40:
         raise ValueError("Canonical 40-digit Git commit SHA required")
+    # Fail prior to GitHub access or training on any partial/complete output.
+    if Path(out).exists():
+        raise FileExistsError("Spent or partial phase2 result path already exists; NO RETRY")
     if os.environ.get("E_CH4_13_PHASE2_OPT_IN")!="I_ACCEPT_12_FIT_CAP":
         raise PermissionError("No explicit 12-fit opt-in")
     if os.environ.get("GITHUB_ACTIONS")!="true":
