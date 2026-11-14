@@ -79,7 +79,7 @@ def make_coverage(report,contract):
     for group in contract["metric_groups"]:
         gname=group["group"]
         if gname=="experiment_specific": continue
-        for split in ("train","validation"):
+        for split in (("train",) if group.get("center_only") else ("train","validation")):
             section=report[split]
             for name in group.get("ids",[]):
                 value=(section.get("center_geometry",{}).get(name,section.get(name))
