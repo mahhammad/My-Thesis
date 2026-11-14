@@ -180,8 +180,10 @@ class ECH413Preflight(unittest.TestCase):
         g=center_metrics(centers)
         for key in ("T","BT","TNL","BTNL","I"):
             self.assertAlmostEqual(rep[key],g[key],places=12)
-        self.assertEqual(rep["confusion_true_rows_pred_cols"],[[2,0],[0,2]])
-        self.assertAlmostEqual(rep["balanced_accuracy"],1.)
+        self.assertEqual(rep["confusion_true_rows_pred_cols"],[[2,0],[1,1]])
+        self.assertAlmostEqual(rep["balanced_accuracy"],.75)
+        # The last class-1 sample is an exact tie, resolved to class index 0.
+        self.assertEqual(rep["tie_count"],2)
 
     def test_prediction_independent_of_validation_labels_and_free_node(self):
         g=sample_graph()
