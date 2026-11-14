@@ -4,7 +4,7 @@
 | موضوع | نتیجهٔ معتبر و فرض‌ها | گیت/محدودیت و منبع |
 |---|---|---|
 | گشت بدون بازگشت | هسته مبدأحذف در همه گام‌های قطعه؛ انتقال نخست جداست | [اثبات فصل۳](../tex/appendix_chapter3.tex)، [اصلاح نظری](2026-11-14-ch3-postch4-theory-alignment.md) |
-| Bellman قدیمی | کران‌های با هسته بازگشت‌مجاز یا محاسبهٔ تفریقی ناپایدار **SUPERSEDED** هستند | [نقد نظری #49](https://github.com/mahhammad/My-Thesis/issues/49#issuecomment-6794025754)، [مثال نقض کد V1](https://github.com/mahhammad/My-Thesis/issues/49#issuecomment-6796470635) |
+| Bellman قدیمی | کران‌های با هسته بازگشت‌مجاز یا محاسبهٔ تفریقی ناپایدار **SUPERSEDED** هستند | [نقد نظری #49](https://github.com/mahhammad/My-Thesis/issues/49#issuecomment-6794025754)، [مثال نقض کد V1](https://github.com/mahhammad/My-Thesis/issues/49#issuecomment-6796470635)؛ [ژورنال اصلی مثال نقض، بازیابی با blob برابر](archive/unmerged-r02/2026-11-11-d10d11-return-kernel-counterexample.md) |
 | Bellman نهایی | شرط لازم دوطرفه برای *هر مسئله واجد فرض* اثبات شده؛ بیرون بازه بودن معتبر ⇒ هدف ناممکن؛ داخل بودن کافی نیست | [فصل۳/پیوست](../tex/appendix_chapter3.tex)؛ قانون ریاضی به شش نمونه خاص محدود نیست |
 | اصلاح عددی V2 | تفریق ناپایدار اصلاح و fixture کوچک مستقل گذرانده شد | **ACCEPT_NUMERIC_V2_FOR_BOUNDED_NEXT_GATE** روی n≤6، **نه** گواه بی‌حد شناور؛ [رأی #49](https://github.com/mahhammad/My-Thesis/issues/49#issuecomment-6797582555)، SHA کاندید 9a19dcb2c14f831374eadcb638fa3974e56560e9 |
 | §۴.۱۱ مراکز بیزی | پسین برچسبِ خود نمونه با برچسب مقصد گشت فرق دارد؛ شش گراف پایه دارای گواه عددی در محدوده مشخص هستند | [گزارش رسمی](../code/experiments/bayes_center_reachability_standard/REPORT_FA.md)؛ حساسیت‌های دیگر blanket-certified نیستند |
