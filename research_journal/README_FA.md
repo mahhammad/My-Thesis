@@ -9,11 +9,11 @@
 5. [**OPEN_RESEARCH_FA.md**](OPEN_RESEARCH_FA.md) — **تنها بک‌لاگ جاری** برای کارهای ضروری پایان‌نامه و توسعه اختیاری؛ Issueهای قدیمی P00–P16 ملاک اولویت امروز نیستند.
 6. [**PROVENANCE_FA.md**](PROVENANCE_FA.md) — جدول نسخه‌دار **۳۱ ژورنال، ۳۶ Issue و PRهای اثرگذار**، SHA/منشأ و مقصد انتقال.
 7. [**KNOWLEDGE_AUDIT_2026-11-14_FA.md**](KNOWLEDGE_AUDIT_2026-11-14_FA.md) — گزارش ممیزی این تجمیع، حسابرسی عملیات Git و Issueها.
-8. [**archive/**](archive/) — [نمایه قدیمی (کپی سالم)](archive/README_FA-legacy-2026-11-14.md)، [۱۱۱ کامنت Issue مادر #49](archive/ISSUE49_COMMENT_INDEX_FA.md) و جدول لینک به ژورنال‌های تاریخ‌دار. نسخه‌های قبلی در مسیرهای تاریخی **حذف نشده‌اند**.
+8. [**archive/**](archive/) — [نمایه قدیمی (کپی سالم)](archive/README_FA-legacy-2026-11-14.md)، [۱۱۱ کامنت پیش از اختتام Issue مادر #49](archive/ISSUE49_COMMENT_INDEX_FA.md) و جدول لینک به ژورنال‌های تاریخ‌دار. نسخه‌های قبلی در مسیرهای تاریخی **حذف نشده‌اند**.
 
 ### بایگانی دو پیش‌نویس نظری خارج از main
 
-دو ژورنال R02 که فقط در کامیت‌های تاریخی وجود داشتند، **با متن و Git blob اصلی** در [archive/unmerged-r02](archive/unmerged-r02/2026-11-14-ch3-bellman-two-sided-proof-and-feasibility-bridge.md) و [تعبیر پسین بیزی](archive/unmerged-r02/2026-11-14-sec411-bayes-posterior-vs-neighborhood-reachability.md) نگهداری شدند؛ این دو فایل تاریخچه و منشأ هستند و نباید به‌جای برهان منتشرشده در LaTeX خوانده شوند. [جزئیات](PROVENANCE_FA.md).
+دو پیش‌نویس R02 که فقط در کامیت‌های تاریخی وجود داشتند، **با متن و Git blob اصلی** در [آرشیو برهان بلمن](archive/unmerged-r02/2026-11-14-ch3-bellman-two-sided-proof-and-feasibility-bridge.md) و [تعبیر پسین بیزی](archive/unmerged-r02/2026-11-14-sec411-bayes-posterior-vs-neighborhood-reachability.md) نگهداری شدند. همچنین [ژورنال اولیه مثال نقض هستهٔ بازگشت‌مجاز D10/D11](archive/unmerged-r02/2026-11-11-d10d11-return-kernel-counterexample.md) که در تلاش اولیه قابل بازیابی نبود از commit تاریخی `6bff5773` بازیابی و با blob یکسان آرشیو شد. این **سه سند تاریخی** مرجع وضعیت فعلی قضایا نیستند و باید همراه [تصمیم‌های علمی معتبر](SCIENTIFIC_DECISIONS_FA.md) خوانده شوند. [جزئیات منشأ](PROVENANCE_FA.md).
 
 ## ایده‌های آینده — محل ثبت یکتا
 [IDEA-001: منحنی پوشش چندکی شعاع KL](../research/future-ideas/IDEA-001-quantile-kl-radius.md)؛
