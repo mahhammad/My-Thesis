@@ -1,0 +1,58 @@
+name: E-CH4-13 recover existing two-fit artifact (zero training)
+on:
+  push:
+    branches:
+      - experiment/ch4-loss-controlled-comparison-01
+    paths:
+      - 'code/experiments/ch4_loss_controlled_comparison/**'
+      - '.github/workflows/e-ch4-13-recover.yml'
+permissions:
+  contents: write
+  actions: read
+jobs:
+  no-training-artifact-recovery:
+    if: contains(github.event.head_commit.message, '[RECOVER_PILOT]')
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies needed for snapshot reporter only
+        run: |
+          python -m pip install numpy
+          python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+      - name: Recover the immutable two-fit raw artifact from failed reporting run
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh run download 43614497613 \
+            --repo mahhammad/My-Thesis \
+            --name e-ch4-13-pilot-raw-66a007928e129ad6dd5acffeaa93fc2485ee9775 \
+            --dir code/experiments/ch4_loss_controlled_comparison/results/pilot_seed20261102_shared_two_fits
+          find code/experiments/ch4_loss_controlled_comparison/results/pilot_seed20261102_shared_two_fits -type f -print
+      - name: Recalculate metrics and coverage from raw; no optimizer fit
+        run: |
+          python code/experiments/ch4_loss_controlled_comparison/finalize_existing.py \
+            --raw-dir code/experiments/ch4_loss_controlled_comparison/results/pilot_seed20261102_shared_two_fits
+          python -m unittest discover -v -s code/experiments/ch4_loss_controlled_comparison -p 'test_*.py'
+          python -m unittest discover -v -s code/experiments/benchmark_v1 -p 'test_common_metrics_contract.py'
+          python -m unittest discover -v -s code/experiments/benchmark_v1 -p 'test_snapshot_roundtrip.py'
+      - name: Upload restored complete evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e-ch4-13-recovered-evidence-${{ github.sha }}
+          path: code/experiments/ch4_loss_controlled_comparison/results/pilot_seed20261102_shared_two_fits/
+          retention-days: 30
+          if-no-files-found: warn
+      - name: Commit recovered immutable raw and generated report to working branch
+        run: |
+          test "$(git branch --show-current)" = "experiment/ch4-loss-controlled-comparison-01"
+          test -f code/experiments/ch4_loss_controlled_comparison/results/pilot_seed20261102_shared_two_fits/manifest.json
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add code/experiments/ch4_loss_controlled_comparison/results/pilot_seed20261102_shared_two_fits/
+          git commit -m "E-CH4-13: archive recovered two-fit raw and complete reporting [PILOT_ARTIFACTS]"
+          git push origin HEAD:experiment/ch4-loss-controlled-comparison-01
