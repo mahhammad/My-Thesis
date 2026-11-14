@@ -805,7 +805,16 @@ $q_u\in[L_{c,u},\overline U_{c,u}]$،
 \]
 که $h(t)=-t\log t-(1-t)\log(1-t)$ با $0\log0=0$ است.
 برای $a$ ثابت، این واگرایی در $b=a$ کمینه می‌شود و روی
-هر سوی $a$ یکنواخت است. پس اگر
+هر سوی $a$ یکنواخت است: برای $0<a,b<1$،
+\[
+\frac{\partial}{\partial b}\operatorname{JSD}_2(a,b)
+=\tfrac12\left[
+h'\!\left(\frac{a+b}{2}\right)-h'(b)\right],
+\qquad h'(x)=\log\frac{1-x}{x}.
+\]
+از نزولی‌بودن $h'$ نتیجه می‌شود علامت مشتق برابر علامت
+$b-a$ است؛ در مرزهای سیمپلکس نیز حکم با پیوستگی برقرار می‌ماند.
+پس اگر
 $b^\star=\min\{\overline U_{c,u},\max\{L_{c,u},p_u\}\}$،
 \begin{equation}\label{eq:app-ch3-feasibility-js-lower}
 \boxed{\operatorname{JSD}(p,q)\ge
