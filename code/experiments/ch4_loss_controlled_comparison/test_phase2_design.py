@@ -43,6 +43,7 @@ class Phase2DesignTests(unittest.TestCase):
             for f in FAMILIES:
                 self.assertEqual({x.loss for x in q if (x.seed,x.family)==(seed,f)},set(LOSSES))
         m=plan_manifest()
+        self.assertEqual(m,json.loads((HERE/"phase2_plan_manifest.json").read_text("utf8")))
         self.assertEqual((m["fit_cap"],m["updates_per_fit"],m["n_train"]),(12,25,300))
         self.assertFalse(m["test_accessed"])
         self.assertEqual(m["checkpoint_selection"],"fixed_step_25")
