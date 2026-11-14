@@ -114,6 +114,19 @@ class Phase2DesignTests(unittest.TestCase):
                       "mask_train_sha256","mask_validation_sha256"):
                 self.assertEqual(len(rec[k]),64)
 
+
+    def test_numpy_only_frozen_fingerprint_matches_canonical(self):
+        from phase2_frozen_data import array_fingerprint as frozen_hash,load as frozen_load,INPUTS
+        from snapshot_pipeline import array_fingerprint as canonical_hash
+        arr=np.array([[0.,np.nan],[-1.5,2.25]],dtype=np.float64)
+        self.assertEqual(frozen_hash(arr),canonical_hash(arr))
+        if (INPUTS/"manifest.json").exists():
+            for seed in SEEDS:
+                (tx,ty),(vx,vy)=frozen_load(seed)
+                self.assertEqual((tx.shape,vx.shape),((300,5),(90,5)))
+                self.assertEqual(frozen_hash(tx),canonical_hash(tx))
+                self.assertEqual(frozen_hash(vx),canonical_hash(vx))
+
     def test_gradient_fd_tau_and_direction_both_families(self):
         g=graph()
         for family in FAMILIES:
