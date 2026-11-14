@@ -18,7 +18,15 @@ sys.path.insert(0,str(ROOT/"code/experiments/benchmark_v1"))
 sys.path.insert(0,str(ROOT/"code/data_generator"))
 from generate import load_config
 from dataset_adapter import dataset_train_val
-from snapshot_pipeline import array_fingerprint,config_fingerprint
+# Byte-identical implementation of benchmark_v1.snapshot_pipeline fingerprints,
+# kept NumPy-only so the data freeze does not require an ML runtime.
+def array_fingerprint(array):
+    a=np.ascontiguousarray(np.asarray(array))
+    header=json.dumps({"dtype":a.dtype.str,"shape":list(a.shape)},sort_keys=True).encode("utf8")
+    return sha256(header+b"\\0"+a.tobytes()).hexdigest()
+
+def config_fingerprint(path):
+    return sha256(Path(path).read_bytes()).hexdigest()
 from phase2_protocol import SEEDS,N_TRAIN,N_VALIDATION,K,D,reference_ids,atomic_new_json
 
 INPUTS=HERE/"inputs/phase2_train_validation"
