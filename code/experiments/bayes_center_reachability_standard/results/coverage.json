@@ -1,0 +1,31 @@
+{
+  "schema": "SEC411_METRIC_COVERAGE",
+  "available_in_github": [
+    "certified_bound_summary",
+    "balanced_accuracy_seed_mean_sd",
+    "train_density_and_geometry_seed_means",
+    "54_configuration_rounded_sensitivity",
+    "LaTeX_tables",
+    "TikZ_figure"
+  ],
+  "available_in_sha_pinned_library_zip": [
+    "54 full bound JSON",
+    "6 reviewer independent directed intervals",
+    "36 complete solver traces",
+    "6 full sample-level replay JSON",
+    "full metric arrays BA, Acc, Confusion, R_KL, R_JS, R_sqrt_JS, I,T,BT,TNL,BTNL,margin,NLL",
+    "source scripts and frozen data",
+    "SHA256SUMS"
+  ],
+  "not_claimed": [
+    "analytic_real_number_posterior_certificate",
+    "optimizer_global_optimum",
+    "full_grid_37_certification"
+  ],
+  "missing_in_git_tree": null,
+  "raw_zip_git_paths": [
+    "code/experiments/bayes_center_reachability_standard/raw/section411_standard_S_103_audit_package.zip",
+    "code/experiments/bayes_center_reachability_standard/raw/V_R02_SEC411_INDEPENDENT_QA_EVIDENCE.zip"
+  ],
+  "reproducibility_note": "103 raw archive units and independent QA code are SHA256-pinned in complete ZIPs under raw; individual per-run JSONs remain within ZIP; light presentation data live outside ZIP."
+}

@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="625" viewBox="0 0 1040 625">
+<rect width="1040" height="625" fill="#fff"/>
+<text x="520" y="32" text-anchor="middle" font-family="sans-serif" font-size="23" fill="#182737">Center information I vs validation balanced accuracy</text>
+<line x1="105" y1="471.42" x2="905" y2="471.42" stroke="#e1e5ec"/>
+<text x="90" y="476.42" text-anchor="end" font-family="sans-serif" font-size="14">30%</text>
+<line x1="105" y1="404.25" x2="905" y2="404.25" stroke="#e1e5ec"/>
+<text x="90" y="409.25" text-anchor="end" font-family="sans-serif" font-size="14">40%</text>
+<line x1="105" y1="337.09" x2="905" y2="337.09" stroke="#e1e5ec"/>
+<text x="90" y="342.09" text-anchor="end" font-family="sans-serif" font-size="14">50%</text>
+<line x1="105" y1="269.93" x2="905" y2="269.93" stroke="#e1e5ec"/>
+<text x="90" y="274.93" text-anchor="end" font-family="sans-serif" font-size="14">60%</text>
+<line x1="105" y1="202.76" x2="905" y2="202.76" stroke="#e1e5ec"/>
+<text x="90" y="207.76" text-anchor="end" font-family="sans-serif" font-size="14">70%</text>
+<line x1="105" y1="135.60" x2="905" y2="135.60" stroke="#e1e5ec"/>
+<text x="90" y="140.60" text-anchor="end" font-family="sans-serif" font-size="14">80%</text>
+<line x1="105" y1="68.43" x2="905" y2="68.43" stroke="#e1e5ec"/>
+<text x="90" y="73.43" text-anchor="end" font-family="sans-serif" font-size="14">90%</text>
+<line x1="-107.05" y1="55" x2="-107.05" y2="505" stroke="#e1e5ec"/>
+<text x="-107.05" y="529" text-anchor="middle" font-family="sans-serif" font-size="14">10^-4</text>
+<line x1="175.70" y1="55" x2="175.70" y2="505" stroke="#e1e5ec"/>
+<text x="175.70" y="529" text-anchor="middle" font-family="sans-serif" font-size="14">10^-3</text>
+<line x1="458.45" y1="55" x2="458.45" y2="505" stroke="#e1e5ec"/>
+<text x="458.45" y="529" text-anchor="middle" font-family="sans-serif" font-size="14">10^-2</text>
+<line x1="741.20" y1="55" x2="741.20" y2="505" stroke="#e1e5ec"/>
+<text x="741.20" y="529" text-anchor="middle" font-family="sans-serif" font-size="14">10^-1</text>
+<line x1="1023.95" y1="55" x2="1023.95" y2="505" stroke="#e1e5ec"/>
+<text x="1023.95" y="529" text-anchor="middle" font-family="sans-serif" font-size="14">10^0</text>
+<line x1="105" y1="449.03" x2="905" y2="449.03" stroke="#789" stroke-dasharray="7,5" stroke-width="1.7"/>
+<line x1="105" y1="102.93" x2="905" y2="102.93" stroke="#2974bc" stroke-dasharray="3,4" stroke-width="1.6"/>
+<polyline points="862.59,185.26 846.82,154.42 826.72,159.07 804.59,139.66 783.48,109.87 762.32,135.18 741.87,166.02 721.56,152.22 702.50,169.35 681.97,172.87 662.35,240.53 642.07,175.15 621.78,170.67 598.99,200.46 580.29,292.10 514.10,312.58 439.89,353.70 372.91,403.95 323.16,386.73 275.10,391.48 230.95,470.47 191.52,437.26 184.73,424.69 167.11,421.26 147.41,444.29" stroke="#516f92" stroke-width="2" fill="none" stroke-linejoin="round"/>
+<circle cx="862.59" cy="185.26" r="6" fill="#dc5428" stroke="white" stroke-width="1.2"><title>round 0, I=0.268729, BA=72.61%</title></circle>
+<text x="869.59" y="177.26" font-family="sans-serif" font-size="13" fill="#202d3e">0</text>
+<circle cx="846.82" cy="154.42" r="4.2" fill="#6670aa" stroke="white" stroke-width="1.2"><title>round 1, I=0.236347, BA=77.20%</title></circle>
+<circle cx="826.72" cy="159.07" r="4.2" fill="#6670aa" stroke="white" stroke-width="1.2"><title>round 2, I=0.200665, BA=76.50%</title></circle>
+<circle cx="804.59" cy="139.66" r="4.2" fill="#6670aa" stroke="white" stroke-width="1.2"><title>round 3, I=0.16757, BA=79.40%</title></circle>
+<circle cx="783.48" cy="109.87" r="6" fill="#dc5428" stroke="white" stroke-width="1.2"><title>round 4, I=0.141105, BA=83.83%</title></circle>
+<text x="790.48" y="101.87" font-family="sans-serif" font-size="13" fill="#202d3e">4</text>
+<circle cx="762.32" cy="135.18" r="4.2" fill="#6670aa" stroke="white" stroke-width="1.2"><title>round 5, I=0.118769, BA=80.06%</title></circle>
+<circle cx="741.87" cy="166.02" r="4.2" fill="#6670aa" stroke="white" stroke-width="1.2"><title>round 6, I=0.100548, BA=75.47%</title></circle>
+<circle cx="721.56" cy="152.22" r="4.2" fill="#6670aa" stroke="white" stroke-width="1.2"><title>round 7, I=0.0852183, BA=77.52%</title></circle>
+<circle cx="702.50" cy="169.35" r="4.2" fill="#6670aa" stroke="white" stroke-width="1.2"><title>round 8, I=0.0729716, BA=74.97%</title></circle>
+<text x="709.50" y="161.35" font-family="sans-serif" font-size="13" fill="#202d3e">8</text>
+<circle cx="681.97" cy="172.87" r="4.2" fill="#6670aa" stroke="white" stroke-width="1.2"><title>round 9, I=0.0617354, BA=74.45%</title></circle>
+<circle cx="662.35" cy="240.53" r="4.2" fill="#6670aa" stroke="white" stroke-width="1.2"><title>round 10, I=0.0526165, BA=64.38%</title></circle>
+<circle cx="642.07" cy="175.15" r="4.2" fill="#6670aa" stroke="white" stroke-width="1.2"><title>round 11, I=0.0446091, BA=74.11%</title></circle>
+<circle cx="621.78" cy="170.67" r="4.2" fill="#6670aa" stroke="white" stroke-width="1.2"><title>round 12, I=0.0378146, BA=74.78%</title></circle>
+<circle cx="598.99" cy="200.46" r="4.2" fill="#6670aa" stroke="white" stroke-width="1.2"><title>round 13, I=0.0314102, BA=70.34%</title></circle>
+<circle cx="580.29" cy="292.10" r="4.2" fill="#6670aa" stroke="white" stroke-width="1.2"><title>round 14, I=0.0269731, BA=56.70%</title></circle>
+<text x="587.29" y="284.10" font-family="sans-serif" font-size="13" fill="#202d3e">14</text>
+<circle cx="514.10" cy="312.58" r="4.2" fill="#6670aa" stroke="white" stroke-width="1.2"><title>round 17, I=0.0157332, BA=53.65%</title></circle>
+<circle cx="439.89" cy="353.70" r="4.2" fill="#6670aa" stroke="white" stroke-width="1.2"><title>round 20, I=0.00859753, BA=47.53%</title></circle>
+<text x="446.89" y="345.70" font-family="sans-serif" font-size="13" fill="#202d3e">20</text>
+<circle cx="372.91" cy="403.95" r="4.2" fill="#6670aa" stroke="white" stroke-width="1.2"><title>round 23, I=0.00498309, BA=40.04%</title></circle>
+<circle cx="323.16" cy="386.73" r="4.2" fill="#6670aa" stroke="white" stroke-width="1.2"><title>round 26, I=0.0033229, BA=42.61%</title></circle>
+<text x="330.16" y="378.73" font-family="sans-serif" font-size="13" fill="#202d3e">26</text>
+<circle cx="275.10" cy="391.48" r="4.2" fill="#6670aa" stroke="white" stroke-width="1.2"><title>round 29, I=0.00224671, BA=41.90%</title></circle>
+<circle cx="230.95" cy="470.47" r="4.2" fill="#6670aa" stroke="white" stroke-width="1.2"><title>round 32, I=0.00156831, BA=30.14%</title></circle>
+<text x="237.95" y="462.47" font-family="sans-serif" font-size="13" fill="#202d3e">32</text>
+<circle cx="191.52" cy="437.26" r="4.2" fill="#6670aa" stroke="white" stroke-width="1.2"><title>round 35, I=0.00113755, BA=35.09%</title></circle>
+<circle cx="184.73" cy="424.69" r="4.2" fill="#6670aa" stroke="white" stroke-width="1.2"><title>round 37, I=0.00107638, BA=36.96%</title></circle>
+<text x="191.73" y="416.69" font-family="sans-serif" font-size="13" fill="#202d3e">37</text>
+<circle cx="167.11" cy="421.26" r="4.2" fill="#6670aa" stroke="white" stroke-width="1.2"><title>round 42, I=0.000932439, BA=37.47%</title></circle>
+<text x="174.11" y="413.26" font-family="sans-serif" font-size="13" fill="#202d3e">42</text>
+<circle cx="147.41" cy="444.29" r="4.2" fill="#6670aa" stroke="white" stroke-width="1.2"><title>round 48, I=0.000794273, BA=34.04%</title></circle>
+<text x="154.41" y="436.29" font-family="sans-serif" font-size="13" fill="#202d3e">48</text>
+<text x="505.0" y="567" text-anchor="middle" font-family="sans-serif" font-size="19">Center information I (nats, log scale)</text>
+<text transform="translate(30 280.0) rotate(-90)" text-anchor="middle" font-family="sans-serif" font-size="19">Validation balanced accuracy</text>
+<text x="105" y="587" font-family="sans-serif" font-size="13" fill="#4b586c">Only observed validation points; round number annotated. Dashed lines: chance and uniform reference (different protocol).</text>
+</svg>

@@ -1,0 +1,93 @@
+{
+  "schema": "chapter4-metric-coverage-v2",
+  "experiment_id": "E-CH4-06",
+  "contract": "code/experiments/COMMON_METRICS_CONTRACT.json",
+  "full_report": "results/metrics_full.json",
+  "protocol": "Original 49-round single-generator MC trajectory, 100 walks/sample, plus verified fixed-target 49-round replay; not independent Benchmark runs",
+  "measurement_counts": {
+    "guided_rounds": 49,
+    "measured_center_geometry": 49,
+    "measured_train_R_JS": 49,
+    "measured_guided_train_R_KL": 2,
+    "measured_guided_train_R_sqrt_JS": 2,
+    "measured_validation_BA": 25,
+    "missing_validation_BA": 24,
+    "fully_diagnosed_cases": 3,
+    "fully_diagnosed_guided_rounds": [
+      0,
+      4
+    ],
+    "extra_uniform_baseline": true,
+    "replayed_train_R_KL": 49,
+    "replayed_train_R_sqrt_JS": 49,
+    "replayed_validation_BA": 49,
+    "original_validation_BA": 25,
+    "newly_replayed_validation_BA": 24,
+    "legacy_R_JS_aggregation_mismatch_rounds": 44
+  },
+  "measured": [
+    "49 center matrices and T/BT/TNL/BTNL/I",
+    "49 full pairwise JS/sqrtJS center matrices and per-class nearest center distances",
+    "49 Train R_JS measurements (class-hypothesis-conditioned oracle train)",
+    "25 guided candidate-class-conditional validation BA",
+    "three cases (Uniform, Guided 0, Guided 4) all 3 Train/Validation R, KL/JS NLL and descriptive metrics",
+    "49/49 replayed all v2 common-metric groups for train/validation under fixed historical targets; 25 original BA plus 24 newly replayed BA, separately marked",
+    "44 post-resumption legacy unweighted R_JS values audited against v2 class-balanced R_JS; old values preserved"
+  ],
+  "not_measured": [
+    {
+      "ids": [
+        "R_KL",
+        "R_sqrt_JS",
+        "R_per_class",
+        "NLL_KL",
+        "sigmoid_margin"
+      ],
+      "scope": "guided rounds except 0 and 4 (original archived trajectory only; recovered in replay addendum)",
+      "count": 47,
+      "reason": "No per-sample full walk representations for other guided rounds were persisted; cannot derive these metrics from centers alone. New fixed-target replay is reported separately; not counted as originally observed."
+    },
+    {
+      "ids": [
+        "validation_BA"
+      ],
+      "scope": "24 of 49 rounds (original archived trajectory only; recovered in replay addendum)",
+      "count": 24,
+      "reason": "Validation was evaluated only in 25 saved rounds; blank is not zero. New fixed-target replay is reported separately; not counted as originally observed."
+    },
+    {
+      "ids": [
+        "independent_seed_SD",
+        "independent_seed_CI"
+      ],
+      "reason": "one generator/MC trajectory, not multiple independent data splits"
+    }
+  ],
+  "not_applicable": [
+    {
+      "ids": [
+        "same_protocol_Uniform_vs_Guided_accuracies"
+      ],
+      "reason": "Uniform uses class-independent shared query representations; Guided uses candidate-class-conditioned query trajectories."
+    }
+  ],
+  "not_verified": [],
+  "source_archive": "code/experiments/archive/center_matching_comparison/results",
+  "raw_files_byte_identical": true,
+  "historical_test_accessed": false,
+  "replay_addendum": {
+    "status": "verified complete 49 fixed-target replay, not independent data seeds",
+    "train_and_validation_common_metrics": "49 rounds, all metric groups",
+    "historical_25_BA_values": "unchanged and verified",
+    "additional_24_validation_BA_values": "new replay; not historical measurements",
+    "independent_data_seeds": 1,
+    "test_accessed": false,
+    "historical_R_JS_aggregation": "replay separately flags any changed aggregation; not silently overwritten",
+    "source": "results/metrics_full.json#replayed_fixed_targets",
+    "new_presentation_assets": [
+      "tables/selected_rounds_balanced.tex",
+      "figures/trajectory_geometry_balanced.tex",
+      "figures/validation_ba_replayed_49.tex"
+    ]
+  }
+}

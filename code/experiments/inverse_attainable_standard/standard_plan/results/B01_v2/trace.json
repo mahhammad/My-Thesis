@@ -1,0 +1,12 @@
+{
+  "started": "2026-11-11T08:17:41Z",
+  "finished": "2026-11-11T08:17:41Z",
+  "status": "stopped",
+  "stop_reason": "B01/B01_v2 pairing mismatch in source_train_X_sha256",
+  "runs": [],
+  "errors": [
+    "Traceback (most recent call last):\n  File \"/home/runner/work/My-Thesis/My-Thesis/code/experiments/inverse_attainable_standard/standard_plan/b01_v2_run.py\", line 214, in run\n    if old.get(key)!=value:raise AssertionError(\"B01/B01_v2 pairing mismatch in \"+key)\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: B01/B01_v2 pairing mismatch in source_train_X_sha256\n"
+  ],
+  "wall_numerical_seconds": 0.09018428499999231,
+  "peak_rss_mib": 331.62890625
+}

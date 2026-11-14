@@ -1,0 +1,57 @@
+{
+  "schema": "ch4-experiment-provenance-v1",
+  "experiment_id": "E-CH4-03",
+  "title_fa": "اعتبارسنجی همگرایی توزیع انتقال یک‌گامی به مرجع جامعه",
+  "status": "historic_results_repackaged_and_independently_audited_no_recomputation",
+  "branch": "chapter4",
+  "historical_source_commit": "1a951d578125baf71a53cec3c1c467b67b6218f2",
+  "source_paths": {
+    "metrics": "code/experiments/archive/q_population_validation/results/q_population_validation.json",
+    "replicates": "code/experiments/archive/q_population_validation/results/q_population_replicates.csv"
+  },
+  "committed_blob_sha1": {
+    "metrics": "79712f9608f69252371be904fe3fb73696514966",
+    "replicates": "57bea3a56ce9ef381c2b43068b9d37ab467bfbf5"
+  },
+  "policy_learning": false,
+  "multistep_walk": false,
+  "historical_test_accessed": false,
+  "queries": {
+    "source": "validation",
+    "count": 90,
+    "observed_feature_pairs": 416,
+    "seed": 20261102
+  },
+  "replicates": {
+    "count": 12,
+    "trial_seed": "11900+trial",
+    "trial_range": "0..11",
+    "reference_sizes": [
+      300,
+      1000,
+      3000,
+      10000
+    ],
+    "nested_sizes_within_trial": true
+  },
+  "reference_original_300": "separate_from_replica_average",
+  "metric_definitions": {
+    "TV": "half_L1_over_destination_labels",
+    "sqrt_JSD": "square_root_Jensen_Shannon_natural_log",
+    "sd": "sample_standard_deviation_across_12_replicate_means"
+  },
+  "figures": [
+    "figures/error_convergence.tex",
+    "figures/per_feature_tv.tex",
+    "figures/error_convergence.svg",
+    "figures/per_feature_tv.svg"
+  ],
+  "tables": [
+    "tables/main_results.tex",
+    "tables/per_feature_tv.tex"
+  ],
+  "report": "REPORT_FA.md",
+  "thesis_section": "tex/chapter4.tex#sec:ch4-q-validation",
+  "validation": "python -m unittest discover -v -s code/experiments/one_step_transition_population_convergence -p 'test_*.py'",
+  "method_note": "Do not treat the 48 size-by-trial cells as statistically independent, and do not infer entire graph walk correctness from this experiment."
+}

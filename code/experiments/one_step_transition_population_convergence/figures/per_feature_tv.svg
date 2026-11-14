@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="550" viewBox="0 0 980 550" role="img" aria-label="One-step transition Q: mean total variation distance by feature and reference size">
+
+  <rect width="980" height="550" fill="#ffffff"/>
+  <line x1="105" y1="450" x2="930" y2="450" stroke="#445266" stroke-width="2"/>
+  <line x1="105" y1="98" x2="105" y2="450" stroke="#445266" stroke-width="2"/>
+  <line x1="105" y1="450.00" x2="930" y2="450.00" stroke="#dce3ed" stroke-width="1"/><text x="90" y="455" font-size="16" text-anchor="end" fill="#4b5563">0.00</text>
+  <line x1="105" y1="350.00" x2="930" y2="350.00" stroke="#dce3ed" stroke-width="1"/><text x="90" y="355" font-size="16" text-anchor="end" fill="#4b5563">0.02</text>
+  <line x1="105" y1="250.00" x2="930" y2="250.00" stroke="#dce3ed" stroke-width="1"/><text x="90" y="255" font-size="16" text-anchor="end" fill="#4b5563">0.04</text>
+  <line x1="105" y1="150.00" x2="930" y2="150.00" stroke="#dce3ed" stroke-width="1"/><text x="90" y="155" font-size="16" text-anchor="end" fill="#4b5563">0.06</text>
+  <text x="180" y="478" font-size="17" text-anchor="middle" fill="#374151">300</text>
+  <text x="400" y="478" font-size="17" text-anchor="middle" fill="#374151">1,000</text>
+  <text x="620" y="478" font-size="17" text-anchor="middle" fill="#374151">3,000</text>
+  <text x="840" y="478" font-size="17" text-anchor="middle" fill="#374151">10,000</text>
+  <text x="510" y="520" font-size="17" text-anchor="middle" fill="#374151">Reference size (N)</text>
+
+  <text x="105" y="37" font-family="sans-serif" font-size="24" font-weight="600" fill="#14223b">One-step Q estimation error by feature</text>
+  <text x="105" y="62" font-family="sans-serif" font-size="15" fill="#55657c">Average TV error, 12 replicates; feature IDs are zero-based</text>
+  <line x1="115" y1="88" x2="147" y2="88" stroke="#2563eb" stroke-width="4"/><text x="155" y="94" font-family="sans-serif" font-size="15" fill="#293443">Feature 0</text>
+<line x1="285" y1="88" x2="317" y2="88" stroke="#dc2626" stroke-width="4"/><text x="325" y="94" font-family="sans-serif" font-size="15" fill="#293443">Feature 1</text>
+<line x1="455" y1="88" x2="487" y2="88" stroke="#15803d" stroke-width="4"/><text x="495" y="94" font-family="sans-serif" font-size="15" fill="#293443">Feature 2</text>
+<line x1="625" y1="88" x2="657" y2="88" stroke="#ca8a04" stroke-width="4"/><text x="665" y="94" font-family="sans-serif" font-size="15" fill="#293443">Feature 3</text>
+<line x1="795" y1="88" x2="827" y2="88" stroke="#7c3aed" stroke-width="4"/><text x="835" y="94" font-family="sans-serif" font-size="15" fill="#293443">Feature 4</text>
+  <polyline id="feature-0" points="180,275.13 400,347.42 620,395.40 840,416.32" stroke="#2563eb" fill="none" stroke-width="3" stroke-linejoin="round"/><circle cx="180" cy="275.13" r="5" fill="#2563eb" stroke="#fff" stroke-width="1.5"/>
+<circle cx="400" cy="347.42" r="5" fill="#2563eb" stroke="#fff" stroke-width="1.5"/>
+<circle cx="620" cy="395.40" r="5" fill="#2563eb" stroke="#fff" stroke-width="1.5"/>
+<circle cx="840" cy="416.32" r="5" fill="#2563eb" stroke="#fff" stroke-width="1.5"/>
+<polyline id="feature-1" points="180,201.70 400,303.46 620,367.18 840,402.23" stroke="#dc2626" fill="none" stroke-width="3" stroke-linejoin="round"/><circle cx="180" cy="201.70" r="5" fill="#dc2626" stroke="#fff" stroke-width="1.5"/>
+<circle cx="400" cy="303.46" r="5" fill="#dc2626" stroke="#fff" stroke-width="1.5"/>
+<circle cx="620" cy="367.18" r="5" fill="#dc2626" stroke="#fff" stroke-width="1.5"/>
+<circle cx="840" cy="402.23" r="5" fill="#dc2626" stroke="#fff" stroke-width="1.5"/>
+<polyline id="feature-2" points="180,234.11 400,302.31 620,374.13 840,405.92" stroke="#15803d" fill="none" stroke-width="3" stroke-linejoin="round"/><circle cx="180" cy="234.11" r="5" fill="#15803d" stroke="#fff" stroke-width="1.5"/>
+<circle cx="400" cy="302.31" r="5" fill="#15803d" stroke="#fff" stroke-width="1.5"/>
+<circle cx="620" cy="374.13" r="5" fill="#15803d" stroke="#fff" stroke-width="1.5"/>
+<circle cx="840" cy="405.92" r="5" fill="#15803d" stroke="#fff" stroke-width="1.5"/>
+<polyline id="feature-3" points="180,223.65 400,320.26 620,385.53 840,412.24" stroke="#ca8a04" fill="none" stroke-width="3" stroke-linejoin="round"/><circle cx="180" cy="223.65" r="5" fill="#ca8a04" stroke="#fff" stroke-width="1.5"/>
+<circle cx="400" cy="320.26" r="5" fill="#ca8a04" stroke="#fff" stroke-width="1.5"/>
+<circle cx="620" cy="385.53" r="5" fill="#ca8a04" stroke="#fff" stroke-width="1.5"/>
+<circle cx="840" cy="412.24" r="5" fill="#ca8a04" stroke="#fff" stroke-width="1.5"/>
+<polyline id="feature-4" points="180,235.66 400,308.86 620,374.02 840,407.28" stroke="#7c3aed" fill="none" stroke-width="3" stroke-linejoin="round"/><circle cx="180" cy="235.66" r="5" fill="#7c3aed" stroke="#fff" stroke-width="1.5"/>
+<circle cx="400" cy="308.86" r="5" fill="#7c3aed" stroke="#fff" stroke-width="1.5"/>
+<circle cx="620" cy="374.02" r="5" fill="#7c3aed" stroke="#fff" stroke-width="1.5"/>
+<circle cx="840" cy="407.28" r="5" fill="#7c3aed" stroke="#fff" stroke-width="1.5"/>
+</svg>

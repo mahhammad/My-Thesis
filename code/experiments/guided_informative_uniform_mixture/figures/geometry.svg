@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1150" height="410" viewBox="0 0 1150 410" role="img" aria-label="Separation I and within-class Jensen Shannon dispersion versus Guided probability mixture strength">
+<rect width="1150" height="410" fill="white"/>
+<text x="34" y="31" font-family="sans-serif" font-size="23" font-weight="600" fill="#21354b">Geometry under noise-suppressing Guided mixtures</text>
+<text x="34" y="53" font-family="sans-serif" font-size="14" fill="#536477">Exact random walk, measured over Train only; no policy training or optimization</text>
+<text x="315" y="88" font-family="sans-serif" font-size="16" text-anchor="middle" fill="#21354b">Center separation I</text>
+<line x1="115" y1="310" x2="490" y2="310" stroke="#526176" stroke-width="2"/><line x1="115" y1="105" x2="115" y2="310" stroke="#526176" stroke-width="2"/>
+<line x1="115" y1="310.00" x2="490" y2="310.00" stroke="#e0e7f0" stroke-width="1"/><text x="103" y="314.00" fill="#536477" text-anchor="end" font-family="sans-serif" font-size="12">0.0000</text>
+<line x1="115" y1="260.00" x2="490" y2="260.00" stroke="#e0e7f0" stroke-width="1"/><text x="103" y="264.00" fill="#536477" text-anchor="end" font-family="sans-serif" font-size="12">0.0138</text>
+<line x1="115" y1="210.00" x2="490" y2="210.00" stroke="#e0e7f0" stroke-width="1"/><text x="103" y="214.00" fill="#536477" text-anchor="end" font-family="sans-serif" font-size="12">0.0275</text>
+<line x1="115" y1="160.00" x2="490" y2="160.00" stroke="#e0e7f0" stroke-width="1"/><text x="103" y="164.00" fill="#536477" text-anchor="end" font-family="sans-serif" font-size="12">0.0413</text>
+<line x1="115" y1="110.00" x2="490" y2="110.00" stroke="#e0e7f0" stroke-width="1"/><text x="103" y="114.00" fill="#536477" text-anchor="end" font-family="sans-serif" font-size="12">0.0550</text>
+<text x="130.00" y="336" fill="#536477" font-family="sans-serif" font-size="13" text-anchor="middle">0.00</text>
+<text x="215.00" y="336" fill="#536477" font-family="sans-serif" font-size="13" text-anchor="middle">0.25</text>
+<text x="300.00" y="336" fill="#536477" font-family="sans-serif" font-size="13" text-anchor="middle">0.50</text>
+<text x="385.00" y="336" fill="#536477" font-family="sans-serif" font-size="13" text-anchor="middle">0.75</text>
+<text x="470.00" y="336" fill="#536477" font-family="sans-serif" font-size="13" text-anchor="middle">1.00</text>
+<polyline id="I_train" fill="none" stroke="#2563eb" stroke-width="3" points="130.00,248.61 215.00,225.96 300.00,198.87 385.00,166.88 470.00,129.46"/>
+<circle cx="130.00" cy="248.61" r="5" fill="#2563eb"/>
+<circle cx="215.00" cy="225.96" r="5" fill="#2563eb"/>
+<circle cx="300.00" cy="198.87" r="5" fill="#2563eb"/>
+<circle cx="385.00" cy="166.88" r="5" fill="#2563eb"/>
+<circle cx="470.00" cy="129.46" r="5" fill="#2563eb"/>
+<text x="315" y="378" font-family="sans-serif" font-size="15" text-anchor="middle" fill="#536477">Mixture weight (alpha)</text>
+<text x="810" y="88" font-family="sans-serif" font-size="16" text-anchor="middle" fill="#21354b">Within-class dispersion R_JS</text>
+<line x1="610" y1="310" x2="985" y2="310" stroke="#526176" stroke-width="2"/><line x1="610" y1="105" x2="610" y2="310" stroke="#526176" stroke-width="2"/>
+<line x1="610" y1="310.00" x2="985" y2="310.00" stroke="#e0e7f0" stroke-width="1"/><text x="598" y="314.00" fill="#536477" text-anchor="end" font-family="sans-serif" font-size="12">0.0000</text>
+<line x1="610" y1="260.00" x2="985" y2="260.00" stroke="#e0e7f0" stroke-width="1"/><text x="598" y="264.00" fill="#536477" text-anchor="end" font-family="sans-serif" font-size="12">0.0016</text>
+<line x1="610" y1="210.00" x2="985" y2="210.00" stroke="#e0e7f0" stroke-width="1"/><text x="598" y="214.00" fill="#536477" text-anchor="end" font-family="sans-serif" font-size="12">0.0032</text>
+<line x1="610" y1="160.00" x2="985" y2="160.00" stroke="#e0e7f0" stroke-width="1"/><text x="598" y="164.00" fill="#536477" text-anchor="end" font-family="sans-serif" font-size="12">0.0049</text>
+<line x1="610" y1="110.00" x2="985" y2="110.00" stroke="#e0e7f0" stroke-width="1"/><text x="598" y="114.00" fill="#536477" text-anchor="end" font-family="sans-serif" font-size="12">0.0065</text>
+<text x="625.00" y="336" fill="#536477" font-family="sans-serif" font-size="13" text-anchor="middle">0.00</text>
+<text x="710.00" y="336" fill="#536477" font-family="sans-serif" font-size="13" text-anchor="middle">0.25</text>
+<text x="795.00" y="336" fill="#536477" font-family="sans-serif" font-size="13" text-anchor="middle">0.50</text>
+<text x="880.00" y="336" fill="#536477" font-family="sans-serif" font-size="13" text-anchor="middle">0.75</text>
+<text x="965.00" y="336" fill="#536477" font-family="sans-serif" font-size="13" text-anchor="middle">1.00</text>
+<polyline id="R_JS_train" fill="none" stroke="#b45309" stroke-width="3" points="625.00,248.04 710.00,227.74 795.00,201.62 880.00,168.51 965.00,126.40"/>
+<circle cx="625.00" cy="248.04" r="5" fill="#b45309"/>
+<circle cx="710.00" cy="227.74" r="5" fill="#b45309"/>
+<circle cx="795.00" cy="201.62" r="5" fill="#b45309"/>
+<circle cx="880.00" cy="168.51" r="5" fill="#b45309"/>
+<circle cx="965.00" cy="126.40" r="5" fill="#b45309"/>
+<text x="810" y="378" font-family="sans-serif" font-size="15" text-anchor="middle" fill="#536477">Mixture weight (alpha)</text>
+</svg>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="550" viewBox="0 0 980 550" role="img" aria-label="One-step transition Q: population convergence, TV and square-root JSD across four reference sizes">
+
+  <rect width="980" height="550" fill="#ffffff"/>
+  <line x1="105" y1="450" x2="930" y2="450" stroke="#445266" stroke-width="2"/>
+  <line x1="105" y1="98" x2="105" y2="450" stroke="#445266" stroke-width="2"/>
+  <line x1="105" y1="450.00" x2="930" y2="450.00" stroke="#dce3ed" stroke-width="1"/><text x="90" y="455" font-size="16" text-anchor="end" fill="#4b5563">0.00</text>
+  <line x1="105" y1="350.00" x2="930" y2="350.00" stroke="#dce3ed" stroke-width="1"/><text x="90" y="355" font-size="16" text-anchor="end" fill="#4b5563">0.02</text>
+  <line x1="105" y1="250.00" x2="930" y2="250.00" stroke="#dce3ed" stroke-width="1"/><text x="90" y="255" font-size="16" text-anchor="end" fill="#4b5563">0.04</text>
+  <line x1="105" y1="150.00" x2="930" y2="150.00" stroke="#dce3ed" stroke-width="1"/><text x="90" y="155" font-size="16" text-anchor="end" fill="#4b5563">0.06</text>
+  <text x="180" y="478" font-size="17" text-anchor="middle" fill="#374151">300</text>
+  <text x="400" y="478" font-size="17" text-anchor="middle" fill="#374151">1,000</text>
+  <text x="620" y="478" font-size="17" text-anchor="middle" fill="#374151">3,000</text>
+  <text x="840" y="478" font-size="17" text-anchor="middle" fill="#374151">10,000</text>
+  <text x="510" y="520" font-size="17" text-anchor="middle" fill="#374151">Reference size (N)</text>
+
+  <text x="105" y="37" font-family="sans-serif" font-size="24" font-weight="600" fill="#14223b">One-step transition: finite Q versus population Q</text>
+  <text x="105" y="62" font-family="sans-serif" font-size="15" fill="#55657c">Means over 12 reference replicates; TV error bars show SD (not confidence intervals)</text>
+  <line x1="180" y1="307.55" x2="180" y2="161.29" stroke="#7fa5ee" stroke-width="2"/><line x1="170" y1="307.55" x2="190" y2="307.55" stroke="#7fa5ee" stroke-width="2"/><line x1="170" y1="161.29" x2="190" y2="161.29" stroke="#7fa5ee" stroke-width="2"/>
+<line x1="400" y1="355.53" x2="400" y2="278.72" stroke="#7fa5ee" stroke-width="2"/><line x1="390" y1="355.53" x2="410" y2="355.53" stroke="#7fa5ee" stroke-width="2"/><line x1="390" y1="278.72" x2="410" y2="278.72" stroke="#7fa5ee" stroke-width="2"/>
+<line x1="620" y1="394.93" x2="620" y2="364.28" stroke="#7fa5ee" stroke-width="2"/><line x1="610" y1="394.93" x2="630" y2="394.93" stroke="#7fa5ee" stroke-width="2"/><line x1="610" y1="364.28" x2="630" y2="364.28" stroke="#7fa5ee" stroke-width="2"/>
+<line x1="840" y1="416.30" x2="840" y2="401.57" stroke="#7fa5ee" stroke-width="2"/><line x1="830" y1="416.30" x2="850" y2="416.30" stroke="#7fa5ee" stroke-width="2"/><line x1="830" y1="401.57" x2="850" y2="401.57" stroke="#7fa5ee" stroke-width="2"/>
+  <polyline id="series-tv" points="180,234.42 400,317.13 620,379.60 840,408.94" fill="none" stroke="#2563eb" stroke-width="3" stroke-linejoin="round"/>
+  <circle cx="180" cy="234.42" r="5" fill="#2563eb" stroke="#fff" stroke-width="1.5"/>
+<circle cx="400" cy="317.13" r="5" fill="#2563eb" stroke="#fff" stroke-width="1.5"/>
+<circle cx="620" cy="379.60" r="5" fill="#2563eb" stroke="#fff" stroke-width="1.5"/>
+<circle cx="840" cy="408.94" r="5" fill="#2563eb" stroke="#fff" stroke-width="1.5"/>
+  <polyline id="series-sqrt-jsd" points="180,264.67 400,338.12 620,389.51 840,415.30" fill="none" stroke="#dc2626" stroke-width="3" stroke-dasharray="9 6" stroke-linejoin="round"/>
+  <circle cx="180" cy="264.67" r="5" fill="#dc2626" stroke="#fff" stroke-width="1.5"/>
+<circle cx="400" cy="338.12" r="5" fill="#dc2626" stroke="#fff" stroke-width="1.5"/>
+<circle cx="620" cy="389.51" r="5" fill="#dc2626" stroke="#fff" stroke-width="1.5"/>
+<circle cx="840" cy="415.30" r="5" fill="#dc2626" stroke="#fff" stroke-width="1.5"/>
+  <line x1="615" y1="90" x2="660" y2="90" stroke="#2563eb" stroke-width="4"/>
+  <text x="668" y="96" font-family="sans-serif" font-size="16" fill="#1f2937">TV ± SD</text>
+  <line x1="760" y1="90" x2="803" y2="90" stroke="#dc2626" stroke-width="4" stroke-dasharray="8 5"/>
+  <text x="810" y="96" font-family="sans-serif" font-size="16" fill="#1f2937">√JSD</text>
+</svg>
