@@ -30,14 +30,14 @@ from engine import DT,ExactMaskedWalk,balanced
 from replay_v1 import objective_loss
 from train_missing_objectives import train_loss
 from snapshot_pipeline import save_snapshot,load_snapshot,array_fingerprint
-from report_snapshot import report_snapshot
+from phase2_report import report_from_frozen
 from phase2_protocol import (
     SEEDS,FAMILIES,LOSSES,N_TRAIN,N_VALIDATION,N_UPDATES,K,D,
     BETA,LAMBDA,H,TAU,LR,MAX_FITS,grid,validate_grid,
     plan_manifest,reference_ids,expected_data_gate,evidence_gate,
     atomic_new_json
 )
-from phase2_data_preflight import inspect as inspect_data
+from phase2_frozen_data import load as load_frozen, INPUTS as FROZEN_INPUTS
 
 RESULT_ROOT=HERE/"results/phase2_300_25"
 CFG=ROOT/"code/data_generator/config.json"
@@ -161,25 +161,37 @@ def execute(out,source_sha,one_time_gate_token):
         raise FileExistsError("Immutable phase2 result root already exists; NEVER rerun")
     validate_grid(grid())
     torch.set_num_threads(1)
-    data=inspect_data()
-    expected_data_gate(data["datasets"])
-    # All split, mask, fingerprints and source inputs validated BEFORE first fit.
-    spec=load_config(CFG)
+    # Read immutable, audited Train/Validation bytes for each generator:
+    # no fresh BLAS-dependent multivariate-normal generation and no Test.
+    if not (FROZEN_INPUTS/"manifest.json").is_file():
+        raise FileNotFoundError("Frozen Train/Validation inputs not independently prepared")
+    frozen_manifest=json.loads((FROZEN_INPUTS/"manifest.json").read_text("utf8"))
+    if frozen_manifest.get("test_accessed") is not False:
+        raise ValueError("Frozen data Test rule violated")
+    data={"schema":"e-ch4-13-phase2-data-contract-v2",
+          "frozen_manifest_sha256":sha(FROZEN_INPUTS/"manifest.json"),
+          "datasets":{},"test_accessed":False}
     cached={}
+    spec=load_config(CFG)
     for seed in SEEDS:
-        sp=dict(spec);sp["seed"]=seed
-        d=dataset_train_val(sp)
-        x,y=d["train"];vx,vy=d["validation"]
+        (x,y),(vx,vy)=load_frozen(seed)
         ids=reference_ids(y)
-        rec=data["datasets"][str(seed)]
-        if (array_fingerprint(x[ids])!=rec["train_x_sha256"] or
-            array_fingerprint(y[ids].astype(np.int64))!=rec["train_y_sha256"] or
-            array_fingerprint(vx)!=rec["validation_x_sha256"]):
-            raise ValueError("Data changed between preflight and fitting")
-        if len(vx)!=90 or len(x)!=300:raise ValueError("Split mismatch")
-        cached[seed]=(ExactMaskedWalk(x[ids],y[ids],sp["gamma"],
-                                     beta=BETA,lam=LAMBDA,horizon=H,query_x=vx),
-                      vx,ids,rec)
+        rec={"n_train":len(x),"n_validation":len(vx),
+             "n_classes":K,"n_features":D,
+             "reference_ids":ids.tolist(),
+             "config_sha256":frozen_manifest["config_sha256"],
+             "train_x_sha256":array_fingerprint(x[ids]),
+             "train_y_sha256":array_fingerprint(y[ids].astype(np.int64)),
+             "validation_x_sha256":array_fingerprint(vx),
+             "test_accessed":False}
+        expected=frozen_manifest["records"][str(seed)]
+        for col in ("train_x_sha256","train_y_sha256","validation_x_sha256"):
+            if rec[col]!=expected[col]:
+                raise ValueError("Frozen data fingerprint drift: "+col)
+        data["datasets"][str(seed)]=rec
+        cached[seed]=(ExactMaskedWalk(x[ids],y[ids],spec["gamma"],
+                      beta=BETA,lam=LAMBDA,horizon=H,query_x=vx),vx,ids,rec)
+    expected_data_gate(data["datasets"])
     # Output is created only after all pre-training contract checks.
     out=Path(out)
     out.mkdir(parents=True,exist_ok=False)
@@ -217,7 +229,7 @@ def execute(out,source_sha,one_time_gate_token):
                  "reference_rule":"all_300_ordered_train","test_accessed":False})
         model,arrays=load_snapshot(job_path)
         fingerprint_match(model["data"],rec)
-        report=report_snapshot(job_path)
+        report=report_from_frozen(job_path,job.seed)
         if report["validation"].get("status")!="ok":
             raise ValueError("Validation unavailable, STOP")
         if report["source"]["historical_test_accessed"]:
