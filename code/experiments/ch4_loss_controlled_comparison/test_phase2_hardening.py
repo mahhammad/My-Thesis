@@ -204,7 +204,10 @@ class CrashSafetyTests(unittest.TestCase):
                 return np.zeros((6,5)).tolist(),trace,0.01
             def synthetic_snapshot(folder,*a,**kw):
                 folder=Path(folder)
-                folder.mkdir(parents=True,exist_ok=False)
+                # Canonical snapshot_pipeline permits a pre-existing run folder
+                # containing trace.json, while refusing existing model/distributions.
+                folder.mkdir(parents=True,exist_ok=True)
+                assert not (folder/"model.json").exists()
                 (folder/"model.json").write_text('{"synthetic":true}')
                 (folder/"distributions.npz").write_bytes(b"mock fixture")
             def synthetic_report(folder,seed):
