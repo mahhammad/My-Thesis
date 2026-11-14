@@ -48,6 +48,7 @@
 \notationrow{\widehat h_s,\ h_s}{برآورد و امید دقیق همسایگی نمونه s}{eq:ch3-h-estimate}
 \notationrow{P_{X_s,t}}{توزیع روی نمونه‌ها در گام t}{eq:ch3-step-observation-distribution}
 \notationrow{\alpha_t(\beta,\lambda)}{سهم وزن گام t در بازنمایی}{eq:ch3-h-alpha}
+\notationrow{\alpha_t^{(H)}}{وزن گام t در گشت سقف‌دارِ نرمال‌شده}{eq:ch3-capped-alpha}
 \notationrow{\mathscr H,\ h_{ij}}{ماتریس همسایگی نمونه‌ها و درایه آن}{eq:ch3-H}
 \notationrow{\mathscr Y,\ \mathscr Y_i}{ماتریس بازنمایی برچسب و سطر نمونه i}{eq:ch3-Y-script}
 \notationrow{\xi}{اندیس تصادفی گام مشاهده‌شده؛ نه پارامتر هموارسازی}{eq:ch3-weighted-observation-position}
@@ -99,7 +100,8 @@
 \notationrow{e_j\in\Delta_K}{بردار یک‌داغ برچسب $j$ در فضای توزیع‌ها (متمایز از بردار یکه نمونه)}{eq:ch3-js-farthest-vertex}
 \notationrow{R_c}{هزینه تجمیع و تراکم درون‌طبقه‌ای مبتنی بر KL}{eq:ch3-R-entropy}
 \notationrow{R,\ \Omega,\ \omega_c}{معیار KL تجمیع‌شده و وزن طبقات}{eq:ch3-R-average}
-\notationrow{R_{\mathrm{KL}},\ R_{\mathrm{JS}},\ R_{\sqrt{\mathrm{JS}}}}{هزینه تجمیع KL، میانگین مربع فاصله JS و میانگین متریک جذر JS}{eq:ch3-R-JS-forms}
+\notationrow{R_{\mathrm{KL}},\ R_{\mathrm{JS}},\ R_{\sqrt{\mathrm{JS}}}}{هزینه تجمیع KL، میانگین JSD و میانگین متریک جذر JSD}{eq:ch3-R-JS-forms}
+\notationrow{R_{\mathrm{KL}}^{\mathrm{legacy,clip}}}{قرارداد عددی قدیمیِ دارای کف مثبت؛ متفاوت از KL دقیق}{eq:ch3-R-JS-forms}
 \notationrow{\mathscr B_{c,i}}{توزیع میانگین جفتی عضو و مرکز طبقه}{eq:ch3-R-JS-midpoint-distributions}
 \notationrow{R_{B,c}}{هزینه تجمیع KL توزیع‌های میانگین جفتی}{eq:ch3-R-midpoint-KL}
 \notationrow{R_{c,\mathrm{JS}}}{میانگین واگرایی جنسن--شنون نمونه‌های طبقه تا مرکز}{eq:ch3-R-JS-KL-midpoint-identity}
@@ -140,6 +142,7 @@
 \notationrow{M_i^{\mathrm{JS}}}{حاشیه تصمیم مبتنی بر شباهت JS}{eq:ch3-js-margin-distance-difference}
 \notationrow{m_{i,c,r}}{حاشیه زوجی JS نمونه از کلاس c در برابر رقیب r، با مراکز ثابت}{eq:ch3-fixed-center-pairwise-js-margin}
 \notationrow{\ell_\tau(m),\ \tau}{زیان سیگموئیدی و پهنای هموارسازی}{eq:ch3-js-sigmoid-loss}
+\notationrow{g_\tau(m)}{اندازه حساسیت نسبت به حاشیه با بیشینه یک؛ نه گرادیان سیاست}{eq:ch3-js-sigmoid-normalized-sensitivity}
 \notationrow{\mathcal L_{\mathrm{sig}}}{میانگین متوازن زیان سیگموئیدی}{eq:ch3-js-sigmoid-balanced-objective}
 \notationgroup{مسئله معکوس سیاست}
 \notationrow{z=\operatorname{vec}(Z)}{بردار پارامترهای سیاست}{eq:ch3-center-forward-map}
@@ -148,8 +151,12 @@
 \notationrow{\mathcal V^\star}{مراکز هدف}{eq:ch3-center-inverse-loss}
 \notationrow{\mathcal L_{\mathrm{inv}}}{تابع هدف بازیابی سیاست}{eq:ch3-center-inverse-loss}
 \notationrow{\mathfrak C_{\beta,\lambda,H}}{مجموعه مراکز قابل دستیابی}{eq:ch3-attainable-centers}
-\notationrow{U_{s,u}}{کران بالای آزادشده برای سهم برچسب مقصد}{eq:ch3-center-component-upper}
+\notationrow{G^-_{s,u,t},\ G^+_{s,u,t}}{توابع ارزش کران‌ساز پایین و بالای بلمن}{eq:ch3-bellman-value-recursion}
+\notationrow{B_b(s,j)}{هستهٔ انتقال نخست از مبدأ با ویژگی انتخابی b}{eq:ch3-bellman-origin-bounds}
+\notationrow{\ell_{s,u},\ U_{s,u}}{کران پایین و بالای سهم برچسب مقصد از مبدأ}{eq:ch3-bellman-origin-bounds}
+\notationrow{L_{c,u},\ \overline U_{c,u}}{کران پایین و بالای ضروری مؤلفه مرکز کلاس}{eq:ch3-center-component-upper}
 \notationrow{u(z),\ J(z)}{بردار مؤلفه‌های مستقل مراکز و ژاکوبین}{eq:ch3-inverse-GN}
+\notationrow{r_C(z),\ \varepsilon_C}{باقی‌مانده قید مراکز و تلرانس عددی پیشنهادی}{eq:ch3-fixed-center-projection}
 \notationrow{\delta,\ \mu}{اصلاح سیاست و ضریب میرایی حل معکوس}{eq:ch3-inverse-GN}
 \notationrow{b_{\mathrm{ls}}}{تعداد ارزیابی‌های جست‌وجوی خط}{eq:ch3-inverse-complexity}
 \end{longtable}
