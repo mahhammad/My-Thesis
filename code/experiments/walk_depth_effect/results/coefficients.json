@@ -1,0 +1,133 @@
+{
+  "schema": "e-ch4-09-true-horizon-coefficients-v1",
+  "beta": 0.4,
+  "lambda": 0.8,
+  "by_H": {
+    "1": {
+      "H": 1,
+      "length_pmf": [
+        1.0
+      ],
+      "alpha_true_H": [
+        1.0
+      ],
+      "expected_realized_walk_length": 1.0,
+      "expected_weighted_step_index": 1.0,
+      "normalization_abs_error": 0.0,
+      "max_abs_error_vs_benchmark_coefficient": 0.0
+    },
+    "2": {
+      "H": 2,
+      "length_pmf": [
+        0.4,
+        0.6
+      ],
+      "alpha_true_H": [
+        0.7333333333333334,
+        0.26666666666666666
+      ],
+      "expected_realized_walk_length": 1.6,
+      "expected_weighted_step_index": 1.2666666666666666,
+      "normalization_abs_error": 0.0,
+      "max_abs_error_vs_benchmark_coefficient": 0.0
+    },
+    "3": {
+      "H": 3,
+      "length_pmf": [
+        0.4,
+        0.24,
+        0.36
+      ],
+      "alpha_true_H": [
+        0.6808743169398908,
+        0.22469945355191256,
+        0.09442622950819672
+      ],
+      "expected_realized_walk_length": 1.96,
+      "expected_weighted_step_index": 1.413551912568306,
+      "normalization_abs_error": 0.0,
+      "max_abs_error_vs_benchmark_coefficient": 1.1102230246251565e-16
+    },
+    "4": {
+      "H": 4,
+      "length_pmf": [
+        0.4,
+        0.24,
+        0.144,
+        0.21599999999999997
+      ],
+      "alpha_true_H": [
+        0.6655204584832733,
+        0.21241636678661868,
+        0.0845997600959616,
+        0.03746341463414635
+      ],
+      "expected_realized_walk_length": 2.176,
+      "expected_weighted_step_index": 1.4940061308809809,
+      "normalization_abs_error": 0.0,
+      "max_abs_error_vs_benchmark_coefficient": 6.938893903907228e-18
+    },
+    "8": {
+      "H": 8,
+      "length_pmf": [
+        0.4,
+        0.24,
+        0.144,
+        0.08639999999999999,
+        0.05183999999999999,
+        0.031103999999999993,
+        0.018662399999999996,
+        0.027993599999999993
+      ],
+      "alpha_true_H": [
+        0.6569205048667393,
+        0.20553640389339123,
+        0.07909578978137966,
+        0.033060238382480775,
+        0.014459898023057787,
+        0.006514690431773218,
+        0.0030016389964724393,
+        0.0014108356247058498
+      ],
+      "expected_realized_walk_length": 2.4580096,
+      "expected_weighted_step_index": 1.581207426206466,
+      "normalization_abs_error": 2.220446049250313e-16,
+      "max_abs_error_vs_benchmark_coefficient": 1.1102230246251565e-16
+    },
+    "12": {
+      "H": 12,
+      "length_pmf": [
+        0.4,
+        0.24,
+        0.144,
+        0.08639999999999999,
+        0.05183999999999999,
+        0.031103999999999993,
+        0.018662399999999996,
+        0.011197439999999998,
+        0.006718463999999998,
+        0.004031078399999999,
+        0.0024186470399999993,
+        0.0036279705599999985
+      ],
+      "alpha_true_H": [
+        0.656647587924167,
+        0.20531807033933358,
+        0.07892112293813353,
+        0.032920504907883875,
+        0.014348111243380264,
+        0.0064252610080312005,
+        0.002930095457478825,
+        0.0013536007935109583,
+        0.0006314132349028945,
+        0.0002968248734505387,
+        0.0001404800133804497,
+        6.692726634693555e-05
+      ],
+      "expected_realized_walk_length": 2.4945580441599997,
+      "expected_weighted_step_index": 1.588360089056278,
+      "normalization_abs_error": 1.1102230246251565e-16,
+      "max_abs_error_vs_benchmark_coefficient": 1.1102230246251565e-16
+    }
+  }
+}

@@ -1,0 +1,13 @@
+% Source: results/metrics_full.json standard_v2; archived historical P, no new MC.
+\begin{table}[htbp]
+\centering\scriptsize
+\caption{مجموعه معیارهای عمومی برای سه وضعیت دارای بازنمایی‌های تک‌نمونه‌ای ذخیره‌شده در آزمایش هدایت مراکز هدف. مقادیر $R$ مربوط به آموزش و مراکز تحقق‌یافته همان وضعیت هستند. دقت اعتبارسنجی Uniform و Guided به سبب تفاوت روش استنتاج مقایسه هم‌پروتکل محسوب نمی‌شود.}
+\label{tab:ch4-target-guidance-complete-metrics}
+\begin{tabular}{rcccccc}\hline
+وضعیت & $I$ & $R_{\mathrm{KL}}$ & $R_{\mathrm{JS}}$ & $R_{\sqrt{\mathrm{JS}}}$ & $\min d_{\mathrm{JS}}(V_c,V_r)$ & \lr{BA} اعتبارسنجی (درصد)\\\hline
+uniform & 0.01818 & 0.01542 & 0.00388 & 0.05508 & 0.08223 & 84.86\\
+guided\_round0 & 0.26873 & 0.05466 & 0.01326 & 0.09995 & 0.32937 & 72.61\\
+guided\_round4 & 0.14111 & 0.01513 & 0.00376 & 0.05295 & 0.21640 & 83.83\\
+\hline
+\end{tabular}
+\end{table}

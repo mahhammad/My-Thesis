@@ -1,0 +1,76 @@
+{
+  "version": "RESEARCHER-01_B01_V2_PRE_SOLVE_PAIRING_DIAGNOSTIC",
+  "no_solver_run": true,
+  "source_manifest": "/home/runner/work/My-Thesis/My-Thesis/code/experiments/inverse_attainable_standard/standard_plan/results/B01/manifest.json",
+  "key_comparisons": {
+    "source_train_X_sha256": {
+      "baseline": "51699bbe51504fa82d3e27aaa9ea81428bf341c4a0f2e5de67dcb3badd9a6852",
+      "new": "51699bbe51504fa82d3e27aaa9ea81428bf341c4a0f2e5de67dcb3badd9a6852",
+      "equal": true
+    },
+    "source_train_y_sha256": {
+      "baseline": "6172de6b43091361c783185cd6547de18481f9fa5a84609e675e0dd3e262d271",
+      "new": "6172de6b43091361c783185cd6547de18481f9fa5a84609e675e0dd3e262d271",
+      "equal": true
+    },
+    "selected_reference_ids_sha256": {
+      "baseline": "dbe477c65d28e526a31f18930f41d9213c66dd34d6f2966f7be8d78ab59475cd",
+      "new": "dbe477c65d28e526a31f18930f41d9213c66dd34d6f2966f7be8d78ab59475cd",
+      "equal": true
+    },
+    "teacher_logits_sha256_ONLY": {
+      "baseline": "ee1f8991bcdede20af1a010dc3ccca910e82730dd53e633efc8bb7d35f87959e",
+      "new": "ee1f8991bcdede20af1a010dc3ccca910e82730dd53e633efc8bb7d35f87959e",
+      "equal": true
+    },
+    "generator_config_sha256": {
+      "baseline": "c8b673b37ca70b3cb9793b93efcbb13dcf9a86d8e90d61692af2a6acf8f1c0ef",
+      "new": "c8b673b37ca70b3cb9793b93efcbb13dcf9a86d8e90d61692af2a6acf8f1c0ef",
+      "equal": true
+    },
+    "plan_sha256": {
+      "baseline": "be350c56e82badac9d1b8b64df76ddb7d47e56dd9d18c670768fcb1d45e15272",
+      "new": "be350c56e82badac9d1b8b64df76ddb7d47e56dd9d18c670768fcb1d45e15272",
+      "equal": true
+    }
+  },
+  "target_comparisons": [
+    {
+      "class": 0,
+      "old_target_sha256": "0b8c6e949e9d5ee264c50e3286682e76035b27ca3904d39cb824a2b99406785d",
+      "new_target_sha256": "0b8c6e949e9d5ee264c50e3286682e76035b27ca3904d39cb824a2b99406785d",
+      "exact_binary_hash_equal": true,
+      "max_absolute_component_difference": 0.0,
+      "JSD_of_recomputed_teacher_center_against_old_target": 0.0
+    },
+    {
+      "class": 1,
+      "old_target_sha256": "8599514d794c4704564d3f5b3bb5800f3f6d199b145763ccfedf4f9b27315862",
+      "new_target_sha256": "8599514d794c4704564d3f5b3bb5800f3f6d199b145763ccfedf4f9b27315862",
+      "exact_binary_hash_equal": true,
+      "max_absolute_component_difference": 0.0,
+      "JSD_of_recomputed_teacher_center_against_old_target": 0.0
+    },
+    {
+      "class": 2,
+      "old_target_sha256": "58660088908ae1520f4be89c52e4b48b6c7c77fde44c9e94301fe99190f5263c",
+      "new_target_sha256": "58660088908ae1520f4be89c52e4b48b6c7c77fde44c9e94301fe99190f5263c",
+      "exact_binary_hash_equal": true,
+      "max_absolute_component_difference": 0.0,
+      "JSD_of_recomputed_teacher_center_against_old_target": 0.0
+    }
+  ],
+  "new_class_counts": [
+    50,
+    50,
+    50
+  ],
+  "observed_masked_counts": [
+    0,
+    8,
+    22,
+    10,
+    36
+  ],
+  "strict_pairing_pass": true
+}

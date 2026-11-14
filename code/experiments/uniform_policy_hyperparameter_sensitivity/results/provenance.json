@@ -1,0 +1,88 @@
+{
+  "schema": "ch4-experiment-evidence-v1",
+  "id": "E-CH4-04",
+  "title_fa": "ارزیابی سیاست یکنواخت و تحلیل حساسیت ابرپارامترهای گشت",
+  "status": "nine_earlier_exact_walk_runs_repackaged_and_charted_no_retraining_or_test",
+  "branch": "chapter4",
+  "source": {
+    "file": "code/experiments/benchmark_v1/results/pipeline_v1/fixed_baselines_summary_20261109.csv",
+    "git_blob_sha1": "e159498e7fc7a21b45dbca3a98f5576dee4ebf18",
+    "source_uniform_filter": "kind == uniform",
+    "source_run_count": 13,
+    "uniform_records": 9,
+    "original_code_commit": "2d99627bcefa2a222a1431bbbacdf0c492898a13",
+    "verified_action_run": "https://github.com/mahhammad/My-Thesis/actions/runs/42649911898",
+    "snapshots": "chapter4-fixed-baselines GitHub Actions artifact; may expire after retention",
+    "script": "code/experiments/benchmark_v1/experiment_fixed_baselines.py",
+    "independent_round_trip_script": "code/experiments/benchmark_v1/verify_fixed_baselines.py"
+  },
+  "generator": {
+    "config": "code/data_generator/config.json",
+    "config_git_blob_sha1": "047d3758417618740b1217eb573db60dcb92607b",
+    "data_seed": 20261102,
+    "split_strategy": "independently seeded Train/Validation from common generator",
+    "train_n": 300,
+    "validation_n": 90,
+    "train_class_counts": [
+      72,
+      147,
+      81
+    ],
+    "validation_class_counts": [
+      13,
+      49,
+      28
+    ],
+    "query_reference": "train samples",
+    "label_leakage": false,
+    "historical_test_accessed": false
+  },
+  "policy": {
+    "type": "shared_uniform",
+    "logit_matrix": "Z=zeros((d+1,d))",
+    "d": 5,
+    "K": 3,
+    "learned": false,
+    "masked_softmax": "renormalize over observed and valid current features",
+    "reference_origin_exclusion": "all Train walk steps",
+    "validation_reference_only_train": true
+  },
+  "compute": {
+    "engine": "ExactMaskedWalk",
+    "dtype": "float64",
+    "beta_default": 0.4,
+    "lambda_default": 0.8,
+    "H_default": 12,
+    "sweep": "one factor at a time",
+    "formula_EL": "(1-(1-beta)^H)/beta",
+    "effective_depth": "sum_{t=1}^H t*alpha_t^(H)",
+    "coefficient_definition": "code/experiments/benchmark_v1/engine.py:coefficients()",
+    "tau": 0.005,
+    "training_steps": 0
+  },
+  "run_ids": [
+    "uniform_a0p000_b0p400_l0p800_h12",
+    "uniform_a0p000_b0p200_l0p800_h12",
+    "uniform_a0p000_b0p700_l0p800_h12",
+    "uniform_a0p000_b0p400_l0p400_h12",
+    "uniform_a0p000_b0p400_l1p000_h12",
+    "uniform_a0p000_b0p400_l0p800_h1",
+    "uniform_a0p000_b0p400_l0p800_h2",
+    "uniform_a0p000_b0p400_l0p800_h3",
+    "uniform_a0p000_b0p400_l0p800_h4"
+  ],
+  "measures": {
+    "I": "train, center separation",
+    "R_JS": "train, class-balanced within-class Jensen-Shannon divergence",
+    "R_KL": "train, class-balanced KL divergence",
+    "R_sqrt_JS": "train, class-balanced sqrt JSD",
+    "BA_train": "train, class-balanced accuracy",
+    "BA_val": "validation, class-balanced accuracy",
+    "median_margin": "validation, median true-class score margin",
+    "note": "equal BA does not prove identical predictions"
+  },
+  "derived_from": "results/uniform_runs.csv",
+  "report": "REPORT_FA.md",
+  "thesis_label": "sec:ch4-fixed-policy-evaluation",
+  "next_experiment": "guided policy, separate section 4.5 (not part of this nine-run dataset)"
+}

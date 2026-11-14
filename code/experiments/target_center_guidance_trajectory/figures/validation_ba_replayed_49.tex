@@ -1,0 +1,68 @@
+% Source results/metrics_full.json#replayed_fixed_targets
+% filled points: 25 original historical validation measures; hollow: 24 newly replayed, unselected.
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[x=.20cm,y=.052cm]
+\draw[->] (0,0)--(51,0);
+\draw[->] (0,0)--(0,104);
+\foreach \x in {0,12,24,36,48}{\draw[gray!40] (\x,0)--(\x,100);\node[font=\scriptsize,anchor=north] at (\x,-1) {\x};}
+\foreach \y in {0,25,50,75,100}{\draw[gray!25] (0,\y)--(48,\y);\node[font=\scriptsize,anchor=east] at (-.7,\y) {\y};}
+\fill[blue!75!black] (0,72.6060) circle (2.2pt);
+\fill[blue!75!black] (1,77.1978) circle (2.2pt);
+\fill[blue!75!black] (2,76.5044) circle (2.2pt);
+\fill[blue!75!black] (3,79.3956) circle (2.2pt);
+\fill[blue!75!black] (4,83.8305) circle (2.2pt);
+\fill[blue!75!black] (5,80.0628) circle (2.2pt);
+\fill[blue!75!black] (6,75.4710) circle (2.2pt);
+\fill[blue!75!black] (7,77.5249) circle (2.2pt);
+\fill[blue!75!black] (8,74.9738) circle (2.2pt);
+\fill[blue!75!black] (9,74.4505) circle (2.2pt);
+\fill[blue!75!black] (10,64.3773) circle (2.2pt);
+\fill[blue!75!black] (11,74.1104) circle (2.2pt);
+\fill[blue!75!black] (12,74.7776) circle (2.2pt);
+\fill[blue!75!black] (13,70.3428) circle (2.2pt);
+\fill[blue!75!black] (14,56.6981) circle (2.2pt);
+\draw[very thick,blue!75!black] (15,54.8273) circle (2.3pt);
+\draw[very thick,blue!75!black] (16,64.5735) circle (2.3pt);
+\fill[blue!75!black] (17,53.6499) circle (2.2pt);
+\draw[very thick,blue!75!black] (18,50.2355) circle (2.3pt);
+\draw[very thick,blue!75!black] (19,54.5264) circle (2.3pt);
+\fill[blue!75!black] (20,47.5275) circle (2.2pt);
+\draw[very thick,blue!75!black] (21,44.4662) circle (2.3pt);
+\draw[very thick,blue!75!black] (22,38.1606) circle (2.3pt);
+\fill[blue!75!black] (23,40.0445) circle (2.2pt);
+\draw[very thick,blue!75!black] (24,42.5955) circle (2.3pt);
+\draw[very thick,blue!75!black] (25,39.5343) circle (2.3pt);
+\fill[blue!75!black] (26,42.6086) circle (2.2pt);
+\draw[very thick,blue!75!black] (27,38.6839) circle (2.3pt);
+\draw[very thick,blue!75!black] (28,34.9163) circle (2.3pt);
+\fill[blue!75!black] (29,41.9021) circle (2.2pt);
+\draw[very thick,blue!75!black] (30,31.1617) circle (2.3pt);
+\draw[very thick,blue!75!black] (31,30.8216) circle (2.3pt);
+\fill[blue!75!black] (32,30.1413) circle (2.2pt);
+\draw[very thick,blue!75!black] (33,32.5353) circle (2.3pt);
+\draw[very thick,blue!75!black] (34,32.5353) circle (2.3pt);
+\fill[blue!75!black] (35,35.0863) circle (2.2pt);
+\draw[very thick,blue!75!black] (36,34.5761) circle (2.3pt);
+\fill[blue!75!black] (37,36.9571) circle (2.2pt);
+\draw[very thick,blue!75!black] (38,36.7739) circle (2.3pt);
+\draw[very thick,blue!75!black] (39,34.7200) circle (2.3pt);
+\draw[very thick,blue!75!black] (40,32.1559) circle (2.3pt);
+\draw[very thick,blue!75!black] (41,36.0806) circle (2.3pt);
+\fill[blue!75!black] (42,37.4673) circle (2.2pt);
+\draw[very thick,blue!75!black] (43,35.9105) circle (2.3pt);
+\draw[very thick,blue!75!black] (44,35.9105) circle (2.3pt);
+\draw[very thick,blue!75!black] (45,36.6039) circle (2.3pt);
+\draw[very thick,blue!75!black] (46,35.2433) circle (2.3pt);
+\draw[very thick,blue!75!black] (47,34.0398) circle (2.3pt);
+\fill[blue!75!black] (48,34.0398) circle (2.2pt);
+\fill[blue!75!black] (10,115) circle (2.2pt);
+\node[font=\scriptsize,anchor=west] at (12,115) {۲۵ مشاهده تاریخی};
+\draw[very thick,blue!75!black] (32,115) circle (2.3pt);
+\node[font=\scriptsize,anchor=west] at (34,115) {۲۴ بازپخش جدید};
+\node[font=\small] at (25,-11) {دور};
+\node[font=\small,rotate=90] at (-7,50) {دقت متوازن اعتبارسنجی (درصد)};
+\end{tikzpicture}
+\caption{دقت متوازن اعتبارسنجی در ۴۹ هدف ثابت تاریخی: نقطه پر ۲۵ مشاهده اصلی و دایره توخالی ۲۴ بازپخش جدید است. گزینش پیشین دور چهار صرفاً بر ۲۵ مقدار مشاهده‌شده اولیه تکیه داشت و با نتایج جدید بازانتخاب نشده است.}
+\label{fig:ch4-target-center-trajectory-validation}
+\end{figure}

@@ -1,0 +1,48 @@
+{
+  "block": "INV01-B01-n150-data20261102",
+  "version": "B01_v2",
+  "researcher": "RESEARCHER-01",
+  "status": "stopped",
+  "stop_reason": "B01/B01_v2 pairing mismatch in source_train_X_sha256",
+  "wall_numerical_seconds": 0.09018428499999231,
+  "peak_rss_mib": 331.62890625,
+  "expected_solver_runs": 18,
+  "completed_solver_runs": 0,
+  "summaries": {
+    "Q-only": {
+      "complete": 0,
+      "successes": 0,
+      "mean_best_JSD": null,
+      "max_best_JSD": null,
+      "sum_inclusive_solver_time_s": 0
+    },
+    "Exact-Adam": {
+      "complete": 0,
+      "successes": 0,
+      "mean_best_JSD": null,
+      "max_best_JSD": null,
+      "sum_inclusive_solver_time_s": 0
+    },
+    "Q+Bootstrap-GN": {
+      "complete": 0,
+      "successes": 0,
+      "mean_best_JSD": null,
+      "max_best_JSD": null,
+      "sum_inclusive_solver_time_s": 0
+    }
+  },
+  "runs": [],
+  "target_metadata": null,
+  "random_start_regression": null,
+  "manifest_sha256": null,
+  "notes": [
+    "B01_v2 is a separate versioned repeat of the exact same 18 paired solver cases; no legacy overwrite.",
+    "Plateau only diagnostic, no optimizer is terminated by plateau.",
+    "Best selected policy is the exact-JSD-minimum checkpoint, and final policy is separately preserved.",
+    "Not the full 108 matrix; this is the first gated 18-solver block.",
+    "No independent data-generator repeats in B01: all classes share one generated train dataset.",
+    "Solver method wall includes P2 checkpoint logging/monitoring, exact-forward each step.",
+    "GN inclusive time and counts include Q warmup plus optional neutral restart.",
+    "A class target is guaranteed attainable by a hidden witness; no inference uniqueness/accuracy claims."
+  ]
+}

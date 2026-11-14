@@ -1,0 +1,57 @@
+{
+  "schema": "chapter4-metric-coverage-v2",
+  "experiment_id": "E-CH4-04",
+  "contract": "code/experiments/COMMON_METRICS_CONTRACT.json",
+  "full_report": "results/metrics_full.json",
+  "summary_csv": "results/metrics_summary.csv",
+  "all_required_center_representation_metrics": "measured",
+  "configurations": 9,
+  "independent_generator_seeds": 1,
+  "data_split": {
+    "train": 300,
+    "validation": 90,
+    "test": "not_accessed"
+  },
+  "calculation": "exact expected random walks, shared class-independent inference, regenerated only for missing aggregate metrics, original published scores verified unchanged",
+  "measured_groups": [
+    "R_KL/R",
+    "R_JS",
+    "R_sqrt_JS",
+    "R_per_class",
+    "T",
+    "BT",
+    "TNL",
+    "BTNL",
+    "I",
+    "pairwise_JS_matrix",
+    "pairwise_sqrt_JS_matrix",
+    "nearest_center_sqrt_JS_per_class",
+    "min_mean_center_distances",
+    "BA",
+    "Accuracy",
+    "confusion",
+    "per_class_accuracy",
+    "margins",
+    "JS_NLL",
+    "KL_NLL",
+    "sigmoid_margin"
+  ],
+  "not_applicable": [
+    {
+      "group": "new_validation_center_geometry",
+      "reason": "Only Train centers are fitted; same Train center geometry is used for Validation. Do not refit centers on Validation."
+    },
+    {
+      "group": "between_seed_SD_or_CI",
+      "reason": "one generator seed and one Train/Validation split, distinct configurations are not statistically independent replications"
+    }
+  ],
+  "not_measured": [],
+  "not_verified": [],
+  "other_notes": [
+    "All score definitions, ties, normalized historical KL variant and class-balance rules are documented in report_snapshot.py and COMMON_METRICS_CONTRACT.json",
+    "Original historical CSV and figures for uniform were not overwritten."
+  ],
+  "unavailable_null_fields": [],
+  "verified_action": "https://github.com/mahhammad/My-Thesis/actions/runs/42769091658"
+}

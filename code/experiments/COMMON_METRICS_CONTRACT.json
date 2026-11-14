@@ -1,0 +1,143 @@
+{
+  "schema": "chapter4-common-evaluation-contract-v2",
+  "scope": "experiments with labeled neighborhood representations and class centers; Q-only studies declare not_applicable",
+  "source_of_truth": {
+    "center_definition": "tex/chapter3.tex#eq:ch3-class-center",
+    "within_R": "tex/chapter3.tex#eq:ch3-R-average",
+    "within_R_JS_and_sqrt": "tex/chapter3.tex#eq:ch3-R-JS-forms",
+    "center_separation": "tex/chapter3.tex#subsec:ch3-center-separation-criteria",
+    "pairwise_center_distance": "tex/chapter3.tex#eq:ch3-js-center-separation",
+    "balanced_accuracy": "tex/chapter3.tex#eq:ch3-js-exact-balanced-accuracy",
+    "margin": "tex/chapter3.tex#eq:ch3-js-margin-distance-difference",
+    "sigmoid": "tex/chapter3.tex#eq:ch3-js-sigmoid-balanced-objective",
+    "canonical_center_math": "code/policy_evaluator/metrics.py:center_metrics",
+    "canonical_reporter": "code/experiments/benchmark_v1/report_snapshot.py:standard_metrics"
+  },
+  "calculation": {
+    "class_aggregation": "equal class weight omega_c=1/K; means within each class then across classes",
+    "center_source": "arithmetic mean of corresponding train representations, held fixed on validation",
+    "one_center_set_per_policy": true,
+    "logs": "natural",
+    "JS": "entropy(mid) - .5*(entropy(p)+entropy(q)); sqrt means sqrt for each sample BEFORE mean",
+    "KL": "D_KL(P||center); +Infinity if positive P mass unsupported by center, no hidden epsilon clipping in primary R",
+    "margin": "normalized JS similarity of candidate hypothesis vs class-specific center; score true minus strongest rival",
+    "ties": "argmax chooses lowest class index; report exact ties separately",
+    "uncertainty": "separate independent seeds from repeated correlated rounds/parameter settings",
+    "unavailable_states": [
+      "not_applicable",
+      "not_measured",
+      "undefined_or_infinite",
+      "not_verified"
+    ],
+    "test_split": "no Test reuse for model selection"
+  },
+  "metric_groups": [
+    {
+      "group": "density",
+      "center_only": false,
+      "split": [
+        "train",
+        "validation"
+      ],
+      "ids": [
+        "R_KL",
+        "R_JS",
+        "R_sqrt_JS",
+        "mean_true_class_similarity"
+      ],
+      "per_class": true,
+      "required": true
+    },
+    {
+      "group": "center_geometry",
+      "center_only": true,
+      "split": [
+        "train"
+      ],
+      "ids": [
+        "T",
+        "BT",
+        "TNL",
+        "BTNL",
+        "I",
+        "min_pairwise_sqrt_JS",
+        "mean_pairwise_sqrt_JS",
+        "mean_pairwise_JS",
+        "pairwise_sqrt_JS",
+        "pairwise_JS",
+        "nearest_center_sqrt_JS_per_class"
+      ],
+      "per_class": true,
+      "required": true
+    },
+    {
+      "group": "classification",
+      "center_only": false,
+      "split": [
+        "train",
+        "validation"
+      ],
+      "ids": [
+        "balanced_accuracy",
+        "ordinary_accuracy",
+        "confusion_true_rows_pred_cols",
+        "per_class_recall",
+        "tie_count",
+        "margin_quantiles",
+        "hard_margin_error_conservative"
+      ],
+      "per_class": true,
+      "required": true
+    },
+    {
+      "group": "classification_surrogates",
+      "center_only": false,
+      "split": [
+        "train",
+        "validation"
+      ],
+      "ids": [
+        "balanced_sigmoid_margin_loss",
+        "balanced_JS_similarity_NLL",
+        "balanced_softplus_all_rivals",
+        "NLL_KL_simple",
+        "NLL_KL_normalized_historical"
+      ],
+      "per_class": false,
+      "required": true
+    },
+    {
+      "group": "experiment_specific",
+      "required": "where applicable",
+      "examples": [
+        "Q TV error and sqrt-JSD to population; expected walk depth, runtime, target-realized JSD, training optimizer objective"
+      ],
+      "per_class": false
+    }
+  ],
+  "artifact_standard": {
+    "folder": "code/experiments/<slug>/",
+    "required": [
+      "README_FA.md",
+      "REPORT_FA.md",
+      "results/",
+      "tables/",
+      "figures/",
+      "test_*.py"
+    ],
+    "preferred": [
+      "results/metrics_full.json",
+      "results/metrics_summary.csv",
+      "results/provenance.json",
+      "results/coverage.json"
+    ],
+    "legacy": "preserve original files in archive, link to original SHA, do not silently replace",
+    "status_conventions": {
+      "measured": "contains numeric value including observed zero",
+      "not_applicable": "not defined for experiment",
+      "not_measured": "necessary raw representations/labels not retained or not run",
+      "undefined_or_infinite": "mathematical support/empty-class issue",
+      "not_verified": "historical number not recomputed against current contract"
+    }
+  }
+}

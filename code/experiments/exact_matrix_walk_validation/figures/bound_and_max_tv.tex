@@ -1,0 +1,32 @@
+% Source: results/experiment_report.json, epsilon and max individual Train TV
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[x=1cm,y=1cm]
+\draw[->] (.65,1)--(7.2,1);
+\draw[->] (.65,1)--(.65,5.1);
+\node[font=\small] at (3.7,.3) {عمق محاسبه $r$};
+\node[font=\small,rotate=90] at (.15,3) {TV};
+\node[font=\scriptsize,anchor=north] at (1.200,.94) {2};
+\node[font=\scriptsize,anchor=north] at (2.240,.94) {3};
+\node[font=\scriptsize,anchor=north] at (3.280,.94) {4};
+\node[font=\scriptsize,anchor=north] at (4.320,.94) {6};
+\node[font=\scriptsize,anchor=north] at (5.360,.94) {8};
+\node[font=\scriptsize,anchor=north] at (6.400,.94) {12};
+\draw[gray!30] (.70,1.000)--(6.8,1.000);
+\node[font=\scriptsize,anchor=east] at (.61,1.000) {0.00};
+\draw[gray!30] (.70,1.931)--(6.8,1.931);
+\node[font=\scriptsize,anchor=east] at (.61,1.931) {0.04};
+\draw[gray!30] (.70,2.863)--(6.8,2.863);
+\node[font=\scriptsize,anchor=east] at (.61,2.863) {0.08};
+\draw[gray!30] (.70,3.794)--(6.8,3.794);
+\node[font=\scriptsize,anchor=east] at (.61,3.794) {0.12};
+\draw[very thick,black] plot coordinates {(1.200,4.214) (2.240,2.377) (3.280,1.610) (4.320,1.126) (5.360,1.026) (6.400,1.000)};
+\draw[very thick,blue] plot coordinates {(1.200,1.751) (2.240,1.310) (3.280,1.134) (4.320,1.027) (5.360,1.006) (6.400,1.000)};
+\draw[very thick,orange!85!black] plot coordinates {(1.200,1.838) (2.240,1.428) (3.280,1.214) (4.320,1.052) (5.360,1.012) (6.400,1.000)};
+\node[font=\scriptsize,anchor=west] at (4.9,4.65) {سیاه: کران $\varepsilon_r$};
+\node[font=\scriptsize,anchor=west] at (4.9,4.35) {آبی: بیشینه TV یکنواخت};
+\node[font=\scriptsize,anchor=west] at (4.9,4.05) {نارنجی: بیشینه TV مشترک};
+\end{tikzpicture}
+\caption{بیشینه خطای تک‌نمونه‌ای روی مرجع کامل در برابر کران جهانی حذف عمق؛ نمودار فقط ادعای کنترل خطا در این دو سیاست را بررسی می‌کند.}
+\label{fig:ch4-matrix-truncation-bound}
+\end{figure}

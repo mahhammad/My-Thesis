@@ -1,0 +1,35 @@
+{
+  "data_seed": 20261102,
+  "oracle": "True class-conditional Gaussian posterior with observed-feature mask; diagnostic only",
+  "train": {
+    "n_samples": 300,
+    "class_counts": [
+      72,
+      147,
+      81
+    ],
+    "bayes_empirical_balanced_accuracy": 0.8431699840429999,
+    "bayes_empirical_ordinary_accuracy": 0.8266666666666667
+  },
+  "validation": {
+    "n_samples": 90,
+    "class_counts": [
+      13,
+      49,
+      28
+    ],
+    "bayes_empirical_balanced_accuracy": 0.9744897959183674,
+    "bayes_empirical_ordinary_accuracy": 0.9666666666666667
+  },
+  "test": {
+    "n_samples": 120,
+    "class_counts": [
+      30,
+      53,
+      37
+    ],
+    "bayes_empirical_balanced_accuracy": 0.8388067312595614,
+    "bayes_empirical_ordinary_accuracy": 0.8583333333333333
+  },
+  "interpretation": "The fixed validation split is far easier even for the true Bayes classifier. Training origin exclusion differs from out-of-reference validation. Not a comparable generalization gap."
+}

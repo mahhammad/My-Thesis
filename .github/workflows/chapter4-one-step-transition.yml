@@ -1,0 +1,37 @@
+name: Chapter 4 one-step Q validation artifacts
+
+on:
+  push:
+    branches: [chapter4]
+    paths:
+      - 'code/experiments/one_step_transition_population_convergence/**'
+      - '.github/workflows/chapter4-one-step-transition.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-existing-results:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install light numeric dependency
+        run: python -m pip install numpy
+      - name: Validate existing raw statistics, table rows and plot coordinates
+        run: |
+          python -m unittest discover -v \
+            -s code/experiments/one_step_transition_population_convergence -p 'test_*.py'
+      - name: Confirm no historical Test in analysis entry point
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          src = Path("code/experiments/one_step_transition_population_convergence/compare.py").read_text()
+          assert 'generate(' not in src or 'data_generator.generate(' in src
+          assert 'children[2]' not in src and '["test"]' not in src
+          print("No Test split is materialized by the comparison script")
+          PY

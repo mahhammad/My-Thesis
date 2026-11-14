@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="435" viewBox="0 0 980 435" role="img" aria-label="Balanced accuracy Train and Validation under direct Uniform and zero-noise Guided probability mixtures">
+<rect width="980" height="435" fill="#fff"/>
+<text x="50" y="36" fill="#21344c" font-family="sans-serif" font-size="24" font-weight="600">Probability-space mixture: classification accuracy</text>
+<text x="50" y="59" fill="#5d6879" font-family="sans-serif" font-size="14">No training; same reference graph, exact walk, 300 Train and 90 Validation</text>
+<line x1="105" y1="345" x2="910" y2="345" stroke="#556274" stroke-width="2"/>
+<line x1="105" y1="115" x2="105" y2="345" stroke="#556274" stroke-width="2"/>
+<line x1="105" y1="345.00" x2="900" y2="345.00" stroke="#d9e2ef" stroke-width="1"/><text x="94" y="350" fill="#536277" font-family="sans-serif" font-size="14" text-anchor="end">80%</text>
+<line x1="105" y1="292.50" x2="900" y2="292.50" stroke="#d9e2ef" stroke-width="1"/><text x="94" y="297.5" fill="#536277" font-family="sans-serif" font-size="14" text-anchor="end">85%</text>
+<line x1="105" y1="240.00" x2="900" y2="240.00" stroke="#d9e2ef" stroke-width="1"/><text x="94" y="245" fill="#536277" font-family="sans-serif" font-size="14" text-anchor="end">90%</text>
+<line x1="105" y1="187.50" x2="900" y2="187.50" stroke="#d9e2ef" stroke-width="1"/><text x="94" y="192.5" fill="#536277" font-family="sans-serif" font-size="14" text-anchor="end">95%</text>
+<line x1="105" y1="135.00" x2="900" y2="135.00" stroke="#d9e2ef" stroke-width="1"/><text x="94" y="140" fill="#536277" font-family="sans-serif" font-size="14" text-anchor="end">100%</text>
+<text x="115.00" y="372" fill="#42516a" font-family="sans-serif" font-size="15" text-anchor="middle">0.00</text>
+<text x="302.50" y="372" fill="#42516a" font-family="sans-serif" font-size="15" text-anchor="middle">0.25</text>
+<text x="490.00" y="372" fill="#42516a" font-family="sans-serif" font-size="15" text-anchor="middle">0.50</text>
+<text x="677.50" y="372" fill="#42516a" font-family="sans-serif" font-size="15" text-anchor="middle">0.75</text>
+<text x="865.00" y="372" fill="#42516a" font-family="sans-serif" font-size="15" text-anchor="middle">1.00</text>
+<text x="505" y="408" fill="#536277" font-family="sans-serif" font-size="15" text-anchor="middle">Mixture weight (alpha)</text>
+<polyline id="train-ba" points="115.00,306.72 302.50,299.57 490.00,301.51 677.50,303.89 865.00,303.89" fill="none" stroke="#2563eb" stroke-width="3"/>
+<polyline id="val-ba" points="115.00,168.93 302.50,176.07 490.00,176.07 677.50,176.07 865.00,176.07" fill="none" stroke="#dc2626" stroke-width="3"/>
+<circle cx="115.00" cy="306.72" fill="#2563eb" r="5"/><circle cx="115.00" cy="168.93" fill="#dc2626" r="5"/>
+<circle cx="302.50" cy="299.57" fill="#2563eb" r="5"/><circle cx="302.50" cy="176.07" fill="#dc2626" r="5"/>
+<circle cx="490.00" cy="301.51" fill="#2563eb" r="5"/><circle cx="490.00" cy="176.07" fill="#dc2626" r="5"/>
+<circle cx="677.50" cy="303.89" fill="#2563eb" r="5"/><circle cx="677.50" cy="176.07" fill="#dc2626" r="5"/>
+<circle cx="865.00" cy="303.89" fill="#2563eb" r="5"/><circle cx="865.00" cy="176.07" fill="#dc2626" r="5"/>
+<line x1="595" y1="91" x2="633" y2="91" stroke="#2563eb" stroke-width="4"/><text x="645" y="96" font-family="sans-serif" font-size="15">Train BA</text>
+<line x1="754" y1="91" x2="792" y2="91" stroke="#dc2626" stroke-width="4"/><text x="804" y="96" font-family="sans-serif" font-size="15">Validation BA</text>
+</svg>
