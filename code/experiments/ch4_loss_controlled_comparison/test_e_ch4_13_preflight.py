@@ -16,11 +16,14 @@ sys.path.insert(0, str(ROOT / "code/policy_evaluator"))
 sys.path.insert(0, str(ROOT / "code/data_generator"))
 from engine import DT, ExactMaskedWalk, jsd as torch_jsd, balanced
 from policy_interface import evaluate_policy
-from report_snapshot import standard_metrics
+from report_snapshot import standard_metrics, _COMMON_MODULE
 from snapshot_pipeline import save_snapshot, load_snapshot, array_fingerprint
 from dataset_adapter import dataset_train_val
 from generate import load_config
-from metrics import center_metrics, jsd, sqrt_jsd, kl_divergence
+center_metrics = _COMMON_MODULE.center_metrics
+jsd = _COMMON_MODULE.jsd
+sqrt_jsd = _COMMON_MODULE.sqrt_jsd
+kl_divergence = _COMMON_MODULE.kl_divergence
 
 def sample_graph():
     # Four nodes with two distinct classes; enough feasible destinations after
