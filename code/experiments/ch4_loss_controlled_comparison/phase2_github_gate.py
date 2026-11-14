@@ -124,6 +124,7 @@ def issue_gate(sha,branch,token,out,*,validate=validate_online,reserve=reserve_o
         "ci_url":proof["ci_url"],"source_sha":sha,
         "one_time_gate_token":secrets.token_hex(32),
         "used":False,"training_authorized":True,
+        "github_run_id":os.environ.get("GITHUB_RUN_ID"),
         "reservation_ref":ref,"fit_cap":FIT_CAP}
     # Only in temporary runner filesystem; NEVER commit or upload token-bearing gate.
     out=Path(out)
