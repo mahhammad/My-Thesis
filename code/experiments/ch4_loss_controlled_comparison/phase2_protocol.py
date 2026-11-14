@@ -22,7 +22,7 @@ TAU=.005
 LR=.12
 MAX_FITS=12
 SCHEMA="e-ch4-13-phase2-locked-grid-v1"
-AUTH_STATUS="PENDING_INDEPENDENT_QA"
+AUTH_STATUS="PENDING_PRELIMINARY_TECHNICAL_QA_AND_MANAGER_EXECUTION_AUTHORIZATION"
 AUTH_FILE=Path(__file__).resolve().parent/"phase2_execution_gate.json"
 
 @dataclass(frozen=True)
@@ -79,27 +79,38 @@ def expected_data_gate(records):
     return True
 
 def evidence_gate(*,execute,approval_file=AUTH_FILE,cli_token=None):
-    """Fail closed unless a *separate* official approval record is committed.
-    CI must independently verify the underlying GitHub Issue 80 verdict and
-    current HEAD PASS; this file is NOT itself independent authorization.
+    """Require PRELIMINARY technical review AND explicit manager execution gate.
+
+    Final scientific QA is postponed until after phase2 results. A local JSON
+    file cannot independently prove official GitHub authority: the protected
+    workflow MUST fetch and validate Issue #81 official approval and same-SHA
+    preflight logs using read-only API before setting external gate verified.
     """
     if not execute:
         return "DRY_RUN_NO_TRAINING"
     if not approval_file.is_file():
-        raise PermissionError("PILOT_QA_NOT_ACCEPTED: authorization record absent")
+        raise PermissionError("PRELIM_TECH_QA_AND_MANAGER_AUTHORIZATION_MISSING")
     approval=json.loads(approval_file.read_text("utf8"))
-    if (approval.get("status")!="EXECUTION_AUTHORIZED_AFTER_INDEPENDENT_QA"
-        or approval.get("issue_80_verdict")!="ACCEPT_PILOT_SCOPED"
+    technical=approval.get("technical_audit_url")
+    manager=approval.get("manager_authorization_url")
+    ci=approval.get("ci_url")
+    if (approval.get("status")!="PHASE2_EXECUTION_AUTHORIZED"
+        or approval.get("technical_audit_status")!="PASS"
         or approval.get("phase2_tests")!="PASS"
-        or not approval.get("audit_comment_url","").startswith(
-            "https://github.com/mahhammad/My-Thesis/issues/80#issuecomment-")
-        or not approval.get("ci_url","").startswith(
-            "https://github.com/mahhammad/My-Thesis/actions/runs/")
-        or not approval.get("source_sha")
+        or not isinstance(technical,str)
+        or not technical.startswith("https://github.com/mahhammad/My-Thesis/issues/")
+        or "#issuecomment-" not in technical
+        or not isinstance(manager,str)
+        or not manager.startswith("https://github.com/mahhammad/My-Thesis/issues/81#issuecomment-")
+        or not isinstance(ci,str)
+        or not ci.startswith("https://github.com/mahhammad/My-Thesis/actions/runs/")
+        or not isinstance(approval.get("source_sha"),str)
+        or len(approval["source_sha"])!=40
+        or cli_token is None
         or cli_token!=approval.get("one_time_gate_token")):
-        raise PermissionError("PILOT_QA_NOT_ACCEPTED: no valid external gate")
-    if approval.get("used") is not False:
-        raise PermissionError("Execution budget already consumed")
+        raise PermissionError("FORMAL_PRELIMINARY_TECHNICAL_AND_MANAGER_GATE_NOT_VERIFIED")
+    if approval.get("used") is not False or approval.get("training_authorized") is not True:
+        raise PermissionError("Phase2 training not authorized or budget already consumed")
     return approval
 
 def budget_ledger_path(root):
@@ -130,7 +141,8 @@ def atomic_new_json(path,data):
 
 def plan_manifest():
     validate_grid(grid())
-    return {"schema":SCHEMA,"status":AUTH_STATUS,"authorization_issue":80,
+    return {"schema":SCHEMA,"status":AUTH_STATUS,"technical_audit_gate":"preliminary_separate_from_final_scientific_QA",
+        "authorization_issue":81,
         "manager_issue":81,"objective":"paired_loss_only",
         "n_train":N_TRAIN,"n_validation":N_VALIDATION,
         "data_seeds":list(SEEDS),"family_set":list(FAMILIES),"objective_set":list(LOSSES),
