@@ -26,6 +26,6 @@ jobs:
         run: python -m unittest discover -v -s code/experiments/ch4_loss_controlled_comparison -p 'test_*.py'
       - name: Run canonical snapshot and metric contract regression tests
         run: |
-          python -m unittest -v code/experiments/benchmark_v1/test_common_metrics_contract.py
-          python -m unittest -v code/experiments/benchmark_v1/test_snapshot_pipeline.py
-          python -m unittest -v code/experiments/benchmark_v1/test_snapshot_roundtrip.py
+          python -m unittest discover -v -s code/experiments/benchmark_v1 -p 'test_common_metrics_contract.py'
+          python -m unittest discover -v -s code/experiments/benchmark_v1 -p 'test_snapshot_pipeline.py'
+          python -m unittest discover -v -s code/experiments/benchmark_v1 -p 'test_snapshot_roundtrip.py'
