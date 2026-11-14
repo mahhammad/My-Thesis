@@ -37,5 +37,7 @@ def main():
       "test_accessed":False
     }
     print(json.dumps(result,indent=2))
+    if not all(z["match"] for z in result["fingerprints"].values()):
+        raise SystemExit("PILOT_BLOCKED: generator fingerprint mismatch; exact raw reproduction required")
     return result
 if __name__=="__main__":main()
