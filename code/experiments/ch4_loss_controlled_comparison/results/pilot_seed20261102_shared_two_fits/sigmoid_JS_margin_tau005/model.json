@@ -1,0 +1,165 @@
+{
+  "schema": "imc-snapshot-v2",
+  "created_utc": "2026-11-14T16:15:41.299064+00:00",
+  "family": "shared",
+  "policy_variant": "shared",
+  "policy_components": null,
+  "objective": {
+    "name": "sigmoid_JS_margin_tau005",
+    "tau": 0.005
+  },
+  "parameters": {
+    "logits": [
+      [
+        1.1797662468322716,
+        -1.186998305148769,
+        -1.1663341253927355,
+        -0.487857078481412,
+        -1.1563242063589105
+      ],
+      [
+        1.0669558745823169,
+        0.9318465323768605,
+        -0.9785436636315794,
+        -0.9917060956593626,
+        -0.9819126332003039
+      ],
+      [
+        0.570440374305172,
+        -1.0782361706927994,
+        1.1521857088192058,
+        1.0479255894277049,
+        -1.0812733639612544
+      ],
+      [
+        1.1259845449735093,
+        -1.13332548022137,
+        -1.1134001089090264,
+        1.1169258486320823,
+        -1.1142438429883592
+      ],
+      [
+        -0.9767108031457329,
+        0.8111748321272035,
+        1.0948236258415436,
+        -0.6763842060988059,
+        -1.0340938723508901
+      ],
+      [
+        1.10630713379825,
+        -1.1593819517766704,
+        -0.8492339220611854,
+        0.2953413919135374,
+        -1.0880158672454396
+      ]
+    ],
+    "shape": [
+      6,
+      5
+    ],
+    "gamma": [
+      0.8,
+      1.2,
+      0.5,
+      1.0,
+      0.6
+    ],
+    "beta": 0.4,
+    "lambda": 0.8,
+    "H": 12,
+    "dtype": "float64",
+    "walk": "exact-capped-geometric"
+  },
+  "data": {
+    "config_path": "code/data_generator/config.json",
+    "config_sha256": "c8b673b37ca70b3cb9793b93efcbb13dcf9a86d8e90d61692af2a6acf8f1c0ef",
+    "data_seed": 20261102,
+    "reference_seed": 20261107,
+    "reference_ids": [
+      54,
+      257,
+      118,
+      56,
+      66,
+      36,
+      188,
+      299,
+      230,
+      99,
+      53,
+      252,
+      76,
+      91,
+      246,
+      279,
+      68,
+      216,
+      271,
+      67,
+      265,
+      19,
+      145,
+      199,
+      198,
+      207,
+      170,
+      157,
+      135,
+      21,
+      52,
+      254,
+      16,
+      62,
+      289,
+      131,
+      39,
+      186,
+      182,
+      277,
+      107,
+      84,
+      175,
+      24,
+      173,
+      238,
+      9,
+      228,
+      298,
+      243
+    ],
+    "train_reference_x_sha256": "b24da48c856ab4ecd0f6364be58ddbe9609d4761733d8e919fd107a887ababb0",
+    "train_reference_y_sha256": "18e9eb6087b2e4435983d38134d229ec51d6eb852d2fe81df6d69fd25396d632",
+    "validation_x_sha256": "62c0ae201f8ec0f694854234050e085d9dd93fe43ed84104020f9292e2db5dc1",
+    "validation_count": 90,
+    "test_accessed": false
+  },
+  "prediction": {
+    "axis_order": [
+      "sample",
+      "candidate_class",
+      "destination_label"
+    ],
+    "validation_status": "available",
+    "query_start_source": null,
+    "query_start": null
+  },
+  "target": {
+    "centers": null,
+    "source": null
+  },
+  "provenance": {
+    "code_commit": "66a007928e129ad6dd5acffeaa93fc2485ee9775",
+    "notes": null
+  },
+  "experiment": {
+    "mission": "E-CH4-13",
+    "updates": 10,
+    "optimizer": "Adam",
+    "lr": 0.12,
+    "init": "zero",
+    "data_seed": 20261102,
+    "reference_seed": 20261107
+  },
+  "distributions_file": "distributions.npz",
+  "distributions_sha256": "8568f641f0fd3434ed65a9f7721ae00bf1ddc8a89ed264c7bd34b51bc66e533e"
+}
