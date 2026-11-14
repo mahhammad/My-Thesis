@@ -144,8 +144,12 @@ def fit_once(graph,family,objective,checkpoint_dir=None):
             # No resume/retraining permitted; this is forensic evidence only.
             atomic_new_json(Path(checkpoint_dir)/
                 f"step_{step:02d}.json",
-                {"update_completed":step,"raw_logits":z.detach().tolist(),
+                {"evaluated_at_updates":step,
+                 "optimizer_updates_applied_to_stored_logits":(
+                     step+1 if step<N_UPDATES else step),
+                 "raw_logits":z.detach().tolist(),
                  "trace_entry":row,"objective":objective,"family":family,
+                 "checkpoint_is_forensic_not_resume":True,
                  "test_accessed":False})
     if len(trace)!=26 or trace[-1]["update_completed"]!=25:
         raise AssertionError("Exactly 25 updates required")
