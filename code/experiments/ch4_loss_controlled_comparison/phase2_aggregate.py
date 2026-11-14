@@ -17,7 +17,9 @@ ROOT=HERE.parents[2]
 sys.path.insert(0,str(ROOT/"code/experiments/benchmark_v1"))
 sys.path.insert(0,str(ROOT/"code/data_generator"))
 from snapshot_pipeline import load_snapshot
-from report_snapshot import jsd,LN2,load_evaluation_labels
+from report_snapshot import jsd,LN2
+from snapshot_pipeline import array_fingerprint
+from phase2_frozen_data import load as load_frozen
 from phase2_protocol import grid,SEEDS,FAMILIES,LOSSES,MAX_FITS,atomic_new_json
 
 def file_hash(path):
@@ -57,7 +59,10 @@ def aggregate(base):
         model,arrays=validate_run(folder)
         if model["objective"]["name"]!=job.loss or model["data"]["data_seed"]!=job.seed:
             raise ValueError("Model protocol mismatch")
-        ytrain,yval=load_evaluation_labels(model,arrays)
+        (tx,ytrain),(vx,yval)=load_frozen(job.seed)
+        if (array_fingerprint(tx)!=model['data']['train_reference_x_sha256']
+            or array_fingerprint(vx)!=model['data']['validation_x_sha256']):
+            raise ValueError('Frozen Train/Validation and snapshot differ')
         if len(ytrain)!=300 or len(yval)!=90:raise ValueError("Split mismatch")
         pred,scores=predict(arrays)  # *no* Validation labels passed
         if len(pred)!=len(yval):raise ValueError("Prediction count mismatch")
