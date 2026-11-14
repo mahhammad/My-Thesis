@@ -1,7 +1,7 @@
 """E-CH4-13 Phase 2 full300/25-step paired runner.
 
-DRY RUN by default. NOT authorized for fitting until independent Issue #80
-positive verdict, manager-verified gate artifact, passing current-SHA CI and
+DRY RUN by default. NOT authorized for fitting until separate preliminary technical QA,
+manager's written execution authorization, verified gate artifact, passing current-SHA CI and
 single-use token are present. No automatic training on Git push.
 All 12 cells are one immutable fixed batch; failures charge budget and STOP,
 not silently retry. Uses Train/Validation adapter only, never Test.
@@ -187,7 +187,8 @@ def execute(out,source_sha,one_time_gate_token):
     atomic_new_json(out/"protocol.json",plan_manifest())
     atomic_new_json(out/"authorization_record.json",auth)
     provenance={"schema":"e-ch4-13-phase2-provenance-v1",
-       "source_commit":source_sha,"issue80_verdict_url":auth["audit_comment_url"],
+       "source_commit":source_sha,"preliminary_technical_audit_url":auth["technical_audit_url"],
+       "manager_execution_authorization_url":auth["manager_authorization_url"],
        "same_commit_ci":auth["ci_url"],"numpy":np.__version__,
        "torch":torch.__version__,"python":platform.python_version(),
        "blas_coretype":"generic","blas_threads":1,"test_accessed":False}
