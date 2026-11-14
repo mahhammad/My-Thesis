@@ -103,7 +103,7 @@ def fingerprint_match(info,expected):
                      ("config_sha256","config_sha256")):
         if info[snap]!=expected[key]:raise RuntimeError("CRITICAL_HASH_MISMATCH "+key)
 
-def fit_once(graph,family,objective):
+def fit_once(graph,family,objective,checkpoint_dir=None):
     """Exactly 25 optimizer updates; terminal step 25 is measured, not selected."""
     shape=((D+1,D) if family=="shared" else (K,D+1,D))
     z=torch.nn.Parameter(torch.zeros(shape,dtype=DT))
@@ -139,6 +139,14 @@ def fit_once(graph,family,objective):
         else:
             row["adam_update_l2"]=None
         trace.append(row)
+        if checkpoint_dir is not None:
+            # Each completed optimizer update is independently recoverable.
+            # No resume/retraining permitted; this is forensic evidence only.
+            atomic_new_json(Path(checkpoint_dir)/
+                f"step_{step:02d}.json",
+                {"update_completed":step,"raw_logits":z.detach().tolist(),
+                 "trace_entry":row,"objective":objective,"family":family,
+                 "test_accessed":False})
     if len(trace)!=26 or trace[-1]["update_completed"]!=25:
         raise AssertionError("Exactly 25 updates required")
     return z.detach(),trace,time.perf_counter()-started
@@ -251,7 +259,8 @@ def execute(out,source_sha,one_time_gate_token,authorization_path=None):
                         f"attempt_{ledger['attempt_count']:02d}.json",ledger)
         graph,vx,ids,rec=cached[job.seed]
         try:
-            z,trace,elapsed=fit_once(graph,job.family,job.loss)
+            z,trace,elapsed=fit_once(graph,job.family,job.loss,
+                checkpoint_dir=out/"optimizer_checkpoints"/job.key())
             # Save finished trace immediately. Reporter or snapshot failures
             # must not erase training effort or its computed gradient trajectory.
             atomic_new_json(job_path/"trace.json",trace)
@@ -263,39 +272,47 @@ def execute(out,source_sha,one_time_gate_token,authorization_path=None):
                  "exception_message":str(exc)[:2000],
                  "test_accessed":False})
             raise
-        save_snapshot(job_path,graph,z,job.family,reference_ids=ids,
-             config_path=CFG,config_reference="code/data_generator/config.json",
-             data_seed=job.seed,reference_seed=20261107,objective=job.loss,
-             tau=TAU,beta=BETA,lam=LAMBDA,horizon=H,validation_x=vx,
-             code_commit=source_sha,experiment_metadata={
-                 "phase":"E-CH4-13-phase2","family":job.family,"updates":N_UPDATES,
-                 "optimizer":"Adam","lr":LR,"zero_init":True,"paired":True,
-                 "reference_rule":"all_300_ordered_train","test_accessed":False})
-        model,arrays=load_snapshot(job_path)
-        fingerprint_match(model["data"],rec)
-        report=report_from_frozen(job_path,job.seed)
-        if report["validation"].get("status")!="ok":
-            raise ValueError("Validation unavailable, STOP")
-        if report["source"]["historical_test_accessed"]:
-            raise AssertionError("Test accessed")
-        atomic_new_json(job_path/"metrics_full.json",report)
-        atomic_new_json(job_path/"coverage.json",make_coverage(report,contract))
-        values={"run_key":job.key(),**job.to_dict(),
-            "train_ba":report["train"]["balanced_accuracy"],
-            "validation_ba":report["validation"]["balanced_accuracy"],
-            "I":report["train"]["I"],"R_KL":report["train"]["R_KL"],
-            "R_JS":report["train"]["R_JS"],"R_sqrt_JS":report["train"]["R_sqrt_JS"],
-            "elapsed_s":elapsed,"gradient_l2_init":trace[0]["gradient_l2"],
-            "gradient_l2_final":trace[-1]["gradient_l2"],
-            "margin_validation_median":report["validation"]["margin_quantiles"]["0.5"],
-            "trace_sha256":sha(job_path/"trace.json"),
-            "model_sha256":sha(job_path/"model.json"),
-            "distributions_sha256":sha(job_path/"distributions.npz"),
-            "metrics_full_sha256":sha(job_path/"metrics_full.json"),
-            "coverage_sha256":sha(job_path/"coverage.json")}
-        summary.append(values)
-        # A STOP leaves attempt charges visible but does not auto-retry or skip.
-        atomic_new_json(job_path/"run_evidence.json",values)
+        try:
+            save_snapshot(job_path,graph,z,job.family,reference_ids=ids,
+                 config_path=CFG,config_reference="code/data_generator/config.json",
+                 data_seed=job.seed,reference_seed=20261107,objective=job.loss,
+                 tau=TAU,beta=BETA,lam=LAMBDA,horizon=H,validation_x=vx,
+                 code_commit=source_sha,experiment_metadata={
+                     "phase":"E-CH4-13-phase2","family":job.family,"updates":N_UPDATES,
+                     "optimizer":"Adam","lr":LR,"zero_init":True,"paired":True,
+                     "reference_rule":"all_300_ordered_train","test_accessed":False})
+            model,arrays=load_snapshot(job_path)
+            fingerprint_match(model["data"],rec)
+            report=report_from_frozen(job_path,job.seed)
+            if report["validation"].get("status")!="ok":
+                raise ValueError("Validation unavailable, STOP")
+            if report["source"]["historical_test_accessed"]:
+                raise AssertionError("Test accessed")
+            atomic_new_json(job_path/"metrics_full.json",report)
+            atomic_new_json(job_path/"coverage.json",make_coverage(report,contract))
+            values={"run_key":job.key(),**job.to_dict(),
+                "train_ba":report["train"]["balanced_accuracy"],
+                "validation_ba":report["validation"]["balanced_accuracy"],
+                "I":report["train"]["I"],"R_KL":report["train"]["R_KL"],
+                "R_JS":report["train"]["R_JS"],"R_sqrt_JS":report["train"]["R_sqrt_JS"],
+                "elapsed_s":elapsed,"gradient_l2_init":trace[0]["gradient_l2"],
+                "gradient_l2_final":trace[-1]["gradient_l2"],
+                "margin_validation_median":report["validation"]["margin_quantiles"]["0.5"],
+                "trace_sha256":sha(job_path/"trace.json"),
+                "model_sha256":sha(job_path/"model.json"),
+                "distributions_sha256":sha(job_path/"distributions.npz"),
+                "metrics_full_sha256":sha(job_path/"metrics_full.json"),
+                "coverage_sha256":sha(job_path/"coverage.json")}
+            summary.append(values)
+            # A STOP leaves attempt charges visible but does not auto-retry or skip.
+            atomic_new_json(job_path/"run_evidence.json",values)
+        except BaseException as exc:
+            atomic_new_json(out/"failures"/
+                (job.key()+"_report.json"),
+                {"run_key":job.key(),"attempt_charged":True,
+                 "stage":"snapshot_or_report","exception_type":type(exc).__name__,
+                 "exception_message":str(exc)[:2000],"test_accessed":False})
+            raise
         atomic_new_json(out/"success_checkpoints"/
                         f"fit_{ledger['attempt_count']:02d}.json",values)
     if len(summary)!=MAX_FITS or ledger["attempt_count"]!=MAX_FITS:
