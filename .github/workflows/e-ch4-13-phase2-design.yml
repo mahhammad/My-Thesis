@@ -50,7 +50,11 @@ jobs:
           PY
       - name: Execute independent phase2 fixtures and pilot immutability checks
         run: |
-          python -m unittest discover -v -s code/experiments/ch4_loss_controlled_comparison -p 'test_*.py'
+          python code/experiments/ch4_loss_controlled_comparison/diagnose_fingerprints.py
+          python -m unittest discover -v -s code/experiments/ch4_loss_controlled_comparison -p 'test_phase2_design.py'
+          python -m unittest discover -v -s code/experiments/ch4_loss_controlled_comparison -p 'test_e_ch4_13_preflight.py'
+          python code/experiments/ch4_loss_controlled_comparison/diagnose_fingerprints.py
+          python -m unittest discover -v -s code/experiments/ch4_loss_controlled_comparison -p 'test_pilot_saved_evidence.py'
       - name: Execute canonical snapshot and metric regression tests
         run: |
           python -m unittest discover -v -s code/experiments/benchmark_v1 -p 'test_common_metrics_contract.py'
