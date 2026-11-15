@@ -1,8 +1,8 @@
 name: Chapter 4 complete metric evidence contract
 
 on:
-  push:
-    branches: [chapter4]
+  pull_request:
+    branches: [main]
     paths:
       - 'code/experiments/COMMON_METRICS_CONTRACT.json'
       - 'code/experiments/test_common_reports_complete.py'

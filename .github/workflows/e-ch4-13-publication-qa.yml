@@ -1,16 +1,16 @@
 name: E-CH4-13 scientific presentation re-QA (NO FIT)
 on:
-  push:
-    branches:
-      - experiment/ch4-loss-controlled-comparison-01
+  pull_request:
+    branches: [main]
     paths:
-      - 'code/experiments/ch4_loss_controlled_comparison/PHASE2_LATEX_QA_TRIGGER.md'
+      - 'code/experiments/ch4_loss_controlled_comparison/**'
+      - 'tex/chapter4.tex'
       - '.github/workflows/e-ch4-13-publication-qa.yml'
+  workflow_dispatch:
 permissions:
   contents: read
 jobs:
   reproducibility-and-tex-assets:
-    if: contains(github.event.head_commit.message, '[E13_LATEX_QA_EXPLICIT]')
     runs-on: ubuntu-latest
     timeout-minutes: 12
     steps:
