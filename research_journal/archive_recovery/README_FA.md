@@ -43,3 +43,15 @@ python research_journal/archive_recovery/restore_archive.py --dest /tmp/imc-reco
 نتایج آرشیوی قدیمی (از جمله مطالعات ۷۲نمونه‌ای و نسخه‌های دارای باگ اصلاح‌شده) **نباید خودکار به سطح شواهد پذیرفته‌شده ارتقا یابند**. بسته رسمی §۴.۱۲ در `code/experiments/standard_policy_comparison/results/` با چهار ZIP و مانیفست QA76 باقی می‌ماند. QA76 فقط ۸۳۶ معیار مرکز را پوشش می‌دهد، نه ۴۴ شناسه غیرمرکزمحور.
 
 **حذف از checkout به معنی بازنویسی تاریخچه Git نیست.** بازیابی به تگ موجود و سالم‌ماندن اشیای Git وابسته است؛ پیش از هر `git gc` مهاجم، مهاجرت مخزن یا حذف تگ باید نسخه مستقل مالک نیز بررسی شود.
+
+## بازپخش تاریخی نیازمند بازیابی دستی
+
+اسکریپت `code/experiments/benchmark_v1/replay_fixed_center_archive.py` همچنان برای بازارزیابی تاریخی به بسته `margin_fixed_centers_complete.zip` احتیاج دارد. این بسته عمداً در checkout فعال نگهداری نمی‌شود. پیش از اجرای آن، آرشیو را با دستور بالای همین صفحه در مسیری جدا بازیابی و سپس ZIP را صریحاً معرفی کنید:
+
+```bash
+python code/experiments/benchmark_v1/replay_fixed_center_archive.py \
+  --archive /tmp/imc-recovered-archive/historical_archive/archives/margin_fixed_centers_complete.zip \
+  --out /tmp/fixed_center_backfill.json
+```
+
+این بازپخش، بخشی از CI فقط‌خواندنیِ پاک‌سازی نیست و در این PR اجرا نشده است. اسکریپت‌های قدیمی دیگر نیز ممکن است به پیش‌نیازهای تاریخی نیاز داشته باشند؛ موفقیت آزمون‌های snapshot/آرشیو به معنای بازاجرای همه آنها نیست.
