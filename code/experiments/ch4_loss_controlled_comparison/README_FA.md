@@ -2200,3 +2200,16 @@ This file is an opt-in **nontraining** workflow marker; after completion, the de
 
 
 </details>
+
+
+---
+
+### پیوست ممیزی تگ — اجرای تاریخی و نقشهٔ ذخیره‌سازی (§۴.۱۳)
+
+**سؤال و طرح:** مقایسهٔ کنترل‌شدهٔ دو زیان Sigmoid-JS و Softplus-JS در فاز دوم با ۱۲ آموزش واقعی، ۳ seed مولد و ۶ جفت هم‌تنظیم. گزارش‌های پایلوت، تصمیم‌های انتشار و محرک‌های تاریخی در سند بلند بالا حفظ شده‌اند، اما شواهد رسمیِ فاز دوم را باید از آنها جدا خواند؛ انتخاب تابع هدف با Test انجام نشده است.
+
+**ثبت دادهٔ منجمد و آموزش:** `inputs/phase2_train_validation/` شامل NPZهای Train/Validation و manifest است؛ `phase2_plan_manifest.json`، `phase2_execution_gate.json` و `phase2_protocol.py` قرارداد اجرای نسخه‌دار را نشان می‌دهند. برنامه‌های اصلی `phase2_runner.py` و `run_experiment.py` برای آموزش تاریخی هستند، نه بخشی از ممیزی بدون‌آموزش. در `results/phase2_300_25/` مانیفست کلی، خروجی هر جفت، checkpoint، trace و `attempt_charges/` سوابق بودجه را نگهداری می‌کنند؛ `tables/phase2_runs_12.csv` و `tables/phase2_pairs_6.csv` خلاصهٔ قابل‌داوری هستند.
+
+**خروجی‌های ارائه و بازسازیِ فقط از شواهد:** `figures/` منابع SVG و TeX فصل، `derived/` داده‌ها/شواهد محاسبهٔ نمودار و پوشش اصلاح‌شده را دارد. [`phase2_derived_reproduce_v2.py`](phase2_derived_reproduce_v2.py) با گزینهٔ `--check` خروجی‌های ذخیره‌شده را **بایت‌به‌بایت فقط بررسی** می‌کند؛ بدون `--check` فقط فایل‌های مشتق **جدید** می‌سازد و اگر مسیر خروجی موجود باشد با خطا متوقف می‌شود، نه اینکه آن را بازنویسی کند.
+
+**کنترل پیشنهادی بدون آموزش:** `python code/experiments/ch4_loss_controlled_comparison/phase2_derived_reproduce_v2.py --check`. نتایج خام و manifest از تگ `backup/pre-cleanup-2026-11-15` بدون تغییر Git blob باقی مانده‌اند. صدور گزارش مشتق مستقل مجاز است، ولی حذف/overwrite کردن `README_FA.md` جامع و داده‌های پذیرفته‌شده ممنوع است.

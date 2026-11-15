@@ -181,3 +181,16 @@ python code/experiments/bayes_center_reachability_standard/src/verify_presentati
 ## بازیابی سوابق Markdown حذف‌شده
 
 نسخه‌های قبلی گزارش/پروتکل و شواهد متنی، با Git blob اصلی در [کامیت پیش از تجمیع](https://github.com/mahhammad/My-Thesis/tree/e53b75cae25ffba0d06d7b8a15f6cf322cb4698f/code/experiments/bayes_center_reachability_standard/) باقی می‌مانند. ارجاعات موجود در کامنت‌های تاریخی Issueها به همین نسخه‌ها تعلق دارند.
+
+
+---
+
+### پیوست ممیزی تگ — اجرای تاریخی و نقشهٔ ذخیره‌سازی (§۴.۱۱)
+
+**پرسش و شاهد اصلی:** مقایسهٔ مراکز بیزی برچسبی با مراکز بازنمایی گشت، آزمون کران لازم دست‌یافتنی‌بودن و کنترل دو هدف D11؛ بستهٔ S-103 شامل واحدهای مستقل از نوع bound، BA، solver، replay و probe با نقش متفاوت است. «۱۰۳ واحد» به معنای ۱۰۳ بذر یا صدور ۱۰۳ گواه مستقل نیست.
+
+**چگونه اجرا و منجمد شد؟** شواهد محاسباتی پس از اجرای پژوهش به‌صورت بسته در `raw/section411_standard_S_103_audit_package.zip` و `raw/V_R02_SEC411_INDEPENDENT_QA_EVIDENCE.zip` ذخیره شدند. این پوشه در checkout سبک حاوی **کد بازاجرای کامل حلگر نیست**؛ `src/verify_presentation.py` فقط سازگاری خلاصه‌ها و جدول‌های استخراج‌شده را کنترل می‌کند. برای بازیابی فرآیند تاریخی باید manifest داخل بسته و نسخهٔ ثبت‌شدهٔ کد در Git بررسی شود؛ صرفاً داشتن ZIP، اجرای دوبارهٔ solver را اثبات نمی‌کند.
+
+**خروجی‌های محلی و نقش آنها:** [`results/certified_summary.json`](results/certified_summary.json) خلاصهٔ گواه، [`results/bounds_54_rounded.csv`](results/bounds_54_rounded.csv) کران‌های گزارش‌شده، `results/metric_seed_summary.json` سنجه‌های مولد، [`results/coverage.json`](results/coverage.json) وضعیت پوشش و [`results/provenance_manifest.json`](results/provenance_manifest.json) منشأ/نام بسته را نگه می‌دارند. `tables/` جدول‌های LaTeX و `figures/` منابع بصری پایان‌نامه‌اند.
+
+**کنترل محلی بدون آموزش:** `python code/experiments/bayes_center_reachability_standard/src/verify_presentation.py`. این دستور گواه تازه‌ای دربارهٔ امکان‌پذیری ریاضی نمی‌سازد. هر گزارش تازه باید مستقل از `README_FA.md` فعلی نوشته شود؛ آن را بازنویسی یا حذف نکنید.

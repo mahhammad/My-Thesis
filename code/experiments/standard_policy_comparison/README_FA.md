@@ -326,3 +326,16 @@ python -m unittest discover -s code/experiments/standard_policy_comparison/r03_c
 ## سیاست بازیابی نسخه‌های تاریخی
 
 Markdownهای گزارش/پروتکل قبلی در متن بالا تجمیع و از checkout برداشته شدند. نسخهٔ اصلی با شناسهٔ Git blob در [کامیت منبع](https://github.com/mahhammad/My-Thesis/tree/5ddce088204b422569c063ec6e22cb60a928c6c5/code/experiments/standard_policy_comparison/) باقی می‌ماند. دست‌زدن به فایل‌های داده، کد یا متن LaTeX خارج از دامنه این اقدام بوده است.
+
+
+---
+
+### پیوست ممیزی تگ — اجرای تاریخی و نقشهٔ ذخیره‌سازی (§۴.۱۲)
+
+**تمایز ساختاری:** این پوشه **آزمایش رسمی ۷۶ اجرای سیاست** است؛ `../benchmark_v1/` درخت موتور/ابزارهای مشترک و ابزارهای تاریخی را نگه می‌دارد. چهار خانوادهٔ سیاست و اهداف/بودجه‌های متفاوت را بدون انطباق تنظیمات هم‌ارز نخوانید. ۷۶ اجرا به معنای ۷۶ seed مستقل نیست؛ ۸۳۶ مقدار هندسهٔ مرکز دامنهٔ گواه مخصوص خود را دارند.
+
+**چگونگی اجرا و ذخیره:** تنظیمات `protocol/base_generator_config.json` و `protocol/training_config_v1.json` قرارداد داده و آموزش را مستند می‌کنند. checkpointهای همان اجراها اکنون فقط در چهار بستهٔ [`results/core_50_16runs.zip`](results/core_50_16runs.zip)، [`results/extra_25_12runs.zip`](results/extra_25_12runs.zip)، [`results/size_25_24runs_seed20261102.zip`](results/size_25_24runs_seed20261102.zip) و [`results/size_25_24runs_seeds20261103_20261104.zip`](results/size_25_24runs_seeds20261103_20261104.zip) نگهداری می‌شوند. در مقایسه با تگ پیش از پاک‌سازی، Git blob هر چهار ZIP دقیقاً ثابت است.
+
+**فهرست و معیارها:** [`results/master_runs_76.csv`](results/master_runs_76.csv) موجودی شناسه/خانواده/بودجه، [`results/center_only_metrics.csv`](results/center_only_metrics.csv) هندسهٔ مرکز، [`results/coverage_manifest_76.json`](results/coverage_manifest_76.json) نمایهٔ پوشش و `results/archive_preflight.json` و `results/recovery_audit.json` زنجیرهٔ بررسیِ آرشیو را نگه می‌دارند. [`r03_center_recovery/center_only_rebuild.py`](r03_center_recovery/center_only_rebuild.py) ابزار استخراج **فقط سنجه‌های مراکز** از checkpointهای موجود است؛ نه runner آموزش ۷۶ مدل و نه محاسبه‌گر کامل معیارهای نمونه‌ای. docstring آن شامل مسیر تاریخی قبل از جابه‌جایی است؛ مسیر فعال همین پیوند است.
+
+**قاعدهٔ بازتولید:** اجرای `r03_center_recovery/center_only_rebuild.py` به صورت پیش‌فرض dry-run است؛ `--execute --out-dir /tmp/ch4-r03-centers` در checkout کامل و با پیش‌نیازهای لازم خروجی جدید را به مسیری جدا می‌نویسد. این کار جایگاه گواه ممیزی ۷۶ اجرا را تغییر نمی‌دهد. هر فایل مشتق جدید قابل افزودن است، اما `README_FA.md` جامع و ZIPهای checksum-دار باید محفوظ باشند.
