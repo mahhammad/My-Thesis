@@ -38,6 +38,22 @@ jobs:
               compile(path.read_bytes(), str(path), 'exec')
           print(f'SYNTAX_PASS files={len(files)}')
           PY
+      - name: Inventory any remaining code references to retired archive
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          hits=[]
+          for path in Path("code/experiments").rglob("*.py"):
+              for n,line in enumerate(path.read_text(encoding="utf-8").splitlines(),1):
+                  if ("code/experiments/archive/" in line
+                          or "/archive/" in line
+                          or "'archive'" in line
+                          or '"archive"' in line):
+                      hits.append((str(path),n,line.strip()[:210]))
+          for path,n,source in hits:
+              print(f"RETIRED_ARCHIVE_PATH {path}:{n}: {source}")
+          print("RESIDUAL_RETIRED_ARCHIVE_REFERENCES",len(hits))
+          PY
       - name: Verify 76 canonical runs, 137 recoverable Git-tag blobs, and reference imports
         run: python -m unittest discover -s code/experiments -p test_benchmark_archive_links.py -v
   scientific-readonly-smoke:
