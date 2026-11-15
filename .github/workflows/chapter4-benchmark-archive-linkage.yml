@@ -4,7 +4,11 @@ on:
     paths:
       - 'code/experiments/benchmark_v1/**'
       - 'code/experiments/standard_policy_comparison/**'
-      - 'code/experiments/archive/benchmark_v1_legacy_evidence/**'
+      - 'code/experiments/archive/**'
+      - 'code/experiments/multistep_policy_target_match/**'
+      - 'code/experiments/diag_max_full300/**'
+      - 'code/experiments/inverse_attainable_standard/b02_preflight/build_snapshot.py'
+      - 'research_journal/archive_recovery/**'
       - 'code/experiments/exact_matrix_walk_validation/**'
       - 'code/experiments/sigmoid_margin_observational_evaluation/**'
       - 'code/experiments/walk_depth_effect/**'
@@ -20,6 +24,8 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
@@ -32,7 +38,7 @@ jobs:
               compile(path.read_bytes(), str(path), 'exec')
           print(f'SYNTAX_PASS files={len(files)}')
           PY
-      - name: Verify 76-run archive hashes, curated blobs and consumer links
+      - name: Verify 76 canonical runs, 137 recoverable Git-tag blobs, and reference imports
         run: python -m unittest discover -s code/experiments -p test_benchmark_archive_links.py -v
   scientific-readonly-smoke:
     runs-on: ubuntu-latest
@@ -64,3 +70,4 @@ jobs:
           python -m unittest discover -s code/experiments -p test_chapter4_presentation.py -v
           python -m unittest discover -s code/experiments/benchmark_v1 -p test_common_metrics_contract.py -v
           python -m unittest discover -s code/experiments/benchmark_v1 -p test_snapshot_roundtrip.py -v
+          python -m unittest discover -s code/experiments/benchmark_v1 -p test_engine.py -v
