@@ -2,6 +2,38 @@
 
 **شناسه:** `exact_matrix_walk_validation` | **وضعیت:** مطالعهٔ ثبت‌شده در فصل چهارم | **منشأ:** commit `e53b75cae25f`
 
+## قرارداد بازتولید داده، اجرای آزمایش و ساختار پرونده‌ها — ممیزی تکمیلی ۲۰۲۶-۱۱-۱۵
+
+**مشخصات دادهٔ پایه (فقط در صورت استفادهٔ مستقیم از مولد):** [`code/data_generator/config.json`](../../../code/data_generator/config.json) با `K=3` کلاس، `D=5` ویژگی، احتمال کلاس‌های `[0.25,0.45,0.30]`، میانگین‌های شرطی کلاس‌ها `[-2,-0.3,0,-1.2,0]`، `[0,0.7,0,0,0]`، `[2,-0.4,0,1.2,0]` و انحراف معیار `[0.95,1,1.2,0.95,1.1]` برای هر سه کلاس است. کوواریانس `diag(std)·correlation·diag(std)` با هم‌بستگی‌های غیرصفرِ بین‌ویژگی `(0,1)=0.35`، `(0,3)=0.20`، `(2,4)=0.30`؛ درصد فقدان مستقل MCAR برای پنج ویژگی `[0,5,12,5,20]` و `kernel_gamma=[0.8,1.2,0.5,1.0,0.6]` است. ویژگی‌های ۰،۱،۳ از نظر حاشیه‌ای اطلاع‌رسان و ۲،۴ نویزیِ حاشیه‌ای هستند. تنظیم پیش‌فرض `seed=20261102` و Train/Validation/Test به‌ترتیب `300/90/120` است؛ **هر آزمایش در ادامه دقیقاً مشخص می‌کند آیا همین تقسیم را می‌خواند یا داده/مرجع دیگری می‌سازد.**
+
+**قالب عمومی خروجی مولد:** اجرای مستقل `python code/data_generator/generate.py --config code/data_generator/config.json --out /tmp/imc-data-20261102`، فایل‌های `train.npz`، `validation.npz`، `test.npz` با کلیدهای `x` (آرایهٔ `N×5` از `float64`، فقدان=`NaN`)، `mask` (`N×5` بولی) و `y` (آرایهٔ `N` از برچسب‌های ۰،۱،۲)، به‌علاوه `oracle_<split>.npz` (`posterior: N×3`، `q_population: N×5×3`)، `finite_q_<split>.npz` (`q_finite: N×5×3`) و `spec.json` تولید می‌کند. این یک **خروجی آزمایشی جدید در /tmp** است، نه فایلی که لزوماً در پوشهٔ مطالعه commit شده باشد؛ فرمان CLI همچنین Test را تولید می‌کند، ولی استفاده از Test برای گزینش مدل/تحلیل این فصل مجاز نیست. برای ساخت **فقط Train/Validation بدون تولید Test**، از `code/experiments/benchmark_v1/dataset_adapter.py::dataset_train_val(load_config(...))` مطابق کد هر مطالعه استفاده کنید. برابری بایت‌های float بین ماشین‌های دارای BLAS متفاوت تضمین نمی‌شود؛ منشأ frozen و SHAهای ثبت‌شده بر seed صرف تقدم دارند.
+
+### منبع واقعی داده، شمار اجراها و نحوهٔ تولید نتایج
+
+**داده و سیاست ثابت:** [`run.py`](run.py) با `dataset_adapter.dataset_train_val` دادهٔ مولد seed `20261102` را بدون Test بازمی‌سازد: Train `300×5`، Validation `90×5`. سپس فایل checkpoint `ds20261102_n300_shared_margin_JSD_tau0.005_s50.json` را با SHA ثبت‌شده از [`../standard_policy_comparison/results/core_50_16runs.zip`](../standard_policy_comparison/results/core_50_16runs.zip) می‌خواند و ترتیب **تمام ۳۰۰ شناسهٔ Train** را دقیقاً از `dataset.reference_ids` آن اعمال می‌کند. سیاست‌های `uniform` (امتیاز صفر) و `trained_shared` (logits ذخیره‌شده) هر دو با `β=.4,λ=.8,H=12,float64` محاسبه می‌شوند؛ هیچ آموزش تازه‌ای وجود ندارد.
+
+**شمار اجرای عددی:** ۲ سیاست × ۶ عمق تشخیصی `r={2,3,4,6,8,12}` × ۲ split = **۲۴ بلوک معیار**. بخش MC از ۲ سیاست × ۲ split × ۳ مبدأ منتخب (Train: ۰،۱۴۹،۲۹۹؛ Validation: ۰،۴۴،۸۹) × ۲ seed مسیر `20261121,20261122` × ۳ بودجه `128,512,2048` تشکیل شده، یعنی **۷۲ مورد مقایسه MC**؛ این‌ها آموزش یا دادهٔ مولد مستقل نیستند.
+
+**بازتولید و کنترل:**
+```bash
+python code/experiments/exact_matrix_walk_validation/run.py
+python code/experiments/exact_matrix_walk_validation/verify_results.py
+python -m unittest discover -s code/experiments/exact_matrix_walk_validation -p 'test_*.py' -v
+```
+`run.py` بدون `--execute` فقط dry-run است؛ `--execute` **فایل‌های رسمی زیر `results/` را می‌نویسد** و وقتی `results/experiment_report.json` وجود دارد از بازنویسی جلوگیری می‌کند. پس اجرای تازه باید در worktree مستقل و با محافظت از داده‌های پذیرفته‌شده انجام شود.
+
+| ورودی/خروجی | مسیر | نقش/شکل |
+|---|---|---|
+| ورودی | `config.json` مولد، ZIP و member `shared_margin_JSD_tau0.005_s50` | Train/Validation بازساخته و سیاست ذخیره‌شده با SHA |
+| خروجی خام | [`results/raw_step_distributions.npz`](results/raw_step_distributions.npz) | ۸ کلید: برای هر سیاست `train_steps:12×300×3` و `validation_steps:12×90×3`، همراه دو آرایهٔ تجمیع دقیق `train_exact:300×3` و `validation_exact:90×3` |
+| snapshotهای سیاست | `results/snapshots/uniform/` و `results/snapshots/trained_shared/` | `model.json` برای سیاست/شناسه و `distributions.npz` برای بازنمایی‌ها؛ `report.json` برای گزارش |
+| معیار/تحلیل | [`results/experiment_report.json`](results/experiment_report.json)، `results/metrics_full.json`، `results/coverage.json` | گزارش ۷۲ مورد MC، ۲۴ بلوک سنجه و دامنهٔ معیارها |
+| صحت منشأ/انتشار | [`results/provenance.json`](results/provenance.json)، `tables/`، `figures/` | SHA آرشیو/عضو، بذر/ترتیب مرجع و جدول‌های فصل |
+
+**محدودیت:** بازپخش یک member ذخیره‌شده ≠ آموزش دوبارهٔ آن؛ داده‌های Test نه در Train و نه در Validation این پژوهش مجاز به تأثیرگذاری نیستند.
+
+**قاعده نگهداشت:** ایجاد گزارش/فایل مشتق جدید مجاز است، اما `README_FA.md` سند جامع رسمی می‌ماند و نباید بازنویسی شود. دادهٔ اصلی و نتایج منجمدشده فقط در checkout مستقل بازتولید شوند.
+
 ## چکیده و دامنه
 
 کنترل مستقل امید دقیق نسبت به MC و کران کوتاه‌سازی گام برای مدل ثابت H=12، روی دو سیاست shared ذخیره‌شده. این آزمون با تغییر سقف واقعی H متفاوت است.

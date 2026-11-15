@@ -2,6 +2,37 @@
 
 **شناسهٔ مطالعه:** `sigmoid_margin_observational_evaluation` | **حوزه:** پایان‌نامه IMC / فصل چهارم | **منشأ محتوا:** اسناد پیش از تجمیع در commit `17e91ec99d1b`
 
+## قرارداد بازتولید داده، اجرای آزمایش و ساختار پرونده‌ها — ممیزی تکمیلی ۲۰۲۶-۱۱-۱۵
+
+**مشخصات دادهٔ پایه (فقط در صورت استفادهٔ مستقیم از مولد):** [`code/data_generator/config.json`](../../../code/data_generator/config.json) با `K=3` کلاس، `D=5` ویژگی، احتمال کلاس‌های `[0.25,0.45,0.30]`، میانگین‌های شرطی کلاس‌ها `[-2,-0.3,0,-1.2,0]`، `[0,0.7,0,0,0]`، `[2,-0.4,0,1.2,0]` و انحراف معیار `[0.95,1,1.2,0.95,1.1]` برای هر سه کلاس است. کوواریانس `diag(std)·correlation·diag(std)` با هم‌بستگی‌های غیرصفرِ بین‌ویژگی `(0,1)=0.35`، `(0,3)=0.20`، `(2,4)=0.30`؛ درصد فقدان مستقل MCAR برای پنج ویژگی `[0,5,12,5,20]` و `kernel_gamma=[0.8,1.2,0.5,1.0,0.6]` است. ویژگی‌های ۰،۱،۳ از نظر حاشیه‌ای اطلاع‌رسان و ۲،۴ نویزیِ حاشیه‌ای هستند. تنظیم پیش‌فرض `seed=20261102` و Train/Validation/Test به‌ترتیب `300/90/120` است؛ **هر آزمایش در ادامه دقیقاً مشخص می‌کند آیا همین تقسیم را می‌خواند یا داده/مرجع دیگری می‌سازد.**
+
+**قالب عمومی خروجی مولد:** اجرای مستقل `python code/data_generator/generate.py --config code/data_generator/config.json --out /tmp/imc-data-20261102`، فایل‌های `train.npz`، `validation.npz`، `test.npz` با کلیدهای `x` (آرایهٔ `N×5` از `float64`، فقدان=`NaN`)، `mask` (`N×5` بولی) و `y` (آرایهٔ `N` از برچسب‌های ۰،۱،۲)، به‌علاوه `oracle_<split>.npz` (`posterior: N×3`، `q_population: N×5×3`)، `finite_q_<split>.npz` (`q_finite: N×5×3`) و `spec.json` تولید می‌کند. این یک **خروجی آزمایشی جدید در /tmp** است، نه فایلی که لزوماً در پوشهٔ مطالعه commit شده باشد؛ فرمان CLI همچنین Test را تولید می‌کند، ولی استفاده از Test برای گزینش مدل/تحلیل این فصل مجاز نیست. برای ساخت **فقط Train/Validation بدون تولید Test**، از `code/experiments/benchmark_v1/dataset_adapter.py::dataset_train_val(load_config(...))` مطابق کد هر مطالعه استفاده کنید. برابری بایت‌های float بین ماشین‌های دارای BLAS متفاوت تضمین نمی‌شود؛ منشأ frozen و SHAهای ثبت‌شده بر seed صرف تقدم دارند.
+
+### منبع واقعی داده، شمار اجراها و نحوهٔ تولید نتایج
+
+**سه منبع دادهٔ متفاوت در یک گزارش:** (۱) برای تشخیص `τ` از حاشیه/بازنمایی‌های **سه checkpoint ذخیره‌شده** Uniform، Guided دور صفر و Guided دور چهار بر ۹۰ نمونهٔ Validation استفاده شده است؛ شش پهنای `τ`، جمعاً **۱۸ ارزیابی تشخیصی**، نه ۱۸ آموزش. (۲) سه سیاست shared روی Train=۳۰۰ با `τ=.002,.005,.020` و ۵۰ گام، **پیش‌تر آموزش‌دیده و ذخیره‌شده‌اند**؛ `replay_saved_full300.py` فقط سنجه‌های آن‌ها را بازحساب می‌کند. (۳) مطالعهٔ اندازه شامل **۳۶ checkpoint** از `۲ خانواده shared/class × ۶ اندازه مرجع {50,100,150,200,250,300} × ۳ seed داده {20261102,20261103,20261104}` است، نه ۳۶ تکرار از یک Train مستقل.
+
+**تولید Train/Validation:** کدهای بازسنجی از `dataset_adapter.dataset_train_val` و `load_config` استفاده می‌کنند؛ برای seedهای بعدی مقدار `spec["seed"]` را تغییر می‌دهند. خروجی نمونه‌ها در این پوشه به شکل مجموعه NPZ جدید نگهداری نشده، بلکه **منشأ اصلیِ سیاست و reference IDs در ZIPهای رسمی §۴.۱۲** است. برای بازسازی درستِ یک اندازه، انتخاب reference subset مطابق شناسهٔ ذخیره‌شده در checkpoint و seed انتخاب مرجع لازم است؛ صرف تولید `train.npz` کافی نیست.
+
+**فرمان‌های کنترل و مرز اجرا:**
+```bash
+python code/experiments/sigmoid_margin_observational_evaluation/analyze.py
+python -m unittest discover -s code/experiments/sigmoid_margin_observational_evaluation -p 'test_*.py' -v
+```
+[`replay_benchmark_size.py`](replay_benchmark_size.py) فایل‌های `results/benchmark_size_metrics_full.json` و `results/coverage.json` را **بازنویسی می‌کند**؛ فقط در checkout مستقل اجرا شود. [`replay_saved_full300.py`](replay_saved_full300.py) به `code/experiments/archive/margin_training/results/full300_policy_snapshots.json` وابسته است؛ آرشیو در checkout فعلی نیست. برای بازسازی کاملِ پروتکل تاریخی باید از [تگ بازیابی](https://github.com/mahhammad/My-Thesis/releases/tag/backup%2Fpre-cleanup-2026-11-15) و شناسه/hashes فایل‌های مرجع استفاده کرد. این محدودیت را «قابل بازتولید کامل از checkout فعلی» معرفی نکنید.
+
+| ورودی/خروجی | مسیر | ساختار و تفسیر |
+|---|---|---|
+| دادهٔ تشخیص | `results/sigmoid_validation_summary.csv` | حاشیه/زیان τ روی سیاست‌های ذخیره‌شده؛ نه checkpoint آموزش جدید |
+| دادهٔ ۳۰۰تایی | `results/margin_training_summary.csv`، snapshot تاریخی ذکرشده | سه مقدار τ و سیاست‌های ذخیره‌شده |
+| دادهٔ مطالعهٔ اندازه | [`../standard_policy_comparison/results/size_25_24runs_seed20261102.zip`](../standard_policy_comparison/results/size_25_24runs_seed20261102.zip)، [`size_25_24runs_seeds20261103_20261104.zip`](../standard_policy_comparison/results/size_25_24runs_seeds20261103_20261104.zip)، `results/benchmark_size_3seeds.csv` | checkpointهای ۳۶ مطالعه و شناسه‌های member |
+| نتایج رسمی | [`results/metrics_full.json`](results/metrics_full.json)، [`results/benchmark_size_metrics_full.json`](results/benchmark_size_metrics_full.json)، `results/benchmark_size_aggregate.csv` | سنجه‌های کامل ۳ سیاست و ۳۶ checkpoint و خلاصهٔ اندازه |
+| اصالت/ارائه | [`results/provenance.json`](results/provenance.json)، `results/coverage.json`، `tables/`، `figures/` | منبع تاریخی، عدم‌کاربرد برخی معیارها، شکل و جدول |
+
+**تفکیک نتیجه:** بازسنجیِ یک checkpoint ذخیره‌شده ≠ ازنو آموزش‌دادن آن؛ ابزارهای بازحساب نباید روی raw رسمی overwrite شوند.
+
+**قاعده نگهداشت:** ایجاد گزارش/فایل مشتق جدید مجاز است، اما `README_FA.md` سند جامع رسمی می‌ماند و نباید بازنویسی شود. دادهٔ اصلی و نتایج منجمدشده فقط در checkout مستقل بازتولید شوند.
+
 ## چکیده و دامنهٔ استناد
 
 سه زیرمطالعهٔ تشخیص حساسیت τ، بازسنجی سه آموزش ۵۰گامی مرجع ۳۰۰تایی و مطالعهٔ هم‌بودجهٔ ۳۶ اجرا در شش اندازه و سه seed؛ شواهد تاریخی جدا از نتایج رسمی تفسیر می‌شوند.

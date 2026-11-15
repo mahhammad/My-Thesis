@@ -2,6 +2,38 @@
 
 **شناسهٔ مطالعه:** `walk_depth_effect` | **حوزه:** پایان‌نامه IMC / فصل چهارم | **منشأ محتوا:** اسناد پیش از تجمیع در commit `17e91ec99d1b`
 
+## قرارداد بازتولید داده، اجرای آزمایش و ساختار پرونده‌ها — ممیزی تکمیلی ۲۰۲۶-۱۱-۱۵
+
+**مشخصات دادهٔ پایه (فقط در صورت استفادهٔ مستقیم از مولد):** [`code/data_generator/config.json`](../../../code/data_generator/config.json) با `K=3` کلاس، `D=5` ویژگی، احتمال کلاس‌های `[0.25,0.45,0.30]`، میانگین‌های شرطی کلاس‌ها `[-2,-0.3,0,-1.2,0]`، `[0,0.7,0,0,0]`، `[2,-0.4,0,1.2,0]` و انحراف معیار `[0.95,1,1.2,0.95,1.1]` برای هر سه کلاس است. کوواریانس `diag(std)·correlation·diag(std)` با هم‌بستگی‌های غیرصفرِ بین‌ویژگی `(0,1)=0.35`، `(0,3)=0.20`، `(2,4)=0.30`؛ درصد فقدان مستقل MCAR برای پنج ویژگی `[0,5,12,5,20]` و `kernel_gamma=[0.8,1.2,0.5,1.0,0.6]` است. ویژگی‌های ۰،۱،۳ از نظر حاشیه‌ای اطلاع‌رسان و ۲،۴ نویزیِ حاشیه‌ای هستند. تنظیم پیش‌فرض `seed=20261102` و Train/Validation/Test به‌ترتیب `300/90/120` است؛ **هر آزمایش در ادامه دقیقاً مشخص می‌کند آیا همین تقسیم را می‌خواند یا داده/مرجع دیگری می‌سازد.**
+
+**قالب عمومی خروجی مولد:** اجرای مستقل `python code/data_generator/generate.py --config code/data_generator/config.json --out /tmp/imc-data-20261102`، فایل‌های `train.npz`، `validation.npz`، `test.npz` با کلیدهای `x` (آرایهٔ `N×5` از `float64`، فقدان=`NaN`)، `mask` (`N×5` بولی) و `y` (آرایهٔ `N` از برچسب‌های ۰،۱،۲)، به‌علاوه `oracle_<split>.npz` (`posterior: N×3`، `q_population: N×5×3`)، `finite_q_<split>.npz` (`q_finite: N×5×3`) و `spec.json` تولید می‌کند. این یک **خروجی آزمایشی جدید در /tmp** است، نه فایلی که لزوماً در پوشهٔ مطالعه commit شده باشد؛ فرمان CLI همچنین Test را تولید می‌کند، ولی استفاده از Test برای گزینش مدل/تحلیل این فصل مجاز نیست. برای ساخت **فقط Train/Validation بدون تولید Test**، از `code/experiments/benchmark_v1/dataset_adapter.py::dataset_train_val(load_config(...))` مطابق کد هر مطالعه استفاده کنید. برابری بایت‌های float بین ماشین‌های دارای BLAS متفاوت تضمین نمی‌شود؛ منشأ frozen و SHAهای ثبت‌شده بر seed صرف تقدم دارند.
+
+### منبع واقعی داده، شمار اجراها و نحوهٔ تولید نتایج
+
+**مولد داده برای این آزمایش مستقیماً اجرا نشد.** دادهٔ پایه سناریوی `seed=20261102` با Train `(300,5)` و Validation `(90,5)` است، اما ورودی واقعی `analyze.py` **توزیع‌های گام‌به‌گام منجمدشدهٔ E-CH4-08** است. `../exact_matrix_walk_validation/results/raw_step_distributions.npz` برای هر یک از `uniform` و `trained_shared` آرایه‌های `*_train_steps` به شکل `(12,300,3)` و `*_validation_steps` به شکل `(12,90,3)` دارد. برچسب‌ها و ترتیب مرجع از `../target_center_guidance_trajectory/results/representations_uniform.json` و منشأ/هش E08 می‌آیند؛ checkpoint رسمی `../standard_policy_comparison/results/core_50_16runs.zip` و سنجه‌های §۴.۴ نیز برای کنترل وارد می‌شوند.
+
+**طرح واقعی:** `۲ سیاست × ۶ سقف واقعی H={1,2,3,4,8,12} = ۱۲ وضعیت`، در هر وضعیت دو split Train/Validation، یعنی **۲۴ بلوک سنجه**. `β=.4,λ=.8` و وزن طول در هر H از ابتدا محاسبه می‌شود؛ نه آموزش، نه MC، نه تولید داده یا oracle و نه Test. H واقعی را با «برش پسینی همان توزیع H=12» یکی نگیرید.
+
+**از ورودی ذخیره تا خروجی:**
+```bash
+python code/experiments/walk_depth_effect/analyze.py
+python code/experiments/walk_depth_effect/verify.py
+python -m unittest discover -s code/experiments/walk_depth_effect -p 'test_*.py' -v
+```
+`analyze.py` پیش‌فرض dry-run است؛ `--execute` فایل تولید می‌کند و برای **بازسازی روی checkout جدا/مسیر پاک مستقل** طراحی شده، نه جایگزینی نتیجهٔ پذیرفته‌شده. `verify.py` خروجی‌های موجود و صحت منشأ، ضرایب، کدهای تصمیم و سنجه‌ها را بدون گشت جدید بررسی می‌کند.
+
+| نوع | فایل | ساختار |
+|---|---|---|
+| ورودی خام مستقیم | [`../exact_matrix_walk_validation/results/raw_step_distributions.npz`](../exact_matrix_walk_validation/results/raw_step_distributions.npz)، `../exact_matrix_walk_validation/results/provenance.json` | آرایه‌های گام‌ها و SHA/شناسهٔ مرجع |
+| ورودی کمکی | `../uniform_policy_hyperparameter_sensitivity/results/metrics_full.json`، `../target_center_guidance_trajectory/results/representations_uniform.json` و ZIP رسمی | مقایسهٔ E04، برچسب و قفل داده |
+| خروجی محاسبات | [`results/metrics_full.json`](results/metrics_full.json)، `results/metrics_summary.csv`، [`results/coefficients.json`](results/coefficients.json) | سنجه‌های ۱۲ حالت/دو split، pmf وزن طول H |
+| کنترل و تشخیص | [`results/comparisons.json`](results/comparisons.json)، `results/margin_summary.json`، `results/margin_analysis.json`، `results/error_quantile_boundary.json` | تطبیق عددی با E04/E08، حاشیه و خطا |
+| تبار/انتشار | `results/provenance.json`، `results/coverage.json`، `tables/`، `figures/` | hashes و منابع مقاله/پایان‌نامه |
+
+**سطح بازتولید:** E09 از روی raw چندگامیِ E08 **تحلیل مجدد** می‌شود؛ تولید دوبارهٔ کل دادهٔ Gaussian و اجرای موتور راه دیگری است و بخشی از همین pipeline نیست.
+
+**قاعده نگهداشت:** ایجاد گزارش/فایل مشتق جدید مجاز است، اما `README_FA.md` سند جامع رسمی می‌ماند و نباید بازنویسی شود. دادهٔ اصلی و نتایج منجمدشده فقط در checkout مستقل بازتولید شوند.
+
 ## چکیده و دامنهٔ استناد
 
 آزمایش اثر سقف واقعی H با ضرایب قطع هندسی بازحساب‌شده در هر عمق، برای دو سیاست ثابت و با کنترل تفاوت آن از کوتاه‌سازی پسینی در E-CH4-08.

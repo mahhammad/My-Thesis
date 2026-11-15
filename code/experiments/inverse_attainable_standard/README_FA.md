@@ -2,6 +2,39 @@
 
 **وضعیت فعلی:** PRهای [#61](https://github.com/mahhammad/My-Thesis/pull/61) و [#62](https://github.com/mahhammad/My-Thesis/pull/62) ادغام‌شده‌اند. **۱۰۸/۱۰۸ اجرای استاندارد ثبت‌شده**؛ B01-v2 (۱۸ اجرا) مستقل پذیرفته شده، ۹۰ اجرای B02–B06 با برچسب خام `PROVISIONAL_PENDING_FINAL_QA` محفوظ مانده‌اند. رأی ممیزی نسخهٔ منجمد `BASELINE_ACCEPT_WITH_FIXES` و رگرسیون پساتحویل توسط جانشین، به معنی ممیزی مستقل دوم نیستند. [رکورد نهایی Issue #60](https://github.com/mahhammad/My-Thesis/issues/60#issuecomment-6856231363).
 
+## قرارداد بازتولید داده، اجرای آزمایش و ساختار پرونده‌ها — ممیزی تکمیلی ۲۰۲۶-۱۱-۱۵
+
+**مشخصات دادهٔ پایه (فقط در صورت استفادهٔ مستقیم از مولد):** [`code/data_generator/config.json`](../../../code/data_generator/config.json) با `K=3` کلاس، `D=5` ویژگی، احتمال کلاس‌های `[0.25,0.45,0.30]`، میانگین‌های شرطی کلاس‌ها `[-2,-0.3,0,-1.2,0]`، `[0,0.7,0,0,0]`، `[2,-0.4,0,1.2,0]` و انحراف معیار `[0.95,1,1.2,0.95,1.1]` برای هر سه کلاس است. کوواریانس `diag(std)·correlation·diag(std)` با هم‌بستگی‌های غیرصفرِ بین‌ویژگی `(0,1)=0.35`، `(0,3)=0.20`، `(2,4)=0.30`؛ درصد فقدان مستقل MCAR برای پنج ویژگی `[0,5,12,5,20]` و `kernel_gamma=[0.8,1.2,0.5,1.0,0.6]` است. ویژگی‌های ۰،۱،۳ از نظر حاشیه‌ای اطلاع‌رسان و ۲،۴ نویزیِ حاشیه‌ای هستند. تنظیم پیش‌فرض `seed=20261102` و Train/Validation/Test به‌ترتیب `300/90/120` است؛ **هر آزمایش در ادامه دقیقاً مشخص می‌کند آیا همین تقسیم را می‌خواند یا داده/مرجع دیگری می‌سازد.**
+
+**قالب عمومی خروجی مولد:** اجرای مستقل `python code/data_generator/generate.py --config code/data_generator/config.json --out /tmp/imc-data-20261102`، فایل‌های `train.npz`، `validation.npz`، `test.npz` با کلیدهای `x` (آرایهٔ `N×5` از `float64`، فقدان=`NaN`)، `mask` (`N×5` بولی) و `y` (آرایهٔ `N` از برچسب‌های ۰،۱،۲)، به‌علاوه `oracle_<split>.npz` (`posterior: N×3`، `q_population: N×5×3`)، `finite_q_<split>.npz` (`q_finite: N×5×3`) و `spec.json` تولید می‌کند. این یک **خروجی آزمایشی جدید در /tmp** است، نه فایلی که لزوماً در پوشهٔ مطالعه commit شده باشد؛ فرمان CLI همچنین Test را تولید می‌کند، ولی استفاده از Test برای گزینش مدل/تحلیل این فصل مجاز نیست. برای ساخت **فقط Train/Validation بدون تولید Test**، از `code/experiments/benchmark_v1/dataset_adapter.py::dataset_train_val(load_config(...))` مطابق کد هر مطالعه استفاده کنید. برابری بایت‌های float بین ماشین‌های دارای BLAS متفاوت تضمین نمی‌شود؛ منشأ frozen و SHAهای ثبت‌شده بر seed صرف تقدم دارند.
+
+### منبع واقعی داده، شمار اجراها و نحوهٔ تولید نتایج
+
+**ساخت داده و هدف‌های واقعی:** با مولد پایه Gaussian/MCAR، **۳ seed داده `20261102,20261103,20261104`** هرکدام Train=۳۰۰ می‌سازند؛ برای هر seed دو اندازه مرجع `n=150` و `n=300` در نظر گرفته شده است. در `n=150` از Train همان seed، **۵۰ نمونه از هر کلاس** با `reference_seed=20261201` انتخاب و شناسه‌های ردیف اصلی حفظ می‌شوند؛ در `n=300` کل ۳۰۰ سطر با ترتیب واقعی به کار می‌رود و انتخاب تصادفی دیگری انجام نمی‌شود. برای هر بلوک، یک سیاست شاهد مخفی با `teacher_seed` ثبت‌شده در [`standard_plan/plan_108.json`](standard_plan/plan_108.json) مرکز هدف چندگامیِ دست‌یافتنی می‌سازد. شاهد **ورودی حلگر** نیست؛ هدف ذخیره‌شده، ورودی آن است. `β=.4,λ=.8,H=12,float64`.
+
+**جدول اجراها:** ۳ seed × ۲ اندازه = **۶ بلوک B01..B06**؛ هر بلوک ۳ کلاس × ۲ شروع `zero` و `independent_random` × ۳ روش `Q-only`، `Exact-Adam` و `Q+Bootstrap-GN` دارد: **۱۸ اجرای حلگر در هر بلوک، مجموعاً ۱۰۸ اجرا**. این شمار هیچ تکرار مستقل دیگری از داده نمی‌سازد. `standard_plan/plan_108.csv` نگاشت `run_id,block_id,class,initialization,solver` است؛ `standard_plan/plan_108.json` تنظیمات/بودجه/seed و حدود رأی را در خود دارد.
+
+**قالب ورودی‌های منجمد، نه فقط seed:** در `snapshot_v2/results/INV01-Bxx-.../` برای بلوک‌های مربوطه چهار فایل وجود دارد: `train_canonical.bin` (قالب باینری اختصاصی با X، ماسک، y و ids؛ قالب آن در `manifest.json` تعریف شده)، `targets_float64_le.bin` (۹ مقدار `float64` little-endian در ماتریس `3×3` مراکز هدف)، `manifest.json` (اندازه/seed/شناسه/هش‌های هر آرایه و فایل) و `verification.json` (نتیجه کنترل). بلوک B02 افزون بر این سابقهٔ `b02_preflight/` با trust-root قفل‌شده دارد؛ برای اجرای جدید صرف وجود فایل snapshot به معنی اخذ مجوز B02 نیست.
+
+**از اجرای تاریخی تا نتیجه:** `runner_v3/run_one.py` و `standard_plan/b01_v2_run.py` کدهای تاریخیِ حلگر با گیت، قفل منبع و محدودیت هزینه‌اند؛ نباید آنها را با حذف کنترل یا روی پرونده‌های پذیرفته‌شده مجدداً اجرا کرد. فایل‌های هر حلگر در `results/raw/` یا `standard_plan/results/` شامل manifest اولیه، `trace.json` (مسیر تکرار)، `curve.csv` (منحنی JSD)، `summary.json` (بهترین و نهایی) و شواهد آغاز/پایان `results/audit_attachments/` هستند. [`analysis_v3/aggregate.py`](analysis_v3/aggregate.py) فقط از این rawها، `results/metrics_full.json`، `results/coverage.json`، `results/analysis_manifest.json`، `tables/` و `figures/` را تولید می‌کند و گزارش مشتق را در `results/analysis_generated_report.txt` می‌نویسد.
+
+**راهنمای بررسی بدون حل مجدد:**
+```bash
+python code/experiments/inverse_attainable_standard/qa_final/verify.py
+```
+این کنترل `qa_final/internal_check.json` را اگر موجود باشد با خروجی بازساخته تطبیق می‌دهد، و **در صورت نبودن آن فایل را ایجاد می‌کند**؛ برای تضمین عدم‌نوشتن در worktree مستقل اجرا شود. `analysis_v3/aggregate.py --complete` قادر به تولید/بازنویسی گزارش مشتق و خروجی‌هاست و در این ممیزی اجرا نشده است. دادهٔ Train بذرهای مختلف ممکن است به BLAS وابسته باشد؛ اصالت اصلی با آرایه‌های frozen و SHA فایل‌ها تعیین می‌شود.
+
+| نقش داده | مسیر | شناسه و ساختار |
+|---|---|---|
+| طرح و تولید | `standard_plan/plan_108.csv`، [`standard_plan/plan_108.json`](standard_plan/plan_108.json)، `snapshot_v2/build_standard_snapshots.py` | ۶ بلوک/۱۰۸ شناسه، سازندهٔ snapshot بدون solver |
+| ورودی حلگر | `snapshot_v2/results/*/{train_canonical.bin,targets_float64_le.bin,manifest.json,verification.json}` | X/mask/y/ids و مراکز `3×3` با SHA |
+| خام تاریخی | `standard_plan/results/B01_v2/` و `results/raw/`، `results/audit_attachments/` | trace/curve/summary و گواه attempt |
+| نتایج قابل گزارش | [`results/metrics_full.json`](results/metrics_full.json)، [`results/coverage.json`](results/coverage.json)، `results/analysis_manifest.json`، `tables/`، `figures/` | موفقیت، هزینه، JSD، حدود عدم‌اعتماد به روش‌ها |
+
+**اصل علمی:** ۱۰۸ اجرای ثبت‌شده به معنی پذیرش مستقل یکسان تمام بلوک‌ها نیست. بازسازی گزارش ذخیره‌شده، حل مجدد و تأیید امنیتی B02 سه عمل متفاوت‌اند.
+
+**قاعده نگهداشت:** ایجاد گزارش/فایل مشتق جدید مجاز است، اما `README_FA.md` سند جامع رسمی می‌ماند و نباید بازنویسی شود. دادهٔ اصلی و نتایج منجمدشده فقط در checkout مستقل بازتولید شوند.
+
 ## چکیدهٔ علمی و حدود حکم
 
 مسئله، وارون‌سازی مراکز **از پیش دست‌یافتنی** و تولیدشده توسط یک سیاست شاهدِ پنهان است؛ حلگرِ با بودجهٔ معین تلاش می‌کند برای همان گراف و داده، مرکز هدف را بازسازی کند. این مطالعه اثبات دست‌یافتنی‌بودن مراکز بیزی دلخواه، شناسایی یکتای سیاست، برتری همگانی یک روش یا بهبود BA نیست. شش بلوک، سه بذر مستقل مولد و ۱۰۸ اجرای حلگر را باید با ۱۸ مرکز هدف و دو اندازهٔ مرجع وابسته از هم تفکیک کرد.
