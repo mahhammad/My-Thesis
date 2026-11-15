@@ -1,0 +1,1243 @@
+{
+  "schema": "imc-thesis-cold-archive-recovery-v1",
+  "recovery_tag": "backup/pre-cleanup-2026-11-15",
+  "recovery_commit": "a8c9027460e538fa04b8aab2f762eb4ba4c31e3d",
+  "archive_prefix": "code/experiments/archive/",
+  "expected_files": 137,
+  "expected_bytes": 3491507,
+  "file_records": [
+    {
+      "archive_path": "code/experiments/archive/bayes_center_inverse/README_FA.md",
+      "git_blob_sha1": "c4900974ffbf634331f6ef7d5443e9d071861ecb",
+      "bytes": 16306,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/bayes_center_inverse/README_FA.md"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/bayes_center_inverse/depth_sensitivity.py",
+      "git_blob_sha1": "f84e19c11ce75d2b4857763bb13f7339ba9c832f",
+      "bytes": 8061,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/bayes_center_inverse/depth_sensitivity.py"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/bayes_center_inverse/evaluate_saved.py",
+      "git_blob_sha1": "8c46b8050b9a6801269efa0b0da5f4adf1cf3c80",
+      "bytes": 2211,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/bayes_center_inverse/evaluate_saved.py"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/bayes_center_inverse/feasibility_bound.py",
+      "git_blob_sha1": "79251967ed0d799185d502c8da44548eddd6e3ed",
+      "bytes": 5012,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/bayes_center_inverse/feasibility_bound.py"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/bayes_center_inverse/full_reference_bounds.py",
+      "git_blob_sha1": "17f92ad73d40c3df3fa5f6c0e529a88f4eea9b8e",
+      "bytes": 2940,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/bayes_center_inverse/full_reference_bounds.py"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/bayes_center_inverse/matrix_walk.py",
+      "git_blob_sha1": "f6d469104073bfea2c27c88497718e69ec32899b",
+      "bytes": 2739,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/bayes_center_inverse/matrix_walk.py"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/bayes_center_inverse/results/approx_bayes_seed_20261107.json",
+      "git_blob_sha1": "f7df9fe725c45de63e6841d19a3eaa7c3801af4c",
+      "bytes": 15059,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/bayes_center_inverse/results/approx_bayes_seed_20261107.json"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/bayes_center_inverse/results/approx_bayes_seed_20261108.json",
+      "git_blob_sha1": "8d45f4d32cae2df9bf0cfff184245940895559a1",
+      "bytes": 15065,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/bayes_center_inverse/results/approx_bayes_seed_20261108.json"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/bayes_center_inverse/results/bayes_seed_20261107.json",
+      "git_blob_sha1": "1215f200654b8ecb32d3a684c4f40d5157223470",
+      "bytes": 105635,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/bayes_center_inverse/results/bayes_seed_20261107.json"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/bayes_center_inverse/results/bayes_seed_20261107_gn10.json",
+      "git_blob_sha1": "af52d91ff3096666cdc636dc3f07f405ec515092",
+      "bytes": 79869,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/bayes_center_inverse/results/bayes_seed_20261107_gn10.json"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/bayes_center_inverse/results/bayes_seed_20261108.json",
+      "git_blob_sha1": "2d5f2805c15c6b611fe2e7cdd753b81c513b23ba",
+      "bytes": 105552,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/bayes_center_inverse/results/bayes_seed_20261108.json"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/bayes_center_inverse/results/bayes_seed_20261109_gn10.json",
+      "git_blob_sha1": "74c36046fef1d63b3bb79401d988616e79d8b7e3",
+      "bytes": 80034,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/bayes_center_inverse/results/bayes_seed_20261109_gn10.json"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/bayes_center_inverse/results/depth_sensitivity_full300_and_subset72.json",
+      "git_blob_sha1": "1c0e1e393361742ad7ede179d00c6247d86da75f",
+      "bytes": 130728,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/bayes_center_inverse/results/depth_sensitivity_full300_and_subset72.json"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/bayes_center_inverse/results/full300_maxdiag_compact_summary.json",
+      "git_blob_sha1": "37431cc4b0eb3603260940c9514deab3861c1974",
+      "bytes": 2849,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/bayes_center_inverse/results/full300_maxdiag_compact_summary.json"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/bayes_center_inverse/results/full_reference_bounds.json",
+      "git_blob_sha1": "43d55261ccdf3ffd007c933c5fbc4bef59f587d3",
+      "bytes": 10801,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/bayes_center_inverse/results/full_reference_bounds.json"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/bayes_center_inverse/results/smoke_36.json",
+      "git_blob_sha1": "201b6cf6e939e58bde816af2e2e6a8839d969797",
+      "bytes": 31187,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/bayes_center_inverse/results/smoke_36.json"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/bayes_center_inverse/results/smoke_36_val.json",
+      "git_blob_sha1": "e897f011cdf9ec9085d99a0dc22723671852b265",
+      "bytes": 34746,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/bayes_center_inverse/results/smoke_36_val.json"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/bayes_center_inverse/results/summary.json",
+      "git_blob_sha1": "3309103d2449d643827cafd18efd4819a6ebd584",
+      "bytes": 10468,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/bayes_center_inverse/results/summary.json"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/bayes_center_inverse/run_bayes.py",
+      "git_blob_sha1": "28bb789925fe7ae5e5d5d3995d4096077360181b",
+      "bytes": 17577,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/bayes_center_inverse/run_bayes.py"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/bayes_center_inverse/summarize.py",
+      "git_blob_sha1": "0a4e011eb4ddb87a9398825ae439bc8e078975e6",
+      "bytes": 2677,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/bayes_center_inverse/summarize.py"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/bayes_center_inverse/test_bayes.py",
+      "git_blob_sha1": "6a959a02396ade6e8961d1c37e80d60dff5e9e80",
+      "bytes": 5588,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/bayes_center_inverse/test_bayes.py"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/bayes_center_inverse/test_depth_sensitivity.py",
+      "git_blob_sha1": "e97cfb48909dbd6caf187632ccb0ce534b12235f",
+      "bytes": 3634,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/bayes_center_inverse/test_depth_sensitivity.py"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/benchmark_v1_legacy_evidence/MOVE_MANIFEST.json",
+      "git_blob_sha1": "e94c928efac48d525f75775c2b18c407e9d62013",
+      "bytes": 6913,
+      "source": {
+        "type": "repo_file",
+        "path": "research_journal/archive_recovery/MOVE_MANIFEST_2026-11-15.json"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/benchmark_v1_legacy_evidence/README_FA.md",
+      "git_blob_sha1": "2f946ca5d2ab09f7d6f3768026c7905ef7d6b9b3",
+      "bytes": 3254,
+      "source": {
+        "type": "repo_file",
+        "path": "research_journal/archive_recovery/benchmark_legacy_README_FA.md"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/benchmark_v1_legacy_evidence/r03_full_76_candidate/RECOVERY_REPORT_FA.md",
+      "git_blob_sha1": "612cb969150dc4c9f23a7f68ca1fd627833082a1",
+      "bytes": 8440,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/benchmark_v1/report_backfill_v2/full_76_candidate/RECOVERY_REPORT_FA.md"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/benchmark_v1_legacy_evidence/r03_full_76_candidate/coverage_manifest_76.csv",
+      "git_blob_sha1": "8135e30da33b7bd71c8681dc4a3569643a941667",
+      "bytes": 206687,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/benchmark_v1/report_backfill_v2/full_76_candidate/coverage_manifest_76.csv"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/benchmark_v1_legacy_evidence/r03_full_76_candidate/recovery_budget.json",
+      "git_blob_sha1": "e7961daf865ff3192f208b845cd1f419bc7d2e01",
+      "bytes": 447,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/benchmark_v1/report_backfill_v2/full_76_candidate/recovery_budget.json"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/benchmark_v1_legacy_evidence/r03_p1_provisional/REPORT_FA.md",
+      "git_blob_sha1": "897ade1b368f5586cab9ea3983da33f5a6a4b743",
+      "bytes": 13654,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/benchmark_v1/report_backfill_v2/p1_provisional/REPORT_FA.md"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/benchmark_v1_legacy_evidence/r03_p1_provisional/coverage_76x55_provisional.csv",
+      "git_blob_sha1": "41e2d2f3252fd5b3145c9215f6aee8d225ab9dea",
+      "bytes": 311990,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/benchmark_v1/report_backfill_v2/p1_provisional/coverage_76x55_provisional.csv"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/benchmark_v1_legacy_evidence/r03_p1_provisional/coverage_summary_55_provisional.csv",
+      "git_blob_sha1": "9f1b9ccecefb6d1cc766ece644cd77507aa29b93",
+      "bytes": 6296,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/benchmark_v1/report_backfill_v2/p1_provisional/coverage_summary_55_provisional.csv"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/benchmark_v1_legacy_evidence/r03_p1_provisional/metric_rules_55.json",
+      "git_blob_sha1": "3a41e325088c55a6112bb4c4e80df286637d899e",
+      "bytes": 17255,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/benchmark_v1/report_backfill_v2/p1_provisional/metric_rules_55.json"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/benchmark_v1_legacy_evidence/r03_p1_provisional/raw_aggregate_audit_76.json",
+      "git_blob_sha1": "d6d83e9937b58b68aa40cecc3994bf2542595a79",
+      "bytes": 40126,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/benchmark_v1/report_backfill_v2/p1_provisional/raw_aggregate_audit_76.json"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/benchmark_v1_legacy_evidence/r03_p3_publication_gates/CH4_DRAFT_FA.md",
+      "git_blob_sha1": "5c966f3f9aeca810ee4277c99ec4024833c159a9",
+      "bytes": 7726,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/benchmark_v1/report_backfill_v2/p3_publication_gates/CH4_DRAFT_FA.md"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/benchmark_v1_legacy_evidence/r03_p3_publication_gates/CLAIM_GATE_MATRIX_55x4.csv",
+      "git_blob_sha1": "58ed141562bc07b0549d5e1f0d28ed83c1f4232a",
+      "bytes": 195074,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/benchmark_v1/report_backfill_v2/p3_publication_gates/CLAIM_GATE_MATRIX_55x4.csv"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/benchmark_v1_legacy_evidence/r03_p3_publication_gates/P2_MINIMAL_DECISION.md",
+      "git_blob_sha1": "8ec5c5b9042b00c7eb26c25366a9220728b3d98a",
+      "bytes": 10261,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/benchmark_v1/report_backfill_v2/p3_publication_gates/P2_MINIMAL_DECISION.md"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/benchmark_v1_legacy_evidence/r03_p3_publication_gates/REPORT_FA.md",
+      "git_blob_sha1": "15c2e8872abd2cfd4405e599deda6d6e1a97a787",
+      "bytes": 21130,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/benchmark_v1/report_backfill_v2/p3_publication_gates/REPORT_FA.md"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/benchmark_v1_legacy_evidence/results/bayes_oracle_posterior_geometry.json",
+      "git_blob_sha1": "c70e9d8ad6e58f3a2774416d1b2d935275f203dc",
+      "bytes": 2591,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/benchmark_v1/results/bayes_oracle_posterior_geometry.json"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/benchmark_v1_legacy_evidence/results/class_tied_start_node_mid_50_compact.json",
+      "git_blob_sha1": "9a5ba50709702004a6ef5d0e19c0559afc5d5eae",
+      "bytes": 2407,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/benchmark_v1/results/class_tied_start_node_mid_50_compact.json"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/benchmark_v1_legacy_evidence/results/class_tied_start_node_mid_50_summary.csv",
+      "git_blob_sha1": "a67591870b63e0878f58f9118d9d2ad43aadad7c",
+      "bytes": 833,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/benchmark_v1/results/class_tied_start_node_mid_50_summary.csv"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/benchmark_v1_legacy_evidence/results/fixed_center_recheck_7runs.zip",
+      "git_blob_sha1": "9815ba9aa94fcbea1b6390c3c146968930d545e3",
+      "bytes": 36209,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/benchmark_v1/results/fixed_center_recheck_7runs.zip"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/benchmark_v1_legacy_evidence/results/inverse_50_4families.zip",
+      "git_blob_sha1": "e1ee4367ffcb03fc5abaa28b559a3d6327bb184a",
+      "bytes": 294120,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/benchmark_v1/results/inverse_50_4families.zip"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/benchmark_v1_legacy_evidence/results/new_objectives_25_checkpoints_compact.json",
+      "git_blob_sha1": "05b8e522d22ad247186f00176e2d4c7105a2786a",
+      "bytes": 13365,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/benchmark_v1/results/new_objectives_25_checkpoints_compact.json"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/benchmark_v1_legacy_evidence/results/new_objectives_25_summary.csv",
+      "git_blob_sha1": "708f909d9b350452dddb69692275e63bebdbb9d7",
+      "bytes": 1355,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/benchmark_v1/results/new_objectives_25_summary.csv"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/benchmark_v1_legacy_evidence/results/node_class_starts_tau005_summary.csv",
+      "git_blob_sha1": "a45f359fefbce5d4557fb43c55435370c4a867bd",
+      "bytes": 681,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/benchmark_v1/results/node_class_starts_tau005_summary.csv"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/center_matching_comparison/README.md",
+      "git_blob_sha1": "399c1ff1999e7ff1c100a5b8cdccce750738f4b2",
+      "bytes": 7508,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/center_matching_comparison/README.md"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/center_matching_comparison/REPORT_FA.md",
+      "git_blob_sha1": "ac427aab6727390c8b6503b76b45967a02d1808b",
+      "bytes": 17123,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/center_matching_comparison/REPORT_FA.md"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/center_matching_comparison/analyze.py",
+      "git_blob_sha1": "100000a2cf5c2339f6d89a5aedfbed858600f9c3",
+      "bytes": 25652,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/center_matching_comparison/analyze.py"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/center_matching_comparison/detailed_metrics.py",
+      "git_blob_sha1": "8d2901080700bf708f1085048a8471de9849b58b",
+      "bytes": 14675,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/center_matching_comparison/detailed_metrics.py"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/center_matching_comparison/figures/center_matrices.svg",
+      "git_blob_sha1": "8f9585dbac196d65d92a492e9fc09b6e52e3d658",
+      "bytes": 8094,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/center_matching_comparison/figures/center_matrices.svg"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/center_matching_comparison/figures/information_vs_accuracy.svg",
+      "git_blob_sha1": "2a86d06c95d8241558ff4095b4f16f5b57dbb89b",
+      "bytes": 7952,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/center_matching_comparison/figures/information_vs_accuracy.svg"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/center_matching_comparison/reproduce.py",
+      "git_blob_sha1": "3bc31c77c3d7f4c9d87267afe9e25161a866c7f9",
+      "bytes": 3149,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/center_matching_comparison/reproduce.py"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/center_matching_comparison/results/center_geometry_49.csv",
+      "git_blob_sha1": "437efa0a095697a7ba3b24aab0b8d3e5d78f958c",
+      "bytes": 12211,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/center_matching_comparison/results/center_geometry_49.csv"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/center_matching_comparison/results/center_geometry_49.json",
+      "git_blob_sha1": "0c90c6f47702103c5f82302a51ad877343220cc7",
+      "bytes": 111223,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/center_matching_comparison/results/center_geometry_49.json"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/center_matching_comparison/results/detailed_three_cases.csv",
+      "git_blob_sha1": "595785c384fbfd531287969d8a6b8087cb6f9a74",
+      "bytes": 2045,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/center_matching_comparison/results/detailed_three_cases.csv"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/center_matching_comparison/results/detailed_three_cases.json",
+      "git_blob_sha1": "c2d69da81e76f633fa4a633b2804cda7ef90c85e",
+      "bytes": 21076,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/center_matching_comparison/results/detailed_three_cases.json"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/center_matching_comparison/results/history_00_48.json",
+      "git_blob_sha1": "6fcb045d7e8c3a80e340f251bab623397445851b",
+      "bytes": 96818,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/center_matching_comparison/results/history_00_48.json"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/center_matching_comparison/results/representations_guided_round0.json",
+      "git_blob_sha1": "0f4e83fd9a03947be833991dc22cbc04089dbec6",
+      "bytes": 50298,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/center_matching_comparison/results/representations_guided_round0.json"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/center_matching_comparison/results/representations_guided_round4.json",
+      "git_blob_sha1": "2728f16b238336c705ee1ad84484e941d5f616fe",
+      "bytes": 50350,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/center_matching_comparison/results/representations_guided_round4.json"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/center_matching_comparison/results/representations_uniform.json",
+      "git_blob_sha1": "44bebe0d74cea3a6c04b98dcdb7036cbc7743410",
+      "bytes": 26123,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/center_matching_comparison/results/representations_uniform.json"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/center_matching_comparison/results/three_cases.csv",
+      "git_blob_sha1": "f8251cfb8dbb856e744495cd8829b803c5e73851",
+      "bytes": 1071,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/center_matching_comparison/results/three_cases.csv"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/center_matching_comparison/results/three_cases.json",
+      "git_blob_sha1": "c4672f000cb28bab903e6c9598158aa3b65be12e",
+      "bytes": 7322,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/center_matching_comparison/results/three_cases.json"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/center_matching_comparison/results/trajectory_metrics.csv",
+      "git_blob_sha1": "4d5c6f6aaccf4fc3b85f81d8c10ae2cd31bcd6c6",
+      "bytes": 11875,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/center_matching_comparison/results/trajectory_metrics.csv"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/center_matching_comparison/test_analyze.py",
+      "git_blob_sha1": "accff5c96c6f9173dff680dc0c8a96af7aa18fe8",
+      "bytes": 2519,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/center_matching_comparison/test_analyze.py"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/center_matching_comparison/test_detailed_metrics.py",
+      "git_blob_sha1": "8b2daf3b7b1941a237093a1d5f51edd6e8d9c37a",
+      "bytes": 3401,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/center_matching_comparison/test_detailed_metrics.py"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/center_matching_observation/README.md",
+      "git_blob_sha1": "ee335c1b62ff735718e84896ac5f5f7d9bf232bc",
+      "bytes": 4031,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/center_matching_observation/README.md"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/center_matching_observation/README_FA.md",
+      "git_blob_sha1": "fe7e93bff350f36da9e6355690ee2206e53f27ef",
+      "bytes": 6969,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/center_matching_observation/README_FA.md"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/center_matching_observation/observe.py",
+      "git_blob_sha1": "53a30050a8b18ba6949f3707fea02691779cb2a1",
+      "bytes": 17018,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/center_matching_observation/observe.py"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/center_matching_observation/projection.py",
+      "git_blob_sha1": "91ba43f58486735fd2141d3b095df959a666bbda",
+      "bytes": 3346,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/center_matching_observation/projection.py"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/center_matching_observation/results/center_matching_round1.csv",
+      "git_blob_sha1": "ee77483b954c51665604728a91b8bee740652dad",
+      "bytes": 1272,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/center_matching_observation/results/center_matching_round1.csv"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/center_matching_observation/results/center_matching_round1.json",
+      "git_blob_sha1": "c6c991a57c979dcc8d743e8a05289aa185dd9417",
+      "bytes": 14628,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/center_matching_observation/results/center_matching_round1.json"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/center_matching_observation/results/observational_6round_final.csv",
+      "git_blob_sha1": "4e679d35e9b40ef9174d57b0cfda4fe1cbf9fe00",
+      "bytes": 1155,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/center_matching_observation/results/observational_6round_final.csv"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/center_matching_observation/results/observational_6round_final.json",
+      "git_blob_sha1": "f88ce898eebce36aa385b20f602ead15fd4633c8",
+      "bytes": 23766,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/center_matching_observation/results/observational_6round_final.json"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/center_matching_observation/test_observe.py",
+      "git_blob_sha1": "fb129f555713fba0282aee3d4405f4721ac8c157",
+      "bytes": 4115,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/center_matching_observation/test_observe.py"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/center_matching_observation/test_projection.py",
+      "git_blob_sha1": "f311a19b51c40f3750cf3526577bc5b518732d4b",
+      "bytes": 1325,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/center_matching_observation/test_projection.py"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/diag_max_full300/README_FA.md",
+      "git_blob_sha1": "11d781eaf1025927bcdc71f28a5f8acea89423b1",
+      "bytes": 3749,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/diag_max_full300/README_FA.md"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/diag_max_full300/run_maxdiag.py",
+      "git_blob_sha1": "91bfb679a490587c1b03eaf451519697fde82082",
+      "bytes": 6805,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/diag_max_full300/run_maxdiag.py"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/diag_max_full300/stream_graph.py",
+      "git_blob_sha1": "aaa268314bc6049e1fb75a8105cafbce000b2713",
+      "bytes": 5211,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/diag_max_full300/stream_graph.py"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/diag_max_full300/test_stream.py",
+      "git_blob_sha1": "783c4f3b053c8c7bde587458503118295ec39391",
+      "bytes": 1749,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/diag_max_full300/test_stream.py"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/fixed_center_compaction/REPORT_FA.md",
+      "git_blob_sha1": "712a231a1b998366447faef067d0a609caa389cb",
+      "bytes": 9245,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/fixed_center_compaction/REPORT_FA.md"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/fixed_center_margin/REPORT_FA.md",
+      "git_blob_sha1": "151d9d277bd6176eece0da1b56c7124d2b37b53f",
+      "bytes": 7682,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/fixed_center_margin/REPORT_FA.md"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/fixed_center_margin/summary.csv",
+      "git_blob_sha1": "69009edb2cf9db811fefd796368385e706943276",
+      "bytes": 890,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/fixed_center_margin/summary.csv"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/fixed_metric_comparison/README_FA.md",
+      "git_blob_sha1": "fe9badbf84e073f3c60c73137533eba8c3bdd31d",
+      "bytes": 1557,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/fixed_metric_comparison/README_FA.md"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/fixed_metric_comparison/compare.py",
+      "git_blob_sha1": "3068445af2b40b83750e629a80b32ace98fce19e",
+      "bytes": 7462,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/fixed_metric_comparison/compare.py"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/fixed_metric_comparison/results/fixed_metric_comparison.json",
+      "git_blob_sha1": "306b737470fdb47b10d37747acf33e1215fd67ea",
+      "bytes": 10118,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/fixed_metric_comparison/results/fixed_metric_comparison.json"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/historical_archive/ARCHIVE_STATUS_FA.md",
+      "git_blob_sha1": "4c87ad40dc422b983423d2f3b6d470762edbb70f",
+      "bytes": 3713,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/historical_archive/ARCHIVE_STATUS_FA.md"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/historical_archive/archives/center_inverse_bootstrap_experiment.zip",
+      "git_blob_sha1": "fe6a65ca8de1759c2f2bb6e57a03a064901ba731",
+      "bytes": 49787,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/historical_archive/archives/center_inverse_bootstrap_experiment.zip"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/historical_archive/archives/fixed_center_compaction_complete.zip",
+      "git_blob_sha1": "35cd2e22e9df06ae6985f36de0198784635e603b",
+      "bytes": 69599,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/historical_archive/archives/fixed_center_compaction_complete.zip"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/historical_archive/archives/full300_maxdiag_bootstrap_experiment.zip",
+      "git_blob_sha1": "c85dc00fc5ea23bffb45481261b3e4d32dd9e659",
+      "bytes": 57083,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/historical_archive/archives/full300_maxdiag_bootstrap_experiment.zip"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/historical_archive/archives/inverse_margin_center_class_conditional.zip",
+      "git_blob_sha1": "53cf46730f9b3059acb696cd8e83e21d901cbb22",
+      "bytes": 51248,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/historical_archive/archives/inverse_margin_center_class_conditional.zip"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/historical_archive/archives/margin_fixed_centers_complete.zip",
+      "git_blob_sha1": "7ade10ec848e0ed305165f70f7b4293eb342c60b",
+      "bytes": 67537,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/historical_archive/archives/margin_fixed_centers_complete.zip"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/historical_archive/archives/margin_sigmoid_only_experiment.zip",
+      "git_blob_sha1": "89ed34d6e130995b8a2f03ff7af68fd830e395b6",
+      "bytes": 81455,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/historical_archive/archives/margin_sigmoid_only_experiment.zip"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/historical_archive/archives/multistep_policy_target_match_full.zip",
+      "git_blob_sha1": "868554a8a832969c9e1877bd64b285216b632bad",
+      "bytes": 32361,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/historical_archive/archives/multistep_policy_target_match_full.zip"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/historical_archive/archives/policy_comparison_complete.zip",
+      "git_blob_sha1": "aba526c893c7b3edc6b0af17a133b722c5008967",
+      "bytes": 35416,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/historical_archive/archives/policy_comparison_complete.zip"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/historical_archive/archives/train_size_margin_only_complete.zip",
+      "git_blob_sha1": "ac7937e2846e4ffe68b05ad2445420fc0fc04fdc",
+      "bytes": 63963,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/historical_archive/archives/train_size_margin_only_complete.zip"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/inverse_margin_center/README_FA.md",
+      "git_blob_sha1": "1ba39e7ba963cd4b5edb76a9c16dfd3618245185",
+      "bytes": 2643,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/inverse_margin_center/README_FA.md"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/inverse_margin_center/REPORT_FA.md",
+      "git_blob_sha1": "97e7109db38fd61a9e2d514ccb59c6225f1027b3",
+      "bytes": 5098,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/inverse_margin_center/REPORT_FA.md"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/margin_training/BAYES_72_AUDIT_FA.md",
+      "git_blob_sha1": "da50c70f9ddf089ab140acc7bdb31bae79d7a1b3",
+      "bytes": 2852,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/margin_training/BAYES_72_AUDIT_FA.md"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/margin_training/README_FA.md",
+      "git_blob_sha1": "48b5a7342ef419d6f4e04d0cf3f5041bd0609e5d",
+      "bytes": 4720,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/margin_training/README_FA.md"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/margin_training/SIZE_STUDY_REPORT_FA.md",
+      "git_blob_sha1": "398aeece7324eb7e68bad70cec4ae1b3b48a79c6",
+      "bytes": 6153,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/margin_training/SIZE_STUDY_REPORT_FA.md"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/margin_training/TEST_EVALUATION_FA.md",
+      "git_blob_sha1": "769cf9da733d792eda1c50360264866a16f9356d",
+      "bytes": 2094,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/margin_training/TEST_EVALUATION_FA.md"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/margin_training/audit_bayes_72.py",
+      "git_blob_sha1": "5814fc67d7fe68034835e9b15739a2371942096c",
+      "bytes": 3024,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/margin_training/audit_bayes_72.py"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/margin_training/check_bayes_splits.py",
+      "git_blob_sha1": "7e7c97eaf12c5ac7f4fb75a2298d9f34eda4ad5b",
+      "bytes": 1432,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/margin_training/check_bayes_splits.py"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/margin_training/evaluate_test_snapshot.py",
+      "git_blob_sha1": "d14a0862ee55cd22aef7eca8d8d6c498622b5f57",
+      "bytes": 2331,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/margin_training/evaluate_test_snapshot.py"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/margin_training/gradient_profile.py",
+      "git_blob_sha1": "8aa21cbfdb096ff1cb07585e2b17b04cf03951ac",
+      "bytes": 3012,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/margin_training/gradient_profile.py"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/margin_training/results/bayes_72_train_audit.json",
+      "git_blob_sha1": "9c28676c3084c1f46b4fb7188edb5ab9066c795a",
+      "bytes": 1900,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/margin_training/results/bayes_72_train_audit.json"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/margin_training/results/bayes_split_difficulty.json",
+      "git_blob_sha1": "5ecd2d5b61ea429a4f2be23b7e23228202dd4b0f",
+      "bytes": 995,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/margin_training/results/bayes_split_difficulty.json"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/margin_training/results/full300_policy_snapshots.json",
+      "git_blob_sha1": "75e9c68d1db4bba5131f7d598fecb7999d24db96",
+      "bytes": 2719,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/margin_training/results/full300_policy_snapshots.json"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/margin_training/results/gradient_profile_summary.json",
+      "git_blob_sha1": "c58b597e7182ccbf497c9eebe22bab266c66b304",
+      "bytes": 1045,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/margin_training/results/gradient_profile_summary.json"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/margin_training/results/heldout_test_comparison.json",
+      "git_blob_sha1": "2353802d841452d731e1a76fdaf21602a8f29936",
+      "bytes": 2103,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/margin_training/results/heldout_test_comparison.json"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/margin_training/results/size_study/aggregate.csv",
+      "git_blob_sha1": "521403177e6eea2bd187125f559782aa58def247",
+      "bytes": 5379,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/margin_training/results/size_study/aggregate.csv"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/margin_training/results/size_study/runs.csv",
+      "git_blob_sha1": "00366a8d24ee4a5f509190572d0e290f7ce19dac",
+      "bytes": 7935,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/margin_training/results/size_study/runs.csv"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/margin_training/results/summary.csv",
+      "git_blob_sha1": "7f767941edca463e020d6bd41a6d941a3197c75b",
+      "bytes": 1452,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/margin_training/results/summary.csv"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/margin_training/test_train.py",
+      "git_blob_sha1": "cf46f3989e408d31a24393a566875a5935f8c341",
+      "bytes": 393,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/margin_training/test_train.py"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/margin_training/train.py",
+      "git_blob_sha1": "acf04a840f58b33f4b99709cd8744015d952f958",
+      "bytes": 7050,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/margin_training/train.py"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/margin_training/train_size_study.py",
+      "git_blob_sha1": "a8ebae45e30640a988d9e2220025c09e7b1a46ea",
+      "bytes": 7139,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/margin_training/train_size_study.py"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/multistep_policy_target_match/BOOTSTRAP_REPORT_FA.md",
+      "git_blob_sha1": "3e434008c54d6a0e3df5f679f900c8928d3609ad",
+      "bytes": 8320,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/multistep_policy_target_match/BOOTSTRAP_REPORT_FA.md"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/multistep_policy_target_match/README_FA.md",
+      "git_blob_sha1": "04705a58423a419ff8b7a65afa4a546ab9b7ec54",
+      "bytes": 7392,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/multistep_policy_target_match/README_FA.md"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/multistep_policy_target_match/bootstrap_inverse.py",
+      "git_blob_sha1": "bac81cc95e37c0b196aac8080c317dec577e5f69",
+      "bytes": 14327,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/multistep_policy_target_match/bootstrap_inverse.py"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/multistep_policy_target_match/results/aggregate_3seeds.json",
+      "git_blob_sha1": "9684f5716333107ae97679e58dbd7e0c49a86ae2",
+      "bytes": 1904,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/multistep_policy_target_match/results/aggregate_3seeds.json"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/multistep_policy_target_match/results/bootstrap_aggregate.json",
+      "git_blob_sha1": "ab806d64f817b324e1d50ae498ef8a4a12aba4c0",
+      "bytes": 4654,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/multistep_policy_target_match/results/bootstrap_aggregate.json"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/multistep_policy_target_match/results/bootstrap_seed_20261107.json",
+      "git_blob_sha1": "f32756d06d28869e9ac3d333f29c03b29d964f1e",
+      "bytes": 55695,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/multistep_policy_target_match/results/bootstrap_seed_20261107.json"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/multistep_policy_target_match/results/bootstrap_seed_20261108.json",
+      "git_blob_sha1": "b2f8faa4f74ca0b78187453a4de763d5f656bddb",
+      "bytes": 63599,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/multistep_policy_target_match/results/bootstrap_seed_20261108.json"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/multistep_policy_target_match/results/bootstrap_seed_20261109.json",
+      "git_blob_sha1": "642255e06916159388caf65aa15acdf0272976ec",
+      "bytes": 58346,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/multistep_policy_target_match/results/bootstrap_seed_20261109.json"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/multistep_policy_target_match/run.py",
+      "git_blob_sha1": "3485b1c9c1c2d97ecf3fa8f91fe5bd5b1ed656e9",
+      "bytes": 13869,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/multistep_policy_target_match/run.py"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/multistep_policy_target_match/test_bootstrap_inverse.py",
+      "git_blob_sha1": "98cf7a5f513a3d38c352115d3fad82a3d6078311",
+      "bytes": 2853,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/multistep_policy_target_match/test_bootstrap_inverse.py"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/multistep_policy_target_match/test_run.py",
+      "git_blob_sha1": "af87a74d3068e25ebfa2becd9e317a8978da6ef7",
+      "bytes": 3374,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/multistep_policy_target_match/test_run.py"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/policy_architecture_comparison/REPORT_FA.md",
+      "git_blob_sha1": "14b6680fbe7fc4b9c0ac1f05b3e137d22018dbf3",
+      "bytes": 6038,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/policy_architecture_comparison/REPORT_FA.md"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/q_population_validation/README_FA.md",
+      "git_blob_sha1": "9f2ffa25baeb01731e9fb8d1eac99d4cfdf5a02f",
+      "bytes": 8011,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/q_population_validation/README_FA.md"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/q_population_validation/compare.py",
+      "git_blob_sha1": "d4370eb42bcc1551111dfd67749fecf681dff69b",
+      "bytes": 4919,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/q_population_validation/compare.py"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/q_population_validation/results/q_population_replicates.csv",
+      "git_blob_sha1": "57bea3a56ce9ef381c2b43068b9d37ab467bfbf5",
+      "bytes": 2534,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/q_population_validation/results/q_population_replicates.csv"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/q_population_validation/results/q_population_validation.json",
+      "git_blob_sha1": "79712f9608f69252371be904fe3fb73696514966",
+      "bytes": 10207,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/q_population_validation/results/q_population_validation.json"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/q_population_validation/test_compare.py",
+      "git_blob_sha1": "dd93b6d5aaa3dfd5cab12f0712efd886f33327da",
+      "bytes": 1966,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/q_population_validation/test_compare.py"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/sigmoid_margin_diagnostics/README_FA.md",
+      "git_blob_sha1": "56710db94070cd13ffbb76598b0c4a82836438e2",
+      "bytes": 11871,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/sigmoid_margin_diagnostics/README_FA.md"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/sigmoid_margin_diagnostics/analyze.py",
+      "git_blob_sha1": "19b06f7056a4d0fffb95d35de67851eb0768bcce",
+      "bytes": 9189,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/sigmoid_margin_diagnostics/analyze.py"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/sigmoid_margin_diagnostics/results/sigmoid_validation_diagnostics.json",
+      "git_blob_sha1": "17bcd4f5b88a621d2ea7d8d1e377915785ef1144",
+      "bytes": 110704,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/sigmoid_margin_diagnostics/results/sigmoid_validation_diagnostics.json"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/sigmoid_margin_diagnostics/results/sigmoid_validation_summary.csv",
+      "git_blob_sha1": "23bd6c346c67e3b9fb09f5e96ddff41c98f6e0dc",
+      "bytes": 3967,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/sigmoid_margin_diagnostics/results/sigmoid_validation_summary.csv"
+      }
+    },
+    {
+      "archive_path": "code/experiments/archive/sigmoid_margin_diagnostics/test_analyze.py",
+      "git_blob_sha1": "0a042a92699e3693a116fe4ffb4f05dc1c194b2e",
+      "bytes": 2007,
+      "source": {
+        "type": "tag",
+        "path": "code/experiments/archive/sigmoid_margin_diagnostics/test_analyze.py"
+      }
+    }
+  ]
+}
