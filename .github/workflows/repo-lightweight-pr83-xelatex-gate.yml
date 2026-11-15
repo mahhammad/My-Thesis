@@ -64,7 +64,9 @@ jobs:
             exit 1
           fi
           # Citation keys are ASCII. -8 avoids a non-portable cp1256fa.csf.
-          if ! bibtex8 -8 -W build/repo-lightweight/main \
+          # BibTeX must run inside the aux output directory, because \include
+          # writes \@input{./tex/chapter*.aux} as relative paths.
+          if ! ( cd build/repo-lightweight && BIBINPUTS="../../:" bibtex8 -8 -W main ) \
                  > build/repo-lightweight/bibtex.log 2>&1; then
             tail -n 120 build/repo-lightweight/bibtex.log
             exit 1
