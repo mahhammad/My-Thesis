@@ -59,6 +59,24 @@ class E13Presentation(unittest.TestCase):
         self.assertEqual(len(labels),len(set(labels)))
         for l in inserted:self.assertNotIn(l,labels) # wrappers only
 
+    def test_table_values_equal_frozen_raw_and_matched_bayes(self):
+        from phase2_derived_reproduce_v2 import inputs,pair_data
+        from validation_bayes_summary import main as bayes_summary
+        _,D=inputs()
+        rows=pair_data(D)
+        table=(HERE/"tables/phase2_validation_pairs.tex").read_text()
+        for row in rows:
+            expected=(f"{row['seed']}",f"{100*row['validation_BA_sigmoid']:.4f}",
+                      f"{100*row['validation_BA_softplus']:.4f}",
+                      f"{row['delta_BA_pp']:+.4f}")
+            for value in expected:self.assertIn(value,table,(row['seed'],row['family'],value))
+        summary=(HERE/"tables/phase2_validation_summary.tex").read_text()
+        for row in bayes_summary()["rows"]:
+            for key in ("mean_percent","sample_variance_pp_squared",
+                        "sample_standard_deviation_pp"):
+                self.assertIn(f"{row[key]:.4f}",summary,(row["family"],row["objective"],key))
+        # Raw comparisons and Bayes reference use the same 3 dataset seeds.
+
     def test_no_test_and_no_raw_rewrite(self):
         m=json.loads((HERE/"results/phase2_300_25/manifest.json").read_text())
         self.assertIs(m["test_accessed"],False)
