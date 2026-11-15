@@ -19,7 +19,6 @@ ROOT = HERE.parents[2]
 for source in (
     ROOT / "code/data_generator",
     ROOT / "code/experiments/benchmark_v1",
-    ROOT / "code/experiments/center_matching_observation",
     ROOT / "code/policy_evaluator",
 ):
     sys.path.insert(0, str(source))
