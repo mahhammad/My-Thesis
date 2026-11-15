@@ -5,3 +5,7 @@ Explicitly trigger deterministic evaluation of the existing 12-fit source manife
 ## Regression verification 2
 
 Re-check full published LaTeX number strings against original per-fit archived metrics and same three-seed frozen Bayes MAP baseline. No fitting, no Test access.
+
+## Regression verification 3
+
+Zero-difference paired BA renders `0.0000` (unsigned), preserving the human-facing table convention. Re-run complete read-only publication preflight.
