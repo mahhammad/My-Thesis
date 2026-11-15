@@ -54,7 +54,7 @@ class E09Presentation(unittest.TestCase):
             self.assertEqual(s.count("\\label{"+tag+"}"),1)
             self.assertEqual(s.count("\\begin{tikzpicture}["),1)
             self.assertEqual(s.count("\\end{tikzpicture}"),1)
-        report=(HERE/"REPORT_FA.md").read_text(encoding="utf8")
+        report=(HERE/"README_FA.md").read_text(encoding="utf8")
         self.assertIn("زمان اجرای موتور گشت",report)
         self.assertIn("H=1,2,3,4,8,12",report)
         self.assertIn("از توزیع‌های گام‌به‌گام ذخیره‌شده E08",report)

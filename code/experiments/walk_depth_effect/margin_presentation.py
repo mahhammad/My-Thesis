@@ -116,8 +116,8 @@ def main():
                     " با تغییر سقف واقعی گشت.",
                     "fig:ch4-e09-"+split+"-margin")
         save(HERE/"figures"/f"{split}_margin_median_vs_H.tex",fig)
-    path=HERE/"REPORT_FA.md"
-    pre=path.read_text(encoding="utf8").split(MARKER)[0].rstrip()
+    path=HERE/"results"/"margin_generated_report.txt"
+    
     report=[
         MARKER,"",
         "حاشیه علامت‌دار از امتیاز کلاس درست منهای بزرگ‌ترین امتیاز رقیب "
@@ -146,7 +146,7 @@ def main():
              "نمودارهای figures/train_margin_median_vs_H.tex و "
              "figures/validation_margin_median_vs_H.tex. هیچ گشت یا آموزش جدید انجام نشده است.",
              ""]
-    path.write_text(pre+"\n\n"+"\n".join(report),encoding="utf8")
+    path.write_text("\n".join(report),encoding="utf8")
     print("E09_MARGIN_PASS",json.dumps({
         "rows":len(rows),"tau":tau,
         "endpoints":{p:{split:{

@@ -90,7 +90,7 @@ class MarginPresentationQA(unittest.TestCase):
         for name in ("tables/margin_by_H.tex","figures/train_margin_median_vs_H.tex",
                      "figures/validation_margin_median_vs_H.tex"):
             self.assertIn(name,sect)
-        report=(HERE/"REPORT_FA.md").read_text(encoding="utf8")
+        report=(HERE/"README_FA.md").read_text(encoding="utf8")
         self.assertIn("## حاشیه تصمیم: Train و Validation",report)
         self.assertIn("زیان سیگموئیدی متوازن",report)
 
