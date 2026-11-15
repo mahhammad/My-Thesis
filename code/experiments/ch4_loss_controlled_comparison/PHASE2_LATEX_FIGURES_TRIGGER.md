@@ -1,3 +1,0 @@
-# E-CH4-13: owner-authorized presentation-only TeX vector assets
-
-This trigger authorizes exactly 11 vector PDF versions of existing figure SVG assets, plus one new Figure 11 SVG with y axis fixed to 70--100 percent. No new fit, no optimizer, no new data, no Test access. Figure 1--8 take the existing paired-overlaid v3 assets. Figures 9--10 take existing v2 assets. Figure 11 is rebuilt deterministically from original SHA-verified optimizer trace, and prior SVGs remain unchanged. TeX inclusion points at `figures/phase2_tex/*.pdf`; manuscript prose and tables are separately committed. PR #79 remains Draft pending independent QA.

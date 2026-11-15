@@ -2008,3 +2008,195 @@ python code/experiments/ch4_loss_controlled_comparison/phase2_runner.py
 ## سیاست آرشیو نسخه‌های قبلی
 
 متن گزارش، پیش‌ثبت و checkpointها با شناسه و وضعیت زمان ثبت‌شان در بخش‌های بالا حفظ شده است. اصل فایل‌ها در [کامیت تاریخی پیش از تجمیع](https://github.com/mahhammad/My-Thesis/tree/9a6f1e178ee25c4e280ec93af80800586e61ea9c/code/experiments/ch4_loss_controlled_comparison/) و در سوابق Git/Issue قابل بازیابی است؛ کدهای آموزشی، داده‌های خام، snapshotها و نتایج رسمی تغییر نکرده‌اند.
+
+
+## پیوست سابقهٔ کنترل‌های یک‌بارهٔ انتشار (غیرفعال)
+
+این هفت فایل صرفاً *محرک اجرای Workflowهای موقت روی شاخهٔ آزمایشی قدیمی* بودند. Workflowهای مربوطه قبلاً از `main` بازنشسته شده‌اند؛ این بخش صرفاً منشأ تصمیم‌های مربوط به آماده‌سازی شکل‌ها و کنترل پسینی را ثبت می‌کند و **هیچ مجوز یا امکان شروع آموزش جدید ایجاد نمی‌کند**.
+
+| فایل محرک بازنشسته | هدف تاریخی |
+
+|---|---|
+
+| `PERSIAN_FIGURES_TRIGGER.md` | تولید اولیه نسخه‌های فارسی SVG/PDF بدون آموزش |
+
+| `PERSIAN_LAYOUT_REPAIR_TRIGGER.md` | رفع هم‌پوشانی legend در نمودارهای فارسی |
+
+| `PERSIAN_TEX_COMPILE_TRIGGER.md` | درخواست ساخت تمام PDF فارسی با XeLaTeX و استخراج صفحات شکل‌ها |
+
+| `PHASE2_FIGURES_V3_TRIGGER.md` | بازآرایی هشت نمودار هم‌محور روش‌ها و خطوط خلاصه |
+
+| `PHASE2_LATEX_FIGURES_TRIGGER.md` | ساخت PDF برداری و اصلاح محور BA شکل ۱۱ |
+
+| `PHASE2_LATEX_QA_TRIGGER.md` | کنترل نهایی نام فایل‌ها و نمودارهای قابل انتشار |
+
+| `PHASE2_QA_FIXES_V2_TRIGGER.md` | بازسازی پوشش صحیح و شکل‌های مشتق‌شده نسخه دوم بدون FIT |
+
+نسخه‌های Git blob این محرک‌ها و وضعیت زمانی آن‌ها در [کامیت منبع قبل از بازنشستگی](https://github.com/mahhammad/My-Thesis/tree/28386293ebda139d1c835a46af955af326bbf9b2/code/experiments/ch4_loss_controlled_comparison/) قابل بازیابی هستند.
+
+### متن دقیق سوابق محرک‌های انتشار
+
+#### `PERSIAN_FIGURES_TRIGGER.md`
+
+<details>
+
+<summary>نمایش متن تاریخی محرک منسوخ</summary>
+
+
+
+## E-CH4-13 — explicit authorization for derived Persian publication figures
+Owner/manager request: https://github.com/mahhammad/My-Thesis/issues/80#issuecomment-6891611063
+
+Only approved one-time task: generate new 11 SVG + 11 vector PDF Persian
+publication counterparts in figures/phase2_tex_fa/, with source/target
+SHA256 manifest. No new fitting, no Test, no overwritten English originals,
+no changes to original raw/experiment snapshots, no merge.
+
+Use the deterministic Python source phase2_persian_figures.py and retain all
+eleven English graph bytes. The completed assets will be reviewed in chapter
+PDF before publication.
+Retry explanation: first artifact fully generated and passed all figure checks, but publication push was rejected by a concurrent chapter text commit. The workflow now rebases safely; no training and no modification of frozen sources.
+
+
+
+
+</details>
+
+#### `PERSIAN_LAYOUT_REPAIR_TRIGGER.md`
+
+<details>
+
+<summary>نمایش متن تاریخی محرک منسوخ</summary>
+
+
+
+Final publication visual QA note: the Persian dashed-lines explanatory sentence originally sat at x=1140, y=98 in the same row as the two legend labels. Relocate only this Persian label to its original unobstructed x=60, retaining the vector geometry and all English originals. Reproduce all 11 Persian editions and refresh the manifest. Never train, access Test, change any metric or merge.
+Approved final: method legend shifted LEFT for 8 paired plots; dashed summary text stays RIGHT with nonoverlapping space. Figure 11 footer replaced with «دقت متوازن بر اساس نمونه‌های آموزش». Derived-only generator has been corrected for in-place regeneration; rerun layout QA. English SVG/PDF source and all data remain immutable.
+
+Owner clarification: retain substantive footer metadata for Figures 9–11 (12 fits, exact walk H=12, 25 Adam updates, archived run ID and split sizes where applicable); replace only needless 'no Validation or Test trajectory' wording with explicit 'based on Train data'. Regenerate and checksum Persian derivatives only. Date: 2026-11-15.
+
+
+
+
+</details>
+
+#### `PERSIAN_TEX_COMPILE_TRIGGER.md`
+
+<details>
+
+<summary>نمایش متن تاریخی محرک منسوخ</summary>
+
+
+
+E-CH4-13 owner-approved publication PDF quality gate.
+Source issue: https://github.com/mahhammad/My-Thesis/issues/80#issuecomment-6891611063
+
+All 11 original English graph editions remain unchanged. All 11 Persian vector PDFs are source-verified and referenced by chapter 4 LaTeX wrappers. This explicitly triggers a full XeLaTeX compilation and visible page-review artifact (NO FIT / NO TEST / NO MERGE).
+
+Final independent gate QA-E-CH4-13-FINAL-MERGE-GATE-01: compile post-owner-review Chapter 4 and the precise current Persian 11-figure edition, without any optimizer, Test access, or changing science. Audit run requested to replace older SHA-only success evidence.
+
+Corrected final evidence rerun: explicitly map LaTeX printed page numbers to physical PDF pages, render all 11 actual Persian figures from the same commit, archive complete thesis PDF. Scientific report/figures unchanged; no fit, no Test.
+
+Final extracted figure-page audit: read Persian printed page number from the footer of the unique E-CH4-13 directory-reference page; map printed 177–183 to physical PDF pages 229–235. Do not alter LaTeX, charts, raw data or Test.
+
+
+
+
+</details>
+
+#### `PHASE2_FIGURES_V3_TRIGGER.md`
+
+<details>
+
+<summary>نمایش متن تاریخی محرک منسوخ</summary>
+
+
+
+## E-CH4-13 owner-selected figure layout (Figures 1–8 only)
+
+Owner-requested display: exact overlapping x for Sigmoid and Softplus **within each seed** (no horizontal dodge), two distinct shapes/colors, separate panels for policy families shared and class. In each panel **each method gets three horizontal dashed descriptive lines**: minimum, arithmetic mean and maximum **over its three dataset seeds**. Mean heavier dashed, extrema lighter fine-dashed. Each panel shares the same y scale, seeds are named in full. These lines must NOT be interpreted as confidence intervals, fitted trends, or a population inference.
+
+New graphs: original 1–8 report figure slots, with 1 = absolute Validation BA of two losses, 2 = absolute Train I of two losses, 3–8 = three R variants by Train and Validation. **Figures 9–11 unchanged**. Existing v2 images and raw evidence are immutable.
+
+Output in figures/phase2_repro_v3/ (8 SVG) plus derived/phase2_figures_1_8_v3_manifest.json. Source: phase2_figures_1_8_v3.py using the stored 12-fit raw and 60 independent checksum checks, without Test/optimizer. This trigger authorizes only the visualization-derived workflow, not fitting or LaTeX edits.
+
+Do not merge PR #79; await independent re-QA and owner's chart review.
+
+
+
+
+</details>
+
+#### `PHASE2_LATEX_FIGURES_TRIGGER.md`
+
+<details>
+
+<summary>نمایش متن تاریخی محرک منسوخ</summary>
+
+
+
+## E-CH4-13: owner-authorized presentation-only TeX vector assets
+
+This trigger authorizes exactly 11 vector PDF versions of existing figure SVG assets, plus one new Figure 11 SVG with y axis fixed to 70--100 percent. No new fit, no optimizer, no new data, no Test access. Figure 1--8 take the existing paired-overlaid v3 assets. Figures 9--10 take existing v2 assets. Figure 11 is rebuilt deterministically from original SHA-verified optimizer trace, and prior SVGs remain unchanged. TeX inclusion points at `figures/phase2_tex/*.pdf`; manuscript prose and tables are separately committed. PR #79 remains Draft pending independent QA.
+
+
+
+
+</details>
+
+#### `PHASE2_LATEX_QA_TRIGGER.md`
+
+<details>
+
+<summary>نمایش متن تاریخی محرک منسوخ</summary>
+
+
+
+## Publication-only E-CH4-13 QA authorization
+
+Explicitly trigger deterministic evaluation of the existing 12-fit source manifests, 8 overlaid figures, 70–100 Train BA figure 11, 11 vector PDF LaTeX assets and 2 tables, and the matched three-seed Bayes MAP Validation baseline. This is a no-fit, no-Test, no-new-data, read-only QA run for owner review and subsequent independent scientific audit. PR #79 remains Draft.
+
+### Regression verification 2
+
+Re-check full published LaTeX number strings against original per-fit archived metrics and same three-seed frozen Bayes MAP baseline. No fitting, no Test access.
+
+### Regression verification 3
+
+Zero-difference paired BA renders `0.0000` (unsigned), preserving the human-facing table convention. Re-run complete read-only publication preflight.
+
+### Final independent merge-gate re-QA
+
+Run the archived raw reproducibility, twelve corrected coverage aliases, original v2/v3 SVGs, Figure 11 axis and Persian LaTeX wrapper checks on this exact publication branch. Confirm no fit or Test. Required by QA-E-CH4-13-FINAL-MERGE-GATE-01.
+
+
+
+
+</details>
+
+#### `PHASE2_QA_FIXES_V2_TRIGGER.md`
+
+<details>
+
+<summary>نمایش متن تاریخی محرک منسوخ</summary>
+
+
+
+## E-CH4-13 — independent QA follow-up: versioned derived fixes, zero training
+
+Request: Issue #80, independent verdict ACCEPT_PHASE2_WITH_FIXES, comment #6889701832.
+
+Purpose: generate **only** new derivation products under `derived/phase2_qa_fixes_v2/` and `figures/phase2_repro_v2/` using existing immutable 12-fit raw and strict source SHA checks. No change to prior figures the owner is reviewing. No optimizer, Test, raw overwrite, LaTeX or PR merge.
+
+- Frozen audit delivery: `d836d72beec4cc9dd47467c7e39755e4c0c8cbad`
+- Original training SHA: `cdb45644c245e04a276eb2a419e4d64f71c6c18a`
+- Original successful Actions run: `43670524935`, artifact `14144445918`
+- Post-hoc source: `phase2_derived_reproduce_v2.py`
+- Gate: exactly 12 corrected coverage metadata files, 11 reproducible SVGs, 2 plotting data CSVs, 2 provenance JSONs (27 files total)
+- Generated files must pass `--check` for byte-level reconstruction.
+
+This file is an opt-in **nontraining** workflow marker; after completion, the derived correction code is the canonical source of chart values, not the originally hand-crafted SVGs. The independent auditor must recheck this new v2 material rather than treating the researcher declaration as acceptance.
+
+
+
+
+</details>
