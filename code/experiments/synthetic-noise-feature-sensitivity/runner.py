@@ -314,18 +314,8 @@ def execute(authorization, source_sha, run_token):
                 raise
     if len(reports) != 36:
         raise AssertionError('Batch incomplete; no final summary')
-    summary = []
-    for subset, family in grid():
-        run_id=f'{subset}__{family}'
-        r=reports[run_id]
-        summary.append({'run_id':run_id,'subset_id':subset,'family':family,
-                        'k':next(len(indices) for key,indices in SUBSETS if key==subset),
-                        'train_BA':r['train']['balanced_accuracy'],
-                        'validation_BA':r['validation']['balanced_accuracy'],
-                        'train_Accuracy':r['train']['ordinary_accuracy'],
-                        'validation_Accuracy':r['validation']['ordinary_accuracy'],
-                        'train_R_JS':r['train']['R_JS'],
-                        'train_I':r['train']['I']})
+    from analysis import summarize_reports
+    descriptive = summarize_reports(reports)  # Pure postprocessing of saved reports.
     new_file(ledger_dir/'metrics_full.json',
              json.dumps({'schema':'e-ch4-14-metrics-batch-v1',
                          'test_accessed':False,'runs':reports},allow_nan=False,indent=2)+'\n')
@@ -333,7 +323,12 @@ def execute(authorization, source_sha, run_token):
              json.dumps({'schema':'e-ch4-14-coverage-v1',
                          'runs':{key:report['coverage'] for key,report in reports.items()}},
                         allow_nan=False,indent=2)+'\n')
-    new_file(ledger_dir/'metrics_summary.csv',trace_as_csv(summary))
+    new_file(ledger_dir/'metrics_summary.csv', trace_as_csv(descriptive['individual']))
+    new_file(ledger_dir/'metrics_grouped.csv', trace_as_csv(descriptive['grouped']))
+    new_file(ledger_dir/'metrics_paired.csv', trace_as_csv(descriptive['paired']))
+    new_file(ledger_dir/'metrics_paired_by_k.csv', trace_as_csv(descriptive['paired_by_k']))
+    new_file(ledger_dir/'metrics_analysis.json',
+             json.dumps(descriptive, indent=2, allow_nan=False) + '\n')
     new_file(ledger_dir/'provenance.json',
              json.dumps({'schema':'e-ch4-14-provenance-v1','source_sha':source_sha,
                          'mother_sha256':mother.source_sha,'data_spec_sha256':spec_sha(spec),
