@@ -37,7 +37,7 @@ from walk_analysis import (
 )
 from presentation import make_assets, make_report
 
-ARCHIVE = BENCH / "results" / "core_50_16runs.zip"
+ARCHIVE = ROOT / "code/experiments/standard_policy_comparison/results/core_50_16runs.zip"
 ARCHIVE_SHA256 = "9609eb96c207316fde26934cbef4668ba287a275d4485175d1da7e798a297040"
 CONFIG = ROOT / "code" / "data_generator" / "config.json"
 DATA_SEED = 20261102
