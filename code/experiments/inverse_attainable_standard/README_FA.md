@@ -2435,3 +2435,219 @@ The historical owner-root and old path contract belong to the pinned full checko
 ## اصل و بازیابی مدارک
 
 گزارش‌های پیشین و پرونده‌های منشأ در [کامیت پیش از تجمیع](https://github.com/mahhammad/My-Thesis/tree/6961c78755828637579188ab5d6299499df5c08b/code/experiments/inverse_attainable_standard/) ثبت و در تاریخچه قابل بازیابی‌اند. ارجاعات Issueها به فایل‌های قدیمی را به متن نسخهٔ قفل‌شده ارجاع دهید. فایل‌های `runner_v3/data_contract.py` و سایر اسناد trust-root با Git blob قفل‌شده در این تجمیع دست‌نخورده‌اند.
+
+
+## قرارداد B02 و تاریخچهٔ ممیزی گیت اعتماد
+
+این بخش **مستندات تهدید، بستن گیت و رأی‌های تاریخی** ابزار B02 را حفظ می‌کند. قرارداد مالک و checksumهای Git blob کد و snapshotها عوض نشده‌اند. پذیرفته‌شدن B01 و خوداظهاری PASS پساتحویل به معنی مجازشدن اجرای عددی جدید یا رأی مستقل دوم نیست.
+
+### شواهد منشأ: `b02_gate_candidate/HARDEN_V2_QA_REPORT.md`
+
+## [RESEARCHER-05][B02-HARDEN-V2] — G15/G20/preflight audit hardening evidence
+
+**Mission:** `CH4-R05-B02-VERIFIER-HARDEN-V2-01`.  
+**Frozen V1 parent:** `1dda91c073783fd16be7a607ccbfe407f523f075`.  
+**Historical B02 snapshot:** `05acde39b76b49e0b55337301251594be0ad6d92`.  
+**Branch:** `research/ch4-r05-b02-gate-hardening-v2`.  
+**Scope:** only `code/experiments/inverse_attainable_standard/b02_gate_candidate/`; no graph, model, optimizer, forward, Jacobian, solver, resource probe, Test, CI, PR, merge, historical raw, or tex change.
+
+### 1. Independent-audit findings addressed in candidate V2
+
+| Issue | V1 gap | Candidate V2 repair | Remaining blocker |
+|---|---|---|---|
+| **G15 effective import** | `PathFinder.find_spec(sys.path)` misses `sys.meta_path` hooks and `sys.modules` | `importlib.util.find_spec` observes effective origin; rejects preloaded `run/stream_graph/generate`, verifies `SourceFileLoader` class, `loader.name/path/origin`, and SHA-256 of source bytes read via loader and OS | **INTEGRATION_REQUIRED / NOT_YET_ATTESTED_AT_USE**: no protected loader/import binding at actual first graph use, import-hook side effects, Python bytecode caches and changes after the check are not ruled out |
+| **G20 immutable/pre-use** | `Bundle` frozen dataclass contains mutable mappings; prior test changed file only *after* inspect | `VerifiedB02Inputs` contains deeply immutable data/targets and source byte tuples copied **before** hash/return (same bytes checked), source path/digest pins and import environment observation. `check_preuse_stub` rechecks pinned source digests, effective import origin, `sys.path`, `sys.meta_path` and `sys.modules` | **INTEGRATION_REQUIRED**: stub deliberately raises this code even on clean state. No real runner/first-graph integration or atomic code consumption; post-preuse mutation cannot be excluded here |
+| **Audit completeness** | trust/path/JSON/loader exceptions before `audit(...)` had no record | `audit_preflight_attempt` emits `<uuid>.start.json` **before** trust/bundle parsing, then `<uuid>.terminal.json` with failure stage, code, optional trusted digest, and zero graph/optimizer. Root must be private, owned, non-symlink, not in source/historical tree; `O_EXCL|O_NOFOLLOW` on dir FD, file+dir fsync; no overwrite | Only root accepted as externally protected can be used. If audit root unavailable, **DENY** without claiming any audit write. Interrupted processes may leave a `STARTED` file without terminal record; this is an incomplete auditable attempt, not an authorization |
+
+### 2. Test execution — actual local results on the exact GitHub code blobs
+
+**Git blob source matches of the executed files:** `pure_gate.py` = `de276385f680ad206b24dee32b442cadf514ed9d`; `audit_candidate.py` = `a1ff114674c7d1689aaab2a3457abeebb17740c7`; `test_pure_gate.py` = `fd227953ab8aebbcc6ae855f1180d134591cf84c`. These are **Git blob SHA-1 identifiers**, not SHA-256 raw-file fingerprints. Independently of any historical full300 files, the local tool comparison hashed the actual UTF-8 bytes.
+
+```sh
+## From b02_gate_candidate/ (on Linux):
+timeout --kill-after=2s 90s prlimit --as=1073741824 --rss=1073741824 \
+  python -m unittest -v test_pure_gate
+
+## Explicit optimized-mode negatives (not the full positive suite):
+timeout --kill-after=2s 30s prlimit --as=1073741824 --rss=1073741824 \
+  python -O -m unittest -v \
+    test_pure_gate.PureGateTests.test_python_optimized_rejects_before_io \
+    test_pure_gate.PureGateTests.test_audit_python_O_starts_then_rejects
+
+## `python -OO` direct no-IO inspect: E_RUNTIME_OPTIMIZED / G19.
+```
+
+| Test execution | Outcome | Bounded wall (GNU time) | Peak RSS | Exit |
+|---|---|---:|---:|---:|
+| **Final 52-test suite** | **52/52 PASS**, no errors/failures | **3.87 s** | **101,260 KiB** | 0 |
+| `python -O` two explicit negative tests | **2/2 PASS** | **2.54 s** | **100,320 KiB** | 0 |
+| `python -OO` direct negative | `E_RUNTIME_OPTIMIZED G19` | **0.82 s** | **92,028 KiB** | 0 |
+
+Earlier exploratory, corrected and pre-final pure suites were also within budget (48/48 and 49/49 PASS). The **aggregate** bounded test-command wall was below 120 seconds, all observed peaks below 1 GiB; a `-OO -c` shell-quoting typo in one exploratory launcher failed *before running candidate code* and was corrected before final results. Linux `RLIMIT_AS` is enforced via `prlimit`; reported observed peak RSS comes from GNU time, not inference. **This local environment uses Python 3.13.5**, whereas historical production manifest pins 3.11.18, NumPy 2.4.6, Torch 2.15.0+cpu; historical-runtime execution **NOT_CHECKED**. No NumPy or Torch imported by gate.
+
+#### Explicit adversarial cases added beyond V1
+
+- G15: PathFinder would pass but `MetaPathFinder` returns shadow origin; preloaded `sys.modules['run']`; forged loader with matching origin but wrong loader class; pinned loader origin with altered `get_data` source bytes.
+- G20: mutable `Bundle` mapping after inspection; mapping replaced *during inspection* after source hash (immutable checked-byte pin remains correct); threaded source-file swap between verification and stub pre-use; newly inserted `sys.modules['run']`; drift in `sys.meta_path`.
+- Audit: absent trust (including missing flag), malformed JSON, duplicate trust key, invalid schema, trust inside checkout, trust symlink (leaf and ancestor), nonexistent snapshot, checkout/snapshot symlink, wrong commit ref, injected loader exception, unavailable/symlink output root, duplicate `O_EXCL` record, simultaneous distinct UUID records, repeated/parallel preflight failures, `python -O` produces a START plus terminal optimized-reject record, and CLI return code 2 (no grant).
+- V1 semantic-resigned-trust negative fixtures remain: binary magic/size, four raw array hashes, mask=2, mask/finite mismatch, noncanonical NaN bits, label counts, IDs, observed counts, target positivity and sum with absolute-only tolerance, bitwise JSON↔binary, source hash/plan/seed, explicit deny and stop.
+
+No actual graph/optimizer constructor exists in these fixtures. All audit results store `graph_constructed=0`, `optimizer_steps=0`. **Test-only** re-signed trust anchors are isolated from the proposed production digest.
+
+### 3. G00–G20 status matrix — independently reviewable, not self-certification
+
+`PASS` below means **author local toy/static checks passed**. Additional `INTEGRATION_REQUIRED` or `NOT_CHECKED` limits that verdict to this candidate; it does **not** certify B02 runtime admission.
+
+| ID | Validation / coverage | Evidence in `test_pure_gate.py` | Current verdict |
+|---|---|---|---|
+| G00 | pinned refs, trust SHA candidate, path safety | production-trust tamper; wrong ref / symlink / root cases | **PASS** for rejection; protected external trust/checkout **INTEGRATION_REQUIRED** |
+| G01 | manifest schema, duplicate JSON, invalid constants | `test_schema`, trust JSON negatives | **PASS** |
+| G02 | Train size, magic and layout | `test_header_length` | **PASS** |
+| G03 | fixed little-endian / C metadata | `test_metadata_endianness` | **PASS** |
+| G04 | Train snapshot plus X/y/mask/IDs SHA | `test_array_hash_layer`, resigned fixture | **PASS** |
+| G05 | byte mask strictly 0/1 | `test_mask_nonbinary` | **PASS** |
+| G06 | observed ↔ finite consistency | `test_mask_semantics` | **PASS** |
+| G07 | NaN canonical bit pattern | `test_noncanonical_nan` | **PASS** |
+| G08 | class label domain | `test_labels` | **PASS** |
+| G09 | class histogram exactly 72/147/81 | `test_histogram` | **PASS** |
+| G10 | ordered Train IDs 0..299 | `test_reference_ids` | **PASS** |
+| G11 | observed per-feature counts | `test_observed_counts` | **PASS** |
+| G12 | target binary size, file SHA and class SHA | `test_target_length`, checksum checks | **PASS** |
+| G13 | target finite, nonnegative, sum≈1, rtol=0 | `test_target_negative_sum1`, `test_target_mass_strict` | **PASS** |
+| G14 | target JSON↔BIN byte equality | `test_target_json_binary_bitwise` | **PASS** |
+| G15 | source hashes, effective import origin, loader class/source data, unloaded modules | `test_source_hash_drift`, `test_import_resolution_shadow`, four new G15 adversarial cases | **PASS** local rejection / **INTEGRATION_REQUIRED** for imported-code attestation and side effects |
+| G16 | seeds, exact walk metadata and runtime versions | `test_runtime_drift` | **PASS** synthetic; historical interpreter/runtime **NOT_CHECKED** |
+| G17 | 18 planned contexts, init seeds, NOT_RUN and run-ID uniqueness | `test_plan_duplicate_run`, `test_plan_state`, `test_seed_drift` | **PASS** |
+| G18 | zero grant, both scopes rejected | `test_valid_semantic_bundle_but_denied`, `test_unsupported_scope_deny`, CLI nonzero | **PASS** candidate; runtime integration not present |
+| G19 | explicit optimized rejection, no security assert | `test_python_optimized_rejects_before_io`, `test_audit_python_O_starts_then_rejects`, direct `-OO` | **PASS** under tested Python 3.13.5; pinned historical 3.11.18 **NOT_CHECKED** |
+| G20 | deep immutable data, exact checked source pin, preuse drift and concurrency | `test_toctou_immutable_copy` plus six G20 targeted cases | **PASS** stub / **INTEGRATION_REQUIRED** for first-graph at-use contract |
+| Audit | append-only start/terminal, including missing trust and loader errors; root safety | 14+ audit cases, `-O`, concurrency and `O_EXCL` | **PASS** local; protected external output root **NOT_CHECKED** |
+
+### 4. External dependencies / blockers
+
+1. **Protected root-of-trust missing:** `trusted_anchor_candidate.json` is a repository-local *candidate*, not a management-approved external trust object. `manifest_sha256=5007534aaee94817e28168c5adcf1194e6ba546a84486497b7f8566e70657b60` independently matches historical manifest bytes but does **not** authorize B02.
+2. **Effective imported-code attestation at use missing:** custom import finders can execute arbitrary hook code; Python may consume cached bytecode, and import graph/solver runtime is not linked to immutable verified bytes or pinned loader. This stage remains `NOT_YET_ATTESTED_AT_USE` and requires a separately authorized integration QA.
+3. **Full TOCTOU at first graph not proven:** pre-use stub checks drift and always denies. Future runner must consume only the checked immutable data and code bytes and bind actual module execution without re-opening paths. No race-free admission has been demonstrated.
+4. **Protected audit-output root approval missing:** local private scratch directory was safe for toy tests; real external root ownership, retention and crash recovery must be specified independently. An unavailable root rejects without a fictitious audit record; interruption after START can leave a visible incomplete attempt.
+5. **No historical-runtime parity:** no tests under the recorded Python/NumPy/Torch versions, no byte replay of the real n300 snapshot in this mission, no witness-forward, no F0/Q1/A1/J1/M1 resource measurements and no runner integration.
+
+**Verdict for the code candidate only:** `READY_FOR_INDEPENDENT_GATE_REQA`. This is **not** G15/G20 production acceptance and **never** grants `SOLVE` or `RESOURCE_PROBE`. **B02–B06=BLOCKED**. No PR, merge, LaTeX or historical-file mutation permitted.
+
+
+### شواهد منشأ: `b02_gate_candidate/QA_REPORT_FA.md`
+
+## RESEARCHER-05 — B02 pure verifier implementation evidence (candidate)
+
+**Mission:** `CH4-R05-B02-VERIFIER-IMPLEMENT-01`. No graph, optimizer, witness forward, Jacobian, resource probe, Validation/Test access, PR or merge. **B02–B06 remain BLOCKED.**
+
+### Baseline and provenance
+
+- Historical pinned snapshot: `05acde39b76b49e0b55337301251594be0ad6d92`; plan: `968675cde8783adf69db13efd7de0fb3aab703c5`; chapter4: `de02fdda91e23db177de4429b3e1a9693c046d83`.
+- Candidate SHA-256 of byte-exact `b02_preflight/manifest.json`: **`5007534aaee94817e28168c5adcf1194e6ba546a84486497b7f8566e70657b60`**. Computed from the UTF-8 GitHub source (ASCII text); **independent auditor approval is pending**. Do not confuse it with Git blob `c94ebda1d3a7aed0585024d9125f9fc42bc5a021`.
+- Source file SHA-256 and historical binary digests are documented as **non-authorizing candidates** in `trusted_anchor_candidate.json`. This file is kept separately from historical `manifest.json`, but it lives in an ordinary git branch; **it is not itself a protected external trust root**.
+- Git source is limited to new files under `b02_gate_candidate/`. The old snapshot, raw targets, plan, `tamper_deep_verification.json`, historical `__pycache__`, source engine and LaTeX were not changed.
+
+### G00–G20 mapping: code → pure tests
+
+| Controls | Implemented check | Test evidence |
+|---|---|---|
+| G00–G04 | pinned refs/trusted manifest SHA, metadata/magic/size/layout, 4 raw hashes | `test_no_production_trust_resign`, `test_header_length`, `test_metadata_endianness`, `test_array_hash_layer` |
+| G05–G07 | raw mask domain, mask↔finite, bitwise canonical qNaN | `test_mask_nonbinary`, `test_mask_semantics`, `test_noncanonical_nan` |
+| G08–G11 | y domain, exact class histogram, ordered IDs, observed counts | `test_labels`, `test_histogram`, `test_reference_ids`, `test_observed_counts` |
+| G12–G14 | target size/hash, strict nonnegative simplex with absolute tolerance, bitwise JSON↔binary | `test_target_length`, `test_target_negative_sum1`, `test_target_mass_strict`, `test_target_json_binary_bitwise` |
+| G15–G17 | 5 source digests, module resolution *without import*, runtime/seeds, 18 exact planned contexts | `test_source_hash_drift`, `test_import_resolution_shadow`, `test_runtime_drift`, `test_seed_drift`, `test_plan_duplicate_run`, `test_plan_state` |
+| G18–G20 | scope deny, no graph stub, `python -O` rejection, immutable verified copy/TOCTOU | `test_valid_semantic_bundle_but_denied`, `test_unsupported_scope_deny`, `test_python_optimized_rejects_before_io`, `test_toctou_immutable_copy` |
+| Audit | append-only attempt ID + external trust digest + error code; no overwrite | `test_audit_append_only_and_failures_have_attempt_ids`; every negative fixture in `check_code` is independently recorded in test scratch |
+
+**Additional code QA:** `test_no_assert_used_in_candidate` disallows plain `assert` statements in the verifier.
+
+### Actual bounded execution (local, not CI)
+
+Final test command used on Linux with pure synthetic Train-shaped fixtures:
+
+```sh
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 timeout --kill-after=2s 120s \
+  prlimit --as=1073741824 --rss=1073741824 \
+  python -m unittest -v test_pure_gate
+```
+
+**Final result: 28/28 PASS, ~1.512 seconds unittest wall, exit status 0.** The command enforces a 120-second outer wall and 1-GiB address-space/RSS limit. Two prior corrected runs also achieved 28/28 PASS; the initial exploratory run had one faulty test-fixture expectation, not a verified production bug, which was repaired before final evidence. No CI was triggered for this task, and no B02 solver data were evaluated. Synthetic tests do **not** validate the production binary on the historical runtime.
+
+### Remaining independent gates
+
+1. Independent approval of candidate `trusted_manifest_sha256` as a **protected external root**; immutable checkout identity cannot be derived from caller-supplied ref strings alone.
+2. Independent QA of source code, error codes, negative fixtures, import-resolution stability, `python -O`, path safety and rerun idempotence.
+3. Separate authorization and integration in a future runner **before the first graph/optimizer operation**; candidate always denies `SOLVE` and `RESOURCE_PROBE` and has no grant mechanism.
+4. Independent witness-only Train forwards and later bounded class-147 resource probes, if separately authorized. No inference about their correctness/cost is made here.
+
+**Status: `READY_FOR_INDEPENDENT_GATE_QA` as a non-admitting candidate only.**
+
+
+### شواهد منشأ: `b02_gate_candidate/README.md`
+
+## B02 gate candidate — RESEARCHER-05 (HARDEN V2)
+
+**CH4-R05-B02-VERIFIER-HARDEN-V2-01** (based on v1 implementation `CH4-R05-B02-VERIFIER-IMPLEMENT-01`). 21 controls G00–G20, synthetic-byte fixtures and hardened negative preflight tests. **Never authorizes `SOLVE` or `RESOURCE_PROBE`**. `B02–B06` remain blocked. This candidate is **not integrated with any model or runner** and carries no scientific witness/solver certification.
+
+Source: `experiment/ch4-inv01-b02-preflight@05acde39b76b49e0b55337301251594be0ad6d92`; Plan: `experiment/ch4-inv01-standard-plan@968675cde8783adf69db13efd7de0fb3aab703c5`.
+
+`pure_gate.py` imports **only Python standard library**, no NumPy, PyTorch, `generate`, `run`, `stream_graph`, or optimizer. `inspect_b02_bundle(...)` is a non-admitting pure semantic inspector. `verify_b02_inputs(..., requested_scope)` always raises `DENY_NO_AUTHORIZATION` for correctly verified artifacts and rejects invalid inputs earlier. It never returns permission to construct a graph. The `audit_candidate.py` CLI writes an append-only `STARTED` record **before untrusted reads and parsing**, plus a separate terminal failure record, to a **private, owned, external audit root** (`O_EXCL`, `O_NOFOLLOW`, file/dir `fsync`). No writable/symlink audit root means deny with no claim of recording. `audit(bundle,trust,...)` remains a one-record inner-check helper for already-loaded synthetic tests. No legacy artifacts are written, and `tamper_deep_verification.json` remains unchanged.
+
+### Invariants and limitations
+
+- A trust anchor is external, protected, SHA-256-based and independent of `manifest.json` and the checkout. `trusted_anchor_candidate.json` is **only a suggested value list** for independent review, **NOT** a trusted root or an authority to run probes/solvers. `manifest_sha256` is a byte-level **candidate**; Git blob SHA is not the same format. Run-time `TrustedSpec` must be instantiated from a separately approved root, not directly from this candidate file in the checkout.
+- The `read_pinned_bundle` helper accepts fixed SHA **labels** and verifies byte hashes; it cannot by itself attest Git checkout identity. Production CI must do a protected SHA-pinned Git-object checkout/attestation before calling this module. Source paths must be inside the checkout, free of symlinks, and match verified digests. `importlib.util.find_spec` observes effective `sys.meta_path` (not just `PathFinder`), checks the pinned `SourceFileLoader` origin and its `get_data` source bytes, and rejects already-loaded `run`, `stream_graph`, `generate` in `sys.modules`. **This is not an attestation of actual imported bytecode**: a custom finder can have side effects, Python bytecode caches may exist, and the import state may change after inspection. Future integration must strictly bind/attest loader and code at real import/use, protect state and prohibit re-opens. Until then G15 is `INTEGRATION_REQUIRED`.
+- All safety predicates use explicit `GateError` (no `assert` statements). Optimized Python (`-O`, `-OO`) returns `E_RUNTIME_OPTIMIZED` before any IO/model import. Schema must match all fixed type/shape/binary/semantic/source/plan/runtime checks. The returned `VerifiedB02Inputs` contains immutable nested tuples, immutable source **bytes captured at validation time**, pinned digests and the observed import-state fingerprint; it never exposes the mutable `Bundle` mappings. `check_preuse_stub` detects source-file and module/import-environment swaps then **always** rejects clean state with `INTEGRATION_REQUIRED`. It is deliberately not wired to a graph/runner and cannot guarantee the final TOCTOU boundary on its own. Future runner must consume verified immutable inputs only (not reload mutable files) and enforce pre-use at the first graph boundary.
+- Runtime versions require external QA; historical snapshot states Python 3.11.18, NumPy 2.4.6, Torch 2.15.0+cpu. The gate reads installed package **metadata**, never imports those packages. Version drift is `E_RUNTIME_VERSION`, not silent acceptance.
+- Future **independent** witness test (not run): isolated Train-only `teacher_seed=20261211`, logits hash and exactly 3 no-grad `center_train` forwards, compare 3 target rows byte-for-byte; **never deliver witness logits** to downstream solver. The teacher seed is public, not cryptographically secret.
+- Future **independently authorized** resource probe (not run): largest class `c=1,m=147`, one graph construction and five bounded operations F0 baseline exact forward, Q1 one Q-gradient (no update), A1 one exact-JSD gradient (no update), J1 two reverse passes for full 2×30 Jacobian (no update), M1 exact monitor-forward; outer hard timeout and RSS cap, stage-specific append-only log. Neither historical resource envelope nor caps are approved for B02.
+
+### Test protocol
+
+Only synthetic **Train-shaped** bytes, never original Validation/Test or generator output. Each negative semantic fixture uses a **test-only re-signed trust root**, deliberately separate from the production candidate to test the intended semantic stage; with unchanged production trust root any tampering must fail at `E_MANIFEST_TRUST` or a pinned byte hash. The stub asserts `graph_constructed=optimizer_steps=0`, and no graph code is imported or created.
+
+A future sandbox CI invocation may use:
+
+```sh
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 timeout --kill-after=2s 120s \
+  prlimit --as=1073741824 --rss=1073741824 \
+  python -m unittest -v test_pure_gate
+```
+
+**Important:** this wrapper enforces a 120-second wall and 1-GiB address-space/RSS limit (Linux). Tests are light, but it does **not** constitute any graph benchmark. If these resource guards are unavailable or cannot be guaranteed, **do not run**.
+
+A separate QA is required to approve the candidate trusted root, source code, explicit `python -O` test, rerun-safe auditing and integration boundary. **No PR/merge, graph, solver, Test, LaTeX or release permission is implied.**
+
+### Harden V2 execution and remaining gates
+
+- **Local synthetic-only tests:** 52/52 PASS on Python 3.13.5; final bounded run 3.87s wall, peak process RSS 101,260 KiB (measured with GNU time). Baseline v1 28 tests retained, with 24 new adversarial tests. The local interpreter is **not** historical Python 3.11.18, so the historical runtime has **NOT_CHECKED** executable parity.
+- **Optimized interpreter negative:** 2 selected unit tests PASS under `python -O`, and direct `python -OO` probe yields `E_RUNTIME_OPTIMIZED G19`; no model import. No full suite is intended under `-O` because optimized mode must reject all positive inspections.
+- **G15:** adversarial `MetaPathFinder`, `sys.modules`, custom loader with good origin and malicious `get_data` all rejected; actual loaded-code attestation remains `INTEGRATION_REQUIRED`.
+- **G20:** swap of source file or import state between verification and stub use rejected; mutation of the mutable Bundle during validation does not poison verified pinned bytes. Stub always raises `INTEGRATION_REQUIRED` on clean pre-use. No first-graph integration or protection against future mutation after the stub yet.
+- **Preflight audit:** missing/malformed/duplicate trust JSON, nested symlink trust, checkout symlink, missing source, invalid refs and injected loader errors produce append-only start + terminal attempt records. Parallel attempts use separate UUIDs, duplicate destination fails with O_EXCL. Unavailable private root refuses operation and makes **no audit-success claim**. No externally approved audit root has been provided.
+- `trusted_anchor_candidate.json` is an **unapproved suggestion in the repository**; SHA-256 manifest candidate `5007534aaee94817e28168c5adcf1194e6ba546a84486497b7f8566e70657b60` is a digest, NOT an admission grant. Production trust and git-object checkout attestation remain outside this repo candidate.
+
+Full G00–G20 actual-state matrix, negative fixture names and further blockers: `HARDEN_V2_QA_REPORT.md`. **B02–B06 remain BLOCKED; no CI, graph, solver, resource probe, Test read, PR or merge.**
+
+
+### شواهد منشأ: `b02_gate_v3/README.md`
+
+## B02 G17 versioned corrective pure verifier (R05-SEC410-ENDTOEND-01)
+
+**Historical source:** `research/ch4-r05-b02-gate-hardening-v2@6eb78e22945002848ec21d0ae7efdef35b524369`.
+**Do not modify historical V2:** `b02_gate_candidate/`, historical canonical B02 snapshot and `standard_plan/plan_108.json` remain immutable.
+
+### Root cause and semantic fix
+
+The 300-reference B02 snapshot uses **all Train rows**, X shape (300,5), y and mask of length 300 and `ids=0..299`, with no reference subsampling. `b02_preflight/build_snapshot.py` lines 128–149 calls `generate(...)["train"]` and uses `np.arange(300)` for IDs without a choice step. The historical plan has `blocks[].reference_seed=20261201` and manifest `seed.reference=20261201` as provenance/nominal block metadata, **but `runs[].reference_seed=null` on all 54 n300 rows**: this denotes that **no reference sampling occurred**. The historic V2 `G17` incorrectly demanded `20261201` from each B02 run row, rejecting all 18 canonical B02 rows. Replacing null with 20261201 would falsify run-level semantics and change a frozen plan.
+
+`pure_gate.py` here is an exact copy of the V2 pure verifier **except one G17 run-row expectation changed from `reference_seed=20261201` to `reference_seed=None`**; the B02 block-level provenance and manifest label remain 20261201. This is a versioned source change, **not** a revision of the previous independent verdict. The new `test_pure_gate.py` adjusts the synthetic B02 run-row fixture to actual plan semantics, adds a positive full-Train/IDs regression and a negative false sampling-seed test. `audit_candidate.py` remains a copy of V2 in this folder. All tests are non-numerical pure fixtures, no graph or solver.
+
+**Critical:** `verify_b02_inputs` still **always denies**; `check_preuse_stub` still **always raises `INTEGRATION_REQUIRED`**. This module **is not an admission layer**. To run a solver, a *new* externally trusted, separately tested at-use runner implementation is required. No `DENY` exception may be converted into `ALLOW` as a shortcut.
+
+**Preflight status at source commit:** `SOURCE_PATCH_PREPARED`; execution of exact versioned Python candidate / tests must be proven by captured CI/local logs, and trust/TOCTOU/runner integration remains `NOT_READY`. This README does **not** claim PASS.
+
+
+## گیت تولید مجدد گزارش مشتق
+
+اسکریپت `analysis_v3/aggregate.py` پیش از تجمیع، هنگام `--complete` یک فایل جدید `REPORT_FA.md` در ریشهٔ آزمایش تولید می‌کرد. اکنون برای جلوگیری از حذف یا بازنویسی گزارش جامع، نسخهٔ مشتق خودکار را به `results/analysis_generated_report.txt` می‌فرستد؛ متن مرجع پژوهشی همچنان همین `README_FA.md` است. این اصلاح **هیچ فرمول یا دادهٔ خامی را تغییر نمی‌دهد**.

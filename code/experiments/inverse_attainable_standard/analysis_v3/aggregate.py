@@ -185,7 +185,7 @@ def aggregate(args):
     out=ROOT/("analysis_v3/preview" if not args.complete else "results")
     tab=out/"tables" if not args.complete else ROOT/"tables"
     fig=out/"figures" if not args.complete else ROOT/"figures"
-    report_path=(out/"REPORT_FA.md") if not args.complete else ROOT/"REPORT_FA.md"
+    report_path=out/"analysis_generated_report.txt"
     groups=[]
     for block in plan["blocks"]:
         bid=block["block_id"]
@@ -437,7 +437,7 @@ def aggregate(args):
                   "tables/target_geometry.csv","tables/target_pairwise_distances.csv",
                   "tables/reconstructed_geometry_density.csv","tables/seed_n_method.csv","figures/success_n150.pdf",
                   "figures/success_n300.pdf","figures/best_jsd_by_n.pdf",
-                  "REPORT_FA.md"],
+                  "analysis_generated_report.txt"],
          "no_solver_executed":True,"evidence_status":"PROVISIONAL_PENDING_FINAL_QA"})
     print("R05_AGGREGATE",json.dumps({"complete":full,"statuses":dict(status),
           "output":str(out)},ensure_ascii=False),flush=True)
