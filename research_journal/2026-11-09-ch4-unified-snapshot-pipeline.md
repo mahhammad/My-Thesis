@@ -11,7 +11,7 @@
 5. [export_snapshot.py](../code/experiments/benchmark_v1/export_snapshot.py) سیاست Uniform و checkpointهای JSON/ZIP را بدون اجرای optimizer به قرارداد جدید صادر می‌کند؛ **پیش‌فرض Dry-run** است.
 6. [test_snapshot_pipeline.py](../code/experiments/benchmark_v1/test_snapshot_pipeline.py) تست‌های سبک ماژولی مربوط به خانواده‌ها، مرکز، tie، بررسی hash، تغییرناپذیری و گزارش را دارد.
 
-**مرجع کامل قرارداد و مثال CLI:** [PIPELINE_FA.md](../code/experiments/benchmark_v1/PIPELINE_FA.md).
+**مرجع کامل قرارداد و مثال CLI:** [PIPELINE_FA.md](../code/experiments/benchmark_v1/README_FA.md).
 
 ## مرز علمی و محدودیت اجرا
 

@@ -183,7 +183,7 @@ D_\infty(\beta,\lambda)=
 
 **تفسیر علمی:** عمق مؤثر با بزرگ‌شدن سقف گشت به مقدار متناهی همگرا می‌شود. این نکته یکی از توضیح‌های ریاضی نزدیک‌شدن نتایج در سقف‌های بزرگ‌تر است، اما به‌خودی‌خود درباره تساوی پیش‌بینی‌ها، بهبود BA یا بهترین H حکمی نمی‌دهد.
 
-**منابع داخلی:** code/experiments/walk_depth_effect/results/coefficients.json و code/experiments/walk_depth_effect/REPORT_FA.md و قرارداد وزن‌دهی فصل سوم. این تحلیل نظری پسینی است و آزمایش تازه محسوب نمی‌شود.
+**منابع داخلی:** code/experiments/walk_depth_effect/results/coefficients.json و code/experiments/walk_depth_effect/README_FA.md و قرارداد وزن‌دهی فصل سوم. این تحلیل نظری پسینی است و آزمایش تازه محسوب نمی‌شود.
 
 ### پیگیری تحریری مستقل
 

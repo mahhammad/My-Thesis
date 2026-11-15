@@ -6,7 +6,7 @@
 
 **P0:** بخش مولد و تقسیم‌ها با جدول واقعی پیکربندی و مرجع بیزی در \`tex/chapter4.tex\` تکمیل شد؛ \`test_p0_train_val_protocol.py\` همراه ۲۸ تست دیگر (**۳۱ تست**) در [CI موفق](https://github.com/mahhammad/My-Thesis/actions/runs/42649401610) اجرا شد. مجموعه تاریخی Test تولید یا خوانده نشد.
 
-**P1 و P2:** برنامه ثبت‌شده به **۱۳ اجرای بدون آموزش** انجامید: ۹ Uniform با تغییر یک عامل و چهار Guided غیریکنواخت، با استفاده دوباره از Uniform به‌عنوان $\alpha=0$. برای تمام ۱۳ snapshot، بازسازی مستقل خروجی Train/Validation و مراکز با \`atol=1e-12\` موفق شد. [CI و بستهٔ خام](https://github.com/mahhammad/My-Thesis/actions/runs/42649911898)؛ [CSV ماندگار](../code/experiments/benchmark_v1/results/pipeline_v1/fixed_baselines_summary_20261109.csv)؛ [گزارش تفصیلی](../code/experiments/benchmark_v1/FOUNDATIONS_P1_P2_EXACT_FA.md).
+**P1 و P2:** برنامه ثبت‌شده به **۱۳ اجرای بدون آموزش** انجامید: ۹ Uniform با تغییر یک عامل و چهار Guided غیریکنواخت، با استفاده دوباره از Uniform به‌عنوان $\alpha=0$. برای تمام ۱۳ snapshot، بازسازی مستقل خروجی Train/Validation و مراکز با \`atol=1e-12\` موفق شد. [CI و بستهٔ خام](https://github.com/mahhammad/My-Thesis/actions/runs/42649911898)؛ [CSV ماندگار](../code/experiments/benchmark_v1/results/pipeline_v1/fixed_baselines_summary_20261109.csv)؛ [گزارش تفصیلی](../code/experiments/benchmark_v1/README_FA.md).
 
 **یافته‌های درج‌شده در فصل:** BA اعتبارسنجی Uniform در هر ۹ حالت \`96.77%\` ماند، با وجود تغییر $I$ و $R_{\mathrm{JS}}$. در Guided دقیق، با افزایش $\alpha$ از صفر تا یک، $I$ از \`.01688\` به \`.08051\` و میانه حاشیه درست از \`.00953\` به \`.03775\` افزایش یافت، ولی BA از \`96.77%\` به \`92.86%\` کاهش یافت. نتیجه محدود به یک تقسیم و یک مولد است. نتایج تاریخی مونت‌کارلو با این داده‌های exact یکسان فرض نشده‌اند.
 
@@ -24,8 +24,8 @@
 | ویژگی‌های اطلاع‌رسان/نویز | `config.json` و رتبهٔ اهمیت حاشیه‌ای تولیدشده در `load_config` | **ثبت شد:** اطلاعات ۰،۳،۱؛ نویز حاشیه‌ای ۲،۴؛ در این سناریو نویزها فقط با هم هم‌بسته‌اند. «نویز حاشیه‌ای» در حالت کلی مساوی «بی‌فایدهٔ شرطی» نیست |
 | ماسک | `generate.py:generate` و تست‌های مولد | **ثبت شد:** MCAR مستقل از X,Y و مستقل بین ویژگی‌ها، با نرخ‌های `[0,5,12,5,20]%`؛ `NaN` برای فقدان؛ نرخ تحقق‌یافته تصادفی است. ویژگی ۰ همواره موجود است |
 | تقسیم‌ها | `np.random.SeedSequence(seed).spawn(3)`، `rng.choice(pi)` | **ثبت شد:** سه جریان مولد مستقل و بازتولیدپذیر، نه split تصادفی یک جدول و نه sampling با سهمیهٔ ثابت؛ `300/90/120`، بذر `20261102`، شمار Train `72/147/81`، Val `13/49/28`. Test در هیچ ارزیابی جدید خوانده نشده |
-| نقش مجموعه‌ها | [pipeline](../code/experiments/benchmark_v1/PIPELINE_FA.md)، [engine](../code/experiments/benchmark_v1/engine.py) | **ثبت شد:** Train مرکز و انتقال، حذف مبدأ در تمام گام‌ها؛ Val خارج از گراف، فقط مقصدهای Train، مراکز بدون بازبرازش؛ Test فقط پس از قفل مدل |
-| oracle | [`bayes_oracle_posterior_geometry.json`](../code/experiments/benchmark_v1/results/bayes_oracle_posterior_geometry.json) | **ثبت شد:** پسین بیزی با هم‌بستگی و ماسک؛ $Q^{pop}$ مقصد یک‌گامی با پسین مبدأ متفاوت؛ MAP برای Accuracy، قاعدهٔ $\eta_c/\pi_c$ برای BA؛ جدول Train/Val با توضیح تصادفی‌بودن برآوردها |
+| نقش مجموعه‌ها | [pipeline](../code/experiments/benchmark_v1/README_FA.md)، [engine](../code/experiments/benchmark_v1/engine.py) | **ثبت شد:** Train مرکز و انتقال، حذف مبدأ در تمام گام‌ها؛ Val خارج از گراف، فقط مقصدهای Train، مراکز بدون بازبرازش؛ Test فقط پس از قفل مدل |
+| oracle | [`bayes_oracle_posterior_geometry.json`](https://github.com/mahhammad/My-Thesis/blob/a8c9027460e538fa04b8aab2f762eb4ba4c31e3d/code/experiments/benchmark_v1/results/bayes_oracle_posterior_geometry.json) | **ثبت شد:** پسین بیزی با هم‌بستگی و ماسک؛ $Q^{pop}$ مقصد یک‌گامی با پسین مبدأ متفاوت؛ MAP برای Accuracy، قاعدهٔ $\eta_c/\pi_c$ برای BA؛ جدول Train/Val با توضیح تصادفی‌بودن برآوردها |
 
 **اعداد قابل نقل با منبع:**
 
@@ -40,8 +40,8 @@
 **شاهدهای موجود:**
 
 1. بخش `tex/chapter4.tex` مربوط به آموزش مقدماتی حاشیه، خط مبنای **امید دقیق** و سیاست مشترک صفر را با `Train BA=83.65%` و `Val BA=96.77%` در `beta=.4, lambda=.8, H=12` ثبت کرده است.
-2. [مقایسه پنج سیاست قدیمی](../code/experiments/archive/fixed_metric_comparison/results/fixed_metric_comparison.json) برای `alpha=0` مقدار **Val BA=88.25%** را با **۳۰۰ گشت مونت‌کارلو برای هر نمونه** ثبت کرده است. این عدد را نمی‌توان با `96.77%` موتور دقیق بدون کنترل روش و منشأ اختلاف ادغام کرد.
-3. [مطالعه عمق و مرکز](../code/experiments/archive/bayes_center_inverse/README_FA.md) مقدارهای تحلیلی `E[L]≈2.4946` و `D_eff≈1.5884` را برای پارامتر پایه دارد. شبکهٔ ۳۷تایی آن عمدتاً *قابلیت تحقق مرکز بیزی* را بررسی کرده، نه حساسیت دقت Uniform.
+2. [مقایسه پنج سیاست قدیمی](https://github.com/mahhammad/My-Thesis/blob/a8c9027460e538fa04b8aab2f762eb4ba4c31e3d/code/experiments/archive/fixed_metric_comparison/results/fixed_metric_comparison.json) برای `alpha=0` مقدار **Val BA=88.25%** را با **۳۰۰ گشت مونت‌کارلو برای هر نمونه** ثبت کرده است. این عدد را نمی‌توان با `96.77%` موتور دقیق بدون کنترل روش و منشأ اختلاف ادغام کرد.
+3. [مطالعه عمق و مرکز](https://github.com/mahhammad/My-Thesis/blob/a8c9027460e538fa04b8aab2f762eb4ba4c31e3d/code/experiments/archive/bayes_center_inverse/README_FA.md) مقدارهای تحلیلی `E[L]≈2.4946` و `D_eff≈1.5884` را برای پارامتر پایه دارد. شبکهٔ ۳۷تایی آن عمدتاً *قابلیت تحقق مرکز بیزی* را بررسی کرده، نه حساسیت دقت Uniform.
 
 **آزمایش P1-H (اجرا و صحت‌سنجی شده، بدون آموزش):** همهٔ محاسبات با یک مولد `20261102` و مرجع ۳۰۰تایی، `gamma=[.8,1.2,.5,1,.6]`، `float64` و `ExactMaskedWalk`، با یک عامل متغیر در هر نوبت:
 
@@ -59,7 +59,7 @@
 
 ## P2 — سیاست ثابت هدایت‌شده؛ پنج سطح و تحلیل متریک‌ها
 
-**آزمایش موجود D03:** [اسکریپت](../code/experiments/archive/fixed_metric_comparison/compare.py)، [خروجی](../code/experiments/archive/fixed_metric_comparison/results/fixed_metric_comparison.json)، [گزارش](../code/experiments/archive/fixed_metric_comparison/README_FA.md). `alpha∈{0,.25,.5,.75,1}` و `Z_alpha=alpha Z_guided`، ۳۰۰ گشت MC برای هر نمونه، `beta=.4,lambda=.8,H=12`، یک بذر. در متن فصل چهارم امتیاز پایهٔ `g=(1.4,.2,-1.2,.9,-1.2)`، امتیاز اضافهٔ `+0.25` برای ماندن روی همان ویژگی و سطر آغاز برابر `g` ثبت شده است. این سیاست با **اطلاع از ساختار مولد** دستی ساخته شده و یادگرفته‌شده نیست.
+**آزمایش موجود D03:** [اسکریپت](https://github.com/mahhammad/My-Thesis/blob/a8c9027460e538fa04b8aab2f762eb4ba4c31e3d/code/experiments/archive/fixed_metric_comparison/compare.py)، [خروجی](https://github.com/mahhammad/My-Thesis/blob/a8c9027460e538fa04b8aab2f762eb4ba4c31e3d/code/experiments/archive/fixed_metric_comparison/results/fixed_metric_comparison.json)، [گزارش](https://github.com/mahhammad/My-Thesis/blob/a8c9027460e538fa04b8aab2f762eb4ba4c31e3d/code/experiments/archive/fixed_metric_comparison/README_FA.md). `alpha∈{0,.25,.5,.75,1}` و `Z_alpha=alpha Z_guided`، ۳۰۰ گشت MC برای هر نمونه، `beta=.4,lambda=.8,H=12`، یک بذر. در متن فصل چهارم امتیاز پایهٔ `g=(1.4,.2,-1.2,.9,-1.2)`، امتیاز اضافهٔ `+0.25` برای ماندن روی همان ویژگی و سطر آغاز برابر `g` ثبت شده است. این سیاست با **اطلاع از ساختار مولد** دستی ساخته شده و یادگرفته‌شده نیست.
 
 | `alpha` | `I` Train | `R_JS` Train | `NLL_KL` Val | `BA` Val |
 |---:|---:|---:|---:|---:|
@@ -79,11 +79,11 @@
 |---|---|---|---|
 | W0 | § تولید داده، ماسک، جدول پارامترها، split، Bayes | **متن افزوده؛ تست P0 موفق** | بازخوانی نهایی و کامپایل LaTeX |
 | W1 | § آزمون `Q^{finite}` در برابر `Q^{pop}` | **متن و D02 موجود** | کنترل ارجاع و هماهنگی کد آرشیوی؛ اجرای مجدد لازم نیست مگر شاهد ناقص باشد |
-| W2 | § Uniform + حساسیت ابرپارامترها | **آزمایش ۴.۴، گزارش، ۲ جدول و ۳ نمودار در LaTeX ثبت شد** | [گزارش جدید](../code/experiments/uniform_policy_hyperparameter_sensitivity/REPORT_FA.md) و [تست موفق](https://github.com/mahhammad/My-Thesis/actions/runs/42714664200)؛ کامپایل EasyTex نسخه تازه باز |
+| W2 | § Uniform + حساسیت ابرپارامترها | **آزمایش ۴.۴، گزارش، ۲ جدول و ۳ نمودار در LaTeX ثبت شد** | [گزارش جدید](../code/experiments/uniform_policy_hyperparameter_sensitivity/README_FA.md) و [تست موفق](https://github.com/mahhammad/My-Thesis/actions/runs/42714664200)؛ کامپایل EasyTex نسخه تازه باز |
 | W3 | § سیاست Guided ثابت و مقایسه معیارها (۴.۵) | **متن موجود به بخش ۴.۵ منتقل شد** | استانداردسازی گزارش و شکل‌های اختصاصی ۴.۵، حفظ تفکیک MC/exact |
 | W4 | فقط بعد از تثبیت W0–W3 | N02 / N03 و سایر مسائل پیشرفته | کنترل پروتکل، seedهای مستقل و تخصیص بودجه |
 
-**وضعیت نهایی این مرحله:** P1-H و P2-E **هر دو اجرا و مستقلاً بازتولید شدند**. اسکریپت [`experiment_fixed_baselines.py`](../code/experiments/benchmark_v1/experiment_fixed_baselines.py)، آزمون‌های [`test_experiment_fixed_baselines.py`](../code/experiments/benchmark_v1/test_experiment_fixed_baselines.py) و [`test_p0_train_val_protocol.py`](../code/experiments/benchmark_v1/test_p0_train_val_protocol.py)، و [workflow](../.github/workflows/chapter4-fixed-baselines.yml) ثبت شده‌اند. ۹ حالت Uniform + چهار Guided غیریکنواخت = ۱۳ خروجی یکتا با **صفر مرحله آموزش**. [گزارش CI و صحت‌سنجی هر ۱۳ round-trip](https://github.com/mahhammad/My-Thesis/actions/runs/42649911898) و [جدول ماندگار](../code/experiments/benchmark_v1/results/pipeline_v1/fixed_baselines_summary_20261109.csv) شاهد انجام‌اند. فایل‌های کامل snapshot در artifact همان workflow نگهداری می‌شوند و ثبت دائمی آن‌ها در مخزن هنوز باز است. هیچ runner تاریخی وارد هسته نشده است.
+**وضعیت نهایی این مرحله:** P1-H و P2-E **هر دو اجرا و مستقلاً بازتولید شدند**. اسکریپت [`experiment_fixed_baselines.py`](../code/experiments/benchmark_v1/experiment_fixed_baselines.py)، آزمون‌های [`test_experiment_fixed_baselines.py`](../code/experiments/benchmark_v1/test_experiment_fixed_baselines.py) و [`test_p0_train_val_protocol.py`](../code/experiments/benchmark_v1/test_p0_train_val_protocol.py)، و [workflow](https://github.com/mahhammad/My-Thesis/blob/c9c71ce923590ffd8cae6242c9992e30240e1ba1/.github/workflows/chapter4-fixed-baselines.yml) ثبت شده‌اند. ۹ حالت Uniform + چهار Guided غیریکنواخت = ۱۳ خروجی یکتا با **صفر مرحله آموزش**. [گزارش CI و صحت‌سنجی هر ۱۳ round-trip](https://github.com/mahhammad/My-Thesis/actions/runs/42649911898) و [جدول ماندگار](../code/experiments/benchmark_v1/results/pipeline_v1/fixed_baselines_summary_20261109.csv) شاهد انجام‌اند. فایل‌های کامل snapshot در artifact همان workflow نگهداری می‌شوند و ثبت دائمی آن‌ها در مخزن هنوز باز است. هیچ runner تاریخی وارد هسته نشده است.
 
 ## تصمیم ترتیب گزارش‌های فصل — ۱۰ نوامبر ۲۰۲۶
 

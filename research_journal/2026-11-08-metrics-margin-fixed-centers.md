@@ -298,7 +298,7 @@ $
 
 **مرزبندی:** checkpointهای node و node_class هنوز Validation ندارند؛ هیچ Test قبلی استفاده نشده؛ مقایسه‌های Softplus و NLL تنها یک بذر دارند؛ آموزش مقید با مراکز ثابت و تحلیل نمونه‌های flipشده هنوز باز است.
 
-گزارش عددی و کد: [GAPFILL_2026-11-08_FA.md](../code/experiments/benchmark_v1/GAPFILL_2026-11-08_FA.md)، [backfill_saved_scores.py](../code/experiments/benchmark_v1/backfill_saved_scores.py)، [train_missing_objectives.py](../code/experiments/benchmark_v1/train_missing_objectives.py).
+گزارش عددی و کد: [GAPFILL_2026-11-08_FA.md](../code/experiments/benchmark_v1/README_FA.md)، [backfill_saved_scores.py](../code/experiments/benchmark_v1/backfill_saved_scores.py)، [train_missing_objectives.py](../code/experiments/benchmark_v1/train_missing_objectives.py).
 
 
 ## ۱۳. چرا دقت ۱۰۰٪ Train از Bayes بیشتر می‌شود؟ (تکمیل ۸ نوامبر ۲۰۲۶)
@@ -344,7 +344,7 @@ P(Y_* =c\mid X_*=x,\mathcal D_{\rm train},\theta)=P(Y_*=c\mid X_*=x,\theta).
 
 **نتیجه برای گزارش فصل چهارم:** هیچ‌گاه از مشاهده اینکه BA مدل روی یک split بیشتر از BA تجربی Bayes MAP است، ادعای شکست مرز بیزی نکنیم. ابتدا معیار ordinary/BA متناظر، مستقل‌بودن مجموعه، دسترسی یکسان به اطلاعات و مقدار بیزی **جمعیتی** را جدا کنیم.
 
-**منابع خام:** [هندسه و قواعد بیزی](../code/experiments/benchmark_v1/results/bayes_oracle_posterior_geometry.json)، [جدول چهار خانواده](../code/experiments/benchmark_v1/RESULTS_FA.md)، [هشت هدف جدید](../code/experiments/benchmark_v1/GAPFILL_2026-11-08_FA.md)، [مسئله تعمیم تابع F](https://github.com/mahhammad/My-Thesis/issues/37).
+**منابع خام:** [هندسه و قواعد بیزی](https://github.com/mahhammad/My-Thesis/blob/a8c9027460e538fa04b8aab2f762eb4ba4c31e3d/code/experiments/benchmark_v1/results/bayes_oracle_posterior_geometry.json)، [جدول چهار خانواده](../code/experiments/benchmark_v1/README_FA.md)، [هشت هدف جدید](../code/experiments/benchmark_v1/README_FA.md)، [مسئله تعمیم تابع F](https://github.com/mahhammad/My-Thesis/issues/37).
 
 
 ### تکمیل بحث: Seed مستقل، مولد ثابت، و تفکیک واریانس بیزی از واریانس روش (۸ نوامبر ۲۰۲۶)
@@ -414,7 +414,7 @@ $$
 
 **[کار باز]** برای $tau=.005$ گزارش فعلی Train BA=100% و Validation BA **تعریف‌نشده** است. نه آسان‌تر بودن split از دید Bayes MAP، نه ظرفیت بالای Train، هیچ‌کدام Validation=100% را تضمین نمی‌کنند. باید قانون شروع و فرضیه‌های کلاس را تعریف، سپس هر K فرض را روی نمونه جدید ارزیابی کرد. از برچسب حقیقی Validation در تعیین فرض کلاس و ساخت logits استفاده نشود.
 
-**منابع:** [گزارش Benchmark](../code/experiments/benchmark_v1/RESULTS_FA.md)، [Bayes oracle](../code/experiments/benchmark_v1/results/bayes_oracle_posterior_geometry.json)، [Issue #37 تابع F](https://github.com/mahhammad/My-Thesis/issues/37).
+**منابع:** [گزارش Benchmark](../code/experiments/benchmark_v1/README_FA.md)، [Bayes oracle](https://github.com/mahhammad/My-Thesis/blob/a8c9027460e538fa04b8aab2f762eb4ba4c31e3d/code/experiments/benchmark_v1/results/bayes_oracle_posterior_geometry.json)، [Issue #37 تابع F](https://github.com/mahhammad/My-Thesis/issues/37).
 
 
 ## ۱۵. آزمون طراحی شروع سیاست: kNN آزاد در برابر آموزش شروعِ ثابت کلاسی (۸ نوامبر ۲۰۲۶)
@@ -439,7 +439,7 @@ $$
 
 **[برنامه پیگیری]** اگر F توسعه داده شد، از مدل ساده $F_{\mathrm{start},c}(X)$ برای تولید سطر شروع با آموزش مستقیم حاشیه شروع کنیم؛ آن را با سطر شروع ثابت کلاسی و با node_class کاملاً آزاد، با بذر و بودجه یکسان مقایسه کنیم. پیوند به دفترچه راهنما و فایل‌های خروجی:
 
-- [گزارش کامل و جدول خطاها](../code/experiments/benchmark_v1/CLASS_TIED_START_RESULTS_FA.md)
+- [گزارش کامل و جدول خطاها](../code/experiments/benchmark_v1/README_FA.md)
 - [کد train جدید](../code/experiments/benchmark_v1/train_class_tied_node_intermediate.py)
-- [روند ۵۰گامی](../code/experiments/benchmark_v1/results/class_tied_start_node_mid_50_summary.csv)
+- [روند ۵۰گامی](https://github.com/mahhammad/My-Thesis/blob/a8c9027460e538fa04b8aab2f762eb4ba4c31e3d/code/experiments/benchmark_v1/results/class_tied_start_node_mid_50_summary.csv)
 - [Issue #37](https://github.com/mahhammad/My-Thesis/issues/37)

@@ -6,15 +6,15 @@
 
 عنوان جدید: «ارزیابی سیاست یکنواختِ بدون نویز و مقایسه معیارها». آزمایش واقعی جدید از ترکیب **احتمال‌ها** استفاده می‌کند: $\pi_\alpha=(1-\alpha)\pi_U+\alpha\pi_G$ که $A_X^*=A_X\cap\{0,1,3\}$ و در $\alpha=1$ دو ویژگی نویزی ۲ و ۴ احتمال صفر دقیق دارند. این تعریف با آزمایش قدیمیِ $Z_\alpha=\alpha Z_{\mathrm{guided}}$ و سپس Softmax متفاوت است.
 
-[گزارش مستقل و نتایج اندازه‌گیری‌شده](../code/experiments/guided_informative_uniform_mixture/REPORT_FA.md) اکنون در متن فصل وارد شد: **دو شکل TikZ و چهار جدول LaTeX** مستقیماً با `\input` از پوشه آزمایش خوانده می‌شوند. تعریف سیاست، اعتبارسنجی $\alpha=0$، مقایسه پنج BA، مقادیر $I$ و $R_{\mathrm{JS}}$، بردارهای مراکز صفر/یک، فاصله جفتی سه مرکز و پراکندگی هر سه کلاس در متن آمده است.
+[گزارش مستقل و نتایج اندازه‌گیری‌شده](../code/experiments/guided_informative_uniform_mixture/README_FA.md) اکنون در متن فصل وارد شد: **دو شکل TikZ و چهار جدول LaTeX** مستقیماً با `\input` از پوشه آزمایش خوانده می‌شوند. تعریف سیاست، اعتبارسنجی $\alpha=0$، مقایسه پنج BA، مقادیر $I$ و $R_{\mathrm{JS}}$، بردارهای مراکز صفر/یک، فاصله جفتی سه مرکز و پراکندگی هر سه کلاس در متن آمده است.
 
 **تفسیر نگه‌داشته‌شده:** با افزایش سهم Guided، هم جدایی مراکز و هم پراکندگی درون‌کلاسی افزایش می‌یابند. اختلاف BA اعتبارسنجی فقط از تغییر یک پیش‌بینی در ۹۰ پرس‌وجو است؛ **این اختلاف کوچک، بدون تکرارهای مستقل، شاهد عملکرد بهتر یا بدتر سیاست در جامعه نیست.** اجرای قدیمی مبتنی بر مقیاس logits از بین نرفته، اما در همان بخش با عنوان **«مقایسه تکمیلی با سیاست مبتنی بر امتیازهای هدایت‌شده»** جدا شده و نتایج دو قرارداد با هم ادغام نشده‌اند.
 
 ## ۲. سازمان‌دهی رسمی آزمایش ۴.۶
 
-پوشه رسمی: [`code/experiments/target_center_guidance_trajectory`](../code/experiments/target_center_guidance_trajectory/README_FA.md). عنوان بخش در LaTeX و [گزارش علمی](../code/experiments/target_center_guidance_trajectory/REPORT_FA.md) یکسان شد: «هدایت گشت به مراکز هدف و تحلیل مسیر معیارهای بازنمایی».
+پوشه رسمی: [`code/experiments/target_center_guidance_trajectory`](../code/experiments/target_center_guidance_trajectory/README_FA.md). عنوان بخش در LaTeX و [گزارش علمی](../code/experiments/target_center_guidance_trajectory/README_FA.md) یکسان شد: «هدایت گشت به مراکز هدف و تحلیل مسیر معیارهای بازنمایی».
 
-**۱۱ فایل نتیجه خام** با نگاشت مستقیم Git blob SHA از [آرشیو اصلی](../code/experiments/archive/center_matching_comparison/REPORT_FA.md) منتقل شدند؛ انطباق **بایت‌به‌بایت تأیید شد**. تاریخچه و مراکز ۴۹ دور، CSVهای معیار، بازنمایی‌های سه وضعیت، و JSONهای تفصیلی کامل و قابل رجوع‌اند. آرشیو قدیمی دست‌نخورده باقی ماند. کد تحلیل و آزمون‌های قدیمی نیز کنار آن قرار گرفتند. مانیفست SHA و پروتکل در [`results/provenance.json`](../code/experiments/target_center_guidance_trajectory/results/provenance.json) است.
+**۱۱ فایل نتیجه خام** با نگاشت مستقیم Git blob SHA از [آرشیو اصلی](https://github.com/mahhammad/My-Thesis/blob/a8c9027460e538fa04b8aab2f762eb4ba4c31e3d/code/experiments/archive/center_matching_comparison/REPORT_FA.md) منتقل شدند؛ انطباق **بایت‌به‌بایت تأیید شد**. تاریخچه و مراکز ۴۹ دور، CSVهای معیار، بازنمایی‌های سه وضعیت، و JSONهای تفصیلی کامل و قابل رجوع‌اند. آرشیو قدیمی دست‌نخورده باقی ماند. کد تحلیل و آزمون‌های قدیمی نیز کنار آن قرار گرفتند. مانیفست SHA و پروتکل در [`results/provenance.json`](../code/experiments/target_center_guidance_trajectory/results/provenance.json) است.
 
 جدول سه وضعیت و جدول دورهای منتخب با داده واقعی تولید شدند. **دو نمودار TikZ** و **دو پیش‌نمایش SVG** برای مسیر $I/R_{\mathrm{JS}}$ در **تمام ۴۹ دور** و BA فقط در **۲۵ دور دارای اندازه‌گیری** ساخته شدند. مقدارهای گمشده BA با صفر یا مقدار درون‌یابی پر نشده‌اند. جدول روند منتخب و دو شکل جدید با `\input` در بخش ۴.۶ قرار گرفتند؛ سه جدول تاریخی تفصیلی همان بخش برای حفظ بقیه سنجه‌ها باقی ماندند.
 
