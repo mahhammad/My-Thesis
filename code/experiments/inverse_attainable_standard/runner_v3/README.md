@@ -23,3 +23,9 @@ All 90 new `trace.json` files still have top-level `status="in_progress"` even t
 The read-only post-handoff regression `qa_final/verify_trace_contract.py` checks **90/90** full trace best/final JSD and **90/90 START/TERMINAL SHA-256 pairs**. It ran successfully on Python 3.11 normal and `-O` modes in [GitHub Actions #43440602775](https://github.com/mahhammad/My-Thesis/actions/runs/43440602775). This is **AUTHOR_REMEDIATION_WITH_SELF_VALIDATION**, not fresh independent graph replay or third-party security attestation.
 
 **No new solving is authorized by this README.** All future graph/optimizer runs require an explicit bounded owner scope, read-at-use source pin audit, immutable snapshots, no Test selection, new attempt IDs, strict resource caps and a separate versioned execution/QA record.
+
+## Post-cleanup pinned contract — important exception (2026-11-15)
+
+The original `data_contract.py` Git blob **`4984961c6a8fd8057a7c1ff3d292d30ad6c9afcb`** is **intentionally byte-for-byte frozen**, because owner-authenticated Issue #60 root records pin it under `source_blobs_sha1.contract`. Its original `code/experiments/archive/` source paths must **not** be silently edited merely to make the slim checkout runnable: that would invalidate frozen source attestations.
+
+The historical owner-root and old path contract belong to the pinned full checkout, accessible by `backup/pre-cleanup-2026-11-15` (or the exact historical source SHA). `code/experiments/archive/` is absent from the current active checkout. Use a separate historical Git worktree to inspect/reproduce old source verification; the current active checkout must fail closed for those legacy inputs. No additional optimizer execution is authorized without a separately issued and independently reviewed owner trust root. See `research_journal/archive_recovery/README_FA.md`.
