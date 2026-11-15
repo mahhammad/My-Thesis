@@ -9,3 +9,7 @@ Re-check full published LaTeX number strings against original per-fit archived m
 ## Regression verification 3
 
 Zero-difference paired BA renders `0.0000` (unsigned), preserving the human-facing table convention. Re-run complete read-only publication preflight.
+
+## Final independent merge-gate re-QA
+
+Run the archived raw reproducibility, twelve corrected coverage aliases, original v2/v3 SVGs, Figure 11 axis and Persian LaTeX wrapper checks on this exact publication branch. Confirm no fit or Test. Required by QA-E-CH4-13-FINAL-MERGE-GATE-01.
