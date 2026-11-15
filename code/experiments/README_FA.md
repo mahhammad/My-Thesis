@@ -58,7 +58,7 @@
 | §4.8 | [`true-horizon-effect/`](true-horizon-effect/README_FA.md) |
 | §4.9 | [`exact-matrix-evaluation/`](exact-matrix-evaluation/README_FA.md) |
 | §4.10 | [`inverse-attainable/`](inverse-attainable/README_FA.md) |
-| §4.11 | [`bayes_center_reachability_standard/`](bayes_center_reachability_standard/README_FA.md) |
+| §4.11 | [`bayes-center-inverse/`](bayes-center-inverse/README_FA.md) |
 | §4.12 | [`standard_policy_comparison/`](standard_policy_comparison/README_FA.md) |
 | §4.13 | [`ch4_loss_controlled_comparison/`](ch4_loss_controlled_comparison/README_FA.md) |
 

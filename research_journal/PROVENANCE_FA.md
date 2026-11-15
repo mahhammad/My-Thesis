@@ -118,7 +118,7 @@
 
 ## ۵. مرجع‌های پایدار آزمایش‌ها
 - §۴.۱۰ [raw/protocol](../code/experiments/inverse-attainable/README_FA.md) و [manifest](../code/experiments/inverse-attainable/README_FA.md).
-- §۴.۱۱ [REPORT](../code/experiments/bayes_center_reachability_standard/README_FA.md) و [provenance_manifest](../code/experiments/bayes_center_reachability_standard/results/provenance_manifest.json).
+- §۴.۱۱ [REPORT](../code/experiments/bayes-center-inverse/README_FA.md) و [provenance_manifest](../code/experiments/bayes-center-inverse/results/provenance_manifest.json).
 - §۴.۱۲ [master_runs_76.csv](../code/experiments/standard_policy_comparison/results/master_runs_76.csv)، [مرجع مرکز](../code/experiments/standard_policy_comparison/README_FA.md).
 - سیاست‌های آموزش و نسخه تاریخی clipping در [Benchmark](../code/experiments/benchmark_v1/README_FA.md)، قرارداد جمع معیار در [COMMON_METRICS_FA](../code/experiments/COMMON_METRICS_FA.md).
 - IDEA-001 پیش از مأموریت در [پوشه آینده](../research/future-ideas/IDEA-001-quantile-kl-radius.md) ثبت شده؛ IDEA-002 تا 009 در همین مأموریت **فرضیه اجرا‌نشده** هستند.

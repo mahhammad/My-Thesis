@@ -1,6 +1,6 @@
 # گزارش فنی پژوهشی — E-CH4-11 | مراکز بیزی، دست‌یافتنی‌بودن و کیفیت بازنمایی
 
-**شناسه:** `bayes_center_reachability_standard` | **وضعیت:** مطالعهٔ ثبت‌شده در فصل چهارم | **منشأ:** commit `e53b75cae25f`
+**شناسه:** `bayes-center-inverse` | **وضعیت:** مطالعهٔ ثبت‌شده در فصل چهارم | **منشأ:** commit `e53b75cae25f`
 
 ## قرارداد بازتولید داده، اجرای آزمایش و ساختار پرونده‌ها — ممیزی تکمیلی ۲۰۲۶-۱۱-۱۵
 
@@ -16,9 +16,9 @@
 
 **گام‌های مستقل بازیابی و ممیزیِ بدون حل:**
 ```bash
-python -m zipfile -l code/experiments/bayes_center_reachability_standard/raw/section411_standard_S_103_audit_package.zip
-python -m zipfile -l code/experiments/bayes_center_reachability_standard/raw/V_R02_SEC411_INDEPENDENT_QA_EVIDENCE.zip
-python code/experiments/bayes_center_reachability_standard/src/verify_presentation.py
+python -m zipfile -l code/experiments/bayes-center-inverse/raw/section411_standard_S_103_audit_package.zip
+python -m zipfile -l code/experiments/bayes-center-inverse/raw/V_R02_SEC411_INDEPENDENT_QA_EVIDENCE.zip
+python code/experiments/bayes-center-inverse/src/verify_presentation.py
 ```
 برای **بازتولید از اول**، ZIP نخست را در مسیر **جدا** استخراج کنید، سپس `README_FIRST_FA.md`، `REPRODUCE_FA.md`، `data/freeze_manifest.json` و `SHA256SUMS.txt` همان بسته را طبق ترتیب و نسخهٔ نرم‌افزار مندرج در آنها اجرا/راستی‌آزمایی کنید. دستور نمایش `zipfile -l` صرفاً اعضا را لیست می‌کند و بازتولید گواه نیست. از نو محاسبه‌کردن solver یا کران‌ها در این ممیزی انجام نشده است.
 
@@ -116,14 +116,14 @@ q_b^{(s)}(j\mid i)=\frac{\mathbf1\{j\ne s\}B_b(i,j)}{\sum_{k\ne s}B_b(i,k)}.
 ## بازتولید فنی آزمایش S-103 و گواه مستقل
 
 ### محل داده خام
-دو ZIP کامل در پوشه `code/experiments/bayes_center_reachability_standard/raw/` داخل GitHub ثبت شده‌اند و نسخه‌های مستقل در Library مالک زیر مسیر `/My-Thesis/Section-4-11/` محفوظ‌اند:
+دو ZIP کامل در پوشه `code/experiments/bayes-center-inverse/raw/` داخل GitHub ثبت شده‌اند و نسخه‌های مستقل در Library مالک زیر مسیر `/My-Thesis/Section-4-11/` محفوظ‌اند:
 - `section411_standard_S_103_audit_package.zip`: SHA256 `742b38249fccf904fc5bf6e783a4110853a1a7051433f7b8417b32c1774493f4`.
 - `V_R02_SEC411_INDEPENDENT_QA_EVIDENCE.zip`: SHA256 `1d6c42e297b4c00c654bb4dec96d7f9d114240b3fb56974353968f0ade96c086`.
 
 **هر دو ZIP در GitHub tree حاضرند.** برای بازتولید، از پوشه `raw/` نسخه پروژه استفاده کنید؛ پیش از اعتماد به نتایج SHA کامل را بازحساب کنید.
 
 ```bash
-cd code/experiments/bayes_center_reachability_standard/raw
+cd code/experiments/bayes-center-inverse/raw
 sha256sum section411_standard_S_103_audit_package.zip V_R02_SEC411_INDEPENDENT_QA_EVIDENCE.zip
 python - <<'PY'
 import zipfile, hashlib
@@ -141,7 +141,7 @@ PY
 
 ### کنترل سبک جدول‌های جدید
 ```bash
-python code/experiments/bayes_center_reachability_standard/src/verify_presentation.py
+python code/experiments/bayes-center-inverse/src/verify_presentation.py
 ```
 
 این کنترل از `results/certified_summary.json`، `results/metric_seed_summary.json` و فایل‌های `tables/` استفاده می‌کند. به داده خام یا تغییر نتایج نیاز ندارد. کنترل کامل منبع raw در `tests/qa_tests.py` داخل بسته اول و کد مستقل ممیز در بسته دوم انجام می‌شود.
@@ -212,7 +212,7 @@ python code/experiments/bayes_center_reachability_standard/src/verify_presentati
 
 ## بازیابی سوابق Markdown حذف‌شده
 
-نسخه‌های قبلی گزارش/پروتکل و شواهد متنی، با Git blob اصلی در [کامیت پیش از تجمیع](https://github.com/mahhammad/My-Thesis/tree/e53b75cae25ffba0d06d7b8a15f6cf322cb4698f/code/experiments/bayes_center_reachability_standard/) باقی می‌مانند. ارجاعات موجود در کامنت‌های تاریخی Issueها به همین نسخه‌ها تعلق دارند.
+نسخه‌های قبلی گزارش/پروتکل و شواهد متنی، با Git blob اصلی در [کامیت پیش از تجمیع](https://github.com/mahhammad/My-Thesis/tree/e53b75cae25ffba0d06d7b8a15f6cf322cb4698f/code/experiments/bayes-center-inverse/) باقی می‌مانند. ارجاعات موجود در کامنت‌های تاریخی Issueها به همین نسخه‌ها تعلق دارند.
 
 
 ---
@@ -225,4 +225,4 @@ python code/experiments/bayes_center_reachability_standard/src/verify_presentati
 
 **خروجی‌های محلی و نقش آنها:** [`results/certified_summary.json`](results/certified_summary.json) خلاصهٔ گواه، [`results/bounds_54_rounded.csv`](results/bounds_54_rounded.csv) کران‌های گزارش‌شده، `results/metric_seed_summary.json` سنجه‌های مولد، [`results/coverage.json`](results/coverage.json) وضعیت پوشش و [`results/provenance_manifest.json`](results/provenance_manifest.json) منشأ/نام بسته را نگه می‌دارند. `tables/` جدول‌های LaTeX و `figures/` منابع بصری پایان‌نامه‌اند.
 
-**کنترل محلی بدون آموزش:** `python code/experiments/bayes_center_reachability_standard/src/verify_presentation.py`. این دستور گواه تازه‌ای دربارهٔ امکان‌پذیری ریاضی نمی‌سازد. هر گزارش تازه باید مستقل از `README_FA.md` فعلی نوشته شود؛ آن را بازنویسی یا حذف نکنید.
+**کنترل محلی بدون آموزش:** `python code/experiments/bayes-center-inverse/src/verify_presentation.py`. این دستور گواه تازه‌ای دربارهٔ امکان‌پذیری ریاضی نمی‌سازد. هر گزارش تازه باید مستقل از `README_FA.md` فعلی نوشته شود؛ آن را بازنویسی یا حذف نکنید.
