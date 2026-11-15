@@ -1,6 +1,6 @@
 # گزارش فنی پژوهشی — E-CH4-03 | اعتبارسنجی انتقال یک‌گامی
 
-**شناسهٔ مطالعه:** `one_step_transition_population_convergence` | **حوزه:** پایان‌نامه IMC / فصل چهارم | **منشأ محتوا:** اسناد پیش از تجمیع در commit `17e91ec99d1b`
+**شناسهٔ مطالعه:** `q-validation` | **حوزه:** پایان‌نامه IMC / فصل چهارم | **منشأ محتوا:** اسناد پیش از تجمیع در commit `17e91ec99d1b`
 
 ## قرارداد بازتولید داده، اجرای آزمایش و ساختار پرونده‌ها — ممیزی تکمیلی ۲۰۲۶-۱۱-۱۵
 
@@ -14,8 +14,8 @@
 
 **فرمان اجرایی و اثر آن** (فقط در worktree/checkout جدا، با `numpy`):
 ```bash
-python code/experiments/one_step_transition_population_convergence/compare.py
-python -m unittest discover -s code/experiments/one_step_transition_population_convergence -p 'test_*.py' -v
+python code/experiments/q-validation/compare.py
+python -m unittest discover -s code/experiments/q-validation -p 'test_*.py' -v
 ```
 فرمان نخست **دو خروجی رسمی را می‌نویسد/بازنویسی می‌کند**؛ فرمان دوم فقط آزمون و مقایسهٔ شواهد است.
 
@@ -144,10 +144,10 @@ G_{c,a}(z)=\frac{\exp[-\gamma_a(z-\mu_{c,a})^2/
 
 **دستور ممیزی سبک (از ریشه مخزن):**
 
-`python -m unittest discover -v -s code/experiments/one_step_transition_population_convergence -p 'test_*.py'`
+`python -m unittest discover -v -s code/experiments/q-validation -p 'test_*.py'`
 
 اجرای مجدد ۴۸ مقایسه (در این مرحله انجام نشده):  
-`python code/experiments/one_step_transition_population_convergence/compare.py`
+`python code/experiments/q-validation/compare.py`
 
 **آزمایش اولیه تاریخی تکرار نشده**؛ این مرحله، آماده‌سازی منبع معتبر گزارش است. کامپایل کامل XeLaTeX همچنان باید جداگانه بررسی شود.
 
@@ -192,9 +192,9 @@ G_{c,a}(z)=\frac{\exp[-\gamma_a(z-\mu_{c,a})^2/
 
 از ریشه مخزن:
 
-`python -m unittest discover -s code/experiments/one_step_transition_population_convergence -p 'test_*.py' -v`
+`python -m unittest discover -s code/experiments/q-validation -p 'test_*.py' -v`
 
-[اجرای CI این پوشه](https://github.com/mahhammad/My-Thesis/actions/workflows/chapter4-one-step-transition.yml) تغییرات داده، جداول و مختصات نمودار را کنترل می‌کند. این تست‌ها به داده Test رجوع نمی‌کنند. برای بازاجرای ۴۸ محاسبه اصلی فقط در صورت نیاز از `python code/experiments/one_step_transition_population_convergence/compare.py` استفاده کنید.
+[اجرای CI این پوشه](https://github.com/mahhammad/My-Thesis/actions/workflows/chapter4-one-step-transition.yml) تغییرات داده، جداول و مختصات نمودار را کنترل می‌کند. این تست‌ها به داده Test رجوع نمی‌کنند. برای بازاجرای ۴۸ محاسبه اصلی فقط در صورت نیاز از `python code/experiments/q-validation/compare.py` استفاده کنید.
 
 **قرارداد آزمایش‌های آینده:** [قالب گزارش مشترک فصل چهارم](../EXPERIMENT_REPORT_STANDARD_FA.md).
 
@@ -243,7 +243,7 @@ G_{c,a}(z)=\frac{\exp[-\gamma_a(z-\mu_{c,a})^2/
 
 ## سیاست حفظ تاریخچه و پیوندهای قدیمی
 
-فایل‌های Markdown پیشین (`REPORT_FA.md`) پس از تجمیع از checkout فعال حذف می‌شوند؛ متن آن‌ها با شرح منشأ در همین سند آمده و Git blob اصلی در commit [`17e91ec99d1b`](https://github.com/mahhammad/My-Thesis/tree/17e91ec99d1bf082ef87e658d0643137b1e7b6fe/code/experiments/one_step_transition_population_convergence/) قابل بازیابی است. ارجاعات تاریخی کامنت‌های Issue اصلاح‌پذیر نیستند و باید با نسخهٔ قفل‌شدهٔ Git تفسیر شوند.
+فایل‌های Markdown پیشین (`REPORT_FA.md`) پس از تجمیع از checkout فعال حذف می‌شوند؛ متن آن‌ها با شرح منشأ در همین سند آمده و Git blob اصلی در commit [`17e91ec99d1b`](https://github.com/mahhammad/My-Thesis/tree/17e91ec99d1bf082ef87e658d0643137b1e7b6fe/code/experiments/q-validation/) قابل بازیابی است. ارجاعات تاریخی کامنت‌های Issue اصلاح‌پذیر نیستند و باید با نسخهٔ قفل‌شدهٔ Git تفسیر شوند.
 
 
 ---
@@ -252,8 +252,8 @@ G_{c,a}(z)=\frac{\exp[-\gamma_a(z-\mu_{c,a})^2/
 
 **ورودی و دامنه.** از مولد مشترک `code/data_generator/config.json`، ۹۰ پرس‌وجوی ثابت و ۴ اندازهٔ مرجع ۳۰۰، ۱۰۰۰، ۳۰۰۰ و ۱۰٬۰۰۰ با ۱۲ تکرار استفاده شده است. سؤال علمی همگرایی توزیع انتقال یک‌گامی Q است؛ در این بخش آموزش سیاست، گشت چندگامی و سنجش BA وجود ندارد.
 
-**برنامه و نحوهٔ تولید.** اسکریپت [`compare.py`](compare.py) مستقیماً `analyze()` و `save()` را اجرا می‌کند. فرمان تاریخی از ریشهٔ مخزن: `python code/experiments/one_step_transition_population_convergence/compare.py`. این فرمان **قابلیت بازنویسی** `results/metrics.json` و `results/replicates.csv` را دارد؛ برای ممیزیِ نتایج پذیرفته‌شده در checkout فعال اجرا نشود.
+**برنامه و نحوهٔ تولید.** اسکریپت [`compare.py`](compare.py) مستقیماً `analyze()` و `save()` را اجرا می‌کند. فرمان تاریخی از ریشهٔ مخزن: `python code/experiments/q-validation/compare.py`. این فرمان **قابلیت بازنویسی** `results/metrics.json` و `results/replicates.csv` را دارد؛ برای ممیزیِ نتایج پذیرفته‌شده در checkout فعال اجرا نشود.
 
 **فایل‌های شواهد.** `results/metrics.json` رکوردهای هر ۴۸ مشاهده، `results/replicates.csv` ردیف‌های تکرار، `results/summary.csv` و `results/per_feature.csv` خلاصه‌های ارائه، `results/metrics_full.json` سنجه‌های متناسب با این مطالعه، `results/coverage.json` وضعیت معیارهای نامرتبط و `results/provenance.json` تبار نسخه/داده را نگه می‌دارند. خروجی‌های چاپی در `tables/` و `figures/` هستند.
 
-**کنترل بدون تغییر خروجی:** `python -m unittest discover -s code/experiments/one_step_transition_population_convergence -p 'test_*.py' -v`. ایجاد گزارش جدید در بازتولید مستقل مجاز است؛ **`README_FA.md` نباید overwrite یا حذف شود**.
+**کنترل بدون تغییر خروجی:** `python -m unittest discover -s code/experiments/q-validation -p 'test_*.py' -v`. ایجاد گزارش جدید در بازتولید مستقل مجاز است؛ **`README_FA.md` نباید overwrite یا حذف شود**.

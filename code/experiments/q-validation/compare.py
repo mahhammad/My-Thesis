@@ -2,7 +2,7 @@
 """Finite-reference vs analytic population Q, independent of policy learning.
 
 Run from repository root:
-  python code/experiments/one_step_transition_population_convergence/compare.py
+  python code/experiments/q-validation/compare.py
 """
 from __future__ import annotations
 import csv, json, sys

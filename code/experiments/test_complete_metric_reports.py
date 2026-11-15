@@ -87,7 +87,7 @@ class Chapter4CommonMetricArtifactTests(unittest.TestCase):
             "\\input{./code/experiments/guided_informative_uniform_mixture/tables/complete_compactness.tex}"),1)
 
     def test_q_only_n_a_and_historical_49_25_missingness_are_explicit(self):
-        q=read(HERE/"one_step_transition_population_convergence/results/coverage.json")
+        q=read(HERE/"q-validation/results/coverage.json")
         self.assertTrue(any("R_KL" in r["ids"] for r in q["not_applicable"]))
         t=read(HERE/"target_center_guidance_trajectory/results/metrics_full.json")
         cov=read(HERE/"target_center_guidance_trajectory/results/coverage.json")

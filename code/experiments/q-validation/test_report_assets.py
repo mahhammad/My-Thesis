@@ -140,7 +140,7 @@ class ReportAssetsTests(unittest.TestCase):
         ):
             self.assertTrue((ROOT / relative).is_file())
             expected = (r"\input{./code/experiments/"
-                        r"one_step_transition_population_convergence/"
+                        r"q-validation/"
                         + relative + "}")
             self.assertEqual(chapter.count(expected), 1)
         labels = re.findall(r"\\label\{([^}]+)\}", chapter)

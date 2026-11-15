@@ -4,7 +4,7 @@
 | بخش / موضوع | طراحی و مدرک | وضعیت و محدودیت استنباط |
 |---|---|---|
 | §۴.۱–۴.۲ داده | سه کلاس، پنج ویژگی، ماسک فقدان، Train/Validation/Test جدا؛ مبنا β=0.4، λ=0.8، H=12 | [A1 foundations](https://github.com/mahhammad/My-Thesis/issues/49#issuecomment-6792642221) پذیرفته؛ Test را برای انتخاب مدل مصرف نکن |
-| §۴.۳ انتقال یک‌گامی | [مرجع جمعیت و نمونه](../code/experiments/one_step_transition_population_convergence/README_FA.md) | Q یک‌گامی؛ معیارهای مرکز چندگامی به‌طور خودکار قابل اعمال نیست |
+| §۴.۳ انتقال یک‌گامی | [مرجع جمعیت و نمونه](../code/experiments/q-validation/README_FA.md) | Q یک‌گامی؛ معیارهای مرکز چندگامی به‌طور خودکار قابل اعمال نیست |
 | §۴.۴ سیاست یکنواخت | [حساسیت پارامترها](../code/experiments/uniform_policy_hyperparameter_sensitivity/README_FA.md) | توصیفی و وابسته به تنظیم |
 | §۴.۵ هدایت اولیه | [سیاست از اهداف و مخلوط یکنواخت](../code/experiments/guided_informative_uniform_mixture/README_FA.md)، [بازبینی MC vs exact](../code/experiments/guided_informative_uniform_mixture/README_FA.md) | تفاوت MC300 و exact مهم؛ با بودجه MC بزرگ‌تر نزدیک‌شدن مشاهده شد |
 | §۴.۶ replay | [۴۹ دور هدایت](../code/experiments/target_center_guidance_trajectory/README_FA.md) | ۴۹ checkpoint مستقل‌داده نیست |

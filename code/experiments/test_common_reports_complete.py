@@ -52,7 +52,7 @@ class CompleteExperimentEvidence(unittest.TestCase):
             x["group"] for x in CONTRACT["metric_groups"]])
 
     def test_Q_only_diagnostic_has_full_measured_48_and_declared_na(self):
-        slug="one_step_transition_population_convergence"
+        slug="q-validation"
         m,c=load(slug),load(slug,"coverage.json")
         self.assertEqual(m["experiment_id"],"E-CH4-03")
         self.assertTrue(m["representative_Q_only"])
@@ -114,7 +114,7 @@ class CompleteExperimentEvidence(unittest.TestCase):
         self.assertTrue((HERE/slug/"results/metrics_summary.csv").is_file())
 
     def test_exactly_eleven_official_studies_plus_shared_benchmark(self):
-        study_dirs = ["one_step_transition_population_convergence","uniform_policy_hyperparameter_sensitivity","guided_informative_uniform_mixture","target_center_guidance_trajectory","sigmoid_margin_observational_evaluation","walk_depth_effect","exact_matrix_walk_validation","inverse_attainable_standard","bayes_center_reachability_standard","standard_policy_comparison","ch4_loss_controlled_comparison"]
+        study_dirs = ["q-validation","uniform_policy_hyperparameter_sensitivity","guided_informative_uniform_mixture","target_center_guidance_trajectory","sigmoid_margin_observational_evaluation","walk_depth_effect","exact_matrix_walk_validation","inverse_attainable_standard","bayes_center_reachability_standard","standard_policy_comparison","ch4_loss_controlled_comparison"]
         actual = {p.name for p in HERE.iterdir() if p.is_dir() and not p.name.startswith((".", "__"))}
         self.assertEqual(actual, set(study_dirs) | {"benchmark_v1"})
         for slug in study_dirs:
@@ -132,7 +132,7 @@ class CompleteExperimentEvidence(unittest.TestCase):
 
     def test_all_four_experiment_reports_link_to_full_metric_records(self):
         for slug in (
-            "one_step_transition_population_convergence",
+            "q-validation",
             "uniform_policy_hyperparameter_sensitivity",
             "guided_informative_uniform_mixture",
             "target_center_guidance_trajectory",

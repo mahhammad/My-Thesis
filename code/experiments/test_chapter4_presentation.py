@@ -12,7 +12,7 @@ HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[1]
 TEX = REPO / "tex/chapter4.tex"
 SPECS = (
-    ("sec:ch4-q-validation", "one_step_transition_population_convergence"),
+    ("sec:ch4-q-validation", "q-validation"),
     ("sec:ch4-uniform-hyperparameter-sensitivity", "uniform_policy_hyperparameter_sensitivity"),
     ("sec:ch4-fixed-policy-evaluation", "guided_informative_uniform_mixture"),
     ("sec:ch4-center-target-observation", "target_center_guidance_trajectory"),

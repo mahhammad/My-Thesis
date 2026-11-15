@@ -229,7 +229,7 @@ D_{\mathrm{eff}}=\sum_{t=1}^{H}t\,\alpha_t^{(H)}
 
 **منشأ اجرا:** [GitHub Actions #42649911898](https://github.com/mahhammad/My-Thesis/actions/runs/42649911898)؛ هر ۹ snapshot در آن run بخشی از ۱۳ snapshot با round-trip مستقل موفق بودند. **تست نسخه گزارشی:** [CI #42715068662](https://github.com/mahhammad/My-Thesis/actions/runs/42715068662) با ۱۰ کنترل داده و نمودار و ۳ کنترل ایستای LaTeX، همگی موفق. این پوشه مستقل از گزارش سیاست هدایت‌شده است که به آزمایش بعدی تعلق دارد.
 
-[استاندارد مشترک گزارش فصل چهارم](../EXPERIMENT_REPORT_STANDARD_FA.md) · [گزارش مبنای قبلی ۴.۳](../one_step_transition_population_convergence/README_FA.md).
+[استاندارد مشترک گزارش فصل چهارم](../EXPERIMENT_REPORT_STANDARD_FA.md) · [گزارش مبنای قبلی ۴.۳](../q-validation/README_FA.md).
 
 
 ## نقشهٔ دقیق فایل‌ها و نقش هرکدام

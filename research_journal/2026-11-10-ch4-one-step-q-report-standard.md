@@ -13,14 +13,14 @@
 
 ## ۲. انتقال شواهد بدون مخدوش‌کردن تاریخچه
 
-پوشه رسمی: [`code/experiments/one_step_transition_population_convergence`](../code/experiments/one_step_transition_population_convergence/README_FA.md).
+پوشه رسمی: [`code/experiments/q-validation`](../code/experiments/q-validation/README_FA.md).
 
 پوشه قدیمی [`archive/q_population_validation`](https://github.com/mahhammad/My-Thesis/blob/a8c9027460e538fa04b8aab2f762eb4ba4c31e3d/code/experiments/archive/q_population_validation/README_FA.md) حفظ شد. فایل‌های پایه به محل جدید کپی شدند؛ **Git blob SHAها عیناً یکسان‌اند**:
 
 - JSON نتایج: `79712f9608f69252371be904fe3fb73696514966`.
 - CSV تکرارها: `57bea3a56ce9ef381c2b43068b9d37ab467bfbf5`.
 
-[`results/provenance.json`](../code/experiments/one_step_transition_population_convergence/results/provenance.json) منشأ، `source_commit` تاریخی، بذرها، نبود دسترسی به Test و شیوه تجمیع را ثبت می‌کند. **هیچ‌یک از ۴۸ مقایسه دوباره اجرا نشده‌اند.** فقط کد و داده آرشیوی، مشتقات جدول/نمودار و کنترل‌های سبک بازآرایی شده‌اند.
+[`results/provenance.json`](../code/experiments/q-validation/results/provenance.json) منشأ، `source_commit` تاریخی، بذرها، نبود دسترسی به Test و شیوه تجمیع را ثبت می‌کند. **هیچ‌یک از ۴۸ مقایسه دوباره اجرا نشده‌اند.** فقط کد و داده آرشیوی، مشتقات جدول/نمودار و کنترل‌های سبک بازآرایی شده‌اند.
 
 ## ۳. شواهد، نتایج و تعبیر محدود
 
@@ -47,9 +47,9 @@
 
 ## ۵. محل ذخیره و وضعیت کنترل
 
-- [گزارش آزمایش](../code/experiments/one_step_transition_population_convergence/README_FA.md)، [داده خام و جدول خلاصه](../code/experiments/one_step_transition_population_convergence/results/summary.csv).
-- [شکل همگرایی TikZ](../code/experiments/one_step_transition_population_convergence/figures/error_convergence.tex)، [شکل ویژگی‌ها TikZ](../code/experiments/one_step_transition_population_convergence/figures/per_feature_tv.tex).
-- [شکل SVG همگرایی](../code/experiments/one_step_transition_population_convergence/figures/error_convergence.svg)، [SVG تفکیک ویژگی](../code/experiments/one_step_transition_population_convergence/figures/per_feature_tv.svg).
+- [گزارش آزمایش](../code/experiments/q-validation/README_FA.md)، [داده خام و جدول خلاصه](../code/experiments/q-validation/results/summary.csv).
+- [شکل همگرایی TikZ](../code/experiments/q-validation/figures/error_convergence.tex)، [شکل ویژگی‌ها TikZ](../code/experiments/q-validation/figures/per_feature_tv.tex).
+- [شکل SVG همگرایی](../code/experiments/q-validation/figures/error_convergence.svg)، [SVG تفکیک ویژگی](../code/experiments/q-validation/figures/per_feature_tv.svg).
 - بخش `tex/chapter4.tex` با عنوان یکسان بازنویسی و چهار فایل `\input` به آن متصل شد.
 - [CI آزمون‌های سبک آزمایش](https://github.com/mahhammad/My-Thesis/actions/workflows/chapter4-one-step-transition.yml): بررسی برابری بایت فایل تاریخی و جدید، ۴۸ ردیف، SD، جدول‌ها، مختصات نمودارهای TeX/SVG و ارجاع‌های دقیق فصل، بدون آموزش و Test.
 
