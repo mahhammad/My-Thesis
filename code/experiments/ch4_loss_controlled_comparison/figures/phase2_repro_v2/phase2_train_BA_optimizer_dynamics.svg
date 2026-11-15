@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="640" viewBox="0 0 1100 640">
+<rect width="1100" height="640" fill="white"/>
+<text x="75" y="42" font-size="22" font-family="sans-serif" font-weight="bold">Train BA over Adam steps</text>
+<text x="75" y="67" font-size="13" font-family="sans-serif">Arithmetic mean over three seeds; normalize per seed before taking mean (BA remains %)</text>
+<line x1="105" x2="1035" y1="532" y2="532" stroke="#444"/>
+<line x1="105" x2="105" y1="107" y2="532" stroke="#444"/>
+<text x="105" y="94" font-size="12" font-family="sans-serif">mean_train_BA_percent</text>
+<line x1="105" x2="1035" y1="532.000" y2="532.000" stroke="#eee"/>
+<text x="95" y="536.000" text-anchor="end" font-size="11" font-family="monospace">0</text>
+<line x1="105" x2="1035" y1="447.000" y2="447.000" stroke="#eee"/>
+<text x="95" y="451.000" text-anchor="end" font-size="11" font-family="monospace">20.46</text>
+<line x1="105" x2="1035" y1="362.000" y2="362.000" stroke="#eee"/>
+<text x="95" y="366.000" text-anchor="end" font-size="11" font-family="monospace">40.93</text>
+<line x1="105" x2="1035" y1="277.000" y2="277.000" stroke="#eee"/>
+<text x="95" y="281.000" text-anchor="end" font-size="11" font-family="monospace">61.39</text>
+<line x1="105" x2="1035" y1="192.000" y2="192.000" stroke="#eee"/>
+<text x="95" y="196.000" text-anchor="end" font-size="11" font-family="monospace">81.85</text>
+<line x1="105" x2="1035" y1="107.000" y2="107.000" stroke="#eee"/>
+<text x="95" y="111.000" text-anchor="end" font-size="11" font-family="monospace">102.3</text>
+<text x="105.000" y="554" text-anchor="middle" font-size="11" font-family="sans-serif">0</text>
+<text x="291.000" y="554" text-anchor="middle" font-size="11" font-family="sans-serif">5</text>
+<text x="477.000" y="554" text-anchor="middle" font-size="11" font-family="sans-serif">10</text>
+<text x="663.000" y="554" text-anchor="middle" font-size="11" font-family="sans-serif">15</text>
+<text x="849.000" y="554" text-anchor="middle" font-size="11" font-family="sans-serif">20</text>
+<text x="1035.000" y="554" text-anchor="middle" font-size="11" font-family="sans-serif">25</text>
+<polyline points="105.000,188.062 142.200,182.293 179.400,180.961 216.600,179.385 253.800,180.964 291.000,182.138 328.200,181.598 365.400,181.759 402.600,182.431 439.800,180.657 477.000,179.204 514.200,177.105 551.400,175.331 588.600,175.132 625.800,175.778 663.000,175.899 700.200,174.552 737.400,174.964 774.600,174.964 811.800,173.646 849.000,173.570 886.200,172.628 923.400,172.628 960.600,172.924 997.800,173.583 1035.000,173.900" fill="none" stroke="#2778a5" stroke-width="3"/>
+<line x1="620" x2="642" y1="84" y2="84" stroke="#2778a5" stroke-width="3"/>
+<text x="647" y="88" font-size="11" font-family="sans-serif">shared Sigmoid</text>
+<polyline points="105.000,188.062 142.200,182.047 179.400,180.743 216.600,176.314 253.800,176.158 291.000,176.435 328.200,175.334 365.400,175.992 402.600,177.592 439.800,177.592 477.000,177.906 514.200,176.951 551.400,176.728 588.600,177.060 625.800,177.305 663.000,177.196 700.200,176.511 737.400,176.064 774.600,177.049 811.800,175.783 849.000,174.881 886.200,175.014 923.400,174.029 960.600,174.343 997.800,175.602 1035.000,175.602" fill="none" stroke="#d37b25" stroke-width="3"/>
+<line x1="835" x2="857" y1="84" y2="84" stroke="#d37b25" stroke-width="3"/>
+<text x="862" y="88" font-size="11" font-family="sans-serif">shared Softplus</text>
+<polyline points="105.000,188.062 142.200,184.987 179.400,182.841 216.600,184.302 253.800,185.168 291.000,185.856 328.200,184.666 365.400,184.257 402.600,182.789 439.800,180.072 477.000,179.554 514.200,178.895 551.400,179.174 588.600,177.484 625.800,175.654 663.000,175.008 700.200,174.618 737.400,174.618 774.600,175.060 811.800,173.606 849.000,174.240 886.200,173.360 923.400,172.477 960.600,172.477 997.800,172.477 1035.000,171.831" fill="none" stroke="#57934e" stroke-width="3"/>
+<line x1="620" x2="642" y1="106" y2="106" stroke="#57934e" stroke-width="3"/>
+<text x="647" y="110" font-size="11" font-family="sans-serif">class Sigmoid</text>
+<polyline points="105.000,188.062 142.200,183.778 179.400,183.403 216.600,179.112 253.800,177.917 291.000,177.506 328.200,177.197 365.400,176.883 402.600,177.192 439.800,177.881 477.000,177.567 514.200,178.208 551.400,176.931 588.600,175.959 625.800,176.133 663.000,175.121 700.200,177.218 737.400,178.745 774.600,179.077 811.800,178.733 849.000,178.559 886.200,178.384 923.400,177.220 960.600,177.878 997.800,178.397 1035.000,178.979" fill="none" stroke="#9367a4" stroke-width="3"/>
+<line x1="835" x2="857" y1="106" y2="106" stroke="#9367a4" stroke-width="3"/>
+<text x="862" y="110" font-size="11" font-family="sans-serif">class Softplus</text>
+<text x="510" y="584" font-size="12" font-family="sans-serif">Completed optimizer update (0 .. 25)</text>
+<text x="75" y="617" font-size="11" font-family="sans-serif">Raw run 43670524935 | exact H=12 | Train 300 | Validation 90 | 25 Adam updates | No Test</text>
+</svg>
