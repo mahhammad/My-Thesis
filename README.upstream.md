@@ -92,22 +92,9 @@ Therefor, it doesn't need any installation. However, it uses many technologies t
 * \[Optional\] X Series 2 & Junicode Fonts installed in your system.
 
 ## Screenshots
-#### tehran-thesis in BiDiTexmaker  
-![biditexmaker](./img/biditexmaker.png "biditexmaker")
+The original template screenshots were intentionally removed from this thesis repository to keep only the thesis assets in `img/`. The historical examples remain accessible from the [upstream tehran-thesis repository](https://github.com/sinamomken/tehran-thesis).
 
-#### tehran-thesis in BiDiTexmaker (draft mode)  
-![biditexmaker-draft](./img/biditexmaker-draft.png "biditexmaker-draft")
 
-#### Example of citation to various sources  
-<img src="./img/cite-example.jpg" alt="cite-example" width="49%"/> <img src="./img/bibliography.jpg" alt="bibliography" width="49%"/>
-
-#### Glossary and index  
-<img src="./img/fa2en-glossary.jpg" alt="fa2en-glossary" width="49%"/> <img src="./img/index.jpg" alt="index" width="49%"/>
-
-#### Colorized codes and todo notes (in draft version)  
-<img src="./img/algs-codes.jpg" alt="colorized codes" width="49%"/> <img src="./img/todos.jpg" alt="todo notes" width="49%"/>
-
-More screenshots are available in [`img`][imgs] folder.
 
 [egufa site]: https://github.com/sinamomken/tehran-thesis/wiki/%D9%85%D8%B3%D8%AA%D9%86%D8%AF%D8%A7%D8%AA-%D9%86%DA%AF%D8%A7%D8%B1%D8%B4-%D9%BE%D8%A7%DB%8C%D8%A7%D9%86%E2%80%8C%D9%86%D8%A7%D9%85%D9%87-%D8%AF%D8%B1-%D9%BE%D8%B1%D8%AF%DB%8C%D8%B3-%D8%AF%D8%A7%D9%86%D8%B4%DA%A9%D8%AF%D9%87%E2%80%8C%D9%87%D8%A7%DB%8C-%D9%81%D9%86%DB%8C-%D8%AF%D8%A7%D9%86%D8%B4%DA%AF%D8%A7%D9%87-%D8%AA%D9%87%D8%B1%D8%A7%D9%86
 
