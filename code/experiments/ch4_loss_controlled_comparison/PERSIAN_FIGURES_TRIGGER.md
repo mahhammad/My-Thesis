@@ -9,3 +9,4 @@ no changes to original raw/experiment snapshots, no merge.
 Use the deterministic Python source phase2_persian_figures.py and retain all
 eleven English graph bytes. The completed assets will be reviewed in chapter
 PDF before publication.
+Retry explanation: first artifact fully generated and passed all figure checks, but publication push was rejected by a concurrent chapter text commit. The workflow now rebases safely; no training and no modification of frozen sources.
