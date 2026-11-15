@@ -15,7 +15,7 @@
 
 **وضعیت (۸ نوامبر ۲۰۲۶):** ۷۶ آموزش استاندارد اصلی انجام و آرشیو شدند. چهار ZIP و تمام checkpointها در ممیزی بازامتیازدهی NLL/Softplus تأیید شدند؛ هشت مقایسه آموزش NLL/Softplus هم به‌صورت تک‌بذر انجام شد. این نتیجه هنوز گزارش نهاییِ چندبذری یا تعمیم node/node_class نیست. گزارش‌های پیشین با قرارداد متفاوت historical محسوب می‌شوند. جزئیات: [گزارش تکمیل شکاف‌ها](README_FA.md).
 
-**افزوده ۸ نوامبر — خانواده شروعِ مشترک کلاسی + انتقال میانی گره‌ای:** پس از ارزیابی تخمین‌های پسینی سیاست شروع برای `node_class`، یک سیاست مقید با سطر شروع مشترک به‌ازای هر کلاس فرضی از صفر و همراه با انتقال‌های گره‌ای آموزش داده شد. نتیجه ۵۰گامی: Train BA=87.68%، Validation BA=97.28%؛ با ۱۰۰% Train و Validation نامعینِ `node_class` آزاد اشتباه نشود. [گزارش](README_FA.md) · [کد بازتولید](train_class_tied_node_intermediate.py) · [خلاصه ۵۰گامی](results/class_tied_start_node_mid_50_summary.csv). Test استفاده نشده است.
+**افزوده ۸ نوامبر — خانواده شروعِ مشترک کلاسی + انتقال میانی گره‌ای:** پس از ارزیابی تخمین‌های پسینی سیاست شروع برای `node_class`، یک سیاست مقید با سطر شروع مشترک به‌ازای هر کلاس فرضی از صفر و همراه با انتقال‌های گره‌ای آموزش داده شد. نتیجه ۵۰گامی: Train BA=87.68%، Validation BA=97.28%؛ با ۱۰۰% Train و Validation نامعینِ `node_class` آزاد اشتباه نشود. [گزارش](README_FA.md) · [کد بازتولید](train_class_tied_node_intermediate.py) · [خلاصه ۵۰گامی](https://github.com/mahhammad/My-Thesis/blob/a8c9027460e538fa04b8aab2f762eb4ba4c31e3d/code/experiments/benchmark_v1/results/class_tied_start_node_mid_50_summary.csv). Test استفاده نشده است.
 
 ### خروجی استاندارد قابل‌بازتولید — طرح اجرای جدید
 
@@ -455,7 +455,7 @@ python -m unittest -v code/experiments/benchmark_v1/test_snapshot_roundtrip.py
 
 ### ۴. مرز مقایسه با آزمایش تاریخی
 
-[پنج سیاست تاریخی](../archive/fixed_metric_comparison/results/fixed_metric_comparison.json) از ۳۰۰ گشت *نمونه‌گیری‌شده* برای هر نمونه استفاده می‌کردند و برای Uniform مقدار \`Val BA=88.25%\` ثبت کرده‌اند؛ در امید دقیق با همان \`alpha=0\` مقدار \`96.77%\` حاصل شد. فعلاً معلوم نیست چه سهمی از این فاصله ناشی از واریانس مونت‌کارلو و چه سهمی احتمالا از اختلاف‌های پیاده‌سازی است؛ هیچ علت قطعی فرض نمی‌شود. برای تحقیق این اختلاف، می‌توان بدون آموزش، همگرایی تخمین گشت را در چند seed و تعداد گشت‌های متفاوت، به‌صورت آزمایش فرعی مستقل بررسی کرد.
+[پنج سیاست تاریخی](https://github.com/mahhammad/My-Thesis/blob/a8c9027460e538fa04b8aab2f762eb4ba4c31e3d/code/experiments/archive/fixed_metric_comparison/results/fixed_metric_comparison.json) از ۳۰۰ گشت *نمونه‌گیری‌شده* برای هر نمونه استفاده می‌کردند و برای Uniform مقدار \`Val BA=88.25%\` ثبت کرده‌اند؛ در امید دقیق با همان \`alpha=0\` مقدار \`96.77%\` حاصل شد. فعلاً معلوم نیست چه سهمی از این فاصله ناشی از واریانس مونت‌کارلو و چه سهمی احتمالا از اختلاف‌های پیاده‌سازی است؛ هیچ علت قطعی فرض نمی‌شود. برای تحقیق این اختلاف، می‌توان بدون آموزش، همگرایی تخمین گشت را در چند seed و تعداد گشت‌های متفاوت، به‌صورت آزمایش فرعی مستقل بررسی کرد.
 
 نتایج تاریخی Test قبلاً مشاهده شده‌اند و در این گزارش **به کار نرفته‌اند**. هیچ‌یک از اعداد جداول حاضر ادعای عملکرد نهایی یا آزمون مستقل بعد از انتخاب مدل نیست.
 
@@ -526,7 +526,7 @@ python -m unittest -v code/experiments/benchmark_v1/test_snapshot_roundtrip.py
 ### بازتولید و حفاظت از داده خام
 
 - [اسکریپت آزمایش جدید](train_class_tied_node_intermediate.py) (پیش‌فرض dry-run؛ اجرای آموزش تنها با --execute).
-- [روند ۵۰گامی و معیارهای ثبت‌شده](results/class_tied_start_node_mid_50_summary.csv).
+- [روند ۵۰گامی و معیارهای ثبت‌شده](https://github.com/mahhammad/My-Thesis/blob/a8c9027460e538fa04b8aab2f762eb4ba4c31e3d/code/experiments/benchmark_v1/results/class_tied_start_node_mid_50_summary.csv).
 - checkpoint خام جدید (logits شروع 3×5، logits میانی 3×300×5×5، مراکز، پیش‌بینی، حاشیه و روند آموزش) در خروجی همین گفتگو و Library با نام My-Thesis-class-tied-start-node-mid-50-2026-11-08.json نگهداری شده است؛ SHA256 فایل JSON برابر 374a4cb4b90b86b2c9b2477e226c9a8d22c76f083356868ab0f7aa4412748769 است. **خود فایل ۸۰۰ کیلوبایتی logits هنوز در GitHub کامیت نشده؛** اسکریپت و خلاصه دقیق نتیجه در GitHub هستند.
 - [گزارش Benchmark اصلی](README_FA.md)، [ژورنال پژوهش](../../../research_journal/2026-11-08-metrics-margin-fixed-centers.md)، [Issue #37](https://github.com/mahhammad/My-Thesis/issues/37).
 
@@ -600,7 +600,7 @@ python -m unittest -v code/experiments/benchmark_v1/test_snapshot_roundtrip.py
 
 **تعبیر محتاطانه:** در یک سناریو و بودجه ۲۵گامی، NLL ساده/JS به دقت نزدیک سیگموئید نرسیدند؛ نسخه نرمال‌شده KL و Softplus رقابتی‌تر هستند. اختلاف بعضی BAها با ۹۰ نمونه Validation ممکن است به یک نمونه محدود شود. این جدول انتخاب نهایی تابع هدف نیست. سه نوع NLL در مقیاس‌های متفاوت‌اند و فقط هر کدام با همان تعریف خودش سنجیده می‌شود.
 
-[CSV نتایج هشت آموزش](results/new_objectives_25_summary.csv)، [کد آموزش جدید با اجرای صریح و dry-run پیش‌فرض](train_missing_objectives.py)، [تست تعریف معیارها](test_metrics_extensions.py). هشت JSON تازه در بسته آرشیوی داده پژوهش ذخیره شده‌اند.
+[CSV نتایج هشت آموزش](https://github.com/mahhammad/My-Thesis/blob/a8c9027460e538fa04b8aab2f762eb4ba4c31e3d/code/experiments/benchmark_v1/results/new_objectives_25_summary.csv)، [کد آموزش جدید با اجرای صریح و dry-run پیش‌فرض](train_missing_objectives.py)، [تست تعریف معیارها](test_metrics_extensions.py). هشت JSON تازه در بسته آرشیوی داده پژوهش ذخیره شده‌اند.
 
 ### ۵. شکاف‌های بسته‌شده و باز
 
@@ -624,7 +624,7 @@ python -m unittest -v code/experiments/benchmark_v1/test_snapshot_roundtrip.py
 
 **ee159f6e02cd71e667b972ac6456a7b71c578cac63bea366232cd0300b811349**
 
-بسته در خروجی همین گفتگو و Library به نام My-Thesis-benchmark-gapfill-results-2026-11-08.zip ثبت شده است. خود ZIP فشرده هنوز در GitHub نیست؛ اما [جدول کامل ۷۶ checkpoint](results/posthoc_score_backfill_76_compact.csv) و [logits و معیارهای هشت آموزش تازه](results/new_objectives_25_checkpoints_compact.json) اکنون **مستقیماً در GitHub ثبت شده‌اند** و خروجی تفصیلی در بسته ZIP گفتگو/Library نیز محفوظ است.
+بسته در خروجی همین گفتگو و Library به نام My-Thesis-benchmark-gapfill-results-2026-11-08.zip ثبت شده است. خود ZIP فشرده هنوز در GitHub نیست؛ اما [جدول کامل ۷۶ checkpoint](../standard_policy_comparison/results/posthoc_score_backfill_76_compact.csv) و [logits و معیارهای هشت آموزش تازه](https://github.com/mahhammad/My-Thesis/blob/a8c9027460e538fa04b8aab2f762eb4ba4c31e3d/code/experiments/benchmark_v1/results/new_objectives_25_checkpoints_compact.json) اکنون **مستقیماً در GitHub ثبت شده‌اند** و خروجی تفصیلی در بسته ZIP گفتگو/Library نیز محفوظ است.
 
 اجرای تست‌های تازه روی checkout رسمی GitHub در این محیط اتصال‌دار انجام نشده و CI باید آن‌ها را اجرا کند. **کد و نتایج این پایلوت** نباید جای اثبات نظری، تکرار مستقل، کار تابع F یا Test نهایی را بگیرند.
 
@@ -670,9 +670,9 @@ python -m unittest -v code/experiments/benchmark_v1/test_snapshot_roundtrip.py
 
 ### ممیزی NLL/Softplus و مقایسه هدف‌های جدید (۸ نوامبر ۲۰۲۶)
 
-- [جدول کامل ۷۶ checkpoint و NLLهای بازسازی‌شده](results/posthoc_score_backfill_76_compact.csv): سه نوع NLL، زیان Softplus، Train/Validation BA و I/R_JS، با پوشش چهار آرشیو اصلی. **هیچ آموزش قبلی تکرار نشده است.**
-- [هشت checkpoint تازه با logits کامل](results/new_objectives_25_checkpoints_compact.json): چهار هدف NLL/Softplus روی shared/class با ۲۵ گام، همان ref ids و بدون Test؛ برای بازیابی دقیق سیاست‌ها.
-- [جدول خلاصه هشت آموزش](results/new_objectives_25_summary.csv).
+- [جدول کامل ۷۶ checkpoint و NLLهای بازسازی‌شده](../standard_policy_comparison/results/posthoc_score_backfill_76_compact.csv): سه نوع NLL، زیان Softplus، Train/Validation BA و I/R_JS، با پوشش چهار آرشیو اصلی. **هیچ آموزش قبلی تکرار نشده است.**
+- [هشت checkpoint تازه با logits کامل](https://github.com/mahhammad/My-Thesis/blob/a8c9027460e538fa04b8aab2f762eb4ba4c31e3d/code/experiments/benchmark_v1/results/new_objectives_25_checkpoints_compact.json): چهار هدف NLL/Softplus روی shared/class با ۲۵ گام، همان ref ids و بدون Test؛ برای بازیابی دقیق سیاست‌ها.
+- [جدول خلاصه هشت آموزش](https://github.com/mahhammad/My-Thesis/blob/a8c9027460e538fa04b8aab2f762eb4ba4c31e3d/code/experiments/benchmark_v1/results/new_objectives_25_summary.csv).
 - [گزارش رسمی محدودیت‌ها و شاهد ناهم‌راستایی NLL با BA](README_FA.md).
 - [اسکریپت بازسازی ۷۶ checkpoint](backfill_saved_scores.py) و [اسکریپت آزمایش‌های تازه با dry-run پیش‌فرض](train_missing_objectives.py).
 

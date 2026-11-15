@@ -169,7 +169,7 @@ python code/experiments/exact_matrix_walk_validation/run.py
 
 دستور آخر به‌صورت پیش‌فرض **dry run** است. اجرای محاسبه جدید با `--execute` فقط در صورت نبود فایل نتایج موجود مجاز است و در صورت وجود نتایج متوقف می‌شود؛ اینجا نیازی به تکرار نیست.
 
-CI اختصاصی [E08 matrix walk](../../../.github/workflows/e08-matrix-walk.yml) با تست‌های سبک و بررسی read-only شواهد؛ در صورت موجود بودن `experiment_report.json` محاسبه جدید اجرا نمی‌کند. [اجرای موفق اصلی](https://github.com/mahhammad/My-Thesis/actions/runs/42804546810).
+CI اختصاصی [E08 matrix walk](https://github.com/mahhammad/My-Thesis/actions/runs/42804546810) با تست‌های سبک و بررسی read-only شواهد؛ در صورت موجود بودن `experiment_report.json` محاسبه جدید اجرا نمی‌کند. [اجرای موفق اصلی](https://github.com/mahhammad/My-Thesis/actions/runs/42804546810).
 
 **یادداشت علمی:** شمار انتخاب‌های افقی در گراف باید خودحلقه مجاز ویژگی را در نظر بگیرد (`6334` روی مرجع کامل). گزارش اولیه `4968` فقط انتخاب‌های بین ویژگی‌های متفاوت را شمرد؛ این خطای *گزارش مشتق‌شده* بعداً بدون محاسبه مجدد تصحیح شد. مسیر و تصمیم در Research Journal محفوظ‌اند.
 

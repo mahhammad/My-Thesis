@@ -570,8 +570,8 @@ The user's next research priority is the full 108-case experiment, but it is exe
 
 ### ۱. منابع و قرارداد
 
-- [موتور کم‌حافظه موجود](../../archive/diag_max_full300/stream_graph.py): `StreamGraph` با پایه انتقال `O(d n²)` و منع بازگشت به مبدأ هنگام ضرب. **هیچ تغییری در سورس موتور تاریخی ایجاد نشد.**
-- [حلگرهای اصلی D09](../../archive/multistep_policy_target_match/bootstrap_inverse.py): عین توابع `warm_q`، `exact_adam` و `damped_gauss_newton`؛ موتور قبلی `ExactGraph` در [`run.py`](../../archive/multistep_policy_target_match/run.py) به‌عنوان کنترل.
+- [موتور کم‌حافظه موجود](https://github.com/mahhammad/My-Thesis/blob/a8c9027460e538fa04b8aab2f762eb4ba4c31e3d/code/experiments/archive/diag_max_full300/stream_graph.py): `StreamGraph` با پایه انتقال `O(d n²)` و منع بازگشت به مبدأ هنگام ضرب. **هیچ تغییری در سورس موتور تاریخی ایجاد نشد.**
+- [حلگرهای اصلی D09](https://github.com/mahhammad/My-Thesis/blob/a8c9027460e538fa04b8aab2f762eb4ba4c31e3d/code/experiments/archive/multistep_policy_target_match/bootstrap_inverse.py): عین توابع `warm_q`، `exact_adam` و `damped_gauss_newton`؛ موتور قبلی `ExactGraph` در [`run.py`](https://github.com/mahhammad/My-Thesis/blob/a8c9027460e538fa04b8aab2f762eb4ba4c31e3d/code/experiments/archive/multistep_policy_target_match/run.py) به‌عنوان کنترل.
 - [کد آزمون تکمیلی](stream_compat.py)، [فایل خام، زمان و شمارنده‌های ثبت‌شده](results/streamgraph_compat_cost_v2.json). کد تاریخی فقط در CI و **در حافظه workspace موقت** به مسیر اصلی واردسازی منتقل شد؛ فایل‌های `archive`، `chapter4`، `main` و LaTeX دست نخورده‌اند.
 - داده Train مولد اصلی `data_seed=20261102` (۳۰۰ نمونه با ترکیب واقعی `[72,147,81]`)، مرجع ۱۵۰تایی متوازن `[50,50,50]` با `reference_seed=20261117`، سیاست شاهد با `teacher_seed=20261118` و نقطه شروع آزمون سازگاری با `20261119`. سیاست شاهد **به solve API داده نشده** است. `float64`, `β=.4`, `λ=.8`, `H=12`؛ **انتظار دقیق بدون مونت‌کارلو**. هیچ داده Test برای آموزش، کنترل یا تصمیم وارد نشده است.
 
