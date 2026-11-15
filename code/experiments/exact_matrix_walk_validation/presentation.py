@@ -197,4 +197,4 @@ def make_report(result):
       "وضعیت این شاخه فقط آماده بازبینی مستقل است و به chapter4 ادغام نشده است.",
       ""
     ]
-    (HERE/"REPORT_FA.md").write_text("\n".join(report),encoding="utf8")
+    (HERE/"results"/"presentation_generated_report.txt").write_text("\n".join(report),encoding="utf8")
