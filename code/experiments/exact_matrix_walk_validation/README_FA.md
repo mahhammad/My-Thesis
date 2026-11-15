@@ -30,6 +30,8 @@ python -m unittest discover -s code/experiments/exact_matrix_walk_validation -p 
 | معیار/تحلیل | [`results/experiment_report.json`](results/experiment_report.json)، `results/metrics_full.json`، `results/coverage.json` | گزارش ۷۲ مورد MC، ۲۴ بلوک سنجه و دامنهٔ معیارها |
 | صحت منشأ/انتشار | [`results/provenance.json`](results/provenance.json)، `tables/`، `figures/` | SHA آرشیو/عضو، بذر/ترتیب مرجع و جدول‌های فصل |
 
+**قرارداد دقیق snapshotهای `imc-snapshot-v2`:** در هر زیرپوشهٔ `snapshots/{uniform,trained_shared}/`، `model.json` دارای `schema,family,objective,parameters,data,prediction,distributions_sha256` است. `distributions.npz` دارای `train_by_hypothesis:float64[300,3,3]`، `validation_by_hypothesis:float64[90,3,3]`، `centers:float64[3,3]` و `reference_ids:int64[300]` است؛ ترتیب محورهای بازنمایی **sample, candidate_class, destination_label** است. فایل `raw_step_distributions.npz` ساختار جداگانهٔ ۸کلیدیِ گام‌ها را دارد.
+
 **محدودیت:** بازپخش یک member ذخیره‌شده ≠ آموزش دوبارهٔ آن؛ داده‌های Test نه در Train و نه در Validation این پژوهش مجاز به تأثیرگذاری نیستند.
 
 **قاعده نگهداشت:** ایجاد گزارش/فایل مشتق جدید مجاز است، اما `README_FA.md` سند جامع رسمی می‌ماند و نباید بازنویسی شود. دادهٔ اصلی و نتایج منجمدشده فقط در checkout مستقل بازتولید شوند.

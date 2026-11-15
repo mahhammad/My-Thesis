@@ -34,6 +34,8 @@ python code/experiments/ch4_loss_controlled_comparison/phase2_derived_reproduce_
 | جفت‌ها و نمایش | `tables/phase2_runs_12.csv`، `tables/phase2_pairs_6.csv`، `figures/`، `derived/phase2_qa_fixes_v2/` | ۱۲ ردیف اجرا، ۶ مقایسهٔ جفتی، شکل/دادهٔ رسم مشتق |
 | کنترل | `phase2_data_preflight.py`، `phase2_derived_reproduce_v2.py --check` | بررسی بدون optimizer/دسترسی به Test یا جایگزینی raw |
 
+**ساختار دقیق snapshot هر fit:** فایل `model.json` شامل کلیدهای `schema,family,objective,parameters,data,prediction,distributions_sha256` با reference IDs و SHA256 داده است. فایل `distributions.npz` دقیقاً شامل `train_by_hypothesis:float64[300,3,3]`، `validation_by_hypothesis:float64[90,3,3]`، `centers:float64[3,3]` و `reference_ids:int64[300]` است؛ محورهای سه‌بعدی `sample,candidate_class,destination_label` هستند. `trace.json` تاریخچهٔ fit و `metrics_full.json` مقادیر سنجهٔ Train/Validation را ذخیره می‌کند؛ دو فایل نخست **خروجی خام مدل** و دو فایل بعدی **شواهد اجرا/تحلیل** محسوب می‌شوند.
+
 **محدودیت:** در README تاریخی قسمت‌های با وضعیت پیش‌ثبت `NO_FIT` متعلق به **قبل از فاز دوم انجام‌شده** هستند، نه وضعیت کنونی ۱۲ اجرای ذخیره‌شده. وضعیت فاز دوم از manifest و رأی مستقل خوانده می‌شود؛ `README_FA.md` نباید overwrite گردد.
 
 **قاعدهٔ نگهداشت:** خروجی جدید در کنار گزارش جامع مجاز است؛ `README_FA.md` فعلی حذف/overwrite نشود. raw/checksumهای پذیرفته‌شده و گیت‌های تاریخی با ممیزی مستندات تغییر نمی‌کنند.

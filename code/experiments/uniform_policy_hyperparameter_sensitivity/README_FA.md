@@ -30,6 +30,8 @@ python -m unittest discover -s code/experiments/uniform_policy_hyperparameter_se
 | نتیجهٔ ثبت‌شدهٔ پژوهش | [`results/metrics_full.json`](results/metrics_full.json)، `results/uniform_runs.csv`، `results/metrics_summary.csv` | ۹ تنظیم، Train/Validation، BA، هندسه، حاشیه و سنجه‌های کامل |
 | تبار و نمایش | `results/provenance.json`، `results/coverage.json`، `tables/`، `figures/` | SHA، تعاریف/قابلیت اعمال سنجه و منابع چاپ |
 
+**ساختار دقیق snapshot با قرارداد `imc-snapshot-v2`:** `model.json` دارای `schema,family,objective,parameters,data,prediction,distributions_sha256` است؛ بخش `data`، `data_seed/reference_seed/reference_ids` و fingerprintهای `train_reference_x`، `train_reference_y` و `validation_x` را ثبت می‌کند. در هر اجرای shared با `n=300`، `distributions.npz` دقیقاً چهار کلید `train_by_hypothesis:float64[300,3,3]`، `validation_by_hypothesis:float64[90,3,3]`، `centers:float64[3,3]` و `reference_ids:int64[300]` دارد. محورهای سه‌بعدی به‌ترتیب **نمونه، کلاس فرضی، برچسب مقصد** هستند؛ این‌ها ویژگی خام `x` نیستند.
+
 **توجه:** ۹ snapshot تازه تولیدشده لزوماً همان فایل‌های JSON تاریخی این پوشه نیستند؛ تطبیق بر پایه شناسه، تنظیمات، بذر، معیار و تلرانس انجام می‌شود.
 
 **قانون نگهداشت:** `README_FA.md` سند اصلی باقی می‌ماند؛ ایجاد گزارش یا دادهٔ مشتق تازه کنار آن مجاز است. هر فرمانِ دارای نوشتن در مسیرهای رسمی فقط در worktree/مسیر خروجی جدا اجرا شود؛ خام‌ها و checksumهای پذیرفته‌شده تغییر نمی‌کنند.

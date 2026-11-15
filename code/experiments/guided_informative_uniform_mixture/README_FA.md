@@ -30,6 +30,8 @@ python -m unittest discover -s code/experiments/guided_informative_uniform_mixtu
 | تشخیص MC در برابر exact | `diagnostics/fix_ch4_09/results/controlled_uniform_replay.json`، `mc_convergence.json` | شواهد بازپخش مجزا از پنج نتیجهٔ احتمال |
 | provenance/نمایش | `results/coverage.json`، `tables/`، `figures/` | پوشش معیار و منابع LaTeX |
 
+**فرمت دقیق NPZ اختلاط:** `distributions.npz` که `experiment_mixture.py --execute` می‌نویسد، برای هر `α=0,.25,.5,.75,1` سه کلید با نام‌های `train_a0.00`، `validation_a0.00`، `centers_a0.00` (و معادل آنها برای αهای دیگر با دو رقم اعشار) دارد؛ شکل‌ها به‌ترتیب `[300,3]`، `[90,3]`، `[3,3]` از توزیع **برچسب مقصد** هستند. این NPZ با ورودی خام `train.npz` (`x,mask,y`) و با snapshot چهارکلیدی `imc-snapshot-v2` یکی نیست.
+
 **بازتولید عددی از صفر با صرف بازخوانی شواهد تفاوت دارد:** فایل‌های تاریخی MC و برخی artifactها فقط از تاریخچه/آرشیو بازیابی می‌شوند؛ `experiment_mixture.py` تکرار پروتکل مونت‌کارلوی تاریخی نیست.
 
 **قانون نگهداشت:** `README_FA.md` سند اصلی باقی می‌ماند؛ ایجاد گزارش یا دادهٔ مشتق تازه کنار آن مجاز است. هر فرمانِ دارای نوشتن در مسیرهای رسمی فقط در worktree/مسیر خروجی جدا اجرا شود؛ خام‌ها و checksumهای پذیرفته‌شده تغییر نمی‌کنند.
