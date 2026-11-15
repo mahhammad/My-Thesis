@@ -100,6 +100,20 @@ class BenchmarkArchiveLinkage(unittest.TestCase):
             self.assertTrue((EXP / path).is_file(), path)
 
 
+    def test_no_active_python_code_reads_retired_archive_paths(self):
+        unresolved = []
+        for source in sorted(EXP.rglob("*.py")):
+            if "code/experiments/archive/" in source.read_text("utf-8"):
+                unresolved.append(str(source.relative_to(ROOT)))
+        self.assertEqual(unresolved, [], "Retired archive path still in live Python code")
+
+    def test_frozen_e06_reference_code_is_present(self):
+        for name in (
+            "center_matching_observation/observe.py",
+            "center_matching_observation/projection.py",
+        ):
+            self.assertTrue((EXP / name).is_file(), name)
+
     def test_e13_frozen_inputs_and_figure_manifest_remain(self):
         e13 = EXP / "ch4_loss_controlled_comparison"
         for name in (
