@@ -24,7 +24,7 @@ def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
 def jb(x):return (json.dumps(x,sort_keys=True,ensure_ascii=False,indent=2)+"\n").encode()
 def cb(rows):
     f=io.StringIO(newline="");w=csv.DictWriter(f,fieldnames=list(rows[0]),lineterminator="\n")
-    w.writeheader();w.writerows(rows);return f.getvalue().encode()
+    w.writeheader();w.writerows([{k:(format(v,".12f") if isinstance(v,float) else v) for k,v in row.items()} for row in rows]);return f.getvalue().encode()
 def same(a,b):return math.isclose(float(a),float(b),rel_tol=0,abs_tol=3e-10)
 
 def inputs():
