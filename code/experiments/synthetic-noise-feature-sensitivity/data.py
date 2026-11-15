@@ -11,6 +11,7 @@ from hashlib import sha256
 import json
 from pathlib import Path
 import sys
+import tempfile
 
 import numpy as np
 
@@ -149,24 +150,44 @@ class NoiseSpec:
         return self
 
 
-def _generation_gate(spec, *, fixture, train_rows, validation_rows, approval):
+DATA_STAGES = {
+    'raw_noise': 'e-ch4-14-raw-noise-v1',
+    'noise_masks': 'e-ch4-14-noise-masks-v1',
+    'derived': 'e-ch4-14-derived-data-v1',
+}
+
+
+def _generation_gate(spec, *, stage, fixture, train_rows, validation_rows, approval):
+    """Validate exact stage/split before any production RNG or persistence.
+
+    This is a local preliminary gate, NOT online verification of the Issue #90
+    owner's identity or the globally spent budget (G4 remains blocked).
+    """
     spec.validate()
+    if stage not in DATA_STAGES:
+        raise ValueError('Unrecognized E14 data stage')
+    if (type(train_rows) is not int or type(validation_rows) is not int
+            or min(train_rows, validation_rows) < 1):
+        raise ValueError('Positive integer Train/Validation sizes required')
     if fixture:
         if train_rows > 12 or validation_rows > 8:
             raise PermissionError('Fixtures only; real Train/Validation generation prohibited')
-    elif not (os.environ.get('E_CH4_14_DATA_AUTHORIZED') == 'true'
-              and os.environ.get('GITHUB_ACTIONS') == 'true'
-              and os.environ.get('GITHUB_REF_NAME') == 'experiment/ch4-14-noise-sensitivity-01'
-              and os.environ.get('GITHUB_WORKFLOW') == 'E-CH4-14 authorized data generation'
-              and isinstance(approval, dict)
-              and approval.get('source_sha') == os.environ.get('GITHUB_SHA')
-              and approval.get('issue') == 90
-              and approval.get('stage') in ('raw_noise', 'noise_masks')
-              and approval.get('approved_spec_sha256') == spec_sha(spec)
-              and isinstance(approval.get('owner_approval_url'), str)
-              and approval['owner_approval_url'].startswith('https://github.com/mahhammad/My-Thesis/issues/90#issuecomment-')):
-        raise PermissionError('Owner-approved E14 data stage required (Issue #90)')
-
+        return
+    if (train_rows, validation_rows) != (300, 90):
+        raise PermissionError('Real E14 data stages are locked to Train=300/Validation=90')
+    if not (os.environ.get('E_CH4_14_DATA_AUTHORIZED') == 'true'
+            and os.environ.get('GITHUB_ACTIONS') == 'true'
+            and os.environ.get('GITHUB_REF_NAME') == 'experiment/ch4-14-noise-sensitivity-01'
+            and os.environ.get('GITHUB_WORKFLOW') == 'E-CH4-14 authorized data generation'
+            and isinstance(approval, dict)
+            and approval.get('source_sha') == os.environ.get('GITHUB_SHA')
+            and approval.get('issue') == 90
+            and approval.get('stage') == stage
+            and approval.get('approved_spec_sha256') == spec_sha(spec)
+            and isinstance(approval.get('owner_approval_url'), str)
+            and approval['owner_approval_url'].startswith(
+                'https://github.com/mahhammad/My-Thesis/issues/90#issuecomment-')):
+        raise PermissionError('Wrong stage or missing preliminary E14 data authorization')
 
 def spec_sha(spec):
     from dataclasses import asdict
@@ -176,7 +197,7 @@ def spec_sha(spec):
 
 def generate_raw_noise(spec, train_rows, validation_rows, *, fixture=False, approval=None):
     """Pure memory generator; independent columns, no NaN, never applies masks."""
-    _generation_gate(spec, fixture=fixture, train_rows=train_rows,
+    _generation_gate(spec, stage='raw_noise', fixture=fixture, train_rows=train_rows,
                      validation_rows=validation_rows, approval=approval)
     if min(train_rows, validation_rows) <= 0:
         raise ValueError('Nonpositive split size')
@@ -198,7 +219,7 @@ def generate_raw_noise(spec, train_rows, validation_rows, *, fixture=False, appr
 
 def generate_noise_masks(spec, train_rows, validation_rows, *, fixture=False, approval=None):
     """Independent RNG stream; true means observed; raw arrays remain untouched."""
-    _generation_gate(spec, fixture=fixture, train_rows=train_rows,
+    _generation_gate(spec, stage='noise_masks', fixture=fixture, train_rows=train_rows,
                      validation_rows=validation_rows, approval=approval)
     if min(train_rows, validation_rows) <= 0:
         raise ValueError('Nonpositive split size')
@@ -298,21 +319,85 @@ def derived_manifest(datasets):
                          for d in datasets]}
 
 
-def save_npz_once(path, arrays, *, fixture=False, approval=None):
-    """Exclusive-create asset writer for a separately authorized future data stage."""
-    if not fixture and not (os.environ.get('E_CH4_14_DATA_AUTHORIZED') == 'true'
-                              and os.environ.get('GITHUB_ACTIONS') == 'true'
-                              and os.environ.get('GITHUB_WORKFLOW') == 'E-CH4-14 authorized data generation'
-                              and isinstance(approval, dict)
-                              and approval.get('source_sha') == os.environ.get('GITHUB_SHA')
-                              and approval.get('issue') == 90
-                              and approval.get('owner_approval_url','').startswith(
-                                  'https://github.com/mahhammad/My-Thesis/issues/90#issuecomment-')
-                              and approval.get('stage') in ('raw_noise','noise_masks','derived')):
-        raise PermissionError('Data persistence needs separate Issue #90 authorization')
-    if not isinstance(arrays, dict) or not arrays or any('test' in k.lower() for k in arrays):
-        raise ValueError('Unexpected data keys')
+def _validate_asset_arrays(stage, arrays, *, fixture):
+    """Fail before writing unless the payload matches its declared stage schema."""
+    keys = ({'train_noise', 'validation_noise'} if stage == 'raw_noise' else
+            {'train_mask', 'validation_mask'} if stage == 'noise_masks' else
+            {'train_x', 'train_y', 'validation_x', 'validation_y'})
+    if not isinstance(arrays, dict) or set(arrays) != keys:
+        raise ValueError(f'{stage}: unexpected NPZ keys (Test is never permitted)')
+    tx = arrays['train_noise' if stage == 'raw_noise' else
+                'train_mask' if stage == 'noise_masks' else 'train_x']
+    vx = arrays['validation_noise' if stage == 'raw_noise' else
+                'validation_mask' if stage == 'noise_masks' else 'validation_x']
+    if not isinstance(tx, np.ndarray) or not isinstance(vx, np.ndarray):
+        raise TypeError('NPZ arrays must be numpy arrays')
+    n, m = len(tx), len(vx)
+    if fixture:
+        if n < 1 or m < 1 or n > 12 or m > 8:
+            raise PermissionError('Fixture persistence limited to <=12/<=8 rows')
+    elif (n, m) != (300, 90):
+        raise PermissionError('Production asset persistence requires exactly 300/90 rows')
+    if stage in ('raw_noise', 'noise_masks'):
+        dtype = np.dtype('float64' if stage == 'raw_noise' else 'bool')
+        _exact(tx, (n, 3), dtype, 'train asset')
+        _exact(vx, (m, 3), dtype, 'validation asset')
+        if stage == 'raw_noise' and (not np.isfinite(tx).all() or
+                                      not np.isfinite(vx).all()):
+            raise ValueError('Raw noise must be finite and unmasked')
+    else:
+        if tx.ndim != 2 or not 3 <= tx.shape[1] <= 8:
+            raise ValueError('Derived dataset must have d=3..8')
+        d = tx.shape[1]
+        _exact(tx, (n, d), np.dtype('float64'), 'derived train_x')
+        _exact(vx, (m, d), np.dtype('float64'), 'derived validation_x')
+        _exact(arrays['train_y'], (n,), np.dtype('int64'), 'derived train_y')
+        _exact(arrays['validation_y'], (m,), np.dtype('int64'), 'derived validation_y')
+        if (np.isinf(tx).any() or np.isinf(vx).any() or
+                any(np.any((arrays[key] < 0) | (arrays[key] >= 3))
+                    for key in ('train_y', 'validation_y'))):
+            raise ValueError('Invalid derived NaN/label convention')
+    return n, m
+
+
+def _fixture_destination(path):
+    """Only a direct, non-symlink child of an e14-fixture-* temporary root."""
+    tmp = Path(tempfile.gettempdir()).resolve()
+    parent = path.parent
+    if (path.is_symlink() or parent.is_symlink() or
+            parent.resolve() == HERE.resolve() or
+            parent.resolve().parent != tmp or
+            not parent.name.startswith('e14-fixture-')):
+        raise PermissionError('Fixture persistence restricted to e14-fixture-* temporary roots')
+
+
+def save_npz_once(path, arrays, *, stage, schema, fixture=False, approval=None, spec=None):
+    """Exclusive staged writer, sealed to exact asset path, schema and shape.
+
+    No real data stage is authorized by the installed NO-FIT workflow.
+    """
+    if stage not in DATA_STAGES or schema != DATA_STAGES[stage]:
+        raise ValueError('Stage and NPZ schema mismatch')
     path = Path(path)
+    if fixture:
+        _fixture_destination(path)
+    else:
+        if spec is None:
+            raise PermissionError('Approved NoiseSpec required to persist real assets')
+        _generation_gate(spec, stage=stage, fixture=False, train_rows=300,
+                         validation_rows=90, approval=approval)
+        if stage == 'raw_noise':
+            expected = HERE / 'inputs/noise_raw/new_noise_seed20261102.npz'
+        elif stage == 'noise_masks':
+            expected = HERE / 'inputs/noise_masks/new_noise_masks.npz'
+        else:
+            allowed = {f'{sid}.npz' for sid, _ in SUBSETS}
+            if path.name not in allowed:
+                raise PermissionError('Unknown derived subset filename')
+            expected = HERE / 'inputs/derived' / path.name
+        if path.resolve() != expected.resolve() or path.is_symlink():
+            raise PermissionError('Stage/path mismatch or destination symlink')
+    _validate_asset_arrays(stage, arrays, fixture=fixture)
     if path.exists():
         raise FileExistsError(path)
     if not path.parent.is_dir():
