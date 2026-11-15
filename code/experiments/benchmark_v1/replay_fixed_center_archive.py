@@ -14,6 +14,8 @@ if 'tau' not in inspect.signature(validate).parameters:
 from generate import load_config
 HERE=pathlib.Path(__file__).resolve().parent
 ROOT=HERE.parents[2] if (HERE.parents[2]/'code/data_generator/config.json').exists() else HERE
+# This diagnostic requires an archived ZIP intentionally removed from active checkout.
+# Restore via research_journal/archive_recovery/restore_archive.py --dest /tmp/imc-recovered-archive.
 ZFILE=str(ROOT/'code/experiments/archive/historical_archive/archives/margin_fixed_centers_complete.zip') if ROOT!=HERE else '/mnt/data/margin_fixed_centers_complete.zip'
 
 def evaluate(z,kind,g,vy,target_centers):
@@ -60,8 +62,13 @@ def run(archive=ZFILE):
     return report
 
 if __name__=='__main__':
-    a=argparse.ArgumentParser();a.add_argument('--out',default='/mnt/data/bv1_fixed_center_backfill.json');args=a.parse_args()
-    result=run()
+    a=argparse.ArgumentParser()
+    a.add_argument('--out',default='/mnt/data/bv1_fixed_center_backfill.json')
+    a.add_argument('--archive',default=ZFILE,help='Explicit original ZIP from restored cold archive; no implicit download or training')
+    args=a.parse_args()
+    if not pathlib.Path(args.archive).is_file():
+        a.error('Historical ZIP is not in active checkout. Restore archive with research_journal/archive_recovery/restore_archive.py --dest /tmp/imc-recovered-archive and pass --archive /tmp/imc-recovered-archive/historical_archive/archives/margin_fixed_centers_complete.zip')
+    result=run(args.archive)
     p=pathlib.Path(args.out);p.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
     table=[{'run':name,'family':d['family'],'source':d['source'],
             'train_BA':d['train']['balanced_accuracy'],
