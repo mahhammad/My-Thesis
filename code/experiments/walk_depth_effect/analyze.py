@@ -21,7 +21,7 @@ import numpy as np
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
 E08 = HERE.parent / "exact_matrix_walk_validation"
-E04 = HERE.parent / "uniform_policy_hyperparameter_sensitivity"
+E04 = HERE.parent / "uniform-hyperparameter-sensitivity"
 LABELS = HERE.parent / "target_center_guidance_trajectory" / "results" / "representations_uniform.json"
 ARCHIVE = HERE.parent / "standard_policy_comparison" / "results" / "core_50_16runs.zip"
 OUT = HERE / "results"

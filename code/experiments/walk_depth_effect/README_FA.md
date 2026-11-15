@@ -25,7 +25,7 @@ python -m unittest discover -s code/experiments/walk_depth_effect -p 'test_*.py'
 | نوع | فایل | ساختار |
 |---|---|---|
 | ورودی خام مستقیم | [`../exact_matrix_walk_validation/results/raw_step_distributions.npz`](../exact_matrix_walk_validation/results/raw_step_distributions.npz)، `../exact_matrix_walk_validation/results/provenance.json` | آرایه‌های گام‌ها و SHA/شناسهٔ مرجع |
-| ورودی کمکی | `../uniform_policy_hyperparameter_sensitivity/results/metrics_full.json`، `../target_center_guidance_trajectory/results/representations_uniform.json` و ZIP رسمی | مقایسهٔ E04، برچسب و قفل داده |
+| ورودی کمکی | `../uniform-hyperparameter-sensitivity/results/metrics_full.json`، `../target_center_guidance_trajectory/results/representations_uniform.json` و ZIP رسمی | مقایسهٔ E04، برچسب و قفل داده |
 | خروجی محاسبات | [`results/metrics_full.json`](results/metrics_full.json)، `results/metrics_summary.csv`، [`results/coefficients.json`](results/coefficients.json) | سنجه‌های ۱۲ حالت/دو split، pmf وزن طول H |
 | کنترل و تشخیص | [`results/comparisons.json`](results/comparisons.json)، `results/margin_summary.json`، `results/margin_analysis.json`، `results/error_quantile_boundary.json` | تطبیق عددی با E04/E08، حاشیه و خطا |
 | تبار/انتشار | `results/provenance.json`، `results/coverage.json`، `tables/`، `figures/` | hashes و منابع مقاله/پایان‌نامه |
@@ -231,7 +231,7 @@ python -m unittest discover -s code/experiments/walk_depth_effect -p 'test_*.py'
 | `../exact_matrix_walk_validation/results/provenance.json` | بذر، ترتیب ۳۰۰ شناسه، SHA256 آرشیو checkpoint، هش‌های داده | ترتیب شناسه و هش برچسب‌ها و همخوانی دو snapshot |
 | `../exact_matrix_walk_validation/results/snapshots/{uniform,trained_shared}/` | بازنمایی و مراکز H=12 و مشخصات دو سیاست | تطابق با محاسبه آف‌لاین H=12 تا خطای عددی |
 | `../target_center_guidance_trajectory/results/representations_uniform.json` | برچسب‌های نمونه‌ای Train=300 / Validation=90 در ترتیب تاریخی | هش برچسب Train در E08، تعداد کلاس‌ها و همخوانی پیش‌بینی/مراکز H=12 |
-| `../uniform_policy_hyperparameter_sensitivity/results/metrics_full.json` | مرجع مستقل ۴.۴ برای H=1,2,3,4,12، Uniform | مقایسه تمام معیارهای مشترک در عمق‌های مشترک |
+| `../uniform-hyperparameter-sensitivity/results/metrics_full.json` | مرجع مستقل ۴.۴ برای H=1,2,3,4,12، Uniform | مقایسه تمام معیارهای مشترک در عمق‌های مشترک |
 | `../archive/bayes_center_inverse/results/depth_sensitivity_full300_and_subset72.json` | D10: تحلیل کران امکان دستیابی مراکز بیزی | صرفاً زمینه نظری؛ نه داده قابل‌ادغام با خروجی سیاست‌های ثابت |
 
 **محدودیت داده:** E08 برچسب‌های نمونه‌ای را در فایل توزیع‌های خام ذخیره نکرده است؛ آرشیو `representations_uniform.json` منبع مستقل برچسب است و هم‌ترازی باید با هش مرجع و کنترل خروجی‌های E08 اثبات شود. هیچ `generated_data/*.npz` لازم نیست و هیچ مولدی فراخوانی نمی‌شود. اگر کنترل‌ها شکست بخورند، انتشار نتیجه متوقف می‌شود.
@@ -359,7 +359,7 @@ python code/experiments/walk_depth_effect/analyze.py
 
 **قرارداد مسئله:** آزمایش اثر تغییر واقعی سقف گشت در Hهای ۱،۲،۳،۴،۸،۱۲ و دو سیاست ثابت Uniform و trained_shared. این کار **کوتاه‌سازی پسینی یک گشت H=12 نیست**؛ احتمال طول و ضرایب هر H دوباره نرمال می‌شوند. داده و سیاست‌های مرجع از §۴.۴ و §۴.۹ و آرشیو ۷۶ اجرای §۴.۱۲ هستند، نه آموزش جدید.
 
-**منبع و فرمان:** [`analyze.py`](analyze.py) فقط از snapshotهای ذخیره‌شده `../exact_matrix_walk_validation/results/`، معیارهای `../uniform_policy_hyperparameter_sensitivity/results/`، بازنمایی مبنای `../target_center_guidance_trajectory/results/` و ZIP رسمی `../standard_policy_comparison/results/core_50_16runs.zip` استفاده می‌کند. `python code/experiments/walk_depth_effect/analyze.py` حالت برنامه‌ریزی/dry-run است؛ `--execute` برای تولید نتیجهٔ اولیه و دارای نوشتن فایل است. این حالت در ممیزی فعلی اجرا نشده است.
+**منبع و فرمان:** [`analyze.py`](analyze.py) فقط از snapshotهای ذخیره‌شده `../exact_matrix_walk_validation/results/`، معیارهای `../uniform-hyperparameter-sensitivity/results/`، بازنمایی مبنای `../target_center_guidance_trajectory/results/` و ZIP رسمی `../standard_policy_comparison/results/core_50_16runs.zip` استفاده می‌کند. `python code/experiments/walk_depth_effect/analyze.py` حالت برنامه‌ریزی/dry-run است؛ `--execute` برای تولید نتیجهٔ اولیه و دارای نوشتن فایل است. این حالت در ممیزی فعلی اجرا نشده است.
 
 **مقصدها:** [`results/coefficients.json`](results/coefficients.json) ضرایب طول/وزن واقعی، [`results/metrics_full.json`](results/metrics_full.json) ۱۲ تنظیم و دو split، [`results/comparisons.json`](results/comparisons.json) تطبیق E04/E08، `results/margin_summary.json` و `results/error_quantile_boundary.json` تحلیل حاشیه، [`results/provenance.json`](results/provenance.json) و [`results/coverage.json`](results/coverage.json) زنجیرهٔ ارزیابی و وضعیت سنجه‌ها را نگه می‌دارند. شکل‌ها/جدول‌ها در `figures/` و `tables/` هستند.
 

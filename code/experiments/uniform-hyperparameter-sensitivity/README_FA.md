@@ -1,6 +1,6 @@
 # گزارش فنی پژوهشی — E-CH4-04 | سیاست یکنواخت و حساسیت ابرپارامترها
 
-**شناسهٔ مطالعه:** `uniform_policy_hyperparameter_sensitivity` | **حوزه:** پایان‌نامه IMC / فصل چهارم | **منشأ محتوا:** اسناد پیش از تجمیع در commit `17e91ec99d1b`
+**شناسهٔ مطالعه:** `uniform-hyperparameter-sensitivity` | **حوزه:** پایان‌نامه IMC / فصل چهارم | **منشأ محتوا:** اسناد پیش از تجمیع در commit `17e91ec99d1b`
 
 ## قرارداد بازتولید داده، اجرای آزمایش و ساختار پرونده‌ها — ممیزی تکمیلی ۲۰۲۶-۱۱-۱۵
 
@@ -19,7 +19,7 @@
 python code/experiments/benchmark_v1/experiment_fixed_baselines.py --mode uniform
 # فقط در checkout جدا و با مسیر خروجی جدید:
 python code/experiments/benchmark_v1/experiment_fixed_baselines.py --mode uniform --execute --out-dir /tmp/ch4-e04-reproduced
-python -m unittest discover -s code/experiments/uniform_policy_hyperparameter_sensitivity -p 'test_*.py' -v
+python -m unittest discover -s code/experiments/uniform-hyperparameter-sensitivity -p 'test_*.py' -v
 ```
 فرمان نخست dry-run و فهرست jobهاست؛ دومی ۹ snapshot جدید می‌سازد و نسخهٔ موجود را overwrite نمی‌کند.
 
@@ -170,7 +170,7 @@ D_{\mathrm{eff}}=\sum_{t=1}^{H}t\,\alpha_t^{(H)}
 
 **دستور بررسی سبک از ریشه مخزن:**
 
-`python -m unittest discover -v -s code/experiments/uniform_policy_hyperparameter_sensitivity -p 'test_*.py'`
+`python -m unittest discover -v -s code/experiments/uniform-hyperparameter-sensitivity -p 'test_*.py'`
 
 اجرای بدون محاسبه طرح از ریشه مخزن:
 
@@ -219,7 +219,7 @@ D_{\mathrm{eff}}=\sum_{t=1}^{H}t\,\alpha_t^{(H)}
 
 از ریشه مخزن:
 
-`python -m unittest discover -v -s code/experiments/uniform_policy_hyperparameter_sensitivity -p 'test_*.py'`
+`python -m unittest discover -v -s code/experiments/uniform-hyperparameter-sensitivity -p 'test_*.py'`
 
 برای مشاهده طرح ۹ اجرا بدون ارزیابی دوباره:
 
@@ -276,7 +276,7 @@ D_{\mathrm{eff}}=\sum_{t=1}^{H}t\,\alpha_t^{(H)}
 
 ## سیاست حفظ تاریخچه و پیوندهای قدیمی
 
-فایل‌های Markdown پیشین (`REPORT_FA.md`) پس از تجمیع از checkout فعال حذف می‌شوند؛ متن آن‌ها با شرح منشأ در همین سند آمده و Git blob اصلی در commit [`17e91ec99d1b`](https://github.com/mahhammad/My-Thesis/tree/17e91ec99d1bf082ef87e658d0643137b1e7b6fe/code/experiments/uniform_policy_hyperparameter_sensitivity/) قابل بازیابی است. ارجاعات تاریخی کامنت‌های Issue اصلاح‌پذیر نیستند و باید با نسخهٔ قفل‌شدهٔ Git تفسیر شوند.
+فایل‌های Markdown پیشین (`REPORT_FA.md`) پس از تجمیع از checkout فعال حذف می‌شوند؛ متن آن‌ها با شرح منشأ در همین سند آمده و Git blob اصلی در commit [`17e91ec99d1b`](https://github.com/mahhammad/My-Thesis/tree/17e91ec99d1bf082ef87e658d0643137b1e7b6fe/code/experiments/uniform-hyperparameter-sensitivity/) قابل بازیابی است. ارجاعات تاریخی کامنت‌های Issue اصلاح‌پذیر نیستند و باید با نسخهٔ قفل‌شدهٔ Git تفسیر شوند.
 
 
 ---
@@ -289,4 +289,4 @@ D_{\mathrm{eff}}=\sum_{t=1}^{H}t\,\alpha_t^{(H)}
 
 **نقشهٔ نتیجه.** `results/metrics_full.json` معیارهای تفصیلی ۹ وضعیت، `results/metrics_summary.csv` خلاصهٔ مقایسه، `results/uniform_runs.csv` ثبت اجرای پایه و `results/plot_groups.csv` دادهٔ نمودار را دارند. `results/coverage.json` محدودهٔ کاربرد معیارها و `results/provenance.json` منشأ و کنترل بذر/شناسه‌هاست؛ `tables/` و `figures/` برای درج در پایان‌نامه به کار می‌روند.
 
-**کنترل فقط‌خواندنی:** `python -m unittest discover -s code/experiments/uniform_policy_hyperparameter_sensitivity -p 'test_*.py' -v`. داده‌های پذیرفته‌شده و `README_FA.md` ثابت می‌مانند؛ گزارش مشتق تازه می‌تواند کنارشان با نامی متفاوت تولید شود.
+**کنترل فقط‌خواندنی:** `python -m unittest discover -s code/experiments/uniform-hyperparameter-sensitivity -p 'test_*.py' -v`. داده‌های پذیرفته‌شده و `README_FA.md` ثابت می‌مانند؛ گزارش مشتق تازه می‌تواند کنارشان با نامی متفاوت تولید شود.

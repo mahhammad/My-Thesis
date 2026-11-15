@@ -66,7 +66,7 @@ class CompleteExperimentEvidence(unittest.TestCase):
         self.assertFalse(c["historical_test_accessed"])
 
     def test_nine_uniform_runs_have_all_applicable_metrics(self):
-        slug="uniform_policy_hyperparameter_sensitivity"
+        slug="uniform-hyperparameter-sensitivity"
         m,c=load(slug),load(slug,"coverage.json")
         self.assertEqual(len(m["runs"]),9)
         self.assertEqual(c["configurations"],9)
@@ -114,7 +114,7 @@ class CompleteExperimentEvidence(unittest.TestCase):
         self.assertTrue((HERE/slug/"results/metrics_summary.csv").is_file())
 
     def test_exactly_eleven_official_studies_plus_shared_benchmark(self):
-        study_dirs = ["q-validation","uniform_policy_hyperparameter_sensitivity","guided_informative_uniform_mixture","target_center_guidance_trajectory","sigmoid_margin_observational_evaluation","walk_depth_effect","exact_matrix_walk_validation","inverse_attainable_standard","bayes_center_reachability_standard","standard_policy_comparison","ch4_loss_controlled_comparison"]
+        study_dirs = ["q-validation","uniform-hyperparameter-sensitivity","guided_informative_uniform_mixture","target_center_guidance_trajectory","sigmoid_margin_observational_evaluation","walk_depth_effect","exact_matrix_walk_validation","inverse_attainable_standard","bayes_center_reachability_standard","standard_policy_comparison","ch4_loss_controlled_comparison"]
         actual = {p.name for p in HERE.iterdir() if p.is_dir() and not p.name.startswith((".", "__"))}
         self.assertEqual(actual, set(study_dirs) | {"benchmark_v1"})
         for slug in study_dirs:
@@ -133,7 +133,7 @@ class CompleteExperimentEvidence(unittest.TestCase):
     def test_all_four_experiment_reports_link_to_full_metric_records(self):
         for slug in (
             "q-validation",
-            "uniform_policy_hyperparameter_sensitivity",
+            "uniform-hyperparameter-sensitivity",
             "guided_informative_uniform_mixture",
             "target_center_guidance_trajectory",
         ):

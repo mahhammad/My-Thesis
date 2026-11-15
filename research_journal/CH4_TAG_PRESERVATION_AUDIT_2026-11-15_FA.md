@@ -12,7 +12,7 @@
 | بخش | پوشه | فایل غیر-Markdown در تگ | بایت‌یکسان در شاخه | Python با تغییر نسخه | فایل غیر-Markdown حذف‌شده | فایل غیر-Markdown افزوده | نتایج زیر `results/` در شاخه |
 |---|---|---:|---:|---:|---:|---:|---:|
 | §۴.3 | [`q-validation`](../code/experiments/q-validation/README_FA.md) | 16 | 16 | 0 | ۰ | 0 | 7 |
-| §۴.4 | [`uniform_policy_hyperparameter_sensitivity`](../code/experiments/uniform_policy_hyperparameter_sensitivity/README_FA.md) | 16 | 16 | 0 | ۰ | 0 | 6 |
+| §۴.4 | [`uniform-hyperparameter-sensitivity`](../code/experiments/uniform-hyperparameter-sensitivity/README_FA.md) | 16 | 16 | 0 | ۰ | 0 | 6 |
 | §۴.5 | [`guided_informative_uniform_mixture`](../code/experiments/guided_informative_uniform_mixture/README_FA.md) | 33 | 33 | 0 | ۰ | 0 | 7 |
 | §۴.6 | [`target_center_guidance_trajectory`](../code/experiments/target_center_guidance_trajectory/README_FA.md) | 42 | 41 | 1 | ۰ | 0 | 15 |
 | §۴.7 | [`sigmoid_margin_observational_evaluation`](../code/experiments/sigmoid_margin_observational_evaluation/README_FA.md) | 23 | 20 | 3 | ۰ | 0 | 10 |

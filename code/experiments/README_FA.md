@@ -14,7 +14,7 @@
 | بخش | شناسه و عنوان | خروجی سنجه‌ها |
 |---|---|---|
 | **۴.۳** | [E-CH4-03 — اعتبارسنجی همگرایی انتقال یک‌گامی](q-validation/README_FA.md) | TV و جذر JSD برای Q؛ **معیارهای مرکز نامرتبط‌اند**. [پوشش](q-validation/results/coverage.json) |
-| **۴.۴** | [E-CH4-04 — حساسیت سیاست یکنواخت](uniform_policy_hyperparameter_sensitivity/README_FA.md) | [گزارش کامل ۹ تنظیم](uniform_policy_hyperparameter_sensitivity/results/metrics_full.json) · [CSV مشترک](uniform_policy_hyperparameter_sensitivity/results/metrics_summary.csv) · [پوشش](uniform_policy_hyperparameter_sensitivity/results/coverage.json) |
+| **۴.۴** | [E-CH4-04 — حساسیت سیاست یکنواخت](uniform-hyperparameter-sensitivity/README_FA.md) | [گزارش کامل ۹ تنظیم](uniform-hyperparameter-sensitivity/results/metrics_full.json) · [CSV مشترک](uniform-hyperparameter-sensitivity/results/metrics_summary.csv) · [پوشش](uniform-hyperparameter-sensitivity/results/coverage.json) |
 | **۴.۵** | [E-CH4-05 — اختلاط احتمال و Guided بدون نویز](guided_informative_uniform_mixture/README_FA.md) | [گزارش کامل ۵ تنظیم](guided_informative_uniform_mixture/results/metrics_full.json) · [CSV مشترک](guided_informative_uniform_mixture/results/metrics_summary.csv) · [پوشش](guided_informative_uniform_mixture/results/coverage.json) |
 | **۴.۶** | [E-CH4-06 — هدایت گشت به مراکز هدف](target_center_guidance_trajectory/README_FA.md) | [تمام سنجه‌های ۴۹ دور بازپخش هدف‌های ثابت](target_center_guidance_trajectory/results/metrics_full.json) · [۲۵ دقت تاریخی + ۲۴ مقدار تازه؛ ممیزی R_JS](target_center_guidance_trajectory/results/coverage.json) |
 | **۴.۷** | [E-CH4-07 — ارزیابی تجربی زیان حاشیه‌ای سیگموئیدی](sigmoid_margin_observational_evaluation/README_FA.md) | [تحلیل مشاهده‌ای و سه سیاست مرجع ۳۰۰تایی](sigmoid_margin_observational_evaluation/results/metrics_full.json) · [۳۶ اجرای Benchmark با معیارهای کامل](sigmoid_margin_observational_evaluation/results/benchmark_size_metrics_full.json) · [پوشش](sigmoid_margin_observational_evaluation/results/coverage.json) |
@@ -51,7 +51,7 @@
 | بخش | پوشهٔ رسمی |
 |---|---|
 | §4.3 | [`q-validation/`](q-validation/README_FA.md) |
-| §4.4 | [`uniform_policy_hyperparameter_sensitivity/`](uniform_policy_hyperparameter_sensitivity/README_FA.md) |
+| §4.4 | [`uniform-hyperparameter-sensitivity/`](uniform-hyperparameter-sensitivity/README_FA.md) |
 | §4.5 | [`guided_informative_uniform_mixture/`](guided_informative_uniform_mixture/README_FA.md) |
 | §4.6 | [`target_center_guidance_trajectory/`](target_center_guidance_trajectory/README_FA.md) |
 | §4.7 | [`sigmoid_margin_observational_evaluation/`](sigmoid_margin_observational_evaluation/README_FA.md) |

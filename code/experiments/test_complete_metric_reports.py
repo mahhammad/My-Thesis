@@ -30,7 +30,7 @@ class Chapter4CommonMetricArtifactTests(unittest.TestCase):
 
     def test_all_exact_uniform_and_mixture_runs_have_three_R_and_geometry(self):
         for folder,count in (
-            ("uniform_policy_hyperparameter_sensitivity",9),
+            ("uniform-hyperparameter-sensitivity",9),
             ("guided_informative_uniform_mixture",5),
         ):
             base=HERE/folder

@@ -79,7 +79,7 @@
 |---|---|---|---|
 | W0 | § تولید داده، ماسک، جدول پارامترها، split، Bayes | **متن افزوده؛ تست P0 موفق** | بازخوانی نهایی و کامپایل LaTeX |
 | W1 | § آزمون `Q^{finite}` در برابر `Q^{pop}` | **متن و D02 موجود** | کنترل ارجاع و هماهنگی کد آرشیوی؛ اجرای مجدد لازم نیست مگر شاهد ناقص باشد |
-| W2 | § Uniform + حساسیت ابرپارامترها | **آزمایش ۴.۴، گزارش، ۲ جدول و ۳ نمودار در LaTeX ثبت شد** | [گزارش جدید](../code/experiments/uniform_policy_hyperparameter_sensitivity/README_FA.md) و [تست موفق](https://github.com/mahhammad/My-Thesis/actions/runs/42714664200)؛ کامپایل EasyTex نسخه تازه باز |
+| W2 | § Uniform + حساسیت ابرپارامترها | **آزمایش ۴.۴، گزارش، ۲ جدول و ۳ نمودار در LaTeX ثبت شد** | [گزارش جدید](../code/experiments/uniform-hyperparameter-sensitivity/README_FA.md) و [تست موفق](https://github.com/mahhammad/My-Thesis/actions/runs/42714664200)؛ کامپایل EasyTex نسخه تازه باز |
 | W3 | § سیاست Guided ثابت و مقایسه معیارها (۴.۵) | **متن موجود به بخش ۴.۵ منتقل شد** | استانداردسازی گزارش و شکل‌های اختصاصی ۴.۵، حفظ تفکیک MC/exact |
 | W4 | فقط بعد از تثبیت W0–W3 | N02 / N03 و سایر مسائل پیشرفته | کنترل پروتکل، seedهای مستقل و تخصیص بودجه |
 

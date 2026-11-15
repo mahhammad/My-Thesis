@@ -233,7 +233,7 @@ class UniformExperimentReportTests(unittest.TestCase):
             "figures/geometry_vs_depth.tex",
         )
         paths = [
-            "./code/experiments/uniform_policy_hyperparameter_sensitivity/" + x
+            "./code/experiments/uniform-hyperparameter-sensitivity/" + x
             for x in inputs
         ]
         for x in paths:
@@ -246,7 +246,7 @@ class UniformExperimentReportTests(unittest.TestCase):
         ):
             self.assertNotIn(r"\label{" + label + "}", chapter)
             self.assertIn(r"\ref{" + label + "}", chapter)
-        self.assertNotIn(r"\\input{./code/experiments/uniform_policy_hyperparameter_sensitivity/figures/balanced_accuracy.tex}", chapter)
+        self.assertNotIn(r"\\input{./code/experiments/uniform-hyperparameter-sensitivity/figures/balanced_accuracy.tex}", chapter)
         # Existing cross-references into the older fixed-policy section remain valid.
         self.assertEqual(chapter.count(r"\label{sec:ch4-fixed-policy-evaluation}"), 1)
         self.assertNotIn("guided", "\n".join(
