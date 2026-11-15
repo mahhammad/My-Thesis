@@ -16,7 +16,9 @@ HERE=pathlib.Path(__file__).resolve().parent
 ROOT=HERE.parents[2] if (HERE.parents[2]/'code/data_generator/config.json').exists() else HERE
 # This diagnostic requires an archived ZIP intentionally removed from active checkout.
 # Restore via research_journal/archive_recovery/restore_archive.py --dest /tmp/imc-recovered-archive.
-ZFILE=str(ROOT/'code/experiments/archive/historical_archive/archives/margin_fixed_centers_complete.zip') if ROOT!=HERE else '/mnt/data/margin_fixed_centers_complete.zip'
+# The historical ZIP was deliberately removed from the active checkout.
+# Restore it from the frozen Git tag and pass an explicit --archive path.
+RECOVERY_GUIDE = ROOT/'research_journal/archive_recovery/README_FA.md'
 
 def evaluate(z,kind,g,vy,target_centers):
     z=torch.as_tensor(z,dtype=DT)
@@ -30,7 +32,9 @@ def evaluate(z,kind,g,vy,target_centers):
             'mean_center_l2_from_teacher':float(distance.mean()),
             'center_JSD_from_teacher':jsd(out.centers,target_centers).tolist()}
 
-def run(archive=ZFILE):
+def run(archive):
+    if not pathlib.Path(archive).is_file():
+        raise FileNotFoundError(f'Historical ZIP unavailable: {archive}; see {RECOVERY_GUIDE}')
     torch.set_num_threads(1)
     spec=load_config(ROOT/'code/data_generator/config.json')
     x,y,vx,vy,ids=prepare(spec,300,20261107)
