@@ -2,6 +2,38 @@
 
 **شناسهٔ مطالعه:** `target_center_guidance_trajectory` | **حوزه:** پایان‌نامه IMC / فصل چهارم | **منشأ محتوا:** اسناد پیش از تجمیع در commit `17e91ec99d1b`
 
+## قرارداد بازتولید داده، اجرای آزمایش و ساختار پرونده‌ها — ممیزی تکمیلی ۲۰۲۶-۱۱-۱۵
+
+**مشخصات دادهٔ پایه (فقط در صورت استفادهٔ مستقیم از مولد):** [`code/data_generator/config.json`](../../../code/data_generator/config.json) با `K=3` کلاس، `D=5` ویژگی، احتمال کلاس‌های `[0.25,0.45,0.30]`، میانگین‌های شرطی کلاس‌ها `[-2,-0.3,0,-1.2,0]`، `[0,0.7,0,0,0]`، `[2,-0.4,0,1.2,0]` و انحراف معیار `[0.95,1,1.2,0.95,1.1]` برای هر سه کلاس است. کوواریانس `diag(std)·correlation·diag(std)` با هم‌بستگی‌های غیرصفرِ بین‌ویژگی `(0,1)=0.35`، `(0,3)=0.20`، `(2,4)=0.30`؛ درصد فقدان مستقل MCAR برای پنج ویژگی `[0,5,12,5,20]` و `kernel_gamma=[0.8,1.2,0.5,1.0,0.6]` است. ویژگی‌های ۰،۱،۳ از نظر حاشیه‌ای اطلاع‌رسان و ۲،۴ نویزیِ حاشیه‌ای هستند. تنظیم پیش‌فرض `seed=20261102` و Train/Validation/Test به‌ترتیب `300/90/120` است؛ **هر آزمایش در ادامه دقیقاً مشخص می‌کند آیا همین تقسیم را می‌خواند یا داده/مرجع دیگری می‌سازد.**
+
+**قالب عمومی خروجی مولد:** اجرای مستقل `python code/data_generator/generate.py --config code/data_generator/config.json --out /tmp/imc-data-20261102`، فایل‌های `train.npz`، `validation.npz`، `test.npz` با کلیدهای `x` (آرایهٔ `N×5` از `float64`، فقدان=`NaN`)، `mask` (`N×5` بولی) و `y` (آرایهٔ `N` از برچسب‌های ۰،۱،۲)، به‌علاوه `oracle_<split>.npz` (`posterior: N×3`، `q_population: N×5×3`)، `finite_q_<split>.npz` (`q_finite: N×5×3`) و `spec.json` تولید می‌کند. این یک **خروجی آزمایشی جدید در /tmp** است، نه فایلی که لزوماً در پوشهٔ مطالعه commit شده باشد؛ فرمان CLI همچنین Test را تولید می‌کند، ولی استفاده از Test برای گزینش مدل/تحلیل این فصل مجاز نیست. برای ساخت **فقط Train/Validation بدون تولید Test**، از `code/experiments/benchmark_v1/dataset_adapter.py::dataset_train_val(load_config(...))` مطابق کد هر مطالعه استفاده کنید. برابری بایت‌های float بین ماشین‌های دارای BLAS متفاوت تضمین نمی‌شود؛ منشأ frozen و SHAهای ثبت‌شده بر seed صرف تقدم دارند.
+
+### منبع واقعی داده، شمار اجراها و نحوهٔ تولید نتایج
+
+**منبع واقعی داده:** Train `(300,5)` و Validation `(90,5)` از بذر مولد `20261102` و مدل Gaussian/MCAR ساخته شده‌اند؛ اما محاسبهٔ اصلی §۴.۶ صرفاً مطالعهٔ دادهٔ ثابت نیست، بلکه **گشت مونت‌کارلو و ۴۹ به‌روزرسانی اهداف مرکز** را شامل می‌شود. فایل مرجعِ تاریخی [`results/history_00_48.json`](results/history_00_48.json) اطلاعات دورهای `0..48`، مراکز هدف و محقق‌شده و برخی BAها را نگه می‌دارد. طبق `results/provenance.json` بذر مسیر `20261104`، **۱۰۰ گشت به‌ازای هر نمونه**، `β=.4`، `λ=.8`، `H=12`، `eta=.5`، `epsilon=.08` و سقف ۴۵ گام Frank–Wolfe بوده است.
+
+**تعداد صحیح:** **۴۹ دور ادامه‌دار** روی سناریوی اصلی، نه ۴۹ اجرای مولد مستقل. ۲۵ BA اعتبارسنجی در تاریخچه مشاهده شده و ۲۴ BA دیگر در بازپخش اهداف ثابت محاسبه شده‌اند؛ آنها را مشاهدهٔ اولیه ننویسید. سیاست Uniform با Guided کلاس‌شرطی از نظر شروع و اطلاعات برچسب همسان نیست.
+
+**چگونه خروجی ذخیره‌شده را بازتحلیل کنیم؟**
+```bash
+python code/experiments/target_center_guidance_trajectory/replay_fixed_targets.py --smoke
+python -m unittest discover -s code/experiments/target_center_guidance_trajectory -p 'test_*.py' -v
+# تحلیل و ایجاد گزارش/نمودار جدید فقط در worktree یا کپیِ مستقل:
+python code/experiments/target_center_guidance_trajectory/analyze.py --history code/experiments/target_center_guidance_trajectory/results/history_00_48.json --outdir /tmp/ch4-e06-reanalysis/results
+```
+`--smoke` فقط یک هدف را بدون نوشتن نتیجهٔ رسمی بررسی می‌کند. `analyze.py` در **والد پوشهٔ outdir** می‌تواند `REPORT_FA.md` و `figures/` بسازد؛ پس مقصد جدید انتخاب شده است. اجرای کامل `replay_fixed_targets.py` دو فایل `results/metrics_full.json` و `results/coverage.json` را بازنویسی می‌کند و برای ممیزی checkout پذیرفته‌شده مناسب نیست. تکرار **فرایند تولید ۴۹ هدف از ابتدا** با بازتحلیل خروجی‌های ذخیره‌شده معادل نیست.
+
+| نقش | فایل | داده |
+|---|---|---|
+| تاریخچه/ورودی | [`results/history_00_48.json`](results/history_00_48.json)؛ `results/representations_uniform.json`، `representations_guided_round0.json` و `representations_guided_round4.json` | مراکز/سیاست/بازنمایی نمونه‌ای ثبت‌شده |
+| معیارها | [`results/center_geometry_49.json`](results/center_geometry_49.json)، `results/trajectory_metrics.csv`، [`results/metrics_full.json`](results/metrics_full.json) | ۴۹ دور، هندسه/حاشیه/BA متناسب با اندازه‌گیری و بازپخش |
+| خروجی منتخب | `results/three_cases.json`، `results/three_cases.csv`، `results/detailed_three_cases.json` | Uniform و دو حالت Guided، از مراکز تحقق‌یافته |
+| اصالت/نمایش | `results/provenance.json`، `results/coverage.json`، `tables/`، `figures/` | تفکیک ۲۵/۲۴ BA و ساخت جدول/شکل |
+
+**محدودیت روشن:** کد `analyze.py` تولیدکنندهٔ گشت ۴۹ دور نیست؛ نسخهٔ اجرای تاریخی و مواد اولیه آن در تاریخچه/تگ بازیابی است. `README_FA.md` را هیچ اسکریپتی نباید بازنویسی کند.
+
+**قانون نگهداشت:** `README_FA.md` سند اصلی باقی می‌ماند؛ ایجاد گزارش یا دادهٔ مشتق تازه کنار آن مجاز است. هر فرمانِ دارای نوشتن در مسیرهای رسمی فقط در worktree/مسیر خروجی جدا اجرا شود؛ خام‌ها و checksumهای پذیرفته‌شده تغییر نمی‌کنند.
+
 ## چکیده و دامنهٔ استناد
 
 تحلیل مشاهده‌ای مسیر ۴۹دوری مراکز هدف و تحقق‌یافته با تأکید بر تفاوت خطای هدف، هندسهٔ مرکز، تراکم و BA؛ دورها تکرار مستقل نیستند.

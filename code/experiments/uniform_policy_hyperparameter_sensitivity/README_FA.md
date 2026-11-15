@@ -2,6 +2,38 @@
 
 **شناسهٔ مطالعه:** `uniform_policy_hyperparameter_sensitivity` | **حوزه:** پایان‌نامه IMC / فصل چهارم | **منشأ محتوا:** اسناد پیش از تجمیع در commit `17e91ec99d1b`
 
+## قرارداد بازتولید داده، اجرای آزمایش و ساختار پرونده‌ها — ممیزی تکمیلی ۲۰۲۶-۱۱-۱۵
+
+**مشخصات دادهٔ پایه (فقط در صورت استفادهٔ مستقیم از مولد):** [`code/data_generator/config.json`](../../../code/data_generator/config.json) با `K=3` کلاس، `D=5` ویژگی، احتمال کلاس‌های `[0.25,0.45,0.30]`، میانگین‌های شرطی کلاس‌ها `[-2,-0.3,0,-1.2,0]`، `[0,0.7,0,0,0]`، `[2,-0.4,0,1.2,0]` و انحراف معیار `[0.95,1,1.2,0.95,1.1]` برای هر سه کلاس است. کوواریانس `diag(std)·correlation·diag(std)` با هم‌بستگی‌های غیرصفرِ بین‌ویژگی `(0,1)=0.35`، `(0,3)=0.20`، `(2,4)=0.30`؛ درصد فقدان مستقل MCAR برای پنج ویژگی `[0,5,12,5,20]` و `kernel_gamma=[0.8,1.2,0.5,1.0,0.6]` است. ویژگی‌های ۰،۱،۳ از نظر حاشیه‌ای اطلاع‌رسان و ۲،۴ نویزیِ حاشیه‌ای هستند. تنظیم پیش‌فرض `seed=20261102` و Train/Validation/Test به‌ترتیب `300/90/120` است؛ **هر آزمایش در ادامه دقیقاً مشخص می‌کند آیا همین تقسیم را می‌خواند یا داده/مرجع دیگری می‌سازد.**
+
+**قالب عمومی خروجی مولد:** اجرای مستقل `python code/data_generator/generate.py --config code/data_generator/config.json --out /tmp/imc-data-20261102`، فایل‌های `train.npz`، `validation.npz`، `test.npz` با کلیدهای `x` (آرایهٔ `N×5` از `float64`، فقدان=`NaN`)، `mask` (`N×5` بولی) و `y` (آرایهٔ `N` از برچسب‌های ۰،۱،۲)، به‌علاوه `oracle_<split>.npz` (`posterior: N×3`، `q_population: N×5×3`)، `finite_q_<split>.npz` (`q_finite: N×5×3`) و `spec.json` تولید می‌کند. این یک **خروجی آزمایشی جدید در /tmp** است، نه فایلی که لزوماً در پوشهٔ مطالعه commit شده باشد؛ فرمان CLI همچنین Test را تولید می‌کند، ولی استفاده از Test برای گزینش مدل/تحلیل این فصل مجاز نیست. برای ساخت **فقط Train/Validation بدون تولید Test**، از `code/experiments/benchmark_v1/dataset_adapter.py::dataset_train_val(load_config(...))` مطابق کد هر مطالعه استفاده کنید. برابری بایت‌های float بین ماشین‌های دارای BLAS متفاوت تضمین نمی‌شود؛ منشأ frozen و SHAهای ثبت‌شده بر seed صرف تقدم دارند.
+
+### منبع واقعی داده، شمار اجراها و نحوهٔ تولید نتایج
+
+**ورودی واقعی و بازساخت داده:** [`../benchmark_v1/experiment_fixed_baselines.py`](../benchmark_v1/experiment_fixed_baselines.py) از `load_config` و `dataset_adapter.dataset_train_val` استفاده می‌کند؛ آرایه‌های Train `(300,5)` و Validation `(90,5)` با بذر `20261102` **در حافظه** ساخته می‌شوند؛ دادهٔ Test و oracle در محاسبه استفاده نمی‌شوند. ترتیب و مرجع ۳۰۰تایی همان Train است. `ExactMaskedWalk` روی `float64` و سیاست یکنواخت `Z=0` بدون آموزش کار می‌کند.
+
+**ماتریس اجرا:** **۹ تنظیم یکتا** از تغییر `β∈{0.2,0.4,0.7}`، `λ∈{0.4,0.8,1.0}` و `H∈{1,2,3,4,12}` با تغییر یک محور و مبنای مشترک `β=0.4,λ=0.8,H=12` (نه ۱۱ اجرای جداگانه). Train/Validation هر تنظیم گزارش می‌شود؛ هیچ fit صورت نمی‌گیرد.
+
+**دستور بازساخت بدون بازنویسی خروجی‌های رسمی:**
+```bash
+python code/experiments/benchmark_v1/experiment_fixed_baselines.py --mode uniform
+# فقط در checkout جدا و با مسیر خروجی جدید:
+python code/experiments/benchmark_v1/experiment_fixed_baselines.py --mode uniform --execute --out-dir /tmp/ch4-e04-reproduced
+python -m unittest discover -s code/experiments/uniform_policy_hyperparameter_sensitivity -p 'test_*.py' -v
+```
+فرمان نخست dry-run و فهرست jobهاست؛ دومی ۹ snapshot جدید می‌سازد و نسخهٔ موجود را overwrite نمی‌کند.
+
+| نقش | مسیر فایل و قالب | محتوا |
+|---|---|---|
+| دادهٔ ورودی | `code/data_generator/config.json` + `benchmark_v1/dataset_adapter.py` | Train/Validation بازساخته‌شده در حافظه، ماسک NaN |
+| خروجی بازتولید تازه | `/tmp/ch4-e04-reproduced/<run_id>/` | هر تنظیم دارای `model.json` (پارامتر/سیاست) و `distributions.npz` (توزیع‌های چندگامی و شناسه‌های مرجع)، گزارش محاسبات؛ `manifest.json` و `summary.csv` در ریشه مقصد |
+| نتیجهٔ ثبت‌شدهٔ پژوهش | [`results/metrics_full.json`](results/metrics_full.json)، `results/uniform_runs.csv`، `results/metrics_summary.csv` | ۹ تنظیم، Train/Validation، BA، هندسه، حاشیه و سنجه‌های کامل |
+| تبار و نمایش | `results/provenance.json`، `results/coverage.json`، `tables/`، `figures/` | SHA، تعاریف/قابلیت اعمال سنجه و منابع چاپ |
+
+**توجه:** ۹ snapshot تازه تولیدشده لزوماً همان فایل‌های JSON تاریخی این پوشه نیستند؛ تطبیق بر پایه شناسه، تنظیمات، بذر، معیار و تلرانس انجام می‌شود.
+
+**قانون نگهداشت:** `README_FA.md` سند اصلی باقی می‌ماند؛ ایجاد گزارش یا دادهٔ مشتق تازه کنار آن مجاز است. هر فرمانِ دارای نوشتن در مسیرهای رسمی فقط در worktree/مسیر خروجی جدا اجرا شود؛ خام‌ها و checksumهای پذیرفته‌شده تغییر نمی‌کنند.
+
 ## چکیده و دامنهٔ استناد
 
 ۹ تنظیم یکتا برای β، λ و H با سیاست بدون آموزش و امید دقیق؛ تغییر هندسهٔ مراکز را از تغییر دقت متوازن تمیز می‌دهد. Test تاریخی برای انتخاب پارامتر به کار نرفته است.

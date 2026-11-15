@@ -2,6 +2,38 @@
 
 **شناسه:** `guided_informative_uniform_mixture` | **وضعیت:** مطالعهٔ ثبت‌شده در فصل چهارم | **منشأ:** commit `e53b75cae25f`
 
+## قرارداد بازتولید داده، اجرای آزمایش و ساختار پرونده‌ها — ممیزی تکمیلی ۲۰۲۶-۱۱-۱۵
+
+**مشخصات دادهٔ پایه (فقط در صورت استفادهٔ مستقیم از مولد):** [`code/data_generator/config.json`](../../../code/data_generator/config.json) با `K=3` کلاس، `D=5` ویژگی، احتمال کلاس‌های `[0.25,0.45,0.30]`، میانگین‌های شرطی کلاس‌ها `[-2,-0.3,0,-1.2,0]`، `[0,0.7,0,0,0]`، `[2,-0.4,0,1.2,0]` و انحراف معیار `[0.95,1,1.2,0.95,1.1]` برای هر سه کلاس است. کوواریانس `diag(std)·correlation·diag(std)` با هم‌بستگی‌های غیرصفرِ بین‌ویژگی `(0,1)=0.35`، `(0,3)=0.20`، `(2,4)=0.30`؛ درصد فقدان مستقل MCAR برای پنج ویژگی `[0,5,12,5,20]` و `kernel_gamma=[0.8,1.2,0.5,1.0,0.6]` است. ویژگی‌های ۰،۱،۳ از نظر حاشیه‌ای اطلاع‌رسان و ۲،۴ نویزیِ حاشیه‌ای هستند. تنظیم پیش‌فرض `seed=20261102` و Train/Validation/Test به‌ترتیب `300/90/120` است؛ **هر آزمایش در ادامه دقیقاً مشخص می‌کند آیا همین تقسیم را می‌خواند یا داده/مرجع دیگری می‌سازد.**
+
+**قالب عمومی خروجی مولد:** اجرای مستقل `python code/data_generator/generate.py --config code/data_generator/config.json --out /tmp/imc-data-20261102`، فایل‌های `train.npz`، `validation.npz`، `test.npz` با کلیدهای `x` (آرایهٔ `N×5` از `float64`، فقدان=`NaN`)، `mask` (`N×5` بولی) و `y` (آرایهٔ `N` از برچسب‌های ۰،۱،۲)، به‌علاوه `oracle_<split>.npz` (`posterior: N×3`، `q_population: N×5×3`)، `finite_q_<split>.npz` (`q_finite: N×5×3`) و `spec.json` تولید می‌کند. این یک **خروجی آزمایشی جدید در /tmp** است، نه فایلی که لزوماً در پوشهٔ مطالعه commit شده باشد؛ فرمان CLI همچنین Test را تولید می‌کند، ولی استفاده از Test برای گزینش مدل/تحلیل این فصل مجاز نیست. برای ساخت **فقط Train/Validation بدون تولید Test**، از `code/experiments/benchmark_v1/dataset_adapter.py::dataset_train_val(load_config(...))` مطابق کد هر مطالعه استفاده کنید. برابری بایت‌های float بین ماشین‌های دارای BLAS متفاوت تضمین نمی‌شود؛ منشأ frozen و SHAهای ثبت‌شده بر seed صرف تقدم دارند.
+
+### منبع واقعی داده، شمار اجراها و نحوهٔ تولید نتایج
+
+**دادهٔ ورودی و قاعدهٔ هدایت:** [`experiment_mixture.py`](experiment_mixture.py) آرایه‌های Train `300×5` و Validation `90×5` و برچسب‌ها را با `dataset_train_val(load_config("code/data_generator/config.json"))` و seed `20261102` **بدون تولید Test** بازمی‌سازد. [`guided_policy.json`](guided_policy.json) سیاست با ویژگی‌های اطلاع‌رسان `[0,1,3]` و نویزی `[2,4]` است. در زیرمطالعهٔ اصلی `α∈{0,.25,.5,.75,1}`، اختلاط `(1−α)π_U+απ_G` در **فضای احتمال** است؛ با خانوادهٔ تاریخی `softmax(α Z_G)` فرق دارد. `β=.4, λ=.8, H=12`، امید دقیق، صفر fit.
+
+**ماتریس اجرا:** **۵ مقدار α** در زیرمطالعه احتمال؛ ۵ تنظیم امتیازمحور تاریخی/MC از نوع دیگری هستند و نباید در یک جدولِ یکسان ادغام شوند. کنترل α=۰ از خلاصهٔ Uniform ذخیره‌شده در [`../benchmark_v1/results/pipeline_v1/fixed_baselines_summary_20261109.csv`](../benchmark_v1/results/pipeline_v1/fixed_baselines_summary_20261109.csv) می‌خواند؛ بدون این فایل مرجع کنترل مبنا برقرار نیست.
+
+**دستور از ریشهٔ مخزن:**
+```bash
+python code/experiments/guided_informative_uniform_mixture/experiment_mixture.py
+python code/experiments/guided_informative_uniform_mixture/experiment_mixture.py --execute --out-dir /tmp/ch4-e05-reproduced
+python -m unittest discover -s code/experiments/guided_informative_uniform_mixture -p 'test_*.py' -v
+```
+اولی dry-run، دومی بازحساب دقیق ۵ حالت و **نوشتن فقط در مقصد تازه** است.
+
+| نقش | فایل | قالب و کاربرد |
+|---|---|---|
+| ورودی | `config.json` مولد، [`guided_policy.json`](guided_policy.json)، خلاصه Uniform بالا | seed، Gaussian/ماسک، قانون سیاست و خط مبنا |
+| خروجی اجرای تازه | `/tmp/ch4-e05-reproduced/summary.csv`، `summary.json`، `reports.json`، `distributions.npz` | پنج ردیف α، گزارش هر وضعیت، آرایه‌های توزیع در NPZ |
+| خروجی منتشرشده | [`results/summary.json`](results/summary.json)، [`results/metrics_full.json`](results/metrics_full.json)، `results/centers_comparison.json`، `results/validation_predictions.json` | خلاصه، سنجه، هندسه مراکز و تصمیم‌ها |
+| تشخیص MC در برابر exact | `diagnostics/fix_ch4_09/results/controlled_uniform_replay.json`، `mc_convergence.json` | شواهد بازپخش مجزا از پنج نتیجهٔ احتمال |
+| provenance/نمایش | `results/coverage.json`، `tables/`، `figures/` | پوشش معیار و منابع LaTeX |
+
+**بازتولید عددی از صفر با صرف بازخوانی شواهد تفاوت دارد:** فایل‌های تاریخی MC و برخی artifactها فقط از تاریخچه/آرشیو بازیابی می‌شوند؛ `experiment_mixture.py` تکرار پروتکل مونت‌کارلوی تاریخی نیست.
+
+**قانون نگهداشت:** `README_FA.md` سند اصلی باقی می‌ماند؛ ایجاد گزارش یا دادهٔ مشتق تازه کنار آن مجاز است. هر فرمانِ دارای نوشتن در مسیرهای رسمی فقط در worktree/مسیر خروجی جدا اجرا شود؛ خام‌ها و checksumهای پذیرفته‌شده تغییر نمی‌کنند.
+
 ## چکیده و دامنه
 
 پنج مقدار اختلاط احتمال‌ها در α={0,0.25,0.5,0.75,1} با امید دقیق، بدون آموزش مجدد. پیوست تشخیصی FIX-CH4-09 درباره اختلاف MC300 و exact و محدودیت استنتاج آماری است.
