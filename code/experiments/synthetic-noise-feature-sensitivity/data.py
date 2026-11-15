@@ -6,6 +6,7 @@ persistence remain behind a separate, owner-approved data gate (Issue #90).
 from __future__ import annotations
 
 from dataclasses import dataclass
+import os
 from hashlib import sha256
 import json
 from pathlib import Path
@@ -126,21 +127,23 @@ class NoiseSpec:
     std: tuple[float, float, float]
     gamma: tuple[float, float, float]
     missing_rate: tuple[float, float, float]
-    distribution: str = 'independent_zero_mean_gaussian'
+    distribution: str
 
     def validate(self):
         if (type(self.raw_seed) is not int or type(self.mask_seed) is not int
                 or self.raw_seed < 0 or self.mask_seed < 0
                 or self.raw_seed == self.mask_seed):
             raise ValueError('Raw and mask RNG seeds must be distinct nonnegative integers')
-        if self.distribution != 'independent_zero_mean_gaussian':
-            raise ValueError('Unsupported noise distribution: requires explicit research review')
+        if self.distribution not in ('independent_zero_mean_gaussian', 'independent_zero_mean_uniform'):
+            raise ValueError('Noise distribution must be explicitly selected and owner approved')
         for name, values, low, high in [('std', self.std, 0, np.inf),
                                         ('gamma', self.gamma, 0, np.inf),
                                         ('missing_rate', self.missing_rate, -1e-12, 1)]:
             arr = np.asarray(values)
             if arr.shape != (3,) or not np.isfinite(arr).all() or not (arr > low).all() or not (arr <= high).all():
                 raise ValueError('Invalid '+name)
+        if any(v < 0 for v in self.missing_rate):
+            raise ValueError('Negative missing_rate')
         if any(v < 0 for v in self.missing_rate):
             raise ValueError('Negative missing_rate')
         return self
@@ -151,7 +154,12 @@ def _generation_gate(spec, *, fixture, train_rows, validation_rows, approval):
     if fixture:
         if train_rows > 12 or validation_rows > 8:
             raise PermissionError('Fixtures only; real Train/Validation generation prohibited')
-    elif not (isinstance(approval, dict)
+    elif not (os.environ.get('E_CH4_14_DATA_AUTHORIZED') == 'true'
+              and os.environ.get('GITHUB_ACTIONS') == 'true'
+              and os.environ.get('GITHUB_REF_NAME') == 'experiment/ch4-14-noise-sensitivity-01'
+              and os.environ.get('GITHUB_WORKFLOW') == 'E-CH4-14 authorized data generation'
+              and isinstance(approval, dict)
+              and approval.get('source_sha') == os.environ.get('GITHUB_SHA')
               and approval.get('issue') == 90
               and approval.get('stage') in ('raw_noise', 'noise_masks')
               and approval.get('approved_spec_sha256') == spec_sha(spec)
@@ -174,8 +182,15 @@ def generate_raw_noise(spec, train_rows, validation_rows, *, fixture=False, appr
         raise ValueError('Nonpositive split size')
     rng = np.random.default_rng(spec.raw_seed)
     sd = np.asarray(spec.std, dtype=np.float64)
-    tx = (rng.standard_normal((train_rows, 3)) * sd).astype(np.float64)
-    vx = (rng.standard_normal((validation_rows, 3)) * sd).astype(np.float64)
+    if spec.distribution == 'independent_zero_mean_gaussian':
+        tx = rng.standard_normal((train_rows, 3)) * sd
+        vx = rng.standard_normal((validation_rows, 3)) * sd
+    else:
+        bound = np.sqrt(3.0) * sd  # uniform(-a,a) has standard deviation a/sqrt(3)
+        tx = rng.uniform(-bound, bound, size=(train_rows, 3))
+        vx = rng.uniform(-bound, bound, size=(validation_rows, 3))
+    tx = np.asarray(tx, dtype=np.float64)
+    vx = np.asarray(vx, dtype=np.float64)
     if not np.isfinite(tx).all() or not np.isfinite(vx).all():
         raise FloatingPointError('Nonfinite raw noise')
     return tx, vx
@@ -213,6 +228,7 @@ class Derived:
     train_mask: np.ndarray
     validation_mask: np.ndarray
     reference_ids: np.ndarray
+    validation_ids: np.ndarray
     hashes: dict
 
 
@@ -263,7 +279,8 @@ def derive_all(mother, raw_train, raw_validation, mask_train, mask_validation,
                       train_mask_sha256=fingerprint(am), validation_mask_sha256=fingerprint(bm),
                       gamma_sha256=fingerprint(gamma), test_accessed=False)
         results.append(Derived(subset_id, noise, mapping, gamma, a, mother.train_y.copy(),
-                               b, mother.validation_y.copy(), am, bm, ids, hashes))
+                               b, mother.validation_y.copy(), am, bm, ids,
+                               np.arange(m, dtype=np.int64), hashes))
     return tuple(results)
 
 
@@ -276,13 +293,19 @@ def derived_manifest(datasets):
             'datasets': [dict(subset_id=d.subset_id, k=len(d.noise_indices),
                               noise_indices=list(d.noise_indices), feature_mapping=list(d.feature_mapping),
                               d=len(d.feature_mapping), gamma=d.gamma.tolist(),
-                              reference_ids=d.reference_ids.tolist(), hashes=d.hashes)
+                              reference_ids=d.reference_ids.tolist(),
+                              validation_row_ids=d.validation_ids.tolist(), hashes=d.hashes)
                          for d in datasets]}
 
 
 def save_npz_once(path, arrays, *, fixture=False, approval=None):
     """Exclusive-create asset writer for a separately authorized future data stage."""
-    if not fixture and not (isinstance(approval, dict) and approval.get('issue') == 90
+    if not fixture and not (os.environ.get('E_CH4_14_DATA_AUTHORIZED') == 'true'
+                              and os.environ.get('GITHUB_ACTIONS') == 'true'
+                              and os.environ.get('GITHUB_WORKFLOW') == 'E-CH4-14 authorized data generation'
+                              and isinstance(approval, dict)
+                              and approval.get('source_sha') == os.environ.get('GITHUB_SHA')
+                              and approval.get('issue') == 90
                               and approval.get('owner_approval_url','').startswith(
                                   'https://github.com/mahhammad/My-Thesis/issues/90#issuecomment-')
                               and approval.get('stage') in ('raw_noise','noise_masks','derived')):

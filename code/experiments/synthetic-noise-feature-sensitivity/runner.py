@@ -96,7 +96,7 @@ def fit_trace(graph, validation_labels, family, *, steps=UPDATES, fixture=False)
     return _fit_trace(graph, validation_labels, family, steps=steps)
 
 
-def _fit_trace(graph, validation_labels, family, *, steps):
+def _fit_trace(graph, validation_labels, family, *, steps, update_callback=None):
     if steps != UPDATES and (graph.n > 12 or len(graph.qx) > 8):
         raise ValueError('Real research job must use exactly 30 updates')
     if family not in FAMILIES or graph.k != K:
@@ -150,6 +150,8 @@ def _fit_trace(graph, validation_labels, family, *, steps):
             if not bool(torch.isfinite(z).all()):
                 raise FloatingPointError(f'Nonfinite Adam update {step+1}')
             update_l2 = float(torch.linalg.vector_norm(z.detach() - old))
+            if update_callback is not None:
+                update_callback(step+1)  # durable budget ledger after each completed update
     if len(trace) != steps + 1 or trace[0]['adam_update_l2'] is not None:
         raise AssertionError('Trace step alignment error')
     return z, optimizer, trace
@@ -277,7 +279,12 @@ def execute(authorization, source_sha, run_token):
                 trace_dir.mkdir(exist_ok=False)
                 checkpoint_dir.mkdir(exist_ok=False)
                 ledger.write(json.dumps({'event':'START','run_id':run_id})+'\n');ledger.flush()
-                z,opt,trace=_fit_trace(graph,d.validation_y,family,steps=UPDATES)
+                def record_update(completed):
+                    ledger.write(json.dumps({'event':'UPDATE','run_id':run_id,
+                                             'updates_completed':completed})+'\n')
+                    ledger.flush()
+                z,opt,trace=_fit_trace(graph,d.validation_y,family,
+                                      steps=UPDATES,update_callback=record_update)
                 from checkpoints import save_checkpoint
                 from e14_metrics import report_graph
                 meta={'subset_id':subset,'family':family,'data_sha256':d.hashes['train_x_sha256'],
@@ -339,14 +346,14 @@ def main(argv=None):
     parser.add_argument('--execute',action='store_true')
     parser.add_argument('--authorization',type=Path)
     parser.add_argument('--source-sha',default='')
-    parser.add_argument('--one-time-token',default='')
     args=parser.parse_args(argv)
     if not args.execute:
         print(json.dumps(plan(),indent=2,ensure_ascii=False))
         return 0
     if not args.authorization:
         raise PermissionError('--execute requires separate Issue #90 authorization')
-    execute(args.authorization,args.source_sha,args.one_time_token)
+    execute(args.authorization,args.source_sha,
+            os.environ.get('E_CH4_14_EXECUTION_TOKEN',''))
     return 0
 
 if __name__=='__main__':

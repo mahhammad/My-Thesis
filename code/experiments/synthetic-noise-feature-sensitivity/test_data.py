@@ -25,7 +25,8 @@ def fixture():
 
 def spec():
     return NoiseSpec(raw_seed=418, mask_seed=419, std=(1., 1.1, .8),
-                     gamma=(.9, .8, .7), missing_rate=(0., .2, .35))
+                     gamma=(.9, .8, .7), missing_rate=(0., .2, .35),
+                     distribution='independent_zero_mean_gaussian')
 
 
 class DataTests(unittest.TestCase):
@@ -51,6 +52,18 @@ class DataTests(unittest.TestCase):
         self.assertTrue(all(np.array_equal(a,b) for a,b in zip(raw,generate_raw_noise(s,9,6,fixture=True))))
         self.assertTrue(all(np.array_equal(a,b) for a,b in zip(masks,generate_noise_masks(s,9,6,fixture=True))))
 
+    def test_alternative_distribution_must_be_explicit(self):
+        s=spec()
+        self.assertEqual(s.distribution,'independent_zero_mean_gaussian')
+        uniform=NoiseSpec(s.raw_seed,s.mask_seed,s.std,s.gamma,s.missing_rate,
+                          'independent_zero_mean_uniform')
+        a,b=generate_raw_noise(uniform,9,6,fixture=True)
+        self.assertTrue(np.isfinite(a).all() and np.isfinite(b).all())
+        self.assertTrue((np.abs(a) <= np.sqrt(3)*np.array(s.std)).all())
+        with self.assertRaises(ValueError):
+            NoiseSpec(s.raw_seed,s.mask_seed,s.std,s.gamma,s.missing_rate,
+                      'unknown').validate()
+
     def test_derive_invariance(self):
         m=fixture();s=spec()
         raw=generate_raw_noise(s,9,6,fixture=True)
@@ -58,6 +71,7 @@ class DataTests(unittest.TestCase):
         ds=derive_all(m,*raw,*mask,old_gamma=(.8,1.2,.5,1.,.6),spec=s)
         for d in ds:
             self.assertEqual(tuple(d.reference_ids),tuple(range(9)))
+            self.assertEqual(tuple(d.validation_ids),tuple(range(6)))
             self.assertTrue(np.array_equal(d.train_y,m.train_y))
             self.assertTrue(np.array_equal(d.validation_y,m.validation_y))
             self.assertEqual(d.train_x.shape,(9,3+len(d.noise_indices)))
@@ -88,7 +102,8 @@ class DataTests(unittest.TestCase):
         with self.assertRaises(PermissionError):
             generate_raw_noise(s,300,90,fixture=True)
         with self.assertRaises(ValueError):
-            NoiseSpec(1,1,(1.,)*3,(.6,)*3,(0.,)*3).validate()
+            NoiseSpec(1,1,(1.,)*3,(.6,)*3,(0.,)*3,
+                      'independent_zero_mean_gaussian').validate()
         m=fixture()
         raw=generate_raw_noise(s,9,6,fixture=True)
         mask=generate_noise_masks(s,9,6,fixture=True)
