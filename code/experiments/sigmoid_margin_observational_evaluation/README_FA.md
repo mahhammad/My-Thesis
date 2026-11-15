@@ -153,3 +153,16 @@ BA اعتبارسنجی در سه checkpoint به‌ترتیب 84.86٪، 72.61٪
 ## سیاست حفظ تاریخچه و پیوندهای قدیمی
 
 فایل‌های Markdown پیشین (`REPORT_FA.md`, `REPORT_LEGACY_FA.md`) پس از تجمیع از checkout فعال حذف می‌شوند؛ متن آن‌ها با شرح منشأ در همین سند آمده و Git blob اصلی در commit [`17e91ec99d1b`](https://github.com/mahhammad/My-Thesis/tree/17e91ec99d1bf082ef87e658d0643137b1e7b6fe/code/experiments/sigmoid_margin_observational_evaluation/) قابل بازیابی است. ارجاعات تاریخی کامنت‌های Issue اصلاح‌پذیر نیستند و باید با نسخهٔ قفل‌شدهٔ Git تفسیر شوند.
+
+
+---
+
+### پیوست ممیزی تگ — اجرای تاریخی و نقشهٔ ذخیره‌سازی (§۴.۷)
+
+**سه جزء مستقلِ همین مطالعه:** (۱) تشخیص حساسیت زیان سیگموئیدی نسبت به τ بر حاشیه‌های ذخیره‌شده، (۲) بازسنجی دقیق سه سیاست مرجع ۳۰۰تایی آموزش‌دیده، (۳) ارزیابی ثانویهٔ ۳۶ checkpoint مطالعهٔ اندازه از Benchmark. تعداد تشخیص، checkpoint و آموزش جدید را یکی نگیرید؛ در بازسنجی هیچ optimizer اجرا نشده است.
+
+**کد و ورودی:** [`analyze.py`](analyze.py) صرفاً `results/sigmoid_validation_summary.csv` را می‌خواند. [`replay_benchmark_size.py`](replay_benchmark_size.py) `results/benchmark_size_3seeds.csv` و دو ZIP رسمی مطالعهٔ اندازه را از `../standard_policy_comparison/results/` بازمی‌خواند. [`replay_saved_full300.py`](replay_saved_full300.py) هنوز برای ورودی اولیهٔ snapshot به پوشهٔ `archive/margin_training/results/` اشاره می‌کند که از checkout سبک حذف شده است؛ **بازتولید کامل تاریخی را در worktree تگ** `backup/pre-cleanup-2026-11-15` یا از طریق بستهٔ بازیابی رسمی انجام دهید؛ وجود خروجی فعلی به معنی سالم‌بودن مسیر اجرای تاریخی نیست.
+
+**خروجی‌های ثبت‌شده:** [`results/metrics_full.json`](results/metrics_full.json) شامل معیارهای بازسنجی مرجع، [`results/benchmark_size_metrics_full.json`](results/benchmark_size_metrics_full.json) نتیجهٔ ۳۶ checkpoint، `results/benchmark_size_aggregate.csv` خلاصهٔ اندازه، `results/margin_training_summary.csv` و `results/sigmoid_validation_summary.csv` مدارک مقایسه، و [`results/coverage.json`](results/coverage.json) و [`results/provenance.json`](results/provenance.json) قرارداد پوشش/منشأ هستند. `tables/` و `figures/` محصولات نمایش‌اند.
+
+**کنترل ذخیره بدون بازنویسی:** `python -m unittest discover -s code/experiments/sigmoid_margin_observational_evaluation -p 'test_*.py' -v`. فایل `README_FA.md` جامع نباید بازنویسی یا حذف شود؛ ساخت خروجی/گزارش جدید با نام مستقل مجاز است.

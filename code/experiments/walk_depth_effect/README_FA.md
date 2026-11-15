@@ -319,3 +319,16 @@ python code/experiments/walk_depth_effect/analyze.py
 ## سیاست حفظ تاریخچه و پیوندهای قدیمی
 
 فایل‌های Markdown پیشین (`REPORT_FA.md`) پس از تجمیع از checkout فعال حذف می‌شوند؛ متن آن‌ها با شرح منشأ در همین سند آمده و Git blob اصلی در commit [`17e91ec99d1b`](https://github.com/mahhammad/My-Thesis/tree/17e91ec99d1bf082ef87e658d0643137b1e7b6fe/code/experiments/walk_depth_effect/) قابل بازیابی است. ارجاعات تاریخی کامنت‌های Issue اصلاح‌پذیر نیستند و باید با نسخهٔ قفل‌شدهٔ Git تفسیر شوند.
+
+
+---
+
+### پیوست ممیزی تگ — اجرای تاریخی و نقشهٔ ذخیره‌سازی (§۴.۸)
+
+**قرارداد مسئله:** آزمایش اثر تغییر واقعی سقف گشت در Hهای ۱،۲،۳،۴،۸،۱۲ و دو سیاست ثابت Uniform و trained_shared. این کار **کوتاه‌سازی پسینی یک گشت H=12 نیست**؛ احتمال طول و ضرایب هر H دوباره نرمال می‌شوند. داده و سیاست‌های مرجع از §۴.۴ و §۴.۹ و آرشیو ۷۶ اجرای §۴.۱۲ هستند، نه آموزش جدید.
+
+**منبع و فرمان:** [`analyze.py`](analyze.py) فقط از snapshotهای ذخیره‌شده `../exact_matrix_walk_validation/results/`، معیارهای `../uniform_policy_hyperparameter_sensitivity/results/`، بازنمایی مبنای `../target_center_guidance_trajectory/results/` و ZIP رسمی `../standard_policy_comparison/results/core_50_16runs.zip` استفاده می‌کند. `python code/experiments/walk_depth_effect/analyze.py` حالت برنامه‌ریزی/dry-run است؛ `--execute` برای تولید نتیجهٔ اولیه و دارای نوشتن فایل است. این حالت در ممیزی فعلی اجرا نشده است.
+
+**مقصدها:** [`results/coefficients.json`](results/coefficients.json) ضرایب طول/وزن واقعی، [`results/metrics_full.json`](results/metrics_full.json) ۱۲ تنظیم و دو split، [`results/comparisons.json`](results/comparisons.json) تطبیق E04/E08، `results/margin_summary.json` و `results/error_quantile_boundary.json` تحلیل حاشیه، [`results/provenance.json`](results/provenance.json) و [`results/coverage.json`](results/coverage.json) زنجیرهٔ ارزیابی و وضعیت سنجه‌ها را نگه می‌دارند. شکل‌ها/جدول‌ها در `figures/` و `tables/` هستند.
+
+**کنترل فقط‌خواندنی:** `python code/experiments/walk_depth_effect/verify.py`؛ بر شواهد ذخیره‌شده کار می‌کند، نه بازتولید گشت. `README_FA.md` گزارش پایدار است و هر خروجی مشتق تازه باید فایل متمایزی داشته باشد.

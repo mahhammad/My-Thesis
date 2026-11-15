@@ -229,3 +229,16 @@ CI اختصاصی [E08 matrix walk](https://github.com/mahhammad/My-Thesis/actio
 ## بازیابی سوابق Markdown حذف‌شده
 
 نسخه‌های قبلی گزارش/پروتکل و شواهد متنی، با Git blob اصلی در [کامیت پیش از تجمیع](https://github.com/mahhammad/My-Thesis/tree/e53b75cae25ffba0d06d7b8a15f6cf322cb4698f/code/experiments/exact_matrix_walk_validation/) باقی می‌مانند. ارجاعات موجود در کامنت‌های تاریخی Issueها به همین نسخه‌ها تعلق دارند.
+
+
+---
+
+### پیوست ممیزی تگ — اجرای تاریخی و نقشهٔ ذخیره‌سازی (§۴.۹)
+
+**ورودی‌ها و روش:** اعتبارسنجی موتور انتظار دقیق با محاسبهٔ مستقل ماتریسی، MC و مطالعهٔ کران برش؛ دو وضعیت `uniform` و `trained_shared`، مرجع ZIP در `../standard_policy_comparison/results/core_50_16runs.zip` و فقط Train/Validation. این مطالعه را با اثر تغییر واقعی سقف H در §۴.۸ یکی نکنید.
+
+**اجرای ثبت‌شده:** [`run.py`](run.py) به‌صورت پیش‌فرض dry-run است: `python code/experiments/exact_matrix_walk_validation/run.py`. گزینهٔ `--execute` تولید اولیهٔ محاسبات و خروجی‌ها را انجام می‌دهد و اگر `results/experiment_report.json` وجود داشته باشد، عمداً از اجرای دوباره جلوگیری می‌کند. نسخهٔ پذیرفته‌شده نباید بازنویسی شود.
+
+**زنجیرهٔ ذخیره:** `results/raw_step_distributions.npz` توزیع خام هر گام، `results/snapshots/uniform/` و `results/snapshots/trained_shared/` فایل‌های `model.json`، `distributions.npz` و `report.json` را نگه می‌دارند؛ [`results/experiment_report.json`](results/experiment_report.json) خروجی جامع محاسبات، [`results/metrics_full.json`](results/metrics_full.json) قرارداد سنجه، [`results/coverage.json`](results/coverage.json) وضعیت پوشش و [`results/provenance.json`](results/provenance.json) هش/نسخهٔ ورودی هستند. `tables/` و `figures/` فقط منابع ارائهٔ LaTeX هستند.
+
+**ممیزی بدون بازاجرا:** `python code/experiments/exact_matrix_walk_validation/verify_results.py`. این کنترل با دادهٔ موجود کار می‌کند و به `README_FA.md` جامع استناد می‌کند؛ ایجاد گزارش جدید در بیرون از README مجاز است.

@@ -2651,3 +2651,16 @@ The 300-reference B02 snapshot uses **all Train rows**, X shape (300,5), y and m
 ## گیت تولید مجدد گزارش مشتق
 
 اسکریپت `analysis_v3/aggregate.py` پیش از تجمیع، هنگام `--complete` یک فایل جدید `REPORT_FA.md` در ریشهٔ آزمایش تولید می‌کرد. اکنون برای جلوگیری از حذف یا بازنویسی گزارش جامع، نسخهٔ مشتق خودکار را به `results/analysis_generated_report.txt` می‌فرستد؛ متن مرجع پژوهشی همچنان همین `README_FA.md` است. این اصلاح **هیچ فرمول یا دادهٔ خامی را تغییر نمی‌دهد**.
+
+
+---
+
+### پیوست ممیزی تگ — اجرای تاریخی و نقشهٔ ذخیره‌سازی (§۴.۱۰)
+
+**سؤال و مرز شواهد:** بازیابی سیاست از مراکز *دست‌یافتنی* با روش‌های Q-only، Exact-Adam و Q+Bootstrap-GN. طرح رسمی `standard_plan/plan_108.csv` و `standard_plan/plan_108.json` ۱۰۸ اجرای حلگر را از ۶ بلوک تعیین می‌کند؛ ۱۸ اجرای B01-v2 رأی مستقل مخصوص خود دارند و باقی شواهد را نباید بدون رأی جدید هم‌تراز آن دانست. ارقام موفقیت دلالت بر یکتایی سیاست یا برتری جهانی حلگر ندارند.
+
+**زنجیرهٔ ذخیره و بازسازی:** `snapshot_v2/results/` نمونه/هدف‌های منجمد و manifest را نگه می‌دارد؛ `standard_plan/results/B01_v2/` پایهٔ پذیرفته‌شده، `results/raw/` خروجی حلگرها و `results/audit_attachments/` رکوردهای آغاز/پایان است. [`analysis_v3/aggregate.py`](analysis_v3/aggregate.py) فقط از شواهد ذخیره‌شده، `results/coverage.json`، `results/metrics_full.json`، `results/analysis_manifest.json`، جدول‌های `tables/` و نمودارهای `figures/` را **تولید/بازنویسی** می‌کند؛ متن مشتقش `results/analysis_generated_report.txt` است تا به `README_FA.md` دست نزند. اجرای دوبارهٔ این pipeline برای ممیزی صرفاً مستنداتی ضروری نیست.
+
+**قرارداد امنیتی و قابلیت بازیابی:** `runner_v3/data_contract.py` و گیت‌های B02 حاوی ارجاعات و SHA تاریخیِ pinشده هستند؛ برای همخوانی با جابه‌جایی موتور مشترک دستکاری نشوند. `../benchmark_v1/run.py`، `../benchmark_v1/bootstrap_inverse.py` و `../benchmark_v1/stream_graph.py` کد تاریخیِ با Git blob ثابت در مسیر جدیدند؛ تفسیر پذیرش قدیمی نیازمند checkout قفل‌شده مطابق manifest است.
+
+**ممیزی داخلیِ خواندن شواهد:** `python code/experiments/inverse_attainable_standard/qa_final/verify.py`. این برنامه وقتی `qa_final/internal_check.json` موجود باشد آن را بایت‌به‌بایت تطبیق می‌دهد و اگر **نباشد همان فایل را ایجاد می‌کند**؛ بنابراین برای کنترل کاملاً بدون‌نوشتن باید ابتدا وجود manifest احراز شود یا در worktree موقت اجرا گردد. ایجاد گزارش تازه بدون overwrite کردن `README_FA.md` مجاز است؛ بازاجرای solver در دامنهٔ ممیزی حاضر نیست.
