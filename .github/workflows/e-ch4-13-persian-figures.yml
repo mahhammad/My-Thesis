@@ -62,6 +62,9 @@ jobs:
           test "$(git diff --cached --name-only | wc -l)" -eq 23
           git diff --cached --check
           git commit -m "E-CH4-13: preserve 11 English sources and archive 11 Persian SVG/vector PDF pairs [NO FIT]"
+          # Preserve any intervening owner-approved edits; never force-push.
+          git fetch origin experiment/ch4-loss-controlled-comparison-01
+          git rebase origin/experiment/ch4-loss-controlled-comparison-01
           git push origin HEAD:experiment/ch4-loss-controlled-comparison-01
       - name: Deliver Persian publication asset artifact
         if: always()
