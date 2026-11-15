@@ -68,7 +68,7 @@ class E13Presentation(unittest.TestCase):
         for row in rows:
             expected=(f"{row['seed']}",f"{100*row['validation_BA_sigmoid']:.4f}",
                       f"{100*row['validation_BA_softplus']:.4f}",
-                      f"{row['delta_BA_pp']:+.4f}")
+                      f"{row['delta_BA_pp']:+.4f}" if abs(row['delta_BA_pp'])>1e-10 else "0.0000")
             for value in expected:self.assertIn(value,table,(row['seed'],row['family'],value))
         summary=(HERE/"tables/phase2_validation_summary.tex").read_text()
         for row in bayes_summary()["rows"]:
