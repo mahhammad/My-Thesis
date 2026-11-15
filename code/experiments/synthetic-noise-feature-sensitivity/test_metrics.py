@@ -6,8 +6,8 @@ import numpy as np
 import torch
 
 sys.path.insert(0,str(Path(__file__).resolve().parent))
+from runner import initial_logits  # Adds canonical engine directory to sys.path.
 from engine import ExactMaskedWalk
-from runner import initial_logits
 from metrics import report_graph,by_hypothesis,metric_coverage
 
 
