@@ -31,7 +31,7 @@ REQUIRED_PRINT = (
     "tables/margin_by_H.tex",
     "figures/train_margin_median_vs_H.tex",
     "figures/validation_margin_median_vs_H.tex",
-    "REPORT_FA.md",
+    "README_FA.md",
 )
 
 

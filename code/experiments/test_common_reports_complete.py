@@ -120,7 +120,8 @@ class CompleteExperimentEvidence(unittest.TestCase):
             "guided_informative_uniform_mixture",
             "target_center_guidance_trajectory",
         ):
-            report=(HERE/slug/"REPORT_FA.md").read_text("utf8")
+            report=(HERE/slug/"README_FA.md").read_text("utf8")
+            self.assertEqual([p.name for p in (HERE/slug).rglob("*.md")],["README_FA.md"])
             self.assertIn("results/metrics_full.json",report,slug)
             self.assertIn("results/coverage.json",report,slug)
             self.assertTrue((HERE/slug/"results/metrics_full.json").is_file())

@@ -77,7 +77,7 @@ def audit():
             raise AssertionError("Unexpected absent Validation")
         if model["data"]["test_accessed"]:
             raise AssertionError("Test flagged in snapshot")
-        for file in ("model.json","distributions.npz","report.json","report.md"):
+        for file in ("model.json","distributions.npz","report.json"):
             if not (path/file).exists():
                 raise AssertionError("Missing v2 snapshot component: "+file)
         full=metrics["policies"][name]["12"]
@@ -93,8 +93,9 @@ def audit():
             raise AssertionError("Missing generated table: "+stem)
     if not (HERE/"figures"/"bound_and_max_tv.tex").is_file():
         raise AssertionError("Missing generated figure")
-    if not (HERE/"REPORT_FA.md").is_file():
-        raise AssertionError("Missing human-readable report")
+    report_text=(HERE/"README_FA.md").read_text(encoding="utf8")
+    if not all(key in report_text for key in ("results/snapshots/uniform/report.md", "results/snapshots/trained_shared/report.md", "results/metrics_full.json")):
+        raise AssertionError("Missing snapshot provenance or summary in consolidated README")
     print("PASS: E08 persisted outputs, raw arrays, provenance, 24 common-metric blocks, "
           "72 MC cases and full v2 snapshots verified without recomputation.")
     print("Run:", report["created_utc"])
