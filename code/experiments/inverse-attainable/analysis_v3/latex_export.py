@@ -90,7 +90,7 @@ def main():
                      f"{fmt(cols[0][1])} & {fmt(cols[1][1])}\\\\")
     lines.extend(["\\hline","\\end{tabular}","\\end{table}",""])
     write_new(TABLE/"sec410_density.tex","\n".join(lines))
-    rootname="code/experiments/inverse_attainable_standard/figures"
+    rootname="code/experiments/inverse-attainable/figures"
     figfiles=[
       ("sec410_error.tex","best_jsd_by_n.pdf","fig:ch4-inverse-best-jsd",
        "خطای بهترین مرکز دقیق در ۱۰۸ اجرای بازسازی معکوس برحسب اندازه مرجع؛ خط چین آستانه $10^{-8}$ است."),

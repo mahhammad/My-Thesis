@@ -58,7 +58,7 @@ python code/experiments/benchmark_v1/replay_fixed_center_archive.py \
 
 ## استثنای امنیتی: قرارداد قفل‌شده B02–B06
 
-پرونده `code/experiments/inverse_attainable_standard/runner_v3/data_contract.py` **عمداً با Git blob اصلی `4984961c6a8fd8057a7c1ff3d292d30ad6c9afcb` بدون تغییر نگه داشته می‌شود**. رکوردهای امضای عملیاتی مالک در Issue #60 (از جمله کامنت `6852723096`) همین بایت‌ها را تحت کلید `source_blobs_sha1.contract` قفل کرده‌اند.
+پرونده `code/experiments/inverse-attainable/runner_v3/data_contract.py` **عمداً با Git blob اصلی `4984961c6a8fd8057a7c1ff3d292d30ad6c9afcb` بدون تغییر نگه داشته می‌شود**. رکوردهای امضای عملیاتی مالک در Issue #60 (از جمله کامنت `6852723096`) همین بایت‌ها را تحت کلید `source_blobs_sha1.contract` قفل کرده‌اند.
 
 درون کد اصلی، مسیرهای `code/experiments/archive/` تاریخی باقی‌اند؛ آن‌ها **مجوز بازآموزی در checkout سبک جدید نیستند**. برای بازتولید قرارداد قدیمی باید در یک `git worktree` مستقل، نسخهٔ قفل‌شدهٔ گذشته (دارای آرشیو اصلی در همان مسیر) checkout شود و سپس بدون هیچ تغییر در کد، SHA و دامنهٔ مجوز تاریخی بازرسی شود. استفاده از رکوردهای قدیمی برای اجرای عددی تازه ممنوع است؛ اجرای جدید به ریشهٔ اعتماد و مجوز نسخه‌دار جدید نیاز دارد.
 

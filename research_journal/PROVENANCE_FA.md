@@ -117,7 +117,7 @@
 - [PR #76](https://github.com/mahhammad/My-Thesis/pull/76) بعد از همه آن مراحل، فصل سوم و پیوست را به main منتقل کرد. تمایز `ACCEPT_SCOPE`، `PROVISIONAL` و `NOT_RUN` در [تصمیم‌های علمی](SCIENTIFIC_DECISIONS_FA.md) ثبت شده است.
 
 ## ۵. مرجع‌های پایدار آزمایش‌ها
-- §۴.۱۰ [raw/protocol](../code/experiments/inverse_attainable_standard/README_FA.md) و [manifest](../code/experiments/inverse_attainable_standard/README_FA.md).
+- §۴.۱۰ [raw/protocol](../code/experiments/inverse-attainable/README_FA.md) و [manifest](../code/experiments/inverse-attainable/README_FA.md).
 - §۴.۱۱ [REPORT](../code/experiments/bayes_center_reachability_standard/README_FA.md) و [provenance_manifest](../code/experiments/bayes_center_reachability_standard/results/provenance_manifest.json).
 - §۴.۱۲ [master_runs_76.csv](../code/experiments/standard_policy_comparison/results/master_runs_76.csv)، [مرجع مرکز](../code/experiments/standard_policy_comparison/README_FA.md).
 - سیاست‌های آموزش و نسخه تاریخی clipping در [Benchmark](../code/experiments/benchmark_v1/README_FA.md)، قرارداد جمع معیار در [COMMON_METRICS_FA](../code/experiments/COMMON_METRICS_FA.md).

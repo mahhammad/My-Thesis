@@ -154,11 +154,11 @@ def verify():
       "108","33/36","36/36","2/36",
       r"\label{sec:ch4-inverse-attainable}",
       r"\label{eq:ch4-inverse-success}",
-      r"\input{code/experiments/inverse_attainable_standard/tables/sec410_blocks.tex}",
-      r"\input{code/experiments/inverse_attainable_standard/tables/sec410_success.tex}",
-      r"\input{code/experiments/inverse_attainable_standard/tables/sec410_density.tex}",
-      r"\input{code/experiments/inverse_attainable_standard/figures/sec410_error.tex}",
-      r"\input{code/experiments/inverse_attainable_standard/figures/sec410_density_vs_I.tex}",
+      r"\input{code/experiments/inverse-attainable/tables/sec410_blocks.tex}",
+      r"\input{code/experiments/inverse-attainable/tables/sec410_success.tex}",
+      r"\input{code/experiments/inverse-attainable/tables/sec410_density.tex}",
+      r"\input{code/experiments/inverse-attainable/figures/sec410_error.tex}",
+      r"\input{code/experiments/inverse-attainable/figures/sec410_density_vs_I.tex}",
     ]
     check(all(x in sec for x in checks),"TEX_MISSING_EVIDENCE_OR_REFERENCES")
     wrappers=[BASE/"tables/sec410_blocks.tex",BASE/"tables/sec410_success.tex",

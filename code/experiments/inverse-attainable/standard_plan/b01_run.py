@@ -21,7 +21,7 @@ import numpy as np
 import torch
 
 HERE=Path(__file__).resolve().parent
-ROOT=HERE.parents[3]  # .../repo/code/experiments/inverse_attainable_standard/standard_plan/b01_run.py
+ROOT=HERE.parents[3]  # .../repo/code/experiments/inverse-attainable/standard_plan/b01_run.py
 sys.path.insert(0,str(HERE.parent))  # P2 instrumentation, no engine changes
 import p2_convergence as p2
 from generate import generate,load_config

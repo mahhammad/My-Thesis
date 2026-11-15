@@ -107,8 +107,8 @@ class BenchmarkArchiveLinkage(unittest.TestCase):
                      "code/experiments/multistep_policy_target_match",
                      "code/experiments/center_matching_observation")
         historical_pins = {BENCH / "run.py", BENCH / "stream_graph.py",
-                           EXP / "inverse_attainable_standard/b02_gate_v3/pure_gate.py",
-                           EXP / "inverse_attainable_standard/b02_gate_candidate/pure_gate.py"}
+                           EXP / "inverse-attainable/b02_gate_v3/pure_gate.py",
+                           EXP / "inverse-attainable/b02_gate_candidate/pure_gate.py"}
         stale = []
         for file in EXP.rglob("*.py"):
             if file in historical_pins or file == Path(__file__):
@@ -121,7 +121,7 @@ class BenchmarkArchiveLinkage(unittest.TestCase):
 
     def test_no_active_python_code_reads_retired_archive_paths(self):
         unresolved = []
-        trust_contract = EXP / "inverse_attainable_standard/runner_v3/data_contract.py"
+        trust_contract = EXP / "inverse-attainable/runner_v3/data_contract.py"
         pinned_blob = "4984961c6a8fd8057a7c1ff3d292d30ad6c9afcb"
         for source in sorted(EXP.rglob("*.py")):
             if source.resolve() == Path(__file__).resolve():

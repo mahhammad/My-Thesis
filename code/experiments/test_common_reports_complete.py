@@ -114,7 +114,7 @@ class CompleteExperimentEvidence(unittest.TestCase):
         self.assertTrue((HERE/slug/"results/metrics_summary.csv").is_file())
 
     def test_exactly_eleven_official_studies_plus_shared_benchmark(self):
-        study_dirs = ["q-validation","uniform-hyperparameter-sensitivity","fixed-policy-evaluation","center-target-observation","sigmoid-margin-evaluation","true-horizon-effect","exact-matrix-evaluation","inverse_attainable_standard","bayes_center_reachability_standard","standard_policy_comparison","ch4_loss_controlled_comparison"]
+        study_dirs = ["q-validation","uniform-hyperparameter-sensitivity","fixed-policy-evaluation","center-target-observation","sigmoid-margin-evaluation","true-horizon-effect","exact-matrix-evaluation","inverse-attainable","bayes_center_reachability_standard","standard_policy_comparison","ch4_loss_controlled_comparison"]
         actual = {p.name for p in HERE.iterdir() if p.is_dir() and not p.name.startswith((".", "__"))}
         self.assertEqual(actual, set(study_dirs) | {"benchmark_v1"})
         for slug in study_dirs:

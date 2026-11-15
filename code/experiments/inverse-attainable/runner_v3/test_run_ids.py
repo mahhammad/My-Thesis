@@ -6,7 +6,7 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[4]
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 from run_one import planned_run_id
-PLAN=ROOT/"code/experiments/inverse_attainable_standard/standard_plan/plan_108.json"
+PLAN=ROOT/"code/experiments/inverse-attainable/standard_plan/plan_108.json"
 
 class IdMappingTests(unittest.TestCase):
     def test_every_b02_to_b06_plan_row(self):

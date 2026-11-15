@@ -18,7 +18,7 @@
 | §۴.7 | [`sigmoid-margin-evaluation`](../code/experiments/sigmoid-margin-evaluation/README_FA.md) | 23 | 20 | 3 | ۰ | 0 | 10 |
 | §۴.8 | [`true-horizon-effect`](../code/experiments/true-horizon-effect/README_FA.md) | 32 | 24 | 8 | ۰ | 0 | 12 |
 | §۴.9 | [`exact-matrix-evaluation`](../code/experiments/exact-matrix-evaluation/README_FA.md) | 21 | 18 | 3 | ۰ | 0 | 11 |
-| §۴.10 | [`inverse_attainable_standard`](../code/experiments/inverse_attainable_standard/README_FA.md) | 761 | 750 | 11 | ۰ | 0 | 669 |
+| §۴.10 | [`inverse-attainable`](../code/experiments/inverse-attainable/README_FA.md) | 761 | 750 | 11 | ۰ | 0 | 669 |
 | §۴.11 | [`bayes_center_reachability_standard`](../code/experiments/bayes_center_reachability_standard/README_FA.md) | 14 | 14 | 0 | ۰ | 0 | 5 |
 | §۴.12 | [`standard_policy_comparison`](../code/experiments/standard_policy_comparison/README_FA.md) | 15 | 15 | 0 | ۰ | 3 | 13 |
 | §۴.13 | [`ch4_loss_controlled_comparison`](../code/experiments/ch4_loss_controlled_comparison/README_FA.md) | 566 | 566 | 0 | ۰ | 0 | 440 |

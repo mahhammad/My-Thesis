@@ -19,7 +19,7 @@ import time
 
 ROOT = Path(__file__).resolve().parents[4]
 HERE = Path(__file__).resolve().parent
-PLAN = ROOT / "code/experiments/inverse_attainable_standard/standard_plan/plan_108.json"
+PLAN = ROOT / "code/experiments/inverse-attainable/standard_plan/plan_108.json"
 CFG = ROOT / "code/data_generator/config.json"
 SOURCE_PATHS = {
     "config": CFG,

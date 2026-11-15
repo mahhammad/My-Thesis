@@ -20,7 +20,7 @@
 
 **راهنمای بررسی بدون حل مجدد:**
 ```bash
-python code/experiments/inverse_attainable_standard/qa_final/verify.py
+python code/experiments/inverse-attainable/qa_final/verify.py
 ```
 این کنترل `qa_final/internal_check.json` را اگر موجود باشد با خروجی بازساخته تطبیق می‌دهد، و **در صورت نبودن آن فایل را ایجاد می‌کند**؛ برای تضمین عدم‌نوشتن در worktree مستقل اجرا شود. `analysis_v3/aggregate.py --complete` قادر به تولید/بازنویسی گزارش مشتق و خروجی‌هاست و در این ممیزی اجرا نشده است. دادهٔ Train بذرهای مختلف ممکن است به BLAS وابسته باشد؛ اصالت اصلی با آرایه‌های frozen و SHA فایل‌ها تعیین می‌شود.
 
@@ -414,7 +414,7 @@ The user's next research priority is the full 108-case experiment, but it is exe
 **نقش:** پژوهشگر مجری پیش‌پرواز؛ اجرای اصلی / تغییر LaTeX / ادغام **ممنوع تا تصویب**.  
 **مبنای قفل‌شده:** `chapter4@de02fdda91e23db177de4429b3e1a9693c046d83`.  
 **شاخه کاری مستقل:** `experiment/ch4-inv01-preflight`.  
-**کد قابل بازپخش:** `code/experiments/inverse_attainable_standard/preflight.py`.  
+**کد قابل بازپخش:** `code/experiments/inverse-attainable/preflight.py`.  
 **شاهد عددی:** `results/preflight_measurements.json`؛ **CI موفق:** [#42968511247](https://github.com/mahhammad/My-Thesis/actions/runs/42968511247) روی `794bd42096793699d3985434b2521eab04dafade`؛ نتایج توسط commit `3ecff1bcda765a9fa136adfffc847de0224e36a8` محفوظ‌اند.
 
 ### ۱. منابع و حفاظت
@@ -697,7 +697,7 @@ The user's next research priority is the full 108-case experiment, but it is exe
 | C410-13 | `manifest.json`: `d8440f7177721fec07b520362deb2552bde59a0e`؛ `standard_plan/b01_v2_run.py`: `1d0662f89c5cc152cc76647574424087aff65b58`؛ [QA](https://github.com/mahhammad/My-Thesis/issues/49#issuecomment-6791688515) | دوم: target حاصل از witness، در اختیار solve قرار نگرفته | وجود سیاست شاهد برای center | «حداقل یک سیاست مولد مرکز وجود دارد»، نه uniqueness/BA/secret رمزنگاری |
 | C410-14 | aggregate pilot `ab806d64f817b324e1d50ae498ef8a4a12aba4c0` + paired دوم `171eccdc57c9e8ad3cc842261cf681898978ac1a` | پروتکل‌های جدا | اندازه ۷۲/۱۵۰؛ ۹ هدف در برابر ۳ هدف×۲ آغاز؛ mean final در برابر mean best، stop و budget متفاوت | برتری کلی، آزمون آماری pooled، تعمیم runtime به n300 یا بهبود classification ادعا نشود |
 
-**دامنه مسیرها:** اختصار `archive/...` از `code/experiments/archive/...` و `standard_plan/...` از `code/experiments/inverse_attainable_standard/standard_plan/...` است. همه Git blob SHAهای بالا مربوط به رفرنس‌های قفل‌شده معرفی‌شده در ابتدای سند هستند.
+**دامنه مسیرها:** اختصار `archive/...` از `code/experiments/archive/...` و `standard_plan/...` از `code/experiments/inverse-attainable/standard_plan/...` است. همه Git blob SHAهای بالا مربوط به رفرنس‌های قفل‌شده معرفی‌شده در ابتدای سند هستند.
 
 ### کنترل‌های نگارشی و آمادگی QA
 
@@ -801,7 +801,7 @@ The historical owner-root and old path contract belong to the pinned full checko
 - اهداف با امید دقیق `β=.4, λ=.8, H=12` ساخته و از نظر مجموع احتمال و JSD با شاهد کنترل می‌شوند؛ سیاست سازنده در آغاز/ورودی حلگر استفاده نمی‌شود.
 - تنها کلاس صفر برای آزمون محدود بودجه استفاده می‌شود: Q=۳ گام، Adam از صفر با سقف‌های ۲، ۵ و ۱۰، Adam از آغاز تصادفی با سقف ۵، یک ژاکوبین دقیق و GN حداکثر دو اصلاح. **این‌ها اجرای استاندارد مقایسه نیستند**.
 - زمان CPU دیواری `perf_counter` و RSS کل فرایند به MiB ثبت می‌شود. اندازه‌گیری برای ۳۰۰ نمونه فعلاً انجام نمی‌شود و از عدد ۱۵۰ به عدد ۳۰۰ نسبت دقیق اعلام نمی‌کنیم.
-- `python code/experiments/inverse_attainable_standard/preflight.py --verify`: کنترل خواندنی فایل نتایج. `--measure` فقط در غیاب خروجی و صرفاً فاز ۱ کار می‌کند.
+- `python code/experiments/inverse-attainable/preflight.py --verify`: کنترل خواندنی فایل نتایج. `--measure` فقط در غیاب خروجی و صرفاً فاز ۱ کار می‌کند.
 - خروجی `results/preflight_measurements.json` پس از CI ثبت می‌شود. تصمیم RUN/REVISE/STOP بر اساس اندازه‌گیری و صحت‌سنجی در Issue مادر #49 گزارش می‌شود؛ تا تصویب ناظر فاز ۲ ممنوع است.
 
 **نکته مهم:** `n=300` و `walks=300` دو چیز متفاوت‌اند. این آزمایش امید دقیق دارد و نمونه‌گیری مسیر نمی‌کند. از سه زیرمجموعه ۷۲تایی تاریخی فقط برای شناخت روش استفاده شده و اعداد آن‌ها وارد LaTeX نمی‌شوند.
@@ -2467,7 +2467,7 @@ The historical owner-root and old path contract belong to the pinned full checko
 
 ## اصل و بازیابی مدارک
 
-گزارش‌های پیشین و پرونده‌های منشأ در [کامیت پیش از تجمیع](https://github.com/mahhammad/My-Thesis/tree/6961c78755828637579188ab5d6299499df5c08b/code/experiments/inverse_attainable_standard/) ثبت و در تاریخچه قابل بازیابی‌اند. ارجاعات Issueها به فایل‌های قدیمی را به متن نسخهٔ قفل‌شده ارجاع دهید. فایل‌های `runner_v3/data_contract.py` و سایر اسناد trust-root با Git blob قفل‌شده در این تجمیع دست‌نخورده‌اند.
+گزارش‌های پیشین و پرونده‌های منشأ در [کامیت پیش از تجمیع](https://github.com/mahhammad/My-Thesis/tree/6961c78755828637579188ab5d6299499df5c08b/code/experiments/inverse-attainable/) ثبت و در تاریخچه قابل بازیابی‌اند. ارجاعات Issueها به فایل‌های قدیمی را به متن نسخهٔ قفل‌شده ارجاع دهید. فایل‌های `runner_v3/data_contract.py` و سایر اسناد trust-root با Git blob قفل‌شده در این تجمیع دست‌نخورده‌اند.
 
 
 ## قرارداد B02 و تاریخچهٔ ممیزی گیت اعتماد
@@ -2482,7 +2482,7 @@ The historical owner-root and old path contract belong to the pinned full checko
 **Frozen V1 parent:** `1dda91c073783fd16be7a607ccbfe407f523f075`.  
 **Historical B02 snapshot:** `05acde39b76b49e0b55337301251594be0ad6d92`.  
 **Branch:** `research/ch4-r05-b02-gate-hardening-v2`.  
-**Scope:** only `code/experiments/inverse_attainable_standard/b02_gate_candidate/`; no graph, model, optimizer, forward, Jacobian, solver, resource probe, Test, CI, PR, merge, historical raw, or tex change.
+**Scope:** only `code/experiments/inverse-attainable/b02_gate_candidate/`; no graph, model, optimizer, forward, Jacobian, solver, resource probe, Test, CI, PR, merge, historical raw, or tex change.
 
 ### 1. Independent-audit findings addressed in candidate V2
 
@@ -2696,4 +2696,9 @@ The 300-reference B02 snapshot uses **all Train rows**, X shape (300,5), y and m
 
 **قرارداد امنیتی و قابلیت بازیابی:** `runner_v3/data_contract.py` و گیت‌های B02 حاوی ارجاعات و SHA تاریخیِ pinشده هستند؛ برای همخوانی با جابه‌جایی موتور مشترک دستکاری نشوند. `../benchmark_v1/run.py`، `../benchmark_v1/bootstrap_inverse.py` و `../benchmark_v1/stream_graph.py` کد تاریخیِ با Git blob ثابت در مسیر جدیدند؛ تفسیر پذیرش قدیمی نیازمند checkout قفل‌شده مطابق manifest است.
 
-**ممیزی داخلیِ خواندن شواهد:** `python code/experiments/inverse_attainable_standard/qa_final/verify.py`. این برنامه وقتی `qa_final/internal_check.json` موجود باشد آن را بایت‌به‌بایت تطبیق می‌دهد و اگر **نباشد همان فایل را ایجاد می‌کند**؛ بنابراین برای کنترل کاملاً بدون‌نوشتن باید ابتدا وجود manifest احراز شود یا در worktree موقت اجرا گردد. ایجاد گزارش تازه بدون overwrite کردن `README_FA.md` مجاز است؛ بازاجرای solver در دامنهٔ ممیزی حاضر نیست.
+**ممیزی داخلیِ خواندن شواهد:** `python code/experiments/inverse-attainable/qa_final/verify.py`. این برنامه وقتی `qa_final/internal_check.json` موجود باشد آن را بایت‌به‌بایت تطبیق می‌دهد و اگر **نباشد همان فایل را ایجاد می‌کند**؛ بنابراین برای کنترل کاملاً بدون‌نوشتن باید ابتدا وجود manifest احراز شود یا در worktree موقت اجرا گردد. ایجاد گزارش تازه بدون overwrite کردن `README_FA.md` مجاز است؛ بازاجرای solver در دامنهٔ ممیزی حاضر نیست.
+
+
+### یادداشت پس از هم‌نام‌سازی با `sec:ch4-inverse-attainable`
+
+مسیر فعال و معتبرِ شواهد اکنون `code/experiments/inverse-attainable/` است. فایل‌های تاریخیِ گیت امنیتی `runner_v3/data_contract.py` و `b02_gate_{v3,candidate}/pure_gate.py` به عمد **بایت‌به‌بایت ثابت** مانده‌اند، زیرا `SOURCE_PATHS` و source pins متعلق به checkout منجمد پیش از انتقال هستند. این فایل‌ها **مجوز اجرای solver جدید روی مسیر فعلی نیستند** و اجرای تاریخی آن‌ها نیازمند checkout SHA تاریخی منطبق با manifest است. آزمون‌های صرفاً محاسبهٔ شناسه در محیط scratch با پرونده‌های زنده فرق دارند. این README مسیرهای فعالِ نتیجه، جدول و LaTeX را پس از انتقال نشان می‌دهد؛ raw/manifest و SHAهای تاریخی دست‌نخورده‌اند.
