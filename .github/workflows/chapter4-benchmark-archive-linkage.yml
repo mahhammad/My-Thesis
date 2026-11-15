@@ -4,7 +4,11 @@ on:
     paths:
       - 'code/experiments/benchmark_v1/**'
       - 'code/experiments/standard_policy_comparison/**'
-      - 'code/experiments/archive/benchmark_v1_legacy_evidence/**'
+      - 'code/experiments/archive/**'
+      - 'code/experiments/multistep_policy_target_match/**'
+      - 'code/experiments/diag_max_full300/**'
+      - 'code/experiments/inverse_attainable_standard/b02_preflight/build_snapshot.py'
+      - 'research_journal/archive_recovery/**'
       - 'code/experiments/exact_matrix_walk_validation/**'
       - 'code/experiments/sigmoid_margin_observational_evaluation/**'
       - 'code/experiments/walk_depth_effect/**'
@@ -20,6 +24,8 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
@@ -32,7 +38,23 @@ jobs:
               compile(path.read_bytes(), str(path), 'exec')
           print(f'SYNTAX_PASS files={len(files)}')
           PY
-      - name: Verify 76-run archive hashes, curated blobs and consumer links
+      - name: Inventory any remaining code references to retired archive
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          hits=[]
+          for path in Path("code/experiments").rglob("*.py"):
+              for n,line in enumerate(path.read_text(encoding="utf-8").splitlines(),1):
+                  if ("code/experiments/archive/" in line
+                          or "/archive/" in line
+                          or "'archive'" in line
+                          or '"archive"' in line):
+                      hits.append((str(path),n,line.strip()[:210]))
+          for path,n,source in hits:
+              print(f"RETIRED_ARCHIVE_PATH {path}:{n}: {source}")
+          print("RESIDUAL_RETIRED_ARCHIVE_REFERENCES",len(hits))
+          PY
+      - name: Verify 76 canonical runs, 137 recoverable Git-tag blobs, and reference imports
         run: python -m unittest discover -s code/experiments -p test_benchmark_archive_links.py -v
   scientific-readonly-smoke:
     runs-on: ubuntu-latest
@@ -51,6 +73,12 @@ jobs:
         run: |
           python -m pip install numpy
           python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+      - name: B02 pure-gate safety and E06/E07 persisted-report regressions (NO FIT)
+        run: |
+          python -m unittest discover -s code/experiments/inverse_attainable_standard/b02_gate_v3 -p test_pure_gate.py -v
+          python -m unittest discover -s code/experiments/inverse_attainable_standard/b02_gate_candidate -p test_pure_gate.py -v
+          python -m unittest discover -s code/experiments/sigmoid_margin_observational_evaluation -p test_analyze.py -v
+          python -m unittest discover -s code/experiments/target_center_guidance_trajectory -p test_replay_presentation.py -v
       - name: E07 persisted Train/Validation reports (NO REPLAY)
         run: |
           python -m unittest discover -s code/experiments/sigmoid_margin_observational_evaluation -p test_benchmark_300.py -v
@@ -64,3 +92,4 @@ jobs:
           python -m unittest discover -s code/experiments -p test_chapter4_presentation.py -v
           python -m unittest discover -s code/experiments/benchmark_v1 -p test_common_metrics_contract.py -v
           python -m unittest discover -s code/experiments/benchmark_v1 -p test_snapshot_roundtrip.py -v
+          python -m unittest discover -s code/experiments/benchmark_v1 -p test_engine.py -v

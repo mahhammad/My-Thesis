@@ -6,8 +6,8 @@ import torch
 ROOT=pathlib.Path(__file__).resolve().parents[3]
 sys.path.insert(0,str(ROOT/"code/experiments/benchmark_v1"))
 sys.path.insert(0,str(ROOT/"code/data_generator"))
-sys.path.insert(0,str(ROOT/"code/experiments/archive/diag_max_full300"))
-sys.path.insert(0,str(ROOT/"code/experiments/archive/multistep_policy_target_match"))
+sys.path.insert(0,str(ROOT/"code/experiments/diag_max_full300"))
+sys.path.insert(0,str(ROOT/"code/experiments/multistep_policy_target_match"))
 
 from engine import ExactMaskedWalk,DT
 from generate import load_config,generate

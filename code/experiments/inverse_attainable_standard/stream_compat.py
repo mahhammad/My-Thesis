@@ -275,9 +275,9 @@ def measure():
         rows.append(cost_one_size(x,y,spec,n,20261117,20261118))
     record={"phase":"BOUNDED_STREAMGRAPH_COMPATIBILITY_AND_REAL_COST_ONLY",
        "base_sha":BASE_SHA,
-       "source_stream_graph":"code/experiments/archive/diag_max_full300/stream_graph.py",
-       "source_d09":["code/experiments/archive/multistep_policy_target_match/run.py",
-                      "code/experiments/archive/multistep_policy_target_match/bootstrap_inverse.py"],
+       "source_stream_graph":"code/experiments/diag_max_full300/stream_graph.py",
+       "source_d09":["code/experiments/multistep_policy_target_match/run.py",
+                      "code/experiments/multistep_policy_target_match/bootstrap_inverse.py"],
        "config":{"H":12,"beta":.4,"lambda":.8,"tol_future":1e-8,
           "tiny_n":36,"n_reference_sizes":[150,300],"only_class_for_cost":0,
           "solver_caps":{"q_grad":2,"exact_adam_grad":2,"GN_jacobian":2,

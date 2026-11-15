@@ -1,0 +1,57 @@
+# بازیابی کامل آرشیو تاریخی پیش از حذف آن از checkout
+
+**هدف:** `REPO-LIGHTWEIGHT-02` — حذف پوشه `code/experiments/archive/` از درخت فعال، **نه حذف تاریخچه پژوهشی از Git**.
+
+## نقطه بازیابی غیرقابل‌ابهام
+
+- تگ: `backup/pre-cleanup-2026-11-15`
+- کامیت کامل پیش از پاک‌سازی: `a8c9027460e538fa04b8aab2f762eb4ba4c31e3d`
+- بکاپ گزارش‌شده روی لپ‌تاپ مالک: `My-Thesis-main-15Nov2026-13-24.zip` (محتوا و checksum فایل محلی در این مأموریت مستقلاً تأیید نشده‌اند).
+- نمایه ماشین‌خوان: `ARCHIVE_RECOVERY_2026-11-15.json`، تعداد ۱۳۷ فایل و مجموع ۳٬۴۹۱٬۵۰۷ بایت.
+- ۱۳۵ فایل، شامل ۲۰ خروجی منتقل‌شده در PR #83، با Git blob SHA یکسان مستقیماً در تگ بازیابی شده‌اند. دو سند ساخته‌شده پس از تگ، `MOVE_MANIFEST_2026-11-15.json` و `benchmark_legacy_README_FA.md`، اینجا با همان بایت اصلی نگهداری شده‌اند.
+
+## راستی‌آزمایی و استخراج بدون آموزش
+
+پس از clone کامل با tagها، از ریشه مخزن:
+
+```bash
+python research_journal/archive_recovery/restore_archive.py
+```
+
+این فرمان **فقط‌خواندنی** است: داده‌های ۱۳۷ پرونده را از Git و دو سند همراه می‌خواند، SHA-1 استاندارد Git blob و طول بایت را می‌سنجد و هیچ کدی از آزمایش‌ها را اجرا نمی‌کند.
+
+برای استخراج همه محتویات در **مسیر جدید و خالی**:
+
+```bash
+python research_journal/archive_recovery/restore_archive.py --dest /tmp/imc-recovered-archive
+```
+
+فایل‌های خروجی در پوشه مقصد با ساختار `benchmark_v1_legacy_evidence/`، `historical_archive/` و دیگر پوشه‌های قدیمی قرار خواهند گرفت. برنامه در صورت موجودبودن پوشه مقصد از overwrite خودداری می‌کند.
+
+## کد مرجع لازم در مخزن فعال
+
+سه فایل تاریخی با **Git blob یکسان** در مسیر اصلی قابل‌اجرا نگهداری می‌شوند تا وابستگی‌های ممیزی بخش ۴.۱۰ و کنترل مقایسه موتور گشت قطع نشوند:
+
+- `code/experiments/multistep_policy_target_match/run.py`
+- `code/experiments/multistep_policy_target_match/bootstrap_inverse.py`
+- `code/experiments/diag_max_full300/stream_graph.py`
+
+این‌ها **نسخه مدل اصلی** نیستند و نباید با `benchmark_v1/engine.py` یا هسته نهایی IMC یکی انگاشته شوند. SHA ثبت‌شدهٔ snapshotها همچنان از همان بایت‌های تاریخی محاسبه می‌شود.
+
+## مرز اعتبار علمی
+
+نتایج آرشیوی قدیمی (از جمله مطالعات ۷۲نمونه‌ای و نسخه‌های دارای باگ اصلاح‌شده) **نباید خودکار به سطح شواهد پذیرفته‌شده ارتقا یابند**. بسته رسمی §۴.۱۲ در `code/experiments/standard_policy_comparison/results/` با چهار ZIP و مانیفست QA76 باقی می‌ماند. QA76 فقط ۸۳۶ معیار مرکز را پوشش می‌دهد، نه ۴۴ شناسه غیرمرکزمحور.
+
+**حذف از checkout به معنی بازنویسی تاریخچه Git نیست.** بازیابی به تگ موجود و سالم‌ماندن اشیای Git وابسته است؛ پیش از هر `git gc` مهاجم، مهاجرت مخزن یا حذف تگ باید نسخه مستقل مالک نیز بررسی شود.
+
+## بازپخش تاریخی نیازمند بازیابی دستی
+
+اسکریپت `code/experiments/benchmark_v1/replay_fixed_center_archive.py` همچنان برای بازارزیابی تاریخی به بسته `margin_fixed_centers_complete.zip` احتیاج دارد. این بسته عمداً در checkout فعال نگهداری نمی‌شود. پیش از اجرای آن، آرشیو را با دستور بالای همین صفحه در مسیری جدا بازیابی و سپس ZIP را صریحاً معرفی کنید:
+
+```bash
+python code/experiments/benchmark_v1/replay_fixed_center_archive.py \
+  --archive /tmp/imc-recovered-archive/historical_archive/archives/margin_fixed_centers_complete.zip \
+  --out /tmp/fixed_center_backfill.json
+```
+
+این بازپخش، بخشی از CI فقط‌خواندنیِ پاک‌سازی نیست و در این PR اجرا نشده است. اسکریپت‌های قدیمی دیگر نیز ممکن است به پیش‌نیازهای تاریخی نیاز داشته باشند؛ موفقیت آزمون‌های snapshot/آرشیو به معنای بازاجرای همه آنها نیست.

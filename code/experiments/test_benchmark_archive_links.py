@@ -7,6 +7,8 @@ from __future__ import annotations
 import csv
 import hashlib
 import json
+import subprocess
+import sys
 from pathlib import Path
 import unittest
 from zipfile import ZipFile
@@ -15,7 +17,7 @@ ROOT = Path(__file__).resolve().parents[2]
 EXP = ROOT / "code" / "experiments"
 OFFICIAL = EXP / "standard_policy_comparison" / "results"
 BENCH = EXP / "benchmark_v1"
-CURATED = EXP / "archive" / "benchmark_v1_legacy_evidence"
+RECOVERY = ROOT / "research_journal" / "archive_recovery"
 
 ZIP_SHA256 = {
     "core_50_16runs.zip": "9609eb96c207316fde26934cbef4668ba287a275d4485175d1da7e798a297040",
@@ -67,20 +69,22 @@ class BenchmarkArchiveLinkage(unittest.TestCase):
         coverage = json.loads((OFFICIAL / "coverage_manifest_76.json").read_text("utf-8"))
         self.assertEqual(len(coverage["runs"]), 76)
 
-    def test_curated_legacy_evidence_matches_original_git_blobs(self):
-        manifest = json.loads((CURATED / "MOVE_MANIFEST.json").read_text("utf-8"))
-        moves = manifest["moves"]
-        self.assertEqual(len(moves), 20)
-        self.assertEqual(len({item["curated_path"] for item in moves}), 20)
-        for item in moves:
-            with self.subTest(source=item["source_path"]):
-                file = ROOT / item["curated_path"]
-                self.assertTrue(file.is_file(), file)
-                data = file.read_bytes()
-                self.assertEqual(len(data), item["size_bytes"])
-                git_blob = b"blob " + str(len(data)).encode("ascii") + b"\0" + data
-                self.assertEqual(hashlib.sha1(git_blob).hexdigest(), item["git_blob_sha1"])
-                self.assertFalse((ROOT / item["source_path"]).exists())
+    def test_137_retired_archive_files_recover_from_frozen_tag(self):
+        self.assertFalse((EXP / "archive").exists(), "Retired archive must not remain in active checkout")
+        man = json.loads((RECOVERY / "ARCHIVE_RECOVERY_2026-11-15.json").read_text("utf-8"))
+        self.assertEqual(man["recovery_commit"], "a8c9027460e538fa04b8aab2f762eb4ba4c31e3d")
+        self.assertEqual(man["expected_files"], 137)
+        self.assertEqual(man["expected_bytes"], 3491507)
+        p = subprocess.run(
+            [sys.executable, str(RECOVERY / "restore_archive.py")],
+            cwd=ROOT, text=True, capture_output=True, check=False,
+        )
+        self.assertEqual(p.returncode, 0, p.stdout + "\n" + p.stderr)
+        report = json.loads(p.stdout)
+        self.assertEqual(report["status"], "PASS")
+        self.assertEqual(report["verified_files"], 137)
+        self.assertEqual(report["verified_bytes"], 3491507)
+        self.assertFalse(report["restored"])
 
     def test_archive_consumers_and_shared_runtime_are_preserved(self):
         for name in CONSUMERS:
@@ -88,6 +92,29 @@ class BenchmarkArchiveLinkage(unittest.TestCase):
                 self.assertIn("standard_policy_comparison", (EXP / name).read_text("utf-8"))
         for name in SHARED_MODULES:
             self.assertTrue((BENCH / name).is_file(), name)
+        for path in (
+            "multistep_policy_target_match/run.py",
+            "multistep_policy_target_match/bootstrap_inverse.py",
+            "diag_max_full300/stream_graph.py",
+        ):
+            self.assertTrue((EXP / path).is_file(), path)
+
+
+    def test_no_active_python_code_reads_retired_archive_paths(self):
+        unresolved = []
+        for source in sorted(EXP.rglob("*.py")):
+            if source.resolve() == Path(__file__).resolve():
+                continue  # This audit's search expression is not an archive dependency.
+            if "code/experiments/archive/" in source.read_text("utf-8"):
+                unresolved.append(str(source.relative_to(ROOT)))
+        self.assertEqual(unresolved, [], "Retired archive path still in live Python code")
+
+    def test_frozen_e06_reference_code_is_present(self):
+        for name in (
+            "center_matching_observation/observe.py",
+            "center_matching_observation/projection.py",
+        ):
+            self.assertTrue((EXP / name).is_file(), name)
 
     def test_e13_frozen_inputs_and_figure_manifest_remain(self):
         e13 = EXP / "ch4_loss_controlled_comparison"

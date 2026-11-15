@@ -9,8 +9,8 @@ import torch
 ROOT=Path(__file__).resolve().parents[4]
 HERE=Path(__file__).resolve().parent
 sys.path.insert(0,str(ROOT/"code/data_generator"))
-sys.path.insert(0,str(ROOT/"code/experiments/archive/multistep_policy_target_match"))
-sys.path.insert(0,str(ROOT/"code/experiments/archive/diag_max_full300"))
+sys.path.insert(0,str(ROOT/"code/experiments/multistep_policy_target_match"))
+sys.path.insert(0,str(ROOT/"code/experiments/diag_max_full300"))
 from generate import generate,load_config
 from stream_graph import StreamGraph
 from run import jsd, DT
@@ -18,8 +18,8 @@ from run import jsd, DT
 PLAN=ROOT/"code/experiments/inverse_attainable_standard/standard_plan/plan_108.json"
 CFG=ROOT/"code/data_generator/config.json"
 GENER=ROOT/"code/data_generator/generate.py"
-STREAM=ROOT/"code/experiments/archive/diag_max_full300/stream_graph.py"
-RUN=ROOT/"code/experiments/archive/multistep_policy_target_match/run.py"
+STREAM=ROOT/"code/experiments/diag_max_full300/stream_graph.py"
+RUN=ROOT/"code/experiments/multistep_policy_target_match/run.py"
 BID="INV01-B02-n300-data20261102"
 MAGIC=b"B02TRAIN_CANONICAL_V1\n"
 BUDGET=120.
