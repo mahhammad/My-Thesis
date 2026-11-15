@@ -60,7 +60,7 @@ PHRASES={
  "Train balanced accuracy during Adam optimization":"سیر دقت متوازن آموزش در بهینه‌سازی آدام",
  "Mean BA across 3 independent dataset seeds; percent; fixed y axis 70–100":"میانگین سه بذر مستقل؛ درصد؛ محور عمودی ثابت از ۷۰ تا ۱۰۰",
  "Completed Adam updates (0 to 25)":"گام‌های تکمیل‌شده آدام (۰ تا ۲۵)",
- "Original 12 exact-walk fits | fixed final checkpoint 25 | no validation trajectory | no Test":"۱۲ آموزش با گشت دقیق؛ گام نهایی ۲۵؛ بدون روند اعتبارسنجی یا آزمون",
+ "Original 12 exact-walk fits | fixed final checkpoint 25 | no validation trajectory | no Test":"دقت متوازن بر اساس نمونه‌های آموزش",
 }
 TITLE_RE=re.compile(r"^(Train|Validation) (balanced accuracy|center separation I|R_KL|R_JS|R_sqrt_JS) — paired overlaid points$")
 Y_RE=re.compile(r"^Y axis: (BA|I|R_KL|R_JS|R_sqrt_JS) \((?:%|class-balanced value)\); same numerical scale in both panels$")
@@ -92,6 +92,18 @@ def svg_path(tp):
 
 def translate_one(src,source_name):
     root=ET.fromstring(src)
+    # Move only the decorative two-method legend (figures 1..8) LEFT.
+    # Data points, axes, min/mean/max lines and numerical geometry are untouched.
+    if "phase2_repro_v3/" in source_name:
+        moved=[]
+        for el in root.iter():
+            if el.tag==f"{{{SVG}}}circle" and el.get("cx")=="776" and el.get("cy")=="92":
+                el.set("cx","92");el.set("class","persian-legend-symbol");moved.append("sigmoid")
+            elif el.tag==f"{{{SVG}}}path" and el.get("d","").startswith("M 914 84 L 923 93"):
+                el.set("d","M 306 84 L 315 93 L 306 102 L 297 93 Z")
+                el.set("class","persian-legend-symbol");moved.append("softplus")
+        if sorted(moved)!=["sigmoid","softplus"]:
+            raise AssertionError("Expected exactly two safely relocatable legend glyphs")
     texts=[x for x in root.iter() if x.tag==f"{{{SVG}}}text"]
     ntext=len(texts)
     translations={}
@@ -112,10 +124,15 @@ def translate_one(src,source_name):
                 "Train balanced accuracy during Adam optimization")):
                 x=float(root.get("width"))-80;anchor="end"
             elif raw.startswith(("Three independent DATA SEEDS","Arithmetic mean over three seeds",
-                                "Mean BA across","Each dashed level",
+                                "Mean BA across","Dashed summaries","Each dashed level",
                                 "Original authorized 12 fits","Original 12 exact-walk fits",
                                 "Raw run 4367","Y axis:")):
                 x=float(root.get("width"))-70;anchor="end"
+            # Legend text follows its relocated icons on the LEFT, with
+            # ample separation from the right-side dashed summary explanation.
+            if "phase2_repro_v3/" in source_name and raw in ("Sigmoid","Softplus"):
+                x=230 if raw=="Sigmoid" else 460
+                anchor="end"
             # Original footer for v3 and v2 must remain one unclipped visual line.
             rtl=get_display(arabic_reshaper.reshape(fa))
             max_width=min(float(root.get("width"))-130,1030)
@@ -143,8 +160,8 @@ def translate_one(src,source_name):
     # Structural proof of unchanged scientific graph geometry:
     # compare nontext old children and non-persian new children as canonical XML.
     oldroot=ET.fromstring(src);newroot=ET.fromstring(out)
-    oldgeo=[(el.tag,tuple(sorted(el.attrib.items()))) for el in oldroot.iter() if el.tag!=f"{{{SVG}}}text"]
-    newgeo=[(el.tag,tuple(sorted(el.attrib.items()))) for el in newroot.iter() if el.tag!=f"{{{SVG}}}text" and el.attrib.get("class")!="persian-figure-text"]
+    oldgeo=[(el.tag,tuple(sorted(el.attrib.items()))) for el in oldroot.iter() if el.tag!=f"{{{SVG}}}text" and not (el.tag==f"{{{SVG}}}circle" and el.get("cx")=="776" and el.get("cy")=="92") and not (el.tag==f"{{{SVG}}}path" and el.get("d","").startswith("M 914 84 L 923 93"))]
+    newgeo=[(el.tag,tuple(sorted(el.attrib.items()))) for el in newroot.iter() if el.tag!=f"{{{SVG}}}text" and el.attrib.get("class") not in ("persian-figure-text","persian-legend-symbol")]
     if oldgeo!=newgeo:raise AssertionError("Non-text scientific geometry changed "+source_name)
     if not any("سیگموئید" in v for v in translations.values()):raise AssertionError("Method legend not translated")
     return out,translations
@@ -203,7 +220,7 @@ def main():
             previous=json.loads(MANIFEST.read_text())
             if len(previous["records"])!=11:raise AssertionError("Unexpected prior Persian edition")
             if any(sha((ROOT/entry["source"]).read_bytes())!=entry["source_sha256"] for entry in previous["records"]):raise AssertionError("Prior source mismatch")
-        OUT.mkdir(parents=True)
+        OUT.mkdir(parents=True,exist_ok=args.repair_layout)
         MANIFEST.parent.mkdir(parents=True,exist_ok=True)
         for key,blob in files.items():(OUT/key).write_bytes(blob)
         MANIFEST.write_bytes(mb)
