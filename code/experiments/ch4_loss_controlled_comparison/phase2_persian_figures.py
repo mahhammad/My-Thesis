@@ -143,8 +143,8 @@ def translate_one(src,source_name):
     # Structural proof of unchanged scientific graph geometry:
     # compare nontext old children and non-persian new children as canonical XML.
     oldroot=ET.fromstring(src);newroot=ET.fromstring(out)
-    oldgeo=[ET.tostring(el,encoding="unicode") for el in oldroot.iter() if el.tag!=f"{{{SVG}}}text"]
-    newgeo=[ET.tostring(el,encoding="unicode") for el in newroot.iter() if el.tag!=f"{{{SVG}}}text" and el.attrib.get("class")!="persian-figure-text"]
+    oldgeo=[(el.tag,tuple(sorted(el.attrib.items()))) for el in oldroot.iter() if el.tag!=f"{{{SVG}}}text"]
+    newgeo=[(el.tag,tuple(sorted(el.attrib.items()))) for el in newroot.iter() if el.tag!=f"{{{SVG}}}text" and el.attrib.get("class")!="persian-figure-text"]
     if oldgeo!=newgeo:raise AssertionError("Non-text scientific geometry changed "+source_name)
     if not any("سیگموئید" in v for v in translations.values()):raise AssertionError("Method legend not translated")
     return out,translations
