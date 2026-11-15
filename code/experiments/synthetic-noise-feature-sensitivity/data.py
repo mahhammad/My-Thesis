@@ -319,7 +319,7 @@ def derived_manifest(datasets):
                          for d in datasets]}
 
 
-def _validate_asset_arrays(stage, arrays, *, fixture):
+def _validate_asset_arrays(stage, arrays, *, fixture, expected_d=None):
     """Fail before writing unless the payload matches its declared stage schema."""
     keys = ({'train_noise', 'validation_noise'} if stage == 'raw_noise' else
             {'train_mask', 'validation_mask'} if stage == 'noise_masks' else
@@ -349,6 +349,8 @@ def _validate_asset_arrays(stage, arrays, *, fixture):
         if tx.ndim != 2 or not 3 <= tx.shape[1] <= 8:
             raise ValueError('Derived dataset must have d=3..8')
         d = tx.shape[1]
+        if expected_d is not None and d != expected_d:
+            raise ValueError('Derived subset filename/dimension mismatch')
         _exact(tx, (n, d), np.dtype('float64'), 'derived train_x')
         _exact(vx, (m, d), np.dtype('float64'), 'derived validation_x')
         _exact(arrays['train_y'], (n,), np.dtype('int64'), 'derived train_y')
@@ -379,6 +381,16 @@ def save_npz_once(path, arrays, *, stage, schema, fixture=False, approval=None, 
     if stage not in DATA_STAGES or schema != DATA_STAGES[stage]:
         raise ValueError('Stage and NPZ schema mismatch')
     path = Path(path)
+    expected_names = {'raw_noise': 'new_noise_seed20261102.npz',
+                      'noise_masks': 'new_noise_masks.npz'}
+    expected_d = None
+    if stage == 'derived':
+        dims = {f'{sid}.npz': 3 + len(noise) for sid, noise in SUBSETS}
+        if path.name not in dims:
+            raise ValueError('Unrecognized derived subset filename')
+        expected_d = dims[path.name]
+    elif path.name != expected_names[stage]:
+        raise ValueError('Filename inconsistent with declared data stage')
     if fixture:
         _fixture_destination(path)
     else:
@@ -397,7 +409,7 @@ def save_npz_once(path, arrays, *, stage, schema, fixture=False, approval=None, 
             expected = HERE / 'inputs/derived' / path.name
         if path.resolve() != expected.resolve() or path.is_symlink():
             raise PermissionError('Stage/path mismatch or destination symlink')
-    _validate_asset_arrays(stage, arrays, fixture=fixture)
+    _validate_asset_arrays(stage, arrays, fixture=fixture, expected_d=expected_d)
     if path.exists():
         raise FileExistsError(path)
     if not path.parent.is_dir():
