@@ -1,0 +1,75 @@
+name: E-CH4-13 Persian publication graphics (one-shot, NO FIT)
+on:
+  push:
+    branches:
+      - experiment/ch4-loss-controlled-comparison-01
+    paths:
+      - code/experiments/ch4_loss_controlled_comparison/PERSIAN_FIGURES_TRIGGER.md
+permissions:
+  contents: write
+concurrency:
+  group: e-ch4-13-persian-publication-once
+  cancel-in-progress: false
+jobs:
+  persian-vectors:
+    if: contains(github.event.head_commit.message, '[E13_PERSIAN_FIGURES_EXPLICIT]')
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install presentation tools, no model framework or optimizer
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y fonts-dejavu-core poppler-utils
+          python -m pip install --disable-pip-version-check 'matplotlib==3.10.7' 'arabic-reshaper==3.0.0' 'python-bidi==0.6.6' 'CairoSVG==2.8.2' 'PyMuPDF==1.26.6'
+      - name: Assert strictly new output paths
+        run: |
+          test ! -d code/experiments/ch4_loss_controlled_comparison/figures/phase2_tex_fa
+          test ! -f code/experiments/ch4_loss_controlled_comparison/derived/phase2_persian_figures_manifest.json
+      - name: Generate 11 Persian SVG and vector PDF editions, retain old English bytes
+        run: |
+          set -euo pipefail
+          python code/experiments/ch4_loss_controlled_comparison/phase2_persian_figures.py
+          python code/experiments/ch4_loss_controlled_comparison/phase2_persian_figures.py --check
+      - name: Inspect PDF vector text and Arabic outline via non-raster proof
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, pathlib, re, subprocess
+          r=pathlib.Path("code/experiments/ch4_loss_controlled_comparison")
+          manifest=json.loads((r/"derived/phase2_persian_figures_manifest.json").read_text())
+          assert len(manifest["records"])==11
+          for item in manifest["records"]:
+              pdf=r/item["persian_pdf"]
+              info=subprocess.check_output(["pdfinfo",str(pdf)],text=True)
+              assert "Pages:           1" in info,(pdf,info)
+              assert "سیگموئید" in str(item["source_text_to_persian"].values())
+              svg=(r/item["persian_svg"]).read_text()
+              assert "persian-figure-text" in svg and "data-fa-text" in svg
+          print("11 vector PDF single-page outputs and Persian labels: PASS")
+          PY
+      - name: Commit only new Persian publication artifacts, no raw/retraining
+        run: |
+          set -euo pipefail
+          git diff --exit-code
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add code/experiments/ch4_loss_controlled_comparison/figures/phase2_tex_fa/
+          git add code/experiments/ch4_loss_controlled_comparison/derived/phase2_persian_figures_manifest.json
+          test "$(git diff --cached --name-only | wc -l)" -eq 23
+          git diff --cached --check
+          git commit -m "E-CH4-13: preserve 11 English sources and archive 11 Persian SVG/vector PDF pairs [NO FIT]"
+          git push origin HEAD:experiment/ch4-loss-controlled-comparison-01
+      - name: Deliver Persian publication asset artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e-ch4-13-persian-vector-figures
+          path: |
+            code/experiments/ch4_loss_controlled_comparison/figures/phase2_tex_fa/
+            code/experiments/ch4_loss_controlled_comparison/derived/phase2_persian_figures_manifest.json
+          if-no-files-found: warn
+          retention-days: 90
