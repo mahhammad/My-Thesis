@@ -23,7 +23,7 @@ import torch
 ROOT=Path(__file__).resolve().parents[3]
 HERE=Path(__file__).resolve().parent
 sys.path.insert(0,str(ROOT/"code/data_generator"))
-sys.path.insert(0,str(ROOT/"code/experiments/multistep_policy_target_match"))
+sys.path.insert(0,str(ROOT/"code/experiments/benchmark_v1"))
 from generate import generate,load_config
 from run import ExactGraph,jsd,DT
 from bootstrap_inverse import warm_q,exact_error,damped_gauss_newton

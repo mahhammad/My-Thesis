@@ -24,8 +24,8 @@ CFG = ROOT / "code/data_generator/config.json"
 SOURCE_PATHS = {
     "config": CFG,
     "generator": ROOT / "code/data_generator/generate.py",
-    "streamgraph": ROOT / "code/experiments/diag_max_full300/stream_graph.py",
-    "graph_run": ROOT / "code/experiments/multistep_policy_target_match/run.py",
+    "streamgraph": ROOT / "code/experiments/benchmark_v1/stream_graph.py",
+    "graph_run": ROOT / "code/experiments/benchmark_v1/run.py",
     "plan": PLAN,
 }
 BLOCKS = {
@@ -100,8 +100,8 @@ def run_one(short: str):
         # Stage exact source roots before importing legacy modules (no optimizer imported).
         source_hash = {k: digest(p.read_bytes()) for k,p in SOURCE_PATHS.items()}
         sys.path[0:0] = [str(ROOT / "code/data_generator"),
-                         str(ROOT / "code/experiments/multistep_policy_target_match"),
-                         str(ROOT / "code/experiments/diag_max_full300")]
+                         str(ROOT / "code/experiments/benchmark_v1"),
+                         str(ROOT / "code/experiments/benchmark_v1")]
         from generate import generate, load_config
         from stream_graph import StreamGraph
         from run import DT, jsd

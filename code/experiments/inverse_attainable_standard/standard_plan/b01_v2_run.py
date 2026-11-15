@@ -230,7 +230,7 @@ def run():
     "parent_p2_report":"05316dd81d97170f61c46cef40048c5f1d2e46f2",
     "code_sha":os.getenv("GITHUB_SHA","unknown"),"script_sha256":p2.sha256_file(__file__),
     "instrumentation_sha256":p2.sha256_file(p2.__file__),
-    "streamgraph_sha256":p2.sha256_file(ROOT/"code/experiments/diag_max_full300/stream_graph.py"),
+    "streamgraph_sha256":p2.sha256_file(ROOT/"code/experiments/benchmark_v1/stream_graph.py"),
     "generator_config_sha256":p2.sha256_file(ROOT/"code/data_generator/config.json"),
     "plan_sha256":p2.sha256_file(PLAN),"data_seed":spec["seed"],
     "source_train_X_sha256":sha_arr(all_x),"source_train_y_sha256":sha_arr(all_y),

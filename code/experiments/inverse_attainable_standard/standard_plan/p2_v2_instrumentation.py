@@ -28,8 +28,7 @@ import torch
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[3]
 sys.path.insert(0,str(ROOT/"code/data_generator"))
-sys.path.insert(0,str(ROOT/"code/experiments/multistep_policy_target_match"))
-sys.path.insert(0,str(ROOT/"code/experiments/diag_max_full300"))
+sys.path.insert(0,str(ROOT/"code/experiments/benchmark_v1"))
 from generate import generate,load_config
 from stream_graph import StreamGraph
 from run import DT,jsd
@@ -506,8 +505,8 @@ def main():
    "source_chapter4":REF_SHA,
    "code_execution_SHA":os.getenv("GITHUB_SHA","unreported"),
    "script_file_sha256":sha256_file(__file__),
-   "streamgraph_sha256":sha256_file(ROOT/"code/experiments/diag_max_full300/stream_graph.py"),
-   "D09_solver_sha256":sha256_file(ROOT/"code/experiments/multistep_policy_target_match/bootstrap_inverse.py"),
+   "streamgraph_sha256":sha256_file(ROOT/"code/experiments/benchmark_v1/stream_graph.py"),
+   "D09_solver_sha256":sha256_file(ROOT/"code/experiments/benchmark_v1/bootstrap_inverse.py"),
    "config_file_sha256":sha256_file(src),
    "train_X_sha256":sha256_array(x),"train_y_sha256":sha256_array(y),
    "fixed_settings":GLOBAL_CFG,

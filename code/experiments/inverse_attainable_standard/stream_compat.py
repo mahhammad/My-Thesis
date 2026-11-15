@@ -24,8 +24,7 @@ ROOT=Path(__file__).resolve().parents[3]
 HERE=Path(__file__).resolve().parent
 sys.path.insert(0,str(ROOT/"code/data_generator"))
 # The CI stages *unaltered* archived code in its original import-relative location.
-sys.path.insert(0,str(ROOT/"code/experiments/multistep_policy_target_match"))
-sys.path.insert(0,str(ROOT/"code/experiments/diag_max_full300"))
+sys.path.insert(0,str(ROOT/"code/experiments/benchmark_v1"))
 from generate import generate,load_config
 from run import ExactGraph,DT,jsd
 from stream_graph import StreamGraph
@@ -275,9 +274,9 @@ def measure():
         rows.append(cost_one_size(x,y,spec,n,20261117,20261118))
     record={"phase":"BOUNDED_STREAMGRAPH_COMPATIBILITY_AND_REAL_COST_ONLY",
        "base_sha":BASE_SHA,
-       "source_stream_graph":"code/experiments/diag_max_full300/stream_graph.py",
-       "source_d09":["code/experiments/multistep_policy_target_match/run.py",
-                      "code/experiments/multistep_policy_target_match/bootstrap_inverse.py"],
+       "source_stream_graph":"code/experiments/benchmark_v1/stream_graph.py",
+       "source_d09":["code/experiments/benchmark_v1/run.py",
+                      "code/experiments/benchmark_v1/bootstrap_inverse.py"],
        "config":{"H":12,"beta":.4,"lambda":.8,"tol_future":1e-8,
           "tiny_n":36,"n_reference_sizes":[150,300],"only_class_for_cost":0,
           "solver_caps":{"q_grad":2,"exact_adam_grad":2,"GN_jacobian":2,
