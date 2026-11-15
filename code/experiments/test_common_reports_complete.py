@@ -113,6 +113,15 @@ class CompleteExperimentEvidence(unittest.TestCase):
         self.assertTrue((HERE/slug/"tables/complete_metrics.tex").is_file())
         self.assertTrue((HERE/slug/"results/metrics_summary.csv").is_file())
 
+    def test_every_experiment_has_single_technical_readme(self):
+        for folder in HERE.iterdir():
+            if not folder.is_dir() or folder.name.startswith((".", "__")):
+                continue
+            markdown_files=sorted(p.relative_to(folder).as_posix()
+                                  for p in folder.rglob("*.md"))
+            self.assertEqual(markdown_files, ["README_FA.md"], folder.name)
+            self.assertIn("# ", (folder/"README_FA.md").read_text("utf8"))
+
     def test_all_four_experiment_reports_link_to_full_metric_records(self):
         for slug in (
             "one_step_transition_population_convergence",

@@ -215,7 +215,7 @@ def render_all(metrics_path,comp_path,alpha_path):
         "- tables/ و figures/: خروجی‌های چاپی تولیدشده از JSONهای ثابت.",
         ""
     ]
-    save(HERE/"REPORT_FA.md","\n".join(lines))
+    save(HERE/"results"/"presentation_generated_report.txt","\n".join(lines))
 
 
 if __name__=="__main__":

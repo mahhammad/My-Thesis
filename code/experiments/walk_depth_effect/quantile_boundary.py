@@ -17,7 +17,7 @@ QUANT=HERE/"results"/"margin_summary.json"
 OUTPUT=HERE/"results"/"error_quantile_boundary.json"
 CSV=HERE/"results"/"error_quantile_boundary.csv"
 TABLE=HERE/"tables"/"error_quantile_boundary.tex"
-REPORT=HERE/"REPORT_FA.md"
+REPORT=HERE/"README_FA.md"
 HEADING="## اولین چندک بالاتر از نرخ خطا"
 GRID=((0.,"min"),(.1,"p10"),(.25,"p25"),(.5,"median"),
       (.75,"p75"),(.9,"p90"),(1.,"max"))
@@ -225,14 +225,11 @@ def main():
         if OUTPUT.exists():
             raise FileExistsError("Output already exists; use --verify")
         data=convert()
-        report=REPORT.read_text(encoding="utf8")
-        if HEADING in report:
-            raise AssertionError("Would duplicate quantile section")
         OUTPUT.write_text(json.dumps(data,ensure_ascii=False,indent=2,allow_nan=False)+"\n",encoding="utf8")
         CSV.write_text(csv_table(data),encoding="utf8")
         TABLE.parent.mkdir(parents=True,exist_ok=True)
         TABLE.write_text(tex(data),encoding="utf8")
-        REPORT.write_text(report.rstrip()+"\n\n"+markdown(data),encoding="utf8")
+        # The canonical technical README already documents this derived evidence.
     check()
 
 
