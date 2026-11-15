@@ -116,6 +116,9 @@
 | [`phase2_train_R_KL_six_pairs.svg`](figures/phase2_train_R_KL_six_pairs.svg) | جهت و بزرگی اختلاف تراکم KL در شش جفت |
 | [`phase2_train_R_JS_six_pairs.svg`](figures/phase2_train_R_JS_six_pairs.svg) | جهت اختلاف JSD با مقیاس مستقل از KL |
 | [`phase2_train_R_sqrt_JS_six_pairs.svg`](figures/phase2_train_R_sqrt_JS_six_pairs.svg) | رفتار معیار فاصله‌ای ریشهٔ JSD |
+| [`phase2_validation_R_KL_six_pairs.svg`](figures/phase2_validation_R_KL_six_pairs.svg) | جهت اختلاف R_KL روی Validation، بدون استفاده از Test |
+| [`phase2_validation_R_JS_six_pairs.svg`](figures/phase2_validation_R_JS_six_pairs.svg) | جهت اختلاف R_JS روی Validation |
+| [`phase2_validation_R_sqrt_JS_six_pairs.svg`](figures/phase2_validation_R_sqrt_JS_six_pairs.svg) | جهت اختلاف R_sqrt_JS روی Validation |
 | [`phase2_validation_BA_paired_delta_6.svg`](figures/phase2_validation_BA_paired_delta_6.svg) | تغییر علامت برتری BA میان seed و خانواده |
 | [`phase2_delta_I_vs_delta_validation_BA.svg`](figures/phase2_delta_I_vs_delta_validation_BA.svg) | نشان دادن خلاف نمونه برای `I↑ ⇒ BA↑` |
 | [`phase2_train_loss_relative_dynamics.svg`](figures/phase2_train_loss_relative_dynamics.svg) | روند loss نسبت به مقدار اولیه همان fit، نه قیاس مقدار مطلق دو loss |
