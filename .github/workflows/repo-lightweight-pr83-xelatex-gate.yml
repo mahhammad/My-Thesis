@@ -53,11 +53,35 @@ jobs:
             texlive-xetex texlive-lang-arabic texlive-latex-extra texlive-fonts-recommended \
             texlive-pictures texlive-science texlive-bibtex-extra \
             texlive-lang-other fonts-dejavu-core poppler-utils xindy
-      - name: Full thesis XeLaTeX with two resolution passes
+      - name: Full thesis XeLaTeX, bibliography, index and glossaries
         run: |
           set -euo pipefail
           mkdir -p build/repo-lightweight/tex
-          for pass in 1 2; do
+          if ! xelatex -interaction=nonstopmode -halt-on-error -file-line-error \
+                 -output-directory=build/repo-lightweight main.tex \
+                 > build/repo-lightweight/xelatex-pass1.log 2>&1; then
+            tail -n 125 build/repo-lightweight/xelatex-pass1.log
+            exit 1
+          fi
+          # Citation keys are ASCII. -8 avoids a non-portable cp1256fa.csf.
+          if ! bibtex8 -8 -W build/repo-lightweight/main \
+                 > build/repo-lightweight/bibtex.log 2>&1; then
+            tail -n 120 build/repo-lightweight/bibtex.log
+            exit 1
+          fi
+          if [ -s build/repo-lightweight/main.idx ]; then
+            makeindex build/repo-lightweight/main.idx \
+              > build/repo-lightweight/makeindex.log 2>&1 || {
+              tail -n 100 build/repo-lightweight/makeindex.log; exit 1;
+            }
+          fi
+          if [ -s build/repo-lightweight/main.glo ] || [ -s build/repo-lightweight/main.blo ] || [ -s build/repo-lightweight/main.acn ]; then
+            makeglossaries -d build/repo-lightweight main \
+              > build/repo-lightweight/makeglossaries.log 2>&1 || {
+              tail -n 125 build/repo-lightweight/makeglossaries.log; exit 1;
+            }
+          fi
+          for pass in 2 3 4; do
             if ! xelatex -interaction=nonstopmode -halt-on-error -file-line-error \
                  -output-directory=build/repo-lightweight main.tex \
                  > "build/repo-lightweight/xelatex-pass${pass}.log" 2>&1; then
@@ -75,7 +99,7 @@ jobs:
           import re
           p=Path('build/repo-lightweight')
           log=(p/'main.log').read_text(errors='replace')
-          fatal=['! LaTeX Error:','! Emergency stop.','LaTeX Warning: There were undefined references.']
+          fatal=['! LaTeX Error:','! Emergency stop.','LaTeX Warning: There were undefined references.','LaTeX Warning: There were multiply-defined labels.']
           problems=[x for x in fatal if x in log]
           unresolved=[line for line in log.splitlines() if ("Reference " in line or "Citation " in line) and "undefined" in line]
           (p/'reference-warnings.txt').write_text(
@@ -104,6 +128,11 @@ jobs:
             build/repo-lightweight/reference-warnings.txt
             build/repo-lightweight/xelatex-pass1.log
             build/repo-lightweight/xelatex-pass2.log
+            build/repo-lightweight/xelatex-pass3.log
+            build/repo-lightweight/xelatex-pass4.log
+            build/repo-lightweight/bibtex.log
+            build/repo-lightweight/makeindex.log
+            build/repo-lightweight/makeglossaries.log
             build/repo-lightweight/main.log
           if-no-files-found: warn
           retention-days: 90
