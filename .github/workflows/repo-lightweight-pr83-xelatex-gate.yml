@@ -63,6 +63,9 @@ jobs:
             tail -n 125 build/repo-lightweight/xelatex-pass1.log
             exit 1
           fi
+          # BibTeX's aux files live in build/repo-lightweight, and the .bib
+          # path is written relative to that aux directory by main.tex.
+          cp tex/MyReferences.bib build/repo-lightweight/tex/MyReferences.bib
           # Citation keys are ASCII. -8 avoids a non-portable cp1256fa.csf.
           # BibTeX must run inside the aux output directory, because \include
           # writes \@input{./tex/chapter*.aux} as relative paths.
