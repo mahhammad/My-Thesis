@@ -33,7 +33,7 @@ CONSUMERS = (
     "walk_depth_effect/analyze.py",
     "test_chapter4_presentation.py",
     "benchmark_v1/backfill_saved_scores.py",
-    "benchmark_v1/report_backfill_v2/center_only_rebuild.py",
+    "standard_policy_comparison/r03_center_recovery/center_only_rebuild.py",
     "benchmark_v1/inverse_centers_v1.py",
     "benchmark_v1/train_missing_objectives.py",
     "benchmark_v1/train_class_tied_node_intermediate.py",
