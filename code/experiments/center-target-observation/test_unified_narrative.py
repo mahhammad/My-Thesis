@@ -66,9 +66,9 @@ class UnifiedTrajectoryNarrative(unittest.TestCase):
                       "tables/validation_ba_49_unified.tex",
                       "figures/trajectory_geometry_balanced.tex",
                       "figures/validation_ba_49_unified.tex"):
-            self.assertEqual(section.count("target_center_guidance_trajectory/"+asset),1)
+            self.assertEqual(section.count("center-target-observation/"+asset),1)
         for old in ("tables/selected_rounds_balanced.tex","figures/validation_ba_replayed_49.tex"):
-            self.assertNotIn("target_center_guidance_trajectory/"+old,section)
+            self.assertNotIn("center-target-observation/"+old,section)
             self.assertTrue((ROOT/old).is_file())
         self.assertNotRegex(section,r"تاریخچه|تاریخی|بازپخش|۲۵ مقدار|۲۴ مقدار")
         self.assertIn("پروتکل",section)

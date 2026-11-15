@@ -129,7 +129,7 @@ class TrajectoryReportEvidence(unittest.TestCase):
                 "tables/center_distances.tex", "tables/classwise_dispersion.tex",
                 "figures/geometry.tex",
             ]),
-            ("target_center_guidance_trajectory",[
+            ("center-target-observation",[
                 "tables/selected_rounds_unified.tex", "tables/validation_ba_49_unified.tex",
                 "figures/trajectory_geometry_balanced.tex", "figures/validation_ba_49_unified.tex",
             ]),

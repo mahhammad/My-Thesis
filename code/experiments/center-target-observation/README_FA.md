@@ -1,6 +1,6 @@
 # گزارش فنی پژوهشی — E-CH4-06 | مسیر هدایت مراکز در ۴۹ دور
 
-**شناسهٔ مطالعه:** `target_center_guidance_trajectory` | **حوزه:** پایان‌نامه IMC / فصل چهارم | **منشأ محتوا:** اسناد پیش از تجمیع در commit `17e91ec99d1b`
+**شناسهٔ مطالعه:** `center-target-observation` | **حوزه:** پایان‌نامه IMC / فصل چهارم | **منشأ محتوا:** اسناد پیش از تجمیع در commit `17e91ec99d1b`
 
 ## قرارداد بازتولید داده، اجرای آزمایش و ساختار پرونده‌ها — ممیزی تکمیلی ۲۰۲۶-۱۱-۱۵
 
@@ -16,10 +16,10 @@
 
 **چگونه خروجی ذخیره‌شده را بازتحلیل کنیم؟**
 ```bash
-python code/experiments/target_center_guidance_trajectory/replay_fixed_targets.py --smoke
-python -m unittest discover -s code/experiments/target_center_guidance_trajectory -p 'test_*.py' -v
+python code/experiments/center-target-observation/replay_fixed_targets.py --smoke
+python -m unittest discover -s code/experiments/center-target-observation -p 'test_*.py' -v
 # تحلیل و ایجاد گزارش/نمودار جدید فقط در worktree یا کپیِ مستقل:
-python code/experiments/target_center_guidance_trajectory/analyze.py --history code/experiments/target_center_guidance_trajectory/results/history_00_48.json --outdir /tmp/ch4-e06-reanalysis/results
+python code/experiments/center-target-observation/analyze.py --history code/experiments/center-target-observation/results/history_00_48.json --outdir /tmp/ch4-e06-reanalysis/results
 ```
 `--smoke` فقط یک هدف را بدون نوشتن نتیجهٔ رسمی بررسی می‌کند. `analyze.py` در **والد پوشهٔ outdir** می‌تواند `REPORT_FA.md` و `figures/` بسازد؛ پس مقصد جدید انتخاب شده است. اجرای کامل `replay_fixed_targets.py` دو فایل `results/metrics_full.json` و `results/coverage.json` را بازنویسی می‌کند و برای ممیزی checkout پذیرفته‌شده مناسب نیست. تکرار **فرایند تولید ۴۹ هدف از ابتدا** با بازتحلیل خروجی‌های ذخیره‌شده معادل نیست.
 
@@ -134,7 +134,7 @@ U_c^{(t+1)}=(1-\eta)U_c^{(t)}+\eta\widehat V_c^{(t)},\quad \eta=0.5.
 
 آزمون سبک (بدون محاسبه دوباره گشت):
 
-`python -m unittest discover -s code/experiments/target_center_guidance_trajectory -p 'test_*.py' -v`
+`python -m unittest discover -s code/experiments/center-target-observation -p 'test_*.py' -v`
 
 بازپخش هدف ثابت برای ۴۹ دور از فایل `replay_fixed_targets.py` انجام شده و در GitHub Actions با کنترل تطبیق مراکز، ۲۵ دقت تاریخی و تفاوت تجمیع $R_{\mathrm{JS}}$ موفق بوده است. این کار بازآموزی، تغییر هدف‌های تاریخی یا بازتولید مسیر هدف از ابتدا نیست و Test را لمس نمی‌کند.
 
@@ -188,7 +188,7 @@ U_c^{(t+1)}=(1-\eta)U_c^{(t)}+\eta\widehat V_c^{(t)},\quad \eta=0.5.
 
 از ریشه مخزن:
 
-`python -m unittest discover -v -s code/experiments/target_center_guidance_trajectory -p 'test_*.py'`
+`python -m unittest discover -v -s code/experiments/center-target-observation -p 'test_*.py'`
 
 تست‌های سبک تداوم مراکز هدف، فرمول‌های JSD، گزینش دور چهار از ۲۵ مقدار تاریخی و انطباق جدول‌ها و شکل‌های تاریخی را کنترل می‌کنند. آزمون تکمیلی `test_replay_presentation.py` نیز هر ۴۹ دورِ بازپخش‌شده، تجمیع متوازن $R_{\mathrm{JS}}$، ۴۴ اختلاف قدیمی و ۲۵/۲۴ نقطه شکل جدید را کنترل می‌کند؛ این آزمون‌ها گشت یا آموزش جدید اجرا نمی‌کنند.
 
@@ -291,7 +291,7 @@ U_c^{(t+1)}=(1-\eta)U_c^{(t)}+\eta\widehat V_c^{(t)},\quad \eta=0.5.
 
 ## سیاست حفظ تاریخچه و پیوندهای قدیمی
 
-فایل‌های Markdown پیشین (`REPORT_FA.md`) پس از تجمیع از checkout فعال حذف می‌شوند؛ متن آن‌ها با شرح منشأ در همین سند آمده و Git blob اصلی در commit [`17e91ec99d1b`](https://github.com/mahhammad/My-Thesis/tree/17e91ec99d1bf082ef87e658d0643137b1e7b6fe/code/experiments/target_center_guidance_trajectory/) قابل بازیابی است. ارجاعات تاریخی کامنت‌های Issue اصلاح‌پذیر نیستند و باید با نسخهٔ قفل‌شدهٔ Git تفسیر شوند.
+فایل‌های Markdown پیشین (`REPORT_FA.md`) پس از تجمیع از checkout فعال حذف می‌شوند؛ متن آن‌ها با شرح منشأ در همین سند آمده و Git blob اصلی در commit [`17e91ec99d1b`](https://github.com/mahhammad/My-Thesis/tree/17e91ec99d1bf082ef87e658d0643137b1e7b6fe/code/experiments/center-target-observation/) قابل بازیابی است. ارجاعات تاریخی کامنت‌های Issue اصلاح‌پذیر نیستند و باید با نسخهٔ قفل‌شدهٔ Git تفسیر شوند.
 
 
 ---
@@ -306,4 +306,4 @@ U_c^{(t+1)}=(1-\eta)U_c^{(t)}+\eta\widehat V_c^{(t)},\quad \eta=0.5.
 
 **نقشهٔ نتایج.** `results/center_geometry_49.json`، `results/trajectory_metrics.csv`، `results/three_cases.json`، `results/metrics_full.json`، `results/coverage.json` و `results/provenance.json` شواهد تراکم/جدایی، حاشیه و BA را نگه می‌دارند. ۲۵ BA مشاهده‌شدهٔ تاریخی از ۲۴ مقدار افزوده‌شده در بازپخش متمایز است. `tables/` و `figures/` خروجی‌های متن پایان‌نامه‌اند.
 
-**کنترل سبک:** `python -m unittest discover -s code/experiments/target_center_guidance_trajectory -p 'test_*.py' -v`. در ممیزی تگ، داده‌های قبلی ثابت هستند.
+**کنترل سبک:** `python -m unittest discover -s code/experiments/center-target-observation -p 'test_*.py' -v`. در ممیزی تگ، داده‌های قبلی ثابت هستند.

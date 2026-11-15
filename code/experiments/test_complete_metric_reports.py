@@ -89,8 +89,8 @@ class Chapter4CommonMetricArtifactTests(unittest.TestCase):
     def test_q_only_n_a_and_historical_49_25_missingness_are_explicit(self):
         q=read(HERE/"q-validation/results/coverage.json")
         self.assertTrue(any("R_KL" in r["ids"] for r in q["not_applicable"]))
-        t=read(HERE/"target_center_guidance_trajectory/results/metrics_full.json")
-        cov=read(HERE/"target_center_guidance_trajectory/results/coverage.json")
+        t=read(HERE/"center-target-observation/results/metrics_full.json")
+        cov=read(HERE/"center-target-observation/results/coverage.json")
         self.assertEqual(len(t["guided_rounds"]),49)
         self.assertEqual(len(t["selected_cases"]),3)
         self.assertEqual(sum(x["validation"]["balanced_accuracy"] is not None for x in t["guided_rounds"]),25)

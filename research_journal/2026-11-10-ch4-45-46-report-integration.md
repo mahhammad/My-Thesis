@@ -12,9 +12,9 @@
 
 ## ۲. سازمان‌دهی رسمی آزمایش ۴.۶
 
-پوشه رسمی: [`code/experiments/target_center_guidance_trajectory`](../code/experiments/target_center_guidance_trajectory/README_FA.md). عنوان بخش در LaTeX و [گزارش علمی](../code/experiments/target_center_guidance_trajectory/README_FA.md) یکسان شد: «هدایت گشت به مراکز هدف و تحلیل مسیر معیارهای بازنمایی».
+پوشه رسمی: [`code/experiments/center-target-observation`](../code/experiments/center-target-observation/README_FA.md). عنوان بخش در LaTeX و [گزارش علمی](../code/experiments/center-target-observation/README_FA.md) یکسان شد: «هدایت گشت به مراکز هدف و تحلیل مسیر معیارهای بازنمایی».
 
-**۱۱ فایل نتیجه خام** با نگاشت مستقیم Git blob SHA از [آرشیو اصلی](https://github.com/mahhammad/My-Thesis/blob/a8c9027460e538fa04b8aab2f762eb4ba4c31e3d/code/experiments/archive/center_matching_comparison/REPORT_FA.md) منتقل شدند؛ انطباق **بایت‌به‌بایت تأیید شد**. تاریخچه و مراکز ۴۹ دور، CSVهای معیار، بازنمایی‌های سه وضعیت، و JSONهای تفصیلی کامل و قابل رجوع‌اند. آرشیو قدیمی دست‌نخورده باقی ماند. کد تحلیل و آزمون‌های قدیمی نیز کنار آن قرار گرفتند. مانیفست SHA و پروتکل در [`results/provenance.json`](../code/experiments/target_center_guidance_trajectory/results/provenance.json) است.
+**۱۱ فایل نتیجه خام** با نگاشت مستقیم Git blob SHA از [آرشیو اصلی](https://github.com/mahhammad/My-Thesis/blob/a8c9027460e538fa04b8aab2f762eb4ba4c31e3d/code/experiments/archive/center_matching_comparison/REPORT_FA.md) منتقل شدند؛ انطباق **بایت‌به‌بایت تأیید شد**. تاریخچه و مراکز ۴۹ دور، CSVهای معیار، بازنمایی‌های سه وضعیت، و JSONهای تفصیلی کامل و قابل رجوع‌اند. آرشیو قدیمی دست‌نخورده باقی ماند. کد تحلیل و آزمون‌های قدیمی نیز کنار آن قرار گرفتند. مانیفست SHA و پروتکل در [`results/provenance.json`](../code/experiments/center-target-observation/results/provenance.json) است.
 
 جدول سه وضعیت و جدول دورهای منتخب با داده واقعی تولید شدند. **دو نمودار TikZ** و **دو پیش‌نمایش SVG** برای مسیر $I/R_{\mathrm{JS}}$ در **تمام ۴۹ دور** و BA فقط در **۲۵ دور دارای اندازه‌گیری** ساخته شدند. مقدارهای گمشده BA با صفر یا مقدار درون‌یابی پر نشده‌اند. جدول روند منتخب و دو شکل جدید با `\input` در بخش ۴.۶ قرار گرفتند؛ سه جدول تاریخی تفصیلی همان بخش برای حفظ بقیه سنجه‌ها باقی ماندند.
 

@@ -1043,13 +1043,13 @@ $R_{\mathrm{JS}}$ و $R_{\sqrt{\mathrm{JS}}}$
 احتمال صحیح‌بودن برچسب نمونه نیست.
 برای تمام $49$ دور، سه معیار تراکم، پنج معیار جدایی و شاخص‌های تصمیم طبق قرارداد مشترک محاسبه و در پیوست الکترونیکی ثبت شده‌اند. بازنمایی‌های هدایت‌شده به فرض کلاس وابسته‌اند و تکرار دورها به معنای تکرار مستقل مولد یا داده نیست.
 
-\input{./code/experiments/target_center_guidance_trajectory/tables/selected_center_geometry.tex}
+\input{./code/experiments/center-target-observation/tables/selected_center_geometry.tex}
 برابری‌های $T=BT$ و $TNL=BTNL$ در این جدول، تنها به این دلیل رخ داده‌اند که انتساب هم‌نام کلاس‌ها در این سه ماتریس بهترین انتساب جایگشتی است؛ این برابری عمومی نیست.
 
-\input{./code/experiments/target_center_guidance_trajectory/tables/selected_density.tex}
+\input{./code/experiments/center-target-observation/tables/selected_density.tex}
 دقت آموزش در دو ستون هدایت‌شده با استفاده از \emph{برچسب واقعی مبدأ در ساخت سیاست} به دست آمده و یک معیار \emph{شرطی و اوراکلی} است؛ بنابراین آن را معادل دقت آموزش طبقه‌بند معمولی تلقی نمی‌کنیم.
 
-\input{./code/experiments/target_center_guidance_trajectory/tables/selected_validation.tex}
+\input{./code/experiments/center-target-observation/tables/selected_validation.tex}
 فاصله نمونه اعتبارسنجی تا «مرکز فرضیه درست» صرفاً در مرحله \emph{محاسبه معیار} از برچسب واقعی استفاده می‌کند؛ تولید بازنمایی‌های مربوط به فرضیه‌های مختلف از این برچسب بی‌اطلاع است. همچنین مقدار NLL در این بخش بر اساس امتیازهای نامساوی هر فرضیه و با وزن یکسان کلاس‌ها محاسبه شده است؛ به دلیل وابسته‌بودن گشت هدایت‌شده به کلاس فرضی، نباید آن را همان NLL یک بازنمایی مشترک در فصل سوم فرض کرد.
 
 \subsection{تفسیر مسیر و محدودیت شاخص‌های منفرد}
@@ -1076,17 +1076,17 @@ $34.04\%$ است؛ مقداری نزدیک به مرجع $33.33\%$
 اعداد هر دور با قاعده استنتاج کلاس‌فرضی
 و مراکز تحقق‌یافته آن دور اندازه‌گیری شده‌اند؛
 هیچ مقدار صفر یا درون‌یابی به گزارش افزوده نشده است.
-\input{./code/experiments/target_center_guidance_trajectory/tables/selected_rounds_unified.tex}
-\input{./code/experiments/target_center_guidance_trajectory/tables/validation_ba_49_unified.tex}
-\input{./code/experiments/target_center_guidance_trajectory/figures/trajectory_geometry_balanced.tex}
-\input{./code/experiments/target_center_guidance_trajectory/figures/validation_ba_49_unified.tex}
+\input{./code/experiments/center-target-observation/tables/selected_rounds_unified.tex}
+\input{./code/experiments/center-target-observation/tables/validation_ba_49_unified.tex}
+\input{./code/experiments/center-target-observation/figures/trajectory_geometry_balanced.tex}
+\input{./code/experiments/center-target-observation/figures/validation_ba_49_unified.tex}
 
 در مجموع، هیچ‌یک از معیارهای صرفاً وابسته به مراکز، تراکم مبتنی بر KL یا JSD، و NLL ساده به‌تنهایی تضمین‌کننده بهبود دقت طبقه‌بندی نیستند. این نتیجه، انگیزه‌ای تجربی برای طراحی تابع هدفی است که \emph{جدایی مراکز و پراکندگی/حاشیه تصمیم نمونه‌ها را هم‌زمان} در نظر بگیرد. تعریف نظری معیارهای مکمل مبتنی بر فاصله و شباهت JSD در فصل سوم آمده است؛ در اینجا تنها محاسبه و نقش تجربی آن‌ها بررسی می‌شود.
 
 این نتایج متعلق به یک سناریوی مصنوعی و یک بذرند؛ دور چهار از میان دورهای دارای ارزیابی اعتبارسنجی انتخاب شده است، نه با مجموعه آزمون.
 
 \paragraph{پیوست الکترونیکی و بازتولید.}
-کد، هدف‌ها، مراکز تحقق‌یافته، معیارهای عمومی و دقت تمام $49$ دور آزمایش \lr{E-CH4-06} در پوشه \lr{\texttt{target\_center\_guidance\_trajectory}} از پیوست الکترونیکی ثبت شده‌اند. جزئیات منشأ اندازه‌گیری‌ها و کنترل قرارداد تجمیع نیز در گزارش فنی موجودند. این مسیر مشاهده‌ای و وابسته تکرار مستقل یا مقایسه هم‌پروتکل با \lr{Benchmark} نیست.
+کد، هدف‌ها، مراکز تحقق‌یافته، معیارهای عمومی و دقت تمام $49$ دور آزمایش \lr{E-CH4-06} در پوشه \lr{\texttt{center-target-observation}} از پیوست الکترونیکی ثبت شده‌اند. جزئیات منشأ اندازه‌گیری‌ها و کنترل قرارداد تجمیع نیز در گزارش فنی موجودند. این مسیر مشاهده‌ای و وابسته تکرار مستقل یا مقایسه هم‌پروتکل با \lr{Benchmark} نیست.
 
 
 

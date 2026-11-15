@@ -1,8 +1,8 @@
 """Recover FULL Chapter-3 metrics for E-CH4-06 from SAVED representations.
 
 Run from repository root, opt-in:
-    python code/experiments/target_center_guidance_trajectory/backfill_common_metrics.py
-    python code/experiments/target_center_guidance_trajectory/backfill_common_metrics.py \
+    python code/experiments/center-target-observation/backfill_common_metrics.py
+    python code/experiments/center-target-observation/backfill_common_metrics.py \
         --execute --out-dir /tmp/e-ch4-06-metrics
 
 This never replays Monte Carlo walks, learns policies, fits Validation centers,

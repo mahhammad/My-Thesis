@@ -22,7 +22,7 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
 E08 = HERE.parent / "exact_matrix_walk_validation"
 E04 = HERE.parent / "uniform-hyperparameter-sensitivity"
-LABELS = HERE.parent / "target_center_guidance_trajectory" / "results" / "representations_uniform.json"
+LABELS = HERE.parent / "center-target-observation" / "results" / "representations_uniform.json"
 ARCHIVE = HERE.parent / "standard_policy_comparison" / "results" / "core_50_16runs.zip"
 OUT = HERE / "results"
 sys.path.insert(0, str(HERE.parent / "benchmark_v1"))
@@ -257,7 +257,7 @@ def source_inventory():
         "source_checks": {
             "npz_crc32_pass": True, "step_array_key_count":len(required),
             "step_array_shapes_correct":True,"float64":True,
-            "label_source":"code/experiments/target_center_guidance_trajectory/results/representations_uniform.json",
+            "label_source":"code/experiments/center-target-observation/results/representations_uniform.json",
             "labels_fingerprint_matched_E08":True,
             "data_generator_called":False,
             "historical_Test_accessed":False,

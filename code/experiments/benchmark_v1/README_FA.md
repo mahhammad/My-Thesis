@@ -891,7 +891,7 @@ Markdownهای گزارش/پروتکل قبلی در متن بالا تجمیع 
 
 #### پیوند به مطالعهٔ رسمی
 
-[گزارش علمی و شواهد معتبر مرتبط](../target_center_guidance_trajectory/README_FA.md)
+[گزارش علمی و شواهد معتبر مرتبط](../center-target-observation/README_FA.md)
 
 #### بازتولید و منشأ
 

@@ -88,7 +88,7 @@ class CompleteExperimentEvidence(unittest.TestCase):
         self.assertTrue((HERE/slug/"tables/complete_metrics.tex").is_file())
 
     def test_center_trajectory_has_49_geometries_and_3_complete_checkpoint_reports(self):
-        slug="target_center_guidance_trajectory"
+        slug="center-target-observation"
         m,c=load(slug),load(slug,"coverage.json")
         self.assertEqual(len(m["guided_rounds"]),49)
         self.assertEqual(len(m["selected_cases"]),3)
@@ -114,7 +114,7 @@ class CompleteExperimentEvidence(unittest.TestCase):
         self.assertTrue((HERE/slug/"results/metrics_summary.csv").is_file())
 
     def test_exactly_eleven_official_studies_plus_shared_benchmark(self):
-        study_dirs = ["q-validation","uniform-hyperparameter-sensitivity","fixed-policy-evaluation","target_center_guidance_trajectory","sigmoid_margin_observational_evaluation","walk_depth_effect","exact_matrix_walk_validation","inverse_attainable_standard","bayes_center_reachability_standard","standard_policy_comparison","ch4_loss_controlled_comparison"]
+        study_dirs = ["q-validation","uniform-hyperparameter-sensitivity","fixed-policy-evaluation","center-target-observation","sigmoid_margin_observational_evaluation","walk_depth_effect","exact_matrix_walk_validation","inverse_attainable_standard","bayes_center_reachability_standard","standard_policy_comparison","ch4_loss_controlled_comparison"]
         actual = {p.name for p in HERE.iterdir() if p.is_dir() and not p.name.startswith((".", "__"))}
         self.assertEqual(actual, set(study_dirs) | {"benchmark_v1"})
         for slug in study_dirs:
@@ -135,7 +135,7 @@ class CompleteExperimentEvidence(unittest.TestCase):
             "q-validation",
             "uniform-hyperparameter-sensitivity",
             "fixed-policy-evaluation",
-            "target_center_guidance_trajectory",
+            "center-target-observation",
         ):
             report=(HERE/slug/"README_FA.md").read_text("utf8")
             self.assertEqual([p.name for p in (HERE/slug).rglob("*.md")],["README_FA.md"])
