@@ -1,6 +1,6 @@
 # گزارش فنی پژوهشی — E-CH4-07 | زیان حاشیه‌ای سیگموئیدی
 
-**شناسهٔ مطالعه:** `sigmoid_margin_observational_evaluation` | **حوزه:** پایان‌نامه IMC / فصل چهارم | **منشأ محتوا:** اسناد پیش از تجمیع در commit `17e91ec99d1b`
+**شناسهٔ مطالعه:** `sigmoid-margin-evaluation` | **حوزه:** پایان‌نامه IMC / فصل چهارم | **منشأ محتوا:** اسناد پیش از تجمیع در commit `17e91ec99d1b`
 
 ## قرارداد بازتولید داده، اجرای آزمایش و ساختار پرونده‌ها — ممیزی تکمیلی ۲۰۲۶-۱۱-۱۵
 
@@ -16,8 +16,8 @@
 
 **فرمان‌های کنترل و مرز اجرا:**
 ```bash
-python code/experiments/sigmoid_margin_observational_evaluation/analyze.py
-python -m unittest discover -s code/experiments/sigmoid_margin_observational_evaluation -p 'test_*.py' -v
+python code/experiments/sigmoid-margin-evaluation/analyze.py
+python -m unittest discover -s code/experiments/sigmoid-margin-evaluation -p 'test_*.py' -v
 ```
 [`replay_benchmark_size.py`](replay_benchmark_size.py) فایل‌های `results/benchmark_size_metrics_full.json` و `results/coverage.json` را **بازنویسی می‌کند**؛ فقط در checkout مستقل اجرا شود. [`replay_saved_full300.py`](replay_saved_full300.py) به `code/experiments/archive/margin_training/results/full300_policy_snapshots.json` وابسته است؛ آرشیو در checkout فعلی نیست. برای بازسازی کاملِ پروتکل تاریخی باید از [تگ بازیابی](https://github.com/mahhammad/My-Thesis/releases/tag/backup%2Fpre-cleanup-2026-11-15) و شناسه/hashes فایل‌های مرجع استفاده کرد. این محدودیت را «قابل بازتولید کامل از checkout فعلی» معرفی نکنید.
 
@@ -122,7 +122,7 @@ BA اعتبارسنجی در سه checkpoint به‌ترتیب 84.86٪، 72.61٪
 حساسیت به حاشیه، گرادیان Z را تعیین نمی‌کند؛ نمونه با حاشیه منفی بزرگ لزوماً ذاتاً مبهم نیست. سه checkpoint مشاهده‌ای فقط از یک سناریوی مصنوعی و یک مسیر تاریخی‌اند؛ انتخاب دور ۴ و τ در Validation محدودیت انتخاب دارد. تفاوت پروتکل Train/Validation و oracle-conditioned Train در Guided اجازه قیاس مستقیم با خطای تعمیم را نمی‌دهد. هیچ ادعای برتری آماری، آزمون مستقل یا بهینگی τ مطرح نیست.
 
 ### بازتولید، وضعیت و مرز مأموریت
-منشأ raw، مسیر گزارشگر مشترک و وضعیت هر معیار: `results/provenance.json`، `results/coverage.json`. تست پیشنهادی: `python -m unittest discover -s code/experiments/sigmoid_margin_observational_evaluation -p 'test_*.py' -v`. در این نشست تطبیق ساختاری ۳ مورد × ۶ τ و تساوی BA/زیان τ=.005 با نتایج عمومی **اجرا و موفق** شد؛ چهار آزمون Python unittest در [GitHub Actions](https://github.com/mahhammad/My-Thesis/actions/runs/42775070311) با نتیجه **success** اجرا شدند؛ کامپایل کامل LaTeX **تأیید نشده**. بازسازی v2 همه ۱۲ وضعیت آموزش نیاز به بازنمایی‌های آموزش/اعتبارسنجی متناظر دارد؛ بدون آن‌ها نباید عددی جایگزین کرد. فقط E-CH4-07 بررسی شد، نه ۴.۸.
+منشأ raw، مسیر گزارشگر مشترک و وضعیت هر معیار: `results/provenance.json`، `results/coverage.json`. تست پیشنهادی: `python -m unittest discover -s code/experiments/sigmoid-margin-evaluation -p 'test_*.py' -v`. در این نشست تطبیق ساختاری ۳ مورد × ۶ τ و تساوی BA/زیان τ=.005 با نتایج عمومی **اجرا و موفق** شد؛ چهار آزمون Python unittest در [GitHub Actions](https://github.com/mahhammad/My-Thesis/actions/runs/42775070311) با نتیجه **success** اجرا شدند؛ کامپایل کامل LaTeX **تأیید نشده**. بازسازی v2 همه ۱۲ وضعیت آموزش نیاز به بازنمایی‌های آموزش/اعتبارسنجی متناظر دارد؛ بدون آن‌ها نباید عددی جایگزین کرد. فقط E-CH4-07 بررسی شد، نه ۴.۸.
 
 
 ## نقشهٔ دقیق فایل‌ها و نقش هرکدام
@@ -183,7 +183,7 @@ BA اعتبارسنجی در سه checkpoint به‌ترتیب 84.86٪، 72.61٪
 
 ## سیاست حفظ تاریخچه و پیوندهای قدیمی
 
-فایل‌های Markdown پیشین (`REPORT_FA.md`, `REPORT_LEGACY_FA.md`) پس از تجمیع از checkout فعال حذف می‌شوند؛ متن آن‌ها با شرح منشأ در همین سند آمده و Git blob اصلی در commit [`17e91ec99d1b`](https://github.com/mahhammad/My-Thesis/tree/17e91ec99d1bf082ef87e658d0643137b1e7b6fe/code/experiments/sigmoid_margin_observational_evaluation/) قابل بازیابی است. ارجاعات تاریخی کامنت‌های Issue اصلاح‌پذیر نیستند و باید با نسخهٔ قفل‌شدهٔ Git تفسیر شوند.
+فایل‌های Markdown پیشین (`REPORT_FA.md`, `REPORT_LEGACY_FA.md`) پس از تجمیع از checkout فعال حذف می‌شوند؛ متن آن‌ها با شرح منشأ در همین سند آمده و Git blob اصلی در commit [`17e91ec99d1b`](https://github.com/mahhammad/My-Thesis/tree/17e91ec99d1bf082ef87e658d0643137b1e7b6fe/code/experiments/sigmoid-margin-evaluation/) قابل بازیابی است. ارجاعات تاریخی کامنت‌های Issue اصلاح‌پذیر نیستند و باید با نسخهٔ قفل‌شدهٔ Git تفسیر شوند.
 
 
 ---
@@ -196,4 +196,4 @@ BA اعتبارسنجی در سه checkpoint به‌ترتیب 84.86٪، 72.61٪
 
 **خروجی‌های ثبت‌شده:** [`results/metrics_full.json`](results/metrics_full.json) شامل معیارهای بازسنجی مرجع، [`results/benchmark_size_metrics_full.json`](results/benchmark_size_metrics_full.json) نتیجهٔ ۳۶ checkpoint، `results/benchmark_size_aggregate.csv` خلاصهٔ اندازه، `results/margin_training_summary.csv` و `results/sigmoid_validation_summary.csv` مدارک مقایسه، و [`results/coverage.json`](results/coverage.json) و [`results/provenance.json`](results/provenance.json) قرارداد پوشش/منشأ هستند. `tables/` و `figures/` محصولات نمایش‌اند.
 
-**کنترل ذخیره بدون بازنویسی:** `python -m unittest discover -s code/experiments/sigmoid_margin_observational_evaluation -p 'test_*.py' -v`. فایل `README_FA.md` جامع نباید بازنویسی یا حذف شود؛ ساخت خروجی/گزارش جدید با نام مستقل مجاز است.
+**کنترل ذخیره بدون بازنویسی:** `python -m unittest discover -s code/experiments/sigmoid-margin-evaluation -p 'test_*.py' -v`. فایل `README_FA.md` جامع نباید بازنویسی یا حذف شود؛ ساخت خروجی/گزارش جدید با نام مستقل مجاز است.

@@ -654,7 +654,7 @@ The GitHub Actions archival workflow is restricted to this single explicit marke
 
 **شکاف واقعی:** هیچ جدول کامل loss×(shared/class)×سه مولد با seed/init/budget یکسان و raw تأییدشده برای تمام objectiveهای مورد نظر موجود نیست؛ اثر scale/τ و چندشروعی، اختلاف بین seeds و gradient conflict کامل اثبات نشده‌اند. تکرار ۷۶ run، ۸ اجرای NLL یا سه τ پیشین به‌تنهایی ارزش افزوده ندارد. برای pairing واقعی باید raw هر جفت را با manifest و reference IDs راستی‌آزمایی کرد؛ تا آن هنگام وضعیت cross-block=NOT_VERIFIED است.
 
-منابع: benchmark_v1/RESULTS_FA.md، GAPFILL_2026-11-08_FA.md، results/master_runs_76.csv، results/new_objectives_25_summary.csv، sigmoid_margin_observational_evaluation/REPORT_FA.md، IDEA-006. PRهای قبلی QA76 تنها **center-only** ۸۳۶ مقدار را پوشش داده‌اند؛ QA تمامی BA/NLL/حاشیه‌های تاریخی blanket-accepted نیست.
+منابع: benchmark_v1/RESULTS_FA.md، GAPFILL_2026-11-08_FA.md، results/master_runs_76.csv، results/new_objectives_25_summary.csv، sigmoid-margin-evaluation/REPORT_FA.md، IDEA-006. PRهای قبلی QA76 تنها **center-only** ۸۳۶ مقدار را پوشش داده‌اند؛ QA تمامی BA/NLL/حاشیه‌های تاریخی blanket-accepted نیست.
 
 ### ۳. API و اصول reuse
 - code/experiments/benchmark_v1/policy_interface.py: create_policy(family,parameters,*,n,k,d,n_query=0) و evaluate_policy(dataset,policy_family,policy_parameters,*,gamma,beta=.4,lam=.8,horizon=12). دومی آموزش/گزارش انجام نمی‌دهد.

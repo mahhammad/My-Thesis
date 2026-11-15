@@ -7,7 +7,7 @@ import math
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
-ARCHIVE = ROOT / "code/experiments/sigmoid_margin_observational_evaluation/results/sigmoid_validation_summary.csv"
+ARCHIVE = ROOT / "code/experiments/sigmoid-margin-evaluation/results/sigmoid_validation_summary.csv"
 
 def rows():
     with ARCHIVE.open(encoding="utf-8", newline="") as f:

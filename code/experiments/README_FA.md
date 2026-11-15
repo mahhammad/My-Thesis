@@ -17,7 +17,7 @@
 | **۴.۴** | [E-CH4-04 — حساسیت سیاست یکنواخت](uniform-hyperparameter-sensitivity/README_FA.md) | [گزارش کامل ۹ تنظیم](uniform-hyperparameter-sensitivity/results/metrics_full.json) · [CSV مشترک](uniform-hyperparameter-sensitivity/results/metrics_summary.csv) · [پوشش](uniform-hyperparameter-sensitivity/results/coverage.json) |
 | **۴.۵** | [E-CH4-05 — اختلاط احتمال و Guided بدون نویز](fixed-policy-evaluation/README_FA.md) | [گزارش کامل ۵ تنظیم](fixed-policy-evaluation/results/metrics_full.json) · [CSV مشترک](fixed-policy-evaluation/results/metrics_summary.csv) · [پوشش](fixed-policy-evaluation/results/coverage.json) |
 | **۴.۶** | [E-CH4-06 — هدایت گشت به مراکز هدف](center-target-observation/README_FA.md) | [تمام سنجه‌های ۴۹ دور بازپخش هدف‌های ثابت](center-target-observation/results/metrics_full.json) · [۲۵ دقت تاریخی + ۲۴ مقدار تازه؛ ممیزی R_JS](center-target-observation/results/coverage.json) |
-| **۴.۷** | [E-CH4-07 — ارزیابی تجربی زیان حاشیه‌ای سیگموئیدی](sigmoid_margin_observational_evaluation/README_FA.md) | [تحلیل مشاهده‌ای و سه سیاست مرجع ۳۰۰تایی](sigmoid_margin_observational_evaluation/results/metrics_full.json) · [۳۶ اجرای Benchmark با معیارهای کامل](sigmoid_margin_observational_evaluation/results/benchmark_size_metrics_full.json) · [پوشش](sigmoid_margin_observational_evaluation/results/coverage.json) |
+| **۴.۷** | [E-CH4-07 — ارزیابی تجربی زیان حاشیه‌ای سیگموئیدی](sigmoid-margin-evaluation/README_FA.md) | [تحلیل مشاهده‌ای و سه سیاست مرجع ۳۰۰تایی](sigmoid-margin-evaluation/results/metrics_full.json) · [۳۶ اجرای Benchmark با معیارهای کامل](sigmoid-margin-evaluation/results/benchmark_size_metrics_full.json) · [پوشش](sigmoid-margin-evaluation/results/coverage.json) |
 
 ## قرارداد دسترسی به هر آزمایش
 
@@ -54,7 +54,7 @@
 | §4.4 | [`uniform-hyperparameter-sensitivity/`](uniform-hyperparameter-sensitivity/README_FA.md) |
 | §4.5 | [`fixed-policy-evaluation/`](fixed-policy-evaluation/README_FA.md) |
 | §4.6 | [`center-target-observation/`](center-target-observation/README_FA.md) |
-| §4.7 | [`sigmoid_margin_observational_evaluation/`](sigmoid_margin_observational_evaluation/README_FA.md) |
+| §4.7 | [`sigmoid-margin-evaluation/`](sigmoid-margin-evaluation/README_FA.md) |
 | §4.8 | [`walk_depth_effect/`](walk_depth_effect/README_FA.md) |
 | §4.9 | [`exact_matrix_walk_validation/`](exact_matrix_walk_validation/README_FA.md) |
 | §4.10 | [`inverse_attainable_standard/`](inverse_attainable_standard/README_FA.md) |
