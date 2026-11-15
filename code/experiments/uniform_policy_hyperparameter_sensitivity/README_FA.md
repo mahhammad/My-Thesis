@@ -243,3 +243,16 @@ D_{\mathrm{eff}}=\sum_{t=1}^{H}t\,\alpha_t^{(H)}
 ## سیاست حفظ تاریخچه و پیوندهای قدیمی
 
 فایل‌های Markdown پیشین (`REPORT_FA.md`) پس از تجمیع از checkout فعال حذف می‌شوند؛ متن آن‌ها با شرح منشأ در همین سند آمده و Git blob اصلی در commit [`17e91ec99d1b`](https://github.com/mahhammad/My-Thesis/tree/17e91ec99d1bf082ef87e658d0643137b1e7b6fe/code/experiments/uniform_policy_hyperparameter_sensitivity/) قابل بازیابی است. ارجاعات تاریخی کامنت‌های Issue اصلاح‌پذیر نیستند و باید با نسخهٔ قفل‌شدهٔ Git تفسیر شوند.
+
+
+---
+
+### پیوست ممیزی تگ — اجرای تاریخی و نقشهٔ ذخیره‌سازی (§۴.۴)
+
+**پرسش و تنظیمات.** سیاست یکنواخت بدون آموزش در ۹ ترکیب کنترل‌شده از β، λ و H، با همان Train/Validation و امید دقیق ارزیابی شده است؛ تغییر هندسهٔ مراکز لزوماً با بهبود BA هم‌جهت نیست.
+
+**مسیر کد.** موتور محاسباتی مشترک [`../benchmark_v1/experiment_fixed_baselines.py`](../benchmark_v1/experiment_fixed_baselines.py) است؛ این پوشه مخصوص شاهد و گزارش §۴.۴ است، نه نسخهٔ موازی موتور. نمونهٔ فرمان نمایش/برنامه از ریشه: `python code/experiments/benchmark_v1/experiment_fixed_baselines.py --mode uniform`. گزینه‌های اجراییِ بازتولید را فقط در checkout مستقل و پس از مشاهدهٔ راهنمای همان برنامه به کار ببرید؛ بازنویسی نتایج موجود در این ممیزی لازم نیست.
+
+**نقشهٔ نتیجه.** `results/metrics_full.json` معیارهای تفصیلی ۹ وضعیت، `results/metrics_summary.csv` خلاصهٔ مقایسه، `results/uniform_runs.csv` ثبت اجرای پایه و `results/plot_groups.csv` دادهٔ نمودار را دارند. `results/coverage.json` محدودهٔ کاربرد معیارها و `results/provenance.json` منشأ و کنترل بذر/شناسه‌هاست؛ `tables/` و `figures/` برای درج در پایان‌نامه به کار می‌روند.
+
+**کنترل فقط‌خواندنی:** `python -m unittest discover -s code/experiments/uniform_policy_hyperparameter_sensitivity -p 'test_*.py' -v`. داده‌های پذیرفته‌شده و `README_FA.md` ثابت می‌مانند؛ گزارش مشتق تازه می‌تواند کنارشان با نامی متفاوت تولید شود.

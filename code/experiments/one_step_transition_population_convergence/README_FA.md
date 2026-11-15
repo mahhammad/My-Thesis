@@ -215,3 +215,16 @@ G_{c,a}(z)=\frac{\exp[-\gamma_a(z-\mu_{c,a})^2/
 ## سیاست حفظ تاریخچه و پیوندهای قدیمی
 
 فایل‌های Markdown پیشین (`REPORT_FA.md`) پس از تجمیع از checkout فعال حذف می‌شوند؛ متن آن‌ها با شرح منشأ در همین سند آمده و Git blob اصلی در commit [`17e91ec99d1b`](https://github.com/mahhammad/My-Thesis/tree/17e91ec99d1bf082ef87e658d0643137b1e7b6fe/code/experiments/one_step_transition_population_convergence/) قابل بازیابی است. ارجاعات تاریخی کامنت‌های Issue اصلاح‌پذیر نیستند و باید با نسخهٔ قفل‌شدهٔ Git تفسیر شوند.
+
+
+---
+
+### پیوست ممیزی تگ — اجرای تاریخی و نقشهٔ ذخیره‌سازی (§۴.۳)
+
+**ورودی و دامنه.** از مولد مشترک `code/data_generator/config.json`، ۹۰ پرس‌وجوی ثابت و ۴ اندازهٔ مرجع ۳۰۰، ۱۰۰۰، ۳۰۰۰ و ۱۰٬۰۰۰ با ۱۲ تکرار استفاده شده است. سؤال علمی همگرایی توزیع انتقال یک‌گامی Q است؛ در این بخش آموزش سیاست، گشت چندگامی و سنجش BA وجود ندارد.
+
+**برنامه و نحوهٔ تولید.** اسکریپت [`compare.py`](compare.py) مستقیماً `analyze()` و `save()` را اجرا می‌کند. فرمان تاریخی از ریشهٔ مخزن: `python code/experiments/one_step_transition_population_convergence/compare.py`. این فرمان **قابلیت بازنویسی** `results/metrics.json` و `results/replicates.csv` را دارد؛ برای ممیزیِ نتایج پذیرفته‌شده در checkout فعال اجرا نشود.
+
+**فایل‌های شواهد.** `results/metrics.json` رکوردهای هر ۴۸ مشاهده، `results/replicates.csv` ردیف‌های تکرار، `results/summary.csv` و `results/per_feature.csv` خلاصه‌های ارائه، `results/metrics_full.json` سنجه‌های متناسب با این مطالعه، `results/coverage.json` وضعیت معیارهای نامرتبط و `results/provenance.json` تبار نسخه/داده را نگه می‌دارند. خروجی‌های چاپی در `tables/` و `figures/` هستند.
+
+**کنترل بدون تغییر خروجی:** `python -m unittest discover -s code/experiments/one_step_transition_population_convergence -p 'test_*.py' -v`. ایجاد گزارش جدید در بازتولید مستقل مجاز است؛ **`README_FA.md` نباید overwrite یا حذف شود**.

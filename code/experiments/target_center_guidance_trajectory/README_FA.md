@@ -260,3 +260,18 @@ U_c^{(t+1)}=(1-\eta)U_c^{(t)}+\eta\widehat V_c^{(t)},\quad \eta=0.5.
 ## سیاست حفظ تاریخچه و پیوندهای قدیمی
 
 فایل‌های Markdown پیشین (`REPORT_FA.md`) پس از تجمیع از checkout فعال حذف می‌شوند؛ متن آن‌ها با شرح منشأ در همین سند آمده و Git blob اصلی در commit [`17e91ec99d1b`](https://github.com/mahhammad/My-Thesis/tree/17e91ec99d1bf082ef87e658d0643137b1e7b6fe/code/experiments/target_center_guidance_trajectory/) قابل بازیابی است. ارجاعات تاریخی کامنت‌های Issue اصلاح‌پذیر نیستند و باید با نسخهٔ قفل‌شدهٔ Git تفسیر شوند.
+
+
+---
+
+### پیوست ممیزی تگ — اجرای تاریخی و نقشهٔ ذخیره‌سازی (§۴.۶)
+
+**شواهد مبنا.** `results/history_00_48.json` توالی ۴۹ دور هدایت مرکز را ذخیره می‌کند. `results/representations_uniform.json`، `results/representations_guided_round0.json` و `results/representations_guided_round4.json` وضعیت‌های بازنمایی هستند؛ ۴۹ دور را با ۴۹ آزمایش دارای بذر مستقل اشتباه نگیرید.
+
+**دو مرحلهٔ پردازش.** [`analyze.py`](analyze.py) از مراکز *تحقق‌یافته* سه وضعیت را انتخاب و `three_cases.json`، `three_cases.csv` و `trajectory_metrics.csv` می‌سازد؛ می‌تواند همچنین یک فایل مستقل `REPORT_FA.md` و دو نمودار SVG تولید کند. **ساخت گزارش جدید مجاز است، ولی این گزارش نباید جایگزین `README_FA.md` شود.** گزینهٔ `--outdir` در همین برنامه مسیر فایل‌های عددی را تعیین می‌کند؛ مسیر شکل‌ها و گزارش طبق کد نسبت به پوشهٔ خروجی قرار می‌گیرند.
+
+[`replay_fixed_targets.py`](replay_fixed_targets.py) بازپخش ۴۹ هدف ثابت را با MC انجام می‌دهد؛ اجرای کامل، `results/metrics_full.json` و `results/coverage.json` رسمی را بازنویسی می‌کند. گزینهٔ `--smoke` تنها یک دور را بررسی کرده و این فایل‌ها را نمی‌نویسد. **در checkout پژوهشی پذیرفته‌شده از حالت کامل برای ممیزی استفاده نشود.**
+
+**نقشهٔ نتایج.** `results/center_geometry_49.json`، `results/trajectory_metrics.csv`، `results/three_cases.json`، `results/metrics_full.json`، `results/coverage.json` و `results/provenance.json` شواهد تراکم/جدایی، حاشیه و BA را نگه می‌دارند. ۲۵ BA مشاهده‌شدهٔ تاریخی از ۲۴ مقدار افزوده‌شده در بازپخش متمایز است. `tables/` و `figures/` خروجی‌های متن پایان‌نامه‌اند.
+
+**کنترل سبک:** `python -m unittest discover -s code/experiments/target_center_guidance_trajectory -p 'test_*.py' -v`. در ممیزی تگ، داده‌های قبلی ثابت هستند.

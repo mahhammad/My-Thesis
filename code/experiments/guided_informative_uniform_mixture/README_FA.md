@@ -372,3 +372,16 @@ A_X^* = A_X\cap\{0,1,3\}.
 ## بازیابی سوابق Markdown حذف‌شده
 
 نسخه‌های قبلی گزارش/پروتکل و شواهد متنی، با Git blob اصلی در [کامیت پیش از تجمیع](https://github.com/mahhammad/My-Thesis/tree/e53b75cae25ffba0d06d7b8a15f6cf322cb4698f/code/experiments/guided_informative_uniform_mixture/) باقی می‌مانند. ارجاعات موجود در کامنت‌های تاریخی Issueها به همین نسخه‌ها تعلق دارند.
+
+
+---
+
+### پیوست ممیزی تگ — اجرای تاریخی و نقشهٔ ذخیره‌سازی (§۴.۵)
+
+**تفکیک پروتکل‌ها.** خانوادهٔ اختلاط در *فضای احتمال* و خانوادهٔ تغییر امتیاز/logit پیش از Softmax آزمایش‌های متمایز درون این بخش هستند. پیوست `diagnostics/fix_ch4_09/` اختلاف ۳۰۰ گشت مونت‌کارلو و امید دقیق را بررسی می‌کند؛ این دو برآورد را یک مشاهدهٔ مستقل فرض نکنید.
+
+**اجرا و مبدأ داده.** [`experiment_mixture.py`](experiment_mixture.py) در حالت عادی فقط برنامه را نشان می‌دهد: `python code/experiments/guided_informative_uniform_mixture/experiment_mixture.py`. اجرای صریح محاسبهٔ بدون آموزش `--execute` است و گزینهٔ `--out-dir` مسیر ذخیره را تعیین می‌کند. این اجرا فایل‌های `summary.csv`، `summary.json`، `reports.json` و در صورت درخواست توزیع‌های `distributions.npz` را در مقصد می‌نویسد. برای بازتولید مجدد از پوشه‌ای **جدید** استفاده شود، نه `results/` رسمی.
+
+**محل شواهد فعلی.** `results/metrics_full.json` و `results/coverage.json` قرارداد سنجش، `results/summary.json` و `results/summary.csv` حاصل پنج α، `results/centers_comparison.json` هندسهٔ مقایسه و `results/validation_predictions.json` پیش‌بینی‌های ثبت‌شده را نگه می‌دارند. فایل‌های کنترل MC/exact در `diagnostics/fix_ch4_09/results/` و ارائه در `tables/` و `figures/` است.
+
+**کنترل بدون بازاجرای پژوهش:** `python -m unittest discover -s code/experiments/guided_informative_uniform_mixture -p 'test_*.py' -v`. ایجاد خروجی جدید اشکالی ندارد ولی `README_FA.md` جامع محفوظ می‌ماند.
