@@ -103,6 +103,8 @@ class BenchmarkArchiveLinkage(unittest.TestCase):
     def test_no_active_python_code_reads_retired_archive_paths(self):
         unresolved = []
         for source in sorted(EXP.rglob("*.py")):
+            if source.resolve() == Path(__file__).resolve():
+                continue  # This audit's search expression is not an archive dependency.
             if "code/experiments/archive/" in source.read_text("utf-8"):
                 unresolved.append(str(source.relative_to(ROOT)))
         self.assertEqual(unresolved, [], "Retired archive path still in live Python code")
