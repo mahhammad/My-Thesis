@@ -100,8 +100,8 @@ def run_one(short: str):
         # Stage exact source roots before importing legacy modules (no optimizer imported).
         source_hash = {k: digest(p.read_bytes()) for k,p in SOURCE_PATHS.items()}
         sys.path[0:0] = [str(ROOT / "code/data_generator"),
-                         str(ROOT / "code/experiments/archive/multistep_policy_target_match"),
-                         str(ROOT / "code/experiments/archive/diag_max_full300")]
+                         str(ROOT / "code/experiments/multistep_policy_target_match"),
+                         str(ROOT / "code/experiments/diag_max_full300")]
         from generate import generate, load_config
         from stream_graph import StreamGraph
         from run import DT, jsd
