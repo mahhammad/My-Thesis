@@ -112,7 +112,7 @@ def translate_one(src,source_name):
                 "Train balanced accuracy during Adam optimization")):
                 x=float(root.get("width"))-80;anchor="end"
             elif raw.startswith(("Three independent DATA SEEDS","Arithmetic mean over three seeds",
-                                "Mean BA across","Dashed summaries","Each dashed level",
+                                "Mean BA across","Each dashed level",
                                 "Original authorized 12 fits","Original 12 exact-walk fits",
                                 "Raw run 4367","Y axis:")):
                 x=float(root.get("width"))-70;anchor="end"
@@ -181,7 +181,7 @@ def produce():
     return data,manifest_bytes
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument("--check",action="store_true");args=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument("--check",action="store_true");p.add_argument("--repair-layout",action="store_true");args=p.parse_args()
     files,mb=produce()
     if args.check:
         expected=json.loads(mb)
@@ -198,7 +198,11 @@ def main():
             for k in ("source","source_sha256","persian_svg","persian_svg_sha256","persian_pdf","source_text_to_persian"):
                 if left[k]!=right[k]:raise AssertionError("Manifest source mismatch: "+k)
     else:
-        if OUT.exists() or MANIFEST.exists():raise FileExistsError("Refusing overwrite of existing Persian outputs")
+        if OUT.exists() or MANIFEST.exists():
+            if not args.repair_layout:raise FileExistsError("Refusing overwrite of existing Persian outputs")
+            previous=json.loads(MANIFEST.read_text())
+            if len(previous["records"])!=11:raise AssertionError("Unexpected prior Persian edition")
+            if any(sha((ROOT/entry["source"]).read_bytes())!=entry["source_sha256"] for entry in previous["records"]):raise AssertionError("Prior source mismatch")
         OUT.mkdir(parents=True)
         MANIFEST.parent.mkdir(parents=True,exist_ok=True)
         for key,blob in files.items():(OUT/key).write_bytes(blob)
