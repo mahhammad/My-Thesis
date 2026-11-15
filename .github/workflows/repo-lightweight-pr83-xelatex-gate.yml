@@ -77,8 +77,7 @@ jobs:
           log=(p/'main.log').read_text(errors='replace')
           fatal=['! LaTeX Error:','! Emergency stop.','LaTeX Warning: There were undefined references.']
           problems=[x for x in fatal if x in log]
-          unresolved=re.findall(r"(?:Reference|Citation) [^
-]*?undefined",log)
+          unresolved=[line for line in log.splitlines() if ("Reference " in line or "Citation " in line) and "undefined" in line]
           (p/'reference-warnings.txt').write_text(
             'Fatal markers: '+repr(problems)+'\n'+
             'Unresolved citation/reference lines:\n'+'\n'.join(unresolved[:100])+'\n',
