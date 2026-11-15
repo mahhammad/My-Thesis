@@ -8,7 +8,7 @@
 
 - [`REPORT_PHASE2_FA.md`](REPORT_PHASE2_FA.md): گزارش علمی کامل، طراحی قفل‌شده، مقایسه ۶ جفت، **هر سه R: `R_KL`، `R_JS`، `R_sqrt_JS` روی Train و Validation**، `I`، margin، BA، تحلیل روند آموزش و محدودیت‌های استنباط؛ توضیح `ExactMaskedWalk` در افق `H=12` و **MC paths = N/A**.
 - [`tables/phase2_runs_12.csv`](tables/phase2_runs_12.csv) و [`tables/phase2_pairs_6.csv`](tables/phase2_pairs_6.csv): دو جدول مشتق‌شده از داده واقعی.
-- [`figures/`](figures/): **۸ نمودار تحلیلی جدید** سه معیار `R`، اختلاف BA، رابطه `ΔI` با `ΔBA`، روند نسبی loss و gradient، روند Train BA؛ افزون بر دو تصویر تاریخی/اولیه.
+- [`figures/`](figures/): **۱۱ نمودار تحلیلی جدید**: سه نسخه `R` جداگانه برای Train و Validation (۶ نمودار)، اختلاف BA، رابطه `ΔI` با `ΔBA`، روند نسبی loss و gradient و روند Train BA؛ افزون بر دو تصویر تاریخی/اولیه.
 - [`phase2_preregistration.md`](phase2_preregistration.md) و [`phase2_protocol.py`](phase2_protocol.py): طراحی و قرارداد فریز‌شده؛ [`PHASE2_RAW_ARCHIVE_CHECKPOINT.json`](PHASE2_RAW_ARCHIVE_CHECKPOINT.json): ثبت مبدأ بایگانی اصلی.
 - **QA مستقل علمی هنوز باقی است:** [Issue #80](https://github.com/mahhammad/My-Thesis/issues/80). وضعیت `coverage.json` برای `per_class_recall` باید با مقادیر واقعی `metrics_full.json/per_class` تطبیق داده شود. **Test=NOT_RUN؛ PR #79 Draft؛ LaTeX و خام تاریخی بدون تغییر.**
 - **اجرا/تکرار ممنوع:** بودجه ۱۲ fit مصرف شده است؛ فایل `phase2_execution_gate.json` متعلق به طرح قفل‌شده تاریخی و تغییرناپذیر است و برای شروع آموزش دیگری نباید استفاده شود.
