@@ -87,6 +87,25 @@ class ReviewGateTests(unittest.TestCase):
                           schema='e-ch4-14-raw-noise-v1',fixture=True)
         self.assertFalse(real.exists())
 
+    def test_derived_filename_must_match_noise_dimension(self):
+        arrays={'train_x':np.zeros((9,3),dtype='float64'),
+                'train_y':np.array([0,1,2]*3,dtype='int64'),
+                'validation_x':np.zeros((6,3),dtype='float64'),
+                'validation_y':np.array([0,1,2]*2,dtype='int64')}
+        with tempfile.TemporaryDirectory(prefix='e14-fixture-') as tmp:
+            with self.assertRaisesRegex(ValueError,'filename/dimension'):
+                save_npz_once(Path(tmp)/'N5-01.npz',arrays,stage='derived',
+                              schema='e-ch4-14-derived-data-v1',fixture=True)
+            with self.assertRaisesRegex(ValueError,'Unrecognized derived'):
+                save_npz_once(Path(tmp)/'N9-99.npz',arrays,stage='derived',
+                              schema='e-ch4-14-derived-data-v1',fixture=True)
+            with self.assertRaisesRegex(ValueError,'Filename'):
+                save_npz_once(Path(tmp)/'other.npz',
+                              {'train_noise':np.zeros((9,3),dtype='float64'),
+                               'validation_noise':np.zeros((6,3),dtype='float64')},
+                              stage='raw_noise',schema='e-ch4-14-raw-noise-v1',
+                              fixture=True)
+
     def test_production_persistence_rejects_wrong_stage_path(self):
         s=spec()
         arrays={'train_noise':np.zeros((300,3),dtype='float64'),
