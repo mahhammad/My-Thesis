@@ -26,12 +26,12 @@
 
 **محدودیت حل‌نشده:** فایل‌های NPZ اولیه تاریخی در Git نسخه‌بندی نشده‌اند و آرایه‌های بازسازی‌شده ویژگی‌ها با هش بایتی E08 منطبق نیستند؛ علت اختلاف هش (تفاوت بیت‌های NaN / ریزتفاوت عددی محیط یا تغییر داده) مستقل اثبات نشده است. هم‌خوانی کامل پیش‌بینی‌ها و مراکز دقیق E05/E08 محدودیت را از بین نمی‌برد، فقط سازگاری عددی بالا را نشان می‌دهد. از این رو گزارش حق ندارد ادعا کند «دقیقاً فقط MC» بدون قید. دو بذر مستقل مولد داده یا آزمون تعمیم انجام نشد؛ افزایشی‌بودن BA با بودجه یک قضیه نیست.
 
-**ویرایش:** تنها پاراگراف اختلاف در بخش ۴.۵ `tex/chapter4.tex` بازنویسی شد. شواهد تاریخی، جدول‌ها و اسکریپت‌های گشت دست نخورده ماندند. یادداشت روش‌شناختی به `REPORT_FA.md` و `README_FA.md` افزوده شد. کد جدید فقط در `diagnostics/fix_ch4_09/` برای بازپخش، کنترل، نتیجه ذخیره‌شده و تست مستقل است.
+**ویرایش:** تنها پاراگراف اختلاف در بخش ۴.۵ `tex/chapter4.tex` بازنویسی شد. شواهد تاریخی، جدول‌ها و اسکریپت‌های گشت دست نخورده ماندند. یادداشت روش‌شناختی به `README_FA.md` افزوده شد. کد جدید فقط در `diagnostics/fix_ch4_09/` برای بازپخش، کنترل، نتیجه ذخیره‌شده و تست مستقل است.
 
 ## فایل و مسیر تحویل
 - `code/experiments/guided_informative_uniform_mixture/diagnostics/fix_ch4_09/analyze.py`، `convergence.py`، `verify.py`، `test_fix09_protocol.py`، `REPORT_FA.md`
 - `code/experiments/guided_informative_uniform_mixture/diagnostics/fix_ch4_09/results/{controlled_uniform_replay,mc_convergence}.json`
-- `tex/chapter4.tex` (فقط توضیح اختلاف در ۴.۵)، `code/experiments/guided_informative_uniform_mixture/{README_FA,REPORT_FA}.md`
+- `tex/chapter4.tex` (فقط توضیح اختلاف در ۴.۵)، `code/experiments/guided_informative_uniform_mixture/README_FA.md`
 - `.github/workflows/fix-ch4-09.yml`؛ شامل بازبینی صرفاً read-only بعد از حضور خروجی‌ها.
 
 **وضعیت تحویل:** آزمایش محدود و علت غالب مشخص شده؛ تغییرات آماده ممیزی علمی و بازبینی کامل XeLaTeX، **بدون Merge**. کامیت تحویل رسمی: `fix(ch4): resolve MC vs exact validation discrepancy`. PR #43 مقصد `chapter4` است و باید تا تأیید مستقل باز بماند.
