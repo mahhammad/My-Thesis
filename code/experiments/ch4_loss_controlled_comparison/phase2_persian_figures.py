@@ -56,11 +56,11 @@ PHRASES={
  "mean_loss_divided_by_initial":"زیان نسبت به مقدار آغازین",
  "mean_gradient_divided_by_initial":"هنجار گرادیان نسبت به مقدار آغازین",
  "Completed optimizer update (0 .. 25)":"گام تکمیل‌شده بهینه‌سازی (۰ تا ۲۵)",
- "Raw run 43670524935 | exact H=12 | Train 300 | Validation 90 | 25 Adam updates | No Test":"گشت دقیق با افق ۱۲؛ آموزش ۳۰۰؛ اعتبارسنجی ۹۰؛ ۲۵ گام آدام؛ بدون آزمون",
+ "Raw run 43670524935 | exact H=12 | Train 300 | Validation 90 | 25 Adam updates | No Test":"اجرای ثبت‌شده ۴۳۶۷۰۵۲۴۹۳۵؛ گشت دقیق با افق ۱۲؛ آموزش ۳۰۰ و اعتبارسنجی ۹۰ نمونه؛ ۲۵ گام آدام؛ نمودار بر اساس داده‌های آموزش",
  "Train balanced accuracy during Adam optimization":"سیر دقت متوازن آموزش در بهینه‌سازی آدام",
  "Mean BA across 3 independent dataset seeds; percent; fixed y axis 70–100":"میانگین سه بذر مستقل؛ درصد؛ محور عمودی ثابت از ۷۰ تا ۱۰۰",
  "Completed Adam updates (0 to 25)":"گام‌های تکمیل‌شده آدام (۰ تا ۲۵)",
- "Original 12 exact-walk fits | fixed final checkpoint 25 | no validation trajectory | no Test":"دقت متوازن بر اساس نمونه‌های آموزش",
+ "Original 12 exact-walk fits | fixed final checkpoint 25 | no validation trajectory | no Test":"۱۲ آموزش با گشت دقیق؛ گام نهایی ثابت ۲۵؛ دقت متوازن بر اساس نمونه‌های آموزش",
 }
 TITLE_RE=re.compile(r"^(Train|Validation) (balanced accuracy|center separation I|R_KL|R_JS|R_sqrt_JS) — paired overlaid points$")
 Y_RE=re.compile(r"^Y axis: (BA|I|R_KL|R_JS|R_sqrt_JS) \((?:%|class-balanced value)\); same numerical scale in both panels$")
