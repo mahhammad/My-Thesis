@@ -15,7 +15,7 @@ from zipfile import ZipFile
 
 ROOT = Path(__file__).resolve().parents[2]
 EXP = ROOT / "code" / "experiments"
-OFFICIAL = EXP / "standard_policy_comparison" / "results"
+OFFICIAL = EXP / "standard-policy-comparison" / "results"
 BENCH = EXP / "benchmark_v1"
 RECOVERY = ROOT / "research_journal" / "archive_recovery"
 
@@ -27,13 +27,13 @@ ZIP_SHA256 = {
 }
 
 CONSUMERS = (
-    "exact_matrix_walk_validation/run.py",
-    "sigmoid_margin_observational_evaluation/replay_benchmark_size.py",
-    "sigmoid_margin_observational_evaluation/test_benchmark_300.py",
-    "walk_depth_effect/analyze.py",
+    "exact-matrix-evaluation/run.py",
+    "sigmoid-margin-evaluation/replay_benchmark_size.py",
+    "sigmoid-margin-evaluation/test_benchmark_300.py",
+    "true-horizon-effect/analyze.py",
     "test_chapter4_presentation.py",
     "benchmark_v1/backfill_saved_scores.py",
-    "standard_policy_comparison/r03_center_recovery/center_only_rebuild.py",
+    "standard-policy-comparison/r03_center_recovery/center_only_rebuild.py",
     "benchmark_v1/inverse_centers_v1.py",
     "benchmark_v1/train_missing_objectives.py",
     "benchmark_v1/train_class_tied_node_intermediate.py",
@@ -89,20 +89,39 @@ class BenchmarkArchiveLinkage(unittest.TestCase):
     def test_archive_consumers_and_shared_runtime_are_preserved(self):
         for name in CONSUMERS:
             with self.subTest(consumer=name):
-                self.assertIn("standard_policy_comparison", (EXP / name).read_text("utf-8"))
+                self.assertIn("standard-policy-comparison", (EXP / name).read_text("utf-8"))
         for name in SHARED_MODULES:
             self.assertTrue((BENCH / name).is_file(), name)
-        for path in (
-            "multistep_policy_target_match/run.py",
-            "multistep_policy_target_match/bootstrap_inverse.py",
-            "diag_max_full300/stream_graph.py",
-        ):
-            self.assertTrue((EXP / path).is_file(), path)
+        for name, expected_sha in {"run.py":"3485b1c9c1c2d97ecf3fa8f91fe5bd5b1ed656e9","bootstrap_inverse.py":"bac81cc95e37c0b196aac8080c317dec577e5f69","stream_graph.py":"aaa268314bc6049e1fb75a8105cafbce000b2713","observe.py":"53a30050a8b18ba6949f3707fea02691779cb2a1","projection.py":"91ba43f58486735fd2141d3b095df959a666bbda"}.items():
+            path = BENCH / name
+            self.assertTrue(path.is_file(), path)
+            payload = path.read_bytes()
+            gitblob = b"blob " + str(len(payload)).encode() + b"\x00" + payload
+            self.assertEqual(hashlib.sha1(gitblob).hexdigest(), expected_sha)
+        for retired in ("diag_max_full300", "multistep_policy_target_match", "center_matching_observation", "synthetic_data_structure_sensitivity"):
+            self.assertFalse((EXP / retired).exists(), retired)
 
+
+    def test_runtime_sources_refer_to_shared_benchmark_paths(self):
+        forbidden = ("code/experiments/diag_max_full300",
+                     "code/experiments/multistep_policy_target_match",
+                     "code/experiments/center_matching_observation")
+        historical_pins = {BENCH / "run.py", BENCH / "stream_graph.py",
+                           EXP / "inverse-attainable/b02_gate_v3/pure_gate.py",
+                           EXP / "inverse-attainable/b02_gate_candidate/pure_gate.py"}
+        stale = []
+        for file in EXP.rglob("*.py"):
+            if file in historical_pins or file == Path(__file__):
+                continue
+            data = file.read_text(encoding="utf-8")
+            for marker in forbidden:
+                if marker in data:
+                    stale.append((str(file.relative_to(EXP)), marker))
+        self.assertEqual(stale, [])
 
     def test_no_active_python_code_reads_retired_archive_paths(self):
         unresolved = []
-        trust_contract = EXP / "inverse_attainable_standard/runner_v3/data_contract.py"
+        trust_contract = EXP / "inverse-attainable/runner_v3/data_contract.py"
         pinned_blob = "4984961c6a8fd8057a7c1ff3d292d30ad6c9afcb"
         for source in sorted(EXP.rglob("*.py")):
             if source.resolve() == Path(__file__).resolve():
@@ -120,14 +139,11 @@ class BenchmarkArchiveLinkage(unittest.TestCase):
         self.assertEqual(unresolved, [], "Retired archive path still in live Python code")
 
     def test_frozen_e06_reference_code_is_present(self):
-        for name in (
-            "center_matching_observation/observe.py",
-            "center_matching_observation/projection.py",
-        ):
-            self.assertTrue((EXP / name).is_file(), name)
+        for name in ("observe.py", "projection.py"):
+            self.assertTrue((BENCH / name).is_file(), name)
 
     def test_e13_frozen_inputs_and_figure_manifest_remain(self):
-        e13 = EXP / "ch4_loss_controlled_comparison"
+        e13 = EXP / "objective-start-diagnostics"
         for name in (
             "phase2_runner.py", "phase2_report.py", "phase2_frozen_data.py",
             "results/phase2_300_25/manifest.json",

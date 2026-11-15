@@ -117,10 +117,10 @@
 - [PR #76](https://github.com/mahhammad/My-Thesis/pull/76) بعد از همه آن مراحل، فصل سوم و پیوست را به main منتقل کرد. تمایز `ACCEPT_SCOPE`، `PROVISIONAL` و `NOT_RUN` در [تصمیم‌های علمی](SCIENTIFIC_DECISIONS_FA.md) ثبت شده است.
 
 ## ۵. مرجع‌های پایدار آزمایش‌ها
-- §۴.۱۰ [raw/protocol](../code/experiments/inverse_attainable_standard/REPORT_FA.md) و [manifest](../code/experiments/inverse_attainable_standard/README_FA.md).
-- §۴.۱۱ [REPORT](../code/experiments/bayes_center_reachability_standard/REPORT_FA.md) و [provenance_manifest](../code/experiments/bayes_center_reachability_standard/results/provenance_manifest.json).
-- §۴.۱۲ [master_runs_76.csv](../code/experiments/standard_policy_comparison/results/master_runs_76.csv)، [مرجع مرکز](../code/experiments/standard_policy_comparison/r03_center_recovery/section412_editorial_evidence/README_FA.md).
-- سیاست‌های آموزش و نسخه تاریخی clipping در [Benchmark](../code/experiments/benchmark_v1/RESULTS_FA.md)، قرارداد جمع معیار در [COMMON_METRICS_FA](../code/experiments/COMMON_METRICS_FA.md).
+- §۴.۱۰ [raw/protocol](../code/experiments/inverse-attainable/README_FA.md) و [manifest](../code/experiments/inverse-attainable/README_FA.md).
+- §۴.۱۱ [REPORT](../code/experiments/bayes-center-inverse/README_FA.md) و [provenance_manifest](../code/experiments/bayes-center-inverse/results/provenance_manifest.json).
+- §۴.۱۲ [master_runs_76.csv](../code/experiments/standard-policy-comparison/results/master_runs_76.csv)، [مرجع مرکز](../code/experiments/standard-policy-comparison/README_FA.md).
+- سیاست‌های آموزش و نسخه تاریخی clipping در [Benchmark](../code/experiments/benchmark_v1/README_FA.md)، قرارداد جمع معیار در [COMMON_METRICS_FA](../code/experiments/COMMON_METRICS_FA.md).
 - IDEA-001 پیش از مأموریت در [پوشه آینده](../research/future-ideas/IDEA-001-quantile-kl-radius.md) ثبت شده؛ IDEA-002 تا 009 در همین مأموریت **فرضیه اجرا‌نشده** هستند.
 
 ### ژورنال‌های تاریخی R02 خارج از main، با محتوای اصلی حفظ‌شده
@@ -138,3 +138,13 @@
 - هیچ raw/کد/داده، ژورنال تاریخ‌دار، متن نظری و تاریخچه Issue حذف نشده. **عدم جابه‌جایی فیزیکی ۳۰ ژورنال** تصمیم محافظتی برای جلوگیری از شکستن نشانی‌های ارجاع‌شده در دیگر گزارش‌ها و Issueها است؛ [README جدید](README_FA.md) فقط هشت سند جاری را در ناوبری اصلی نشان می‌دهد و بقیه را به این inventory ارجاع می‌دهد.
 - Issue #55، #53، #57 و #58–#60 حاوی دستورهای قدیمی «دائمی بودن شاخه پژوهشگر»اند؛ وضعیت جاری فقط [WORKFLOW](WORKFLOW_FA.md) است.
 - شاخه قدیمی `editorial/ch3-language-reference-audit-01` در آغاز **پس از ادغام PR #76 هنوز موجود بود**؛ مالک اعلام کرد با اجازهٔ مدیر آن را حذف کرده است و بازخوانی GitHub نیز نبودن آن شاخه را تأیید کرد. هیچ حذف شاخه‌ای توسط curator انجام نشد.
+
+
+## نگاشت گزارش‌های تجمیع‌شده و لینک‌های تاریخی (۱۵ نوامبر ۲۰۲۶)
+
+بعد از تجمیع، **هر زیرپوشهٔ رسمی آزمایش فقط `README_FA.md` دارد**؛ گزارش‌های سابق `REPORT_FA.md`، `PROTOCOL_FA.md`، `REPRODUCE_FA.md`، گزارش‌های مراحل R03/R05 و شواهد نگارشی در بخش‌های مرتبط از همان README قرار دارند. مسیر زندهٔ هر آزمایش: `code/experiments/<experiment_slug>/README_FA.md`. ارجاعات کامنت‌های بسته‌شدهٔ Issueها اسناد تاریخی‌اند و نباید ویرایش یا به‌عنوان نشانی checkout فعلی فرض شوند.
+
+- [نسخهٔ کامل پیش از تجمیع گزارش‌ها](https://github.com/mahhammad/My-Thesis/tree/17e91ec99d1bf082ef87e658d0643137b1e7b6fe/code/experiments) برای بازیابی Git blob دقیق فایل‌های Markdown حذف‌شده؛ هر لینک قدیمی به `REPORT_FA.md` از این commit قابل یافتن است.
+- [آرشیو پیش از بازنشستگی](https://github.com/mahhammad/My-Thesis/tree/a8c9027460e538fa04b8aab2f762eb4ba4c31e3d/code/experiments/archive) برای مسیرهای `code/experiments/archive/...`، بدون ادعای فعال‌بودن ابزار قدیمی.
+- [فهرست فایل‌های رسمی E12](../code/experiments/standard-policy-comparison/README_FA.md) و [مرجع کد مشترک Benchmark](../code/experiments/benchmark_v1/README_FA.md) جایگزین نسخه‌های تاریخی گزارش هستند.
+- [Workflowهای بازنشسته](https://github.com/mahhammad/My-Thesis/tree/c9c71ce923590ffd8cae6242c9992e30240e1ba1/.github/workflows) برای مراجعه به پروندهٔ CI قدیمی؛ اجرای مجدد آن‌ها به‌خودی‌خود مأموریت علمی جدید نیست.

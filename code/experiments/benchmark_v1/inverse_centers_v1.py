@@ -58,7 +58,7 @@ def fit(g,vy,target,family,steps=50,lr=.12):
 
 def main():
     p=argparse.ArgumentParser();p.add_argument('--steps',type=int,default=50)
-    p.add_argument('--core-zip',default=str(ROOT/'code/experiments/standard_policy_comparison/results/core_50_16runs.zip') if ROOT!=HERE else '/mnt/data/bv1_for_commit/core_50_16runs.zip')
+    p.add_argument('--core-zip',default=str(ROOT/'code/experiments/standard-policy-comparison/results/core_50_16runs.zip') if ROOT!=HERE else '/mnt/data/bv1_for_commit/core_50_16runs.zip')
     p.add_argument('--out-dir',default='code/experiments/benchmark_v1/results/inverse');args=p.parse_args()
     torch.set_num_threads(1)
     spec=load_config(ROOT/'code/data_generator/config.json')

@@ -23,11 +23,11 @@
 
 ## شواهد و مسیرهای داده خام
 
-- `code/experiments/one_step_transition_population_convergence/results/`: مدل Q یک‌گامی، ۱۲ بذر مرجع 11900–11911، ۴ اندازه تو‌در‌تو.
-- `code/experiments/uniform_policy_hyperparameter_sensitivity/results/`: سیاست یکنواخت، ۹ وضعیت امید دقیق.
-- `code/experiments/guided_informative_uniform_mixture/results/`: اختلاط احتمال، امید دقیق و معیارهای عمومی. اسناد سیاست امتیازمحور در `code/experiments/archive/fixed_metric_comparison/`.
-- `code/experiments/target_center_guidance_trajectory/results/`: فایل `metrics_full.json`، `history_00_48.json`، `trajectory_metrics.csv` و `provenance.json`. در تاریخچه اصلی ۲۵ BA ثبت شده بود و ۲۴ BA دیگر با بازپخش همان اهداف ثابت محاسبه شد؛ هر ۴۹ عدد در منبع نهایی معتبر است. در ۴۴ دور، مقدار قبلی `R_JS` میانگین نمونه‌ای نامتوازن بود؛ منبع چاپی، معیار **متوازن کلاس‌ها** مطابق فصل سوم است. جزئیات برای ممیزی محفوظ‌اند.
-- `code/experiments/sigmoid_margin_observational_evaluation/results/`: سه وضعیت مشاهده‌ای، شش مقدار پهنای حاشیه، آموزش ۵۰گامی و مطالعه ۳۶اجرایی Benchmark با بذرهای 20261102–20261104 و اندازه‌های 50–300.
+- `code/experiments/q-validation/results/`: مدل Q یک‌گامی، ۱۲ بذر مرجع 11900–11911، ۴ اندازه تو‌در‌تو.
+- `code/experiments/uniform-hyperparameter-sensitivity/results/`: سیاست یکنواخت، ۹ وضعیت امید دقیق.
+- `code/experiments/fixed-policy-evaluation/results/`: اختلاط احتمال، امید دقیق و معیارهای عمومی. اسناد سیاست امتیازمحور در `code/experiments/archive/fixed_metric_comparison/`.
+- `code/experiments/center-target-observation/results/`: فایل `metrics_full.json`، `history_00_48.json`، `trajectory_metrics.csv` و `provenance.json`. در تاریخچه اصلی ۲۵ BA ثبت شده بود و ۲۴ BA دیگر با بازپخش همان اهداف ثابت محاسبه شد؛ هر ۴۹ عدد در منبع نهایی معتبر است. در ۴۴ دور، مقدار قبلی `R_JS` میانگین نمونه‌ای نامتوازن بود؛ منبع چاپی، معیار **متوازن کلاس‌ها** مطابق فصل سوم است. جزئیات برای ممیزی محفوظ‌اند.
+- `code/experiments/sigmoid-margin-evaluation/results/`: سه وضعیت مشاهده‌ای، شش مقدار پهنای حاشیه، آموزش ۵۰گامی و مطالعه ۳۶اجرایی Benchmark با بذرهای 20261102–20261104 و اندازه‌های 50–300.
 
 ## نتایج و یافته‌های غیرمنتظره
 

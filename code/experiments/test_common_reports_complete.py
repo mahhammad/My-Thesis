@@ -52,7 +52,7 @@ class CompleteExperimentEvidence(unittest.TestCase):
             x["group"] for x in CONTRACT["metric_groups"]])
 
     def test_Q_only_diagnostic_has_full_measured_48_and_declared_na(self):
-        slug="one_step_transition_population_convergence"
+        slug="q-validation"
         m,c=load(slug),load(slug,"coverage.json")
         self.assertEqual(m["experiment_id"],"E-CH4-03")
         self.assertTrue(m["representative_Q_only"])
@@ -66,7 +66,7 @@ class CompleteExperimentEvidence(unittest.TestCase):
         self.assertFalse(c["historical_test_accessed"])
 
     def test_nine_uniform_runs_have_all_applicable_metrics(self):
-        slug="uniform_policy_hyperparameter_sensitivity"
+        slug="uniform-hyperparameter-sensitivity"
         m,c=load(slug),load(slug,"coverage.json")
         self.assertEqual(len(m["runs"]),9)
         self.assertEqual(c["configurations"],9)
@@ -76,7 +76,7 @@ class CompleteExperimentEvidence(unittest.TestCase):
         self.assertTrue((HERE/slug/"tables/complete_metrics.tex").is_file())
 
     def test_five_guided_runs_have_all_applicable_metrics(self):
-        slug="guided_informative_uniform_mixture"
+        slug="fixed-policy-evaluation"
         m,c=load(slug),load(slug,"coverage.json")
         self.assertEqual(len(m["runs"]),5)
         self.assertEqual(c["configurations"],5)
@@ -88,7 +88,7 @@ class CompleteExperimentEvidence(unittest.TestCase):
         self.assertTrue((HERE/slug/"tables/complete_metrics.tex").is_file())
 
     def test_center_trajectory_has_49_geometries_and_3_complete_checkpoint_reports(self):
-        slug="target_center_guidance_trajectory"
+        slug="center-target-observation"
         m,c=load(slug),load(slug,"coverage.json")
         self.assertEqual(len(m["guided_rounds"]),49)
         self.assertEqual(len(m["selected_cases"]),3)
@@ -113,14 +113,32 @@ class CompleteExperimentEvidence(unittest.TestCase):
         self.assertTrue((HERE/slug/"tables/complete_metrics.tex").is_file())
         self.assertTrue((HERE/slug/"results/metrics_summary.csv").is_file())
 
+    def test_exactly_eleven_official_studies_plus_shared_benchmark(self):
+        study_dirs = ["q-validation","uniform-hyperparameter-sensitivity","fixed-policy-evaluation","center-target-observation","sigmoid-margin-evaluation","true-horizon-effect","exact-matrix-evaluation","inverse-attainable","bayes-center-inverse","standard-policy-comparison","objective-start-diagnostics"]
+        actual = {p.name for p in HERE.iterdir() if p.is_dir() and not p.name.startswith((".", "__"))}
+        self.assertEqual(actual, set(study_dirs) | {"benchmark_v1"})
+        for slug in study_dirs:
+            self.assertTrue((HERE / slug / "README_FA.md").is_file(), slug)
+        self.assertTrue((HERE.parents[1] / "research_journal/ch4-14-synthetic-data-structure-sensitivity-plan.md").is_file())
+
+    def test_every_experiment_has_single_technical_readme(self):
+        for folder in HERE.iterdir():
+            if not folder.is_dir() or folder.name.startswith((".", "__")):
+                continue
+            markdown_files=sorted(p.relative_to(folder).as_posix()
+                                  for p in folder.rglob("*.md"))
+            self.assertEqual(markdown_files, ["README_FA.md"], folder.name)
+            self.assertIn("# ", (folder/"README_FA.md").read_text("utf8"))
+
     def test_all_four_experiment_reports_link_to_full_metric_records(self):
         for slug in (
-            "one_step_transition_population_convergence",
-            "uniform_policy_hyperparameter_sensitivity",
-            "guided_informative_uniform_mixture",
-            "target_center_guidance_trajectory",
+            "q-validation",
+            "uniform-hyperparameter-sensitivity",
+            "fixed-policy-evaluation",
+            "center-target-observation",
         ):
-            report=(HERE/slug/"REPORT_FA.md").read_text("utf8")
+            report=(HERE/slug/"README_FA.md").read_text("utf8")
+            self.assertEqual([p.name for p in (HERE/slug).rglob("*.md")],["README_FA.md"])
             self.assertIn("results/metrics_full.json",report,slug)
             self.assertIn("results/coverage.json",report,slug)
             self.assertTrue((HERE/slug/"results/metrics_full.json").is_file())

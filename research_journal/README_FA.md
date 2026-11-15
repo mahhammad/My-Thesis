@@ -4,7 +4,7 @@
 ## ترتیب مطالعهٔ سریع برای پژوهشگر و مدیر جدید
 1. [**WORKFLOW_FA.md**](WORKFLOW_FA.md) — **تنها قرارداد معتبر عمومی** Git، مأموریت، آزمایش، ممیزی، CI/PDF، جانشینی و حذف شاخه. شاخهٔ دائمی فقط main است.
 2. [**THEORY_FA.md**](THEORY_FA.md) — روش IMC، فرض‌ها، فرمول‌ها، قضیه بلمن و محدوده‌های اثبات؛ برای اثبات کامل به [فصل سوم](../tex/chapter3.tex) و [پیوست](../tex/appendix_chapter3.tex) رجوع کن.
-3. [**EXPERIMENTS_FA.md**](EXPERIMENTS_FA.md) — نمایهٔ شواهد پذیرفته‌شده و داده خام §§۴.۱–۴.۱۲؛ [متن فصل چهارم](../tex/chapter4.tex)، [پیوست الکترونیکی](../code/experiments/README_FA.md).
+3. [**EXPERIMENTS_FA.md**](EXPERIMENTS_FA.md) — نمایهٔ شواهد پذیرفته‌شده و دادهٔ خام و گزارش‌های §§۴.۳–۴.۱۳، همراه طرح §۴.۱۴؛ [متن فصل چهارم](../tex/chapter4.tex)، [پیوست الکترونیکی](../code/experiments/README_FA.md).
 4. [**SCIENTIFIC_DECISIONS_FA.md**](SCIENTIFIC_DECISIONS_FA.md) — نسخه صحیح هر ادعا، گیت ممیزی، نتایج منسوخ و حد پذیرش.
 5. [**OPEN_RESEARCH_FA.md**](OPEN_RESEARCH_FA.md) — **تنها بک‌لاگ جاری** برای کارهای ضروری پایان‌نامه و توسعه اختیاری؛ Issueهای قدیمی P00–P16 ملاک اولویت امروز نیستند.
 6. [**PROVENANCE_FA.md**](PROVENANCE_FA.md) — جدول نسخه‌دار **۳۱ ژورنال، ۳۶ Issue و PRهای اثرگذار**، SHA/منشأ و مقصد انتقال.

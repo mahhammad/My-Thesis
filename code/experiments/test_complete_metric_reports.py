@@ -30,8 +30,8 @@ class Chapter4CommonMetricArtifactTests(unittest.TestCase):
 
     def test_all_exact_uniform_and_mixture_runs_have_three_R_and_geometry(self):
         for folder,count in (
-            ("uniform_policy_hyperparameter_sensitivity",9),
-            ("guided_informative_uniform_mixture",5),
+            ("uniform-hyperparameter-sensitivity",9),
+            ("fixed-policy-evaluation",5),
         ):
             base=HERE/folder
             data=read(base/"results/metrics_full.json")
@@ -74,7 +74,7 @@ class Chapter4CommonMetricArtifactTests(unittest.TestCase):
                 self.assertAlmostEqual(float(rec["train_R_sqrt_JS"]),r["train"]["R_sqrt_JS"],places=12)
 
     def test_guided_compact_table_displays_three_R_plus_center_distance(self):
-        base=HERE/"guided_informative_uniform_mixture"
+        base=HERE/"fixed-policy-evaluation"
         data=read(base/"results/metrics_full.json")
         table=(base/"tables/complete_compactness.tex").read_text(encoding="utf8")
         for rec in data["runs"]:
@@ -84,13 +84,13 @@ class Chapter4CommonMetricArtifactTests(unittest.TestCase):
                 self.assertIn(f"{val:.5f}",table)
         chapter=CH.read_text(encoding="utf8")
         self.assertEqual(chapter.count(
-            "\\input{./code/experiments/guided_informative_uniform_mixture/tables/complete_compactness.tex}"),1)
+            "\\input{./code/experiments/fixed-policy-evaluation/tables/complete_compactness.tex}"),1)
 
     def test_q_only_n_a_and_historical_49_25_missingness_are_explicit(self):
-        q=read(HERE/"one_step_transition_population_convergence/results/coverage.json")
+        q=read(HERE/"q-validation/results/coverage.json")
         self.assertTrue(any("R_KL" in r["ids"] for r in q["not_applicable"]))
-        t=read(HERE/"target_center_guidance_trajectory/results/metrics_full.json")
-        cov=read(HERE/"target_center_guidance_trajectory/results/coverage.json")
+        t=read(HERE/"center-target-observation/results/metrics_full.json")
+        cov=read(HERE/"center-target-observation/results/coverage.json")
         self.assertEqual(len(t["guided_rounds"]),49)
         self.assertEqual(len(t["selected_cases"]),3)
         self.assertEqual(sum(x["validation"]["balanced_accuracy"] is not None for x in t["guided_rounds"]),25)

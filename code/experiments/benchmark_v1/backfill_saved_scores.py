@@ -13,7 +13,7 @@ permitted splits, so the historical Test is not even instantiated.
 
 Usage, from repo root:
  python code/experiments/benchmark_v1/backfill_saved_scores.py \
-   --archive-dir code/experiments/standard_policy_comparison/results \
+   --archive-dir code/experiments/standard-policy-comparison/results \
    --out code/experiments/benchmark_v1/results/posthoc_score_backfill_76.csv
 
 No training is ever performed. Optional --per-sample writes predictions,
@@ -175,7 +175,7 @@ def run(archive_dir,out,per_sample=False):
 if __name__=="__main__":
     parser=argparse.ArgumentParser()
     parser.add_argument("--archive-dir",type=Path,
-             default=ROOT/"code/experiments/standard_policy_comparison/results")
+             default=ROOT/"code/experiments/standard-policy-comparison/results")
     parser.add_argument("--out",type=Path,
              default=ROOT/"code/experiments/benchmark_v1/results/posthoc_score_backfill_76.csv")
     parser.add_argument("--per-sample",action="store_true")

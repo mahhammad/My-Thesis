@@ -12,11 +12,11 @@ HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[1]
 TEX = REPO / "tex/chapter4.tex"
 SPECS = (
-    ("sec:ch4-q-validation", "one_step_transition_population_convergence"),
-    ("sec:ch4-uniform-hyperparameter-sensitivity", "uniform_policy_hyperparameter_sensitivity"),
-    ("sec:ch4-fixed-policy-evaluation", "guided_informative_uniform_mixture"),
-    ("sec:ch4-center-target-observation", "target_center_guidance_trajectory"),
-    ("sec:ch4-sigmoid-margin-evaluation", "sigmoid_margin_observational_evaluation"),
+    ("sec:ch4-q-validation", "q-validation"),
+    ("sec:ch4-uniform-hyperparameter-sensitivity", "uniform-hyperparameter-sensitivity"),
+    ("sec:ch4-fixed-policy-evaluation", "fixed-policy-evaluation"),
+    ("sec:ch4-center-target-observation", "center-target-observation"),
+    ("sec:ch4-sigmoid-margin-evaluation", "sigmoid-margin-evaluation"),
 )
 
 def sections():
@@ -85,8 +85,8 @@ class Chapter43to47PresentationTests(unittest.TestCase):
                 self.assertIn(ref,active)
 
     def test_size_study_uses_independent_generator_seeds(self):
-        root=HERE/"sigmoid_margin_observational_evaluation"
-        with (HERE/"standard_policy_comparison/results/master_runs_76.csv").open(encoding="utf8",newline="") as f:
+        root=HERE/"sigmoid-margin-evaluation"
+        with (HERE/"standard-policy-comparison/results/master_runs_76.csv").open(encoding="utf8",newline="") as f:
             master=list(csv.DictReader(f))
         expected=[r for r in master if r["study"]=="size_25steps"
                   and r["objective"]=="margin_JSD" and r["tau"]=="0.005"
@@ -125,7 +125,7 @@ class Chapter43to47PresentationTests(unittest.TestCase):
         self.assertIn(r"\subsection{حساسیت عملکرد به اندازه مرجع",x)
         self.assertNotIn("direct_training_72.tex}",x)
         for f in ("direct_training_300.tex",):
-            source=(HERE/"sigmoid_margin_observational_evaluation/tables"/f).read_text("utf-8")
+            source=(HERE/"sigmoid-margin-evaluation/tables"/f).read_text("utf-8")
             self.assertIn("دقت متوازن آموزش",source)
             self.assertIn("دقت متوازن اعتبارسنجی",source)
 

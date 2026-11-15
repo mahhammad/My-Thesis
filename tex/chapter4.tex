@@ -445,8 +445,8 @@ $300$تایی نیز به‌عنوان مرجع استفاده شد؛
 رفتار خطای تقریب را نشان می‌دهند.
 تمام اعداد این جدول و مختصات شکل
 از خروجی خام یکسان تهیه شده‌اند.
-\input{./code/experiments/one_step_transition_population_convergence/tables/main_results.tex}
-\input{./code/experiments/one_step_transition_population_convergence/figures/error_convergence.tex}
+\input{./code/experiments/q-validation/tables/main_results.tex}
+\input{./code/experiments/q-validation/figures/error_convergence.tex}
 
 با افزایش $N$ از $300$ به $10000$،
 میانگین $\operatorname{TV}$ از $0.04312$
@@ -468,8 +468,8 @@ $\operatorname{TV}$ در دست‌کم یکی از گذارهای
 و شکل~\ref{fig:ch4-q-error-by-feature}
 میانگین $\operatorname{TV}$ مربوط به هر ویژگی را
 در چهار اندازه مرجع نمایش می‌دهند.
-\input{./code/experiments/one_step_transition_population_convergence/tables/per_feature_tv.tex}
-\input{./code/experiments/one_step_transition_population_convergence/figures/per_feature_tv.tex}
+\input{./code/experiments/q-validation/tables/per_feature_tv.tex}
+\input{./code/experiments/q-validation/figures/per_feature_tv.tex}
 
 در این سناریو برای هر پنج ویژگی، میانگین
 خطا با افزایش اندازه مرجع کاهش یافته است؛
@@ -504,7 +504,7 @@ $d_{\mathrm{JS}}$ برابر $0.040312$ بود.
 نرخ‌های فقدان و مجموعه پرس‌وجو مربوط است.
 
 \paragraph{پیوست الکترونیکی و بازتولید.}
-منابع آزمایش \lr{E-CH4-03}، شامل $48$ مقایسه، جدول‌ها، نمودارها و گزارش کامل، در پوشه \lr{\texttt{one\_step\_transition\_population\_convergence}} از پیوست الکترونیکی ثبت شده‌اند. این مقایسه‌ها بدون آموزش سیاست و بدون استفاده از مجموعه آزمون انجام شده‌اند؛ اطلاعات بازتولید و صحت اعداد در گزارش فنی ثبت شده است.
+منابع آزمایش \lr{E-CH4-03}، شامل $48$ مقایسه، جدول‌ها، نمودارها و گزارش کامل، در پوشه \lr{\texttt{q-validation}} از پیوست الکترونیکی ثبت شده‌اند. این مقایسه‌ها بدون آموزش سیاست و بدون استفاده از مجموعه آزمون انجام شده‌اند؛ اطلاعات بازتولید و صحت اعداد در گزارش فنی ثبت شده است.
 
 \section{ارزیابی سیاست یکنواخت و تحلیل حساسیت ابرپارامترهای گشت}
 \label{sec:ch4-uniform-hyperparameter-sensitivity}
@@ -576,7 +576,7 @@ $R_{\mathrm{JS}}$، همچنین
 فقط برای محاسبه معیار عملکرد استفاده می‌شوند.
 جدول~\ref{tab:ch4-uniform-hyperparams-exact}
 نتایج اصلی تمام نه اجرا را نشان می‌دهد.
-\input{./code/experiments/uniform_policy_hyperparameter_sensitivity/tables/main_results.tex}
+\input{./code/experiments/uniform-hyperparameter-sensitivity/tables/main_results.tex}
 
 در تنظیم مبنا،
 $\mathbb E[L]=2.4946$ و
@@ -589,7 +589,7 @@ $D_{\mathrm{eff}}=1.5884$ به دست آمد؛
 نشان می‌دهد. نقطه مبنا در هر سه نمودار
 به‌منظور مقایسه تکرار شده است،
 اما سه اجرای مستقل محسوب نمی‌شود.
-\input{./code/experiments/uniform_policy_hyperparameter_sensitivity/figures/depth_sensitivity.tex}
+\input{./code/experiments/uniform-hyperparameter-sensitivity/figures/depth_sensitivity.tex}
 
 شکل~\ref{fig:ch4-uniform-geometry-vs-depth}
 تغییرات معیارهای $I$ و
@@ -600,7 +600,7 @@ $R_{\mathrm{JS}}$ را در برابر
 به‌طور هم‌زمان کاهش یافته‌اند؛
 یعنی فشرده‌ترشدن بازنمایی‌های درون‌کلاس
 لزوماً با بیشترشدن جدایی مراکز همراه نبوده است.
-\input{./code/experiments/uniform_policy_hyperparameter_sensitivity/figures/geometry_vs_depth.tex}
+\input{./code/experiments/uniform-hyperparameter-sensitivity/figures/geometry_vs_depth.tex}
 
 با وجود تغییر $I$ از حدود
 $0.00985$ تا $0.03242$ و
@@ -621,7 +621,7 @@ $83.42\%$ تا $83.65\%$
 ارائه می‌کند. میانه حاشیه اعتبارسنجی
 در نه تنظیم از $0.00559$ تا
 $0.01808$ تغییر کرده است.
-\input{./code/experiments/uniform_policy_hyperparameter_sensitivity/tables/diagnostics.tex}
+\input{./code/experiments/uniform-hyperparameter-sensitivity/tables/diagnostics.tex}
 
 \subsection{تفسیر، محدودیت‌ها و بازتولید}
 \label{subsec:ch4-uniform-sensitivity-discussion}
@@ -639,7 +639,7 @@ $0.01808$ تغییر کرده است.
 مقادیر این جدول مبتنی بر \emph{امید دقیق} هستند. مقایسه آن‌ها با تخمین‌های مونت‌کارلو مستلزم کنترل روش محاسبه، تعداد گشت و قرارداد استنتاج است و نمی‌توان آن‌ها را تکرارهای هم‌پروتکل دانست.
 
 \paragraph{پیوست الکترونیکی و بازتولید.}
-خروجی هر نه تنظیم آزمایش \lr{E-CH4-04}، شامل سنجه‌های کامل تراکم، جدایی، حاشیه و عملکرد، در پوشه \lr{\texttt{uniform\_policy\_hyperparameter\_sensitivity}} ثبت شده است. نمودار تفصیلی دقت نیز در پیوست موجود است؛ ثبات دقت متوازن اعتبارسنجی در متن و جدول گزارش می‌شود. آزمایش بدون آموزش و بدون استفاده از مجموعه آزمون انجام شده است.
+خروجی هر نه تنظیم آزمایش \lr{E-CH4-04}، شامل سنجه‌های کامل تراکم، جدایی، حاشیه و عملکرد، در پوشه \lr{\texttt{uniform-hyperparameter-sensitivity}} ثبت شده است. نمودار تفصیلی دقت نیز در پیوست موجود است؛ ثبات دقت متوازن اعتبارسنجی در متن و جدول گزارش می‌شود. آزمایش بدون آموزش و بدون استفاده از مجموعه آزمون انجام شده است.
 
 \section{ارزیابی سیاست‌های ثابت: اختلاط احتمال‌ها و هدایت امتیازها}
 \label{sec:ch4-fixed-policy-evaluation}
@@ -731,8 +731,8 @@ $R_{\mathrm{JS}}$ را روی آموزش و
 \label{subsec:ch4-guided-probability-results}
 جدول~\ref{tab:ch4-guided-probability-mixture}
 نتایج پنج سیاست را نشان می‌دهد؛ برای اختلاف اندک دقت متوازن، نمودار جداگانه‌ای در متن اصلی تکرار نمی‌شود.
-\input{./code/experiments/guided_informative_uniform_mixture/tables/main_results.tex}
-\input{./code/experiments/guided_informative_uniform_mixture/tables/complete_compactness.tex}
+\input{./code/experiments/fixed-policy-evaluation/tables/main_results.tex}
+\input{./code/experiments/fixed-policy-evaluation/tables/complete_compactness.tex}
 
 با افزایش سهم سیاست بدون نویز از صفر به یک،
 مقدار $I$ از $0.01688$ به $0.04965$
@@ -763,7 +763,7 @@ $R_{\sqrt{\mathrm{JS}}}$ را در کنار
 
 شکل~\ref{fig:ch4-guided-mixture-geometry}
 رشد هم‌زمان معیارهای هندسی را نشان می‌دهد.
-\input{./code/experiments/guided_informative_uniform_mixture/figures/geometry.tex}
+\input{./code/experiments/fixed-policy-evaluation/figures/geometry.tex}
 
 \subsubsection{مقایسه مراکز تحقق‌یافته و پراکندگی کلاس‌ها}
 \label{subsec:ch4-guided-probability-centers}
@@ -772,7 +772,7 @@ $R_{\sqrt{\mathrm{JS}}}$ را در کنار
 سه کلاس در دو انتهای اختلاط را در
 جدول~\ref{tab:ch4-guided-mixture-center-vectors}
 گزارش می‌کنیم.
-\input{./code/experiments/guided_informative_uniform_mixture/tables/centers_endpoints.tex}
+\input{./code/experiments/fixed-policy-evaluation/tables/centers_endpoints.tex}
 
 جدول~\ref{tab:ch4-guided-mixture-center-distances}
 نشان می‌دهد فاصله $\sqrt{\mathrm{JSD}}$
@@ -782,8 +782,8 @@ $R_{\sqrt{\mathrm{JS}}}$ را در کنار
 ~\ref{tab:ch4-guided-mixture-classwise-dispersion}
 نشان می‌دهد پراکندگی درون‌کلاسی
 \emph{هر سه کلاس} نیز هم‌زمان بیشتر شده است.
-\input{./code/experiments/guided_informative_uniform_mixture/tables/center_distances.tex}
-\input{./code/experiments/guided_informative_uniform_mixture/tables/classwise_dispersion.tex}
+\input{./code/experiments/fixed-policy-evaluation/tables/center_distances.tex}
+\input{./code/experiments/fixed-policy-evaluation/tables/classwise_dispersion.tex}
 
 بدین ترتیب، مشاهده افزایش جدایی مراکز
 به معنای نزدیک‌ترشدن نمونه‌ها به مراکز
@@ -857,7 +857,7 @@ $g=(1.4,\,0.2,\,-1.2,\,0.9,\,-1.2)$
 $Z_\alpha=\alpha Z_{\mathrm{guided}}$ با $\alpha\in\{0,0.25,0.5,0.75,1\}$ مقایسه شدند. در $\alpha=0$ سیاست یکنواخت است و در $\alpha=1$ سیاست ازپیش‌تعیین‌شده هدایت‌شده به ویژگی‌های اطلاع‌رسان به کار می‌رود. برای هر $\alpha$، بازنمایی‌ها و مراکز آموزش مجدداً با همان سیاست محاسبه شدند و مراکز هنگام ارزیابی داده‌های اعتبارسنجی ثابت ماندند. تنظیمات اجرا عبارت بودند از $300$ گشت برای هر نمونه، $\beta=0.4$، $\lambda=0.8$، سقف $12$ گام و بذر گشت $20261103$. در این مقایسه برای همه سیاست‌ها قاعده استنتاج مشترک مبتنی بر شباهت JSD استفاده شد.
 
 جدول~\ref{tab:ch4-five-fixed-policies} معیار اطلاعاتی مراکز، پراکندگی مبتنی بر JSD روی داده آموزش و عملکرد اعتبارسنجی را نشان می‌دهد. $I$ و $R_{\mathrm{JS}}$ تنها از داده آموزش به دست آمده‌اند؛ NLL اعتبارسنجی براساس Softmax فاصله KL محاسبه شده است.
-\input{./code/experiments/guided_informative_uniform_mixture/tables/score_mc_fixed_policy.tex}
+\input{./code/experiments/fixed-policy-evaluation/tables/score_mc_fixed_policy.tex}
 
 با افزایش $\alpha$، اطلاعات مراکز $I$ بیشتر و NLL اعتبارسنجی کمتر شده است؛ اما بالاترین دقت متوازن اعتبارسنجی در $\alpha=0.25$ مشاهده می‌شود و پس از آن افزایش یکنواخت ندارد. در همین مسیر پراکندگی درون‌کلاسی $R_{\mathrm{JS}}$ نیز بیشتر شده است. بنابراین تغییر سیاست هم‌زمان جدایی مراکز و پراکندگی نمونه‌ها را تغییر می‌دهد و بهبود یک معیار منفرد لزوماً به بهبود نرخ تصمیم درست منجر نمی‌شود. زیان \lr{Softplus} حاشیه‌ای با پارامتر $0.03$ در اعتبارسنجی نیز از $0.02173$ در $\alpha=0$ به $0.00969$ در $\alpha=1$ کاهش یافته، درحالی‌که بیشترین دقت در میانه مسیر رخ داده است. این مشاهده انگیزه بررسی زیانی با حساسیت متمرکزتر در نزدیکی مرز را تقویت می‌کند، نه آنکه به‌تنهایی برتری زیان جایگزین را ثابت کند.
 
@@ -875,7 +875,7 @@ $Z_\alpha=\alpha Z_{\mathrm{guided}}$ با $\alpha\in\{0,0.25,0.5,0.75,1\}$ مق
 مقایسه درون این پنج حالت هم‌پروتکل است،
 اما با تخمین مونت‌کارلوی بالا هم‌پروتکل نیست.
 
-\input{./code/experiments/guided_informative_uniform_mixture/tables/exact_fixed_policy.tex}
+\input{./code/experiments/fixed-policy-evaluation/tables/exact_fixed_policy.tex}
 
 در پروتکل امید دقیق، هدایت قوی‌تر،
 $I$ مراکز و \emph{میانه} حاشیه درست را افزایش داده،
@@ -921,7 +921,7 @@ $88.25\%$ و در امید دقیق $96.77\%$ بود.
 در دو پروتکل جداگانه گزارش می‌شود.
 
 \paragraph{پیوست الکترونیکی و بازتولید.}
-کد، داده‌ها، معیارها، جدول‌ها و نمودارهای آزمایش \lr{E-CH4-05} در پوشه \lr{\texttt{guided\_informative\_uniform\_mixture}} از پیوست الکترونیکی موجودند؛ شواهد پروتکل امتیازمحور نیز در پوشه \lr{\texttt{fixed\_metric\_comparison}} حفظ شده است. منشأ و تفاوت قراردادهای محاسباتی در گزارش‌های فنی ثبت شده‌اند.
+کد، داده‌ها، معیارها، جدول‌ها و نمودارهای آزمایش \lr{E-CH4-05} در پوشه \lr{\texttt{fixed-policy-evaluation}} از پیوست الکترونیکی موجودند؛ شواهد پروتکل امتیازمحور نیز در پوشه \lr{\texttt{fixed-policy-evaluation}} حفظ شده است. منشأ و تفاوت قراردادهای محاسباتی در گزارش‌های فنی ثبت شده‌اند.
 
 % Observational study of target-conditioned local feature policies and JS/KL criteria.
 \section{هدایت گشت به مراکز هدف و تحلیل مسیر معیارهای بازنمایی}
@@ -1043,13 +1043,13 @@ $R_{\mathrm{JS}}$ و $R_{\sqrt{\mathrm{JS}}}$
 احتمال صحیح‌بودن برچسب نمونه نیست.
 برای تمام $49$ دور، سه معیار تراکم، پنج معیار جدایی و شاخص‌های تصمیم طبق قرارداد مشترک محاسبه و در پیوست الکترونیکی ثبت شده‌اند. بازنمایی‌های هدایت‌شده به فرض کلاس وابسته‌اند و تکرار دورها به معنای تکرار مستقل مولد یا داده نیست.
 
-\input{./code/experiments/target_center_guidance_trajectory/tables/selected_center_geometry.tex}
+\input{./code/experiments/center-target-observation/tables/selected_center_geometry.tex}
 برابری‌های $T=BT$ و $TNL=BTNL$ در این جدول، تنها به این دلیل رخ داده‌اند که انتساب هم‌نام کلاس‌ها در این سه ماتریس بهترین انتساب جایگشتی است؛ این برابری عمومی نیست.
 
-\input{./code/experiments/target_center_guidance_trajectory/tables/selected_density.tex}
+\input{./code/experiments/center-target-observation/tables/selected_density.tex}
 دقت آموزش در دو ستون هدایت‌شده با استفاده از \emph{برچسب واقعی مبدأ در ساخت سیاست} به دست آمده و یک معیار \emph{شرطی و اوراکلی} است؛ بنابراین آن را معادل دقت آموزش طبقه‌بند معمولی تلقی نمی‌کنیم.
 
-\input{./code/experiments/target_center_guidance_trajectory/tables/selected_validation.tex}
+\input{./code/experiments/center-target-observation/tables/selected_validation.tex}
 فاصله نمونه اعتبارسنجی تا «مرکز فرضیه درست» صرفاً در مرحله \emph{محاسبه معیار} از برچسب واقعی استفاده می‌کند؛ تولید بازنمایی‌های مربوط به فرضیه‌های مختلف از این برچسب بی‌اطلاع است. همچنین مقدار NLL در این بخش بر اساس امتیازهای نامساوی هر فرضیه و با وزن یکسان کلاس‌ها محاسبه شده است؛ به دلیل وابسته‌بودن گشت هدایت‌شده به کلاس فرضی، نباید آن را همان NLL یک بازنمایی مشترک در فصل سوم فرض کرد.
 
 \subsection{تفسیر مسیر و محدودیت شاخص‌های منفرد}
@@ -1076,17 +1076,17 @@ $34.04\%$ است؛ مقداری نزدیک به مرجع $33.33\%$
 اعداد هر دور با قاعده استنتاج کلاس‌فرضی
 و مراکز تحقق‌یافته آن دور اندازه‌گیری شده‌اند؛
 هیچ مقدار صفر یا درون‌یابی به گزارش افزوده نشده است.
-\input{./code/experiments/target_center_guidance_trajectory/tables/selected_rounds_unified.tex}
-\input{./code/experiments/target_center_guidance_trajectory/tables/validation_ba_49_unified.tex}
-\input{./code/experiments/target_center_guidance_trajectory/figures/trajectory_geometry_balanced.tex}
-\input{./code/experiments/target_center_guidance_trajectory/figures/validation_ba_49_unified.tex}
+\input{./code/experiments/center-target-observation/tables/selected_rounds_unified.tex}
+\input{./code/experiments/center-target-observation/tables/validation_ba_49_unified.tex}
+\input{./code/experiments/center-target-observation/figures/trajectory_geometry_balanced.tex}
+\input{./code/experiments/center-target-observation/figures/validation_ba_49_unified.tex}
 
 در مجموع، هیچ‌یک از معیارهای صرفاً وابسته به مراکز، تراکم مبتنی بر KL یا JSD، و NLL ساده به‌تنهایی تضمین‌کننده بهبود دقت طبقه‌بندی نیستند. این نتیجه، انگیزه‌ای تجربی برای طراحی تابع هدفی است که \emph{جدایی مراکز و پراکندگی/حاشیه تصمیم نمونه‌ها را هم‌زمان} در نظر بگیرد. تعریف نظری معیارهای مکمل مبتنی بر فاصله و شباهت JSD در فصل سوم آمده است؛ در اینجا تنها محاسبه و نقش تجربی آن‌ها بررسی می‌شود.
 
 این نتایج متعلق به یک سناریوی مصنوعی و یک بذرند؛ دور چهار از میان دورهای دارای ارزیابی اعتبارسنجی انتخاب شده است، نه با مجموعه آزمون.
 
 \paragraph{پیوست الکترونیکی و بازتولید.}
-کد، هدف‌ها، مراکز تحقق‌یافته، معیارهای عمومی و دقت تمام $49$ دور آزمایش \lr{E-CH4-06} در پوشه \lr{\texttt{target\_center\_guidance\_trajectory}} از پیوست الکترونیکی ثبت شده‌اند. جزئیات منشأ اندازه‌گیری‌ها و کنترل قرارداد تجمیع نیز در گزارش فنی موجودند. این مسیر مشاهده‌ای و وابسته تکرار مستقل یا مقایسه هم‌پروتکل با \lr{Benchmark} نیست.
+کد، هدف‌ها، مراکز تحقق‌یافته، معیارهای عمومی و دقت تمام $49$ دور آزمایش \lr{E-CH4-06} در پوشه \lr{\texttt{center-target-observation}} از پیوست الکترونیکی ثبت شده‌اند. جزئیات منشأ اندازه‌گیری‌ها و کنترل قرارداد تجمیع نیز در گزارش فنی موجودند. این مسیر مشاهده‌ای و وابسته تکرار مستقل یا مقایسه هم‌پروتکل با \lr{Benchmark} نیست.
 
 
 
@@ -1112,11 +1112,11 @@ $g_\tau(m)=4\tau|\ell_\tau'(m)|$
 \subsection{نتایج مقدار زیان و تمرکز حساسیت}
 \label{subsec:ch4-sigmoid-results}
 در جدول~\ref{tab:ch4-sigmoid-loss-comparison} زیان متوازن سیگموئیدی گزارش شده است. دقت متوازن سه وضعیت به‌ترتیب $84.86$، $72.61$ و $83.83$ درصد است.
-\input{code/experiments/sigmoid_margin_observational_evaluation/tables/sigmoid_loss.tex}
+\input{code/experiments/sigmoid-margin-evaluation/tables/sigmoid_loss.tex}
 در مقایسه دو دور هدایت‌شده با پروتکل استنتاج هم‌نوع، برای $\tau=0.005$ اجرای چهارم زیان کمتری دارد و دقت آن بالاتر است؛ اما برای $\tau=0.01$ یا $0.03$ اجرای صفر زیان کمتری دارد، بااینکه دقت پایین‌تری دارد. بنابراین حتی برای زیان سیگموئیدی نیز \emph{مقدار $\tau$ بر رتبه‌بندی سیاست‌ها مؤثر است} و نمی‌توان بدون اعتبارسنجی پهنای مناسب را تعیین کرد.
 
 برای بررسی تمرکز حساسیت، ناحیه مرزی را $|m_i|\le\tau$ و نمونه‌های به‌شدت اشتباه را $m_i<-2\tau$ تعریف کردیم. جدول~\ref{tab:ch4-sigmoid-sensitivity} برای $\tau=0.005$، ابتدا سهم متوازن نمونه‌ها و سپس سهم از مجموع $g_\tau$ وزن‌دار را نشان می‌دهد.
-\input{code/experiments/sigmoid_margin_observational_evaluation/tables/sigmoid_sensitivity.tex}
+\input{code/experiments/sigmoid-margin-evaluation/tables/sigmoid_sensitivity.tex}
 در اجرای چهارم هدایت‌شده، حدود $36.4$ درصد جرم متوازن نمونه‌ها در ناحیه نزدیک مرز قرار دارند ولی حدود $62.7$ درصد حساسیت را ایجاد می‌کنند؛ در مقابل، نمونه‌های به‌شدت اشتباه با $4.4$ درصد جرم تنها $1.8$ درصد حساسیت را به خود اختصاص داده‌اند. این شواهد با شکل مشتق زیان سازگار است و خاصیت مورد نظر برای \emph{وزن‌دهی به حاشیه} را نشان می‌دهد، اما به‌تنهایی اثبات نمی‌کند که گرادیان نسبت به سیاست، دقت را بهبود می‌دهد یا نمونه‌های به‌شدت اشتباه ذاتاً مبهم‌اند.
 
 در مقایسه امتیازهای حاشیه‌ای، تابع \lr{Softplus} با شکل $\tau\log(1+\sum_{r\ne y}\exp((s_r-s_y)/\tau))$ نیز محاسبه شده بود. آن تابع با زیان سیگموئیدی این بخش یکسان نیست؛ لذا نتایج آن‌ها جداگانه تفسیر شده‌اند. بازنمایی‌های سه وضعیت، حاشیه و امتیاز تمام $270$ ارزیابی نمونه و مقادیر هر $\tau$ برای بررسی مستقل در پیوست الکترونیکی حفظ شده‌اند.
@@ -1150,7 +1150,7 @@ $g_\tau(m)=4\tau|\ell_\tau'(m)|$
 
 برای $\tau\in\{.002,.005,.02\}$، \lr{Adam} با نرخ یادگیری $.12$ و \emph{دقیقاً $50$ به‌روزرسانی} اجرا شد؛ هیچ مرحله‌ای با اعتبارسنجی انتخاب و هیچ توقف زودهنگامی اعمال نشد. مرجع این آموزش تمام $300$ نمونه آموزش است و $90$ نمونه اعتبارسنجی تنها برای گزارش به کار رفته‌اند. برای هر سه سیاست نهایی، معیارهای عمومی با قرارداد یکسان گزارش شدند و از مجموعه آزمون در ارزیابی یا انتخاب استفاده نشد. در پنج مؤلفه $Z$، مشتق خودکار با تفاضل مرکزی تطبیق داده شد؛ بیشترین اختلاف مطلق روی مرجع کامل حدود $2.23\times10^{-10}$ بود.
 
-\input{./code/experiments/sigmoid_margin_observational_evaluation/tables/direct_training_300.tex}
+\input{./code/experiments/sigmoid-margin-evaluation/tables/direct_training_300.tex}
 در سیاست اولیه، $I=.01688$ و $R_{\mathrm{JS}}=.00201$ بود. هر سه اجرا زیان حاشیه را کاهش دادند، اما در $\tau=.02$ حتی \emph{دقت آموزش} کاهش یافت. در همین حال افزایش محسوس $I$ و $R_{\mathrm{JS}}$ نشان داد که بدون حضور معیار جدایی در هدف نیز مراکز می‌توانند دورتر و بازنمایی‌های کلاس‌ها پراکنده‌تر شوند.
 
 
@@ -1184,12 +1184,12 @@ $97.45\%$ بود. بنابراین مجموعه اعتبارسنجی در این
 \label{subsec:ch4-margin-train-size-sensitivity}
 برای مقایسه هم‌پروتکل، از اجراهای Benchmark استاندارد استفاده می‌کنیم: شش اندازه مرجع $n\in\{50,100,150,200,250,300\}$، دو خانواده سیاست مشترک (\lr{shared}) و کلاس‌شرطی (\lr{class}) و سه بذر مستقل مولد داده $20261102$، $20261103$ و $20261104$. برای همه $36$ اجرا، هدف زیان حاشیه سیگموئیدی JSD با $\tau=.005$، مقداردهی اولیه صفر، $25$ گام \lr{Adam} با نرخ $.12$ و پارامترهای ثابت $\beta=.4$، $\lambda=.8$ و $H=12$ بوده است. زیرمجموعه‌ها در هر مولد به‌صورت تو‌در‌تو و متناسب با کلاس‌ها انتخاب شدند؛ بنابراین تغییر اندازه در یک بذر مستقل نیست، ولی بذرهای تولید داده از یکدیگر مستقل‌اند. هر دو خانواده روی نمونه بیرون‌گراف قاعده استنتاج تعریف‌شده دارند.
 
-\input{./code/experiments/sigmoid_margin_observational_evaluation/tables/size_study.tex}
+\input{./code/experiments/sigmoid-margin-evaluation/tables/size_study.tex}
 
 جدول، دقت متوازن آموزش و اعتبارسنجی را همراه با میانگین و انحراف معیار سه بذر مستقل مولد نشان می‌دهد. برای هر $36$ اجرا، مقادیر $I$، سه معیار تراکم $R$، $R_{\mathrm{JS}}$ و $R_{\sqrt{\mathrm{JS}}}$، زیان و هزینه اجرا در نتایج الکترونیکی موجود است. بودجه این مطالعه $25$ گام و بودجه آموزش مستقیم مرجع $300$تایی در بالا $50$ گام است؛ این دو مطالعه \emph{هم‌بودجه نیستند} و تفاوت عملکرد آن‌ها نباید به‌تنهایی اثر اندازه مرجع تعبیر شود. این سه بذر برای گزارش پراکندگی مناسب‌اند، اما آزمون قطعی برتری تعمیم نیستند. از مجموعه آزمون در این مقایسه استفاده نشده است.
 
 \paragraph{پیوست الکترونیکی و بازتولید.}
-داده‌های سه وضعیت مشاهده‌ای، شش مقدار پهنای حاشیه، آموزش سیاست مشترک، مطالعه اندازه مرجع، معیارهای عمومی و کنترل‌های بازتولید آزمایش \lr{E-CH4-07} در پوشه \lr{\texttt{sigmoid\_margin\_observational\_evaluation}} از پیوست الکترونیکی موجودند. مطالعه اندازه مرجع با سه بذر مستقل مولد و بودجه $25$ گام در \lr{Benchmark v1} انجام شده است.
+داده‌های سه وضعیت مشاهده‌ای، شش مقدار پهنای حاشیه، آموزش سیاست مشترک، مطالعه اندازه مرجع، معیارهای عمومی و کنترل‌های بازتولید آزمایش \lr{E-CH4-07} در پوشه \lr{\texttt{sigmoid-margin-evaluation}} از پیوست الکترونیکی موجودند. مطالعه اندازه مرجع با سه بذر مستقل مولد و بودجه $25$ گام در \lr{Benchmark v1} انجام شده است.
 
 \section{اثر سقف واقعی طول گشت بر بازنمایی و طبقه‌بندی}
 \label{sec:ch4-true-horizon-effect}
@@ -1213,7 +1213,7 @@ $20261102$ ثابت ماندند. برای هر $H=h$،
 و برچسب‌های اعتبارسنجی صرفاً برای محاسبه
 معیارهای ارزیابی به کار رفتند.
 
-\input{code/experiments/walk_depth_effect/tables/main_depth_effect.tex}
+\input{code/experiments/true-horizon-effect/tables/main_depth_effect.tex}
 
 همان‌طور که در جدول~\ref{tab:ch4-e09-depth-main}
 دیده می‌شود، در سیاست یکنواخت دقت متوازن
@@ -1236,8 +1236,8 @@ $20261102$ ثابت ماندند. برای هر $H=h$،
 \emph{جدایی مراکز} و \emph{پراکندگی درون‌کلاسی}
 همراه است؛ هیچ‌یک از این دو معیار به‌تنهایی
 افزایش دقت را تضمین نمی‌کند.
-\input{code/experiments/walk_depth_effect/figures/validation_ba_vs_H.tex}
-\input{code/experiments/walk_depth_effect/figures/dispersion_vs_H.tex}
+\input{code/experiments/true-horizon-effect/figures/validation_ba_vs_H.tex}
+\input{code/experiments/true-horizon-effect/figures/dispersion_vs_H.tex}
 
 \paragraph{حاشیه تصمیم و کیفیت تفکیک.}
 علاوه بر دقت صفر--یک، حاشیه علامت‌دار
@@ -1258,9 +1258,9 @@ $20261102$ ثابت ماندند. برای هر $H=h$،
 به‌صورت میانگین متوازن کلاس‌ها گزارش شده
 و با چندک نمونه‌ای حاشیه یک کمیت
 یکسان نیست.
-\input{code/experiments/walk_depth_effect/tables/margin_by_H.tex}
-\input{code/experiments/walk_depth_effect/figures/train_margin_median_vs_H.tex}
-\input{code/experiments/walk_depth_effect/figures/validation_margin_median_vs_H.tex}
+\input{code/experiments/true-horizon-effect/tables/margin_by_H.tex}
+\input{code/experiments/true-horizon-effect/figures/train_margin_median_vs_H.tex}
+\input{code/experiments/true-horizon-effect/figures/validation_margin_median_vs_H.tex}
 
 \paragraph{حاشیه در نمونه‌های اشتباه‌طبقه‌بندی‌شده.}
 برای تمایز تعداد خطا از شدت آن، حاشیهٔ علامت‌دار
@@ -1275,7 +1275,7 @@ $20261102$ ثابت ماندند. برای هر $H=h$،
 به زیرمجموعه‌اند و با زیان حاشیه‌ای متوازن
 روی همهٔ نمونه‌ها یکسان نیستند؛ در اعتبارسنجی
 با شمار اندک خطا باید با احتیاط تفسیر شوند.
-\input{code/experiments/walk_depth_effect/tables/error_margins_by_depth.tex}
+\input{code/experiments/true-horizon-effect/tables/error_margins_by_depth.tex}
 
 \paragraph{نخستین چندک پس از خطای مشاهده‌شده.}
 با استفاده از همان چندک‌های ذخیره‌شده،
@@ -1297,7 +1297,7 @@ $20261102$ ثابت ماندند. برای هر $H=h$،
 نیز جداگانه در خروجی ذخیره شده‌اند؛
 این دو با چندک‌های درون‌یابی‌شده
 لزوماً برابر نیستند.
-\input{code/experiments/walk_depth_effect/tables/error_quantile_boundary.tex}
+\input{code/experiments/true-horizon-effect/tables/error_quantile_boundary.tex}
 
 
 
@@ -1316,7 +1316,7 @@ $20261102$ ثابت ماندند. برای هر $H=h$،
 تنظیم‌ها برابر ماند. این اختلاف در
 جدول~\ref{tab:ch4-e09-true-vs-truncated}
 برای تمام عمق‌های مورد بررسی ثبت شده است.
-\input{code/experiments/walk_depth_effect/tables/true_H_vs_E08_truncation.tex}
+\input{code/experiments/true-horizon-effect/tables/true_H_vs_E08_truncation.tex}
 
 \paragraph{محدودیت و بازتولید.}
 این نتایج به یک بذر مولد، یک تقسیم ثابت،
@@ -1331,7 +1331,7 @@ $20261102$ ثابت ماندند. برای هر $H=h$،
 خروجی کامل هر سه سنجه تراکم، پنج سنجه جدایی،
 فاصله زوجی مراکز، حاشیه، \lr{NLL}های متمایز،
 دقت‌ها و ماتریس سردرگمی در پرونده
-\lr{\texttt{code/experiments/walk\_depth\_effect}}
+\lr{\texttt{code/experiments/true-horizon-effect}}
 ثبت شده است. داده آزمون تاریخی خوانده نشد.
 
 
@@ -1376,7 +1376,7 @@ $20261121$ و $20261122$ انجام شد.
 به $.01160$ و برای سیاست مشترک ذخیره‌شده
 از $.04106$ به $.00990$ کاهش یافت.
 دو بذر مسیر معادل دو بذر مستقل تولید داده نیستند.
-\input{code/experiments/exact_matrix_walk_validation/tables/monte_carlo.tex}
+\input{code/experiments/exact-matrix-evaluation/tables/monte_carlo.tex}
 
 \subsection{تقریب عمق محدود و ارزیابی خطای آن}
 \label{subsec:ch4-matrix-approx}
@@ -1408,8 +1408,8 @@ $\varepsilon_3=.05911$ است؛
 خطای واقعی و کران بدترین حالت را از هم متمایز
 می‌کنند؛ این نتایج ادعایی درباره خطای تعمیم
 طبقه‌بند نیستند.
-\input{code/experiments/exact_matrix_walk_validation/tables/truncation.tex}
-\input{code/experiments/exact_matrix_walk_validation/figures/bound_and_max_tv.tex}
+\input{code/experiments/exact-matrix-evaluation/tables/truncation.tex}
+\input{code/experiments/exact-matrix-evaluation/figures/bound_and_max_tv.tex}
 
 \subsection{اندازه مسئله و محدودیت هزینه پیاده‌سازی}
 \label{subsec:ch4-matrix-cost}
@@ -1433,7 +1433,7 @@ $2$ و $12$ به‌ترتیب $.00635$ و $.02192$
 ثانیه بود؛ این اعداد به سخت‌افزار
 و روش پیاده‌سازی وابسته‌اند و هزینه آموزش
 را دربرنمی‌گیرند.
-\input{code/experiments/exact_matrix_walk_validation/tables/runtime.tex}
+\input{code/experiments/exact-matrix-evaluation/tables/runtime.tex}
 
 آرایه متراکم فرضی با ابعاد
 $n\times d\times n\times n$ در
@@ -1446,7 +1446,7 @@ $n\times d\times n\times n$ در
 ماتریس‌های سردرگمی، معیارهای عمومی
 تراکم و جدایی و ثبت زمان و بذرها
 در پوشه
-\lr{\texttt{code/experiments/exact\_matrix\_walk\_validation}}
+\lr{\texttt{code/experiments/exact-matrix-evaluation}}
 نگهداری می‌شوند. مطالعه حاضر تنها
 دو سیاست مشترک در یک بذر مولد را
 می‌سنجد؛ داوری مستقل و وارسی دیداری
@@ -1468,7 +1468,7 @@ $n\times d\times n\times n$ در
 
 طرح استاندارد از سه بذر مولد آموزش $20261102$، $20261103$ و $20261104$ تشکیل شده است. در هر بذر، یک مجموعه آموزش $300$تایی تولید می‌شود. مرجع $n=150$ با نمونه‌گیری متوازن از همان مجموعه ($50$ نمونه از هر کلاس) و مرجع $n=300$ با استفاده از \emph{همه نمونه‌های آموزش}، بدون نمونه‌گیری مجدد مرجع، تعیین می‌گردد. سه مرکز هدف کلاس‌شرطی به‌ازای هر بلوک، دو آغاز «صفر» و «تصادفی مستقل» و سه روش حل، برای هر بلوک $3\times2\times3=18$ اجرا و در شش بلوک در مجموع $108$ اجرا می‌سازند. در نتیجه تعداد هدف‌ها $18$ است، اما \emph{تعداد بذرهای مستقل مولد فقط سه} است. اندازه‌های $150$ و $300$ در هر بذر، و نیز کلاس‌ها و آغازهای مشترک، مستقل آماری نیستند. بذرهای سازنده هدف و انتخاب مراجع، همراه با شناسه دقیق نمونه‌های آموزش، در پرونده بازتولید ثبت شده‌اند؛ برای تعیین آستانه یا انتخاب پاسخ از \lr{Validation}/\lr{Test} استفاده نشده است.
 
-\input{code/experiments/inverse_attainable_standard/tables/sec410_blocks.tex}
+\input{code/experiments/inverse-attainable/tables/sec410_blocks.tex}
 
 \subsection{حلگرها، بودجه و ثبت محاسبات}
 \label{subsec:ch4-inverse-algorithms}
@@ -1480,13 +1480,13 @@ $n\times d\times n\times n$ در
 \label{subsec:ch4-inverse-b01v2-results}
 تمام $108$ اجرای از پیش تعیین‌شده به پایان محاسبه رسیده‌اند: $18$ اجرا متعلق به بلوک \lr{B01-v2} و $90$ اجرا متعلق به پنج بلوک دیگر است. خروجی خام و وضعیت توقف تمامی اجراها ثبت و با شناسه‌های طرح استاندارد تطبیق داده شده‌اند. تکمیل یک اجرا به معنی موفقیت آن در آستانه~\eqref{eq:ch4-inverse-success} نیست؛ اجراهایی که با خطای بیش از آستانه به سقف گام رسیده‌اند نیز در مخرج باقی می‌مانند. جدول~\ref{tab:ch4-inverse-full-success} نتیجه را برای هر روش و اندازه مرجع با همان مخرج $18$ نشان می‌دهد.
 
-\input{code/experiments/inverse_attainable_standard/tables/sec410_success.tex}
+\input{code/experiments/inverse-attainable/tables/sec410_success.tex}
 
 در اندازه مرجع $150$، \lr{Q-only} در هیچ‌یک از $18$ زمینه به آستانه نرسید؛ \lr{Exact-Adam} در $17$ و \lr{Q+Bootstrap-GN} در هر $18$ زمینه موفق بود. در اندازه $300$، موفقیت‌ها به‌ترتیب $2/18$، $16/18$ و $18/18$ ثبت شدند. بنابراین در کل $36$ زمینه برای هر روش، تعداد موفقیت‌ها به‌ترتیب $2/36$، $33/36$ و $36/36$ است. از دو موفقیت \lr{Q-only}، هر دو در بلوک \lr{B06} با بذر $20261104$ و مرجع $300$ رخ داده‌اند. سه ناکامی \lr{Exact-Adam} نیز یک مورد در \lr{B01} و دو مورد در \lr{B06} هستند. این تفاوت بین بذرها و آغازها، با توجه به تعداد اندک بذر مستقل، مانع نتیجه‌گیری درباره نرخ موفقیت عمومی روش‌هاست.
 
 جدول موفقیت، \emph{بهترین} خطای مرکز دقیق هر اجرا را گزارش می‌کند، نه خطای آخرین تکرار. برای نمونه، میانه خطای منتخب روش ترکیبی در اندازه‌های $150$ و $300$ به‌ترتیب $1.67\times10^{-9}$ و $4.88\times10^{-9}$ بوده است. نمودار~\ref{fig:ch4-inverse-best-jsd} خطای هر $108$ اجرا و آستانه مشترک را نشان می‌دهد؛ نگه‌داشتن نقاط ناموفق در نمودار ضروری است.
 
-\input{code/experiments/inverse_attainable_standard/figures/sec410_error.tex}
+\input{code/experiments/inverse-attainable/figures/sec410_error.tex}
 
 \subsection{تراکم درون‌طبقه‌ای و هندسه مراکز بازسازی‌شده}
 \label{subsec:ch4-inverse-center-geometry}
@@ -1494,11 +1494,11 @@ $n\times d\times n\times n$ در
 
 از ماتریس سه مرکز بازسازی‌شده در هر ترکیب بلوک، روش و آغاز، جدایی اطلاعاتی $I$، معیار هم‌برچسبی $T$، نسخه جایگشتی $BT$ و معیارهای لگاریتمی $TNL$ و $BTNL$ محاسبه شده‌اند. جهت واگرایی \lr{KL} در $R$ از توزیع نمونه به مرکز همان طبقه است و واگرایی \lr{JSD} و فاصله $\sqrt{\operatorname{JSD}}$ نیز جداگانه ثبت شده‌اند. جدول~\ref{tab:ch4-inverse-R-I} میانگین‌های توصیفی $R_{\mathrm{KL}}$ و $I$ را نشان می‌دهد و مقادیر کامل دیگر معیارها در گزارش محاسباتی ثبت شده‌اند.
 
-\input{code/experiments/inverse_attainable_standard/tables/sec410_density.tex}
+\input{code/experiments/inverse-attainable/tables/sec410_density.tex}
 
 در هر دو اندازه مرجع، مقدار میانگین $R_{\mathrm{KL}}$ برای \lr{Q-only} کوچک‌تر از دو روش دیگر است؛ برای $n=150$ به‌ترتیب حدود $0.00733$ در برابر $0.01150$ و $0.01314$، و برای $n=300$ حدود $0.00673$ در برابر $0.01501$ و $0.01425$ است. بااین‌حال، جدایی $I$ در \lr{Q-only} نیز کمتر است: در $n=150$ مقدار حدود $0.01682$ در برابر $0.03177$، و در $n=300$ حدود $0.01438$ در برابر $0.02737$ و $0.02735$. بنابراین کوچک بودن پراکندگی درون‌طبقه‌ای به‌تنهایی نه بازسازی مطلوب مرکز هدف را تضمین می‌کند و نه جدایی مناسب مراکز را. این مشاهده با تمایز نظری $R$ و $I$ در فصل سوم سازگار است؛ از آن نباید به‌تنهایی حکم دقت طبقه‌بندی استخراج کرد.
 
-\input{code/experiments/inverse_attainable_standard/figures/sec410_density_vs_I.tex}
+\input{code/experiments/inverse-attainable/figures/sec410_density_vs_I.tex}
 
 \subsection{هزینه محاسبات، کنترل بازتولید و حدود استنتاج}
 \label{subsec:ch4-inverse-interpretation}
@@ -1514,7 +1514,7 @@ $n\times d\times n\times n$ در
 
 دامنه استنتاج به سه بذر مستقل مولد، دو اندازه مرجع وابسته در هر بذر، اهدافی که دست‌یافتنی‌بودن آن‌ها با سیاست شاهد تضمین شده و بودجه‌های نابرابر حلگرها محدود است. موفقیت بر پایه \emph{بهترین} خطای ثبت‌شده در مسیر محاسبه سنجیده شده است؛ ازاین‌رو نه یکتایی سیاست، نه ناممکن‌بودن مسائل ناموفق، نه برتری عمومی حلگرها و نه بهبود دقت طبقه‌بندی یا عملکرد روی داده آزمون از این نتایج نتیجه نمی‌شود.
 
-داده‌های خام، کد بازتولید، معیارها، جدول‌ها و نمودارهای این آزمایش در پوشه \lr{inverse\_attainable\_standard} مخزن پایان‌نامه نگهداری می‌شوند.
+داده‌های خام، کد بازتولید، معیارها، جدول‌ها و نمودارهای این آزمایش در پوشه \lr{inverse-attainable} مخزن پایان‌نامه نگهداری می‌شوند.
 
 \section{مراکز برچسبی بیزی، فضای قابل‌دستیابی و معیارهای بازنمایی}
 \label{sec:ch4-bayes-center-inverse}
@@ -1567,40 +1567,40 @@ q_b^{(s)}(j\mid i)=
 \ge\frac{1}{2K}\sum_{c=1}^{K}\delta_c^2.
 \end{equation}
 برای هر کلاس، مختصه دارای بیشترین فاصلهٔ مثبت را می‌توان انتخاب کرد. جدول~\ref{tab:ch4-sec411-certified-bayes} نشان می‌دهد که هر شش مرکز هدفِ بیزیِ منجمد، در این تنظیم مشخص، دست‌کم یک شرط ضروری را نقض می‌کنند.
-\input{code/experiments/bayes_center_reachability_standard/tables/certified_bayes.tex}
+\input{code/experiments/bayes-center-inverse/tables/certified_bayes.tex}
 
 نتیجهٔ فوق تنها دربارهٔ شش گراف و تنظیم پایه و با فرض‌های محاسباتی لازم است؛ از آن، عدم‌دستیابی مرکز بیزی برای هر مجموعه‌داده یا تمام پارامترهای گشت نتیجه نمی‌شود. همچنین گواهِ هدف عددی ذخیره‌شده به‌تنهایی گواهی برای پسین تحلیلی با ورودی‌های حقیقی دلخواه نیست.
 
 \paragraph{حساسیت نسبت به عمق و پارامترها.}
 برای چهار عمق دیگر و تغییرهای $\beta$ و $\lambda$، خروجی بلمن صرفاً برای تحلیل \emph{عددی} حساسیت به کار می‌رود؛ محصورسازی معتبر تنظیم پایه به این $48$ پیکربندی منتقل نمی‌شود. شکل~\ref{fig:ch4-sec411-depth-sensitivity} تغییر شکاف عددی با عمق را در مرجع $300$تایی سه بذر نمایش می‌دهد. در هر سه گراف، شکاف از $H=1$ تا $H=12$ افزایش یافت، هرچند تغییر آن در عمق‌های بزرگ‌تر کوچک‌تر بود. جدول~\ref{tab:ch4-sec411-parameter-sensitivity} نیز تغییر تک‌عاملی در $H=12$ را در دو اندازه مرجع نشان می‌دهد.
-\input{code/experiments/bayes_center_reachability_standard/figures/depth_sensitivity.tex}
-\input{code/experiments/bayes_center_reachability_standard/tables/parameter_sensitivity.tex}
+\input{code/experiments/bayes-center-inverse/figures/depth_sensitivity.tex}
+\input{code/experiments/bayes-center-inverse/tables/parameter_sensitivity.tex}
 
 \subsection{دو ماتریس هدف ثابت و نقش مؤلفه‌های غیرقطری}
 \label{subsec:ch4-full300-relaxed-diagonal}
 برای بررسی نقش آرایش احتمال میان مؤلفه‌های یک مرکز، دو ماتریس هدف ثابت با نام‌های \lr{equal} و \lr{bounded\_equal} روی گراف کامل $300$تایی بذر $20261102$ بررسی شدند. در هدف نخست جرم باقی‌مانده میان دو مؤلفه غیرقطری هر سطر مساوی تقسیم شده و در هدف دوم آرایش غیرقطری متفاوت است. هیچ‌یک از نام‌ها به‌معنای تضمین دست‌یافتنی‌بودن نیست؛ هر دو ماتریس پیش از ارزیابی ثابت شده‌اند.
 
 هر دو ماتریس با \emph{همان نه بازهٔ} تنظیم پایه سنجیده شدند. جدول~\ref{tab:ch4-sec411-d11-fixed-targets} نشان می‌دهد که هر دو هدف، از جمله \lr{bounded\_equal}، با فاصلهٔ مثبت از یک قید ضروری خارج‌اند. این نتیجه تنها برای دو ماتریس ثابت مذکور برقرار است و به تمام ماتریس‌هایی با قطر مشابه تعمیم نمی‌یابد.
-\input{code/experiments/bayes_center_reachability_standard/tables/d11_fixed_targets.tex}
+\input{code/experiments/bayes-center-inverse/tables/d11_fixed_targets.tex}
 
 \subsection{بازیابی عددی و عملکرد طبقه‌بندی}
 \label{subsec:ch4-bayes-method-comparison}
 برای هر گراف، سه سیاست کلاس‌شرطی با دو مقداردهی اولیه خنثی و تصادفی برازش شدند؛ بنابراین $3\times2\times3\times2=36$ اجرای حلگر ثبت شد. در هر اجرا ابتدا $100$ گام بهینه‌سازی هدف محلی $Q$ و سپس حداکثر $30$ اصلاح گاوس--نیوتن میراشده با امید دقیق گشت انجام گرفت. انتخاب بهترین سیاست هر کلاس فقط با کمترین \lr{JSD} مرکز آموزش به هدف بیزی انجام شد. خطای باقی‌مانده در این بودجه، به‌تنهایی بهینه سراسری یا ناممکن‌بودن هدف را اثبات نمی‌کند.
 
 با ثابت‌ماندن سیاست‌ها، بازنمایی‌های سطح نمونه و پیش‌بینی‌ها روی هر سه تقسیم محاسبه شدند. جدول~\ref{tab:ch4-sec411-balanced-accuracy} میانگین دقت متوازن سه بذر را با خط مبنای یکنواخت مقایسه می‌کند. در مرجع $n=300$، میانگین دقت متوازن آزمون برای برازش به بیزی $79.78\%$ و برای سیاست یکنواخت $81.57\%$ بود. با توجه به سه بذر مستقل و وابستگی دو اندازه مرجع، این مشاهده حکم کلی برتری هیچ‌یک از سیاست‌ها نیست.
-\input{code/experiments/bayes_center_reachability_standard/tables/balanced_accuracy.tex}
+\input{code/experiments/bayes-center-inverse/tables/balanced_accuracy.tex}
 
 جدایی مراکز با $I,T,BT,TNL,BTNL$ و تراکم بازنمایی نمونه‌ها با $R_{\mathrm{KL}}$، $R_{\mathrm{JS}}$ و $R_{\sqrt{\mathrm{JS}}}$ طبق قرارداد فصل سوم محاسبه شدند. جدول~\ref{tab:ch4-sec411-density-separation} گزیده‌ای از این معیارها را روی آموزش گزارش می‌کند. در هر دو اندازه، برازش به هدف بیزی جدایی $I$ را افزایش داده، اما هم‌زمان تراکم $R_{\mathrm{KL}}$ را نیز به معنای پراکندگی بیشتر افزایش داده است؛ پس تغییر هندسه مراکز به‌تنهایی بهبود طبقه‌بندی را تضمین نمی‌کند.
-\input{code/experiments/bayes_center_reachability_standard/tables/density_separation.tex}
+\input{code/experiments/bayes-center-inverse/tables/density_separation.tex}
 
 \subsection{جمع‌بندی و حدود اعتبار}
 \label{subsec:ch4-sec411-conclusion}
 در شش گراف پایه، ماتریس‌های مرکز بیزیِ منجمد از مجموعهٔ خارجی ضروری مراکز دست‌یافتنی خارج بودند؛ دو هدف ثابت دیگر نیز در گراف اصلی از همین شرط ضروری خارج شدند. این نتیجهٔ ساختاری از نتیجهٔ حلگر مستقل است. از سوی دیگر، کاهش فاصلهٔ مراکز به هدف بیزی در همین داده‌ها افزایش دقت متوازن را تضمین نکرد و با افزایش جدایی، پراکندگی درون‌کلاسی نیز بیشتر شد. این رفتار با تفاوت مفهومی پسین برچسب خود نمونه و توزیع برچسب همسایگی گشت سازگار است.
 
-نتیجه تنها برای مدل و داده‌های آزموده‌شده، تنظیم پایه در گواه‌های محصورشده، سه بذر مستقل مولد و بودجهٔ حلگرهای حاضر معتبر است. اطلاعات کامل داده‌ها، کد، معیارها، جدول‌ها، شکل‌ها و بازتولید در پوشهٔ \lr{bayes\_center\_reachability\_standard} از پیوست الکترونیکی آمده است.
+نتیجه تنها برای مدل و داده‌های آزموده‌شده، تنظیم پایه در گواه‌های محصورشده، سه بذر مستقل مولد و بودجهٔ حلگرهای حاضر معتبر است. اطلاعات کامل داده‌ها، کد، معیارها، جدول‌ها، شکل‌ها و بازتولید در پوشهٔ \lr{bayes-center-inverse} از پیوست الکترونیکی آمده است.
 
 \section{بازآزمایی استاندارد سیاست‌ها با قرارداد یکسان}
-\label{sec:ch4-benchmark-v1}
+\label{sec:ch4-standard-policy-comparison}
 
 هدف این آزمایش، مقایسهٔ اثر خانوادهٔ سیاست و تابع هدف بر کیفیت بازنمایی و تصمیم طبقه‌بندی، تحت یک قرارداد محاسباتی یکسان است. پرسش اصلی آن است که آیا افزایش جدایی مراکز یا کاهش پراکندگی درون‌کلاسی به‌تنهایی با افزایش دقت طبقه‌بندی همراه می‌شود و افزایش انعطاف سیاست چه اثری بر عملکرد مشاهده‌شده دارد. برای پاسخ، هندسهٔ مراکز، پراکندگی توزیع‌های همسایگی و دقت متوازن را در کنار یکدیگر گزارش می‌کنیم.
 
@@ -1713,7 +1713,7 @@ $300$ & $89.86\pm7.27$ & $87.77\pm8.94$\\
 
 محدودیت مهم دیگر، وابستگی اجراها به یکدیگر، کوچک‌بودن تعداد بذرهای مستقل، تفاوت بودجهٔ آموزش در بخش‌های مختلف و نسخهٔ محاسباتی برخی معیارهای نمونه‌محور است. مقادیر KL جدول‌ها به نسخهٔ دارای clipping تعلق دارند و به‌جای KL دقیقِ فصل سوم تفسیر نمی‌شوند. از سوی دیگر، مرجع بیزیِ مولد از پسین واقعی برچسب به‌دست می‌آید و هندسهٔ آن با هندسهٔ بازنمایی گشت یکسان نیست؛ بنابراین معیارهای تراکم این دو را نباید هم‌نام و هم‌معنا دانست. ارزیابی نهایی تعمیم نیز مستلزم تعیین سیاست آغاز معتبر برای نمونهٔ جدید، تثبیت تنظیمات بر اساس آموزش و اعتبارسنجی و سپس استفاده از مجموعهٔ آزمون تازه است.
 
-پیکربندی‌ها، فایل‌های خامِ $76$ اجرای این مقایسه، پارامترهای سیاست، تاریخچهٔ آموزش، خروجی‌های آموزش و اعتبارسنجی، ماتریس‌های مراکز و جدول سنجه‌ها در پوشهٔ اختصاصی \lr{\texttt{standard\_policy\_comparison}} از پیوست الکترونیکی همراه پایان‌نامه گردآوری شده‌اند. راهنمای آن پوشه، پیوند هر اجرا با آرشیو و هش فایل، قرارداد معیارها و دامنهٔ ممیزی آن‌ها را مشخص می‌کند. این پرونده امکان بررسی عددی و بازسازی جدول‌ها از خروجی‌های ذخیره‌شده را می‌دهد؛ بازاجرای کامل آموزش از ابتدا نیازمند کد و محیط توسعهٔ پژوهش است و با این بررسی عددی یکسان نیست.
+پیکربندی‌ها، فایل‌های خامِ $76$ اجرای این مقایسه، پارامترهای سیاست، تاریخچهٔ آموزش، خروجی‌های آموزش و اعتبارسنجی، ماتریس‌های مراکز و جدول سنجه‌ها در پوشهٔ اختصاصی \lr{\texttt{standard-policy-comparison}} از پیوست الکترونیکی همراه پایان‌نامه گردآوری شده‌اند. راهنمای آن پوشه، پیوند هر اجرا با آرشیو و هش فایل، قرارداد معیارها و دامنهٔ ممیزی آن‌ها را مشخص می‌کند. این پرونده امکان بررسی عددی و بازسازی جدول‌ها از خروجی‌های ذخیره‌شده را می‌دهد؛ بازاجرای کامل آموزش از ابتدا نیازمند کد و محیط توسعهٔ پژوهش است و با این بررسی عددی یکسان نیست.
 
 \section{مقایسه توابع هدف و نقش سیاست آغاز در تعمیم}
 \label{sec:ch4-objective-start-diagnostics}
@@ -1767,7 +1767,7 @@ $H=12$، آغاز لگیت‌های صفر، نرخ یادگیری $0.12$
 سافت‌پلاس است. برابری دقت، به معنای برابری پیش‌بینی
 تک‌تک نمونه‌ها نیست.
 
-\input{code/experiments/ch4_loss_controlled_comparison/tables/phase2_validation_pairs.tex}
+\input{code/experiments/objective-start-diagnostics/tables/phase2_validation_pairs.tex}
 
 برای جداسازی اثر تابع هدف از دشواری خود داده،
 جدول~\ref{tab:ch4-e13-validation-summary}
@@ -1786,7 +1786,7 @@ $x_1,x_2,x_3$ که خود بر حسب درصد گزارش می‌شوند،
 معیار \emph{واحد درصد} است. انحراف معیار،
 خطای معیار میانگین یا فاصله اطمینان نیست.
 
-\input{code/experiments/ch4_loss_controlled_comparison/tables/phase2_validation_summary.tex}
+\input{code/experiments/objective-start-diagnostics/tables/phase2_validation_summary.tex}
 
 میانگین دقت متوازن سیگموئید و سافت‌پلاس در خانواده
 \lr{shared} به‌ترتیب $89.8632$ و $89.7559$
@@ -1800,7 +1800,7 @@ $87.7732$ و $89.9628$ درصد می‌شود.
 \emph{دقت متوازن تجربی} نباید آن را کران بالای
 ریاضی عملکرد هر طبقه‌بند تلقی کرد.
 
-\input{code/experiments/ch4_loss_controlled_comparison/figures/phase2_comparison_figures.tex}
+\input{code/experiments/objective-start-diagnostics/figures/phase2_comparison_figures.tex}
 
 \paragraph{تراکم درون‌کلاسی و جدایی مراکز.}
 مطابق قرارداد فصل سوم، سه سنجه مستقل
@@ -1823,7 +1823,7 @@ $R_{\sqrt{\mathrm{JS}}}$
 فقط خلاصه \emph{سه بذر} همان خانواده و تابع زیان
 هستند؛ این خطوط کران اطمینان نیستند.
 
-\input{code/experiments/ch4_loss_controlled_comparison/figures/phase2_density_figures.tex}
+\input{code/experiments/objective-start-diagnostics/figures/phase2_density_figures.tex}
 
 این جدایی میان تراکم و جدایی مراکز لزوماً به تصمیم بهتر
 نمی‌انجامد: برای نمونه در بذر $20261103$ و خانواده
@@ -1876,7 +1876,7 @@ $0.1366$ و $0.1932$ مقدار آغازین هستند.
 دقت آموزش تقریباً مشابه، لزوماً دقت اعتبارسنجی
 یکسان به‌همراه ندارد.
 
-\input{code/experiments/ch4_loss_controlled_comparison/figures/phase2_dynamics_figures.tex}
+\input{code/experiments/objective-start-diagnostics/figures/phase2_dynamics_figures.tex}
 
 در مجموع، این آزمایش به جای تعیین یک تابع زیان
 برتر از همه جهات، دو جهت اثر مشاهده‌شده را
@@ -1896,7 +1896,7 @@ $25$ گام محدود هستند؛ هیچ نتیجه آزمون
 پرونده‌های مدل، گزارش علمی تفصیلی، نمودارهای اصلی و
 نسخه‌های فارسی، و اطلاعات لازم برای بازتولید عددی
 و بررسی صحت نتایج، در پوشهٔ اختصاصی
-\lr{\texttt{code/experiments/ch4\_loss\_controlled\_comparison/}}
+\lr{\texttt{code/experiments/objective-start-diagnostics/}}
 در پیوست الکترونیکی پایان‌نامه ارائه شده‌اند.
 
 \subsection{NLL مبتنی بر KL و JS و زیان چندرقیبی}
@@ -2042,6 +2042,13 @@ $100$ درصد آموزش در خانواده آزاد، برای خانواده
 ظرفیت خانواده مقید نیست. سیاست‌های میانی آن همچنان
 به \emph{گره‌های مرجع آموزش} وابسته‌اند و تعمیم
 به مرجع کاملاً جدید نیازمند مدل تابعی گسترده‌تری است.
+
+\paragraph{پیوست الکترونیکی و بازتولید.}
+گزارش تفصیلی، داده‌های منجمد، کد، پیکربندی‌ها، خروجی‌های
+$12$ آموزش کنترل‌شده، جدول‌ها، شکل‌ها و کنترل‌های بازتولید
+آزمایش این بخش در پوشهٔ
+\lr{\texttt{objective-start-diagnostics}}
+از پیوست الکترونیکی نگهداری می‌شوند.
 
 \section{طرح بررسی حساسیت به ساختار داده مصنوعی}
 \label{sec:ch4-synthetic-sensitivity-plan}

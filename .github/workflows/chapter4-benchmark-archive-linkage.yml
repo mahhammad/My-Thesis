@@ -3,15 +3,14 @@ on:
   pull_request:
     paths:
       - 'code/experiments/benchmark_v1/**'
-      - 'code/experiments/standard_policy_comparison/**'
+      - 'code/experiments/standard-policy-comparison/**'
       - 'code/experiments/archive/**'
-      - 'code/experiments/multistep_policy_target_match/**'
-      - 'code/experiments/diag_max_full300/**'
-      - 'code/experiments/inverse_attainable_standard/**'
+      - 'code/experiments/inverse-attainable/**'
       - 'research_journal/archive_recovery/**'
-      - 'code/experiments/exact_matrix_walk_validation/**'
-      - 'code/experiments/sigmoid_margin_observational_evaluation/**'
-      - 'code/experiments/walk_depth_effect/**'
+      - 'research_journal/ch4-14-synthetic-data-structure-sensitivity-plan.md'
+      - 'code/experiments/exact-matrix-evaluation/**'
+      - 'code/experiments/sigmoid-margin-evaluation/**'
+      - 'code/experiments/true-horizon-effect/**'
       - 'code/experiments/test_chapter4_presentation.py'
       - 'code/experiments/test_benchmark_archive_links.py'
       - '.github/workflows/chapter4-benchmark-archive-linkage.yml'
@@ -75,18 +74,18 @@ jobs:
           python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
       - name: B02 pure-gate safety and E06/E07 persisted-report regressions (NO FIT)
         run: |
-          python -m unittest discover -s code/experiments/inverse_attainable_standard/b02_gate_v3 -p test_pure_gate.py -v
-          python -m unittest discover -s code/experiments/inverse_attainable_standard/b02_gate_candidate -p test_pure_gate.py -v
-          python -m unittest discover -s code/experiments/sigmoid_margin_observational_evaluation -p test_analyze.py -v
-          python -m unittest discover -s code/experiments/target_center_guidance_trajectory -p test_replay_presentation.py -v
+          python -m unittest discover -s code/experiments/inverse-attainable/b02_gate_v3 -p test_pure_gate.py -v
+          python -m unittest discover -s code/experiments/inverse-attainable/b02_gate_candidate -p test_pure_gate.py -v
+          python -m unittest discover -s code/experiments/sigmoid-margin-evaluation -p test_analyze.py -v
+          python -m unittest discover -s code/experiments/center-target-observation -p test_replay_presentation.py -v
       - name: E07 persisted Train/Validation reports (NO REPLAY)
         run: |
-          python -m unittest discover -s code/experiments/sigmoid_margin_observational_evaluation -p test_benchmark_300.py -v
-          python -m unittest discover -s code/experiments/sigmoid_margin_observational_evaluation -p test_benchmark_size_full.py -v
+          python -m unittest discover -s code/experiments/sigmoid-margin-evaluation -p test_benchmark_300.py -v
+          python -m unittest discover -s code/experiments/sigmoid-margin-evaluation -p test_benchmark_size_full.py -v
       - name: E08 and E09 saved-result audits (NO REPLAY)
         run: |
-          python code/experiments/exact_matrix_walk_validation/verify_results.py
-          python code/experiments/walk_depth_effect/verify.py
+          python code/experiments/exact-matrix-evaluation/verify_results.py
+          python code/experiments/true-horizon-effect/verify.py
       - name: Chapter4 presentation and shared snapshot/metrics
         run: |
           python -m unittest discover -s code/experiments -p test_chapter4_presentation.py -v

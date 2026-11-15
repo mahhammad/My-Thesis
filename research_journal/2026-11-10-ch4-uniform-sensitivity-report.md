@@ -8,12 +8,12 @@
 
 پس از تکمیل و تأیید کامپایل ۴.۳ توسط کاربر، بخش **۴.۴ با عنوان دقیق «ارزیابی سیاست یکنواخت و تحلیل حساسیت ابرپارامترهای گشت»** سامان گرفت. بخش سیاست هدایت‌شده دستی و مقایسه‌های قدیمی و دقیق آن از نظر ساختار، **۴.۵** شد تا یک آزمایش با چند سؤال علمی مخلوط نشود. عنوان رسمی گزارش و بخش LaTeX همسان است. آزمایش ۴.۴ هیچ سیاستی را آموزش نمی‌دهد؛ `shared, Z=0` است.
 
-همسو با الگوی [۴.۳](../code/experiments/one_step_transition_population_convergence/REPORT_FA.md)، [استاندارد گزارش فصل چهارم](../code/experiments/EXPERIMENT_REPORT_STANDARD_FA.md) رعایت شد: سؤال → پروتکل و فرمول → معیارهای Train/Validation → جدول و شکل از منبع یکتا → تحلیل و محدوده اعتبار → منشأ و تست. **به جای نگارش مستقل و دوباره اعداد، هر دو جدول و سه شکل از پوشه آزمایش با `\input` در فصل درج شدند.**
+همسو با الگوی [۴.۳](../code/experiments/q-validation/README_FA.md)، [استاندارد گزارش فصل چهارم](../code/experiments/EXPERIMENT_REPORT_STANDARD_FA.md) رعایت شد: سؤال → پروتکل و فرمول → معیارهای Train/Validation → جدول و شکل از منبع یکتا → تحلیل و محدوده اعتبار → منشأ و تست. **به جای نگارش مستقل و دوباره اعداد، هر دو جدول و سه شکل از پوشه آزمایش با `\input` در فصل درج شدند.**
 
 ## ۲. منشأ و کنترل داده
 
-- [پوشه رسمی آزمایش](../code/experiments/uniform_policy_hyperparameter_sensitivity/README_FA.md) و [گزارش کامل فارسی](../code/experiments/uniform_policy_hyperparameter_sensitivity/REPORT_FA.md).
-- [۹ ردیف بدون دستکاری](../code/experiments/uniform_policy_hyperparameter_sensitivity/results/uniform_runs.csv) با فیلتر `kind=uniform` از [خروجی اصلی ۱۳ اجرا](../code/experiments/benchmark_v1/results/pipeline_v1/fixed_baselines_summary_20261109.csv) گرفته شد. SHA مبدأ `e159498e7fc7a21b45dbca3a98f5576dee4ebf18` است. [`provenance.json`](../code/experiments/uniform_policy_hyperparameter_sensitivity/results/provenance.json) اطلاعات اصلی، شناسه runها، source commit و بذر را نگه می‌دارد.
+- [پوشه رسمی آزمایش](../code/experiments/uniform-hyperparameter-sensitivity/README_FA.md) و [گزارش کامل فارسی](../code/experiments/uniform-hyperparameter-sensitivity/README_FA.md).
+- [۹ ردیف بدون دستکاری](../code/experiments/uniform-hyperparameter-sensitivity/results/uniform_runs.csv) با فیلتر `kind=uniform` از [خروجی اصلی ۱۳ اجرا](../code/experiments/benchmark_v1/results/pipeline_v1/fixed_baselines_summary_20261109.csv) گرفته شد. SHA مبدأ `e159498e7fc7a21b45dbca3a98f5576dee4ebf18` است. [`provenance.json`](../code/experiments/uniform-hyperparameter-sensitivity/results/provenance.json) اطلاعات اصلی، شناسه runها، source commit و بذر را نگه می‌دارد.
 - سند اصلی اجرا: [GitHub Actions #42649911898](https://github.com/mahhammad/My-Thesis/actions/runs/42649911898)، `ExactMaskedWalk` با `float64`، Train=۳۰۰، Validation=۹۰، مولد بذر `20261102` و $\gamma=(.8,1.2,.5,1,.6)$؛ هر ۹ snapshot آن زمان **بازتولید مستقل توزیع‌های Train/Validation و مراکز با `atol=1e-12`** داشتند. فایل کامل snapshot فعلاً فقط در artifact با نگهداری محدود وجود دارد؛ CSV ماندگار در Git است.
 - مدل سیاست `Z_{\mathrm{uniform}}=0` و آموزش صفر مرحله. ۹ تنظیم یکتا: ۳ مقدار $\beta$ با $\lambda=.8,H=12$، دو مقدار اضافی $\lambda$ و چهار مقدار اضافی $H$؛ مبنای $(.4,.8,12)$ در هر گروه نمودار **دوباره نمایش** داده می‌شود ولی اجرای مستقل اضافه محسوب نمی‌شود.
 - **هیچ گشت تازه یا آزمایش سنگین اجرا نشد و Test تاریخی باز نشد.** از آن برای انتخاب پارامتر استفاده نشده است.
@@ -38,8 +38,8 @@ $R_{\mathrm{JS}}=0.00201$.
 
 ## ۴. فایل‌های تصویر، جدول و کد کنترل
 
-- [جدول اصلی نه اجرا](../code/experiments/uniform_policy_hyperparameter_sensitivity/tables/main_results.tex)، [جدول معیارهای تکمیلی](../code/experiments/uniform_policy_hyperparameter_sensitivity/tables/diagnostics.tex).
-- [عمق مؤثر نسبت به سه پارامتر](../code/experiments/uniform_policy_hyperparameter_sensitivity/figures/depth_sensitivity.tex)، [هندسه در برابر عمق](../code/experiments/uniform_policy_hyperparameter_sensitivity/figures/geometry_vs_depth.tex)، [BA آموزش/اعتبارسنجی](../code/experiments/uniform_policy_hyperparameter_sensitivity/figures/balanced_accuracy.tex).
+- [جدول اصلی نه اجرا](../code/experiments/uniform-hyperparameter-sensitivity/tables/main_results.tex)، [جدول معیارهای تکمیلی](../code/experiments/uniform-hyperparameter-sensitivity/tables/diagnostics.tex).
+- [عمق مؤثر نسبت به سه پارامتر](../code/experiments/uniform-hyperparameter-sensitivity/figures/depth_sensitivity.tex)، [هندسه در برابر عمق](../code/experiments/uniform-hyperparameter-sensitivity/figures/geometry_vs_depth.tex)، [BA آموزش/اعتبارسنجی](../code/experiments/uniform-hyperparameter-sensitivity/figures/balanced_accuracy.tex).
 - نسخه SVG هر سه نمودار در همان `figures/` نگه داشته شده است، اما نسخه درج‌شده در LaTeX از TikZ است و به `pgfplots` جدید احتیاج ندارد.
 - [CI موفق نهایی با ۱۳ تست](https://github.com/mahhammad/My-Thesis/actions/runs/42715068662): ۱۰ آزمون منبع/هندسه/جدول/TikZ/SVG و اتصال یکتای هر پنج `\input` و جداسازی ۴.۴/۴.۵، به‌علاوه ۳ کنترل ایستای مسیرهای LaTeX و برچسب‌ها؛ **بدون بازاجرای گشت یا Test**. این کنترل‌ها معادل کامپایل نهایی XeLaTeX نیستند.
 

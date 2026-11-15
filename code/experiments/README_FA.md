@@ -9,19 +9,19 @@
 - [قرارداد ماشین‌خوان مشترک](COMMON_METRICS_CONTRACT.json): فهرست نام‌های متریک، تجمیع متوازن، تعریف وضعیت‌ها و ساختار خروجی.
 - [گزارشگر مستقل](benchmark_v1/report_snapshot.py): محاسبه خروجی کامل از بازنمایی‌ها و مراکز آموزش با توابع مرکزی فصل سوم در [metrics.py](../policy_evaluator/metrics.py).
 
-## فهرست رسمی آزمایش‌های گزارش‌شده
+## نمایهٔ جزئی آزمایش‌های §۴.۳ تا §۴.۷ (فهرست کامل §۴.۳ تا §۴.۱۳ در ادامه)
 
 | بخش | شناسه و عنوان | خروجی سنجه‌ها |
 |---|---|---|
-| **۴.۳** | [E-CH4-03 — اعتبارسنجی همگرایی انتقال یک‌گامی](one_step_transition_population_convergence/README_FA.md) | TV و جذر JSD برای Q؛ **معیارهای مرکز نامرتبط‌اند**. [پوشش](one_step_transition_population_convergence/results/coverage.json) |
-| **۴.۴** | [E-CH4-04 — حساسیت سیاست یکنواخت](uniform_policy_hyperparameter_sensitivity/README_FA.md) | [گزارش کامل ۹ تنظیم](uniform_policy_hyperparameter_sensitivity/results/metrics_full.json) · [CSV مشترک](uniform_policy_hyperparameter_sensitivity/results/metrics_summary.csv) · [پوشش](uniform_policy_hyperparameter_sensitivity/results/coverage.json) |
-| **۴.۵** | [E-CH4-05 — اختلاط احتمال و Guided بدون نویز](guided_informative_uniform_mixture/README_FA.md) | [گزارش کامل ۵ تنظیم](guided_informative_uniform_mixture/results/metrics_full.json) · [CSV مشترک](guided_informative_uniform_mixture/results/metrics_summary.csv) · [پوشش](guided_informative_uniform_mixture/results/coverage.json) |
-| **۴.۶** | [E-CH4-06 — هدایت گشت به مراکز هدف](target_center_guidance_trajectory/README_FA.md) | [تمام سنجه‌های ۴۹ دور بازپخش هدف‌های ثابت](target_center_guidance_trajectory/results/metrics_full.json) · [۲۵ دقت تاریخی + ۲۴ مقدار تازه؛ ممیزی R_JS](target_center_guidance_trajectory/results/coverage.json) |
-| **۴.۷** | [E-CH4-07 — ارزیابی تجربی زیان حاشیه‌ای سیگموئیدی](sigmoid_margin_observational_evaluation/README_FA.md) | [تحلیل مشاهده‌ای و سه سیاست مرجع ۳۰۰تایی](sigmoid_margin_observational_evaluation/results/metrics_full.json) · [۳۶ اجرای Benchmark با معیارهای کامل](sigmoid_margin_observational_evaluation/results/benchmark_size_metrics_full.json) · [پوشش](sigmoid_margin_observational_evaluation/results/coverage.json) |
+| **۴.۳** | [E-CH4-03 — اعتبارسنجی همگرایی انتقال یک‌گامی](q-validation/README_FA.md) | TV و جذر JSD برای Q؛ **معیارهای مرکز نامرتبط‌اند**. [پوشش](q-validation/results/coverage.json) |
+| **۴.۴** | [E-CH4-04 — حساسیت سیاست یکنواخت](uniform-hyperparameter-sensitivity/README_FA.md) | [گزارش کامل ۹ تنظیم](uniform-hyperparameter-sensitivity/results/metrics_full.json) · [CSV مشترک](uniform-hyperparameter-sensitivity/results/metrics_summary.csv) · [پوشش](uniform-hyperparameter-sensitivity/results/coverage.json) |
+| **۴.۵** | [E-CH4-05 — اختلاط احتمال و Guided بدون نویز](fixed-policy-evaluation/README_FA.md) | [گزارش کامل ۵ تنظیم](fixed-policy-evaluation/results/metrics_full.json) · [CSV مشترک](fixed-policy-evaluation/results/metrics_summary.csv) · [پوشش](fixed-policy-evaluation/results/coverage.json) |
+| **۴.۶** | [E-CH4-06 — هدایت گشت به مراکز هدف](center-target-observation/README_FA.md) | [تمام سنجه‌های ۴۹ دور بازپخش هدف‌های ثابت](center-target-observation/results/metrics_full.json) · [۲۵ دقت تاریخی + ۲۴ مقدار تازه؛ ممیزی R_JS](center-target-observation/results/coverage.json) |
+| **۴.۷** | [E-CH4-07 — ارزیابی تجربی زیان حاشیه‌ای سیگموئیدی](sigmoid-margin-evaluation/README_FA.md) | [تحلیل مشاهده‌ای و سه سیاست مرجع ۳۰۰تایی](sigmoid-margin-evaluation/results/metrics_full.json) · [۳۶ اجرای Benchmark با معیارهای کامل](sigmoid-margin-evaluation/results/benchmark_size_metrics_full.json) · [پوشش](sigmoid-margin-evaluation/results/coverage.json) |
 
 ## قرارداد دسترسی به هر آزمایش
 
-در هر پوشهٔ رسمی، `README_FA.md` نقش نقشه فایل‌ها، `REPORT_FA.md` نقش گزارش پژوهشی، `results/` نقش داده و معیارهای قابل ممیزی، `tables/` و `figures/` نقش منابع جدول و شکل برداری برای پایان‌نامه و `test_*.py` نقش کنترل سازگاری را دارند.
+در هر پوشهٔ رسمی، **فقط یک فایل Markdown به نام `README_FA.md`** هم نقش گزارش فنی پژوهشی و هم نقشهٔ دقیق فایل‌ها را دارد؛ `results/` نقش داده و معیارهای قابل ممیزی، `tables/` و `figures/` نقش منابع جدول و شکل برداری برای پایان‌نامه و `test_*.py` نقش کنترل سازگاری را دارند.
 
 در آزمایش‌های دارای مرکز، **مجموعه معیارهای عمومی کامل** بر اساس فصل سوم گزارش می‌شوند؛ این مجموعه فقط به $I$ و $R_{\mathrm{JS}}$ محدود نیست. مقادیر تفصیلی هر کلاس، ماتریس فاصله مراکز و NLL/حاشیه در فایل‌های JSON نگهداری می‌شوند؛ CSV برای مقایسه سریع حالات است.
 
@@ -42,3 +42,24 @@
 ۵. وضعیت اجرا، صحت‌سنجی، یکپارچه‌سازی و تأیید کامپایل را جدا ثبت کنید.
 
 آزمایش‌های **۴.۳ تا ۴.۷** با شناسه پایدار ثبت شده‌اند؛ پیش از هر آزمایش بعدی، یکپارچگی نام‌گذاری، قرارداد ارائه و پوشش معیارهای ناقص کنترل می‌شود.
+
+
+## نقشهٔ رسمی پوشه‌ها مطابق §۴.۳ تا §۴.۱۳
+
+پوشه‌های زیر **۱۱ مطالعه مستقل** هستند؛ هیچ کد آزمایشگاهی یا ابزار کمکی نباید هم‌سطح آنها به‌عنوان آزمایش اضافی شمرده شود. موتورهای عمومی، حلگرهای تاریخی و زیرساخت محاسباتی در [benchmark_v1](benchmark_v1/README_FA.md) مستند شده‌اند. بستهٔ `standard-policy-comparison` نتایج آزمایش §۴.۱۲ است و با `benchmark_v1` مشترک یکی نیست.
+
+| بخش | پوشهٔ رسمی |
+|---|---|
+| §4.3 | [`q-validation/`](q-validation/README_FA.md) |
+| §4.4 | [`uniform-hyperparameter-sensitivity/`](uniform-hyperparameter-sensitivity/README_FA.md) |
+| §4.5 | [`fixed-policy-evaluation/`](fixed-policy-evaluation/README_FA.md) |
+| §4.6 | [`center-target-observation/`](center-target-observation/README_FA.md) |
+| §4.7 | [`sigmoid-margin-evaluation/`](sigmoid-margin-evaluation/README_FA.md) |
+| §4.8 | [`true-horizon-effect/`](true-horizon-effect/README_FA.md) |
+| §4.9 | [`exact-matrix-evaluation/`](exact-matrix-evaluation/README_FA.md) |
+| §4.10 | [`inverse-attainable/`](inverse-attainable/README_FA.md) |
+| §4.11 | [`bayes-center-inverse/`](bayes-center-inverse/README_FA.md) |
+| §4.12 | [`standard-policy-comparison/`](standard-policy-comparison/README_FA.md) |
+| §4.13 | [`objective-start-diagnostics/`](objective-start-diagnostics/README_FA.md) |
+
+طرحِ **اجرا‌نشده** §۴.۱۴ از فهرست آزمایش‌های انجام‌شده خارج و در [Research Journal](../../research_journal/ch4-14-synthetic-data-structure-sensitivity-plan.md) نگهداری می‌شود. فایل‌های خام و خروجی مطالعات رسمی منتقل یا بازنویسی نشده‌اند.

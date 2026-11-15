@@ -3,7 +3,7 @@ on:
   pull_request:
     branches: [main]
     paths:
-      - 'code/experiments/ch4_loss_controlled_comparison/**'
+      - 'code/experiments/objective-start-diagnostics/**'
       - 'tex/chapter4.tex'
       - '.github/workflows/e-ch4-13-publication-qa.yml'
   workflow_dispatch:
@@ -21,18 +21,18 @@ jobs:
       - name: Install read-only scientific array package
         run: python -m pip install --disable-pip-version-check numpy==2.4.6
       - name: Reproduce original source-derived v2 plots and metadata byte-for-byte
-        run: python code/experiments/ch4_loss_controlled_comparison/phase2_derived_reproduce_v2.py --check
+        run: python code/experiments/objective-start-diagnostics/phase2_derived_reproduce_v2.py --check
       - name: Run scientific v2 re-QA unit tests
-        run: python -m unittest discover -s code/experiments/ch4_loss_controlled_comparison -p 'test_phase2_derived_v2.py' -v
+        run: python -m unittest discover -s code/experiments/objective-start-diagnostics -p 'test_phase2_derived_v2.py' -v
       - name: Reproduce v3 overlaid plots byte-for-byte
-        run: python code/experiments/ch4_loss_controlled_comparison/phase2_figures_1_8_v3.py --check
+        run: python code/experiments/objective-start-diagnostics/phase2_figures_1_8_v3.py --check
       - name: Reproduce Figure 11 fixed y-axis byte-for-byte
-        run: python code/experiments/ch4_loss_controlled_comparison/phase2_figure11_y70_100.py --check
+        run: python code/experiments/objective-start-diagnostics/phase2_figure11_y70_100.py --check
       - name: Verify all vector graphics and TeX figure/table inclusions
-        run: python -m unittest discover -s code/experiments/ch4_loss_controlled_comparison -p 'test_e13_publication_ready.py' -v
+        run: python -m unittest discover -s code/experiments/objective-start-diagnostics -p 'test_e13_publication_ready.py' -v
       - name: Independently recalculate Bayes MAP same-seed Validation BA and sample variances from frozen NPZ
         run: |
-          python code/experiments/ch4_loss_controlled_comparison/validation_bayes_summary.py > /tmp/e13_validation_bayes.json
+          python code/experiments/objective-start-diagnostics/validation_bayes_summary.py > /tmp/e13_validation_bayes.json
           python - <<'PY'
           import json
           x=json.load(open("/tmp/e13_validation_bayes.json"))
