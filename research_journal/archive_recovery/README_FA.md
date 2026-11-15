@@ -30,11 +30,11 @@ python research_journal/archive_recovery/restore_archive.py --dest /tmp/imc-reco
 
 ## کد مرجع لازم در مخزن فعال
 
-سه فایل تاریخی با **Git blob یکسان** در مسیر اصلی قابل‌اجرا نگهداری می‌شوند تا وابستگی‌های ممیزی بخش ۴.۱۰ و کنترل مقایسه موتور گشت قطع نشوند:
+سه فایل تاریخی با **Git blob یکسان** در پوشهٔ مشترک Benchmark قابل‌اجرا نگهداری می‌شوند تا وابستگی‌های ممیزی بخش ۴.۱۰ و کنترل مقایسه موتور گشت قطع نشوند:
 
-- `code/experiments/multistep_policy_target_match/run.py`
-- `code/experiments/multistep_policy_target_match/bootstrap_inverse.py`
-- `code/experiments/diag_max_full300/stream_graph.py`
+- `code/experiments/benchmark_v1/run.py`
+- `code/experiments/benchmark_v1/bootstrap_inverse.py`
+- `code/experiments/benchmark_v1/stream_graph.py`
 
 این‌ها **نسخه مدل اصلی** نیستند و نباید با `benchmark_v1/engine.py` یا هسته نهایی IMC یکی انگاشته شوند. SHA ثبت‌شدهٔ snapshotها همچنان از همان بایت‌های تاریخی محاسبه می‌شود.
 
@@ -63,3 +63,8 @@ python code/experiments/benchmark_v1/replay_fixed_center_archive.py \
 درون کد اصلی، مسیرهای `code/experiments/archive/` تاریخی باقی‌اند؛ آن‌ها **مجوز بازآموزی در checkout سبک جدید نیستند**. برای بازتولید قرارداد قدیمی باید در یک `git worktree` مستقل، نسخهٔ قفل‌شدهٔ گذشته (دارای آرشیو اصلی در همان مسیر) checkout شود و سپس بدون هیچ تغییر در کد، SHA و دامنهٔ مجوز تاریخی بازرسی شود. استفاده از رکوردهای قدیمی برای اجرای عددی تازه ممنوع است؛ اجرای جدید به ریشهٔ اعتماد و مجوز نسخه‌دار جدید نیاز دارد.
 
 پاک‌سازی تنها مسیرهای عملیاتی دیگر را اصلاح کرده است. تطبیق خود قرارداد pin‌شده در CI اجباری است، نه استثنای خاموش از کنترل وابستگی‌ها.
+
+
+### بازآرایی پس از تجمیع گزارش‌ها (PR #86)
+
+فایل‌های `run.py`، `bootstrap_inverse.py` و `stream_graph.py` اکنون در `code/experiments/benchmark_v1/` با blob یکسان قرار دارند؛ دو ابزار `observe.py` و `projection.py` نیز آنجا مستقرند. مسیرهای درج‌شده در رکورد قفل‌شده B02 دست نخورده‌اند و باید در **worktree تاریخی** تفسیر شوند، نه با تغییر منبع اعتماد یا symlink. خروجی‌های عددی و داده‌های شاهد تغییر نکرده‌اند.

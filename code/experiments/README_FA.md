@@ -42,3 +42,24 @@
 ۵. وضعیت اجرا، صحت‌سنجی، یکپارچه‌سازی و تأیید کامپایل را جدا ثبت کنید.
 
 آزمایش‌های **۴.۳ تا ۴.۷** با شناسه پایدار ثبت شده‌اند؛ پیش از هر آزمایش بعدی، یکپارچگی نام‌گذاری، قرارداد ارائه و پوشش معیارهای ناقص کنترل می‌شود.
+
+
+## نقشهٔ رسمی پوشه‌ها مطابق §۴.۳ تا §۴.۱۳
+
+پوشه‌های زیر **۱۱ مطالعه مستقل** هستند؛ هیچ کد آزمایشگاهی یا ابزار کمکی نباید هم‌سطح آنها به‌عنوان آزمایش اضافی شمرده شود. موتورهای عمومی، حلگرهای تاریخی و زیرساخت محاسباتی در [benchmark_v1](benchmark_v1/README_FA.md) مستند شده‌اند. بستهٔ `standard_policy_comparison` نتایج آزمایش §۴.۱۲ است و با `benchmark_v1` مشترک یکی نیست.
+
+| بخش | پوشهٔ رسمی |
+|---|---|
+| §4.3 | [`one_step_transition_population_convergence/`](one_step_transition_population_convergence/README_FA.md) |
+| §4.4 | [`uniform_policy_hyperparameter_sensitivity/`](uniform_policy_hyperparameter_sensitivity/README_FA.md) |
+| §4.5 | [`guided_informative_uniform_mixture/`](guided_informative_uniform_mixture/README_FA.md) |
+| §4.6 | [`target_center_guidance_trajectory/`](target_center_guidance_trajectory/README_FA.md) |
+| §4.7 | [`sigmoid_margin_observational_evaluation/`](sigmoid_margin_observational_evaluation/README_FA.md) |
+| §4.8 | [`walk_depth_effect/`](walk_depth_effect/README_FA.md) |
+| §4.9 | [`exact_matrix_walk_validation/`](exact_matrix_walk_validation/README_FA.md) |
+| §4.10 | [`inverse_attainable_standard/`](inverse_attainable_standard/README_FA.md) |
+| §4.11 | [`bayes_center_reachability_standard/`](bayes_center_reachability_standard/README_FA.md) |
+| §4.12 | [`standard_policy_comparison/`](standard_policy_comparison/README_FA.md) |
+| §4.13 | [`ch4_loss_controlled_comparison/`](ch4_loss_controlled_comparison/README_FA.md) |
+
+طرحِ **اجرا‌نشده** §۴.۱۴ از فهرست آزمایش‌های انجام‌شده خارج و در [Research Journal](../../research_journal/ch4-14-synthetic-data-structure-sensitivity-plan.md) نگهداری می‌شود. فایل‌های خام و خروجی مطالعات رسمی منتقل یا بازنویسی نشده‌اند.
