@@ -111,14 +111,17 @@ class DataTests(unittest.TestCase):
             derive_all(m,raw[0].astype('float32'),raw[1],*mask,old_gamma=(1.,)*5,spec=s)
         with self.assertRaises(ValueError):
             derive_all(m,*raw,mask[0].astype('uint8'),mask[1],old_gamma=(1.,)*5,spec=s)
-        with tempfile.TemporaryDirectory() as tmp:
-            path=Path(tmp)/'fixture.npz'
+        with tempfile.TemporaryDirectory(prefix='e14-fixture-') as tmp:
+            path=Path(tmp)/'new_noise_seed20261102.npz'
+            arrays={'train_noise':raw[0],'validation_noise':raw[1]}
             with self.assertRaises(PermissionError):
-                save_npz_once(path,{'data':raw[0]})
-            digest=save_npz_once(path,{'data':raw[0]},fixture=True)
+                save_npz_once(path,arrays,stage='raw_noise',schema='e-ch4-14-raw-noise-v1')
+            digest=save_npz_once(path,arrays,stage='raw_noise',
+                                 schema='e-ch4-14-raw-noise-v1',fixture=True)
             self.assertEqual(len(digest),64)
             with self.assertRaises(FileExistsError):
-                save_npz_once(path,{'data':raw[0]},fixture=True)
+                save_npz_once(path,arrays,stage='raw_noise',
+                              schema='e-ch4-14-raw-noise-v1',fixture=True)
 
     def test_frozen_mother_read_only_if_repository_fixture_present(self):
         if not (Path(__file__).resolve().parents[1]/'objective-start-diagnostics').exists():

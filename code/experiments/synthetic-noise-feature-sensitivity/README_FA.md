@@ -117,3 +117,15 @@ python -m unittest discover -s code/experiments/synthetic-noise-feature-sensitiv
 ### سخت‌سازی گیت داده و حسابداری آپدیت
 
 `NoiseSpec.distribution` باید **صریحاً** در مجوز آینده تعیین شود (پیاده‌سازی فنی برای `independent_zero_mean_gaussian` و `independent_zero_mean_uniform` در fixture وجود دارد؛ هیچ‌کدام مصوبهٔ علمی فعلی نیست). پارامترهای توزیع، `std`، `gamma`، نرخ ماسک و seedها هیچ مقدار عملیاتی پیش‌فرضی ندارند. تولید/ذخیره واقعی داده افزون بر Issue #90 مستلزم Workflow مستقل `E-CH4-14 authorized data generation` و opt-in جداست؛ Workflow جاری NO FIT چنین مجوزی ندارد. مانیفست مشتق در آینده `reference_ids` و `validation_row_ids` را جداگانه نگه می‌دارد. ledger آینده پس از **هر آپدیت واقعاً تکمیل‌شده** یک رخداد `UPDATE` ثبت می‌کند؛ موفقیت/شکست job نیز جداست و مصرف‌شدن بودجه قابل پنهان‌کردن نیست. توکن اجرای آینده تنها از متغیر محیطی `E_CH4_14_EXECUTION_TOKEN` خوانده می‌شود، نه آرگومان خط فرمان.
+
+## ۷. اصلاحات پس از ممیزی پیاده‌سازی — G1/G2/G3
+
+**وضعیت:** `REVISION_SUBMITTED / NO_DATA / NO_MASK / NO_REAL_FIT`. اصلاحات زیر تنها کد و آزمون‌های بدون داده پژوهشی را تغییر داده‌اند و به‌معنای پذیرش نهایی علمی نیستند.
+
+- **G1 — گیت جدا برای مراحل:** `generate_raw_noise` فقط مجوز `stage=raw_noise` و `generate_noise_masks` فقط مجوز `stage=noise_masks` را قبول می‌کنند. تولید واقعی فقط برای `Train=300` و `Validation=90`، با `NoiseSpec` و SHA مطابق مرحله مجاز است. `save_npz_once` نیازمند `stage`، `schema` متناظر، `NoiseSpec` مصوب، تطبیق مجوز/مسیر فایل/نام/کلیدهای NPZ/شکل و dtype است؛ مرحلهٔ `derived` نیز باید مجوز مستقل خودش را داشته باشد.
+- **G2 — fixture فاقد دسترسی پژوهشی:** نوشتن fixture تنها به ریشهٔ موقت `e14-fixture-*` مستقیماً زیر temp سیستم با `Train<=12`، `Validation<=8` و کلیدهای مشخص هر stage محدود است. مسیرهای واقعی `inputs/`، شکل ۳۰۰/۹۰، symlink مقصد و فایل جعلی با کلید `Test` حتی با `fixture=True` مجاز نیستند. تست‌ها فقط فایل موقت را ساخته و پاک می‌کنند.
+- **G3 — پس‌پردازش خالص:** `analysis.py::summarize_reports` دقیقاً ۳۶ گزارش قفل‌شده را به ۳۶ ردیف انفرادی (`metrics_summary.csv`)، ۱۲ ردیف گروهی (`metrics_grouped.csv`)، ۱۸ ردیف اختلاف `class−shared` (`metrics_paired.csv`) و ۶ ردیف اختلاف گروهی (`metrics_paired_by_k.csv`) به همراه `metrics_analysis.json` تبدیل می‌کند. `train/validation_prediction_flips_vs_N0` به‌ترتیب نمونه‌ها و **درون همان خانواده** محاسبه می‌شود. پراکندگی sample-SD صرفاً **توصیفی میان subsetهای وابسته** است؛ برای `k=0,5` مقدار `null` و `not_applicable` ثبت می‌شود؛ CI استنباطی یا seed مستقل ساخته نمی‌شود.
+- **آزمون‌ها:** `test_review_gates.py` و `test_analysis.py` برای گیت‌های رد، ماندگاری محدود fixture، اعتبار ساختار گروه و پراکندگی، شمار flip و تطبیق هویت نمونه اضافه شدند؛ `test_data.py` با امضای جدید writer همسو شد.
+- **G4 — هنوز مسدود:** وجود متغیر محیطی و پیوند ظاهراً معتبر به Issue #90، **اثبات اصالت تأیید نیست**. تا زمانی که Workflow اجرای واقعی، تصمیم‌های مالک و QA و `source_SHA` را آنلاین از GitHub بررسی نکند و بودجه/توکن یک‌بارمصرف را enforce نکند، اجرای تولید داده، ماسک و آموزش مجاز نیست. Workflow فعلی `NO FIT` بدون تغییر باقی مانده است.
+
+**هیچ artifact عددی تازه‌ای تولید نشده است.** اجرای CLI پیش‌فرض همچنان `dry-run` است و خروجی‌های بالا صرفاً قرارداد فایل‌های آینده هستند.
