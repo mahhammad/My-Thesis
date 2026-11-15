@@ -19,11 +19,11 @@
 **مراحل امن بازخوانی و تأیید، بدون fit:**
 ```bash
 python code/experiments/ch4_loss_controlled_comparison/phase2_frozen_data.py
-python code/experiments/ch4_loss_controlled_comparison/phase2_data_preflight.py
+OPENBLAS_CORETYPE=generic OPENBLAS_NUM_THREADS=1 python code/experiments/ch4_loss_controlled_comparison/phase2_data_preflight.py
 python code/experiments/ch4_loss_controlled_comparison/phase2_runner.py
 python code/experiments/ch4_loss_controlled_comparison/phase2_derived_reproduce_v2.py --check
 ```
-اولی وضعیت داده را بدون freeze نشان می‌دهد؛ دومی fingerprintها/قرارداد Train-Validation را بررسی می‌کند؛ سومی فقط dry-run برنامهٔ آموزش است و هیچ fit نمی‌زند؛ چهارمی ۱۲ فایل پوشش مشتق و ۱۱ شکل SVG و جدول‌های عددی بازتولیدپذیر را **بایت‌به‌بایت** کنترل می‌کند، بدون تغییر raw. اگر دادهٔ منجمد با manifest تطبیق نکند، توقف معتبرتر از ادامه با seed مشابه است.
+اولی وضعیت داده را بدون freeze نشان می‌دهد؛ دومی (در shell سازگار با Bash) با `OPENBLAS_CORETYPE=generic` و `OPENBLAS_NUM_THREADS=1` fingerprintها/قرارداد Train-Validation را بررسی می‌کند؛ در Windows باید همین متغیرها را به شیوهٔ PowerShell/CMD قبل از اجرا تنظیم کرد؛ سومی فقط dry-run برنامهٔ آموزش است و هیچ fit نمی‌زند؛ چهارمی ۱۲ فایل پوشش مشتق و ۱۱ شکل SVG و جدول‌های عددی بازتولیدپذیر را **بایت‌به‌بایت** کنترل می‌کند، بدون تغییر raw. اگر دادهٔ منجمد با manifest تطبیق نکند، توقف معتبرتر از ادامه با seed مشابه است.
 
 | نوع | محل | ساختار دقیق |
 |---|---|---|
