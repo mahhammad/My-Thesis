@@ -6,7 +6,7 @@ ground-truth Validation labels. All intermediate transitions use frozen logits.
 The local rule is a *new hybrid policy*, not automatic generalization of nK.
 
 python code/experiments/benchmark_v1/node_class_validation_starts.py \
- --archive code/experiments/benchmark_v1/results/core_50_16runs.zip \
+ --archive code/experiments/standard_policy_comparison/results/core_50_16runs.zip \
  --out code/experiments/benchmark_v1/results/node_class_starts_tau005.json
 """
 from pathlib import Path
@@ -189,7 +189,7 @@ def main(archive,config,out):
 
 if __name__=="__main__":
     p=argparse.ArgumentParser()
-    p.add_argument("--archive",type=Path,default=ROOT/"code/experiments/benchmark_v1/results/core_50_16runs.zip")
+    p.add_argument("--archive",type=Path,default=ROOT/"code/experiments/standard_policy_comparison/results/core_50_16runs.zip")
     p.add_argument("--config",type=Path,default=ROOT/"code/data_generator/config.json")
     p.add_argument("--out",type=Path,default=ROOT/"code/experiments/benchmark_v1/results/node_class_starts_tau005.json")
     a=p.parse_args()

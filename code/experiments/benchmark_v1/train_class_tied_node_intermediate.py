@@ -148,7 +148,7 @@ if __name__=="__main__":
     ap.add_argument("--tau",type=float,default=.005)
     ap.add_argument("--trace-every",type=int,default=10)
     ap.add_argument("--archive",type=Path,
-        default=ROOT/"code/experiments/benchmark_v1/results/core_50_16runs.zip")
+        default=ROOT/"code/experiments/standard_policy_comparison/results/core_50_16runs.zip")
     ap.add_argument("--out",type=Path,
         default=ROOT/"code/experiments/benchmark_v1/results/class_tied_start_node_mid_50.json")
     args=ap.parse_args()
