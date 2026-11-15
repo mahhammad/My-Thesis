@@ -225,7 +225,7 @@ python code/experiments/walk_depth_effect/analyze.py
 - [خلاصه ۲۴ بلوک معیار](results/metrics_summary.csv) · [ضرایب واقعی هر H](results/coefficients.json).
 - [مقایسه مستقل E04/E08 و تفاوت با تقریب برش](results/comparisons.json) · [منشأ و hashes](results/provenance.json) · [پوشش](results/coverage.json).
 - [جدول‌ها](tables/) و [نمودارهای TikZ](figures/) به بخش ۴.۸ جدید اضافه شدند؛ بخش بعدی اعتبارسنجی ماتریسی E08 را نگه می‌دارد.
-- [CI اختصاصی](../../../.github/workflows/e09-true-horizon.yml) خروجی‌ها را فقط در غیاب داده قبلی تولید می‌کند و در دفعات بعدی read-only بررسی می‌کند.
+- [CI اختصاصی](https://github.com/mahhammad/My-Thesis/actions/runs/42836546716) خروجی‌ها را فقط در غیاب داده قبلی تولید می‌کند و در دفعات بعدی read-only بررسی می‌کند.
 
 **کنترل‌های انجام‌شده:** سلامت آرشیو NPZ، تطبیق digestهای checkpoint و logits دو سیاست، تطبیق هش برچسب Train و ترتیب مرجع، مجموع واحد ضرایب هر H، H1 و H2/H3 مستقل، H12 با E08 و Uniform با ۴.۴. نتیجه بدون هیچ بازاجرای موتور، آموزش یا تولید داده به دست آمد.
 

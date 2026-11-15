@@ -93,7 +93,7 @@ U_c^{(t+1)}=(1-\eta)U_c^{(t)}+\eta\widehat V_c^{(t)},\quad \eta=0.5.
 
 ### ۶. مسیر فایل‌ها و بازتولید
 
-تمام **۱۱ فایل خام نتایج** از [آرشیو اصلی](../archive/center_matching_comparison/README_FA.md) با **Git blob SHA یکسان** به `results/` کپی شدند. تاریخچه ۴۹ دور، سه وضعیت، معیارهای هندسه، CSVها و بازنمایی‌های هر نمونه در پوشه موجودند؛ اصل آرشیو حذف نشده است.
+تمام **۱۱ فایل خام نتایج** از [آرشیو اصلی](https://github.com/mahhammad/My-Thesis/blob/a8c9027460e538fa04b8aab2f762eb4ba4c31e3d/code/experiments/archive/center_matching_comparison/README_FA.md) با **Git blob SHA یکسان** به `results/` کپی شدند. تاریخچه ۴۹ دور، سه وضعیت، معیارهای هندسه، CSVها و بازنمایی‌های هر نمونه در پوشه موجودند؛ اصل آرشیو حذف نشده است.
 
 - [تاریخچه ۴۹ دور](results/history_00_48.json)، [هندسه ۴۹ دور](results/center_geometry_49.json)، [شاخص‌ها به تفکیک دور](results/trajectory_metrics.csv).
 - [سه وضعیت و مراکز](results/three_cases.json)، [معیارهای دقیق نمونه‌به‌نمونه](results/detailed_three_cases.json) و سه فایل بازنمایی در `results/`.
@@ -150,7 +150,7 @@ U_c^{(t+1)}=(1-\eta)U_c^{(t)}+\eta\widehat V_c^{(t)},\quad \eta=0.5.
 | [analyze.py](analyze.py)، [detailed_metrics.py](detailed_metrics.py) | اسکریپت‌های تحلیل از آرشیو، بدون تکرار گشت |
 | [test_analyze.py](test_analyze.py)، [test_detailed_metrics.py](test_detailed_metrics.py)، [test_report_assets.py](test_report_assets.py) | تست‌های عددی و کنترل شواهد |
 
-تمام ۱۱ فایل خام با **همان Git blob SHA** در [آرشیو اصلی](../archive/center_matching_comparison/README_FA.md) نیز باقی مانده‌اند. ابزار بازاجرای مونت‌کارلوی تاریخی [reproduce.py](../archive/center_matching_comparison/reproduce.py) در آرشیو نگه داشته شده و در این مرحله استفاده نشده است.
+تمام ۱۱ فایل خام با **همان Git blob SHA** در [آرشیو اصلی](https://github.com/mahhammad/My-Thesis/blob/a8c9027460e538fa04b8aab2f762eb4ba4c31e3d/code/experiments/archive/center_matching_comparison/README_FA.md) نیز باقی مانده‌اند. ابزار بازاجرای مونت‌کارلوی تاریخی [reproduce.py](https://github.com/mahhammad/My-Thesis/blob/a8c9027460e538fa04b8aab2f762eb4ba4c31e3d/code/experiments/archive/center_matching_comparison/reproduce.py) در آرشیو نگه داشته شده و در این مرحله استفاده نشده است.
 
 ### آزمایش بدون محاسبه سنگین
 
