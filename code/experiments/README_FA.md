@@ -60,6 +60,6 @@
 | §4.10 | [`inverse-attainable/`](inverse-attainable/README_FA.md) |
 | §4.11 | [`bayes-center-inverse/`](bayes-center-inverse/README_FA.md) |
 | §4.12 | [`standard-policy-comparison/`](standard-policy-comparison/README_FA.md) |
-| §4.13 | [`ch4_loss_controlled_comparison/`](ch4_loss_controlled_comparison/README_FA.md) |
+| §4.13 | [`objective-start-diagnostics/`](objective-start-diagnostics/README_FA.md) |
 
 طرحِ **اجرا‌نشده** §۴.۱۴ از فهرست آزمایش‌های انجام‌شده خارج و در [Research Journal](../../research_journal/ch4-14-synthetic-data-structure-sensitivity-plan.md) نگهداری می‌شود. فایل‌های خام و خروجی مطالعات رسمی منتقل یا بازنویسی نشده‌اند.

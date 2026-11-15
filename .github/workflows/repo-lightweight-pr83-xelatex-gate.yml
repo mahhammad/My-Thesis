@@ -5,7 +5,7 @@ on:
     paths:
       - 'main.tex'
       - 'tex/**'
-      - 'code/experiments/ch4_loss_controlled_comparison/figures/**'
+      - 'code/experiments/objective-start-diagnostics/figures/**'
       - '.github/workflows/repo-lightweight-pr83-xelatex-gate.yml'
   workflow_dispatch:
 

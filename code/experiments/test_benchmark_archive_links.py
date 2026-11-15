@@ -143,7 +143,7 @@ class BenchmarkArchiveLinkage(unittest.TestCase):
             self.assertTrue((BENCH / name).is_file(), name)
 
     def test_e13_frozen_inputs_and_figure_manifest_remain(self):
-        e13 = EXP / "ch4_loss_controlled_comparison"
+        e13 = EXP / "objective-start-diagnostics"
         for name in (
             "phase2_runner.py", "phase2_report.py", "phase2_frozen_data.py",
             "results/phase2_300_25/manifest.json",

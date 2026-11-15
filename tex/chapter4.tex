@@ -1767,7 +1767,7 @@ $H=12$، آغاز لگیت‌های صفر، نرخ یادگیری $0.12$
 سافت‌پلاس است. برابری دقت، به معنای برابری پیش‌بینی
 تک‌تک نمونه‌ها نیست.
 
-\input{code/experiments/ch4_loss_controlled_comparison/tables/phase2_validation_pairs.tex}
+\input{code/experiments/objective-start-diagnostics/tables/phase2_validation_pairs.tex}
 
 برای جداسازی اثر تابع هدف از دشواری خود داده،
 جدول~\ref{tab:ch4-e13-validation-summary}
@@ -1786,7 +1786,7 @@ $x_1,x_2,x_3$ که خود بر حسب درصد گزارش می‌شوند،
 معیار \emph{واحد درصد} است. انحراف معیار،
 خطای معیار میانگین یا فاصله اطمینان نیست.
 
-\input{code/experiments/ch4_loss_controlled_comparison/tables/phase2_validation_summary.tex}
+\input{code/experiments/objective-start-diagnostics/tables/phase2_validation_summary.tex}
 
 میانگین دقت متوازن سیگموئید و سافت‌پلاس در خانواده
 \lr{shared} به‌ترتیب $89.8632$ و $89.7559$
@@ -1800,7 +1800,7 @@ $87.7732$ و $89.9628$ درصد می‌شود.
 \emph{دقت متوازن تجربی} نباید آن را کران بالای
 ریاضی عملکرد هر طبقه‌بند تلقی کرد.
 
-\input{code/experiments/ch4_loss_controlled_comparison/figures/phase2_comparison_figures.tex}
+\input{code/experiments/objective-start-diagnostics/figures/phase2_comparison_figures.tex}
 
 \paragraph{تراکم درون‌کلاسی و جدایی مراکز.}
 مطابق قرارداد فصل سوم، سه سنجه مستقل
@@ -1823,7 +1823,7 @@ $R_{\sqrt{\mathrm{JS}}}$
 فقط خلاصه \emph{سه بذر} همان خانواده و تابع زیان
 هستند؛ این خطوط کران اطمینان نیستند.
 
-\input{code/experiments/ch4_loss_controlled_comparison/figures/phase2_density_figures.tex}
+\input{code/experiments/objective-start-diagnostics/figures/phase2_density_figures.tex}
 
 این جدایی میان تراکم و جدایی مراکز لزوماً به تصمیم بهتر
 نمی‌انجامد: برای نمونه در بذر $20261103$ و خانواده
@@ -1876,7 +1876,7 @@ $0.1366$ و $0.1932$ مقدار آغازین هستند.
 دقت آموزش تقریباً مشابه، لزوماً دقت اعتبارسنجی
 یکسان به‌همراه ندارد.
 
-\input{code/experiments/ch4_loss_controlled_comparison/figures/phase2_dynamics_figures.tex}
+\input{code/experiments/objective-start-diagnostics/figures/phase2_dynamics_figures.tex}
 
 در مجموع، این آزمایش به جای تعیین یک تابع زیان
 برتر از همه جهات، دو جهت اثر مشاهده‌شده را
@@ -1896,7 +1896,7 @@ $25$ گام محدود هستند؛ هیچ نتیجه آزمون
 پرونده‌های مدل، گزارش علمی تفصیلی، نمودارهای اصلی و
 نسخه‌های فارسی، و اطلاعات لازم برای بازتولید عددی
 و بررسی صحت نتایج، در پوشهٔ اختصاصی
-\lr{\texttt{code/experiments/ch4\_loss\_controlled\_comparison/}}
+\lr{\texttt{code/experiments/objective-start-diagnostics/}}
 در پیوست الکترونیکی پایان‌نامه ارائه شده‌اند.
 
 \subsection{NLL مبتنی بر KL و JS و زیان چندرقیبی}
@@ -2042,6 +2042,13 @@ $100$ درصد آموزش در خانواده آزاد، برای خانواده
 ظرفیت خانواده مقید نیست. سیاست‌های میانی آن همچنان
 به \emph{گره‌های مرجع آموزش} وابسته‌اند و تعمیم
 به مرجع کاملاً جدید نیازمند مدل تابعی گسترده‌تری است.
+
+\paragraph{پیوست الکترونیکی و بازتولید.}
+گزارش تفصیلی، داده‌های منجمد، کد، پیکربندی‌ها، خروجی‌های
+$12$ آموزش کنترل‌شده، جدول‌ها، شکل‌ها و کنترل‌های بازتولید
+آزمایش این بخش در پوشهٔ
+\lr{\texttt{objective-start-diagnostics}}
+از پیوست الکترونیکی نگهداری می‌شوند.
 
 \section{طرح بررسی حساسیت به ساختار داده مصنوعی}
 \label{sec:ch4-synthetic-sensitivity-plan}

@@ -18,10 +18,10 @@
 
 **مراحل امن بازخوانی و تأیید، بدون fit:**
 ```bash
-python code/experiments/ch4_loss_controlled_comparison/phase2_frozen_data.py
-OPENBLAS_CORETYPE=generic OPENBLAS_NUM_THREADS=1 python code/experiments/ch4_loss_controlled_comparison/phase2_data_preflight.py
-python code/experiments/ch4_loss_controlled_comparison/phase2_runner.py
-python code/experiments/ch4_loss_controlled_comparison/phase2_derived_reproduce_v2.py --check
+python code/experiments/objective-start-diagnostics/phase2_frozen_data.py
+OPENBLAS_CORETYPE=generic OPENBLAS_NUM_THREADS=1 python code/experiments/objective-start-diagnostics/phase2_data_preflight.py
+python code/experiments/objective-start-diagnostics/phase2_runner.py
+python code/experiments/objective-start-diagnostics/phase2_derived_reproduce_v2.py --check
 ```
 اولی وضعیت داده را بدون freeze نشان می‌دهد؛ دومی (در shell سازگار با Bash) با `OPENBLAS_CORETYPE=generic` و `OPENBLAS_NUM_THREADS=1` fingerprintها/قرارداد Train-Validation را بررسی می‌کند؛ در Windows باید همین متغیرها را به شیوهٔ PowerShell/CMD قبل از اجرا تنظیم کرد؛ سومی فقط dry-run برنامهٔ آموزش است و هیچ fit نمی‌زند؛ چهارمی ۱۲ فایل پوشش مشتق و ۱۱ شکل SVG و جدول‌های عددی بازتولیدپذیر را **بایت‌به‌بایت** کنترل می‌کند، بدون تغییر raw. اگر دادهٔ منجمد با manifest تطبیق نکند، توقف معتبرتر از ادامه با seed مشابه است.
 
@@ -329,8 +329,8 @@ Softplus در همه شش جفت چگالی درون‌کلاسیِ سنجیده
 **دستور بازتولید، بدون آموزش و Test، از ریشه مخزن:**
 
 ```bash
-python code/experiments/ch4_loss_controlled_comparison/phase2_derived_reproduce_v2.py --check
-python -m unittest discover -v -s code/experiments/ch4_loss_controlled_comparison -p 'test_phase2_derived_v2.py'
+python code/experiments/objective-start-diagnostics/phase2_derived_reproduce_v2.py --check
+python -m unittest discover -v -s code/experiments/objective-start-diagnostics -p 'test_phase2_derived_v2.py'
 ```
 
 اجرای اول **هر ۲۷ فایل مشتق‌شده** (۱۲ پوشش اصلاحی، ۲ جدول CSV، ۲ manifest JSON، ۱۱ SVG) را بایت‌به‌بایت با محاسبه جدید از raw مقایسه می‌کند و هیچ فایل موجود را تغییر نمی‌دهد. [`test_phase2_derived_v2.py`](test_phase2_derived_v2.py) علاوه بر آزمون ثبات، سناریوی جعل یک فایل raw، شمار شکل‌ها، صحت Recall و کنترل مخرج نرمال‌سازی را بررسی می‌کند. [workflow ویژه بازتولید](https://github.com/mahhammad/My-Thesis/blob/c9c71ce923590ffd8cae6242c9992e30240e1ba1/.github/workflows/e-ch4-13-phase2-derived-fixes-v2.yml) فقط با تریگر صریح و بدون مجوز آموزش فعال شد و فایل‌ها را در شاخه آزمایش ثبت کرد. **این ثبت به معنی رأی مثبت مجدد ممیز نیست.**
@@ -2007,7 +2007,7 @@ The GitHub Actions archival workflow is restricted to this single explicit marke
 
 ### اجرای مجدد بدون آموزش برای QA
 ```bash
-python -m unittest discover -v -s code/experiments/ch4_loss_controlled_comparison -p 'test_*.py'
+python -m unittest discover -v -s code/experiments/objective-start-diagnostics -p 'test_*.py'
 python -m unittest discover -v -s code/experiments/benchmark_v1 -p 'test_common_metrics_contract.py'
 python -m unittest discover -v -s code/experiments/benchmark_v1 -p 'test_snapshot_pipeline.py'
 python -m unittest discover -v -s code/experiments/benchmark_v1 -p 'test_snapshot_roundtrip.py'
@@ -2038,7 +2038,7 @@ python -m unittest discover -v -s code/experiments/benchmark_v1 -p 'test_snapsho
 
 **محل مورد انتظار raw آموزش‌های آینده:** `results/phase2_300_25/` — **اکنون موجود است؛** دوازده آموزش مرحله دوم در اجرای رسمی #43670524935 تکمیل و داده‌ها به همان مسیر بایگانی شده‌اند. اجرای برنامهٔ dry-run:
 ```bash
-python code/experiments/ch4_loss_controlled_comparison/phase2_runner.py
+python code/experiments/objective-start-diagnostics/phase2_runner.py
 ```
 این دستور فقط فهرست ۱۲ کار را چاپ می‌کند، نه اینکه آموزش را آغاز کند. اجرای `--execute` با گیت فعلی PermissionError می‌دهد و نباید مجدداً اجرا شود؛ سقف ۱۲ آموزش مصوب مصرف شده است. تغییر در `tex/` یا خام پایلوت اعمال نشده است.
 
@@ -2250,4 +2250,4 @@ This file is an opt-in **nontraining** workflow marker; after completion, the de
 
 **خروجی‌های ارائه و بازسازیِ فقط از شواهد:** `figures/` منابع SVG و TeX فصل، `derived/` داده‌ها/شواهد محاسبهٔ نمودار و پوشش اصلاح‌شده را دارد. [`phase2_derived_reproduce_v2.py`](phase2_derived_reproduce_v2.py) با گزینهٔ `--check` خروجی‌های ذخیره‌شده را **بایت‌به‌بایت فقط بررسی** می‌کند؛ بدون `--check` فقط فایل‌های مشتق **جدید** می‌سازد و اگر مسیر خروجی موجود باشد با خطا متوقف می‌شود، نه اینکه آن را بازنویسی کند.
 
-**کنترل پیشنهادی بدون آموزش:** `python code/experiments/ch4_loss_controlled_comparison/phase2_derived_reproduce_v2.py --check`. نتایج خام و manifest از تگ `backup/pre-cleanup-2026-11-15` بدون تغییر Git blob باقی مانده‌اند. صدور گزارش مشتق مستقل مجاز است، ولی حذف/overwrite کردن `README_FA.md` جامع و داده‌های پذیرفته‌شده ممنوع است.
+**کنترل پیشنهادی بدون آموزش:** `python code/experiments/objective-start-diagnostics/phase2_derived_reproduce_v2.py --check`. نتایج خام و manifest از تگ `backup/pre-cleanup-2026-11-15` بدون تغییر Git blob باقی مانده‌اند. صدور گزارش مشتق مستقل مجاز است، ولی حذف/overwrite کردن `README_FA.md` جامع و داده‌های پذیرفته‌شده ممنوع است.

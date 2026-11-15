@@ -21,7 +21,7 @@
 | §۴.10 | [`inverse-attainable`](../code/experiments/inverse-attainable/README_FA.md) | 761 | 750 | 11 | ۰ | 0 | 669 |
 | §۴.11 | [`bayes-center-inverse`](../code/experiments/bayes-center-inverse/README_FA.md) | 14 | 14 | 0 | ۰ | 0 | 5 |
 | §۴.12 | [`standard-policy-comparison`](../code/experiments/standard-policy-comparison/README_FA.md) | 15 | 15 | 0 | ۰ | 3 | 13 |
-| §۴.13 | [`ch4_loss_controlled_comparison`](../code/experiments/ch4_loss_controlled_comparison/README_FA.md) | 566 | 566 | 0 | ۰ | 0 | 440 |
+| §۴.13 | [`objective-start-diagnostics`](../code/experiments/objective-start-diagnostics/README_FA.md) | 566 | 566 | 0 | ۰ | 0 | 440 |
 | **جمع** | **۱۱ مطالعه** | **1539** | **1513** | **26** | **۰** | **3** | **1195** |
 
 در مجموع از **1539 فایل غیر-Markdown** این ۱۱ آزمایش در تگ، **1513 فایل** Git blob دقیقاً یکسان دارند؛ **26 فایل تغییریافته همگی Python** هستند و هیچ فایل داده/نتیجه/جدول/تصویر/آرشیو خام حذف یا تغییر هویت نداده است. **3 فایل غیر-Markdown جدید** به مجموعهٔ §۴.۱۲ افزوده شده است. تغییر Python از تگ به معنای لزوماً تغییر نتیجه نیست؛ این ممیزی، هم‌ارزی محاسباتی تمام کدهای تغییریافته را از نو اثبات نکرده است.

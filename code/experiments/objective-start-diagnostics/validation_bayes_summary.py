@@ -4,7 +4,7 @@ No optimizer, no model fitting, no Test access, no regenerated synthetic samples
 Only frozen npz Validation arrays from original three-seed input snapshot and
 SHA-verified per-run metrics from original twelve-fit manifest are consulted.
 
-Usage: python code/experiments/ch4_loss_controlled_comparison/validation_bayes_summary.py
+Usage: python code/experiments/objective-start-diagnostics/validation_bayes_summary.py
 """
 import hashlib
 import json
