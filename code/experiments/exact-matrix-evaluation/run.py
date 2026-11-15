@@ -132,7 +132,7 @@ def model_sources():
         "train_count": int(len(ids)), "validation_count": int(len(vy)),
         "historical_test_accessed": False,
         "retrained": False,
-        "preregistration": "code/experiments/exact_matrix_walk_validation/PROTOCOL_FA.md",
+        "preregistration": "code/experiments/exact-matrix-evaluation/PROTOCOL_FA.md",
     }
     return graph, np.asarray(y[ids], int), np.asarray(vy, int), ids, \
            {"uniform": uniform, "trained_shared": trained}, provenance, spec

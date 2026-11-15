@@ -8,7 +8,7 @@ on:
       - 'code/experiments/inverse_attainable_standard/**'
       - 'research_journal/archive_recovery/**'
       - 'research_journal/ch4-14-synthetic-data-structure-sensitivity-plan.md'
-      - 'code/experiments/exact_matrix_walk_validation/**'
+      - 'code/experiments/exact-matrix-evaluation/**'
       - 'code/experiments/sigmoid-margin-evaluation/**'
       - 'code/experiments/true-horizon-effect/**'
       - 'code/experiments/test_chapter4_presentation.py'
@@ -84,7 +84,7 @@ jobs:
           python -m unittest discover -s code/experiments/sigmoid-margin-evaluation -p test_benchmark_size_full.py -v
       - name: E08 and E09 saved-result audits (NO REPLAY)
         run: |
-          python code/experiments/exact_matrix_walk_validation/verify_results.py
+          python code/experiments/exact-matrix-evaluation/verify_results.py
           python code/experiments/true-horizon-effect/verify.py
       - name: Chapter4 presentation and shared snapshot/metrics
         run: |

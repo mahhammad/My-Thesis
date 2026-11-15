@@ -56,7 +56,7 @@
 | §4.6 | [`center-target-observation/`](center-target-observation/README_FA.md) |
 | §4.7 | [`sigmoid-margin-evaluation/`](sigmoid-margin-evaluation/README_FA.md) |
 | §4.8 | [`true-horizon-effect/`](true-horizon-effect/README_FA.md) |
-| §4.9 | [`exact_matrix_walk_validation/`](exact_matrix_walk_validation/README_FA.md) |
+| §4.9 | [`exact-matrix-evaluation/`](exact-matrix-evaluation/README_FA.md) |
 | §4.10 | [`inverse_attainable_standard/`](inverse_attainable_standard/README_FA.md) |
 | §4.11 | [`bayes_center_reachability_standard/`](bayes_center_reachability_standard/README_FA.md) |
 | §4.12 | [`standard_policy_comparison/`](standard_policy_comparison/README_FA.md) |

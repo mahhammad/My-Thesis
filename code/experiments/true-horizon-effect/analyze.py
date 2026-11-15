@@ -20,7 +20,7 @@ import numpy as np
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
-E08 = HERE.parent / "exact_matrix_walk_validation"
+E08 = HERE.parent / "exact-matrix-evaluation"
 E04 = HERE.parent / "uniform-hyperparameter-sensitivity"
 LABELS = HERE.parent / "center-target-observation" / "results" / "representations_uniform.json"
 ARCHIVE = HERE.parent / "standard_policy_comparison" / "results" / "core_50_16runs.zip"

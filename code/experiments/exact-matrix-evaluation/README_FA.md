@@ -1,6 +1,6 @@
 # گزارش فنی پژوهشی — E-CH4-08 | اعتبارسنجی بازگشت ماتریسی دقیق و کوتاه‌سازی گام‌ها
 
-**شناسه:** `exact_matrix_walk_validation` | **وضعیت:** مطالعهٔ ثبت‌شده در فصل چهارم | **منشأ:** commit `e53b75cae25f`
+**شناسه:** `exact-matrix-evaluation` | **وضعیت:** مطالعهٔ ثبت‌شده در فصل چهارم | **منشأ:** commit `e53b75cae25f`
 
 ## قرارداد بازتولید داده، اجرای آزمایش و ساختار پرونده‌ها — ممیزی تکمیلی ۲۰۲۶-۱۱-۱۵
 
@@ -16,9 +16,9 @@
 
 **بازتولید و کنترل:**
 ```bash
-python code/experiments/exact_matrix_walk_validation/run.py
-python code/experiments/exact_matrix_walk_validation/verify_results.py
-python -m unittest discover -s code/experiments/exact_matrix_walk_validation -p 'test_*.py' -v
+python code/experiments/exact-matrix-evaluation/run.py
+python code/experiments/exact-matrix-evaluation/verify_results.py
+python -m unittest discover -s code/experiments/exact-matrix-evaluation -p 'test_*.py' -v
 ```
 `run.py` بدون `--execute` فقط dry-run است؛ `--execute` **فایل‌های رسمی زیر `results/` را می‌نویسد** و وقتی `results/experiment_report.json` وجود دارد از بازنویسی جلوگیری می‌کند. پس اجرای تازه باید در worktree مستقل و با محافظت از داده‌های پذیرفته‌شده انجام شود.
 
@@ -196,9 +196,9 @@ NLL نرمال KL تاریخی با صورت پایدار eta/epsilon فصل س�
 از ریشه مخزن:
 
 ```bash
-python -m unittest discover -s code/experiments/exact_matrix_walk_validation -p 'test_*.py' -v
-python code/experiments/exact_matrix_walk_validation/verify_results.py
-python code/experiments/exact_matrix_walk_validation/run.py
+python -m unittest discover -s code/experiments/exact-matrix-evaluation -p 'test_*.py' -v
+python code/experiments/exact-matrix-evaluation/verify_results.py
+python code/experiments/exact-matrix-evaluation/run.py
 ```
 
 دستور آخر به‌صورت پیش‌فرض **dry run** است. اجرای محاسبه جدید با `--execute` فقط در صورت نبود فایل نتایج موجود مجاز است و در صورت وجود نتایج متوقف می‌شود؛ اینجا نیازی به تکرار نیست.
@@ -262,7 +262,7 @@ CI اختصاصی [E08 matrix walk](https://github.com/mahhammad/My-Thesis/actio
 
 ## بازیابی سوابق Markdown حذف‌شده
 
-نسخه‌های قبلی گزارش/پروتکل و شواهد متنی، با Git blob اصلی در [کامیت پیش از تجمیع](https://github.com/mahhammad/My-Thesis/tree/e53b75cae25ffba0d06d7b8a15f6cf322cb4698f/code/experiments/exact_matrix_walk_validation/) باقی می‌مانند. ارجاعات موجود در کامنت‌های تاریخی Issueها به همین نسخه‌ها تعلق دارند.
+نسخه‌های قبلی گزارش/پروتکل و شواهد متنی، با Git blob اصلی در [کامیت پیش از تجمیع](https://github.com/mahhammad/My-Thesis/tree/e53b75cae25ffba0d06d7b8a15f6cf322cb4698f/code/experiments/exact-matrix-evaluation/) باقی می‌مانند. ارجاعات موجود در کامنت‌های تاریخی Issueها به همین نسخه‌ها تعلق دارند.
 
 
 ---
@@ -271,8 +271,8 @@ CI اختصاصی [E08 matrix walk](https://github.com/mahhammad/My-Thesis/actio
 
 **ورودی‌ها و روش:** اعتبارسنجی موتور انتظار دقیق با محاسبهٔ مستقل ماتریسی، MC و مطالعهٔ کران برش؛ دو وضعیت `uniform` و `trained_shared`، مرجع ZIP در `../standard_policy_comparison/results/core_50_16runs.zip` و فقط Train/Validation. این مطالعه را با اثر تغییر واقعی سقف H در §۴.۸ یکی نکنید.
 
-**اجرای ثبت‌شده:** [`run.py`](run.py) به‌صورت پیش‌فرض dry-run است: `python code/experiments/exact_matrix_walk_validation/run.py`. گزینهٔ `--execute` تولید اولیهٔ محاسبات و خروجی‌ها را انجام می‌دهد و اگر `results/experiment_report.json` وجود داشته باشد، عمداً از اجرای دوباره جلوگیری می‌کند. نسخهٔ پذیرفته‌شده نباید بازنویسی شود.
+**اجرای ثبت‌شده:** [`run.py`](run.py) به‌صورت پیش‌فرض dry-run است: `python code/experiments/exact-matrix-evaluation/run.py`. گزینهٔ `--execute` تولید اولیهٔ محاسبات و خروجی‌ها را انجام می‌دهد و اگر `results/experiment_report.json` وجود داشته باشد، عمداً از اجرای دوباره جلوگیری می‌کند. نسخهٔ پذیرفته‌شده نباید بازنویسی شود.
 
 **زنجیرهٔ ذخیره:** `results/raw_step_distributions.npz` توزیع خام هر گام، `results/snapshots/uniform/` و `results/snapshots/trained_shared/` فایل‌های `model.json`، `distributions.npz` و `report.json` را نگه می‌دارند؛ [`results/experiment_report.json`](results/experiment_report.json) خروجی جامع محاسبات، [`results/metrics_full.json`](results/metrics_full.json) قرارداد سنجه، [`results/coverage.json`](results/coverage.json) وضعیت پوشش و [`results/provenance.json`](results/provenance.json) هش/نسخهٔ ورودی هستند. `tables/` و `figures/` فقط منابع ارائهٔ LaTeX هستند.
 
-**ممیزی بدون بازاجرا:** `python code/experiments/exact_matrix_walk_validation/verify_results.py`. این کنترل با دادهٔ موجود کار می‌کند و به `README_FA.md` جامع استناد می‌کند؛ ایجاد گزارش جدید در بیرون از README مجاز است.
+**ممیزی بدون بازاجرا:** `python code/experiments/exact-matrix-evaluation/verify_results.py`. این کنترل با دادهٔ موجود کار می‌کند و به `README_FA.md` جامع استناد می‌کند؛ ایجاد گزارش جدید در بیرون از README مجاز است.

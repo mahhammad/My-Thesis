@@ -27,7 +27,7 @@ ZIP_SHA256 = {
 }
 
 CONSUMERS = (
-    "exact_matrix_walk_validation/run.py",
+    "exact-matrix-evaluation/run.py",
     "sigmoid-margin-evaluation/replay_benchmark_size.py",
     "sigmoid-margin-evaluation/test_benchmark_300.py",
     "true-horizon-effect/analyze.py",

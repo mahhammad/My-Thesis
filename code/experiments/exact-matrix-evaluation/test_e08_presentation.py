@@ -54,7 +54,7 @@ class TestE08Presentation(unittest.TestCase):
             "tables/runtime.tex","figures/bound_and_max_tv.tex"
         ):
             self.assertIn(
-                r"\input{code/experiments/exact_matrix_walk_validation/"+path+"}",segment)
+                r"\input{code/experiments/exact-matrix-evaluation/"+path+"}",segment)
         self.assertNotIn("مرجع $72$",segment)
         self.assertNotIn("approx_bayes_seed",segment)
         self.assertEqual(chapter.count(r"\label{sec:ch4-exact-matrix-evaluation}"),1)

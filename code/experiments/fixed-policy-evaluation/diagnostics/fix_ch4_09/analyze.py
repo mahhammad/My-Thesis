@@ -22,7 +22,7 @@ ROOT = HERE.parents[4]
 LEGACY = ROOT / "code" / "policy_evaluator"
 BENCH = ROOT / "code" / "experiments" / "benchmark_v1"
 E05 = HERE.parents[1]
-E08 = ROOT / "code" / "experiments" / "exact_matrix_walk_validation" / "results"
+E08 = ROOT / "code" / "experiments" / "exact-matrix-evaluation" / "results"
 CONFIG = ROOT / "code" / "data_generator" / "config.json"
 OUT = HERE / "results" / "controlled_uniform_replay.json"
 
