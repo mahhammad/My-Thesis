@@ -1,0 +1,52 @@
+name: E-CH4-13 publication figures 1-8 v3 (read only, NO FIT)
+on:
+  push:
+    branches:
+      - experiment/ch4-loss-controlled-comparison-01
+    paths:
+      - 'code/experiments/ch4_loss_controlled_comparison/PHASE2_FIGURES_V3_TRIGGER.md'
+      - '.github/workflows/e-ch4-13-figures-v3.yml'
+permissions:
+  contents: write
+concurrency:
+  group: e-ch4-13-figures-v3-one-time
+  cancel-in-progress: false
+jobs:
+  source-reproduced-v3:
+    if: contains(github.event.head_commit.message, '[E13_FIGURES_V3_EXPLICIT]')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Assert derived-only original immutable inputs and absent v3 output
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF_NAME" = "experiment/ch4-loss-controlled-comparison-01"
+          test ! -e code/experiments/ch4_loss_controlled_comparison/figures/phase2_repro_v3
+          test ! -e code/experiments/ch4_loss_controlled_comparison/derived/phase2_figures_1_8_v3_manifest.json
+          test -f code/experiments/ch4_loss_controlled_comparison/results/phase2_300_25/manifest.json
+      - name: Generate eight same-x overlays and three summary lines per method/family
+        run: |
+          set -euo pipefail
+          python3 code/experiments/ch4_loss_controlled_comparison/phase2_figures_1_8_v3.py
+          python3 code/experiments/ch4_loss_controlled_comparison/phase2_figures_1_8_v3.py --check
+      - name: Assert no training/raw or previous figure mutation, and commit exactly nine new derived files
+        run: |
+          set -euo pipefail
+          test -z "$(git diff --name-only)"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add code/experiments/ch4_loss_controlled_comparison/figures/phase2_repro_v3/
+          git add code/experiments/ch4_loss_controlled_comparison/derived/phase2_figures_1_8_v3_manifest.json
+          test "$(git diff --cached --name-only | wc -l)" -eq 9
+          git diff --cached --check
+          git commit -m "E-CH4-13: archive 8 owner-approved overlaid figures with source SHA manifest [NO FIT]"
+          git push origin HEAD:experiment/ch4-loss-controlled-comparison-01
+      - name: Preserve manifest in workflow artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e-ch4-13-figures-v3-evidence
+          path: code/experiments/ch4_loss_controlled_comparison/derived/phase2_figures_1_8_v3_manifest.json
+          if-no-files-found: warn
+          retention-days: 90
