@@ -52,4 +52,4 @@ jobs:
       - name: Chapter 4 existing syntax smoke tests
         run: python -m unittest discover -s code/experiments/benchmark_v1 -p test_chapter4_latex_syntax.py -v
       - name: Ensure no uncommitted presentation mutations
-        run: test -z "$(git status --porcelain)"
+        run: git diff --exit-code && git diff --cached --exit-code  # ignore Python __pycache__ created by read-only checks
