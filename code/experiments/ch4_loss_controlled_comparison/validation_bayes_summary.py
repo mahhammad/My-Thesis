@@ -52,7 +52,7 @@ def main():
     frozen=HERE/"inputs/phase2_train_validation"
     fm=json.loads((frozen/"manifest.json").read_text())
     rm=json.loads((raw/"manifest.json").read_text())
-    config_path=HERE.parents[2]/"data_generator/config.json"
+    config_path=HERE.parents[1]/"data_generator/config.json"
     config=json.loads(config_path.read_text())
     if sha(config_path)!=fm["config_sha256"]:raise AssertionError("Configuration fingerprint mismatch")
     if rm["source_commit"]!=SOURCE_SHA or rm["fit_count"]!=12:raise AssertionError("Unexpected training evidence")
