@@ -102,9 +102,19 @@ class BenchmarkArchiveLinkage(unittest.TestCase):
 
     def test_no_active_python_code_reads_retired_archive_paths(self):
         unresolved = []
+        trust_contract = EXP / "inverse_attainable_standard/runner_v3/data_contract.py"
+        pinned_blob = "4984961c6a8fd8057a7c1ff3d292d30ad6c9afcb"
         for source in sorted(EXP.rglob("*.py")):
             if source.resolve() == Path(__file__).resolve():
                 continue  # This audit's search expression is not an archive dependency.
+            if source == trust_contract:
+                # Historical owner-authenticated roots pin this file EXACTLY.
+                # Its original archive paths are intentionally frozen, and it
+                # must only be run in the historical tagged worktree.
+                raw = source.read_bytes()
+                gitblob = b"blob " + str(len(raw)).encode() + b"\0" + raw
+                self.assertEqual(hashlib.sha1(gitblob).hexdigest(), pinned_blob)
+                continue
             if "code/experiments/archive/" in source.read_text("utf-8"):
                 unresolved.append(str(source.relative_to(ROOT)))
         self.assertEqual(unresolved, [], "Retired archive path still in live Python code")
