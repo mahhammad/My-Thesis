@@ -1,0 +1,438 @@
+{
+  "schema": "e-ch4-13-phase2-paired-summary-v1",
+  "status": "PROVISIONAL_AWAITING_FINAL_SCIENTIFIC_QA",
+  "n_fits": 12,
+  "n_independent_data_seeds": 3,
+  "checkpoint": "fixed_after_25",
+  "test_accessed": false,
+  "pairs": [
+    {
+      "data_seed": 20261102,
+      "family": "shared",
+      "BA_sigmoid": 0.979591836734694,
+      "BA_softplus": 0.9676870748299321,
+      "paired_delta_validation_BA": 0.011904761904761862,
+      "validation_flip_count": 1,
+      "per_class_recall_sigmoid": [
+        1.0,
+        0.9387755102040817,
+        1.0
+      ],
+      "per_class_recall_softplus": [
+        1.0,
+        0.9387755102040817,
+        0.9642857142857143
+      ],
+      "per_class_recall_delta": [
+        0.0,
+        0.0,
+        0.0357142857142857
+      ],
+      "confusion_sigmoid": [
+        [
+          13,
+          0,
+          0
+        ],
+        [
+          2,
+          46,
+          1
+        ],
+        [
+          0,
+          0,
+          28
+        ]
+      ],
+      "confusion_softplus": [
+        [
+          13,
+          0,
+          0
+        ],
+        [
+          2,
+          46,
+          1
+        ],
+        [
+          0,
+          1,
+          27
+        ]
+      ],
+      "I_sigmoid": 0.04800065748348836,
+      "I_softplus": 0.018672845444033692,
+      "R_KL_sigmoid": 0.030302127799907697,
+      "R_KL_softplus": 0.010055458445067236,
+      "R_JS_sigmoid": 0.007782211941865537,
+      "R_JS_softplus": 0.0025249648857032215,
+      "R_sqrt_JS_sigmoid": 0.07490100094268086,
+      "R_sqrt_JS_softplus": 0.043615020818825144,
+      "validation_margin_median_sigmoid": 0.03431041108792532,
+      "validation_margin_median_softplus": 0.012339478498444134
+    },
+    {
+      "data_seed": 20261102,
+      "family": "class",
+      "BA_sigmoid": 0.979591836734694,
+      "BA_softplus": 0.979591836734694,
+      "paired_delta_validation_BA": 0.0,
+      "validation_flip_count": 4,
+      "per_class_recall_sigmoid": [
+        1.0,
+        0.9387755102040817,
+        1.0
+      ],
+      "per_class_recall_softplus": [
+        1.0,
+        0.9387755102040817,
+        1.0
+      ],
+      "per_class_recall_delta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "confusion_sigmoid": [
+        [
+          13,
+          0,
+          0
+        ],
+        [
+          1,
+          46,
+          2
+        ],
+        [
+          0,
+          0,
+          28
+        ]
+      ],
+      "confusion_softplus": [
+        [
+          13,
+          0,
+          0
+        ],
+        [
+          2,
+          46,
+          1
+        ],
+        [
+          0,
+          0,
+          28
+        ]
+      ],
+      "I_sigmoid": 0.03801917969960367,
+      "I_softplus": 0.01911592124964212,
+      "R_KL_sigmoid": 0.033659274606526825,
+      "R_KL_softplus": 0.010588050129462429,
+      "R_JS_sigmoid": 0.008575506487360251,
+      "R_JS_softplus": 0.0026566462580563687,
+      "R_sqrt_JS_sigmoid": 0.07804664437390486,
+      "R_sqrt_JS_softplus": 0.04500975634674682,
+      "validation_margin_median_sigmoid": 0.03376672698718841,
+      "validation_margin_median_softplus": 0.012790044471624518
+    },
+    {
+      "data_seed": 20261103,
+      "family": "shared",
+      "BA_sigmoid": 0.8773911273911273,
+      "BA_softplus": 0.8645706145706146,
+      "paired_delta_validation_BA": 0.012820512820512775,
+      "validation_flip_count": 1,
+      "per_class_recall_sigmoid": [
+        0.8928571428571429,
+        0.7777777777777778,
+        0.9615384615384616
+      ],
+      "per_class_recall_softplus": [
+        0.8928571428571429,
+        0.7777777777777778,
+        0.9230769230769231
+      ],
+      "per_class_recall_delta": [
+        0.0,
+        0.0,
+        0.038461538461538436
+      ],
+      "confusion_sigmoid": [
+        [
+          25,
+          3,
+          0
+        ],
+        [
+          4,
+          28,
+          4
+        ],
+        [
+          0,
+          1,
+          25
+        ]
+      ],
+      "confusion_softplus": [
+        [
+          25,
+          3,
+          0
+        ],
+        [
+          4,
+          28,
+          4
+        ],
+        [
+          0,
+          2,
+          24
+        ]
+      ],
+      "I_sigmoid": 0.0652094389382365,
+      "I_softplus": 0.019687008062400313,
+      "R_KL_sigmoid": 0.02759947144915585,
+      "R_KL_softplus": 0.008897829327438867,
+      "R_JS_sigmoid": 0.0070264309256404985,
+      "R_JS_softplus": 0.0022358340048487437,
+      "R_sqrt_JS_sigmoid": 0.06971323717006271,
+      "R_sqrt_JS_softplus": 0.03979409398199895,
+      "validation_margin_median_sigmoid": 0.03880669607700493,
+      "validation_margin_median_softplus": 0.0126537420597716
+    },
+    {
+      "data_seed": 20261103,
+      "family": "class",
+      "BA_sigmoid": 0.812067562067562,
+      "BA_softplus": 0.858872608872609,
+      "paired_delta_validation_BA": -0.046805046805046935,
+      "validation_flip_count": 8,
+      "per_class_recall_sigmoid": [
+        0.8571428571428571,
+        0.6944444444444444,
+        0.8846153846153846
+      ],
+      "per_class_recall_softplus": [
+        0.8928571428571429,
+        0.7222222222222222,
+        0.9615384615384616
+      ],
+      "per_class_recall_delta": [
+        -0.03571428571428581,
+        -0.02777777777777779,
+        -0.07692307692307698
+      ],
+      "confusion_sigmoid": [
+        [
+          24,
+          4,
+          0
+        ],
+        [
+          5,
+          25,
+          6
+        ],
+        [
+          0,
+          3,
+          23
+        ]
+      ],
+      "confusion_softplus": [
+        [
+          25,
+          3,
+          0
+        ],
+        [
+          6,
+          26,
+          4
+        ],
+        [
+          0,
+          1,
+          25
+        ]
+      ],
+      "I_sigmoid": 0.13554125977374676,
+      "I_softplus": 0.02036154425586023,
+      "R_KL_sigmoid": 0.05460348243290138,
+      "R_KL_softplus": 0.009246657783883686,
+      "R_JS_sigmoid": 0.01390707855935478,
+      "R_JS_softplus": 0.0023215325060784706,
+      "R_sqrt_JS_sigmoid": 0.09615080464317387,
+      "R_sqrt_JS_softplus": 0.040469198628296836,
+      "validation_margin_median_sigmoid": 0.06190476683748941,
+      "validation_margin_median_softplus": 0.013800254899381137
+    },
+    {
+      "data_seed": 20261104,
+      "family": "shared",
+      "BA_sigmoid": 0.8389136579537837,
+      "BA_softplus": 0.8604190342978698,
+      "paired_delta_validation_BA": -0.021505376344086113,
+      "validation_flip_count": 4,
+      "per_class_recall_sigmoid": [
+        0.8888888888888888,
+        0.8536585365853658,
+        0.7741935483870968
+      ],
+      "per_class_recall_softplus": [
+        0.8888888888888888,
+        0.8536585365853658,
+        0.8387096774193549
+      ],
+      "per_class_recall_delta": [
+        0.0,
+        0.0,
+        -0.06451612903225812
+      ],
+      "confusion_sigmoid": [
+        [
+          16,
+          2,
+          0
+        ],
+        [
+          6,
+          35,
+          0
+        ],
+        [
+          0,
+          7,
+          24
+        ]
+      ],
+      "confusion_softplus": [
+        [
+          16,
+          2,
+          0
+        ],
+        [
+          6,
+          35,
+          0
+        ],
+        [
+          0,
+          5,
+          26
+        ]
+      ],
+      "I_sigmoid": 0.0467563939821769,
+      "I_softplus": 0.018273487102489883,
+      "R_KL_sigmoid": 0.031122785323764487,
+      "R_KL_softplus": 0.010523515614063618,
+      "R_JS_sigmoid": 0.0079640080540866,
+      "R_JS_softplus": 0.0026478131496866855,
+      "R_sqrt_JS_sigmoid": 0.07466176986674251,
+      "R_sqrt_JS_softplus": 0.04277409011061806,
+      "validation_margin_median_sigmoid": 0.03606162567239335,
+      "validation_margin_median_softplus": 0.012268124624702947
+    },
+    {
+      "data_seed": 20261104,
+      "family": "class",
+      "BA_sigmoid": 0.8415362648250136,
+      "BA_softplus": 0.8604190342978698,
+      "paired_delta_validation_BA": -0.018882769472856165,
+      "validation_flip_count": 4,
+      "per_class_recall_sigmoid": [
+        0.8888888888888888,
+        0.8292682926829268,
+        0.8064516129032258
+      ],
+      "per_class_recall_softplus": [
+        0.8888888888888888,
+        0.8536585365853658,
+        0.8387096774193549
+      ],
+      "per_class_recall_delta": [
+        0.0,
+        -0.024390243902439046,
+        -0.032258064516129115
+      ],
+      "confusion_sigmoid": [
+        [
+          16,
+          2,
+          0
+        ],
+        [
+          7,
+          34,
+          0
+        ],
+        [
+          0,
+          6,
+          25
+        ]
+      ],
+      "confusion_softplus": [
+        [
+          16,
+          2,
+          0
+        ],
+        [
+          6,
+          35,
+          0
+        ],
+        [
+          0,
+          5,
+          26
+        ]
+      ],
+      "I_sigmoid": 0.04764426404533739,
+      "I_softplus": 0.017408775349782912,
+      "R_KL_sigmoid": 0.02424166009312943,
+      "R_KL_softplus": 0.010291202073639108,
+      "R_JS_sigmoid": 0.0061496323431548304,
+      "R_JS_softplus": 0.002587827632310894,
+      "R_sqrt_JS_sigmoid": 0.06521723663530425,
+      "R_sqrt_JS_softplus": 0.04252339043747417,
+      "validation_margin_median_sigmoid": 0.035813637545881016,
+      "validation_margin_median_softplus": 0.01270147522857934
+    }
+  ],
+  "per_family_descriptive": [
+    {
+      "family": "shared",
+      "n_independent_generators": 3,
+      "mean_paired_delta_BA": 0.0010732994603961747,
+      "sd_paired_delta_BA_ddof1": 0.01955906697027903,
+      "signs": [
+        1,
+        1,
+        -1
+      ],
+      "note": "Descriptive only; no general superiority or strong CI"
+    },
+    {
+      "family": "class",
+      "n_independent_generators": 3,
+      "mean_paired_delta_BA": -0.021895938759301032,
+      "sd_paired_delta_BA_ddof1": 0.023547558121113952,
+      "signs": [
+        0,
+        -1,
+        -1
+      ],
+      "note": "Descriptive only; no general superiority or strong CI"
+    }
+  ]
+}

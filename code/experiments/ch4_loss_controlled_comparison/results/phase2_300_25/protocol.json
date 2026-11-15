@@ -1,0 +1,134 @@
+{
+  "schema": "e-ch4-13-phase2-locked-grid-v1",
+  "status": "PENDING_PRELIMINARY_TECHNICAL_QA_AND_MANAGER_EXECUTION_AUTHORIZATION",
+  "technical_audit_gate": "preliminary_separate_from_final_scientific_QA",
+  "authorization_issue": 81,
+  "manager_issue": 81,
+  "objective": "paired_loss_only",
+  "n_train": 300,
+  "n_validation": 90,
+  "data_seeds": [
+    20261102,
+    20261103,
+    20261104
+  ],
+  "family_set": [
+    "shared",
+    "class"
+  ],
+  "objective_set": [
+    "sigmoid_JS_margin_tau005",
+    "softplus_JS_tau005"
+  ],
+  "fit_cap": 12,
+  "updates_per_fit": 25,
+  "beta": 0.4,
+  "lambda": 0.8,
+  "H": 12,
+  "tau_width": 0.005,
+  "learning_rate": 0.12,
+  "optimizer": "Adam",
+  "init": "zeros",
+  "precision": "float64",
+  "reference_ids": "ordered_all_train_0_through_299",
+  "checkpoint_selection": "fixed_step_25",
+  "test_accessed": false,
+  "fit_jobs": [
+    {
+      "data_seed": 20261102,
+      "family": "shared",
+      "objective": "sigmoid_JS_margin_tau005",
+      "n_train": 300,
+      "steps": 25,
+      "tau_width": 0.005
+    },
+    {
+      "data_seed": 20261102,
+      "family": "shared",
+      "objective": "softplus_JS_tau005",
+      "n_train": 300,
+      "steps": 25,
+      "tau_width": 0.005
+    },
+    {
+      "data_seed": 20261102,
+      "family": "class",
+      "objective": "sigmoid_JS_margin_tau005",
+      "n_train": 300,
+      "steps": 25,
+      "tau_width": 0.005
+    },
+    {
+      "data_seed": 20261102,
+      "family": "class",
+      "objective": "softplus_JS_tau005",
+      "n_train": 300,
+      "steps": 25,
+      "tau_width": 0.005
+    },
+    {
+      "data_seed": 20261103,
+      "family": "shared",
+      "objective": "sigmoid_JS_margin_tau005",
+      "n_train": 300,
+      "steps": 25,
+      "tau_width": 0.005
+    },
+    {
+      "data_seed": 20261103,
+      "family": "shared",
+      "objective": "softplus_JS_tau005",
+      "n_train": 300,
+      "steps": 25,
+      "tau_width": 0.005
+    },
+    {
+      "data_seed": 20261103,
+      "family": "class",
+      "objective": "sigmoid_JS_margin_tau005",
+      "n_train": 300,
+      "steps": 25,
+      "tau_width": 0.005
+    },
+    {
+      "data_seed": 20261103,
+      "family": "class",
+      "objective": "softplus_JS_tau005",
+      "n_train": 300,
+      "steps": 25,
+      "tau_width": 0.005
+    },
+    {
+      "data_seed": 20261104,
+      "family": "shared",
+      "objective": "sigmoid_JS_margin_tau005",
+      "n_train": 300,
+      "steps": 25,
+      "tau_width": 0.005
+    },
+    {
+      "data_seed": 20261104,
+      "family": "shared",
+      "objective": "softplus_JS_tau005",
+      "n_train": 300,
+      "steps": 25,
+      "tau_width": 0.005
+    },
+    {
+      "data_seed": 20261104,
+      "family": "class",
+      "objective": "sigmoid_JS_margin_tau005",
+      "n_train": 300,
+      "steps": 25,
+      "tau_width": 0.005
+    },
+    {
+      "data_seed": 20261104,
+      "family": "class",
+      "objective": "softplus_JS_tau005",
+      "n_train": 300,
+      "steps": 25,
+      "tau_width": 0.005
+    }
+  ]
+}
