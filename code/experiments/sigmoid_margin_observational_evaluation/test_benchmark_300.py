@@ -5,7 +5,7 @@ import unittest
 from pathlib import Path
 
 HERE=Path(__file__).resolve().parent
-BENCHMARK=HERE.parent/"benchmark_v1/results/master_runs_76.csv"
+BENCHMARK=HERE.parent/"standard_policy_comparison/results/master_runs_76.csv"
 
 class BenchmarkFull300Evidence(unittest.TestCase):
     def test_all_three_final_policies_match_benchmark_50_steps(self):

@@ -29,8 +29,8 @@ from report_snapshot import standard_metrics
 
 def load_archived_by_sha():
     bundles = [
-        BENCHMARK / "results/size_25_24runs_seed20261102.zip",
-        BENCHMARK / "results/size_25_24runs_seeds20261103_20261104.zip",
+        HERE.parent / "standard_policy_comparison/results/size_25_24runs_seed20261102.zip",
+        HERE.parent / "standard_policy_comparison/results/size_25_24runs_seeds20261103_20261104.zip",
     ]
     found = {}
     for path in bundles:
@@ -143,7 +143,7 @@ def main():
         "schema": "E-CH4-07-size-benchmark-common-metrics-v2",
         "status": "verified_saved_checkpoints_exact_forward",
         "experiment_id": "E-CH4-07",
-        "source": "benchmark_v1/results/master_runs_76.csv and immutable size-study ZIPs",
+        "source": "standard_policy_comparison/results/master_runs_76.csv and immutable size-study ZIPs",
         "retraining": False, "new_walk_sampling": False, "test_accessed": False,
         "policy_families": ["shared", "class"],
         "generator_seeds": [20261102,20261103,20261104],

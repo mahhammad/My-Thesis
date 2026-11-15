@@ -1,0 +1,143 @@
+name: REPO-LIGHTWEIGHT-01 full XeLaTeX and post-template reference gate (NO FIT)
+
+on:
+  pull_request:
+    paths:
+      - 'main.tex'
+      - 'tex/**'
+      - 'code/experiments/ch4_loss_controlled_comparison/figures/**'
+      - '.github/workflows/repo-lightweight-pr83-xelatex-gate.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  full-thesis-xelatex:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify removed template appendices and remaining TeX references
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          root=Path('.')
+          main=(root/'main.tex').read_text(encoding='utf-8')
+          for name in ('appendix1','appendix2','appendix3'):
+              assert not (root/'tex'/f'{name}.tex').exists(),name
+              assert not re.search(r'\\(?:input|include)\s*\{[^{}]*'+name+r'\}',main),name
+          for rel in re.findall(r'\\(?:input|include)\s*\{([^{}]+)\}',main):
+              candidate=root/rel
+              assert candidate.with_suffix('.tex').is_file() or candidate.is_file(),rel
+          deleted_labels=(
+            'app:latexIntro','formula','eq:yek','zirbakhsh','fig:shir','eq1','eq2',
+            'Sec:Ref','app:latex:more','tab:motionModels','tab:motionModelsCont',
+            'eq:DLT_Ah','alg:DLT','alg:simulation-random','alg:RANSAC',
+            'fig:twolion:one','fig:twolion:two','fig:twoLion','fig:parabola',
+            'sec:floatObjs','app:refMan','sec:refUsage'
+          )
+          sources=[root/'main.tex',*sorted((root/'tex').glob('*.tex'))]
+          for source in sources:
+              txt=source.read_text(encoding='utf-8')
+              refs=re.findall(r'\\(?:ref|eqref|autoref|pageref|cref|Cref)\s*\{([^{}]+)\}',txt)
+              bad=sorted(set(refs).intersection(deleted_labels))
+              assert not bad,(str(source),bad)
+          print('POST_TEMPLATE_STATIC_REFERENCES_PASS',len(sources))
+          PY
+      - name: Install XeLaTeX and Persian support
+        run: |
+          sudo apt-get update -qq
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+            texlive-xetex texlive-lang-arabic texlive-latex-extra texlive-fonts-recommended \
+            texlive-pictures texlive-science texlive-bibtex-extra \
+            texlive-lang-other fonts-dejavu-core poppler-utils xindy
+      - name: Full thesis XeLaTeX, bibliography, index and glossaries
+        run: |
+          set -euo pipefail
+          mkdir -p build/repo-lightweight/tex
+          if ! xelatex -interaction=nonstopmode -halt-on-error -file-line-error \
+                 -output-directory=build/repo-lightweight main.tex \
+                 > build/repo-lightweight/xelatex-pass1.log 2>&1; then
+            tail -n 125 build/repo-lightweight/xelatex-pass1.log
+            exit 1
+          fi
+          # BibTeX's aux files live in build/repo-lightweight, and the .bib
+          # path is written relative to that aux directory by main.tex.
+          cp tex/MyReferences.bib build/repo-lightweight/tex/MyReferences.bib
+          # Citation keys are ASCII. -8 avoids a non-portable cp1256fa.csf.
+          # BibTeX must run inside the aux output directory, because \include
+          # writes \@input{./tex/chapter*.aux} as relative paths.
+          if ! ( cd build/repo-lightweight && BIBINPUTS="../../:" bibtex8 -8 -W main ) \
+                 > build/repo-lightweight/bibtex.log 2>&1; then
+            tail -n 120 build/repo-lightweight/bibtex.log
+            exit 1
+          fi
+          if [ -s build/repo-lightweight/main.idx ]; then
+            makeindex build/repo-lightweight/main.idx \
+              > build/repo-lightweight/makeindex.log 2>&1 || {
+              tail -n 100 build/repo-lightweight/makeindex.log; exit 1;
+            }
+          fi
+          if [ -s build/repo-lightweight/main.glo ] || [ -s build/repo-lightweight/main.blo ] || [ -s build/repo-lightweight/main.acn ]; then
+            makeglossaries -d build/repo-lightweight main \
+              > build/repo-lightweight/makeglossaries.log 2>&1 || {
+              tail -n 125 build/repo-lightweight/makeglossaries.log; exit 1;
+            }
+          fi
+          for pass in 2 3 4; do
+            if ! xelatex -interaction=nonstopmode -halt-on-error -file-line-error \
+                 -output-directory=build/repo-lightweight main.tex \
+                 > "build/repo-lightweight/xelatex-pass${pass}.log" 2>&1; then
+              tail -n 125 "build/repo-lightweight/xelatex-pass${pass}.log"
+              exit 1
+            fi
+          done
+          test -s build/repo-lightweight/main.pdf
+          pdfinfo build/repo-lightweight/main.pdf | tee build/repo-lightweight/pdfinfo.txt
+      - name: Verify full PDF and report unresolved references
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          p=Path('build/repo-lightweight')
+          log=(p/'main.log').read_text(errors='replace')
+          fatal=['! LaTeX Error:','! Emergency stop.','LaTeX Warning: There were undefined references.','LaTeX Warning: There were multiply-defined labels.']
+          problems=[x for x in fatal if x in log]
+          unresolved=[line for line in log.splitlines() if ("Reference " in line or "Citation " in line) and "undefined" in line]
+          (p/'reference-warnings.txt').write_text(
+            'Fatal markers: '+repr(problems)+'\n'+
+            'Unresolved citation/reference lines:\n'+'\n'.join(unresolved[:100])+'\n',
+            encoding='utf-8')
+          print('FATAL_MARKERS',problems,'UNRESOLVED_COUNT',len(unresolved))
+          assert not problems and not unresolved, 'Full PDF reference gate failed; see reference-warnings.txt'
+          assert (p/'main.pdf').stat().st_size > 10000
+          print('FULL_XELATEX_REFERENCE_GATE_PASS')
+          PY
+      - name: Render representative cover page for human visual review
+        if: success()
+        run: |
+          pdftoppm -f 1 -l 1 -r 90 -png -singlefile \
+            build/repo-lightweight/main.pdf build/repo-lightweight/cover-review
+      - name: Publish PDF, logs and reference audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: repo-lightweight-pr83-full-thesis-xelatex
+          path: |
+            build/repo-lightweight/main.pdf
+            build/repo-lightweight/cover-review.png
+            build/repo-lightweight/pdfinfo.txt
+            build/repo-lightweight/reference-warnings.txt
+            build/repo-lightweight/xelatex-pass1.log
+            build/repo-lightweight/xelatex-pass2.log
+            build/repo-lightweight/xelatex-pass3.log
+            build/repo-lightweight/xelatex-pass4.log
+            build/repo-lightweight/bibtex.log
+            build/repo-lightweight/makeindex.log
+            build/repo-lightweight/makeglossaries.log
+            build/repo-lightweight/main.log
+          if-no-files-found: warn
+          retention-days: 90
