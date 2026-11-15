@@ -1,0 +1,71 @@
+name: E-CH4-13 phase2 archive verified existing raw (ZERO TRAINING)
+on:
+  push:
+    branches:
+      - experiment/ch4-loss-controlled-comparison-01
+    paths:
+      - 'code/experiments/ch4_loss_controlled_comparison/**'
+      - '.github/workflows/e-ch4-13-phase2-archive-existing.yml'
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: e-ch4-13-phase2-archive-only
+  cancel-in-progress: false
+jobs:
+  archive-verified-raw:
+    if: contains(github.event.head_commit.message, '[ARCHIVE_PHASE2_RUN43670524935]')
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      GH_TOKEN: ${{ github.token }}
+      E_CH4_13_PHASE2_OPT_IN: 'NOT_AUTHORIZED'
+      E_CH4_13_PHASE2_EXTERNAL_GATE_VERIFIED: 'false'
+      OPENBLAS_CORETYPE: generic
+      OPENBLAS_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check source and forbid overwriting any raw or pilot
+        run: |
+          set -euo pipefail
+          test "${GITHUB_REF_NAME}" = "experiment/ch4-loss-controlled-comparison-01"
+          test ! -e code/experiments/ch4_loss_controlled_comparison/results/phase2_300_25
+          test -e code/experiments/ch4_loss_controlled_comparison/results/pilot_seed20261102_shared_two_fits/manifest.json
+      - name: Download the one already-computed Actions artifact ZIP (no training)
+        run: |
+          set -euo pipefail
+          curl -fL --retry 2 \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/mahhammad/My-Thesis/actions/artifacts/14144445918/zip" \
+            -o /tmp/e-ch4-13-phase2-original.zip
+          sha256sum /tmp/e-ch4-13-phase2-original.zip
+      - name: Validate entire immutable artifact, all snapshots and charges; archive without optimizer
+        run: |
+          set -euo pipefail
+          python code/experiments/ch4_loss_controlled_comparison/archive_phase2_existing.py \
+            /tmp/e-ch4-13-phase2-original.zip
+      - name: Commit immutable raw and source-derived tables/figure on experiment branch ONLY
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add code/experiments/ch4_loss_controlled_comparison/results/phase2_300_25/
+          git add code/experiments/ch4_loss_controlled_comparison/tables/phase2_*.csv
+          git add code/experiments/ch4_loss_controlled_comparison/figures/phase2_*.svg
+          git add code/experiments/ch4_loss_controlled_comparison/PHASE2_RAW_ARCHIVE_CHECKPOINT.json
+          git diff --cached --quiet && { echo "Missing expected archived raw"; exit 1; } || true
+          git commit -m "E-CH4-13: archive all 12 real 25-step fits and checksummed metrics [PHASE2_RAW_NO_RETRAIN]"
+          git push origin HEAD:experiment/ch4-loss-controlled-comparison-01
+      - name: ALWAYS retain output/partial evidence of archive job itself
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e-ch4-13-phase2-archive-report-${{ github.run_id }}
+          path: |
+            code/experiments/ch4_loss_controlled_comparison/PHASE2_RAW_ARCHIVE_CHECKPOINT.json
+            code/experiments/ch4_loss_controlled_comparison/tables/phase2_*.csv
+            code/experiments/ch4_loss_controlled_comparison/figures/phase2_*.svg
+          if-no-files-found: warn
+          retention-days: 90

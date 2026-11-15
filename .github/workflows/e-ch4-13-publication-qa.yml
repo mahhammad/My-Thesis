@@ -1,0 +1,55 @@
+name: E-CH4-13 scientific presentation re-QA (NO FIT)
+on:
+  push:
+    branches:
+      - experiment/ch4-loss-controlled-comparison-01
+    paths:
+      - 'code/experiments/ch4_loss_controlled_comparison/PHASE2_LATEX_QA_TRIGGER.md'
+      - '.github/workflows/e-ch4-13-publication-qa.yml'
+permissions:
+  contents: read
+jobs:
+  reproducibility-and-tex-assets:
+    if: contains(github.event.head_commit.message, '[E13_LATEX_QA_EXPLICIT]')
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install read-only scientific array package
+        run: python -m pip install --disable-pip-version-check numpy==2.4.6
+      - name: Reproduce original source-derived v2 plots and metadata byte-for-byte
+        run: python code/experiments/ch4_loss_controlled_comparison/phase2_derived_reproduce_v2.py --check
+      - name: Run scientific v2 re-QA unit tests
+        run: python -m unittest discover -s code/experiments/ch4_loss_controlled_comparison -p 'test_phase2_derived_v2.py' -v
+      - name: Reproduce v3 overlaid plots byte-for-byte
+        run: python code/experiments/ch4_loss_controlled_comparison/phase2_figures_1_8_v3.py --check
+      - name: Reproduce Figure 11 fixed y-axis byte-for-byte
+        run: python code/experiments/ch4_loss_controlled_comparison/phase2_figure11_y70_100.py --check
+      - name: Verify all vector graphics and TeX figure/table inclusions
+        run: python -m unittest discover -s code/experiments/ch4_loss_controlled_comparison -p 'test_e13_publication_ready.py' -v
+      - name: Independently recalculate Bayes MAP same-seed Validation BA and sample variances from frozen NPZ
+        run: |
+          python code/experiments/ch4_loss_controlled_comparison/validation_bayes_summary.py > /tmp/e13_validation_bayes.json
+          python - <<'PY'
+          import json
+          x=json.load(open("/tmp/e13_validation_bayes.json"))
+          assert not x["test_accessed"] and x["no_optimizer"]
+          assert len(x["rows"])==5
+          expected={("shared","sigmoid_JS_margin_tau005"):(89.863220736,52.85975105),
+                    ("shared","softplus_JS_tau005"):(89.75589079,36.92778752),
+                    ("class","sigmoid_JS_margin_tau005"):(87.77318879,79.98687997),
+                    ("class","softplus_JS_tau005"):(89.96278266,47.96280041),
+                    ("generative_oracle","Bayes_MAP"):(90.78854205,36.64054499)}
+          for row in x["rows"]:
+              m,v=expected[(row["family"],row["objective"])]
+              assert abs(row["mean_percent"]-m)<1e-4,(row,m)
+              assert abs(row["sample_variance_pp_squared"]-v)<1e-4,(row,v)
+          print("E13_BAYES_MATCHED_SPLIT_SUMMARY_PASS")
+          PY
+      - name: Chapter 4 existing syntax smoke tests
+        run: python -m unittest discover -s code/experiments/benchmark_v1 -p test_chapter4_latex_syntax.py -v
+      - name: Ensure no uncommitted presentation mutations
+        run: git diff --exit-code && git diff --cached --exit-code  # ignore Python __pycache__ created by read-only checks

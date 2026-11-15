@@ -1,0 +1,178 @@
+{
+  "test": {
+    "reason": "forbidden by Issue #81",
+    "status": "not_applicable"
+  },
+  "train.BT": {
+    "reason": "metric in canonical report",
+    "status": "measured"
+  },
+  "train.BTNL": {
+    "reason": "metric in canonical report",
+    "status": "measured"
+  },
+  "train.I": {
+    "reason": "metric in canonical report",
+    "status": "measured"
+  },
+  "train.NLL_KL_normalized_historical": {
+    "reason": "metric in canonical report",
+    "status": "measured"
+  },
+  "train.NLL_KL_simple": {
+    "reason": "metric in canonical report",
+    "status": "measured"
+  },
+  "train.R_JS": {
+    "reason": "metric in canonical report",
+    "status": "measured"
+  },
+  "train.R_KL": {
+    "reason": "metric in canonical report",
+    "status": "measured"
+  },
+  "train.R_sqrt_JS": {
+    "reason": "metric in canonical report",
+    "status": "measured"
+  },
+  "train.T": {
+    "reason": "metric in canonical report",
+    "status": "measured"
+  },
+  "train.TNL": {
+    "reason": "metric in canonical report",
+    "status": "measured"
+  },
+  "train.balanced_JS_similarity_NLL": {
+    "reason": "metric in canonical report",
+    "status": "measured"
+  },
+  "train.balanced_accuracy": {
+    "reason": "metric in canonical report",
+    "status": "measured"
+  },
+  "train.balanced_sigmoid_margin_loss": {
+    "reason": "metric in canonical report",
+    "status": "measured"
+  },
+  "train.balanced_softplus_all_rivals": {
+    "reason": "metric in canonical report",
+    "status": "measured"
+  },
+  "train.confusion_true_rows_pred_cols": {
+    "reason": "metric in canonical report",
+    "status": "measured"
+  },
+  "train.hard_margin_error_conservative": {
+    "reason": "metric in canonical report",
+    "status": "measured"
+  },
+  "train.margin_quantiles": {
+    "reason": "metric in canonical report",
+    "status": "measured"
+  },
+  "train.mean_pairwise_JS": {
+    "reason": "metric in canonical report",
+    "status": "measured"
+  },
+  "train.mean_pairwise_sqrt_JS": {
+    "reason": "metric in canonical report",
+    "status": "measured"
+  },
+  "train.mean_true_class_similarity": {
+    "reason": "metric in canonical report",
+    "status": "measured"
+  },
+  "train.min_pairwise_sqrt_JS": {
+    "reason": "metric in canonical report",
+    "status": "measured"
+  },
+  "train.nearest_center_sqrt_JS_per_class": {
+    "reason": "metric in canonical report",
+    "status": "measured"
+  },
+  "train.ordinary_accuracy": {
+    "reason": "metric in canonical report",
+    "status": "measured"
+  },
+  "train.pairwise_JS": {
+    "reason": "metric in canonical report",
+    "status": "measured"
+  },
+  "train.pairwise_sqrt_JS": {
+    "reason": "metric in canonical report",
+    "status": "measured"
+  },
+  "train.per_class_recall": {
+    "reason": "Derived alias of metrics_full.json train.per_class[].accuracy; independently verified from confusion diagonal / class counts",
+    "status": "measured"
+  },
+  "train.tie_count": {
+    "reason": "metric in canonical report",
+    "status": "measured"
+  },
+  "validation.NLL_KL_normalized_historical": {
+    "reason": "metric in canonical report",
+    "status": "measured"
+  },
+  "validation.NLL_KL_simple": {
+    "reason": "metric in canonical report",
+    "status": "measured"
+  },
+  "validation.R_JS": {
+    "reason": "metric in canonical report",
+    "status": "measured"
+  },
+  "validation.R_KL": {
+    "reason": "metric in canonical report",
+    "status": "measured"
+  },
+  "validation.R_sqrt_JS": {
+    "reason": "metric in canonical report",
+    "status": "measured"
+  },
+  "validation.balanced_JS_similarity_NLL": {
+    "reason": "metric in canonical report",
+    "status": "measured"
+  },
+  "validation.balanced_accuracy": {
+    "reason": "metric in canonical report",
+    "status": "measured"
+  },
+  "validation.balanced_sigmoid_margin_loss": {
+    "reason": "metric in canonical report",
+    "status": "measured"
+  },
+  "validation.balanced_softplus_all_rivals": {
+    "reason": "metric in canonical report",
+    "status": "measured"
+  },
+  "validation.confusion_true_rows_pred_cols": {
+    "reason": "metric in canonical report",
+    "status": "measured"
+  },
+  "validation.hard_margin_error_conservative": {
+    "reason": "metric in canonical report",
+    "status": "measured"
+  },
+  "validation.margin_quantiles": {
+    "reason": "metric in canonical report",
+    "status": "measured"
+  },
+  "validation.mean_true_class_similarity": {
+    "reason": "metric in canonical report",
+    "status": "measured"
+  },
+  "validation.ordinary_accuracy": {
+    "reason": "metric in canonical report",
+    "status": "measured"
+  },
+  "validation.per_class_recall": {
+    "reason": "Derived alias of metrics_full.json validation.per_class[].accuracy; independently verified from confusion diagonal / class counts",
+    "status": "measured"
+  },
+  "validation.tie_count": {
+    "reason": "metric in canonical report",
+    "status": "measured"
+  }
+}

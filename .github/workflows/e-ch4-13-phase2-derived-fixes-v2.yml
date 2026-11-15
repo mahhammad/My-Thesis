@@ -1,0 +1,58 @@
+name: E-CH4-13 repair derived QA coverage and plots v2 (NO FIT)
+on:
+  push:
+    branches:
+      - experiment/ch4-loss-controlled-comparison-01
+    paths:
+      - 'code/experiments/ch4_loss_controlled_comparison/PHASE2_QA_FIXES_V2_TRIGGER.md'
+      - 'code/experiments/ch4_loss_controlled_comparison/phase2_derived_reproduce_v2.py'
+      - '.github/workflows/e-ch4-13-phase2-derived-fixes-v2.yml'
+permissions:
+  contents: write
+concurrency:
+  group: e-ch4-13-phase2-derived-v2-only
+  cancel-in-progress: false
+jobs:
+  reproduce-and-store-derived-only:
+    if: contains(github.event.head_commit.message, '[E13_QA_DERIVED_V2_EXPLICIT]')
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Assert this is independent no-training derived repair
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF_NAME" = "experiment/ch4-loss-controlled-comparison-01"
+          test ! -e code/experiments/ch4_loss_controlled_comparison/derived/phase2_qa_fixes_v2
+          test ! -e code/experiments/ch4_loss_controlled_comparison/figures/phase2_repro_v2
+          test -e code/experiments/ch4_loss_controlled_comparison/results/phase2_300_25/manifest.json
+      - name: Generate corrected derived coverage and 11 reproducible plots from existing raw only
+        run: |
+          set -euo pipefail
+          python3 code/experiments/ch4_loss_controlled_comparison/phase2_derived_reproduce_v2.py
+          python3 code/experiments/ch4_loss_controlled_comparison/phase2_derived_reproduce_v2.py --check
+      - name: Enforce immutable archived raw and existing figures
+        run: |
+          set -euo pipefail
+          test -z "$(git diff --name-only -- code/experiments/ch4_loss_controlled_comparison/results code/experiments/ch4_loss_controlled_comparison/figures)"
+          test -z "$(git diff --name-only -- code/experiments/ch4_loss_controlled_comparison/phase2_runner.py code/experiments/ch4_loss_controlled_comparison/phase2_protocol.py)"
+      - name: Commit only new derived v2 data, plot evidence, and graphics
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add code/experiments/ch4_loss_controlled_comparison/derived/phase2_qa_fixes_v2/
+          git add code/experiments/ch4_loss_controlled_comparison/figures/phase2_repro_v2/
+          git diff --cached --check
+          test "$(git diff --cached --name-only | wc -l)" -eq 27
+          git commit -m "E-CH4-13: store 12 corrected derived coverage files and 11 source-reproducible plots [NO FIT]"
+          git push origin HEAD:experiment/ch4-loss-controlled-comparison-01
+      - name: ALWAYS retain v2 correction manifest for independent QA
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e-ch4-13-derived-v2-evidence
+          path: |
+            code/experiments/ch4_loss_controlled_comparison/derived/phase2_qa_fixes_v2/
+          if-no-files-found: warn
+          retention-days: 90

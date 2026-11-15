@@ -1,0 +1,178 @@
+{
+  "train.R_KL": {
+    "status": "measured",
+    "reason": "metric in canonical report"
+  },
+  "train.R_JS": {
+    "status": "measured",
+    "reason": "metric in canonical report"
+  },
+  "train.R_sqrt_JS": {
+    "status": "measured",
+    "reason": "metric in canonical report"
+  },
+  "train.mean_true_class_similarity": {
+    "status": "measured",
+    "reason": "metric in canonical report"
+  },
+  "validation.R_KL": {
+    "status": "measured",
+    "reason": "metric in canonical report"
+  },
+  "validation.R_JS": {
+    "status": "measured",
+    "reason": "metric in canonical report"
+  },
+  "validation.R_sqrt_JS": {
+    "status": "measured",
+    "reason": "metric in canonical report"
+  },
+  "validation.mean_true_class_similarity": {
+    "status": "measured",
+    "reason": "metric in canonical report"
+  },
+  "train.T": {
+    "status": "measured",
+    "reason": "metric in canonical report"
+  },
+  "train.BT": {
+    "status": "measured",
+    "reason": "metric in canonical report"
+  },
+  "train.TNL": {
+    "status": "measured",
+    "reason": "metric in canonical report"
+  },
+  "train.BTNL": {
+    "status": "measured",
+    "reason": "metric in canonical report"
+  },
+  "train.I": {
+    "status": "measured",
+    "reason": "metric in canonical report"
+  },
+  "train.min_pairwise_sqrt_JS": {
+    "status": "measured",
+    "reason": "metric in canonical report"
+  },
+  "train.mean_pairwise_sqrt_JS": {
+    "status": "measured",
+    "reason": "metric in canonical report"
+  },
+  "train.mean_pairwise_JS": {
+    "status": "measured",
+    "reason": "metric in canonical report"
+  },
+  "train.pairwise_sqrt_JS": {
+    "status": "measured",
+    "reason": "metric in canonical report"
+  },
+  "train.pairwise_JS": {
+    "status": "measured",
+    "reason": "metric in canonical report"
+  },
+  "train.nearest_center_sqrt_JS_per_class": {
+    "status": "measured",
+    "reason": "metric in canonical report"
+  },
+  "train.balanced_accuracy": {
+    "status": "measured",
+    "reason": "metric in canonical report"
+  },
+  "train.ordinary_accuracy": {
+    "status": "measured",
+    "reason": "metric in canonical report"
+  },
+  "train.confusion_true_rows_pred_cols": {
+    "status": "measured",
+    "reason": "metric in canonical report"
+  },
+  "train.per_class_recall": {
+    "status": "not_measured",
+    "reason": "canonical reporter value unavailable/nonfinite; never filled with 0"
+  },
+  "train.tie_count": {
+    "status": "measured",
+    "reason": "metric in canonical report"
+  },
+  "train.margin_quantiles": {
+    "status": "measured",
+    "reason": "metric in canonical report"
+  },
+  "train.hard_margin_error_conservative": {
+    "status": "measured",
+    "reason": "metric in canonical report"
+  },
+  "validation.balanced_accuracy": {
+    "status": "measured",
+    "reason": "metric in canonical report"
+  },
+  "validation.ordinary_accuracy": {
+    "status": "measured",
+    "reason": "metric in canonical report"
+  },
+  "validation.confusion_true_rows_pred_cols": {
+    "status": "measured",
+    "reason": "metric in canonical report"
+  },
+  "validation.per_class_recall": {
+    "status": "not_measured",
+    "reason": "canonical reporter value unavailable/nonfinite; never filled with 0"
+  },
+  "validation.tie_count": {
+    "status": "measured",
+    "reason": "metric in canonical report"
+  },
+  "validation.margin_quantiles": {
+    "status": "measured",
+    "reason": "metric in canonical report"
+  },
+  "validation.hard_margin_error_conservative": {
+    "status": "measured",
+    "reason": "metric in canonical report"
+  },
+  "train.balanced_sigmoid_margin_loss": {
+    "status": "measured",
+    "reason": "metric in canonical report"
+  },
+  "train.balanced_JS_similarity_NLL": {
+    "status": "measured",
+    "reason": "metric in canonical report"
+  },
+  "train.balanced_softplus_all_rivals": {
+    "status": "measured",
+    "reason": "metric in canonical report"
+  },
+  "train.NLL_KL_simple": {
+    "status": "measured",
+    "reason": "metric in canonical report"
+  },
+  "train.NLL_KL_normalized_historical": {
+    "status": "measured",
+    "reason": "metric in canonical report"
+  },
+  "validation.balanced_sigmoid_margin_loss": {
+    "status": "measured",
+    "reason": "metric in canonical report"
+  },
+  "validation.balanced_JS_similarity_NLL": {
+    "status": "measured",
+    "reason": "metric in canonical report"
+  },
+  "validation.balanced_softplus_all_rivals": {
+    "status": "measured",
+    "reason": "metric in canonical report"
+  },
+  "validation.NLL_KL_simple": {
+    "status": "measured",
+    "reason": "metric in canonical report"
+  },
+  "validation.NLL_KL_normalized_historical": {
+    "status": "measured",
+    "reason": "metric in canonical report"
+  },
+  "test": {
+    "status": "not_applicable",
+    "reason": "forbidden by Issue #81"
+  }
+}

@@ -1,0 +1,362 @@
+{
+  "schema": "chapter4-common-evaluation-contract-v2",
+  "source": "raw E-CH4-13 pilot artifact; zero optimizer steps in recovery",
+  "test": {
+    "status": "not_applicable",
+    "reason": "Test access explicitly prohibited"
+  },
+  "runtime_memory_peak_bytes": {
+    "status": "not_measured",
+    "reason": "not instrumented"
+  },
+  "objectives": {
+    "sigmoid_JS_margin_tau005": {
+      "train.R_KL": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.R_JS": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.R_sqrt_JS": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.mean_true_class_similarity": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "validation.R_KL": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "validation.R_JS": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "validation.R_sqrt_JS": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "validation.mean_true_class_similarity": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.T": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.BT": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.TNL": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.BTNL": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.I": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.min_pairwise_sqrt_JS": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.mean_pairwise_sqrt_JS": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.mean_pairwise_JS": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.pairwise_sqrt_JS": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.pairwise_JS": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.nearest_center_sqrt_JS_per_class": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.balanced_accuracy": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.ordinary_accuracy": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.confusion_true_rows_pred_cols": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.per_class_recall": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.tie_count": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.margin_quantiles": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.hard_margin_error_conservative": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "validation.balanced_accuracy": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "validation.ordinary_accuracy": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "validation.confusion_true_rows_pred_cols": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "validation.per_class_recall": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "validation.tie_count": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "validation.margin_quantiles": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "validation.hard_margin_error_conservative": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.balanced_sigmoid_margin_loss": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.balanced_JS_similarity_NLL": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.balanced_softplus_all_rivals": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.NLL_KL_simple": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.NLL_KL_normalized_historical": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "validation.balanced_sigmoid_margin_loss": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "validation.balanced_JS_similarity_NLL": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "validation.balanced_softplus_all_rivals": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "validation.NLL_KL_simple": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "validation.NLL_KL_normalized_historical": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      }
+    },
+    "softplus_JS_tau005": {
+      "train.R_KL": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.R_JS": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.R_sqrt_JS": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.mean_true_class_similarity": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "validation.R_KL": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "validation.R_JS": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "validation.R_sqrt_JS": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "validation.mean_true_class_similarity": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.T": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.BT": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.TNL": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.BTNL": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.I": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.min_pairwise_sqrt_JS": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.mean_pairwise_sqrt_JS": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.mean_pairwise_JS": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.pairwise_sqrt_JS": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.pairwise_JS": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.nearest_center_sqrt_JS_per_class": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.balanced_accuracy": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.ordinary_accuracy": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.confusion_true_rows_pred_cols": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.per_class_recall": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.tie_count": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.margin_quantiles": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.hard_margin_error_conservative": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "validation.balanced_accuracy": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "validation.ordinary_accuracy": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "validation.confusion_true_rows_pred_cols": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "validation.per_class_recall": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "validation.tie_count": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "validation.margin_quantiles": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "validation.hard_margin_error_conservative": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.balanced_sigmoid_margin_loss": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.balanced_JS_similarity_NLL": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.balanced_softplus_all_rivals": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.NLL_KL_simple": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "train.NLL_KL_normalized_historical": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "validation.balanced_sigmoid_margin_loss": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "validation.balanced_JS_similarity_NLL": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "validation.balanced_softplus_all_rivals": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "validation.NLL_KL_simple": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      },
+      "validation.NLL_KL_normalized_historical": {
+        "status": "measured",
+        "reason": "raw canonical metrics_full.json"
+      }
+    }
+  }
+}

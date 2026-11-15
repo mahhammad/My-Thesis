@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="650" viewBox="0 0 1100 650">
+<rect width="1100" height="650" fill="#ffffff"/>
+<text x="80" y="41" font-size="23" font-weight="bold" font-family="DejaVu Sans, sans-serif">Train balanced accuracy during Adam optimization</text>
+<text x="80" y="67" font-size="13" font-family="DejaVu Sans, sans-serif">Mean BA across 3 independent dataset seeds; percent; fixed y axis 70–100</text>
+<line x1="105" x2="1035" y1="532.000" y2="532.000" stroke="#e8e8e8"/>
+<text x="93" y="536.000" text-anchor="end" font-family="DejaVu Sans, sans-serif" font-size="12">70</text>
+<line x1="105" x2="1035" y1="466.667" y2="466.667" stroke="#e8e8e8"/>
+<text x="93" y="470.667" text-anchor="end" font-family="DejaVu Sans, sans-serif" font-size="12">75</text>
+<line x1="105" x2="1035" y1="401.333" y2="401.333" stroke="#e8e8e8"/>
+<text x="93" y="405.333" text-anchor="end" font-family="DejaVu Sans, sans-serif" font-size="12">80</text>
+<line x1="105" x2="1035" y1="336.000" y2="336.000" stroke="#e8e8e8"/>
+<text x="93" y="340.000" text-anchor="end" font-family="DejaVu Sans, sans-serif" font-size="12">85</text>
+<line x1="105" x2="1035" y1="270.667" y2="270.667" stroke="#e8e8e8"/>
+<text x="93" y="274.667" text-anchor="end" font-family="DejaVu Sans, sans-serif" font-size="12">90</text>
+<line x1="105" x2="1035" y1="205.333" y2="205.333" stroke="#e8e8e8"/>
+<text x="93" y="209.333" text-anchor="end" font-family="DejaVu Sans, sans-serif" font-size="12">95</text>
+<line x1="105" x2="1035" y1="140.000" y2="140.000" stroke="#e8e8e8"/>
+<text x="93" y="144.000" text-anchor="end" font-family="DejaVu Sans, sans-serif" font-size="12">100</text>
+<line x1="105" y1="532" x2="1035" y2="532" stroke="#444"/>
+<line x1="105" y1="140" x2="105" y2="532" stroke="#444"/>
+<text x="105.000" y="554" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="12">0</text>
+<text x="291.000" y="554" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="12">5</text>
+<text x="477.000" y="554" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="12">10</text>
+<text x="663.000" y="554" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="12">15</text>
+<text x="849.000" y="554" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="12">20</text>
+<text x="1035.000" y="554" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="12">25</text>
+<polyline points="105.000,364.751 142.200,346.603 179.400,342.414 216.600,337.455 253.800,342.424 291.000,346.116 328.200,344.416 365.400,344.925 402.600,347.037 439.800,341.458 477.000,336.885 514.200,330.285 551.400,324.702 588.600,324.077 625.800,326.109 663.000,326.490 700.200,322.252 737.400,323.548 774.600,323.548 811.800,319.404 849.000,319.164 886.200,316.199 923.400,316.199 960.600,317.132 997.800,319.203 1035.000,320.202" fill="none" stroke="#2778a5" stroke-width="3.2"/>
+<circle cx="105.000" cy="364.751" r="3.1" fill="white" stroke="#2778a5" stroke-width="1.5"/>
+<circle cx="291.000" cy="346.116" r="3.1" fill="white" stroke="#2778a5" stroke-width="1.5"/>
+<circle cx="477.000" cy="336.885" r="3.1" fill="white" stroke="#2778a5" stroke-width="1.5"/>
+<circle cx="663.000" cy="326.490" r="3.1" fill="white" stroke="#2778a5" stroke-width="1.5"/>
+<circle cx="849.000" cy="319.164" r="3.1" fill="white" stroke="#2778a5" stroke-width="1.5"/>
+<circle cx="1035.000" cy="320.202" r="3.1" fill="white" stroke="#2778a5" stroke-width="1.5"/>
+<line x1="610" x2="632" y1="91" y2="91" stroke="#2778a5" stroke-width="3"/>
+<text x="637" y="95" font-family="DejaVu Sans, sans-serif" font-size="12">shared Sigmoid</text>
+<polyline points="105.000,364.751 142.200,345.828 179.400,341.728 216.600,327.796 253.800,327.303 291.000,328.174 328.200,324.711 365.400,326.783 402.600,331.817 439.800,331.817 477.000,332.804 514.200,329.800 551.400,329.098 588.600,330.142 625.800,330.914 663.000,330.570 700.200,328.415 737.400,327.007 774.600,330.107 811.800,326.124 849.000,323.287 886.200,323.707 923.400,320.607 960.600,321.595 997.800,325.554 1035.000,325.554" fill="none" stroke="#d37b25" stroke-width="3.2"/>
+<circle cx="105.000" cy="364.751" r="3.1" fill="white" stroke="#d37b25" stroke-width="1.5"/>
+<circle cx="291.000" cy="328.174" r="3.1" fill="white" stroke="#d37b25" stroke-width="1.5"/>
+<circle cx="477.000" cy="332.804" r="3.1" fill="white" stroke="#d37b25" stroke-width="1.5"/>
+<circle cx="663.000" cy="330.570" r="3.1" fill="white" stroke="#d37b25" stroke-width="1.5"/>
+<circle cx="849.000" cy="323.287" r="3.1" fill="white" stroke="#d37b25" stroke-width="1.5"/>
+<circle cx="1035.000" cy="325.554" r="3.1" fill="white" stroke="#d37b25" stroke-width="1.5"/>
+<line x1="815" x2="837" y1="91" y2="91" stroke="#d37b25" stroke-width="3"/>
+<text x="842" y="95" font-family="DejaVu Sans, sans-serif" font-size="12">shared Softplus</text>
+<polyline points="105.000,364.751 142.200,355.079 179.400,348.328 216.600,352.922 253.800,355.647 291.000,357.812 328.200,354.069 365.400,352.782 402.600,348.162 439.800,339.616 477.000,337.987 514.200,335.916 551.400,336.793 588.600,331.475 625.800,325.718 663.000,323.686 700.200,322.459 737.400,322.459 774.600,323.850 811.800,319.278 849.000,321.272 886.200,318.504 923.400,315.724 960.600,315.724 997.800,315.724 1035.000,313.692" fill="none" stroke="#57934e" stroke-width="3.2"/>
+<circle cx="105.000" cy="364.751" r="3.1" fill="white" stroke="#57934e" stroke-width="1.5"/>
+<circle cx="291.000" cy="357.812" r="3.1" fill="white" stroke="#57934e" stroke-width="1.5"/>
+<circle cx="477.000" cy="337.987" r="3.1" fill="white" stroke="#57934e" stroke-width="1.5"/>
+<circle cx="663.000" cy="323.686" r="3.1" fill="white" stroke="#57934e" stroke-width="1.5"/>
+<circle cx="849.000" cy="321.272" r="3.1" fill="white" stroke="#57934e" stroke-width="1.5"/>
+<circle cx="1035.000" cy="313.692" r="3.1" fill="white" stroke="#57934e" stroke-width="1.5"/>
+<line x1="610" x2="632" y1="116" y2="116" stroke="#57934e" stroke-width="3"/>
+<text x="637" y="120" font-family="DejaVu Sans, sans-serif" font-size="12">class Sigmoid</text>
+<polyline points="105.000,364.751 142.200,351.275 179.400,350.095 216.600,336.597 253.800,332.836 291.000,331.546 328.200,330.574 365.400,329.586 402.600,330.558 439.800,332.725 477.000,331.737 514.200,333.754 551.400,329.737 588.600,326.679 625.800,327.226 663.000,324.043 700.200,330.639 737.400,335.442 774.600,336.487 811.800,335.403 849.000,334.856 886.200,334.308 923.400,330.644 960.600,332.716 997.800,334.347 1035.000,336.178" fill="none" stroke="#9367a4" stroke-width="3.2"/>
+<circle cx="105.000" cy="364.751" r="3.1" fill="white" stroke="#9367a4" stroke-width="1.5"/>
+<circle cx="291.000" cy="331.546" r="3.1" fill="white" stroke="#9367a4" stroke-width="1.5"/>
+<circle cx="477.000" cy="331.737" r="3.1" fill="white" stroke="#9367a4" stroke-width="1.5"/>
+<circle cx="663.000" cy="324.043" r="3.1" fill="white" stroke="#9367a4" stroke-width="1.5"/>
+<circle cx="849.000" cy="334.856" r="3.1" fill="white" stroke="#9367a4" stroke-width="1.5"/>
+<circle cx="1035.000" cy="336.178" r="3.1" fill="white" stroke="#9367a4" stroke-width="1.5"/>
+<line x1="815" x2="837" y1="116" y2="116" stroke="#9367a4" stroke-width="3"/>
+<text x="842" y="120" font-family="DejaVu Sans, sans-serif" font-size="12">class Softplus</text>
+<text x="525" y="585" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="13">Completed Adam updates (0 to 25)</text>
+<text x="80" y="625" font-family="DejaVu Sans, sans-serif" font-size="11">Original 12 exact-walk fits | fixed final checkpoint 25 | no validation trajectory | no Test</text>
+</svg>

@@ -1,0 +1,48 @@
+name: E-CH4-13 Persian legend collision correction (NO FIT)
+on:
+  push:
+    branches:
+      - experiment/ch4-loss-controlled-comparison-01
+    paths:
+      - code/experiments/ch4_loss_controlled_comparison/PERSIAN_LAYOUT_REPAIR_TRIGGER.md
+permissions:
+  contents: write
+jobs:
+  repair-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install deterministic vector layout dependencies
+        run: python -m pip install --disable-pip-version-check 'matplotlib==3.10.7' 'arabic-reshaper==3.0.0' 'python-bidi==0.6.6' 'CairoSVG==2.8.2' 'PyMuPDF==1.26.6'
+      - name: Regenerate only Persian copies with legend at its own original unobstructed position
+        run: |
+          set -euo pipefail
+          python code/experiments/ch4_loss_controlled_comparison/phase2_persian_figures.py --repair-layout
+          python code/experiments/ch4_loss_controlled_comparison/phase2_persian_figures.py --check
+      - name: Reject unrelated modifications and preserve all English figures/raw
+        run: |
+          set -euo pipefail
+          git diff --name-only | tee /tmp/e13_modified.txt
+          test -s /tmp/e13_modified.txt
+          if grep -Ev '^code/experiments/ch4_loss_controlled_comparison/(figures/phase2_tex_fa/e13_[0-9]{2}_fa\.(svg|pdf)|derived/phase2_persian_figures_manifest\.json)$' /tmp/e13_modified.txt; then exit 1; fi
+          git diff --check
+          git add code/experiments/ch4_loss_controlled_comparison/figures/phase2_tex_fa/
+          git add code/experiments/ch4_loss_controlled_comparison/derived/phase2_persian_figures_manifest.json
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "E-CH4-13: clear Persian legend overlap in 11 publication copies only [NO FIT]"
+          git fetch origin experiment/ch4-loss-controlled-comparison-01
+          git rebase origin/experiment/ch4-loss-controlled-comparison-01
+          git push origin HEAD:experiment/ch4-loss-controlled-comparison-01
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: e13-persian-layout-correction
+          path: |
+            code/experiments/ch4_loss_controlled_comparison/figures/phase2_tex_fa/
+            code/experiments/ch4_loss_controlled_comparison/derived/phase2_persian_figures_manifest.json
+          if-no-files-found: warn
