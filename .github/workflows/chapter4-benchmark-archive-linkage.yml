@@ -1,0 +1,57 @@
+name: Chapter 4 benchmark archive linkage integrity (NO FIT)
+on:
+  pull_request:
+    paths:
+      - 'code/experiments/benchmark_v1/**'
+      - 'code/experiments/standard_policy_comparison/**'
+      - 'code/experiments/archive/benchmark_v1_legacy_evidence/**'
+      - 'code/experiments/exact_matrix_walk_validation/**'
+      - 'code/experiments/sigmoid_margin_observational_evaluation/**'
+      - 'code/experiments/walk_depth_effect/**'
+      - 'code/experiments/test_chapter4_presentation.py'
+      - 'code/experiments/test_benchmark_archive_links.py'
+      - '.github/workflows/chapter4-benchmark-archive-linkage.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  integrity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify 76-run archive hashes, curated blobs and consumer links
+        run: python -m unittest discover -s code/experiments -p test_benchmark_archive_links.py -v
+  scientific-readonly-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      E_CH4_13_PHASE2_OPT_IN: NOT_AUTHORIZED
+      E_CH4_13_PHASE2_EXTERNAL_GATE_VERIFIED: 'false'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install read-only scientific dependencies
+        run: |
+          python -m pip install numpy
+          python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+      - name: E07 persisted Train/Validation reports (NO REPLAY)
+        run: |
+          python -m unittest discover -s code/experiments/sigmoid_margin_observational_evaluation -p test_benchmark_300.py -v
+          python -m unittest discover -s code/experiments/sigmoid_margin_observational_evaluation -p test_benchmark_size_full.py -v
+      - name: E08 and E09 saved-result audits (NO REPLAY)
+        run: |
+          python code/experiments/exact_matrix_walk_validation/verify_results.py
+          python code/experiments/walk_depth_effect/verify.py
+      - name: Chapter4 presentation and shared snapshot/metrics
+        run: |
+          python -m unittest discover -s code/experiments -p test_chapter4_presentation.py -v
+          python -m unittest discover -s code/experiments/benchmark_v1 -p test_common_metrics_contract.py -v
+          python -m unittest discover -s code/experiments/benchmark_v1 -p test_snapshot_roundtrip.py -v
