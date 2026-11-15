@@ -29,7 +29,7 @@ from backfill_saved_scores import dataset_train_val,candidate_scores,diagnostics
 OBJECTIVES=("NLL_JS_similarity","NLL_KL_simple","NLL_KL_normalized",
             "softplus_JS_tau005")
 FAMILIES=("shared","class")
-REFERENCE_ZIP=ROOT/"code/experiments/standard_policy_comparison/results/size_25_24runs_seed20261102.zip"
+REFERENCE_ZIP=ROOT/"code/experiments/standard-policy-comparison/results/size_25_24runs_seed20261102.zip"
 REFERENCE_FILE="ds20261102_n300_shared_margin_JSD_tau0.005_s25.json"
 
 def train_loss(g,z,family,objective):

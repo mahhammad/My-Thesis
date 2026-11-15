@@ -7,7 +7,7 @@
 
 ## ۱. نتیجهٔ ساختاری
 
-در `code/experiments/` **۱۱ پوشهٔ مطالعهٔ رسمی §۴.۳ تا §۴.۱۳** و یک پوشهٔ `benchmark_v1` برای کد و موتورهای مشترک وجود دارد. گزارش مستقل هر مطالعه در `README_FA.md` خودش است؛ فایل‌ها به‌صورت `results/`، `tables/`، `figures/` و ورودی/کد اختصاصی همان آزمایش نگهداری می‌شوند. تفاوت میان زیرساخت مشترک Benchmark و آزمایش §۴.۱۲ یعنی `standard_policy_comparison` در نمایه اصلی ثبت شده است.
+در `code/experiments/` **۱۱ پوشهٔ مطالعهٔ رسمی §۴.۳ تا §۴.۱۳** و یک پوشهٔ `benchmark_v1` برای کد و موتورهای مشترک وجود دارد. گزارش مستقل هر مطالعه در `README_FA.md` خودش است؛ فایل‌ها به‌صورت `results/`، `tables/`، `figures/` و ورودی/کد اختصاصی همان آزمایش نگهداری می‌شوند. تفاوت میان زیرساخت مشترک Benchmark و آزمایش §۴.۱۲ یعنی `standard-policy-comparison` در نمایه اصلی ثبت شده است.
 
 | بخش | پوشه | فایل غیر-Markdown در تگ | بایت‌یکسان در شاخه | Python با تغییر نسخه | فایل غیر-Markdown حذف‌شده | فایل غیر-Markdown افزوده | نتایج زیر `results/` در شاخه |
 |---|---|---:|---:|---:|---:|---:|---:|
@@ -20,7 +20,7 @@
 | §۴.9 | [`exact-matrix-evaluation`](../code/experiments/exact-matrix-evaluation/README_FA.md) | 21 | 18 | 3 | ۰ | 0 | 11 |
 | §۴.10 | [`inverse-attainable`](../code/experiments/inverse-attainable/README_FA.md) | 761 | 750 | 11 | ۰ | 0 | 669 |
 | §۴.11 | [`bayes-center-inverse`](../code/experiments/bayes-center-inverse/README_FA.md) | 14 | 14 | 0 | ۰ | 0 | 5 |
-| §۴.12 | [`standard_policy_comparison`](../code/experiments/standard_policy_comparison/README_FA.md) | 15 | 15 | 0 | ۰ | 3 | 13 |
+| §۴.12 | [`standard-policy-comparison`](../code/experiments/standard-policy-comparison/README_FA.md) | 15 | 15 | 0 | ۰ | 3 | 13 |
 | §۴.13 | [`ch4_loss_controlled_comparison`](../code/experiments/ch4_loss_controlled_comparison/README_FA.md) | 566 | 566 | 0 | ۰ | 0 | 440 |
 | **جمع** | **۱۱ مطالعه** | **1539** | **1513** | **26** | **۰** | **3** | **1195** |
 

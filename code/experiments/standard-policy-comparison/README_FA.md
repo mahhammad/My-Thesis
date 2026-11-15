@@ -63,7 +63,7 @@ python code/experiments/benchmark_v1/replay_v1.py --mode size --size-steps 25 --
 ## پیوست الکترونیکی §۴.۱۲ — مقایسه استاندارد خانواده‌های سیاست
 
 **شناسه مطالعه:** \`E-CH4-12\` | **وضعیت:** \`EXECUTED / EVIDENCE_ARCHIVED\`  
-**متن اصلی:** فصل چهارم، §۴.۱۲، برچسب \`sec:ch4-benchmark-v1\`.  
+**متن اصلی:** فصل چهارم، §۴.۱۲، برچسب \`sec:ch4-standard-policy-comparison\`.  
 **کارکرد این پوشه:** بستهٔ مستقل شواهد همراه پایان‌نامه، بدون وابستگی لازم به نام یا مسیر پوشهٔ پژوهشی اولیه. فایل‌های خام و خلاصه‌ها بدون دستکاری محتوا از آرشیو مطالعه به این پوشه **کپی** شده‌اند؛ نسخه توسعه‌ای برای کار پژوهشی محفوظ است.
 
 ### بازآرایی شواهد R03
@@ -164,9 +164,9 @@ python code/experiments/benchmark_v1/replay_v1.py --mode size --size-steps 25 --
 
 از ریشهٔ مخزن:
 ```bash
-python code/experiments/standard_policy_comparison/r03_center_recovery/center_only_rebuild.py
-python code/experiments/standard_policy_comparison/r03_center_recovery/center_only_rebuild.py --execute --out-dir /tmp/ch4-r03-centers
-python -m unittest discover -s code/experiments/standard_policy_comparison/r03_center_recovery -p 'test_backfill_boundaries.py' -v
+python code/experiments/standard-policy-comparison/r03_center_recovery/center_only_rebuild.py
+python code/experiments/standard-policy-comparison/r03_center_recovery/center_only_rebuild.py --execute --out-dir /tmp/ch4-r03-centers
+python -m unittest discover -s code/experiments/standard-policy-comparison/r03_center_recovery -p 'test_backfill_boundaries.py' -v
 ```
 
 ### پرونده‌های تاریخی بازنشسته از checkout
@@ -248,7 +248,7 @@ python -m unittest discover -s code/experiments/standard_policy_comparison/r03_c
 
 ## شواهد نگارشی §۴.۱۲ — Benchmark v1
 
-> **مسیرهای معتبر پس از سبک‌سازی (۱۵ نوامبر ۲۰۲۶):** چهار ZIP و جدول‌های اصلی ۷۶ اجرای §۴.۱۲ در `code/experiments/standard_policy_comparison/results/` محفوظ‌اند. نتایج منحصربه‌فرد تاریخی و گزارش‌های مرحله‌ای R03 با Git blob اصلی در تگ قفل‌شده `backup/pre-cleanup-2026-11-15` قابل بازیابی‌اند؛ نسخه فعال دیگر `code/experiments/archive/` ندارد. اسکریپت‌های بازسازی از مسیر رسمی ZIP استفاده می‌کنند؛ گزارش‌های قدیمی زیر، وضعیت تاریخی زمان نگارش خود را ثبت می‌کنند و لزوماً مسیر فعلی فایل‌ها را نشان نمی‌دهند. راهنمای مسیرهای بازیابی در `research_journal/archive_recovery/README_FA.md` آمده است.
+> **مسیرهای معتبر پس از سبک‌سازی (۱۵ نوامبر ۲۰۲۶):** چهار ZIP و جدول‌های اصلی ۷۶ اجرای §۴.۱۲ در `code/experiments/standard-policy-comparison/results/` محفوظ‌اند. نتایج منحصربه‌فرد تاریخی و گزارش‌های مرحله‌ای R03 با Git blob اصلی در تگ قفل‌شده `backup/pre-cleanup-2026-11-15` قابل بازیابی‌اند؛ نسخه فعال دیگر `code/experiments/archive/` ندارد. اسکریپت‌های بازسازی از مسیر رسمی ZIP استفاده می‌کنند؛ گزارش‌های قدیمی زیر، وضعیت تاریخی زمان نگارش خود را ثبت می‌کنند و لزوماً مسیر فعلی فایل‌ها را نشان نمی‌دهند. راهنمای مسیرهای بازیابی در `research_journal/archive_recovery/README_FA.md` آمده است.
 
 
 **دامنه:** فقط مرجع عددهای §۴.۱۲ در `tex/chapter4.tex` در مأموریت `CH4-R03-SEC412-EDITORIAL-PR-01`. این فایل، متن پایان‌نامه نیست و برای ثبت provenance، نسخهٔ معیارها و تصمیم‌های علمی کنار آرشیو نگهداری می‌شود. هیچ آرشیو یا خروجی آزمایش بازنویسی نشده است.

@@ -10,7 +10,7 @@
 
 ### منبع واقعی داده، شمار اجراها و نحوهٔ تولید نتایج
 
-**مولد داده برای این آزمایش مستقیماً اجرا نشد.** دادهٔ پایه سناریوی `seed=20261102` با Train `(300,5)` و Validation `(90,5)` است، اما ورودی واقعی `analyze.py` **توزیع‌های گام‌به‌گام منجمدشدهٔ E-CH4-08** است. `../exact-matrix-evaluation/results/raw_step_distributions.npz` برای هر یک از `uniform` و `trained_shared` آرایه‌های `*_train_steps` به شکل `(12,300,3)` و `*_validation_steps` به شکل `(12,90,3)` دارد. برچسب‌ها و ترتیب مرجع از `../center-target-observation/results/representations_uniform.json` و منشأ/هش E08 می‌آیند؛ checkpoint رسمی `../standard_policy_comparison/results/core_50_16runs.zip` و سنجه‌های §۴.۴ نیز برای کنترل وارد می‌شوند.
+**مولد داده برای این آزمایش مستقیماً اجرا نشد.** دادهٔ پایه سناریوی `seed=20261102` با Train `(300,5)` و Validation `(90,5)` است، اما ورودی واقعی `analyze.py` **توزیع‌های گام‌به‌گام منجمدشدهٔ E-CH4-08** است. `../exact-matrix-evaluation/results/raw_step_distributions.npz` برای هر یک از `uniform` و `trained_shared` آرایه‌های `*_train_steps` به شکل `(12,300,3)` و `*_validation_steps` به شکل `(12,90,3)` دارد. برچسب‌ها و ترتیب مرجع از `../center-target-observation/results/representations_uniform.json` و منشأ/هش E08 می‌آیند؛ checkpoint رسمی `../standard-policy-comparison/results/core_50_16runs.zip` و سنجه‌های §۴.۴ نیز برای کنترل وارد می‌شوند.
 
 **طرح واقعی:** `۲ سیاست × ۶ سقف واقعی H={1,2,3,4,8,12} = ۱۲ وضعیت`، در هر وضعیت دو split Train/Validation، یعنی **۲۴ بلوک سنجه**. `β=.4,λ=.8` و وزن طول در هر H از ابتدا محاسبه می‌شود؛ نه آموزش، نه MC، نه تولید داده یا oracle و نه Test. H واقعی را با «برش پسینی همان توزیع H=12» یکی نگیرید.
 
@@ -359,7 +359,7 @@ python code/experiments/true-horizon-effect/analyze.py
 
 **قرارداد مسئله:** آزمایش اثر تغییر واقعی سقف گشت در Hهای ۱،۲،۳،۴،۸،۱۲ و دو سیاست ثابت Uniform و trained_shared. این کار **کوتاه‌سازی پسینی یک گشت H=12 نیست**؛ احتمال طول و ضرایب هر H دوباره نرمال می‌شوند. داده و سیاست‌های مرجع از §۴.۴ و §۴.۹ و آرشیو ۷۶ اجرای §۴.۱۲ هستند، نه آموزش جدید.
 
-**منبع و فرمان:** [`analyze.py`](analyze.py) فقط از snapshotهای ذخیره‌شده `../exact-matrix-evaluation/results/`، معیارهای `../uniform-hyperparameter-sensitivity/results/`، بازنمایی مبنای `../center-target-observation/results/` و ZIP رسمی `../standard_policy_comparison/results/core_50_16runs.zip` استفاده می‌کند. `python code/experiments/true-horizon-effect/analyze.py` حالت برنامه‌ریزی/dry-run است؛ `--execute` برای تولید نتیجهٔ اولیه و دارای نوشتن فایل است. این حالت در ممیزی فعلی اجرا نشده است.
+**منبع و فرمان:** [`analyze.py`](analyze.py) فقط از snapshotهای ذخیره‌شده `../exact-matrix-evaluation/results/`، معیارهای `../uniform-hyperparameter-sensitivity/results/`، بازنمایی مبنای `../center-target-observation/results/` و ZIP رسمی `../standard-policy-comparison/results/core_50_16runs.zip` استفاده می‌کند. `python code/experiments/true-horizon-effect/analyze.py` حالت برنامه‌ریزی/dry-run است؛ `--execute` برای تولید نتیجهٔ اولیه و دارای نوشتن فایل است. این حالت در ممیزی فعلی اجرا نشده است.
 
 **مقصدها:** [`results/coefficients.json`](results/coefficients.json) ضرایب طول/وزن واقعی، [`results/metrics_full.json`](results/metrics_full.json) ۱۲ تنظیم و دو split، [`results/comparisons.json`](results/comparisons.json) تطبیق E04/E08، `results/margin_summary.json` و `results/error_quantile_boundary.json` تحلیل حاشیه، [`results/provenance.json`](results/provenance.json) و [`results/coverage.json`](results/coverage.json) زنجیرهٔ ارزیابی و وضعیت سنجه‌ها را نگه می‌دارند. شکل‌ها/جدول‌ها در `figures/` و `tables/` هستند.
 

@@ -119,7 +119,7 @@
 ## ۵. مرجع‌های پایدار آزمایش‌ها
 - §۴.۱۰ [raw/protocol](../code/experiments/inverse-attainable/README_FA.md) و [manifest](../code/experiments/inverse-attainable/README_FA.md).
 - §۴.۱۱ [REPORT](../code/experiments/bayes-center-inverse/README_FA.md) و [provenance_manifest](../code/experiments/bayes-center-inverse/results/provenance_manifest.json).
-- §۴.۱۲ [master_runs_76.csv](../code/experiments/standard_policy_comparison/results/master_runs_76.csv)، [مرجع مرکز](../code/experiments/standard_policy_comparison/README_FA.md).
+- §۴.۱۲ [master_runs_76.csv](../code/experiments/standard-policy-comparison/results/master_runs_76.csv)، [مرجع مرکز](../code/experiments/standard-policy-comparison/README_FA.md).
 - سیاست‌های آموزش و نسخه تاریخی clipping در [Benchmark](../code/experiments/benchmark_v1/README_FA.md)، قرارداد جمع معیار در [COMMON_METRICS_FA](../code/experiments/COMMON_METRICS_FA.md).
 - IDEA-001 پیش از مأموریت در [پوشه آینده](../research/future-ideas/IDEA-001-quantile-kl-radius.md) ثبت شده؛ IDEA-002 تا 009 در همین مأموریت **فرضیه اجرا‌نشده** هستند.
 
@@ -146,5 +146,5 @@
 
 - [نسخهٔ کامل پیش از تجمیع گزارش‌ها](https://github.com/mahhammad/My-Thesis/tree/17e91ec99d1bf082ef87e658d0643137b1e7b6fe/code/experiments) برای بازیابی Git blob دقیق فایل‌های Markdown حذف‌شده؛ هر لینک قدیمی به `REPORT_FA.md` از این commit قابل یافتن است.
 - [آرشیو پیش از بازنشستگی](https://github.com/mahhammad/My-Thesis/tree/a8c9027460e538fa04b8aab2f762eb4ba4c31e3d/code/experiments/archive) برای مسیرهای `code/experiments/archive/...`، بدون ادعای فعال‌بودن ابزار قدیمی.
-- [فهرست فایل‌های رسمی E12](../code/experiments/standard_policy_comparison/README_FA.md) و [مرجع کد مشترک Benchmark](../code/experiments/benchmark_v1/README_FA.md) جایگزین نسخه‌های تاریخی گزارش هستند.
+- [فهرست فایل‌های رسمی E12](../code/experiments/standard-policy-comparison/README_FA.md) و [مرجع کد مشترک Benchmark](../code/experiments/benchmark_v1/README_FA.md) جایگزین نسخه‌های تاریخی گزارش هستند.
 - [Workflowهای بازنشسته](https://github.com/mahhammad/My-Thesis/tree/c9c71ce923590ffd8cae6242c9992e30240e1ba1/.github/workflows) برای مراجعه به پروندهٔ CI قدیمی؛ اجرای مجدد آن‌ها به‌خودی‌خود مأموریت علمی جدید نیست.

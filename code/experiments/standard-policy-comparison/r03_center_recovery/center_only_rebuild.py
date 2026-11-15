@@ -28,7 +28,7 @@ import numpy as np
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[3]
-BASE = ROOT / "code" / "experiments" / "standard_policy_comparison" / "results"
+BASE = ROOT / "code" / "experiments" / "standard-policy-comparison" / "results"
 CODE = ROOT / "code" / "policy_evaluator" / "metrics.py"
 METRIC_CONTRACT = "chapter4-common-evaluation-contract-v2"
 

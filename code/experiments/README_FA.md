@@ -46,7 +46,7 @@
 
 ## نقشهٔ رسمی پوشه‌ها مطابق §۴.۳ تا §۴.۱۳
 
-پوشه‌های زیر **۱۱ مطالعه مستقل** هستند؛ هیچ کد آزمایشگاهی یا ابزار کمکی نباید هم‌سطح آنها به‌عنوان آزمایش اضافی شمرده شود. موتورهای عمومی، حلگرهای تاریخی و زیرساخت محاسباتی در [benchmark_v1](benchmark_v1/README_FA.md) مستند شده‌اند. بستهٔ `standard_policy_comparison` نتایج آزمایش §۴.۱۲ است و با `benchmark_v1` مشترک یکی نیست.
+پوشه‌های زیر **۱۱ مطالعه مستقل** هستند؛ هیچ کد آزمایشگاهی یا ابزار کمکی نباید هم‌سطح آنها به‌عنوان آزمایش اضافی شمرده شود. موتورهای عمومی، حلگرهای تاریخی و زیرساخت محاسباتی در [benchmark_v1](benchmark_v1/README_FA.md) مستند شده‌اند. بستهٔ `standard-policy-comparison` نتایج آزمایش §۴.۱۲ است و با `benchmark_v1` مشترک یکی نیست.
 
 | بخش | پوشهٔ رسمی |
 |---|---|
@@ -59,7 +59,7 @@
 | §4.9 | [`exact-matrix-evaluation/`](exact-matrix-evaluation/README_FA.md) |
 | §4.10 | [`inverse-attainable/`](inverse-attainable/README_FA.md) |
 | §4.11 | [`bayes-center-inverse/`](bayes-center-inverse/README_FA.md) |
-| §4.12 | [`standard_policy_comparison/`](standard_policy_comparison/README_FA.md) |
+| §4.12 | [`standard-policy-comparison/`](standard-policy-comparison/README_FA.md) |
 | §4.13 | [`ch4_loss_controlled_comparison/`](ch4_loss_controlled_comparison/README_FA.md) |
 
 طرحِ **اجرا‌نشده** §۴.۱۴ از فهرست آزمایش‌های انجام‌شده خارج و در [Research Journal](../../research_journal/ch4-14-synthetic-data-structure-sensitivity-plan.md) نگهداری می‌شود. فایل‌های خام و خروجی مطالعات رسمی منتقل یا بازنویسی نشده‌اند.

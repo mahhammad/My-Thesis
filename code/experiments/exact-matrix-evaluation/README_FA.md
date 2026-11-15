@@ -10,7 +10,7 @@
 
 ### منبع واقعی داده، شمار اجراها و نحوهٔ تولید نتایج
 
-**داده و سیاست ثابت:** [`run.py`](run.py) با `dataset_adapter.dataset_train_val` دادهٔ مولد seed `20261102` را بدون Test بازمی‌سازد: Train `300×5`، Validation `90×5`. سپس فایل checkpoint `ds20261102_n300_shared_margin_JSD_tau0.005_s50.json` را با SHA ثبت‌شده از [`../standard_policy_comparison/results/core_50_16runs.zip`](../standard_policy_comparison/results/core_50_16runs.zip) می‌خواند و ترتیب **تمام ۳۰۰ شناسهٔ Train** را دقیقاً از `dataset.reference_ids` آن اعمال می‌کند. سیاست‌های `uniform` (امتیاز صفر) و `trained_shared` (logits ذخیره‌شده) هر دو با `β=.4,λ=.8,H=12,float64` محاسبه می‌شوند؛ هیچ آموزش تازه‌ای وجود ندارد.
+**داده و سیاست ثابت:** [`run.py`](run.py) با `dataset_adapter.dataset_train_val` دادهٔ مولد seed `20261102` را بدون Test بازمی‌سازد: Train `300×5`، Validation `90×5`. سپس فایل checkpoint `ds20261102_n300_shared_margin_JSD_tau0.005_s50.json` را با SHA ثبت‌شده از [`../standard-policy-comparison/results/core_50_16runs.zip`](../standard-policy-comparison/results/core_50_16runs.zip) می‌خواند و ترتیب **تمام ۳۰۰ شناسهٔ Train** را دقیقاً از `dataset.reference_ids` آن اعمال می‌کند. سیاست‌های `uniform` (امتیاز صفر) و `trained_shared` (logits ذخیره‌شده) هر دو با `β=.4,λ=.8,H=12,float64` محاسبه می‌شوند؛ هیچ آموزش تازه‌ای وجود ندارد.
 
 **شمار اجرای عددی:** ۲ سیاست × ۶ عمق تشخیصی `r={2,3,4,6,8,12}` × ۲ split = **۲۴ بلوک معیار**. بخش MC از ۲ سیاست × ۲ split × ۳ مبدأ منتخب (Train: ۰،۱۴۹،۲۹۹؛ Validation: ۰،۴۴،۸۹) × ۲ seed مسیر `20261121,20261122` × ۳ بودجه `128,512,2048` تشکیل شده، یعنی **۷۲ مورد مقایسه MC**؛ این‌ها آموزش یا دادهٔ مولد مستقل نیستند.
 
@@ -269,7 +269,7 @@ CI اختصاصی [E08 matrix walk](https://github.com/mahhammad/My-Thesis/actio
 
 ### پیوست ممیزی تگ — اجرای تاریخی و نقشهٔ ذخیره‌سازی (§۴.۹)
 
-**ورودی‌ها و روش:** اعتبارسنجی موتور انتظار دقیق با محاسبهٔ مستقل ماتریسی، MC و مطالعهٔ کران برش؛ دو وضعیت `uniform` و `trained_shared`، مرجع ZIP در `../standard_policy_comparison/results/core_50_16runs.zip` و فقط Train/Validation. این مطالعه را با اثر تغییر واقعی سقف H در §۴.۸ یکی نکنید.
+**ورودی‌ها و روش:** اعتبارسنجی موتور انتظار دقیق با محاسبهٔ مستقل ماتریسی، MC و مطالعهٔ کران برش؛ دو وضعیت `uniform` و `trained_shared`، مرجع ZIP در `../standard-policy-comparison/results/core_50_16runs.zip` و فقط Train/Validation. این مطالعه را با اثر تغییر واقعی سقف H در §۴.۸ یکی نکنید.
 
 **اجرای ثبت‌شده:** [`run.py`](run.py) به‌صورت پیش‌فرض dry-run است: `python code/experiments/exact-matrix-evaluation/run.py`. گزینهٔ `--execute` تولید اولیهٔ محاسبات و خروجی‌ها را انجام می‌دهد و اگر `results/experiment_report.json` وجود داشته باشد، عمداً از اجرای دوباره جلوگیری می‌کند. نسخهٔ پذیرفته‌شده نباید بازنویسی شود.
 

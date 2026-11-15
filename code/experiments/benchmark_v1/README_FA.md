@@ -4,13 +4,13 @@
 
 ## چکیده، دامنه و تعریف شواهد
 
-این پوشه علاوه بر اجرای تاریخی Benchmark، موتور گشت دقیق، گزارشگر مشترک، ذخیره snapshot و آزمون‌های عمومی را شامل می‌شود. شواهد نهایی ۷۶ اجرای E-CH4-12 در standard_policy_comparison/results قرار دارند. گزارش‌های تاریخی و آزمایش‌های فرعی باید با دامنهٔ خودشان تفسیر شوند.
+این پوشه علاوه بر اجرای تاریخی Benchmark، موتور گشت دقیق، گزارشگر مشترک، ذخیره snapshot و آزمون‌های عمومی را شامل می‌شود. شواهد نهایی ۷۶ اجرای E-CH4-12 در standard-policy-comparison/results قرار دارند. گزارش‌های تاریخی و آزمایش‌های فرعی باید با دامنهٔ خودشان تفسیر شوند.
 
 ## شرح علمی و قراردادهای ارزیابی
 
 ## Benchmark v1 — پروتکل واحد فصل چهارم
 
-> **مسیرهای معتبر پس از سبک‌سازی (۱۵ نوامبر ۲۰۲۶):** چهار ZIP و جدول‌های اصلی ۷۶ اجرای §۴.۱۲ در `code/experiments/standard_policy_comparison/results/` محفوظ‌اند. نتایج منحصربه‌فرد تاریخی و گزارش‌های مرحله‌ای R03 اکنون از طریق تگ `backup/pre-cleanup-2026-11-15` و مانیفست `research_journal/archive_recovery/` بازیابی می‌شوند؛ Git blob اصلی تغییر نکرده است. اسکریپت‌های بازسازی از مسیر رسمی ZIP استفاده می‌کنند؛ گزارش‌های قدیمی زیر، وضعیت تاریخی زمان نگارش خود را ثبت می‌کنند و لزوماً مسیر فعلی فایل‌ها را نشان نمی‌دهند. راهنمای فعلی در `research_journal/archive_recovery/README_FA.md` آمده است.
+> **مسیرهای معتبر پس از سبک‌سازی (۱۵ نوامبر ۲۰۲۶):** چهار ZIP و جدول‌های اصلی ۷۶ اجرای §۴.۱۲ در `code/experiments/standard-policy-comparison/results/` محفوظ‌اند. نتایج منحصربه‌فرد تاریخی و گزارش‌های مرحله‌ای R03 اکنون از طریق تگ `backup/pre-cleanup-2026-11-15` و مانیفست `research_journal/archive_recovery/` بازیابی می‌شوند؛ Git blob اصلی تغییر نکرده است. اسکریپت‌های بازسازی از مسیر رسمی ZIP استفاده می‌کنند؛ گزارش‌های قدیمی زیر، وضعیت تاریخی زمان نگارش خود را ثبت می‌کنند و لزوماً مسیر فعلی فایل‌ها را نشان نمی‌دهند. راهنمای فعلی در `research_journal/archive_recovery/README_FA.md` آمده است.
 
 
 **وضعیت (۸ نوامبر ۲۰۲۶):** ۷۶ آموزش استاندارد اصلی انجام و آرشیو شدند. چهار ZIP و تمام checkpointها در ممیزی بازامتیازدهی NLL/Softplus تأیید شدند؛ هشت مقایسه آموزش NLL/Softplus هم به‌صورت تک‌بذر انجام شد. این نتیجه هنوز گزارش نهاییِ چندبذری یا تعمیم node/node_class نیست. گزارش‌های پیشین با قرارداد متفاوت historical محسوب می‌شوند. جزئیات: [گزارش تکمیل شکاف‌ها](README_FA.md).
@@ -75,7 +75,7 @@ z_{c,\bot,b}(X_s)=F_{c,b}(b(X_s)).
 
 ### محل جدید چهار ZIP مرجع مشترک (پاک‌سازی درخت جاری، ۱۵ نوامبر ۲۰۲۶)
 
-چهار بستهٔ `core_50_16runs.zip`، `extra_25_12runs.zip`، `size_25_24runs_seed20261102.zip` و `size_25_24runs_seeds20261103_20261104.zip` تنها یک‌بار در مسیر رسمی `code/experiments/standard_policy_comparison/results/` نگهداری می‌شوند. نسخهٔ موازیِ بایت‌یکسان از `benchmark_v1/results/` حذف شده است. ابزارهای `backfill_saved_scores.py` و `code/experiments/standard_policy_comparison/r03_center_recovery/center_only_rebuild.py` به مسیر رسمی ارجاع می‌دهند؛ در اجرای دستی قدیمی می‌توان مسیر آرشیو را با `--archive-dir` صریحاً تعیین کرد. دو ZIP مستقل `inverse_50_4families.zip` و `fixed_center_recheck_7runs.zip` در تگ پیش از پاک‌سازی، با بایت اصلی و مانیفست بازیابی، محفوظ‌اند. نتایج پذیرفته‌شده، SHA-256 آرشیوها و تاریخچه Git تغییر نکرده‌اند.
+چهار بستهٔ `core_50_16runs.zip`، `extra_25_12runs.zip`، `size_25_24runs_seed20261102.zip` و `size_25_24runs_seeds20261103_20261104.zip` تنها یک‌بار در مسیر رسمی `code/experiments/standard-policy-comparison/results/` نگهداری می‌شوند. نسخهٔ موازیِ بایت‌یکسان از `benchmark_v1/results/` حذف شده است. ابزارهای `backfill_saved_scores.py` و `code/experiments/standard-policy-comparison/r03_center_recovery/center_only_rebuild.py` به مسیر رسمی ارجاع می‌دهند؛ در اجرای دستی قدیمی می‌توان مسیر آرشیو را با `--archive-dir` صریحاً تعیین کرد. دو ZIP مستقل `inverse_50_4families.zip` و `fixed_center_recheck_7runs.zip` در تگ پیش از پاک‌سازی، با بایت اصلی و مانیفست بازیابی، محفوظ‌اند. نتایج پذیرفته‌شده، SHA-256 آرشیوها و تاریخچه Git تغییر نکرده‌اند.
 
 
 ## پیوست پژوهشی: RESULTS_FA.md
@@ -84,7 +84,7 @@ z_{c,\bot,b}(X_s)=F_{c,b}(b(X_s)).
 
 ## Benchmark v1 — گزارش بازآزمایی استاندارد فصل چهارم
 
-> **مسیرهای معتبر پس از سبک‌سازی (۱۵ نوامبر ۲۰۲۶):** چهار ZIP و جدول‌های اصلی ۷۶ اجرای §۴.۱۲ در `code/experiments/standard_policy_comparison/results/` محفوظ‌اند. نتایج منحصربه‌فرد تاریخی و گزارش‌های مرحله‌ای R03 با Git blob اصلی در تگ قفل‌شده `backup/pre-cleanup-2026-11-15` قابل بازیابی‌اند؛ نسخه فعال دیگر `code/experiments/archive/` ندارد. اسکریپت‌های بازسازی از مسیر رسمی ZIP استفاده می‌کنند؛ گزارش‌های قدیمی زیر، وضعیت تاریخی زمان نگارش خود را ثبت می‌کنند و لزوماً مسیر فعلی فایل‌ها را نشان نمی‌دهند. راهنمای مسیرهای بازیابی در `research_journal/archive_recovery/README_FA.md` آمده است.
+> **مسیرهای معتبر پس از سبک‌سازی (۱۵ نوامبر ۲۰۲۶):** چهار ZIP و جدول‌های اصلی ۷۶ اجرای §۴.۱۲ در `code/experiments/standard-policy-comparison/results/` محفوظ‌اند. نتایج منحصربه‌فرد تاریخی و گزارش‌های مرحله‌ای R03 با Git blob اصلی در تگ قفل‌شده `backup/pre-cleanup-2026-11-15` قابل بازیابی‌اند؛ نسخه فعال دیگر `code/experiments/archive/` ندارد. اسکریپت‌های بازسازی از مسیر رسمی ZIP استفاده می‌کنند؛ گزارش‌های قدیمی زیر، وضعیت تاریخی زمان نگارش خود را ثبت می‌کنند و لزوماً مسیر فعلی فایل‌ها را نشان نمی‌دهند. راهنمای مسیرهای بازیابی در `research_journal/archive_recovery/README_FA.md` آمده است.
 
 
 **تاریخ:** ۸ نوامبر ۲۰۲۶. **برنچ:** `chapter4`. **نسخه پشتیبان:** `backup/chapter4-before-benchmark-v1-20261108`.
@@ -624,7 +624,7 @@ python -m unittest -v code/experiments/benchmark_v1/test_snapshot_roundtrip.py
 
 **ee159f6e02cd71e667b972ac6456a7b71c578cac63bea366232cd0300b811349**
 
-بسته در خروجی همین گفتگو و Library به نام My-Thesis-benchmark-gapfill-results-2026-11-08.zip ثبت شده است. خود ZIP فشرده هنوز در GitHub نیست؛ اما [جدول کامل ۷۶ checkpoint](../standard_policy_comparison/results/posthoc_score_backfill_76_compact.csv) و [logits و معیارهای هشت آموزش تازه](https://github.com/mahhammad/My-Thesis/blob/a8c9027460e538fa04b8aab2f762eb4ba4c31e3d/code/experiments/benchmark_v1/results/new_objectives_25_checkpoints_compact.json) اکنون **مستقیماً در GitHub ثبت شده‌اند** و خروجی تفصیلی در بسته ZIP گفتگو/Library نیز محفوظ است.
+بسته در خروجی همین گفتگو و Library به نام My-Thesis-benchmark-gapfill-results-2026-11-08.zip ثبت شده است. خود ZIP فشرده هنوز در GitHub نیست؛ اما [جدول کامل ۷۶ checkpoint](../standard-policy-comparison/results/posthoc_score_backfill_76_compact.csv) و [logits و معیارهای هشت آموزش تازه](https://github.com/mahhammad/My-Thesis/blob/a8c9027460e538fa04b8aab2f762eb4ba4c31e3d/code/experiments/benchmark_v1/results/new_objectives_25_checkpoints_compact.json) اکنون **مستقیماً در GitHub ثبت شده‌اند** و خروجی تفصیلی در بسته ZIP گفتگو/Library نیز محفوظ است.
 
 اجرای تست‌های تازه روی checkout رسمی GitHub در این محیط اتصال‌دار انجام نشده و CI باید آن‌ها را اجرا کند. **کد و نتایج این پایلوت** نباید جای اثبات نظری، تکرار مستقل، کار تابع F یا Test نهایی را بگیرند.
 
@@ -637,10 +637,10 @@ python -m unittest -v code/experiments/benchmark_v1/test_snapshot_roundtrip.py
 
 ## Benchmark v1 — نتایج خام استاندارد و تفکیک بودجه
 
-> **مسیرهای معتبر پس از سبک‌سازی (۱۵ نوامبر ۲۰۲۶):** چهار ZIP و جدول‌های اصلی ۷۶ اجرای §۴.۱۲ در `code/experiments/standard_policy_comparison/results/` محفوظ‌اند. نتایج منحصربه‌فرد تاریخی و گزارش‌های مرحله‌ای R03 با Git blob اصلی در تگ قفل‌شده `backup/pre-cleanup-2026-11-15` قابل بازیابی‌اند؛ نسخه فعال دیگر `code/experiments/archive/` ندارد. اسکریپت‌های بازسازی از مسیر رسمی ZIP استفاده می‌کنند؛ گزارش‌های قدیمی زیر، وضعیت تاریخی زمان نگارش خود را ثبت می‌کنند و لزوماً مسیر فعلی فایل‌ها را نشان نمی‌دهند. راهنمای مسیرهای بازیابی در `research_journal/archive_recovery/README_FA.md` آمده است.
+> **مسیرهای معتبر پس از سبک‌سازی (۱۵ نوامبر ۲۰۲۶):** چهار ZIP و جدول‌های اصلی ۷۶ اجرای §۴.۱۲ در `code/experiments/standard-policy-comparison/results/` محفوظ‌اند. نتایج منحصربه‌فرد تاریخی و گزارش‌های مرحله‌ای R03 با Git blob اصلی در تگ قفل‌شده `backup/pre-cleanup-2026-11-15` قابل بازیابی‌اند؛ نسخه فعال دیگر `code/experiments/archive/` ندارد. اسکریپت‌های بازسازی از مسیر رسمی ZIP استفاده می‌کنند؛ گزارش‌های قدیمی زیر، وضعیت تاریخی زمان نگارش خود را ثبت می‌کنند و لزوماً مسیر فعلی فایل‌ها را نشان نمی‌دهند. راهنمای مسیرهای بازیابی در `research_journal/archive_recovery/README_FA.md` آمده است.
 
 
-این پوشه حاوی **خروجی کامل هر اجرا** (JSON، ماتریس سیاست، تاریخچه، مرکز، متریک‌ها، پیش‌بینی‌های مربوط به سنجه و مانیفست) داخل ZIP است. نسخه رسمی چهار بسته مشترک در `../../standard_policy_comparison/results/` نگهداری می‌شود. برای دریافت، ZIP را باز و فایل \`manifest.json\` را بررسی کنید. این‌ها فایل‌های متناظر با کد \`replay_v1.py\` هستند.
+این پوشه حاوی **خروجی کامل هر اجرا** (JSON، ماتریس سیاست، تاریخچه، مرکز، متریک‌ها، پیش‌بینی‌های مربوط به سنجه و مانیفست) داخل ZIP است. نسخه رسمی چهار بسته مشترک در `../../standard-policy-comparison/results/` نگهداری می‌شود. برای دریافت، ZIP را باز و فایل \`manifest.json\` را بررسی کنید. این‌ها فایل‌های متناظر با کد \`replay_v1.py\` هستند.
 
 - \`core_50_16runs.zip\`: ۳۰۰ Train، بذر مولد ۲۰۲۶۱۱۰۲، ۴ خانواده × (بیشینه‌سازی I + سه مقدار \`tau=.002,.005,.020\` حاشیه JSD)؛ هر اجرا ۵۰ گام Adam با lr=.12؛ Test بررسی نشده. SHA-256 = \`9609eb96c207316fde26934cbef4668ba287a275d4485175d1da7e798a297040\`.
 - \`size_25_24runs_seed20261102.zip\`: اندازه‌های ۵۰، ۱۰۰، ۱۵۰، ۲۰۰، ۲۵۰، ۳۰۰ × چهار خانواده، با کلاس‌های متناسب و نمونه‌گیری **تو‌در‌تو** از Train مولد ثابت، ۲۵ گام Adam برای هر اجرا. SHA-256 = \`d570fb3f1dcab66476f027e1ade17b4e87c7ca16ff7fa6c76fda87b260c84e9f\`.
@@ -670,7 +670,7 @@ python -m unittest -v code/experiments/benchmark_v1/test_snapshot_roundtrip.py
 
 ### ممیزی NLL/Softplus و مقایسه هدف‌های جدید (۸ نوامبر ۲۰۲۶)
 
-- [جدول کامل ۷۶ checkpoint و NLLهای بازسازی‌شده](../standard_policy_comparison/results/posthoc_score_backfill_76_compact.csv): سه نوع NLL، زیان Softplus، Train/Validation BA و I/R_JS، با پوشش چهار آرشیو اصلی. **هیچ آموزش قبلی تکرار نشده است.**
+- [جدول کامل ۷۶ checkpoint و NLLهای بازسازی‌شده](../standard-policy-comparison/results/posthoc_score_backfill_76_compact.csv): سه نوع NLL، زیان Softplus، Train/Validation BA و I/R_JS، با پوشش چهار آرشیو اصلی. **هیچ آموزش قبلی تکرار نشده است.**
 - [هشت checkpoint تازه با logits کامل](https://github.com/mahhammad/My-Thesis/blob/a8c9027460e538fa04b8aab2f762eb4ba4c31e3d/code/experiments/benchmark_v1/results/new_objectives_25_checkpoints_compact.json): چهار هدف NLL/Softplus روی shared/class با ۲۵ گام، همان ref ids و بدون Test؛ برای بازیابی دقیق سیاست‌ها.
 - [جدول خلاصه هشت آموزش](https://github.com/mahhammad/My-Thesis/blob/a8c9027460e538fa04b8aab2f762eb4ba4c31e3d/code/experiments/benchmark_v1/results/new_objectives_25_summary.csv).
 - [گزارش رسمی محدودیت‌ها و شاهد ناهم‌راستایی NLL با BA](README_FA.md).
@@ -788,7 +788,7 @@ Markdownهای گزارش/پروتکل قبلی در متن بالا تجمیع 
 
 ## معماری مشترک: موتورهای دقیق و کدهای پژوهشی منتقل‌شده (بازآرایی ۱۵ نوامبر ۲۰۲۶)
 
-این پوشه زیرساخت مشترک آزمایش‌های فصل چهارم است؛ **آزمایش رسمی §۴.۱۲** با نتایج ۷۶ اجرا در `../standard_policy_comparison/` قرار دارد. ماژول‌های `run.py`، `bootstrap_inverse.py`، `stream_graph.py`، `observe.py` و `projection.py` از سه پوشه پراکنده، با **Git blob یکسان و بدون تغییر در متن سورس** به همین پوشه منتقل شدند. این کدها پنج موتور هم‌ارز نیستند: `engine.py` هسته استاندارد چهار خانواده سیاست، `run.py` موتور پرمصرف تاریخی ExactGraph، `stream_graph.py` گشت دقیقِ حافظه‌محدود کلاس‌شرطی، `bootstrap_inverse.py` حلگر وارون، و دو فایل observe/projection ابزار هدایت مرکز به هدف هستند. از مقایسه عملکرد آنها بدون پروتکل و دامنه سیاست برابر نتیجه‌گیری نکنید.
+این پوشه زیرساخت مشترک آزمایش‌های فصل چهارم است؛ **آزمایش رسمی §۴.۱۲** با نتایج ۷۶ اجرا در `../standard-policy-comparison/` قرار دارد. ماژول‌های `run.py`، `bootstrap_inverse.py`، `stream_graph.py`، `observe.py` و `projection.py` از سه پوشه پراکنده، با **Git blob یکسان و بدون تغییر در متن سورس** به همین پوشه منتقل شدند. این کدها پنج موتور هم‌ارز نیستند: `engine.py` هسته استاندارد چهار خانواده سیاست، `run.py` موتور پرمصرف تاریخی ExactGraph، `stream_graph.py` گشت دقیقِ حافظه‌محدود کلاس‌شرطی، `bootstrap_inverse.py` حلگر وارون، و دو فایل observe/projection ابزار هدایت مرکز به هدف هستند. از مقایسه عملکرد آنها بدون پروتکل و دامنه سیاست برابر نتیجه‌گیری نکنید.
 
 **امنیت و تبار B02:** رکوردهای قفل‌شده `inverse-attainable/runner_v3/data_contract.py` و دو `b02_gate*/pure_gate.py` مسیرهای قدیمی، SHA و refهای تاریخی را عمداً ثبت کرده‌اند. این رکوردها **تغییر داده نشده‌اند** و فقط در checkout تاریخیِ منطبق با commitهای قفل‌شده باید برای گواهی‌های قبلی استفاده شوند؛ جابه‌جایی سورس فعلی، اجازهٔ اجرای B02 یا بازتعریف trust root نیست. SHA فایل‌های Python منتقل‌شده ثابت است؛ آدرس جاری آنها در این پوشه است.
 

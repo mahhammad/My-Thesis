@@ -86,7 +86,7 @@ class Chapter43to47PresentationTests(unittest.TestCase):
 
     def test_size_study_uses_independent_generator_seeds(self):
         root=HERE/"sigmoid-margin-evaluation"
-        with (HERE/"standard_policy_comparison/results/master_runs_76.csv").open(encoding="utf8",newline="") as f:
+        with (HERE/"standard-policy-comparison/results/master_runs_76.csv").open(encoding="utf8",newline="") as f:
             master=list(csv.DictReader(f))
         expected=[r for r in master if r["study"]=="size_25steps"
                   and r["objective"]=="margin_JSD" and r["tau"]=="0.005"

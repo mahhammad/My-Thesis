@@ -23,7 +23,7 @@ ROOT = HERE.parents[2]
 E08 = HERE.parent / "exact-matrix-evaluation"
 E04 = HERE.parent / "uniform-hyperparameter-sensitivity"
 LABELS = HERE.parent / "center-target-observation" / "results" / "representations_uniform.json"
-ARCHIVE = HERE.parent / "standard_policy_comparison" / "results" / "core_50_16runs.zip"
+ARCHIVE = HERE.parent / "standard-policy-comparison" / "results" / "core_50_16runs.zip"
 OUT = HERE / "results"
 sys.path.insert(0, str(HERE.parent / "benchmark_v1"))
 from snapshot_pipeline import array_fingerprint

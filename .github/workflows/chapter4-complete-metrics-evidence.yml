@@ -9,7 +9,7 @@ on:
       - 'code/experiments/*/results/metrics_full.json'
       - 'code/experiments/*/results/coverage.json'
       - 'code/experiments/*/tables/complete_metrics.tex'
-      - 'code/experiments/*/REPORT_FA.md'
+      - 'code/experiments/*/README_FA.md'
       - '.github/workflows/chapter4-complete-metrics-evidence.yml'
   workflow_dispatch:
 
