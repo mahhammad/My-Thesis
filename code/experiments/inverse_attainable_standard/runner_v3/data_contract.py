@@ -27,9 +27,9 @@ SNAP_NAMES = {
 SOURCE_PATHS = {
  "config":"code/data_generator/config.json",
  "generator":"code/data_generator/generate.py",
- "graph_run":"code/experiments/archive/multistep_policy_target_match/run.py",
- "streamgraph":"code/experiments/archive/diag_max_full300/stream_graph.py",
- "bootstrap":"code/experiments/archive/multistep_policy_target_match/bootstrap_inverse.py",
+ "graph_run":"code/experiments/multistep_policy_target_match/run.py",
+ "streamgraph":"code/experiments/diag_max_full300/stream_graph.py",
+ "bootstrap":"code/experiments/multistep_policy_target_match/bootstrap_inverse.py",
  "p2_instrumentation":"code/experiments/inverse_attainable_standard/standard_plan/p2_v2_instrumentation.py",
  "plan":"code/experiments/inverse_attainable_standard/standard_plan/plan_108.json",
  "runner":"code/experiments/inverse_attainable_standard/runner_v3/run_one.py",

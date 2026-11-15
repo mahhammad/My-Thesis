@@ -25,8 +25,8 @@ CH4_COMMIT = "de02fdda91e23db177de4429b3e1a9693c046d83"
 SOURCES = {
     "config": "code/data_generator/config.json",
     "generator": "code/data_generator/generate.py",
-    "graph_run": "code/experiments/archive/multistep_policy_target_match/run.py",
-    "streamgraph": "code/experiments/archive/diag_max_full300/stream_graph.py",
+    "graph_run": "code/experiments/multistep_policy_target_match/run.py",
+    "streamgraph": "code/experiments/diag_max_full300/stream_graph.py",
     "plan": "code/experiments/inverse_attainable_standard/standard_plan/plan_108.json",
 }
 CHUNKS = {"X": (22,12000), "y": (12022,2400), "mask": (14422,1500), "ids": (15922,2400)}

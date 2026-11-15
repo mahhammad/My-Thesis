@@ -24,8 +24,8 @@ CFG = ROOT / "code/data_generator/config.json"
 SOURCE_PATHS = {
     "config": CFG,
     "generator": ROOT / "code/data_generator/generate.py",
-    "streamgraph": ROOT / "code/experiments/archive/diag_max_full300/stream_graph.py",
-    "graph_run": ROOT / "code/experiments/archive/multistep_policy_target_match/run.py",
+    "streamgraph": ROOT / "code/experiments/diag_max_full300/stream_graph.py",
+    "graph_run": ROOT / "code/experiments/multistep_policy_target_match/run.py",
     "plan": PLAN,
 }
 BLOCKS = {
