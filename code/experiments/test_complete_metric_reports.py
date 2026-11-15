@@ -31,7 +31,7 @@ class Chapter4CommonMetricArtifactTests(unittest.TestCase):
     def test_all_exact_uniform_and_mixture_runs_have_three_R_and_geometry(self):
         for folder,count in (
             ("uniform-hyperparameter-sensitivity",9),
-            ("guided_informative_uniform_mixture",5),
+            ("fixed-policy-evaluation",5),
         ):
             base=HERE/folder
             data=read(base/"results/metrics_full.json")
@@ -74,7 +74,7 @@ class Chapter4CommonMetricArtifactTests(unittest.TestCase):
                 self.assertAlmostEqual(float(rec["train_R_sqrt_JS"]),r["train"]["R_sqrt_JS"],places=12)
 
     def test_guided_compact_table_displays_three_R_plus_center_distance(self):
-        base=HERE/"guided_informative_uniform_mixture"
+        base=HERE/"fixed-policy-evaluation"
         data=read(base/"results/metrics_full.json")
         table=(base/"tables/complete_compactness.tex").read_text(encoding="utf8")
         for rec in data["runs"]:
@@ -84,7 +84,7 @@ class Chapter4CommonMetricArtifactTests(unittest.TestCase):
                 self.assertIn(f"{val:.5f}",table)
         chapter=CH.read_text(encoding="utf8")
         self.assertEqual(chapter.count(
-            "\\input{./code/experiments/guided_informative_uniform_mixture/tables/complete_compactness.tex}"),1)
+            "\\input{./code/experiments/fixed-policy-evaluation/tables/complete_compactness.tex}"),1)
 
     def test_q_only_n_a_and_historical_49_25_missingness_are_explicit(self):
         q=read(HERE/"q-validation/results/coverage.json")

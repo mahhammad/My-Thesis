@@ -18,7 +18,7 @@
 |---|---|---|
 | ۴.۳ (Q جمعیتی) | TV/√JSD و ۱۲ تکرار مستقل برای مرجع | R/I/BA و هندسه مراکز `not_applicable`؛ چون مرکز ساخته نمی‌شود |
 | ۴.۴ (Uniform) | **۹ وضعیت، هر سه R، تمام پنج معیار جدایی، ماتریس‌های فاصله مراکز، حاشیه/NLL/BA، شاخص‌های هر کلاس** | در [فایل کامل](../code/experiments/uniform-hyperparameter-sensitivity/results/metrics_full.json) و [CSV](../code/experiments/uniform-hyperparameter-sensitivity/results/metrics_summary.csv) ثبت شد |
-| ۴.۵ (Guided mix) | **۵ وضعیت با همان فهرست معیارها** و [جدول سه R](../code/experiments/guided_informative_uniform_mixture/tables/complete_compactness.tex) | در [فایل کامل](../code/experiments/guided_informative_uniform_mixture/results/metrics_full.json) و [CSV](../code/experiments/guided_informative_uniform_mixture/results/metrics_summary.csv) ثبت شد؛ جدول در فصل درج شد |
+| ۴.۵ (Guided mix) | **۵ وضعیت با همان فهرست معیارها** و [جدول سه R](../code/experiments/fixed-policy-evaluation/tables/complete_compactness.tex) | در [فایل کامل](../code/experiments/fixed-policy-evaluation/results/metrics_full.json) و [CSV](../code/experiments/fixed-policy-evaluation/results/metrics_summary.csv) ثبت شد؛ جدول در فصل درج شد |
 | ۴.۶ (مراکز هدف) | ۴۹ وضعیت مرکز و $I$، تمام ماتریس‌های فاصله و $R_{\mathrm{JS}}$؛ BA برای ۲۵ دور؛ هر سه R برای دو دور Guided و یک وضعیت Uniform | [فایل پوشش‌دار](../code/experiments/target_center_guidance_trajectory/results/metrics_full.json) و [دلیل کمبود داده تاریخی](../code/experiments/target_center_guidance_trajectory/results/coverage.json) ثبت شد؛ ۴۷ دور Guided فاقد بازنمایی خام لازم برای KL و جذر JSD هستند |
 
 ## روش بازخوانی و مرز ادعا

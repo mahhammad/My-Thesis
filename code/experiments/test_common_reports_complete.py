@@ -76,7 +76,7 @@ class CompleteExperimentEvidence(unittest.TestCase):
         self.assertTrue((HERE/slug/"tables/complete_metrics.tex").is_file())
 
     def test_five_guided_runs_have_all_applicable_metrics(self):
-        slug="guided_informative_uniform_mixture"
+        slug="fixed-policy-evaluation"
         m,c=load(slug),load(slug,"coverage.json")
         self.assertEqual(len(m["runs"]),5)
         self.assertEqual(c["configurations"],5)
@@ -114,7 +114,7 @@ class CompleteExperimentEvidence(unittest.TestCase):
         self.assertTrue((HERE/slug/"results/metrics_summary.csv").is_file())
 
     def test_exactly_eleven_official_studies_plus_shared_benchmark(self):
-        study_dirs = ["q-validation","uniform-hyperparameter-sensitivity","guided_informative_uniform_mixture","target_center_guidance_trajectory","sigmoid_margin_observational_evaluation","walk_depth_effect","exact_matrix_walk_validation","inverse_attainable_standard","bayes_center_reachability_standard","standard_policy_comparison","ch4_loss_controlled_comparison"]
+        study_dirs = ["q-validation","uniform-hyperparameter-sensitivity","fixed-policy-evaluation","target_center_guidance_trajectory","sigmoid_margin_observational_evaluation","walk_depth_effect","exact_matrix_walk_validation","inverse_attainable_standard","bayes_center_reachability_standard","standard_policy_comparison","ch4_loss_controlled_comparison"]
         actual = {p.name for p in HERE.iterdir() if p.is_dir() and not p.name.startswith((".", "__"))}
         self.assertEqual(actual, set(study_dirs) | {"benchmark_v1"})
         for slug in study_dirs:
@@ -134,7 +134,7 @@ class CompleteExperimentEvidence(unittest.TestCase):
         for slug in (
             "q-validation",
             "uniform-hyperparameter-sensitivity",
-            "guided_informative_uniform_mixture",
+            "fixed-policy-evaluation",
             "target_center_guidance_trajectory",
         ):
             report=(HERE/slug/"README_FA.md").read_text("utf8")

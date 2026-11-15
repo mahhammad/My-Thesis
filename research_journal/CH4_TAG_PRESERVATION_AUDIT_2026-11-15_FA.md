@@ -13,7 +13,7 @@
 |---|---|---:|---:|---:|---:|---:|---:|
 | §۴.3 | [`q-validation`](../code/experiments/q-validation/README_FA.md) | 16 | 16 | 0 | ۰ | 0 | 7 |
 | §۴.4 | [`uniform-hyperparameter-sensitivity`](../code/experiments/uniform-hyperparameter-sensitivity/README_FA.md) | 16 | 16 | 0 | ۰ | 0 | 6 |
-| §۴.5 | [`guided_informative_uniform_mixture`](../code/experiments/guided_informative_uniform_mixture/README_FA.md) | 33 | 33 | 0 | ۰ | 0 | 7 |
+| §۴.5 | [`fixed-policy-evaluation`](../code/experiments/fixed-policy-evaluation/README_FA.md) | 33 | 33 | 0 | ۰ | 0 | 7 |
 | §۴.6 | [`target_center_guidance_trajectory`](../code/experiments/target_center_guidance_trajectory/README_FA.md) | 42 | 41 | 1 | ۰ | 0 | 15 |
 | §۴.7 | [`sigmoid_margin_observational_evaluation`](../code/experiments/sigmoid_margin_observational_evaluation/README_FA.md) | 23 | 20 | 3 | ۰ | 0 | 10 |
 | §۴.8 | [`walk_depth_effect`](../code/experiments/walk_depth_effect/README_FA.md) | 32 | 24 | 8 | ۰ | 0 | 12 |

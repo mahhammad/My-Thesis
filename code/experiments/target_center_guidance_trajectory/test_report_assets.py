@@ -124,7 +124,7 @@ class TrajectoryReportEvidence(unittest.TestCase):
             r"\section{هدایت گشت به مراکز هدف و تحلیل مسیر معیارهای بازنمایی}"),1)
         self.assertNotIn("figures/balanced_accuracy.tex}",chapter)
         for folder,names in (
-            ("guided_informative_uniform_mixture",[
+            ("fixed-policy-evaluation",[
                 "tables/main_results.tex", "tables/centers_endpoints.tex",
                 "tables/center_distances.tex", "tables/classwise_dispersion.tex",
                 "figures/geometry.tex",

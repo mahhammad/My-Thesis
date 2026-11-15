@@ -6,8 +6,8 @@ and Validation sets, no fitting, no Monte Carlo sampling, NO historical Test.
 The original logits/Softmax experiment and its saved results are not changed.
 
 From repository root:
-  python code/experiments/guided_informative_uniform_mixture/experiment_mixture.py
-  python code/experiments/guided_informative_uniform_mixture/experiment_mixture.py --execute
+  python code/experiments/fixed-policy-evaluation/experiment_mixture.py
+  python code/experiments/fixed-policy-evaluation/experiment_mixture.py --execute
 """
 from __future__ import annotations
 import argparse

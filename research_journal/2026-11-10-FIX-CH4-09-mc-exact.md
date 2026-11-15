@@ -29,9 +29,9 @@
 **ویرایش:** تنها پاراگراف اختلاف در بخش ۴.۵ `tex/chapter4.tex` بازنویسی شد. شواهد تاریخی، جدول‌ها و اسکریپت‌های گشت دست نخورده ماندند. یادداشت روش‌شناختی به `README_FA.md` افزوده شد. کد جدید فقط در `diagnostics/fix_ch4_09/` برای بازپخش، کنترل، نتیجه ذخیره‌شده و تست مستقل است.
 
 ## فایل و مسیر تحویل
-- `code/experiments/guided_informative_uniform_mixture/diagnostics/fix_ch4_09/analyze.py`، `convergence.py`، `verify.py`، `test_fix09_protocol.py`، `REPORT_FA.md`
-- `code/experiments/guided_informative_uniform_mixture/diagnostics/fix_ch4_09/results/{controlled_uniform_replay,mc_convergence}.json`
-- `tex/chapter4.tex` (فقط توضیح اختلاف در ۴.۵)، `code/experiments/guided_informative_uniform_mixture/README_FA.md`
+- `code/experiments/fixed-policy-evaluation/diagnostics/fix_ch4_09/analyze.py`، `convergence.py`، `verify.py`، `test_fix09_protocol.py`، `REPORT_FA.md`
+- `code/experiments/fixed-policy-evaluation/diagnostics/fix_ch4_09/results/{controlled_uniform_replay,mc_convergence}.json`
+- `tex/chapter4.tex` (فقط توضیح اختلاف در ۴.۵)، `code/experiments/fixed-policy-evaluation/README_FA.md`
 - `.github/workflows/fix-ch4-09.yml`؛ شامل بازبینی صرفاً read-only بعد از حضور خروجی‌ها.
 
 **وضعیت تحویل:** آزمایش محدود و علت غالب مشخص شده؛ تغییرات آماده ممیزی علمی و بازبینی کامل XeLaTeX، **بدون Merge**. کامیت تحویل رسمی: `fix(ch4): resolve MC vs exact validation discrepancy`. PR #43 مقصد `chapter4` است و باید تا تأیید مستقل باز بماند.
@@ -43,6 +43,6 @@
 
 ## کنترل موفق پس از اصلاح داده تست — ۷۰ مورد، بدون تکرار محاسبه
 
-[GitHub Actions #42821914822](https://github.com/mahhammad/My-Thesis/actions/runs/42821914822) روی کامیت `50f444abd7178b4b8f07a1e4f5542b6f3c0c5608` با **SUCCESS** پایان یافت. مجموعه‌های اجراشده شامل ۱۸ تست `policy_evaluator`، ۱۱ تست `guided_informative_uniform_mixture`، ۱۱ تست E08، ۷ تست FIX09، ۵ تست نمایش فصل، ۳ تست ایستای LaTeX، ۵ تست روایت E06، ۳ تست بازپخش جدول‌ها و ۷ تست کامل بودن منابع بود: **۷۰ تست از ۷۰ تست موفق**.
+[GitHub Actions #42821914822](https://github.com/mahhammad/My-Thesis/actions/runs/42821914822) روی کامیت `50f444abd7178b4b8f07a1e4f5542b6f3c0c5608` با **SUCCESS** پایان یافت. مجموعه‌های اجراشده شامل ۱۸ تست `policy_evaluator`، ۱۱ تست `fixed-policy-evaluation`، ۱۱ تست E08، ۷ تست FIX09، ۵ تست نمایش فصل، ۳ تست ایستای LaTeX، ۵ تست روایت E06، ۳ تست بازپخش جدول‌ها و ۷ تست کامل بودن منابع بود: **۷۰ تست از ۷۰ تست موفق**.
 
 در همین اجرا به‌صراحت ثبت شد که `controlled_uniform_replay.json` و `mc_convergence.json` از قبل وجود دارند و **هیچ کدام تکرار نشدند**؛ ابزار `verify.py` نیز پرونده‌ها را read-only بررسی کرد. اصلاح پسینی test-fixture در `policy_evaluator/test_evaluator.py` در این CI تأیید شد. این شاهد مربوط به تست‌های سبک Python و ممیزی اسناد ذخیره‌شده است؛ **کامپایل کامل XeLaTeX یا بازبینی مستقل علمی را جایگزین نمی‌کند**. شاخه‌های دیگر دست‌نخورده و PR #43 همچنان بدون Merge است.

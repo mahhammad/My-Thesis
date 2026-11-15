@@ -731,8 +731,8 @@ $R_{\mathrm{JS}}$ را روی آموزش و
 \label{subsec:ch4-guided-probability-results}
 جدول~\ref{tab:ch4-guided-probability-mixture}
 نتایج پنج سیاست را نشان می‌دهد؛ برای اختلاف اندک دقت متوازن، نمودار جداگانه‌ای در متن اصلی تکرار نمی‌شود.
-\input{./code/experiments/guided_informative_uniform_mixture/tables/main_results.tex}
-\input{./code/experiments/guided_informative_uniform_mixture/tables/complete_compactness.tex}
+\input{./code/experiments/fixed-policy-evaluation/tables/main_results.tex}
+\input{./code/experiments/fixed-policy-evaluation/tables/complete_compactness.tex}
 
 با افزایش سهم سیاست بدون نویز از صفر به یک،
 مقدار $I$ از $0.01688$ به $0.04965$
@@ -763,7 +763,7 @@ $R_{\sqrt{\mathrm{JS}}}$ را در کنار
 
 شکل~\ref{fig:ch4-guided-mixture-geometry}
 رشد هم‌زمان معیارهای هندسی را نشان می‌دهد.
-\input{./code/experiments/guided_informative_uniform_mixture/figures/geometry.tex}
+\input{./code/experiments/fixed-policy-evaluation/figures/geometry.tex}
 
 \subsubsection{مقایسه مراکز تحقق‌یافته و پراکندگی کلاس‌ها}
 \label{subsec:ch4-guided-probability-centers}
@@ -772,7 +772,7 @@ $R_{\sqrt{\mathrm{JS}}}$ را در کنار
 سه کلاس در دو انتهای اختلاط را در
 جدول~\ref{tab:ch4-guided-mixture-center-vectors}
 گزارش می‌کنیم.
-\input{./code/experiments/guided_informative_uniform_mixture/tables/centers_endpoints.tex}
+\input{./code/experiments/fixed-policy-evaluation/tables/centers_endpoints.tex}
 
 جدول~\ref{tab:ch4-guided-mixture-center-distances}
 نشان می‌دهد فاصله $\sqrt{\mathrm{JSD}}$
@@ -782,8 +782,8 @@ $R_{\sqrt{\mathrm{JS}}}$ را در کنار
 ~\ref{tab:ch4-guided-mixture-classwise-dispersion}
 نشان می‌دهد پراکندگی درون‌کلاسی
 \emph{هر سه کلاس} نیز هم‌زمان بیشتر شده است.
-\input{./code/experiments/guided_informative_uniform_mixture/tables/center_distances.tex}
-\input{./code/experiments/guided_informative_uniform_mixture/tables/classwise_dispersion.tex}
+\input{./code/experiments/fixed-policy-evaluation/tables/center_distances.tex}
+\input{./code/experiments/fixed-policy-evaluation/tables/classwise_dispersion.tex}
 
 بدین ترتیب، مشاهده افزایش جدایی مراکز
 به معنای نزدیک‌ترشدن نمونه‌ها به مراکز
@@ -857,7 +857,7 @@ $g=(1.4,\,0.2,\,-1.2,\,0.9,\,-1.2)$
 $Z_\alpha=\alpha Z_{\mathrm{guided}}$ با $\alpha\in\{0,0.25,0.5,0.75,1\}$ مقایسه شدند. در $\alpha=0$ سیاست یکنواخت است و در $\alpha=1$ سیاست ازپیش‌تعیین‌شده هدایت‌شده به ویژگی‌های اطلاع‌رسان به کار می‌رود. برای هر $\alpha$، بازنمایی‌ها و مراکز آموزش مجدداً با همان سیاست محاسبه شدند و مراکز هنگام ارزیابی داده‌های اعتبارسنجی ثابت ماندند. تنظیمات اجرا عبارت بودند از $300$ گشت برای هر نمونه، $\beta=0.4$، $\lambda=0.8$، سقف $12$ گام و بذر گشت $20261103$. در این مقایسه برای همه سیاست‌ها قاعده استنتاج مشترک مبتنی بر شباهت JSD استفاده شد.
 
 جدول~\ref{tab:ch4-five-fixed-policies} معیار اطلاعاتی مراکز، پراکندگی مبتنی بر JSD روی داده آموزش و عملکرد اعتبارسنجی را نشان می‌دهد. $I$ و $R_{\mathrm{JS}}$ تنها از داده آموزش به دست آمده‌اند؛ NLL اعتبارسنجی براساس Softmax فاصله KL محاسبه شده است.
-\input{./code/experiments/guided_informative_uniform_mixture/tables/score_mc_fixed_policy.tex}
+\input{./code/experiments/fixed-policy-evaluation/tables/score_mc_fixed_policy.tex}
 
 با افزایش $\alpha$، اطلاعات مراکز $I$ بیشتر و NLL اعتبارسنجی کمتر شده است؛ اما بالاترین دقت متوازن اعتبارسنجی در $\alpha=0.25$ مشاهده می‌شود و پس از آن افزایش یکنواخت ندارد. در همین مسیر پراکندگی درون‌کلاسی $R_{\mathrm{JS}}$ نیز بیشتر شده است. بنابراین تغییر سیاست هم‌زمان جدایی مراکز و پراکندگی نمونه‌ها را تغییر می‌دهد و بهبود یک معیار منفرد لزوماً به بهبود نرخ تصمیم درست منجر نمی‌شود. زیان \lr{Softplus} حاشیه‌ای با پارامتر $0.03$ در اعتبارسنجی نیز از $0.02173$ در $\alpha=0$ به $0.00969$ در $\alpha=1$ کاهش یافته، درحالی‌که بیشترین دقت در میانه مسیر رخ داده است. این مشاهده انگیزه بررسی زیانی با حساسیت متمرکزتر در نزدیکی مرز را تقویت می‌کند، نه آنکه به‌تنهایی برتری زیان جایگزین را ثابت کند.
 
@@ -875,7 +875,7 @@ $Z_\alpha=\alpha Z_{\mathrm{guided}}$ با $\alpha\in\{0,0.25,0.5,0.75,1\}$ مق
 مقایسه درون این پنج حالت هم‌پروتکل است،
 اما با تخمین مونت‌کارلوی بالا هم‌پروتکل نیست.
 
-\input{./code/experiments/guided_informative_uniform_mixture/tables/exact_fixed_policy.tex}
+\input{./code/experiments/fixed-policy-evaluation/tables/exact_fixed_policy.tex}
 
 در پروتکل امید دقیق، هدایت قوی‌تر،
 $I$ مراکز و \emph{میانه} حاشیه درست را افزایش داده،
@@ -921,7 +921,7 @@ $88.25\%$ و در امید دقیق $96.77\%$ بود.
 در دو پروتکل جداگانه گزارش می‌شود.
 
 \paragraph{پیوست الکترونیکی و بازتولید.}
-کد، داده‌ها، معیارها، جدول‌ها و نمودارهای آزمایش \lr{E-CH4-05} در پوشه \lr{\texttt{guided\_informative\_uniform\_mixture}} از پیوست الکترونیکی موجودند؛ شواهد پروتکل امتیازمحور نیز در پوشه \lr{\texttt{fixed\_metric\_comparison}} حفظ شده است. منشأ و تفاوت قراردادهای محاسباتی در گزارش‌های فنی ثبت شده‌اند.
+کد، داده‌ها، معیارها، جدول‌ها و نمودارهای آزمایش \lr{E-CH4-05} در پوشه \lr{\texttt{fixed-policy-evaluation}} از پیوست الکترونیکی موجودند؛ شواهد پروتکل امتیازمحور نیز در پوشه \lr{\texttt{fixed-policy-evaluation}} حفظ شده است. منشأ و تفاوت قراردادهای محاسباتی در گزارش‌های فنی ثبت شده‌اند.
 
 % Observational study of target-conditioned local feature policies and JS/KL criteria.
 \section{هدایت گشت به مراکز هدف و تحلیل مسیر معیارهای بازنمایی}

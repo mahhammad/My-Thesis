@@ -14,7 +14,7 @@ TEX = REPO / "tex/chapter4.tex"
 SPECS = (
     ("sec:ch4-q-validation", "q-validation"),
     ("sec:ch4-uniform-hyperparameter-sensitivity", "uniform-hyperparameter-sensitivity"),
-    ("sec:ch4-fixed-policy-evaluation", "guided_informative_uniform_mixture"),
+    ("sec:ch4-fixed-policy-evaluation", "fixed-policy-evaluation"),
     ("sec:ch4-center-target-observation", "target_center_guidance_trajectory"),
     ("sec:ch4-sigmoid-margin-evaluation", "sigmoid_margin_observational_evaluation"),
 )

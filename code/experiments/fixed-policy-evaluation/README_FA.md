@@ -1,6 +1,6 @@
 # گزارش فنی پژوهشی — E-CH4-05 | اختلاط احتمالی سیاست هدایت‌شده و یکنواخت
 
-**شناسه:** `guided_informative_uniform_mixture` | **وضعیت:** مطالعهٔ ثبت‌شده در فصل چهارم | **منشأ:** commit `e53b75cae25f`
+**شناسه:** `fixed-policy-evaluation` | **وضعیت:** مطالعهٔ ثبت‌شده در فصل چهارم | **منشأ:** commit `e53b75cae25f`
 
 ## قرارداد بازتولید داده، اجرای آزمایش و ساختار پرونده‌ها — ممیزی تکمیلی ۲۰۲۶-۱۱-۱۵
 
@@ -16,9 +16,9 @@
 
 **دستور از ریشهٔ مخزن:**
 ```bash
-python code/experiments/guided_informative_uniform_mixture/experiment_mixture.py
-python code/experiments/guided_informative_uniform_mixture/experiment_mixture.py --execute --out-dir /tmp/ch4-e05-reproduced
-python -m unittest discover -s code/experiments/guided_informative_uniform_mixture -p 'test_*.py' -v
+python code/experiments/fixed-policy-evaluation/experiment_mixture.py
+python code/experiments/fixed-policy-evaluation/experiment_mixture.py --execute --out-dir /tmp/ch4-e05-reproduced
+python -m unittest discover -s code/experiments/fixed-policy-evaluation -p 'test_*.py' -v
 ```
 اولی dry-run، دومی بازحساب دقیق ۵ حالت و **نوشتن فقط در مقصد تازه** است.
 
@@ -182,7 +182,7 @@ A_X^* = A_X \cap \{0,1,3\},\qquad
 
 دستور اجرای مجدد، با تأیید صریح اجرای محاسبه:
 
-\`python code/experiments/guided_informative_uniform_mixture/experiment_mixture.py --execute\`
+\`python code/experiments/fixed-policy-evaluation/experiment_mixture.py --execute\`
 
 بدون \`--execute\` اسکریپت فقط طرح را نمایش می‌دهد. **هیچ داده Test تاریخی در این تحقیق استفاده نشده است.**
 
@@ -314,7 +314,7 @@ A_X^* = A_X\cap\{0,1,3\}.
 
 مقایسه پنج مقدار `α∈{0,.25,.5,.75,1}` در Train/Validation با `β=.4, λ=.8, H=12`، کرنل و تقسیم مشترک؛ بازسازی مراکز برای هر سیاست و گزارش BA، جدایی `I`، تراکم `R` و حاشیه. بدون استفاده از Test تاریخی. آزمون‌های سبک تعریف سیاست:
 
-`python -m unittest discover -v -s code/experiments/guided_informative_uniform_mixture -p 'test_*.py'`
+`python -m unittest discover -v -s code/experiments/fixed-policy-evaluation -p 'test_*.py'`
 
 **نتیجه مهم تفسیر:** با افزایش سهم Guided، هر سه فاصله جفتی مراکز و معیار جدایی (I) افزایش یافته‌اند، ولی (R_{\mathrm{JS}}) هم در هر سه کلاس افزایش یافته است؛ BA اعتبارسنجی فقط به اندازه **یک نمونه از ۹۰ نمونه** تغییر کرد. این تغییر کوچک را نباید نشانه قطعی افت عملکرد دانست. [مراکز با دقت کامل](results/centers_comparison.json)، [جدول مقایسه مراکز](tables/centers_endpoints.tex) و [روند فاصله/پراکندگی](tables/center_distances.tex) در پوشه ثبت شده‌اند.
 
@@ -405,7 +405,7 @@ A_X^* = A_X\cap\{0,1,3\}.
 
 ## بازیابی سوابق Markdown حذف‌شده
 
-نسخه‌های قبلی گزارش/پروتکل و شواهد متنی، با Git blob اصلی در [کامیت پیش از تجمیع](https://github.com/mahhammad/My-Thesis/tree/e53b75cae25ffba0d06d7b8a15f6cf322cb4698f/code/experiments/guided_informative_uniform_mixture/) باقی می‌مانند. ارجاعات موجود در کامنت‌های تاریخی Issueها به همین نسخه‌ها تعلق دارند.
+نسخه‌های قبلی گزارش/پروتکل و شواهد متنی، با Git blob اصلی در [کامیت پیش از تجمیع](https://github.com/mahhammad/My-Thesis/tree/e53b75cae25ffba0d06d7b8a15f6cf322cb4698f/code/experiments/fixed-policy-evaluation/) باقی می‌مانند. ارجاعات موجود در کامنت‌های تاریخی Issueها به همین نسخه‌ها تعلق دارند.
 
 
 ---
@@ -414,8 +414,8 @@ A_X^* = A_X\cap\{0,1,3\}.
 
 **تفکیک پروتکل‌ها.** خانوادهٔ اختلاط در *فضای احتمال* و خانوادهٔ تغییر امتیاز/logit پیش از Softmax آزمایش‌های متمایز درون این بخش هستند. پیوست `diagnostics/fix_ch4_09/` اختلاف ۳۰۰ گشت مونت‌کارلو و امید دقیق را بررسی می‌کند؛ این دو برآورد را یک مشاهدهٔ مستقل فرض نکنید.
 
-**اجرا و مبدأ داده.** [`experiment_mixture.py`](experiment_mixture.py) در حالت عادی فقط برنامه را نشان می‌دهد: `python code/experiments/guided_informative_uniform_mixture/experiment_mixture.py`. اجرای صریح محاسبهٔ بدون آموزش `--execute` است و گزینهٔ `--out-dir` مسیر ذخیره را تعیین می‌کند. این اجرا فایل‌های `summary.csv`، `summary.json`، `reports.json` و در صورت درخواست توزیع‌های `distributions.npz` را در مقصد می‌نویسد. برای بازتولید مجدد از پوشه‌ای **جدید** استفاده شود، نه `results/` رسمی.
+**اجرا و مبدأ داده.** [`experiment_mixture.py`](experiment_mixture.py) در حالت عادی فقط برنامه را نشان می‌دهد: `python code/experiments/fixed-policy-evaluation/experiment_mixture.py`. اجرای صریح محاسبهٔ بدون آموزش `--execute` است و گزینهٔ `--out-dir` مسیر ذخیره را تعیین می‌کند. این اجرا فایل‌های `summary.csv`، `summary.json`، `reports.json` و در صورت درخواست توزیع‌های `distributions.npz` را در مقصد می‌نویسد. برای بازتولید مجدد از پوشه‌ای **جدید** استفاده شود، نه `results/` رسمی.
 
 **محل شواهد فعلی.** `results/metrics_full.json` و `results/coverage.json` قرارداد سنجش، `results/summary.json` و `results/summary.csv` حاصل پنج α، `results/centers_comparison.json` هندسهٔ مقایسه و `results/validation_predictions.json` پیش‌بینی‌های ثبت‌شده را نگه می‌دارند. فایل‌های کنترل MC/exact در `diagnostics/fix_ch4_09/results/` و ارائه در `tables/` و `figures/` است.
 
-**کنترل بدون بازاجرای پژوهش:** `python -m unittest discover -s code/experiments/guided_informative_uniform_mixture -p 'test_*.py' -v`. ایجاد خروجی جدید اشکالی ندارد ولی `README_FA.md` جامع محفوظ می‌ماند.
+**کنترل بدون بازاجرای پژوهش:** `python -m unittest discover -s code/experiments/fixed-policy-evaluation -p 'test_*.py' -v`. ایجاد خروجی جدید اشکالی ندارد ولی `README_FA.md` جامع محفوظ می‌ماند.

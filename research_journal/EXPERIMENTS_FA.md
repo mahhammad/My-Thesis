@@ -6,7 +6,7 @@
 | §۴.۱–۴.۲ داده | سه کلاس، پنج ویژگی، ماسک فقدان، Train/Validation/Test جدا؛ مبنا β=0.4، λ=0.8، H=12 | [A1 foundations](https://github.com/mahhammad/My-Thesis/issues/49#issuecomment-6792642221) پذیرفته؛ Test را برای انتخاب مدل مصرف نکن |
 | §۴.۳ انتقال یک‌گامی | [مرجع جمعیت و نمونه](../code/experiments/q-validation/README_FA.md) | Q یک‌گامی؛ معیارهای مرکز چندگامی به‌طور خودکار قابل اعمال نیست |
 | §۴.۴ سیاست یکنواخت | [حساسیت پارامترها](../code/experiments/uniform-hyperparameter-sensitivity/README_FA.md) | توصیفی و وابسته به تنظیم |
-| §۴.۵ هدایت اولیه | [سیاست از اهداف و مخلوط یکنواخت](../code/experiments/guided_informative_uniform_mixture/README_FA.md)، [بازبینی MC vs exact](../code/experiments/guided_informative_uniform_mixture/README_FA.md) | تفاوت MC300 و exact مهم؛ با بودجه MC بزرگ‌تر نزدیک‌شدن مشاهده شد |
+| §۴.۵ هدایت اولیه | [سیاست از اهداف و مخلوط یکنواخت](../code/experiments/fixed-policy-evaluation/README_FA.md)، [بازبینی MC vs exact](../code/experiments/fixed-policy-evaluation/README_FA.md) | تفاوت MC300 و exact مهم؛ با بودجه MC بزرگ‌تر نزدیک‌شدن مشاهده شد |
 | §۴.۶ replay | [۴۹ دور هدایت](../code/experiments/target_center_guidance_trajectory/README_FA.md) | ۴۹ checkpoint مستقل‌داده نیست |
 | §۴.۷ زیان سیگموئیدی | [گزارش](../code/experiments/sigmoid_margin_observational_evaluation/README_FA.md)، [Benchmark](../code/experiments/benchmark_v1/README_FA.md) | تشخیص ۹۰ Val و شش τ روی سه وضعیت = ۱۸ تشخیص، نه ۱۸ آموزش؛ رتبه وابسته τ و کاهش زیان ≠ افزایش BA |
 | §۴.۸ عمق سقف‌دار | [گزارش عمق](../code/experiments/walk_depth_effect/README_FA.md)؛ [ژورنال](2026-11-10-E-CH4-09-depth-effect.md) | پاسخ به H مختص آزمایش، نه قضیه عمومی |

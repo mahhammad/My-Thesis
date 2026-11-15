@@ -22,7 +22,7 @@ import torch
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 BENCH = HERE / "benchmark_v1"
-MIXTURE = HERE / "guided_informative_uniform_mixture"
+MIXTURE = HERE / "fixed-policy-evaluation"
 sys.path.insert(0, str(BENCH))
 sys.path.insert(0, str(MIXTURE))
 sys.path.insert(0, str(ROOT / "code" / "data_generator"))
