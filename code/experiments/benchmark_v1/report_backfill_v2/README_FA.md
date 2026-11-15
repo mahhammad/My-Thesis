@@ -1,6 +1,6 @@
 # پژوهشگر شمارهٔ ۳ — CH4-METRICS-BACKFILL-01
 
-> **مسیرهای معتبر پس از سبک‌سازی (۱۵ نوامبر ۲۰۲۶):** چهار ZIP و جدول‌های اصلی ۷۶ اجرای §۴.۱۲ در `code/experiments/standard_policy_comparison/results/` محفوظ‌اند. نتایج منحصربه‌فرد تاریخی و گزارش‌های مرحله‌ای R03 به `code/experiments/archive/benchmark_v1_legacy_evidence/` منتقل شده‌اند و Git blob اصلی آن‌ها تغییر نکرده است. اسکریپت‌های بازسازی از مسیر رسمی ZIP استفاده می‌کنند؛ گزارش‌های قدیمی زیر، وضعیت تاریخی زمان نگارش خود را ثبت می‌کنند و لزوماً مسیر فعلی فایل‌ها را نشان نمی‌دهند. راهنمای مسیرها در `code/experiments/archive/benchmark_v1_legacy_evidence/README_FA.md` آمده است.
+> **مسیرهای معتبر پس از سبک‌سازی (۱۵ نوامبر ۲۰۲۶):** چهار ZIP و جدول‌های اصلی ۷۶ اجرای §۴.۱۲ در `code/experiments/standard_policy_comparison/results/` محفوظ‌اند. نتایج منحصربه‌فرد تاریخی و گزارش‌های مرحله‌ای R03 با Git blob اصلی در تگ قفل‌شده `backup/pre-cleanup-2026-11-15` قابل بازیابی‌اند؛ نسخه فعال دیگر `code/experiments/archive/` ندارد. اسکریپت‌های بازسازی از مسیر رسمی ZIP استفاده می‌کنند؛ گزارش‌های قدیمی زیر، وضعیت تاریخی زمان نگارش خود را ثبت می‌کنند و لزوماً مسیر فعلی فایل‌ها را نشان نمی‌دهند. راهنمای مسیرهای بازیابی در `research_journal/archive_recovery/README_FA.md` آمده است.
 
 
 **Deliverable branch:** `experiment/ch4-metrics-backfill-v2`  
