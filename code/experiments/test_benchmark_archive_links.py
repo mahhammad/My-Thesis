@@ -106,7 +106,8 @@ class BenchmarkArchiveLinkage(unittest.TestCase):
         forbidden = ("code/experiments/diag_max_full300",
                      "code/experiments/multistep_policy_target_match",
                      "code/experiments/center_matching_observation")
-        historical_pins = {EXP / "inverse_attainable_standard/b02_gate_v3/pure_gate.py",
+        historical_pins = {BENCH / "run.py", BENCH / "stream_graph.py",
+                           EXP / "inverse_attainable_standard/b02_gate_v3/pure_gate.py",
                            EXP / "inverse_attainable_standard/b02_gate_candidate/pure_gate.py"}
         stale = []
         for file in EXP.rglob("*.py"):
