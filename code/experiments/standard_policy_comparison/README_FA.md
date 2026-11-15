@@ -2,6 +2,43 @@
 
 **منبع مبنا:** commit `5ddce088204b` | **قرارداد:** فصل چهارم پایان‌نامه و پرونده‌های ماشین‌خوان داخل همین مطالعه
 
+## قرارداد بازتولید داده، اجرای آزمایش و ساختار پرونده‌ها — ممیزی تکمیلی ۲۰۲۶-۱۱-۱۵
+
+**مشخصات دادهٔ پایه (فقط در صورت استفادهٔ مستقیم از مولد):** [`code/data_generator/config.json`](../../../code/data_generator/config.json) با `K=3` کلاس، `D=5` ویژگی، احتمال کلاس‌های `[0.25,0.45,0.30]`، میانگین‌های شرطی کلاس‌ها `[-2,-0.3,0,-1.2,0]`، `[0,0.7,0,0,0]`، `[2,-0.4,0,1.2,0]` و انحراف معیار `[0.95,1,1.2,0.95,1.1]` برای هر سه کلاس است. کوواریانس `diag(std)·correlation·diag(std)` با هم‌بستگی‌های غیرصفرِ بین‌ویژگی `(0,1)=0.35`، `(0,3)=0.20`، `(2,4)=0.30`؛ درصد فقدان مستقل MCAR برای پنج ویژگی `[0,5,12,5,20]` و `kernel_gamma=[0.8,1.2,0.5,1.0,0.6]` است. ویژگی‌های ۰،۱،۳ از نظر حاشیه‌ای اطلاع‌رسان و ۲،۴ نویزیِ حاشیه‌ای هستند. تنظیم پیش‌فرض `seed=20261102` و Train/Validation/Test به‌ترتیب `300/90/120` است؛ **هر آزمایش در ادامه دقیقاً مشخص می‌کند آیا همین تقسیم را می‌خواند یا داده/مرجع دیگری می‌سازد.**
+
+**قالب عمومی خروجی مولد:** اجرای مستقل `python code/data_generator/generate.py --config code/data_generator/config.json --out /tmp/imc-data-20261102`، فایل‌های `train.npz`، `validation.npz`، `test.npz` با کلیدهای `x` (آرایهٔ `N×5` از `float64`، فقدان=`NaN`)، `mask` (`N×5` بولی) و `y` (آرایهٔ `N` از برچسب‌های ۰،۱،۲)، به‌علاوه `oracle_<split>.npz` (`posterior: N×3`، `q_population: N×5×3`)، `finite_q_<split>.npz` (`q_finite: N×5×3`) و `spec.json` تولید می‌کند. این یک **خروجی آزمایشی جدید در /tmp** است، نه فایلی که لزوماً در پوشهٔ مطالعه commit شده باشد؛ فرمان CLI همچنین Test را تولید می‌کند، ولی استفاده از Test برای گزینش مدل/تحلیل این فصل مجاز نیست. برای ساخت **فقط Train/Validation بدون تولید Test**، از `code/experiments/benchmark_v1/dataset_adapter.py::dataset_train_val(load_config(...))` مطابق کد هر مطالعه استفاده کنید. برابری بایت‌های float بین ماشین‌های دارای BLAS متفاوت تضمین نمی‌شود؛ منشأ frozen و SHAهای ثبت‌شده بر seed صرف تقدم دارند.
+
+### منبع واقعی داده، شمار اجراها و نحوهٔ تولید نتایج
+
+**واحد دادهٔ اصلی و بازساخت آن:** تنظیمات پایه در [`protocol/base_generator_config.json`](protocol/base_generator_config.json) (نسخهٔ محلیِ همان پارامترهای مولد) و قرارداد آموزش/سیاست در [`protocol/training_config_v1.json`](protocol/training_config_v1.json) قرار دارد. سه seed داده `20261102,20261103,20261104`، Train پایهٔ ۳۰۰ و Validation ۹۰ دارند. برای بررسی اندازه، مرجع از همان Train در اندازه‌های `{50,100,150,200,250,300}` با **انتخاب طبق reference_seed و قانون گزینش متناسب با کلاس در runner** تشکیل می‌شود؛ `n=50` یک مولد جدید مستقل نیست. `code/experiments/benchmark_v1/replay_v1.py::prepare_proportional` قانون انتخاب و ذخیرهٔ `reference_ids` را تعیین می‌کند. Test در انتخاب سیاست و checkpoint نقشی ندارد.
+
+**طرح دقیق ۷۶ آموزش:** **۱۶ اجرای core** = ۴ خانواده `shared,class,node,node_class` × (هدف `max_I` یا حاشیه JSD با `τ=.002,.005,.020`) در `n=300` و **۵۰ update**؛ **۱۲ اجرای extra** = ۴ خانواده × ۳ هدف مکمل در `n=300` و **۲۵ update**؛ **۴۸ اجرای اندازه** = ۲۴ اجرای چهار خانواده در seed پایه + ۱۲ اجرای shared/class در seed دوم + ۱۲ اجرای shared/class در seed سوم، همگی با **۲۵ update**. مبنا `β=.4,λ=.8,H=12`، `float64`، `Adam lr=.12` و شروع logits صفر است. Validation برای `node,node_class` در قرارداد فعلی شروع query معتبر ندارد و `N/A` است.
+
+**مهم: دادهٔ Train/Validation در این پوشه به‌صورت NPZ مستقل نگهداری نشده است؛** شواهد رسمی، **JSON checkpoint**‌های درون چهار ZIP زیرند. [`results/master_runs_76.csv`](results/master_runs_76.csv) ستون‌های `study,data_seed,n,family,objective,tau,steps,file,sha256` (و معیارهای ذخیره‌شده) را دارد؛ `file` **نام عضو JSON داخل آرشیو ZIP مربوط** و `sha256` هش همان عضو است. عضو JSON معمولاً `dataset/reference_ids`، `raw_logits`، `history`، `final` و معیارهای split را نگه می‌دارد؛ هنگام ممیزی باید manifest خود ZIP و رکورد master تطبیق داده شوند.
+
+**زنجیرهٔ مستند و بازاجرای مستقل (به‌صورت dry-run، بدون آموزش):**
+```bash
+python code/experiments/benchmark_v1/replay_v1.py --mode core --steps 50 --data-seed 20261102
+python code/experiments/benchmark_v1/replay_v1.py --mode extra --steps 25 --data-seed 20261102
+python code/experiments/benchmark_v1/replay_v1.py --mode size --size-steps 25 --data-seed 20261102
+python code/experiments/benchmark_v1/replay_v1.py --mode size --size-steps 25 --data-seed 20261103 --family shared --family class
+python code/experiments/benchmark_v1/replay_v1.py --mode size --size-steps 25 --data-seed 20261104 --family shared --family class
+```
+این دستورات **فقط فهرست برنامه‌ها** را چاپ می‌کنند. افزودن `--execute --out-dir /tmp/<new-run-folder>` یک **آموزش تازه** در پوشهٔ مجزا ایجاد می‌کند؛ نتیجهٔ جدید را به جای ۷۶ checkpoint پذیرفته‌شده و SHAهای تاریخی قرار ندهید. برای **بازمحاسبهٔ فقط هندسه مراکز**، [`r03_center_recovery/center_only_rebuild.py`](r03_center_recovery/center_only_rebuild.py) در حالت dry-run، و `--execute --out-dir /tmp/ch4-r03-centers` در checkout مستقل موجود است؛ این کار آموزش جدید انجام نمی‌دهد.
+
+| نقش | فایل | ساختار |
+|---|---|---|
+| قرارداد داده/آموزش | `protocol/base_generator_config.json`، `protocol/training_config_v1.json`، `../benchmark_v1/replay_v1.py` | گاوسی/MCAR، seed و انتخاب reference، خانواده/هدف/بودجه |
+| خام ۱۶+۱۲ اجرا | [`results/core_50_16runs.zip`](results/core_50_16runs.zip)، [`results/extra_25_12runs.zip`](results/extra_25_12runs.zip) | JSON checkpointهای `n=300` با ۵۰ و ۲۵ update |
+| خام ۴۸ اجرای اندازه | [`results/size_25_24runs_seed20261102.zip`](results/size_25_24runs_seed20261102.zip)، [`results/size_25_24runs_seeds20261103_20261104.zip`](results/size_25_24runs_seeds20261103_20261104.zip) | ۲۴ اجرا در seed اول، ۲۴ در دو seed بعدی |
+| نمایهٔ اجراها و صحت | [`results/master_runs_76.csv`](results/master_runs_76.csv)، `results/archive_preflight.json`، `results/recovery_audit.json` | ۷۶ ردیف/عضو JSON، SHA256 و کنترل آرشیو |
+| معیارهای مشتق | `results/center_only_metrics.csv`، `results/coverage_manifest_76.json`، `results/coverage_summary_76.csv`، `results/posthoc_score_backfill_76_compact.csv` | ۸۳۶ مقدار center-only پذیرفته و دیگر معیارها با اعتبار جدا |
+| قالب گزارش | [`README_FA.md`](README_FA.md) | تفسیر علمی، واحدهای شمارش و راهنمای منبع هر نتیجه |
+
+**بازپخش دقیق بایتی تضمین نیست:** نسخهٔ Torch/NumPy/BLAS، ترتیب شناسه مرجع و کد snapshot باید با manifest ثبت‌شده تطبیق داده شود. مسیر `benchmark_v1` زیرساخت مشترک است، نه محل دیگری برای کپی‌کردن چهار ZIP رسمی.
+
+**قاعدهٔ نگهداشت:** خروجی جدید در کنار گزارش جامع مجاز است؛ `README_FA.md` فعلی حذف/overwrite نشود. raw/checksumهای پذیرفته‌شده و گیت‌های تاریخی با ممیزی مستندات تغییر نمی‌کنند.
+
 ## چکیده، دامنه و تعریف شواهد
 
 این مطالعه شامل ۷۶ اجرای ثبت‌شده از چهار خانوادهٔ سیاست و شواهد مرکز-محور پذیرفته‌شده است. ۷۶ مرکز و ۸۳۶ مقدار سنجهٔ مرکز independently accepted هستند؛ این رأی به سایر معیارهای گزارش تعمیم داده نمی‌شود. گزارش R03 و شواهد نگارشی با منشأ تاریخی در همین سند ادغام می‌شوند.

@@ -2,6 +2,38 @@
 
 **شناسه:** `bayes_center_reachability_standard` | **وضعیت:** مطالعهٔ ثبت‌شده در فصل چهارم | **منشأ:** commit `e53b75cae25f`
 
+## قرارداد بازتولید داده، اجرای آزمایش و ساختار پرونده‌ها — ممیزی تکمیلی ۲۰۲۶-۱۱-۱۵
+
+**مشخصات دادهٔ پایه (فقط در صورت استفادهٔ مستقیم از مولد):** [`code/data_generator/config.json`](../../../code/data_generator/config.json) با `K=3` کلاس، `D=5` ویژگی، احتمال کلاس‌های `[0.25,0.45,0.30]`، میانگین‌های شرطی کلاس‌ها `[-2,-0.3,0,-1.2,0]`، `[0,0.7,0,0,0]`، `[2,-0.4,0,1.2,0]` و انحراف معیار `[0.95,1,1.2,0.95,1.1]` برای هر سه کلاس است. کوواریانس `diag(std)·correlation·diag(std)` با هم‌بستگی‌های غیرصفرِ بین‌ویژگی `(0,1)=0.35`، `(0,3)=0.20`، `(2,4)=0.30`؛ درصد فقدان مستقل MCAR برای پنج ویژگی `[0,5,12,5,20]` و `kernel_gamma=[0.8,1.2,0.5,1.0,0.6]` است. ویژگی‌های ۰،۱،۳ از نظر حاشیه‌ای اطلاع‌رسان و ۲،۴ نویزیِ حاشیه‌ای هستند. تنظیم پیش‌فرض `seed=20261102` و Train/Validation/Test به‌ترتیب `300/90/120` است؛ **هر آزمایش در ادامه دقیقاً مشخص می‌کند آیا همین تقسیم را می‌خواند یا داده/مرجع دیگری می‌سازد.**
+
+**قالب عمومی خروجی مولد:** اجرای مستقل `python code/data_generator/generate.py --config code/data_generator/config.json --out /tmp/imc-data-20261102`، فایل‌های `train.npz`، `validation.npz`، `test.npz` با کلیدهای `x` (آرایهٔ `N×5` از `float64`، فقدان=`NaN`)، `mask` (`N×5` بولی) و `y` (آرایهٔ `N` از برچسب‌های ۰،۱،۲)، به‌علاوه `oracle_<split>.npz` (`posterior: N×3`، `q_population: N×5×3`)، `finite_q_<split>.npz` (`q_finite: N×5×3`) و `spec.json` تولید می‌کند. این یک **خروجی آزمایشی جدید در /tmp** است، نه فایلی که لزوماً در پوشهٔ مطالعه commit شده باشد؛ فرمان CLI همچنین Test را تولید می‌کند، ولی استفاده از Test برای گزینش مدل/تحلیل این فصل مجاز نیست. برای ساخت **فقط Train/Validation بدون تولید Test**، از `code/experiments/benchmark_v1/dataset_adapter.py::dataset_train_val(load_config(...))` مطابق کد هر مطالعه استفاده کنید. برابری بایت‌های float بین ماشین‌های دارای BLAS متفاوت تضمین نمی‌شود؛ منشأ frozen و SHAهای ثبت‌شده بر seed صرف تقدم دارند.
+
+### منبع واقعی داده، شمار اجراها و نحوهٔ تولید نتایج
+
+**آزمایش این بخش چیست و چند اجرا دارد؟** بستهٔ رسمی `S-103` دارای **۱۰۳ واحد شواهد متفاوت** است: `۵۴` محاسبهٔ bound، `۶` ارزیابی Accuracy/BA، `۳۶` حلگر، `۶` replay و `۱` probe؛ این جمع، ۱۰۳ seed داده یا ۱۰۳ اثبات مستقل نیست. داده بر **۳ مولد `20261102/03/04`** و **۲ اندازهٔ مرجع `n=150,300`** بنا شده است؛ گواه محصورسازی شش‌گانه مربوط به `H=12,β=.4,λ=.8` است و ۴۸ تنظیم حساسیت حکم گواه مستقل ندارند.
+
+**منبع دادهٔ واقعی و چگونگی تثبیت:** برخلاف آزمایش‌های ساده، **Train/هدف‌ها/ورودی محاسبه را نباید صرفاً از seed حدس زد**: بستهٔ [`raw/section411_standard_S_103_audit_package.zip`](raw/section411_standard_S_103_audit_package.zip) حاوی `data/freeze_manifest.json`، شواهد `results/SEC411_STANDARD_S_103_SUMMARY.json`، کدهای `src/`، تعداد ۵۴ فایل `results/bounds_*.json`، ۳۶ `results/solver_*.json`، ۶ `results/replay_*.json`، کنترل‌های `checks/precision_*.json` و راهنمای داخلی `REPRODUCE_FA.md` است. `SHA256SUMS.txt` اصالت اعضا را قفل می‌کند. بستهٔ دوم [`raw/V_R02_SEC411_INDEPENDENT_QA_EVIDENCE.zip`](raw/V_R02_SEC411_INDEPENDENT_QA_EVIDENCE.zip) برنامه و گواه ممیزی محاسبات مستقل را نگه می‌دارد. **کد اجرای کامل S-103 در ریشه این پوشه قرار ندارد**؛ راهنمای اجرای اصلی در ZIP است و بدون استخراج و بررسی شرایط همان نسخه نمی‌توان فرمان بازتولید کامل حلگر را معتبر دانست.
+
+**گام‌های مستقل بازیابی و ممیزیِ بدون حل:**
+```bash
+python -m zipfile -l code/experiments/bayes_center_reachability_standard/raw/section411_standard_S_103_audit_package.zip
+python -m zipfile -l code/experiments/bayes_center_reachability_standard/raw/V_R02_SEC411_INDEPENDENT_QA_EVIDENCE.zip
+python code/experiments/bayes_center_reachability_standard/src/verify_presentation.py
+```
+برای **بازتولید از اول**، ZIP نخست را در مسیر **جدا** استخراج کنید، سپس `README_FIRST_FA.md`، `REPRODUCE_FA.md`، `data/freeze_manifest.json` و `SHA256SUMS.txt` همان بسته را طبق ترتیب و نسخهٔ نرم‌افزار مندرج در آنها اجرا/راستی‌آزمایی کنید. دستور نمایش `zipfile -l` صرفاً اعضا را لیست می‌کند و بازتولید گواه نیست. از نو محاسبه‌کردن solver یا کران‌ها در این ممیزی انجام نشده است.
+
+| نقش | مسیر | محتوا و قرارداد |
+|---|---|---|
+| ورودی منجمد اصلی | `raw/section411_standard_S_103_audit_package.zip::data/freeze_manifest.json` | شناسه/هش داده‌ها و گراف‌های اصلی؛ فایل **داخل ZIP** است |
+| کد و خروجی دقیق محاسبه | `raw/...S_103_audit_package.zip::src/`، `::results/bounds_*.json`، `::results/solver_*.json`، `::results/replay_*.json` | ۵۴ bound، ۳۶ solver، ۶ replay؛ کد داخل ZIP، نه ریشهٔ آزمایش |
+| ممیزی مستقل | `raw/V_R02_SEC411_INDEPENDENT_QA_EVIDENCE.zip` | کد مستقل، فایل‌های گواه و کنترل اصالت |
+| خروجی خلاصهٔ قابل استناد | [`results/certified_summary.json`](results/certified_summary.json)، [`results/bounds_54_rounded.csv`](results/bounds_54_rounded.csv)، `results/metric_seed_summary.json` | شش گراف گواه، جدول گرد‌شدهٔ ۵۴ bound و سنجه‌های مولد |
+| منشأ/ارجاع پایان‌نامه | [`results/provenance_manifest.json`](results/provenance_manifest.json)، [`results/coverage.json`](results/coverage.json)، `tables/`، `figures/` | SHA256 دو ZIP، دامنه پوشش و فایل‌های انتشار |
+
+**هش‌های رسمی ZIP:** `S-103 = 742b38249fccf904fc5bf6e783a4110853a1a7051433f7b8417b32c1774493f4`؛ `independent QA = 1d6c42e297b4c00c654bb4dec96d7f9d114240b3fb56974353968f0ade96c086`. اصالت raw با این SHAها بررسی می‌شود؛ وجود خلاصهٔ CSV به‌تنهایی جای فایل float64 و برنامه گواه را نمی‌گیرد.
+
+**قاعدهٔ نگهداشت:** خروجی جدید در کنار گزارش جامع مجاز است؛ `README_FA.md` فعلی حذف/overwrite نشود. raw/checksumهای پذیرفته‌شده و گیت‌های تاریخی با ممیزی مستندات تغییر نمی‌کنند.
+
 ## چکیده و دامنه
 
 گواه‌های محدود عدم‌دستیابی برای شش گراف مبنا و دو هدف ثابت، همراه با تحلیل ۱۰۳ واحد محاسباتی، آزمون‌های حساسیت عددی، حلگر و عملکرد طبقه‌بندی. میانِ «کران گواه‌شده» و «پاسخ عددی حلگر» فرق گذاشته می‌شود.

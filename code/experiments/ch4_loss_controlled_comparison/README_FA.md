@@ -2,6 +2,42 @@
 
 **وضعیت مرجع (۱۵ نوامبر ۲۰۲۶):** `ACCEPT_PHASE2_SCIENTIFIC / RE_QA_PASS_FOR_MERGE`؛ PR [#79](https://github.com/mahhammad/My-Thesis/pull/79) در merge commit `a8c9027460e538fa04b8aab2f762eb4ba4c31e3d` ادغام شده است. رأی مستقل: [Issue #80](https://github.com/mahhammad/My-Thesis/issues/80#issuecomment-6892392493). گزارش‌های بازهٔ اجرای پژوهش که در ادامه آمده‌اند ممکن است هنوز عنوان `Draft` یا `PENDING_QA` داشته باشند؛ آن وضعیت تاریخی است.
 
+## قرارداد بازتولید داده، اجرای آزمایش و ساختار پرونده‌ها — ممیزی تکمیلی ۲۰۲۶-۱۱-۱۵
+
+**مشخصات دادهٔ پایه (فقط در صورت استفادهٔ مستقیم از مولد):** [`code/data_generator/config.json`](../../../code/data_generator/config.json) با `K=3` کلاس، `D=5` ویژگی، احتمال کلاس‌های `[0.25,0.45,0.30]`، میانگین‌های شرطی کلاس‌ها `[-2,-0.3,0,-1.2,0]`، `[0,0.7,0,0,0]`، `[2,-0.4,0,1.2,0]` و انحراف معیار `[0.95,1,1.2,0.95,1.1]` برای هر سه کلاس است. کوواریانس `diag(std)·correlation·diag(std)` با هم‌بستگی‌های غیرصفرِ بین‌ویژگی `(0,1)=0.35`، `(0,3)=0.20`، `(2,4)=0.30`؛ درصد فقدان مستقل MCAR برای پنج ویژگی `[0,5,12,5,20]` و `kernel_gamma=[0.8,1.2,0.5,1.0,0.6]` است. ویژگی‌های ۰،۱،۳ از نظر حاشیه‌ای اطلاع‌رسان و ۲،۴ نویزیِ حاشیه‌ای هستند. تنظیم پیش‌فرض `seed=20261102` و Train/Validation/Test به‌ترتیب `300/90/120` است؛ **هر آزمایش در ادامه دقیقاً مشخص می‌کند آیا همین تقسیم را می‌خواند یا داده/مرجع دیگری می‌سازد.**
+
+**قالب عمومی خروجی مولد:** اجرای مستقل `python code/data_generator/generate.py --config code/data_generator/config.json --out /tmp/imc-data-20261102`، فایل‌های `train.npz`، `validation.npz`، `test.npz` با کلیدهای `x` (آرایهٔ `N×5` از `float64`، فقدان=`NaN`)، `mask` (`N×5` بولی) و `y` (آرایهٔ `N` از برچسب‌های ۰،۱،۲)، به‌علاوه `oracle_<split>.npz` (`posterior: N×3`، `q_population: N×5×3`)، `finite_q_<split>.npz` (`q_finite: N×5×3`) و `spec.json` تولید می‌کند. این یک **خروجی آزمایشی جدید در /tmp** است، نه فایلی که لزوماً در پوشهٔ مطالعه commit شده باشد؛ فرمان CLI همچنین Test را تولید می‌کند، ولی استفاده از Test برای گزینش مدل/تحلیل این فصل مجاز نیست. برای ساخت **فقط Train/Validation بدون تولید Test**، از `code/experiments/benchmark_v1/dataset_adapter.py::dataset_train_val(load_config(...))` مطابق کد هر مطالعه استفاده کنید. برابری بایت‌های float بین ماشین‌های دارای BLAS متفاوت تضمین نمی‌شود؛ منشأ frozen و SHAهای ثبت‌شده بر seed صرف تقدم دارند.
+
+### منبع واقعی داده، شمار اجراها و نحوهٔ تولید نتایج
+
+**دادهٔ واقعیِ آموزش کجاست؟** برخلاف بخش‌های قبل، ورودی هر fit از **سه فایل منجمد واقعی** در [`inputs/phase2_train_validation/`](inputs/phase2_train_validation/manifest.json) خوانده می‌شود: `ds20261102_train_val.npz`، `ds20261103_train_val.npz`، `ds20261104_train_val.npz`. هر NPZ دقیقاً چهار کلید دارد: `train_x:float64[300,5]`، `train_y:int64[300]`، `validation_x:float64[90,5]` و `validation_y:int64[90]`. نشانگر ویژگی‌های مفقود `NaN` در `*_x` است و ماسک از `np.isfinite(x)` بازساخته می‌شود؛ **هیچ Test در این بسته ساخته یا خوانده نشده است**. [`inputs/phase2_train_validation/manifest.json`](inputs/phase2_train_validation/manifest.json) برای هر seed، `file_sha256`، اثرانگشت چهار آرایه، اثرانگشت ماسک، شمار کلاس‌ها، نسخه NumPy/Python و SHA کانفیگ را نگه می‌دارد.
+
+**ساخت مجدد داده چه قراردادی دارد؟** مولد همان Gaussian/MCAR پایه است؛ [`phase2_frozen_data.py`](phase2_frozen_data.py) سه `spec["seed"]` را به `dataset_adapter.dataset_train_val` می‌دهد و داده را به‌صورت `np.savez_compressed` ذخیره می‌کند. تولید تاریخی تحت `OPENBLAS_CORETYPE=generic`، `OPENBLAS_NUM_THREADS=1`، `NumPy=2.4.6` و `Python=3.11.18` تثبیت شد. **تنها seed برای بازتولید بایت‌به‌بایت کافی نیست**؛ تنظیم BLAS، ساختار آرایه و تأیید SHA نیز لازم‌اند. اجرای `--freeze` به opt-in صریح، SHA منبع و پوشهٔ مقصد **ناموجود** نیاز دارد و در پوشهٔ ورودی پذیرفته‌شده نباید تکرار شود. برای **اجرای شواهد کنونی، لازم نیست هیچ دادهٔ تازه‌ای تولید شود**: loader همان NPZهای قفل‌شده را پس از راستی‌آزمایی می‌خواند.
+
+**ماتریس اجرا:** [`phase2_plan_manifest.json`](phase2_plan_manifest.json) = **۳ seed × ۲ خانواده `shared/class` × ۲ زیان `sigmoid_JS_margin_tau005/softplus_JS_tau005` = ۱۲ fit**، با ۶ جفت هم‌شرط، `n=300`، ۲۵ update، `Adam lr=.12`، شروع صفر، `τ=.005`، `β=.4,λ=.8,H=12`، امید دقیق `float64`. `phase2_runner.py` فقط تحت مجوز/GitHub Actions نسخه‌دار و بودجه قفل‌شده اجازهٔ نوشتن دارد؛ **اجرای معمولیِ --execute از روی README مجوز آموزش یا retry ایجاد نمی‌کند.**
+
+**مراحل امن بازخوانی و تأیید، بدون fit:**
+```bash
+python code/experiments/ch4_loss_controlled_comparison/phase2_frozen_data.py
+python code/experiments/ch4_loss_controlled_comparison/phase2_data_preflight.py
+python code/experiments/ch4_loss_controlled_comparison/phase2_runner.py
+python code/experiments/ch4_loss_controlled_comparison/phase2_derived_reproduce_v2.py --check
+```
+اولی وضعیت داده را بدون freeze نشان می‌دهد؛ دومی fingerprintها/قرارداد Train-Validation را بررسی می‌کند؛ سومی فقط dry-run برنامهٔ آموزش است و هیچ fit نمی‌زند؛ چهارمی ۱۲ فایل پوشش مشتق و ۱۱ شکل SVG و جدول‌های عددی بازتولیدپذیر را **بایت‌به‌بایت** کنترل می‌کند، بدون تغییر raw. اگر دادهٔ منجمد با manifest تطبیق نکند، توقف معتبرتر از ادامه با seed مشابه است.
+
+| نوع | محل | ساختار دقیق |
+|---|---|---|
+| ورودی واقعی | `inputs/phase2_train_validation/ds<seed>_train_val.npz` | چهار آرایهٔ Train/Validation با ابعاد و dtype بالا؛ ثابت و SHA-قفل |
+| منشأ ورودی | [`inputs/phase2_train_validation/manifest.json`](inputs/phase2_train_validation/manifest.json)، `phase2_plan_manifest.json` | بذر، fingerprint آرایه، قانون ۱۲ job، budget و نسخه‌ها |
+| اجرای هر fit | `results/phase2_300_25/<run_key>/` | `model.json` (logits/پارامتر و reference ids)، `distributions.npz` (توزیع‌های بازنمایی)، `trace.json` (مسیر ۲۵ update)، `metrics_full.json` (Train/Validation)، `coverage.json` و `run_evidence.json` |
+| ثبت کل فاز | [`results/phase2_300_25/manifest.json`](results/phase2_300_25/manifest.json)، `data_fingerprints.json`، `attempt_charges/` | ۱۲ run، ۶۰ هش مرکزی، snapshotهای مصرف بودجه و وضعیت کوشش |
+| جفت‌ها و نمایش | `tables/phase2_runs_12.csv`، `tables/phase2_pairs_6.csv`، `figures/`، `derived/phase2_qa_fixes_v2/` | ۱۲ ردیف اجرا، ۶ مقایسهٔ جفتی، شکل/دادهٔ رسم مشتق |
+| کنترل | `phase2_data_preflight.py`، `phase2_derived_reproduce_v2.py --check` | بررسی بدون optimizer/دسترسی به Test یا جایگزینی raw |
+
+**محدودیت:** در README تاریخی قسمت‌های با وضعیت پیش‌ثبت `NO_FIT` متعلق به **قبل از فاز دوم انجام‌شده** هستند، نه وضعیت کنونی ۱۲ اجرای ذخیره‌شده. وضعیت فاز دوم از manifest و رأی مستقل خوانده می‌شود؛ `README_FA.md` نباید overwrite گردد.
+
+**قاعدهٔ نگهداشت:** خروجی جدید در کنار گزارش جامع مجاز است؛ `README_FA.md` فعلی حذف/overwrite نشود. raw/checksumهای پذیرفته‌شده و گیت‌های تاریخی با ممیزی مستندات تغییر نمی‌کنند.
+
 ## چکیده و سؤال
 
 در این پژوهش، ۱۲ آموزش واقعی با بودجه ۲۵ گام Adam و دادهٔ Train/Validation منجمد (۳ seed × دو خانواده shared/class × دو زیان) در شش جفت کنترل‌شده بررسی شدند. موتور بازنمایی *امید دقیق* گشت با H=12 است، نه Monte Carlo. اختلاف Validation BA و هندسه مراکز و تراکم نمونه‌ها فقط در دامنهٔ این داده‌ها گزارش می‌شود؛ ادعای برتری جهانی یکی از زیان‌ها مطرح نیست.
