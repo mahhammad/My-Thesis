@@ -16,7 +16,7 @@
 | §۴.5 | [`fixed-policy-evaluation`](../code/experiments/fixed-policy-evaluation/README_FA.md) | 33 | 33 | 0 | ۰ | 0 | 7 |
 | §۴.6 | [`center-target-observation`](../code/experiments/center-target-observation/README_FA.md) | 42 | 41 | 1 | ۰ | 0 | 15 |
 | §۴.7 | [`sigmoid-margin-evaluation`](../code/experiments/sigmoid-margin-evaluation/README_FA.md) | 23 | 20 | 3 | ۰ | 0 | 10 |
-| §۴.8 | [`walk_depth_effect`](../code/experiments/walk_depth_effect/README_FA.md) | 32 | 24 | 8 | ۰ | 0 | 12 |
+| §۴.8 | [`true-horizon-effect`](../code/experiments/true-horizon-effect/README_FA.md) | 32 | 24 | 8 | ۰ | 0 | 12 |
 | §۴.9 | [`exact_matrix_walk_validation`](../code/experiments/exact_matrix_walk_validation/README_FA.md) | 21 | 18 | 3 | ۰ | 0 | 11 |
 | §۴.10 | [`inverse_attainable_standard`](../code/experiments/inverse_attainable_standard/README_FA.md) | 761 | 750 | 11 | ۰ | 0 | 669 |
 | §۴.11 | [`bayes_center_reachability_standard`](../code/experiments/bayes_center_reachability_standard/README_FA.md) | 14 | 14 | 0 | ۰ | 0 | 5 |

@@ -67,7 +67,7 @@ def main():
     output={
         "schema":"e09-margin-from-common-metrics-v1",
         "definition":"true-class score minus largest rival score, score=1-JSD(P,V)/log(2)",
-        "source":"code/experiments/walk_depth_effect/results/metrics_full.json",
+        "source":"code/experiments/true-horizon-effect/results/metrics_full.json",
         "source_reporter":"code/experiments/benchmark_v1/report_snapshot.py::standard_metrics",
         "tau":tau,"true_H":list(HS),"policies":list(POLICIES),
         "centers_Train_only":True,"Test_accessed":False,

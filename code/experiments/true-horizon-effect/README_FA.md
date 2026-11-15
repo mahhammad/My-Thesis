@@ -1,6 +1,6 @@
 # گزارش فنی پژوهشی — E-CH4-09 | اثر سقف واقعی طول گشت
 
-**شناسهٔ مطالعه:** `walk_depth_effect` | **حوزه:** پایان‌نامه IMC / فصل چهارم | **منشأ محتوا:** اسناد پیش از تجمیع در commit `17e91ec99d1b`
+**شناسهٔ مطالعه:** `true-horizon-effect` | **حوزه:** پایان‌نامه IMC / فصل چهارم | **منشأ محتوا:** اسناد پیش از تجمیع در commit `17e91ec99d1b`
 
 ## قرارداد بازتولید داده، اجرای آزمایش و ساختار پرونده‌ها — ممیزی تکمیلی ۲۰۲۶-۱۱-۱۵
 
@@ -16,9 +16,9 @@
 
 **از ورودی ذخیره تا خروجی:**
 ```bash
-python code/experiments/walk_depth_effect/analyze.py
-python code/experiments/walk_depth_effect/verify.py
-python -m unittest discover -s code/experiments/walk_depth_effect -p 'test_*.py' -v
+python code/experiments/true-horizon-effect/analyze.py
+python code/experiments/true-horizon-effect/verify.py
+python -m unittest discover -s code/experiments/true-horizon-effect -p 'test_*.py' -v
 ```
 `analyze.py` پیش‌فرض dry-run است؛ `--execute` فایل تولید می‌کند و برای **بازسازی روی checkout جدا/مسیر پاک مستقل** طراحی شده، نه جایگزینی نتیجهٔ پذیرفته‌شده. `verify.py` خروجی‌های موجود و صحت منشأ، ضرایب، کدهای تصمیم و سنجه‌ها را بدون گشت جدید بررسی می‌کند.
 
@@ -241,9 +241,9 @@ python -m unittest discover -s code/experiments/walk_depth_effect -p 'test_*.py'
 از ریشه مخزن:
 
 ```bash
-python -m unittest discover -s code/experiments/walk_depth_effect -p 'test_*.py' -v
-python code/experiments/walk_depth_effect/verify.py
-python code/experiments/walk_depth_effect/analyze.py
+python -m unittest discover -s code/experiments/true-horizon-effect -p 'test_*.py' -v
+python code/experiments/true-horizon-effect/verify.py
+python code/experiments/true-horizon-effect/analyze.py
 ```
 
 `analyze.py` بدون `--execute` فقط برنامه را نشان می‌دهد. محاسبه نتایج صرفاً یک بار با `--execute` و فقط وقتی فایل نتیجه موجود نباشد مجاز است؛ هیچ آموزش، مونت‌کارلو، بازگشت به موتور گشت، بازتولید داده یا Test صورت نمی‌گیرد. خروجی‌های علمی پس از اجرا در `results/`، جدول‌ها و شکل‌ها در `tables/` و `figures/` و شرح در `REPORT_FA.md` ثبت می‌شوند.
@@ -263,15 +263,15 @@ python code/experiments/walk_depth_effect/analyze.py
 
 ### گزارش کامل حاشیه تصمیم
 
-حاشیهٔ علامت‌دار، چندک‌های ۰، ۱۰، ۲۵، ۵۰، ۷۵، ۹۰ و ۱۰۰ درصد، میانگین متوازن هر کلاس، زیان سیگموئیدی متوازن، نرخ و شمار حاشیه‌های غیرمثبت و tie برای **۲۴ ترکیب سیاست/عمق/Train یا Validation** از خروجی ثبت‌شدهٔ گزارشگر مشترک استخراج می‌شود. داده اصلی دوباره تولید نشده است. فایل‌های [margin_summary.json](results/margin_summary.json)، [margin_summary.csv](results/margin_summary.csv)، جدول `tables/margin_by_H.tex` و نمودارهای Train و Validation در `figures/` مبنای گزارش هستند. برای بازسازی فقط جدول و گزارش حاشیه، دستور `python code/experiments/walk_depth_effect/margin_presentation.py` کافی است.
+حاشیهٔ علامت‌دار، چندک‌های ۰، ۱۰، ۲۵، ۵۰، ۷۵، ۹۰ و ۱۰۰ درصد، میانگین متوازن هر کلاس، زیان سیگموئیدی متوازن، نرخ و شمار حاشیه‌های غیرمثبت و tie برای **۲۴ ترکیب سیاست/عمق/Train یا Validation** از خروجی ثبت‌شدهٔ گزارشگر مشترک استخراج می‌شود. داده اصلی دوباره تولید نشده است. فایل‌های [margin_summary.json](results/margin_summary.json)، [margin_summary.csv](results/margin_summary.csv)، جدول `tables/margin_by_H.tex` و نمودارهای Train و Validation در `figures/` مبنای گزارش هستند. برای بازسازی فقط جدول و گزارش حاشیه، دستور `python code/experiments/true-horizon-effect/margin_presentation.py` کافی است.
 
 ### حاشیهٔ مخصوص نمونه‌های خطا
 
-تکمیل پسینی E09 با استخراج **میانگین حاشیهٔ نمونه‌های اشتباه‌طبقه‌بندی‌شده** و مقایسه آن با میانگین نمونه‌های درست در همه ۲۴ حالت سیاست/عمق/Train یا Validation صورت گرفت. فایل `results/margin_analysis.json` شامل تعداد خطا، شدت میانگین حاشیه منفی، خلاصه توزیع، آمار هر کلاس و میانگین متوازن فقط روی کلاس‌های دارای خطاست. مقدار شرطی برای کلاس بدون خطا `null` است. فایل `results/margin_analysis.csv` و جدول چاپی `tables/error_margins_by_depth.tex` نیز ساخته می‌شوند. بازتولید فقط از داده نمونه‌ای ثبت‌شده است: `python code/experiments/walk_depth_effect/margins.py --verify`؛ **بدون بازاجرای گشت یا Test**.
+تکمیل پسینی E09 با استخراج **میانگین حاشیهٔ نمونه‌های اشتباه‌طبقه‌بندی‌شده** و مقایسه آن با میانگین نمونه‌های درست در همه ۲۴ حالت سیاست/عمق/Train یا Validation صورت گرفت. فایل `results/margin_analysis.json` شامل تعداد خطا، شدت میانگین حاشیه منفی، خلاصه توزیع، آمار هر کلاس و میانگین متوازن فقط روی کلاس‌های دارای خطاست. مقدار شرطی برای کلاس بدون خطا `null` است. فایل `results/margin_analysis.csv` و جدول چاپی `tables/error_margins_by_depth.tex` نیز ساخته می‌شوند. بازتولید فقط از داده نمونه‌ای ثبت‌شده است: `python code/experiments/true-horizon-effect/margins.py --verify`؛ **بدون بازاجرای گشت یا Test**.
 
 ### نخستین چندک بالاتر از نرخ خطای مشاهده‌شده
 
-تحلیل مکمل از `results/margin_summary.json` (چندک‌های همان گزارشگر مشترک) و `results/margin_analysis.json` (شمار خطاها و مرز حاشیه) استفاده می‌کند. اگر `e = n_errors/n` باشد، نخستین چندک در شبکهٔ ثابت `0%,10%,25%,50%,75%,90%,100%` با مرتبه **اکیداً بزرگ‌تر** از `e` گزارش می‌شود؛ این `e` نرخ خطای نمونه‌ای است و نباید با `1−BA` جایگزین شود. نخستین حاشیهٔ مثبت و آخرین حاشیهٔ منفی به‌عنوان مرز واقعی داده‌ها جدا ثبت می‌شوند. فایل‌ها: [نتیجه کامل](results/error_quantile_boundary.json)، [خلاصه CSV](results/error_quantile_boundary.csv)، `tables/error_quantile_boundary.tex`. کنترل تکرارپذیر: `python code/experiments/walk_depth_effect/quantile_boundary.py --verify`؛ بدون اجرای جدید گشت.
+تحلیل مکمل از `results/margin_summary.json` (چندک‌های همان گزارشگر مشترک) و `results/margin_analysis.json` (شمار خطاها و مرز حاشیه) استفاده می‌کند. اگر `e = n_errors/n` باشد، نخستین چندک در شبکهٔ ثابت `0%,10%,25%,50%,75%,90%,100%` با مرتبه **اکیداً بزرگ‌تر** از `e` گزارش می‌شود؛ این `e` نرخ خطای نمونه‌ای است و نباید با `1−BA` جایگزین شود. نخستین حاشیهٔ مثبت و آخرین حاشیهٔ منفی به‌عنوان مرز واقعی داده‌ها جدا ثبت می‌شوند. فایل‌ها: [نتیجه کامل](results/error_quantile_boundary.json)، [خلاصه CSV](results/error_quantile_boundary.csv)، `tables/error_quantile_boundary.tex`. کنترل تکرارپذیر: `python code/experiments/true-horizon-effect/quantile_boundary.py --verify`؛ بدون اجرای جدید گشت.
 
 
 ## نقشهٔ دقیق فایل‌ها و نقش هرکدام
@@ -350,7 +350,7 @@ python code/experiments/walk_depth_effect/analyze.py
 
 ## سیاست حفظ تاریخچه و پیوندهای قدیمی
 
-فایل‌های Markdown پیشین (`REPORT_FA.md`) پس از تجمیع از checkout فعال حذف می‌شوند؛ متن آن‌ها با شرح منشأ در همین سند آمده و Git blob اصلی در commit [`17e91ec99d1b`](https://github.com/mahhammad/My-Thesis/tree/17e91ec99d1bf082ef87e658d0643137b1e7b6fe/code/experiments/walk_depth_effect/) قابل بازیابی است. ارجاعات تاریخی کامنت‌های Issue اصلاح‌پذیر نیستند و باید با نسخهٔ قفل‌شدهٔ Git تفسیر شوند.
+فایل‌های Markdown پیشین (`REPORT_FA.md`) پس از تجمیع از checkout فعال حذف می‌شوند؛ متن آن‌ها با شرح منشأ در همین سند آمده و Git blob اصلی در commit [`17e91ec99d1b`](https://github.com/mahhammad/My-Thesis/tree/17e91ec99d1bf082ef87e658d0643137b1e7b6fe/code/experiments/true-horizon-effect/) قابل بازیابی است. ارجاعات تاریخی کامنت‌های Issue اصلاح‌پذیر نیستند و باید با نسخهٔ قفل‌شدهٔ Git تفسیر شوند.
 
 
 ---
@@ -359,8 +359,8 @@ python code/experiments/walk_depth_effect/analyze.py
 
 **قرارداد مسئله:** آزمایش اثر تغییر واقعی سقف گشت در Hهای ۱،۲،۳،۴،۸،۱۲ و دو سیاست ثابت Uniform و trained_shared. این کار **کوتاه‌سازی پسینی یک گشت H=12 نیست**؛ احتمال طول و ضرایب هر H دوباره نرمال می‌شوند. داده و سیاست‌های مرجع از §۴.۴ و §۴.۹ و آرشیو ۷۶ اجرای §۴.۱۲ هستند، نه آموزش جدید.
 
-**منبع و فرمان:** [`analyze.py`](analyze.py) فقط از snapshotهای ذخیره‌شده `../exact_matrix_walk_validation/results/`، معیارهای `../uniform-hyperparameter-sensitivity/results/`، بازنمایی مبنای `../center-target-observation/results/` و ZIP رسمی `../standard_policy_comparison/results/core_50_16runs.zip` استفاده می‌کند. `python code/experiments/walk_depth_effect/analyze.py` حالت برنامه‌ریزی/dry-run است؛ `--execute` برای تولید نتیجهٔ اولیه و دارای نوشتن فایل است. این حالت در ممیزی فعلی اجرا نشده است.
+**منبع و فرمان:** [`analyze.py`](analyze.py) فقط از snapshotهای ذخیره‌شده `../exact_matrix_walk_validation/results/`، معیارهای `../uniform-hyperparameter-sensitivity/results/`، بازنمایی مبنای `../center-target-observation/results/` و ZIP رسمی `../standard_policy_comparison/results/core_50_16runs.zip` استفاده می‌کند. `python code/experiments/true-horizon-effect/analyze.py` حالت برنامه‌ریزی/dry-run است؛ `--execute` برای تولید نتیجهٔ اولیه و دارای نوشتن فایل است. این حالت در ممیزی فعلی اجرا نشده است.
 
 **مقصدها:** [`results/coefficients.json`](results/coefficients.json) ضرایب طول/وزن واقعی، [`results/metrics_full.json`](results/metrics_full.json) ۱۲ تنظیم و دو split، [`results/comparisons.json`](results/comparisons.json) تطبیق E04/E08، `results/margin_summary.json` و `results/error_quantile_boundary.json` تحلیل حاشیه، [`results/provenance.json`](results/provenance.json) و [`results/coverage.json`](results/coverage.json) زنجیرهٔ ارزیابی و وضعیت سنجه‌ها را نگه می‌دارند. شکل‌ها/جدول‌ها در `figures/` و `tables/` هستند.
 
-**کنترل فقط‌خواندنی:** `python code/experiments/walk_depth_effect/verify.py`؛ بر شواهد ذخیره‌شده کار می‌کند، نه بازتولید گشت. `README_FA.md` گزارش پایدار است و هر خروجی مشتق تازه باید فایل متمایزی داشته باشد.
+**کنترل فقط‌خواندنی:** `python code/experiments/true-horizon-effect/verify.py`؛ بر شواهد ذخیره‌شده کار می‌کند، نه بازتولید گشت. `README_FA.md` گزارش پایدار است و هر خروجی مشتق تازه باید فایل متمایزی داشته باشد.

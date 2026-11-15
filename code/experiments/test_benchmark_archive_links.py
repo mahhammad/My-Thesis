@@ -30,7 +30,7 @@ CONSUMERS = (
     "exact_matrix_walk_validation/run.py",
     "sigmoid-margin-evaluation/replay_benchmark_size.py",
     "sigmoid-margin-evaluation/test_benchmark_300.py",
-    "walk_depth_effect/analyze.py",
+    "true-horizon-effect/analyze.py",
     "test_chapter4_presentation.py",
     "benchmark_v1/backfill_saved_scores.py",
     "standard_policy_comparison/r03_center_recovery/center_only_rebuild.py",
