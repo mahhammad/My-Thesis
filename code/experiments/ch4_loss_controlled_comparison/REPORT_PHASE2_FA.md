@@ -4,7 +4,7 @@
 **مأموریت:** [Issue #81](https://github.com/mahhammad/My-Thesis/issues/81)؛ **اجرای اصلی:** [Actions #43670524935](https://github.com/mahhammad/My-Thesis/actions/runs/43670524935) (SUCCESS، یک‌بار).  
 **SHA موتور آموزش قفل‌شده:** `cdb45644c245e04a276eb2a419e4d64f71c6c18a`.  
 **منبع خام نهایی:** [`results/phase2_300_25/`](results/phase2_300_25/) و [GitHub artifact #14144445918](https://github.com/mahhammad/My-Thesis/actions/runs/43670524935/artifacts/14144445918).  
-**عدم دسترسی به Test:** تأییدشده از قرارداد اجرا و provenance؛ متن نهایی پایان‌نامه (`tex/`) دست‌نخورده است و PR #79 همچنان Draft است.
+**عدم دسترسی به Test:** تأییدشده از قرارداد اجرا و provenance. با مجوز جدید مالک، زیربخش علمی E-CH4-13 همراه با جدول‌ها و شکل‌های برداری به `tex/chapter4.tex` افزوده شده است؛ PR #79 همچنان Draft و متن در انتظار ممیزی مستقل است.
 
 ## ۱. پرسش، فرضیه و محدودیت
 
@@ -248,7 +248,7 @@
 
 **بازتولید شکل ۱۱، بدون آموزش و بدون Test:** [\`phase2_figure11_y70_100.py\`](phase2_figure11_y70_100.py) از فایل‌های SHA-تأییدشدهٔ \`trace.json\` محاسبه می‌کند. نسخه‌های اصلی v2 بدون تغییر باقی مانده‌اند.
 
-**یادداشت بازتولید شکل‌ها:** شکل‌های ۱ تا ۸ از [کد تولید بازطراحی v3](phase2_figures_1_8_v3.py) و [مانیفست هش v3](derived/phase2_figures_1_8_v3_manifest.json) استفاده می‌کنند؛ **شکل‌های ۹ تا ۱۱ همان SVG نسخهٔ v2 و بدون تغییر** هستند. کد تولید اصلی این سه شکل در [اسکریپت v2](phase2_derived_reproduce_v2.py) قرار دارد. دادهٔ شش جفت در [`plot_pairs.csv`](derived/phase2_qa_fixes_v2/plot_pairs.csv)، دادهٔ ۱۰۴ نقطه روند در [`plot_trajectories.csv`](derived/phase2_qa_fixes_v2/plot_trajectories.csv)، کد تولید در [`phase2_derived_reproduce_v2.py`](phase2_derived_reproduce_v2.py) و SHA256 شکل‌ها در [`plot_figure_manifest.json`](derived/phase2_qa_fixes_v2/plot_figure_manifest.json) قرار دارند. همهٔ شکل‌ها توصیفی‌اند، از Train/Validation به دست آمده‌اند و **هیچ دادهٔ Test** ندارند. چنانچه پیش‌نمایش SVG در GitHub نمایش داده نشود، پیوند «مشاهده فایل مستقل SVG» زیر هر شکل مسیر جایگزین است.
+**یادداشت بازتولید شکل‌ها:** شکل‌های ۱ تا ۸ از [کد تولید بازطراحی v3](phase2_figures_1_8_v3.py) و [مانیفست هش v3](derived/phase2_figures_1_8_v3_manifest.json) استفاده می‌کنند؛ **شکل‌های ۹ و ۱۰ همان SVG نسخهٔ v2 و بدون تغییر** هستند و شکل ۱۱ با [منبع مستقل اصلاح بازه ۷۰ تا ۱۰۰](phase2_figure11_y70_100.py) تولید شده است. یازده PDF برداری همگی در [پوشه شکل‌های آماده LaTeX](figures/phase2_tex/) قرار دارند. کد تولید اصلی این سه شکل در [اسکریپت v2](phase2_derived_reproduce_v2.py) قرار دارد. دادهٔ شش جفت در [`plot_pairs.csv`](derived/phase2_qa_fixes_v2/plot_pairs.csv)، دادهٔ ۱۰۴ نقطه روند در [`plot_trajectories.csv`](derived/phase2_qa_fixes_v2/plot_trajectories.csv)، کد تولید در [`phase2_derived_reproduce_v2.py`](phase2_derived_reproduce_v2.py) و SHA256 شکل‌ها در [`plot_figure_manifest.json`](derived/phase2_qa_fixes_v2/plot_figure_manifest.json) قرار دارند. همهٔ شکل‌ها توصیفی‌اند، از Train/Validation به دست آمده‌اند و **هیچ دادهٔ Test** ندارند. چنانچه پیش‌نمایش SVG در GitHub نمایش داده نشود، پیوند «مشاهده فایل مستقل SVG» زیر هر شکل مسیر جایگزین است.
 
 
 ### ۵.۱.۳. تفسیر و موارد پرسش از ممیز
@@ -289,11 +289,11 @@ python -m unittest discover -v -s code/experiments/ch4_loss_controlled_compariso
 
 ### P3 — دامنه استنباط و مرز انتشار
 
-داده‌های ۱۲ fit با SHA آموزش `cdb45644c245e04a276eb2a419e4d64f71c6c18a` همچنان ثابت هستند؛ commitهای بعدی صرفاً گزارش و مشتقات را ثبت کرده‌اند. ادعای علمی مجاز محدود به جهت تفاوت‌های توصیفی روی **سه seed مستقل** و دو خانواده سیاست است. `R↓` یا `I↑` یا margin↑ شرط کافی برای `BA↑` نیست. اختلاف مقیاس گرادیان دو زیان، افق محدود `H=12` و نبود ارزیابی Test مانع رتبه‌بندی عمومی می‌شود. **تا رأی مجدد ممیز، PR #79 Draft می‌ماند و نگارش LaTeX یا اجرای مدل جدید مجاز نیست.**
+داده‌های ۱۲ fit با SHA آموزش `cdb45644c245e04a276eb2a419e4d64f71c6c18a` همچنان ثابت هستند؛ commitهای بعدی صرفاً گزارش و مشتقات را ثبت کرده‌اند. ادعای علمی مجاز محدود به جهت تفاوت‌های توصیفی روی **سه seed مستقل** و دو خانواده سیاست است. `R↓` یا `I↑` یا margin↑ شرط کافی برای `BA↑` نیست. اختلاف مقیاس گرادیان دو زیان، افق محدود `H=12` و نبود ارزیابی Test مانع رتبه‌بندی عمومی می‌شود. **با دستور جدید مالک، نگارش محدود E-CH4-13 در LaTeX انجام شده است؛ تا رأی مجدد ممیز، PR #79 Draft می‌ماند و اجرای مدل جدید یا ادغام نتایج مجاز نیست.**
 
 
 ## ۶. جمع‌بندی و گیت انتشار
 
-مقایسهٔ دوازده‌تایی با حفظ پروتکل پایان یافته و شواهد نشان می‌دهند ارتباط `R`، `I`، حاشیه و BA حساس به مولد و خانواده سیاست است. این یافته برای فصل چهارم مهم است ولی با سه مولد مصنوعی و بدون داده Test **نتیجه نهایی درباره تعمیم** یا انتخاب تابع زیان برتر نیست. درخواست از ممیز مستقل در [Issue #80](https://github.com/mahhammad/My-Thesis/issues/80): بازبینی شواهد بایتی، اندازه‌گیری metric coverage و هماهنگی برچسب‌های `per_class_recall`، صحت losses و engine، عدم نشت Validation/Test، اعداد raw-derived و اعتبار استنباط. فقط پس از رأی ممیزی و دستور مدیر، نگارش `tex/chapter4.tex` مجاز است.
+مقایسهٔ دوازده‌تایی با حفظ پروتکل پایان یافته و شواهد نشان می‌دهند ارتباط `R`، `I`، حاشیه و BA حساس به مولد و خانواده سیاست است. این یافته برای فصل چهارم مهم است ولی با سه مولد مصنوعی و بدون داده Test **نتیجه نهایی درباره تعمیم** یا انتخاب تابع زیان برتر نیست. درخواست از ممیز مستقل در [Issue #80](https://github.com/mahhammad/My-Thesis/issues/80): بازبینی شواهد بایتی، اندازه‌گیری metric coverage و هماهنگی برچسب‌های `per_class_recall`، صحت losses و engine، عدم نشت Validation/Test، اعداد raw-derived و اعتبار استنباط. متن E-CH4-13 با دستور جدید مالک به `tex/chapter4.tex` افزوده شده است؛ پذیرش علمی و ادغام PR #79 همچنان منوط به ممیزی مستقل و تصمیم مدیر پژوهش است.
 
 **وضعیت:** `PHASE2_READY_FOR_INDEPENDENT_QA`؛ نه `ACCEPT_SCIENTIFIC`. PR #79 نباید ادغام شود و Test همچنان `NOT_RUN` است.
