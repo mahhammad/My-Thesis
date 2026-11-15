@@ -72,8 +72,17 @@ jobs:
           for label,page in labels:seen[label]=int(page)
           assert len(seen)==11,(seen,aux)
           original=fitz.open(folder/"main.pdf")
-          pages=sorted(set(v-1 for v in seen.values()))
+          # LaTeX aux stores PRINTED page numbers, not physical PDF page indices.
+          # Anchor at the uniquely identifiable E13 reproducibility-folder paragraph.
+          anchor=[i+1 for i in range(len(original))
+                  if "ch4_loss_controlled_comparison/" in original[i].get_text()]
+          assert len(anchor)==1,("Cannot locate unique E13 end-of-section physical PDF page",anchor)
+          offset=anchor[0]-max(seen.values())
+          assert offset>=0,("Unexpected printed-to-physical page offset",offset)
+          pages=sorted(set(v+offset-1 for v in seen.values()))
           assert pages and all(0<=p<len(original) for p in pages),seen
+          assert min(pages)>=anchor[0]-12,("Figure pages are outside E13 vicinity",pages,anchor)
+          print("E13_CORRECT_PHYSICAL_PDF_PAGE_OFFSET",offset,"physical",[p+1 for p in pages])
           sub=fitz.open()
           images=[]
           for pg in pages:
@@ -92,7 +101,7 @@ jobs:
               contact.paste(t,(x+5,y+28))
           contact.save(folder/"E13_Persian_contact_sheet.png")
           (folder/"e13_pdf_page_index.txt").write_text(
-             "\n".join(f"{k}: PDF page {v}" for k,v in sorted(seen.items()))+"\n",encoding="utf-8")
+             "\n".join(f"{k}: printed {v}, physical PDF page {v+offset}" for k,v in sorted(seen.items()))+"\n",encoding="utf-8")
           print("E13_11_FIGURES_ALL_IN_COMPILED_THESIS_PDF",seen,"pages",pages)
           PY
       - name: Deliver complete compiled thesis and localized figure-page visual evidence
