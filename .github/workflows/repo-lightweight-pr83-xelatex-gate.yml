@@ -5,6 +5,7 @@ on:
     paths:
       - 'main.tex'
       - 'tex/**'
+      - 'img/**'
       - 'code/experiments/objective-start-diagnostics/figures/**'
       - '.github/workflows/repo-lightweight-pr83-xelatex-gate.yml'
   workflow_dispatch:
