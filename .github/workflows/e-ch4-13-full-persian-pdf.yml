@@ -77,8 +77,17 @@ jobs:
           anchor=[i+1 for i in range(len(original))
                   if "ch4_loss_controlled_comparison/" in original[i].get_text()]
           assert len(anchor)==1,("Cannot locate unique E13 end-of-section physical PDF page",anchor)
-          offset=anchor[0]-max(seen.values())
-          assert offset>=0,("Unexpected printed-to-physical page offset",offset)
+          # Read the physical anchor page's Persian PRINTED page number
+          # from the bottom footer; it may be one page AFTER the last figure.
+          import unicodedata
+          footer=[]
+          for block in original[anchor[0]-1].get_text("blocks"):
+              box,word=block[:4],block[4].strip()
+              if box[1]>original[anchor[0]-1].rect.height-110 and word and all(ch.isdecimal() for ch in word):
+                  footer.append(int("".join(str(unicodedata.digit(ch)) for ch in word)))
+          assert len(footer)==1,("Cannot independently identify E13 printed footer",footer)
+          offset=anchor[0]-footer[0]
+          assert offset>=0 and max(seen.values())<=footer[0],("Unexpected printed-to-physical offset",offset,footer)
           pages=sorted(set(v+offset-1 for v in seen.values()))
           assert pages and all(0<=p<len(original) for p in pages),seen
           assert min(pages)>=anchor[0]-12,("Figure pages are outside E13 vicinity",pages,anchor)
