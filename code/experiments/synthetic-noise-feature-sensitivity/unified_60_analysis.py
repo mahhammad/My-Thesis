@@ -17,6 +17,7 @@ from continuation_analysis import audit,require,read_json,sha
 from resume_30_60 import read_frozen_dataset
 from e14_metrics import report_graph
 from runner import ExactMaskedWalk,BETA,LAMBDA,H
+from gradient_empirical import derive as empirical_gradient_diagnostics, empirical_envelope, gradient_series, self_test as empirical_gradient_self_test
 
 HERE=pathlib.Path(__file__).resolve().parent
 TABLE=HERE/"tables"
@@ -274,6 +275,17 @@ def figures(traces,per,groups,paired):
                 ax.plot(np.arange(61),lower,color=COLORS[2],lw=1.0,ls=":",
                         label="k=2 exp lower")
                 ax.legend(ncol=4,fontsize=6)
+            if key=="gradient_l2":
+                # The envelopes are empirical through actual observed extrema;
+                # unlike the separate BA analysis, no exponential form is imposed.
+                series=gradient_series(traces,family,2)
+                avg=np.mean([values for _,values in series],axis=0)
+                env=empirical_envelope(avg)
+                ax.plot(np.arange(61),env["upper"],color="#a16207",
+                        ls="--",lw=1.1,label="k=2 empirical upper")
+                ax.plot(np.arange(61),env["lower"],color="#0e7490",
+                        ls="--",lw=1.1,label="k=2 empirical lower")
+                ax.legend(loc="upper right",fontsize=6,ncol=2)
             ax.set_ylabel(label)
         axs[0].set_title(f"{family}: single uninterrupted 60-update experiment")
         axs[-1].set_xlabel("Cumulative Adam update (0–60)")
@@ -406,7 +418,9 @@ def figures(traces,per,groups,paired):
             if k==0:ax.legend(fontsize=7)
         fig.suptitle(f"{family}: tightly covering exponential BA envelopes (observed 0–60)")
         outs[f"32_full_60_BA_exponential_envelopes_{family}.svg"]=figure(fig)
-    return outs,envelope_rows
+    grad_figures,grad_groups,grad_runs,grad_peaks=empirical_gradient_diagnostics(traces)
+    outs.update(grad_figures)
+    return outs,envelope_rows,grad_groups,grad_runs,grad_peaks
 
 def build():
     _,traces,_,_,count=audit()
@@ -414,7 +428,8 @@ def build():
             "Ledger incorrect")
     reports=load_step60_reports(traces)
     individual,group,paired=assemble(traces,reports)
-    fig,envelope_rows=figures(traces,individual,group,paired)
+    require(empirical_gradient_self_test(),"Gradient empirical envelope self-test failed")
+    fig,envelope_rows,grad_groups,grad_runs,grad_peaks=figures(traces,individual,group,paired)
     summary={"schema":"e-ch4-14-single-60-update-v1","total_updates":2160,
         "updates_per_fit":60,"fits":36,"split_used":["train","validation"],
         "test_accessed":False,"single_experiment":True,
@@ -437,7 +452,17 @@ def build():
             "rate_grid":{"start":0.0,"stop":0.20,"count":801},
             "limits":"retrospective descriptive coverage, not a future or statistical bound",
             "rows":envelope_rows}),
-        TABLE/"final_60_canonical_reports.json":b(reports)}
+        TABLE/"final_60_canonical_reports.json":b(reports),
+        TABLE/"gradient_empirical_envelopes_60.json":b({
+            "schema":"e-ch4-14-gradient-empirical-envelope-v1",
+            "purpose":"Data-driven local-peak and local-trough enclosures of mean Gradient L2",
+            "model":"Piecewise linear interpolation between observed extrema, adding violating observations",
+            "imposed_exponential":False,
+            "oscillation_amplitude":"individual peak minus average of adjacent troughs",
+            "candidate_rates":"exploratory log-linear exponential and power-law comparisons; no convergence proof",
+            "groups":grad_groups}),
+        TABLE/"gradient_peak_decay_by_run_60.csv":csv_data(grad_runs),
+        TABLE/"gradient_peak_amplitudes_60.csv":csv_data(grad_peaks)}
     for name,blob in fig.items():outputs[FIG/name]=blob
     return outputs,summary
 
