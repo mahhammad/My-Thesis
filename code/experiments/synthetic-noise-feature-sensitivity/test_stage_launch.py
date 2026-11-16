@@ -118,7 +118,11 @@ class PushGateTests(unittest.TestCase):
         self.assertEqual(len(parents),2,"CI must fetch enough history to know parent")
         self.assertEqual(head,os.environ["GITHUB_SHA"])
         self.assertEqual(event.get("after"),head)
-        self.assertEqual(event.get("before"),parents[1])
+        # Ordinary code pushes may batch >1 commit; only research requests
+        # must be exactly one commit, checked by validate_request().
+        self.assertRegex(event.get("before",""),r"^[0-9a-f]{40}$")
+        if len(event.get("commits",[])) == 1:
+            self.assertEqual(event.get("before"),parents[1])
         self.assertEqual(event.get("head_commit",{}).get("id"),head)
         self.assertNotIn("added",event.get("head_commit",{}))
         self.assertNotIn("modified",event.get("head_commit",{}))
