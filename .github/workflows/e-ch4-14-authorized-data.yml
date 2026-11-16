@@ -7,6 +7,7 @@ on:
     branches: [experiment/ch4-14-noise-sensitivity-01]
     paths:
       - 'code/experiments/synthetic-noise-feature-sensitivity/requests/raw_noise.json'
+      - 'code/experiments/synthetic-noise-feature-sensitivity/requests/raw_noise_recovery_01.json'
       - 'code/experiments/synthetic-noise-feature-sensitivity/requests/noise_masks.json'
       - 'code/experiments/synthetic-noise-feature-sensitivity/requests/derived.json'
   workflow_dispatch:
@@ -74,6 +75,7 @@ jobs:
           E_CH4_14_DATA_AUTHORIZED: 'true'
           E14_PUSH_REQUEST_VERIFIED: ${{ steps.request.outputs.push_verified }}
           E14_REQUEST_APPROVED_CODE_SHA: ${{ steps.request.outputs.approved_code_sha }}
+          E14_REQUEST_RECOVERY: ${{ steps.request.outputs.recovery_request }}
           E14_STAGE: ${{ steps.request.outputs.stage }}
         shell: bash
         run: |
