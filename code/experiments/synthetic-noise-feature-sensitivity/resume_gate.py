@@ -139,6 +139,10 @@ def check_frozen_git():
         # Continution has a distinct output directory; at preflight none may exist.
         diff=git("diff","--name-only",FROZEN,"HEAD","--",base)
         expect(not diff,"Frozen original inputs/results differ from historical SHA")
+        working=git("diff","--name-only","--",base)
+        expect(not working,"Uncommitted frozen Train/Validation/results modifications")
+        untracked=git("ls-files","--others","--exclude-standard","--",base)
+        expect(not untracked,"Untracked files detected under frozen evidence")
     expect(not (HERE/"results/continuation_30_60").exists(),"Continuation already recorded")
     return True
 
@@ -166,6 +170,17 @@ def check_reviews(*,request,head,approved):
     secret=os.environ.get("E14_RESUME_TOKEN")
     expect(secret and len(secret)>=24,"Independent resume-only secret missing")
     token_hash=hashlib.sha256(secret.encode("utf8")).hexdigest()
+    # The new key MUST NOT be a renamed prior stage credential. Prior hashes
+    # are sha256("<stage>:<token>") as registered in owner Issue #90.
+    old_hashes={
+       "raw_noise":"229f33578e31e8516b9123e44d3c8245d3bec2b5b3ade7c9555d54ab002fb74b",
+       "noise_masks":"faab09bb6c57b4e9adefbf94a62e429cd1cb5a13cd41081922466db4c9b7f8db",
+       "derived":"48dec9fb488c41bcc30b0d541c16cd036c3b8efd7829f5e3c358c044978e6b4b",
+       "fit":"039b764ed3db429d767597fe5dd6f7cdbfe7f8de5c146f7a0c9d913559396e0c",
+    }
+    for stage,digest in old_hashes.items():
+        expect(hashlib.sha256((stage+":"+secret).encode()).hexdigest()!=digest,
+               "Old spent research secret cannot authorize continuation")
     compare_approvals(owner,qa,code_sha=approved,ci_run_id=owner["ci_run_id"],
                       checkpoint_sha=checkpoint_sha,token_digest=token_hash)
     # The new secret must not reuse the earlier fit secret: separate workflow key

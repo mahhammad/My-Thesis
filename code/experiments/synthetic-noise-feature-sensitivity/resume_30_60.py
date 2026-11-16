@@ -5,7 +5,7 @@ Execute requires a separately reserved online-authorized one-time continuation c
 No code in this module touches a Test split. Original steps 0..30 remain immutable.
 """
 from __future__ import annotations
-import argparse, csv, hashlib, io, json, os, pathlib, sys, time
+import argparse, csv, hashlib, io, json, os, pathlib, subprocess, sys, time
 from datetime import datetime, timezone
 import numpy as np
 import torch
@@ -77,6 +77,15 @@ def restore_state(run_id,row,prov,trace_path):
     src=HERE/"results/checkpoints"/run_id/"step_30.pt"
     expected=src.with_suffix(".pt.sha256").read_text().strip()
     require(len(expected)==64,"Frozen checkpoint SHA malformed")
+    # Git anchors bytes to the immutable 0..30 publication, not merely to
+    # a sidecar which an attacker could replace alongside the binary.
+    for target in (src,src.with_suffix(".pt.sha256")):
+        path=target.relative_to(HERE.parents[2]).as_posix()
+        historic=subprocess.check_output(["git","rev-parse",FROZEN_BASE+":"+path],
+                    cwd=HERE.parents[2],text=True).strip()
+        current=subprocess.check_output(["git","hash-object",str(target)],
+                    cwd=HERE.parents[2],text=True).strip()
+        require(current==historic,"Original checkpoint git blob changed: "+path)
     payload=load_checkpoint(src,expected_sha256=expected)
     verify_metadata(payload,row,payload["metadata"],run_id,src,trace_path,prov["source_sha"])
     fam=run_id.split("__")[1]; d=row["d"]
@@ -117,7 +126,24 @@ def snapshot(graph,validation_y,z,optimizer,run_id,step,feature_mapping,*,update
     policies=[("shared",matrix)] if matrix.ndim==2 else [(str(i),matrix[i]) for i in range(3)]
     by_class={}
     for name,sub in policies:
-        by_class[name]=policy3(sub,feature_mapping)
+        metrics=policy3(sub,feature_mapping)
+        # Probability of selecting noise AGAIN at selection 2, conditional
+        # on the initial selection having been noise; p0-weighted.
+        d=len(feature_mapping)
+        n=np.array([i for i,x in enumerate(feature_mapping) if x not in (0,1,3)],dtype=int)
+        z_np=np.asarray(sub,dtype=np.float64)
+        soft=np.exp(z_np-z_np.max(axis=1,keepdims=True))
+        soft=soft/soft.sum(axis=1,keepdims=True)
+        p0=soft[d,:];P=soft[:d,:]
+        q1=float(p0[n].sum())
+        metrics["p_N_to_N_given_start_N"]=(float(
+             p0[n]@P[np.ix_(n,n)]@np.ones(len(n))/q1)
+             if q1>0 else None)
+        metrics["p0_noise_per_feature"]=(q1/len(n) if len(n) else None)
+        metrics["p0_informative_per_feature"]=metrics["p0_informative"]/3
+        metrics["delta_p0_noise_from_uniform"]=q1-(len(n)/d)
+        metrics["delta_p0_informative_from_uniform"]=metrics["p0_informative"]-3/d
+        by_class[name]=metrics
     if matrix.ndim==3:
         by_class["macro"]={k:(sum(c[k] for c in
              (by_class["0"],by_class["1"],by_class["2"]))/3
