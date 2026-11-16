@@ -393,3 +393,51 @@ git diff -- code/experiments/synthetic-noise-feature-sensitivity/tables code/exp
 
 **وضعیت:** `ANALYSIS_ONLY_COMPLETED / PENDING_INDEPENDENT_SCIENTIFIC_AUDIT / NO_FIT / NO_TEST / NO_MAIN_MERGE`.
 
+
+
+## ۱۹. ادامهٔ برنامه‌ریزی‌شدهٔ ۳۰→۶۰ — قرارداد مهندسی و وضعیت مجوز (هنوز اجرا نشده)
+
+**وضعیت این بخش: `RESUME_IMPLEMENTED / PRE-FIT QA AND NEW OWNER AUTHORIZATION PENDING`.** تمام جدول‌ها و نمودارهای بخش‌های ۱ تا ۱۸ مربوط به داده‌های **واقعی ۰ تا ۳۰** هستند و نباید به‌عنوان نتیجهٔ گام ۶۰ تفسیر شوند. تصمیم پژوهشی مالک در [Issue #90](https://github.com/mahhammad/My-Thesis/issues/90#issuecomment-6916696313) فقط اجازهٔ **آماده‌سازی** ادامه را می‌دهد؛ اجرای واقعی نیازمند رأی QA و مصوبهٔ ماشین‌خوان مستقل بر SHA نهایی است.
+
+### هدف و مبنا
+
+همان ۳۶ سیاست آموزش‌دیده در `results/checkpoints/<run_id>/step_30.pt` (با sidecar SHA256 و metadata) به‌صورت ترتیبی و با **همان logits و وضعیت کامل Adam** از گام ۳۰ به گام ۶۰ خواهند رسید. مطابق پروتکل تنها ۳۰ آپدیت افزوده به هر job و در کل ۱۰۸۰ آپدیت جدید مجاز است؛ ۱۰۸۰ آپدیت قبلی در ledger قدیمی محفوظ می‌ماند. سیاست `class` سه تانسور کلاس‌مشروط دارد و تمام سنجه‌ها برای هر کلاس و macro برابر-وزن ثبت می‌شوند. بهینه‌ساز یا تابع هدف دوباره تنظیم یا از صفر شروع نمی‌شود.
+
+پیش از صرف بودجه، [`resume_30_60.py`](resume_30_60.py) باید فایل‌های اصلی Train/Validation، نگاشت ویژگی، همهٔ ۳۶ checkpoint و SHA باینری و Git blob متناظر در کامیت منجمد `7bc66e4d...`، ممان‌های Adam، SHA trace و سنجه‌های بازتولیدشده در گام ۳۰ را کنترل کند. مقایسه BA و Loss و گرادیان و `logits_l2` با trace اصلی انجام می‌شود؛ `q₁..q₃/F₃/E₃/NFI₃` با [جدول سیاست‌های گام ۳۰](tables/nfi3_by_policy.csv) تطبیق داده می‌شوند. تلرانس بازسازی (در floating-point CPU) در کد `compare_step30` تعریف شده است؛ خطا به توقف **پیش از آپدیت ۳۱** می‌انجامد.
+
+### فرمت ثبت پیوسته هر گام
+
+برای **تک‌تک گام‌های تجمعی ۳۰..۶۰**، مسیر جدید `results/continuation_30_60/<run_id>/` پس از اجرای مجاز شامل شواهد زیر خواهد بود:
+
+| فایل جدید پس از اجرای مجاز | نقش و سازوکار ماندگاری |
+|---|---|
+| `trace_30_60.jsonl` | یک رکورد برای هر گام شامل BA/Accuracy هر دو split، train Softplus-JS loss، گرادیان L2/L∞، norm آپدیت Adam، norm logits، شاخص گام و timestamp UTC؛ همچنین برای هر سیاست `F3/E3/NFI3/q1/q2/q3/p0_noise/p0_informative` |
+| `logits_30_60.jsonl` | **خود ماتریس/tensor کامل logits در تمام ۳۱ گام** به صورت آرایه اعداد float64 و SHA256 بایت‌های float64 کم‌ارزش‌اول؛ نوشته‌شده همراه هر گام با `fsync` |
+| `logits_steps30_60.npz` | export نهایی امن با `allow_pickle=False` و آرایه `steps=[30,...,60]` و تانسور `logits` به شکل `(31,d+1,d)` یا `(31,3,d+1,d)`؛ SHA256 فایل در manifest |
+| `step_60.pt` و `step_60.pt.sha256` | checkpoint جدید شامل logits float64، ممان‌های Adam و شمارنده optimizer=60 و زنجیره provenance/مجوز مستقل؛ checkpoint گام ۳۰ هرگز overwrite نمی‌شود |
+| `manifest.json` | SHA و شکل همه خروجی‌های هر job، SHA checkpoint اصلی و نهایی، لینک مصوبه مالک/QA و شناسه budget tag |
+| `resume_budget.jsonl` | دفتر مستقلی شامل `BUDGET_RESERVED`، `START`، ۱۰۸۰ رویداد `UPDATE`، ۳۶ رویداد `SUCCESS` یا `FAIL_STOP`، با flush و fsync |
+
+برای `class` مقدار `nfi3` به تفکیک سه candidate و مقدار `macro` (متوسط برابر‌وزن) است. احتمال `P(N→N | first=N)` با وزن توزیع `p₀` بر ویژگی‌های نویزی اولیه در صورت `k>0` محاسبه می‌شود و برای `k=0` تعریف‌نشده می‌ماند. تغییر جرم احتمال `p₀(N)` و `p₀(J)` نسبت به Uniform، جرم تقسیم‌شده بر تعداد ستون‌های هر نوع، و تغییر قدرمطلق logits/Softmax نیز قابل بازیابی‌اند. **NFI₃ یک زنجیرهٔ سه انتخاب ویژگی بدون ماسک است، نه احتمال واقعی بازدید نویز در گشت نمونه‌ای کامل.**
+
+بعد از ادامه فقط از داده‌های واقعاً ثبت‌شده شکل‌های `F3/E3/NFI3` و `q1/q2/q3`، logits و BA/Loss/Gradient/Update ساخته می‌شوند؛ مقادیر گام‌های ۱..۲۹ برای F3 قابل بازیابی نیست و **نباید interpolate یا جعل شوند**. نمودار پیوسته از ۰ تا ۶۰ تنها برای معیارهایی مجاز است که trace واقعی برای هر دو بازه دارند؛ نقطهٔ ۳۰ باید با منبع قدیم دقیقاً منطبق باشد.
+
+### گیت مستقل و روش ممیزی پیش از مصرف بودجه
+
+- [`resume_gate.py`](resume_gate.py) فقط درخواست تک‌فایلی جدید `requests/resume_30_60.json` با commit مشخص `run(e-ch4-14): request resume_30_60` را مجاز می‌داند. هر تغییر اضافه، force push، چند commit یا انحراف SHA → توقف؛ commit درخواست باید **فرزند مستقیم SHA کدِ دارای CI موفق** باشد.
+- رأی تازهٔ مالک با سرآیند `E14_RESUME_OWNER_APPROVAL_V1` و رأی تازهٔ ممیز با `E14_RESUME_QA_APPROVAL_V1`، هر دو در Issue #90 و حاوی **یک SHA کد، fingerprint مجموعه ۳۶ checkpoint، هش Secret مخصوص resume، شناسه CI، بودجه ۱۰۸۰، مرحله `resume_only` و Git tag مجزا** باشند. Secret قدیمی fit قابل استفاده مجدد نیست. این متن README **تأیید یا رأی QA نیست**.
+- شناسه budget فقط `refs/tags/e-ch4-14-resume-30-60-budget-spent` است؛ وجود این tag از قبل یعنی **NO RETRY**، حتی اگر اجرای قبلی شکست خورده باشد. [Workflow مخصوص ادامه](../../../.github/workflows/e-ch4-14-authorized-resume-30-60.yml) به‌صورت push-trigger روی فایل درخواست و فقط روی همان شاخه تعریف شده است، نه روی main.
+- [`resume_watchdog.py`](resume_watchdog.py) بعد از رزرو سقف مجموع ۳۰۰ دقیقه، هر job حداکثر ۲۰ دقیقه و مجموع RSS فرایندهای کودک حداکثر ۶۱۴۴ MiB دارد؛ شکست به `FAIL_STOP` و حفظ داده‌های جزئی می‌انجامد. یک artifact مستقل GitHub Actions با نگهداری **۹۰ روزه** پیش از تلاش push تولید می‌شود و موفقیت فقط پس از مشاهده خروجی در شاخه و artifact اعلام می‌گردد. پایان سخت runner/kill یا قطعی زیرساخت ممکن است اجرای step artifact را ناممکن سازد؛ در چنین رخدادی ادعای بازیابی کامل مجاز نیست.
+- گیت قبلی و Secret/tokenهای قدیمی برای ۳۶×۳۰ قبلاً مصرف شده‌اند. **هیچ مجوز قدیمی نمی‌تواند این مرحله را فعال کند.** بدون مصوبهٔ تازه، درخواست جدید ساخته نمی‌شود و هیچ اجرای پژوهشی صورت نمی‌گیرد.
+
+### بازتولید بی‌خطر پیش از مجوز
+
+```bash
+python -m unittest discover -s code/experiments/synthetic-noise-feature-sensitivity -p 'test_resume_30_60.py' -v
+python code/experiments/synthetic-noise-feature-sensitivity/resume_gate.py --mode fingerprint
+python code/experiments/synthetic-noise-feature-sensitivity/resume_30_60.py --mode preflight
+```
+
+دستورهای بالا checkpointهای واقعی را فقط می‌خوانند و گام ۳۰ را بازحساب می‌کنند؛ **هیچ optimizer.step در داده ۳۰۰ نمونه‌ای اجرا نمی‌شود.** آزمون تابع Adam تنها روی fixture کوچک کنترل می‌کند که restored optimizer و ادامهٔ بی‌وقفه دقیقاً یکسان‌اند و restart از logits تنها مساوی نیست. اجرای عادی CI شاخه و job ویژه preflight بی‌Secret باید پیش از رأی QA موفق باشند.
+
+**تصمیم بعدی:** پس از تکمیل ممیزی کد و شناسه CI موفق، مالک مصوبه ماشین‌خوان جدید و Secret resume اختصاصی را ثبت خواهد کرد؛ سپس ممیز رأی جداگانه ارائه می‌دهد و *تنها پس از آن* امکان ساخت درخواست اجرا وجود دارد. تا آن زمان هیچ داده جدید ۳۰→۶۰ و هیچ یافته علمی مربوط به گام ۶۰ موجود نیست.
