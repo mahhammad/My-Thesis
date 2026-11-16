@@ -1,7 +1,7 @@
 name: E-CH4-14 authorized 36-fit run
 
-# MANUAL ONLY. No push, PR, scheduler, cron or automatic restart trigger.
-# workflow_dispatch requires this workflow file on the default branch.
+# MANUAL dispatch OR a single explicit, new branch request commit.
+# Ordinary pushes, pull requests and schedules cannot execute research.
 on:
   # Branch-local explicit request commits only; not ordinary pushes or PRs.
   push:

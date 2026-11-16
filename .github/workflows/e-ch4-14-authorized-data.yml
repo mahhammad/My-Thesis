@@ -1,7 +1,7 @@
 name: E-CH4-14 authorized data generation
 
-# MANUAL ONLY. GitHub requires the workflow file on the default branch to
-# enable workflow_dispatch; placement on the research branch alone is inert.
+# MANUAL dispatch OR a single explicit, new branch request commit.
+# Ordinary pushes, pull requests and schedules cannot execute research.
 on:
   # Branch-local explicit request commits only; not ordinary pushes or PRs.
   push:
@@ -115,6 +115,6 @@ jobs:
           git add -A code/experiments/synthetic-noise-feature-sensitivity/inputs
           if ! git diff --cached --quiet; then
             git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
-              commit -m "data(e-ch4-14): record irreversible ${{ inputs.stage }} stage ${{ github.run_id }}"
+              commit -m "data(e-ch4-14): record irreversible $E14_STAGE stage ${{ github.run_id }}"
             git push origin "HEAD:refs/heads/experiment/ch4-14-noise-sensitivity-01"
           fi
