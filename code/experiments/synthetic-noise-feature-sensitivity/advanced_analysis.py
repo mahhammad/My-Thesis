@@ -193,7 +193,7 @@ def plot_all(result,traces):
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
-    plt.rcParams.update({"font.family":"DejaVu Sans","font.size":10,"svg.fonttype":"none"})
+    plt.rcParams.update({"font.family":"DejaVu Sans","font.size":10,"svg.fonttype":"none","svg.hashsalt":"e14-advanced-analysis-v1"})
     palette=["#1d4ed8","#0891b2","#0f766e","#ca8a04","#ea580c","#7c3aed"]
     subsets={k:[j for j in traces if j.startswith(f"N{k}-") and j.endswith("__shared")]
              for k in range(6)}
