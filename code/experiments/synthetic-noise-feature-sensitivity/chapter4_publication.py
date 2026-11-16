@@ -96,7 +96,7 @@ def fig_ba(traces,bayes):
     fig.tight_layout()
     return render(fig)
 def fig_gradient(traces):
-    fig,axs=plt.subplots(6,2,figsize=(11.7,17.3),sharex=True,sharey="row")
+    fig,axs=plt.subplots(6,2,figsize=(13.0,17.3),sharex=True,sharey="row")
     for k in range(6):
       for j,f in enumerate(FAMILIES):
         ax=axs[k,j]
@@ -113,16 +113,17 @@ def fig_gradient(traces):
         ax.scatter(env["peaks"],avg[env["peaks"]],s=10,color="#aa6800",zorder=4)
         ax.scatter(env["valleys"],avg[env["valleys"]],s=10,color="#078890",zorder=4)
         ax.set_title(fa("مشترک" if f=="shared" else "شرطی کلاس")+
-                     rf"    $|A_N|={k}$",fontsize=10)
+                     rf"    $|A_N|={k}$",fontsize=14)
         ax.set_xlim(0,60);ax.set_xticks([0,10,20,30,40,50,60])
+        ax.tick_params(axis="both",labelsize=11)
         ax.ticklabel_format(axis="y",style="sci",scilimits=(-2,2))
-        if j==0:ax.set_ylabel(r"$\|\nabla_Z\mathcal{L}\|_2$")
-        if k==5:ax.set_xlabel(fa("گام آموزش"))
-        if k==0 and j==0:ax.legend(fontsize=6.5,ncol=2)
+        if j==0:ax.set_ylabel(r"$\|\nabla_Z\mathcal{L}\|_2$",fontsize=12)
+        if k==5:ax.set_xlabel(fa("گام آموزش"),fontsize=12)
+        if k==0 and j==0:ax.legend(fontsize=10,ncol=2)
         ax.grid(alpha=.14)
         require(env["late_gap_smaller"],"Observed damping absent "+f+str(k))
     fig.suptitle(fa("پوش تجربی قله‌ها و دره‌های هنجار گرادیان"),
-                 fontsize=13,y=.997)
+                 fontsize=17,y=.997)
     fig.subplots_adjust(hspace=.42,wspace=.20,top=.975,bottom=.045)
     return render(fig)
 def fig_noise(rows):
