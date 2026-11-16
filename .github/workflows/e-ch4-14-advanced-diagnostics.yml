@@ -1,0 +1,106 @@
+name: E-CH4-14 read-only advanced postfit diagnostics
+
+# Trigger ONLY after modifying the post-fit source/test/workflow on this branch.
+# A push authored by GITHUB_TOKEN does not trigger a second run.
+on:
+  push:
+    branches:
+      - experiment/ch4-14-noise-sensitivity-01
+    paths:
+      - 'code/experiments/synthetic-noise-feature-sensitivity/advanced_analysis.py'
+      - 'code/experiments/synthetic-noise-feature-sensitivity/test_advanced_analysis.py'
+      - '.github/workflows/e-ch4-14-advanced-diagnostics.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: e-ch4-14-postfit-analysis-only
+  cancel-in-progress: false
+
+jobs:
+  generate-derived-evidence:
+    if: github.repository == 'mahhammad/My-Thesis' && github.ref == 'refs/heads/experiment/ch4-14-noise-sensitivity-01'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Confirm immutable 36-fit evidence is unchanged
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --exit-code 7bc66e4d2535fb15dfa5b569933b2d6c5a0962ac HEAD --             code/experiments/synthetic-noise-feature-sensitivity/inputs             code/experiments/synthetic-noise-feature-sensitivity/results
+      - name: Install pinned read-only CPU diagnostic dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check 'numpy==2.4.6' 'matplotlib==3.10.7'
+          python -m pip install --disable-pip-version-check 'torch==2.9.1' --index-url https://download.pytorch.org/whl/cpu
+      - name: Run independent no-fit mathematical and security tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m unittest discover -s code/experiments/synthetic-noise-feature-sensitivity -p 'test_advanced_analysis.py' -v
+      - name: Compute NFI3 from SHA-pinned terminal checkpoints and trace stability
+        shell: bash
+        run: |
+          set -euo pipefail
+          python code/experiments/synthetic-noise-feature-sensitivity/advanced_analysis.py --mode write
+          python code/experiments/synthetic-noise-feature-sensitivity/advanced_analysis.py --mode check
+      - name: Verify only allowed derived tables and SVGs changed
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --exit-code 7bc66e4d2535fb15dfa5b569933b2d6c5a0962ac HEAD --             code/experiments/synthetic-noise-feature-sensitivity/inputs             code/experiments/synthetic-noise-feature-sensitivity/results
+          python - <<'PY'
+          from pathlib import Path
+          root=Path('code/experiments/synthetic-noise-feature-sensitivity')
+          required=['stability_by_run.csv','stability_by_noise_level.csv',
+                    'nfi3_by_policy.csv','nfi3_by_noise_level.csv','noise_dynamics_summary.json']
+          for name in required:
+              assert (root/'tables'/name).is_file(), name
+          imgs=list((root/'figures').glob('0[89]_*.svg'))+list((root/'figures').glob('1[0-3]_*.svg'))
+          assert len(imgs)==10, (len(imgs),imgs)
+          for image in imgs:
+              assert '<svg ' in image.read_text(),image
+          print('E14_ADVANCED_DERIVED_FILES_PASS',len(required),len(imgs))
+          PY
+      - name: Commit only derived analysis outputs to existing research branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          root=code/experiments/synthetic-noise-feature-sensitivity
+          git add "$root/tables/stability_by_run.csv" "$root/tables/stability_by_noise_level.csv" \
+                  "$root/tables/nfi3_by_policy.csv" "$root/tables/nfi3_by_noise_level.csv" \
+                  "$root/tables/noise_dynamics_summary.json"
+          git add "$root"/figures/08_*.svg "$root"/figures/09_*.svg \
+                  "$root"/figures/10_*.svg "$root"/figures/11_*.svg \
+                  "$root"/figures/12_*.svg "$root"/figures/13_*.svg
+          git diff --cached --name-only
+          if git diff --cached --quiet; then
+            echo 'No changes to derived postfit data'
+          else
+            git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+              commit -m 'analysis(e-ch4-14): publish 36-trace stability and checkpoint NFI3 figures'
+            git push origin HEAD:refs/heads/experiment/ch4-14-noise-sensitivity-01
+          fi
+      - name: Confirm immutable evidence and all derived outputs committed
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --exit-code 7bc66e4d2535fb15dfa5b569933b2d6c5a0962ac HEAD --             code/experiments/synthetic-noise-feature-sensitivity/inputs             code/experiments/synthetic-noise-feature-sensitivity/results
+          test -z "$(git status --porcelain)"
+          git ls-remote --exit-code origin refs/heads/experiment/ch4-14-noise-sensitivity-01 | grep -q "$(git rev-parse HEAD)"
+          echo E14_DERIVED_OUTPUTS_PERSISTED_WITHOUT_FIT
