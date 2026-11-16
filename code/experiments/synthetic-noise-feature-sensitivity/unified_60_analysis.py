@@ -178,8 +178,86 @@ def draw_traces(ax,traces,family,key,scale=1, *,legend=True):
     ax.set_xlim(0,60);ax.grid(alpha=.18)
     if legend:ax.legend(ncol=3,fontsize=7)
 
+
+def mean_ba_by_level(traces,family,k):
+    """Observed 0..60 group-mean Validation BA in percentage points."""
+    runs=[t for id,t in sorted(traces.items())
+          if id.endswith("__"+family) and int(id[1])==k]
+    require(len(runs)==(1 if k in (0,5) else 4),"BA group member count")
+    y=np.mean([[100.0*r["validation_BA"] for r in t] for t in runs],axis=0)
+    require(y.shape==(61,) and np.isfinite(y).all() and
+            np.all((0<=y)&(y<=100)),"Invalid BA full-60 group trace")
+    return y,len(runs)
+
+def exponential_ba_envelope(y):
+    """Tightest *grid-constrained* two-sided exp band enclosing every actual point.
+
+    U(t)=c+ap*exp(-rate*t), L(t)=c-am*exp(-rate*t). For each c and rate,
+    the amplitudes are the minimal nonnegative ones giving 100% coverage.
+    Select c among 21 evenly spaced observed values of the final ten steps
+    and rate on a fixed nonnegative grid, minimizing the summed band width.
+    rate=0 is permitted: shrinking is not imposed on the data.
+    This is a retrospective descriptive fit, not a statistical or future bound.
+    """
+    y=np.asarray(y,dtype=np.float64)
+    require(y.ndim==1 and len(y)==61 and np.isfinite(y).all(),
+            "Envelope requires 61 finite observed samples")
+    steps=np.arange(61,dtype=np.float64)
+    rates=np.linspace(0.0,0.20,801)
+    exp_growth=np.exp(rates[:,None]*steps[None,:])
+    exp_decay=np.exp(-rates[:,None]*steps[None,:])
+    area_multiplier=np.sum(exp_decay,axis=1)
+    tail=y[-10:]
+    centers=np.linspace(float(np.min(tail)),float(np.max(tail)),21)
+    centers=np.unique(np.concatenate((centers,[float(y[-1]),float(np.median(tail))])))
+    best=None
+    for center in centers:
+        weighted=(y[None,:]-center)*exp_growth
+        upper_amplitude=np.maximum(0.0,np.max(weighted,axis=1))
+        lower_amplitude=np.maximum(0.0,np.max(-weighted,axis=1))
+        integrated=(upper_amplitude+lower_amplitude)*area_multiplier
+        j=int(np.argmin(integrated))
+        if best is None or float(integrated[j])<best[0]-1e-12:
+            best=(float(integrated[j]),float(center),float(rates[j]),
+                  float(upper_amplitude[j]),float(lower_amplitude[j]))
+    area,center,rate,ap,am=best
+    # One-ULP outward adjustment prevents overclaiming coverage through rounding.
+    ap=np.nextafter(ap,np.inf)
+    am=np.nextafter(am,np.inf)
+    decay=np.exp(-rate*steps)
+    upper=center+ap*decay
+    lower=center-am*decay
+    require(np.all(upper+1e-10>=y) and np.all(lower-1e-10<=y),
+            "Exponential band fails to enclose observed BA")
+    require(np.all(lower<=upper+1e-10),"Inverted exponential band")
+    width=upper-lower
+    require(np.all(np.diff(width)<=1e-10),"Exponential band width not nonincreasing")
+    weighted=(y-center)*np.exp(rate*steps)
+    upper_touch=int(np.argmax(weighted)) if ap>1e-12 else 60
+    lower_touch=int(np.argmax(-weighted)) if am>1e-12 else 60
+    meta=dict(center_BA_pp=center,rate_per_update=rate,
+              amplitude_upper_pp=float(ap),amplitude_lower_pp=float(am),
+              width_step0_pp=float(width[0]),width_step60_pp=float(width[-1]),
+              width_ratio_60_to_0=(float(width[-1]/width[0])
+                                   if width[0]>1e-12 else None),
+              integrated_width_pp_steps=float(np.sum(width)),
+              upper_contact_step=upper_touch,lower_contact_step=lower_touch,
+              rate_at_grid_max=bool(rate==float(rates[-1])),
+              point_coverage_count=int(np.count_nonzero(
+                  (lower-1e-10<=y)&(y<=upper+1e-10))))
+    require(meta["point_coverage_count"]==61,"Some BA points lie outside envelope")
+    return upper,lower,meta
+
 def figures(traces,per,groups,paired):
     outs={}
+    envelope_rows=[]
+    envelopes={}
+    for family in FAMILIES:
+        for k in range(6):
+            y,n=mean_ba_by_level(traces,family,k)
+            upper,lower,parameters=exponential_ba_envelope(y)
+            envelopes[(family,k)]=(y,upper,lower,parameters)
+            envelope_rows.append(dict(family=family,k=k,n_subsets=n,**parameters))
     # Full 61-point traces are the PRIMARY graphs, one per family.
     for family in FAMILIES:
         fig,axs=plt.subplots(4,1,figsize=(11,11),sharex=True)
@@ -188,6 +266,14 @@ def figures(traces,per,groups,paired):
                          ("Validation BA (%)","Train Softplus-JS loss",
                           "Gradient L2","Adam update L2")):
             draw_traces(ax,traces,family,key,scale=scale,legend=(key=="validation_BA"))
+            if key=="validation_BA":
+                # An unobtrusive example; the six group-specific bands appear in Fig. 32.
+                y,upper,lower,_=envelopes[(family,2)]
+                ax.plot(np.arange(61),upper,color=COLORS[2],lw=1.0,ls="--",
+                        label="k=2 exp upper")
+                ax.plot(np.arange(61),lower,color=COLORS[2],lw=1.0,ls=":",
+                        label="k=2 exp lower")
+                ax.legend(ncol=4,fontsize=6)
             ax.set_ylabel(label)
         axs[0].set_title(f"{family}: single uninterrupted 60-update experiment")
         axs[-1].set_xlabel("Cumulative Adam update (0–60)")
@@ -295,7 +381,32 @@ def figures(traces,per,groups,paired):
     axs[0].set_ylabel("TV(Validation BA), complete 0–60 (percentage points)")
     fig.suptitle("One full 60-update experiment; not two 30-update experiments")
     outs["31_full_60_BA_variation.svg"]=figure(fig)
-    return outs
+    # One legible panel per k; these bands are fitted to the observed GROUP MEAN,
+    # not to all individual subsets and not to extrapolated training steps.
+    for family in FAMILIES:
+        fig,axs=plt.subplots(2,3,figsize=(13.5,7.8),sharex=True)
+        for k,ax in enumerate(axs.flat):
+            y,upper,lower,fit=envelopes[(family,k)]
+            x=np.arange(61)
+            ax.plot(x,y,color="black",lw=1.35,label="Observed mean BA")
+            ax.plot(x,upper,color=COLORS[k],lw=1.35,ls="--",label="Exponential upper")
+            ax.plot(x,lower,color=COLORS[k],lw=1.35,ls=":",label="Exponential lower")
+            ax.fill_between(x,lower,upper,color=COLORS[k],alpha=.10)
+            # Mark actual supporting points where the bound is tightest.
+            for key,marker in (("upper_contact_step","^"),("lower_contact_step","v")):
+                i=fit[key]
+                ax.scatter([i],[y[i]],marker=marker,color=COLORS[k],s=29,zorder=4)
+            ratio=fit["width_ratio_60_to_0"]
+            shrink=("no width" if ratio is None else
+                    f"band at 60 = {100*ratio:.1f}% of start")
+            ax.set_title(f"k={k}: rate={fit['rate_per_update']:.4f}; {shrink}",fontsize=8)
+            ax.grid(alpha=.17);ax.set_xlim(0,60)
+            if k in (0,3):ax.set_ylabel("Validation BA (%, subset mean)")
+            if k>=3:ax.set_xlabel("Cumulative Adam updates (0–60)")
+            if k==0:ax.legend(fontsize=7)
+        fig.suptitle(f"{family}: tightly covering exponential BA envelopes (observed 0–60)")
+        outs[f"32_full_60_BA_exponential_envelopes_{family}.svg"]=figure(fig)
+    return outs,envelope_rows
 
 def build():
     _,traces,_,_,count=audit()
@@ -303,7 +414,7 @@ def build():
             "Ledger incorrect")
     reports=load_step60_reports(traces)
     individual,group,paired=assemble(traces,reports)
-    fig=figures(traces,individual,group,paired)
+    fig,envelope_rows=figures(traces,individual,group,paired)
     summary={"schema":"e-ch4-14-single-60-update-v1","total_updates":2160,
         "updates_per_fit":60,"fits":36,"split_used":["train","validation"],
         "test_accessed":False,"single_experiment":True,
@@ -315,6 +426,17 @@ def build():
         TABLE/"final_60_by_noise_level.csv":csv_data(group),
         TABLE/"final_60_paired.csv":csv_data(paired),
         TABLE/"final_60_summary.json":b(summary),
+        TABLE/"final_60_BA_exponential_envelopes.json":b({
+            "schema":"e-ch4-14-exp-ba-envelope-v1",
+            "metric":"Validation BA group mean, percentage points",
+            "steps":list(range(61)),"fit_interval":[0,60],
+            "model":"lower=c-a_minus*exp(-rate*t); upper=c+a_plus*exp(-rate*t)",
+            "objective":"minimize sum_t(upper(t)-lower(t)) over fixed parameter grid",
+            "coverage":"all 61 observed points per family x k",
+            "center_grid":"21 linear values between min/max of final 10 observed steps; plus endpoint and median",
+            "rate_grid":{"start":0.0,"stop":0.20,"count":801},
+            "limits":"retrospective descriptive coverage, not a future or statistical bound",
+            "rows":envelope_rows}),
         TABLE/"final_60_canonical_reports.json":b(reports)}
     for name,blob in fig.items():outputs[FIG/name]=blob
     return outputs,summary
