@@ -157,7 +157,13 @@ def check_reviews(*,request,head,approved):
     qa_comment=github("GET",f"/repos/{REPO}/issues/comments/{qa_id}")
     expect(owner_comment.get("user",{}).get("login")=="mahhammad",
            "Owner approval must be from actual repository owner")
-    expect(qa_comment.get("user",{}).get("login"),"QA needs authenticated author")
+    qa_login=qa_comment.get("user",{}).get("login")
+    expect(qa_login,"QA needs authenticated author")
+    if qa_login!="mahhammad":
+        # A random public Issue commenter is NOT an authorized reviewer.
+        permission=github("GET",f"/repos/{REPO}/collaborators/{qa_login}/permission")
+        expect(permission.get("permission") in ("admin","maintain","write"),
+               "QA reviewer has no repository write/review authority")
     owner=parse_comment(owner_comment,OWNER_MARKER)
     qa=parse_comment(qa_comment,QA_MARKER)
     expect(qa.get("owner_comment_id")==owner_id and
