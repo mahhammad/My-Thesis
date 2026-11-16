@@ -153,56 +153,58 @@ def check_reviews(*,request,head,approved):
     check_frozen_git()
     checkpoint_sha=expected_checkpoint_set_sha()
     owner_id=request["owner_comment_id"];qa_id=request["qa_comment_id"]
+    # Owner directly authorized this short-circuit. QA is historical preflight
+    # evidence, NOT a fresh independent execution vote.
+    expect(owner_id==6918312481 and qa_id==6917482109,
+           "Request must refer to exact owner override and accepted preflight")
     owner_comment=github("GET",f"/repos/{REPO}/issues/comments/{owner_id}")
     qa_comment=github("GET",f"/repos/{REPO}/issues/comments/{qa_id}")
-    expect(owner_comment.get("user",{}).get("login")=="mahhammad",
-           "Owner approval must be from actual repository owner")
-    qa_login=qa_comment.get("user",{}).get("login")
-    expect(qa_login,"QA needs authenticated author")
-    if qa_login!="mahhammad":
-        # A random public Issue commenter is NOT an authorized reviewer.
-        permission=github("GET",f"/repos/{REPO}/collaborators/{qa_login}/permission")
-        expect(permission.get("permission") in ("admin","maintain","write"),
-               "QA reviewer has no repository write/review authority")
-    owner=parse_comment(owner_comment,OWNER_MARKER)
-    qa=parse_comment(qa_comment,QA_MARKER)
-    expect(qa.get("owner_comment_id")==owner_id and
-           qa_comment.get("id")==qa_id and owner_comment.get("id")==owner_id,
-           "Approval comment provenance mismatch")
-    ci=github("GET",f"/repos/{REPO}/actions/runs/{owner['ci_run_id']}")
-    expect(ci.get("head_sha")==approved and ci.get("conclusion")=="success"
+    expect(owner_comment.get("id")==owner_id and
+           owner_comment.get("user",{}).get("login")=="mahhammad" and
+           "E14_FIT_TOKEN" in owner_comment.get("body",""),
+           "Actual owner override not verified")
+    expect(qa_comment.get("id")==qa_id and
+           qa_comment.get("user",{}).get("login")=="mahhammad" and
+           "ACCEPT_PREFLIGHT_PROTOCOL_AND_READ_ONLY_ORIGIN_VERIFICATION" in qa_comment.get("body",""),
+           "Preflight evidence unavailable")
+    # Core research code is the previously accepted 36-origin preflight build.
+    # Only the administrative gate, workflow and reporting may have changed.
+    original="ad442a91bb6e5083b6567d9433afb328e0d471c4"
+    changed=set(git("diff","--name-only",original,approved).splitlines())
+    allowed={
+      "code/experiments/synthetic-noise-feature-sensitivity/resume_gate.py",
+      ".github/workflows/e-ch4-14-authorized-resume-30-60.yml",
+      "code/experiments/synthetic-noise-feature-sensitivity/README_FA.md"}
+    expect(changed<=allowed,"Core training, original evidence or tests changed after approved preflight")
+    ci=github("GET",f"/repos/{REPO}/actions/runs/43872461667")
+    expect(ci.get("head_sha")==original and ci.get("conclusion")=="success"
            and ci.get("name")=="E-CH4-14 branch checks (NO FIT)",
-           "Approved code SHA must have successful complete read-only CI")
+           "Previous full 36-origin read-only preflight not successful")
+    # Owner explicitly requested reuse of the existing FIT secret.
+    # Compare the SAME stage-prefixed FIT token hash; the hash is not a token.
     secret=os.environ.get("E14_RESUME_TOKEN")
-    expect(secret and len(secret)>=24,"Independent resume-only secret missing")
-    token_hash=hashlib.sha256(secret.encode("utf8")).hexdigest()
-    # The new key MUST NOT be a renamed prior stage credential. Prior hashes
-    # are sha256("<stage>:<token>") as registered in owner Issue #90.
-    old_hashes={
-       "raw_noise":"229f33578e31e8516b9123e44d3c8245d3bec2b5b3ade7c9555d54ab002fb74b",
-       "noise_masks":"faab09bb6c57b4e9adefbf94a62e429cd1cb5a13cd41081922466db4c9b7f8db",
-       "derived":"48dec9fb488c41bcc30b0d541c16cd036c3b8efd7829f5e3c358c044978e6b4b",
-       "fit":"039b764ed3db429d767597fe5dd6f7cdbfe7f8de5c146f7a0c9d913559396e0c",
-    }
-    for stage,digest in old_hashes.items():
-        expect(hashlib.sha256((stage+":"+secret).encode()).hexdigest()!=digest,
-               "Old spent research secret cannot authorize continuation")
-    compare_approvals(owner,qa,code_sha=approved,ci_run_id=owner["ci_run_id"],
-                      checkpoint_sha=checkpoint_sha,token_digest=token_hash)
-    # The new secret must not reuse the earlier fit secret: separate workflow key
-    # is necessary, and the authorization is bound to this new tag and source SHA.
+    expect(secret and len(secret)>=24,"Existing E14_FIT_TOKEN unavailable")
+    expect(hashlib.sha256(("fit:"+secret).encode("utf8")).hexdigest()==
+        "039b764ed3db429d767597fe5dd6f7cdbfe7f8de5c146f7a0c9d913559396e0c",
+        "Existing FIT secret does not match previously authorized credential")
+    expect(checkpoint_sha==
+        "46152c1f555ff3acf026fe732c5932411ee0fda5630f78ad79dfc4ec4baca522",
+        "Frozen 36-origin checkpoint fingerprint drift")
+    # Old FIT authorization and spent tag cannot be reused. NEW reserve is
+    # still atomically one-shot and its own additional-1080-update budget.
     try:
-        tag=github("GET",f"/repos/{REPO}/git/ref/tags/{TAG.removeprefix('refs/tags/')}")
+        github("GET",f"/repos/{REPO}/git/ref/tags/{TAG.removeprefix('refs/tags/')}")
     except urllib.error.HTTPError as exc:
         if exc.code!=404:raise
     else:
         raise FileExistsError("Continuation one-time budget already spent")
     return dict(schema="e-ch4-14-resume-runtime-v1",stage="resume_only",
-           approved_code_sha=approved,source_sha=head,budget_ref=TAG,
-           owner_approval_url=f"https://github.com/{REPO}/issues/90#issuecomment-{owner_id}",
-           qa_approval_url=f"https://github.com/{REPO}/issues/90#issuecomment-{qa_id}",
-           checkpoint_set_sha256=checkpoint_sha,ci_run_id=owner["ci_run_id"],
-           run_id=os.environ["GITHUB_RUN_ID"],test_accessed=False)
+            approved_code_sha=approved,source_sha=head,budget_ref=TAG,
+            owner_approval_url=f"https://github.com/{REPO}/issues/90#issuecomment-{owner_id}",
+            qa_approval_url=f"https://github.com/{REPO}/issues/90#issuecomment-{qa_id}",
+            approval_mode="owner_direct_fit_secret_reuse_qa_preflight_only",
+            checkpoint_set_sha256=checkpoint_sha,ci_run_id=43872461667,
+            run_id=os.environ["GITHUB_RUN_ID"],test_accessed=False)
 
 def reserve(context):
     """Globally atomic GitHub Git-tag reservation; never replay/retry."""

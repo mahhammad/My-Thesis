@@ -1,7 +1,7 @@
 name: E-CH4-14 authorized resume 30-60
 
 # Branch-only trigger: no ordinary code/CI push can start a fit.
-# Only a new, single-file request after owner + independent QA + new budget.
+# Only the new one-shot request after the recorded owner override and distinct budget.
 on:
   push:
     branches: [experiment/ch4-14-noise-sensitivity-01]
@@ -56,7 +56,7 @@ jobs:
       - name: Verify new owner/QA and unique tag, then one-shot monitored continuation
         id: authorized_resume
         env:
-          E14_RESUME_TOKEN: ${{ secrets.E14_RESUME_TOKEN }}
+          E14_RESUME_TOKEN: ${{ secrets.E14_FIT_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
