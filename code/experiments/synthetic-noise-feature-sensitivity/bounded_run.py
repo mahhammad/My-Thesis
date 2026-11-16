@@ -128,7 +128,7 @@ def launch(stage, context_path, *, runner=subprocess.Popen):
         command = [sys.executable, str(HERE/"runner.py"), "--execute",
                    "--authorization", str(context_path), "--source-sha", ctx["source_sha"]]
     else:
-        command = [sys.executable, str(HERE/"stage_execute.py"), "--execute",
+        command = [sys.executable, str(HERE/"stage_execute.py"), "--mode", "execute",
                    "--stage", stage, "--context", str(context_path)]
     begin = time.monotonic()
     proc = runner(command, cwd=ROOT, env=os.environ.copy())
