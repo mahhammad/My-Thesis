@@ -135,3 +135,40 @@ jobs:
           git diff --exit-code -- code/experiments/synthetic-noise-feature-sensitivity/figures
       - name: Confirm all tracked files remain unchanged
         run: git diff --exit-code
+
+  advanced-postfit-evidence:
+    name: Independent NFI3, stability and full-k SVG reproducibility (NO FIT)
+    if: github.ref == 'refs/heads/experiment/ch4-14-noise-sensitivity-01'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      contents: read
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install pinned read-only packages
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check 'numpy==2.4.6' 'matplotlib==3.10.7'
+          python -m pip install --disable-pip-version-check 'torch==2.9.1' --index-url https://download.pytorch.org/whl/cpu
+      - name: Independently test the mathematical diagnostic and SHA guard
+        run: python -m unittest discover -s code/experiments/synthetic-noise-feature-sensitivity -p 'test_advanced_analysis.py' -v
+      - name: Recompute all saved F3 E3 NFI3 and 36-run stability statistics
+        run: python code/experiments/synthetic-noise-feature-sensitivity/advanced_analysis.py --mode check
+      - name: Bytewise regenerate 10 new SVGs without modifying any frozen evidence
+        run: |
+          set -euo pipefail
+          python code/experiments/synthetic-noise-feature-sensitivity/advanced_analysis.py --mode write
+          git diff --exit-code -- code/experiments/synthetic-noise-feature-sensitivity/tables             code/experiments/synthetic-noise-feature-sensitivity/figures
+          git diff --exit-code 7bc66e4d2535fb15dfa5b569933b2d6c5a0962ac HEAD --             code/experiments/synthetic-noise-feature-sensitivity/inputs             code/experiments/synthetic-noise-feature-sensitivity/results
+          git diff --exit-code
+          echo E14_ADVANCED_POSTFIT_BYTEWISE_PASS
