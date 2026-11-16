@@ -1,0 +1,49 @@
+name: E-CH4-14 continuation read-only analysis
+on:
+  push:
+    branches: [experiment/ch4-14-noise-sensitivity-01]
+    paths:
+      - 'code/experiments/synthetic-noise-feature-sensitivity/continuation_analysis.py'
+      - '.github/workflows/e-ch4-14-continuation-analysis.yml'
+permissions:
+  contents: write
+concurrency:
+  group: e-ch4-14-continuation-postfit
+  cancel-in-progress: false
+jobs:
+  derive-no-fit:
+    if: github.repository == 'mahhammad/My-Thesis' && github.ref == 'refs/heads/experiment/ch4-14-noise-sensitivity-01'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      OMP_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Confirm historical evidence is unchanged
+        run: |
+          git diff --exit-code 7bc66e4d2535fb15dfa5b569933b2d6c5a0962ac HEAD --             code/experiments/synthetic-noise-feature-sensitivity/inputs             code/experiments/synthetic-noise-feature-sensitivity/results/checkpoints             code/experiments/synthetic-noise-feature-sensitivity/results/traces             code/experiments/synthetic-noise-feature-sensitivity/results/metrics
+      - name: Install pinned read-only dependencies
+        run: |
+          python -m pip install --disable-pip-version-check numpy==2.4.6 matplotlib==3.10.7
+          python -m pip install --disable-pip-version-check torch==2.9.1 --index-url https://download.pytorch.org/whl/cpu
+      - name: Audit all 36 continuation trajectories and render figures (NO FIT)
+        run: |
+          python code/experiments/synthetic-noise-feature-sensitivity/continuation_analysis.py --mode write
+          python code/experiments/synthetic-noise-feature-sensitivity/continuation_analysis.py --mode check
+      - name: Commit only derived reports, CSV and SVG on experiment branch
+        run: |
+          set -euo pipefail
+          git add code/experiments/synthetic-noise-feature-sensitivity/tables/continuation_30_60_*                   code/experiments/synthetic-noise-feature-sensitivity/figures/14_*.svg code/experiments/synthetic-noise-feature-sensitivity/figures/15_*.svg                   code/experiments/synthetic-noise-feature-sensitivity/figures/16_*.svg code/experiments/synthetic-noise-feature-sensitivity/figures/17_*.svg                   code/experiments/synthetic-noise-feature-sensitivity/figures/18_*.svg code/experiments/synthetic-noise-feature-sensitivity/figures/19_*.svg                   code/experiments/synthetic-noise-feature-sensitivity/figures/20_*.svg code/experiments/synthetic-noise-feature-sensitivity/figures/21_*.svg
+          git diff --cached --name-only
+          if ! git diff --cached --quiet; then
+            git -c user.name='github-actions[bot]'                 -c user.email='41898282+github-actions[bot]@users.noreply.github.com'                 commit -m "results(e-ch4-14): audit 36 step60 states and chart continuation"
+            git push origin HEAD:refs/heads/experiment/ch4-14-noise-sensitivity-01
+          fi
