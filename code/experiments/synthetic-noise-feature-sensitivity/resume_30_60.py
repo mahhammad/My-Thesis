@@ -6,6 +6,7 @@ No code in this module touches a Test split. Original steps 0..30 remain immutab
 """
 from __future__ import annotations
 import argparse, csv, hashlib, io, json, os, pathlib, sys, time
+from datetime import datetime, timezone
 import numpy as np
 import torch
 
@@ -127,7 +128,8 @@ def snapshot(graph,validation_y,z,optimizer,run_id,step,feature_mapping,*,update
         train_BA=tba,train_Accuracy=tacc,validation_BA=vba,validation_Accuracy=vacc,
         gradient_l2=g2,gradient_linf=gi,logits_l2=norm,adam_update_l2=update_norm,
         loss_delta=(None if previous_loss is None else float(loss.detach())-previous_loss),
-        wall_elapsed_s=float(wall_elapsed),nfi3=by_class,numeric_status="finite",test_accessed=False)
+        wall_elapsed_s=float(wall_elapsed),timestamp_utc=datetime.now(timezone.utc).isoformat(),
+        nfi3=by_class,numeric_status="finite",test_accessed=False)
     return row,matrix
 
 def compare_step30(row,logits,orig,nfi_rows,run_id):
@@ -241,12 +243,12 @@ def run_one(run_id,row,prov,nfi_rows,ledger,auth):
                 require(int(opt.state[z]["step"])==step-1,"Adam counter prior to step")
                 before=z.detach().clone()
                 opt.step()
+                # Every completed optimizer.step spends budget EVEN if its result fails validation.
+                append_durable(ledger,dict(event="UPDATE",run_id=run_id,
+                                           new_updates_completed=step-30,cumulative_step=step))
                 require(bool(torch.isfinite(z).all()),"Nonfinite updated logits")
                 delta=float(torch.linalg.vector_norm(z.detach()-before))
                 require(int(opt.state[z]["step"])==step,"Adam update index")
-                # Budget is durably spent immediately after the real optimizer step.
-                append_durable(ledger,dict(event="UPDATE",run_id=run_id,
-                                           new_updates_completed=step-30,cumulative_step=step))
                 rec,mat=snapshot(graph,d["validation_y"],z,opt,run_id,step,row["feature_mapping"],
                      update_norm=delta,previous_loss=previous,wall_elapsed=time.perf_counter()-start)
                 previous=rec["train_softplus_loss"]

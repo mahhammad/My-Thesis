@@ -92,11 +92,12 @@ def validate_push(event,request,*,head,parent,entries,message):
        event.get("repository",{}).get("full_name")==REPO and
        event.get("forced") is False and event.get("created") is False and
        event.get("deleted") is False,"Wrong push envelope")
+    commits=event.get("commits")
+    expect(isinstance(commits,list) and len(commits)==1,
+           "Not exactly one request push")
     expect(event.get("head_commit",{}).get("id")==head and
        event.get("head_commit",{}).get("message")==MESSAGE and
-       event.get("commits")==[event.get("commits",[{}])[0]] and
-       len(event.get("commits",[]))==1 and
-       event["commits"][0].get("id")==head,"Not exactly one request push")
+       commits[0].get("id")==head,"Commit/head mismatch")
     expect(message==MESSAGE and entries==["A\t"+REQUEST_PATH],
            "Exactly one added request file required")
     expect(set(request)=={"schema","stage","approved_code_sha","owner_comment_id",
