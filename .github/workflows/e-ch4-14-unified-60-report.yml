@@ -45,7 +45,7 @@ jobs:
           set -euo pipefail
           root=code/experiments/synthetic-noise-feature-sensitivity
           git add "$root"/tables/final_60_*.csv "$root"/tables/final_60_*.json \
-                  "$root"/figures/2[2-9]_*.svg "$root"/figures/3[01]_*.svg
+                  "$root"/figures/2[2-9]_*.svg "$root"/figures/3[01]_*.svg "$root"/figures/32_*.svg
           git diff --cached --name-only
           if ! git diff --cached --quiet; then
             git -c user.name='github-actions[bot]' \
