@@ -124,7 +124,7 @@ def fig_gradient(traces):
         require(env["late_gap_smaller"],"Observed damping absent "+f+str(k))
     fig.suptitle(fa("پوش تجربی قله‌ها و دره‌های هنجار گرادیان"),
                  fontsize=17,y=.997)
-    fig.subplots_adjust(hspace=.42,wspace=.20,top=.975,bottom=.045)
+    fig.subplots_adjust(hspace=.42,wspace=.20,top=.945,bottom=.045)
     return render(fig)
 def fig_noise(rows):
     fig,axs=plt.subplots(1,2,figsize=(11.1,4.7))
