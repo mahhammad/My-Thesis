@@ -13,7 +13,7 @@ HERE=pathlib.Path(__file__).resolve().parent
 INFORMATIVE=frozenset((0,1,3))
 RAW_SHA="7bc66e4d2535fb15dfa5b569933b2d6c5a0962ac"
 FAMILIES=("shared","class")
-NFI_FIELDS=("run_id","subset_id","k","family","candidate_class","F3","E3","q1","q2","q3","F3_uniform","E3_uniform","NFI3","delta_F3","p0_informative","p0_noise","mean_abs_delta_prob_informative","mean_abs_delta_prob_noise","mean_abs_final_logit_informative","mean_abs_final_logit_noise","logits_l2")
+NFI_FIELDS=("run_id","subset_id","k","family","candidate_class","F3","E3","q1","q2","q3","F3_uniform","E3_uniform","NFI3","delta_F3","F3_step0","E3_step0","NFI3_step0","delta_E3","p0_informative","p0_noise","mean_abs_delta_prob_informative","mean_abs_delta_prob_noise","mean_abs_final_logit_informative","mean_abs_final_logit_noise","logits_l2")
 STABILITY_FIELDS=("run_id","subset_id","k","family","ba_start","ba_end","ba_peak","max_drawdown_pp","total_variation_pp","ba_down_steps","loss_up_steps","loss_down_ba_down_steps","gradient_peak_count","gradient_trough_count","gradient_extrema_amplitude_mean","gradient_range_early","gradient_range_late","gradient_late_early_range_ratio","gradient_tv_early","gradient_tv_late","gradient_late_early_tv_ratio","initial_gradient","final_gradient","initial_loss","final_loss")
 
 def softmax(z):
@@ -171,6 +171,11 @@ def collect():
             matrices=[("shared",logits)] if family=="shared" else [(str(c),logits[c]) for c in range(3)]
             for c,z in matrices:
                 vals=policy3(z,row["feature_mapping"])
+                init=policy3(np.zeros_like(z),row["feature_mapping"])
+                if abs(init["F3"]-vals["F3_uniform"])>1e-12 or abs(init["E3"]-vals["E3_uniform"])>1e-12:
+                    raise AssertionError("Actual zero-logit policy is not Uniform")
+                vals.update(F3_step0=init["F3"],E3_step0=init["E3"],
+                            NFI3_step0=init["NFI3"],delta_E3=vals["E3"]-init["E3"])
                 nfi.append(dict(run_id=job,subset_id=subset,k=row["k"],family=family,candidate_class=c,**vals))
             if family=="class":
                 crows=nfi[-3:]
@@ -179,7 +184,7 @@ def collect():
                 nfi.append(dict(run_id=job,subset_id=subset,k=row["k"],family=family,candidate_class="macro",**macro))
     if len(nfi)!=90 or len(stabil)!=36:raise ValueError("Missing 36 policies")
     nfi_group=numeric_group([x for x in nfi if x["candidate_class"] in ("shared","macro")],
-      ["F3","E3","q1","q2","q3","F3_uniform","E3_uniform","NFI3","delta_F3","p0_noise","mean_abs_delta_prob_informative","mean_abs_delta_prob_noise","mean_abs_final_logit_informative","mean_abs_final_logit_noise"],["k","family"])
+      ["F3","E3","q1","q2","q3","F3_uniform","E3_uniform","NFI3","delta_F3","F3_step0","E3_step0","NFI3_step0","delta_E3","p0_noise","mean_abs_delta_prob_informative","mean_abs_delta_prob_noise","mean_abs_final_logit_informative","mean_abs_final_logit_noise"],["k","family"])
     st_group=numeric_group(stabil,["max_drawdown_pp","total_variation_pp","ba_down_steps","loss_up_steps",
       "loss_down_ba_down_steps","gradient_peak_count","gradient_trough_count","gradient_extrema_amplitude_mean",
       "gradient_late_early_range_ratio","gradient_late_early_tv_ratio"],["k","family"])
