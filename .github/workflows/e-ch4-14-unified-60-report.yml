@@ -1,0 +1,55 @@
+name: E-CH4-14 single-60 scientific report generation
+on:
+  push:
+    branches: [experiment/ch4-14-noise-sensitivity-01]
+    paths:
+      - 'code/experiments/synthetic-noise-feature-sensitivity/unified_60_analysis.py'
+      - '.github/workflows/e-ch4-14-unified-60-report.yml'
+permissions:
+  contents: write
+concurrency:
+  group: e14-single-60-report-only
+  cancel-in-progress: false
+jobs:
+  recompute-final-metrics:
+    if: github.repository == 'mahhammad/My-Thesis' && github.ref == 'refs/heads/experiment/ch4-14-noise-sensitivity-01'
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Check frozen input and raw evidence unchanged
+        run: |
+          git diff --exit-code 7bc66e4d2535fb15dfa5b569933b2d6c5a0962ac HEAD -- \
+             code/experiments/synthetic-noise-feature-sensitivity/inputs \
+             code/experiments/synthetic-noise-feature-sensitivity/results/checkpoints \
+             code/experiments/synthetic-noise-feature-sensitivity/results/traces \
+             code/experiments/synthetic-noise-feature-sensitivity/results/metrics
+      - name: Install CPU-only reproducibility dependencies
+        run: |
+          python -m pip install --disable-pip-version-check numpy==2.4.6 matplotlib==3.10.7
+          python -m pip install --disable-pip-version-check torch==2.9.1 --index-url https://download.pytorch.org/whl/cpu
+      - name: Recompute canonical step60 metrics and full 0..60 plots read-only
+        run: |
+          python code/experiments/synthetic-noise-feature-sensitivity/unified_60_analysis.py --mode write
+          python code/experiments/synthetic-noise-feature-sensitivity/unified_60_analysis.py --mode check
+      - name: Commit only derived 60-step CSV JSON and SVG to experiment branch
+        run: |
+          set -euo pipefail
+          root=code/experiments/synthetic-noise-feature-sensitivity
+          git add "$root"/tables/final_60_*.csv "$root"/tables/final_60_*.json \
+                  "$root"/figures/2[2-9]_*.svg "$root"/figures/3[01]_*.svg
+          git diff --cached --name-only
+          if ! git diff --cached --quiet; then
+            git -c user.name='github-actions[bot]' \
+                -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+                commit -m "results(e-ch4-14): one 60-step experiment canonical metrics and figures"
+            git push origin HEAD:refs/heads/experiment/ch4-14-noise-sensitivity-01
+          fi
