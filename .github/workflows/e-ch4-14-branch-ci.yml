@@ -114,3 +114,24 @@ jobs:
           fi
       - name: Confirm no checked-in evidence was modified
         run: git diff --exit-code
+
+  postfit-audit:
+    name: Read-only 36-fit scientific replay and figure checksum (NO FIT)
+    if: github.ref == 'refs/heads/experiment/ch4-14-noise-sensitivity-01'
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Independently verify committed metric bundle, checkpoint SHA and tables
+        run: |
+          set -euo pipefail
+          node code/experiments/synthetic-noise-feature-sensitivity/reproduce_postfit.cjs --check
+      - name: Regenerate figures from immutable numerical tables and check exact SVG bytes
+        run: |
+          set -euo pipefail
+          node code/experiments/synthetic-noise-feature-sensitivity/render_figures.cjs
+          git diff --exit-code -- code/experiments/synthetic-noise-feature-sensitivity/figures
+      - name: Confirm all tracked files remain unchanged
+        run: git diff --exit-code
