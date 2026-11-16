@@ -92,27 +92,27 @@ class AuthorizationTests(unittest.TestCase):
                 "created":False,"deleted":False,"forced":False,
                 "head_commit":{"id":"b"*40,"message":MESSAGE},
                 "commits":[{"id":"b"*40}]}
-    def run(self,**kwargs):
+    def validate_push_fixture(self,**kwargs):
         return validate_push(kwargs.pop("event",self.event()),
                     kwargs.pop("request",self.request()),head="b"*40,
                     parent="a"*40,entries=kwargs.pop("entries",["A\t"+REQUEST_PATH]),
                     message=kwargs.pop("message",MESSAGE))
     def test_realistic_push_no_head_commit_file_arrays(self):
-        self.assertTrue(self.run())
+        self.assertTrue(self.validate_push_fixture())
     def test_changed_or_extra_files_rejected(self):
         for entries in (["M\t"+REQUEST_PATH],["D\t"+REQUEST_PATH],
                         ["A\t"+REQUEST_PATH,"A\tREADME.md"]):
-            with self.assertRaises(PermissionError):self.run(entries=entries)
+            with self.assertRaises(PermissionError):self.validate_push_fixture(entries=entries)
     def test_force_push_wrong_before_multiple_commits_rejected(self):
         for key,value in (("forced",True),("before","c"*40),
                           ("commits",[{"id":"b"*40},{"id":"c"*40}])):
             ev=self.event();ev[key]=value
-            with self.assertRaises(PermissionError):self.run(event=ev)
+            with self.assertRaises(PermissionError):self.validate_push_fixture(event=ev)
     def test_replay_and_wrong_approved_parent_rejected(self):
         req=self.request();req["approved_code_sha"]="c"*40
-        with self.assertRaises(PermissionError):self.run(request=req)
+        with self.assertRaises(PermissionError):self.validate_push_fixture(request=req)
         req=self.request();req["owner_comment_id"]=req["qa_comment_id"]
-        with self.assertRaises(PermissionError):self.run(request=req)
+        with self.assertRaises(PermissionError):self.validate_push_fixture(request=req)
     def test_approval_contract_bound_to_unique_budget_and_ci(self):
         base=dict(issue=90,stage="resume_only",approved_code_sha="a"*40,
                   frozen_results_sha=FROZEN,data_spec_sha256="82917272b0ac3850cecfd7bf4698dce55cbe955f8e3c308cf2c44d30e7f1ab8a",
