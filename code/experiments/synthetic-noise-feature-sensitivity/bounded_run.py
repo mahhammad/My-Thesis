@@ -111,8 +111,13 @@ def launch(stage, context_path, *, runner=subprocess.Popen):
     ctx, spec = load_context(context_path, stage)
     validate_reservation(stage, ctx)
     preflight(stage, ctx, spec)
-    if os.environ.get("GITHUB_EVENT_NAME") != "workflow_dispatch":
-        raise PermissionError("Only manual workflow dispatch can launch research")
+    event = os.environ.get("GITHUB_EVENT_NAME")
+    if event not in ("workflow_dispatch", "push"):
+        raise PermissionError("Only a manual dispatch/explicit branch request can run")
+    if event == "push" and (
+            os.environ.get("E14_PUSH_REQUEST_VERIFIED") != "true"
+            or os.environ.get("E14_STAGE") != stage):
+        raise PermissionError("Push without exact verified launch request rejected")
     max_min = ctx["max_wall_minutes"]
     max_rss = ctx["max_rss_mib"]
     if type(max_min) is not int or not 1 <= max_min <= 330:

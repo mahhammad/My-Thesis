@@ -123,7 +123,8 @@ def main(argv=None):
             "E14_OWNER_COMMENT_ID":request["owner_comment_id"],
             "E14_QA_COMMENT_ID":request["qa_comment_id"],
             "E14_STAGE_TOKEN":token,
-            "E14_PUSH_REQUEST_VERIFIED":verified}
+            "E14_PUSH_REQUEST_VERIFIED":verified,
+        "E14_REQUEST_APPROVED_CODE_SHA":request.get("approved_code_sha","")}
     _env_file(output)
     print("E14_EXPLICIT_STAGE_REQUEST_VALID",stage,"event",event_name,
           "no data / fit performed in this step")

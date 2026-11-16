@@ -125,7 +125,7 @@ def _verify_code_ancestry(approved, current, *, git_check=True, diff_paths=None)
         raise PermissionError("Unverified ancestry cannot be accepted")
     prefix = "code/experiments/synthetic-noise-feature-sensitivity/"
     allowed = (prefix + "inputs/noise_raw/", prefix + "inputs/noise_masks/",
-               prefix + "inputs/derived/", prefix + "results/",
+               prefix + "inputs/derived/", prefix + "requests/", prefix + "results/",
                prefix + "tables/", prefix + "figures/")
     if any(not name.startswith(allowed) for name in changed):
         raise PermissionError("Unapproved code/workflow change after approved SHA")
@@ -138,7 +138,7 @@ def verify(stage, owner_comment_id, qa_comment_id, *, fetch, token,
     if stage not in STAGES:
         raise PermissionError("Unknown E14 execution stage")
     if (workflow != EXPECTED_WORKFLOWS[stage] or branch != BRANCH
-            or event != "workflow_dispatch" or not str(run_id).isdigit()):
+            or event not in ("workflow_dispatch", "push") or not str(run_id).isdigit()):
         raise PermissionError("Only the exact manual E14 stage workflow is authorized")
     if not isinstance(token, str) or len(token) < 32:
         raise PermissionError("High-entropy per-stage one-time token is missing")
@@ -153,6 +153,11 @@ def verify(stage, owner_comment_id, qa_comment_id, *, fetch, token,
             not isinstance(qa_login, str) or qa_login == owner_login or
             qa_row.get("user", {}).get("login") != qa_login):
         raise PermissionError("Owner and independent QA must be verified distinct GitHub users")
+    if event == "push" and (
+            os.environ.get("E14_PUSH_REQUEST_VERIFIED") != "true"
+            or os.environ.get("E14_STAGE") != stage
+            or os.environ.get("E14_REQUEST_APPROVED_CODE_SHA") != approval.get("approved_code_sha")):
+        raise PermissionError("Push event requires validated, SHA-bound manual request")
     code_sha = approval.get("approved_code_sha")
     _verify_code_ancestry(code_sha, current_sha, git_check=git_check,
                           diff_paths=diff_paths)
