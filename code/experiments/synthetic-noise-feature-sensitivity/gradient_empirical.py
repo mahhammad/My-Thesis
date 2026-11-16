@@ -200,6 +200,46 @@ def derive(traces):
         fig.suptitle(f"{family}: empirical peak/trough Gradient L2 envelopes, actual 0–60 traces")
         fig.tight_layout()
         figures[f"34_gradient_L2_peak_trough_{family}.svg"]=_save(fig)
+    # Dedicated comparison: rows = six noisy-feature cardinalities;
+    # columns = policy families. Each empirical envelope encloses its group
+    # MEAN (not all members); individual trajectories remain faintly visible.
+    big,panels=plt.subplots(6,2,figsize=(13.5,21),sharex=True,sharey="row")
+    for k in range(6):
+        for col,family in enumerate(("shared","class")):
+            ax=panels[k,col]
+            selected=gradient_series(traces,family,k)
+            mean=np.mean([values for _,values in selected],axis=0)
+            env=group_fits[(family,k)]
+            for _,values in selected:
+                ax.plot(T,values,color=COLORS[k],alpha=.20,lw=.75)
+            ax.plot(T,mean,color=COLORS[k],lw=1.65,label="Mean Gradient L2")
+            ax.plot(T,env["upper"],ls="--",lw=1.4,color="#a16207",
+                    label="Empirical upper")
+            ax.plot(T,env["lower"],ls="--",lw=1.4,color="#0e7490",
+                    label="Empirical lower")
+            ax.fill_between(T,env["lower"],env["upper"],color="gray",alpha=.09)
+            if env["peaks"]:
+                ax.scatter(env["peaks"],mean[env["peaks"]],
+                           color="#a16207",s=10,zorder=4)
+            if env["valleys"]:
+                ax.scatter(env["valleys"],mean[env["valleys"]],
+                           color="#0e7490",s=10,zorder=4)
+            ratio=env["late_over_early"]
+            note=(f"late/early={ratio:.3f}" if ratio is not None else
+                  "no measurable gap")
+            ax.set_title(rf"{family} — $|A_N|={k}$  (n={len(selected)}; {note})",
+                         fontsize=9)
+            ax.set_xlim(0,60);ax.set_xticks([0,10,20,30,40,50,60])
+            ax.ticklabel_format(axis="y",style="sci",scilimits=(-2,2))
+            ax.grid(alpha=.14)
+            if col==0:ax.set_ylabel("Gradient L2")
+            if k==5:ax.set_xlabel("Adam update (0–60)")
+            if k==0 and col==0:ax.legend(fontsize=7,loc="best",ncol=2)
+    big.suptitle("Gradient L2 — empirical peak/trough envelopes | "
+                 "rows $|A_N|=0,1,2,3,4,5$; columns shared and class",
+                 fontsize=12,y=.996)
+    big.tight_layout(rect=[0,0,.995,.988],h_pad=1.5,w_pad=1.0)
+    figures["36_gradient_L2_peak_trough_6x2.svg"]=_save(big)
     fig,axes=plt.subplots(1,2,figsize=(12,4.8))
     for ax,family in zip(axes,("shared","class")):
         for k in range(6):

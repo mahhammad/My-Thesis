@@ -18,6 +18,7 @@ from resume_30_60 import read_frozen_dataset
 from e14_metrics import report_graph
 from runner import ExactMaskedWalk,BETA,LAMBDA,H
 from gradient_empirical import derive as empirical_gradient_diagnostics, empirical_envelope, gradient_series, self_test as empirical_gradient_self_test
+from bayes_reference_e14 import compute_bayes_reference
 
 HERE=pathlib.Path(__file__).resolve().parent
 TABLE=HERE/"tables"
@@ -249,7 +250,7 @@ def exponential_ba_envelope(y):
     require(meta["point_coverage_count"]==61,"Some BA points lie outside envelope")
     return upper,lower,meta
 
-def figures(traces,per,groups,paired):
+def figures(traces,per,groups,paired,bayes):
     outs={}
     envelope_rows=[]
     envelopes={}
@@ -268,6 +269,8 @@ def figures(traces,per,groups,paired):
                           "Gradient L2","Adam update L2")):
             draw_traces(ax,traces,family,key,scale=scale,legend=(key=="validation_BA"))
             if key=="validation_BA":
+                ax.axhline(100*bayes["validation"]["BA"],color="#52525b",
+                           ls="-.",lw=1.0,label="Bayes MAP (Val BA; §4.13)")
                 # An unobtrusive example; the six group-specific bands appear in Fig. 32.
                 y,upper,lower,_=envelopes[(family,2)]
                 ax.plot(np.arange(61),upper,color=COLORS[2],lw=1.0,ls="--",
@@ -293,6 +296,12 @@ def figures(traces,per,groups,paired):
         fig,axs=plt.subplots(2,1,figsize=(11,6.9),sharex=True)
         draw_traces(axs[0],traces,family,"train_BA",100)
         draw_traces(axs[1],traces,family,"validation_BA",100,legend=False)
+        axs[0].axhline(100*bayes["train"]["BA"],color="#52525b",
+                       lw=1.2,ls="--",label="Bayes MAP (Train BA; §4.13)")
+        axs[1].axhline(100*bayes["validation"]["BA"],color="#52525b",
+                       lw=1.2,ls="--",label="Bayes MAP (Val BA; §4.13)")
+        axs[0].legend(ncol=4,fontsize=7)
+        axs[1].legend(fontsize=7)
         axs[0].set_ylabel("Train BA (%)");axs[1].set_ylabel("Validation BA (%)")
         axs[0].set_title(f"{family}: balanced accuracy, full 0–60")
         axs[1].set_xlabel("Cumulative Adam update")
@@ -307,7 +316,10 @@ def figures(traces,per,groups,paired):
             if len(members)>1:
                 avg=np.mean([[100*r["validation_BA"] for r in t] for _,t in members],axis=0)
                 ax.plot(np.arange(61),avg,lw=2.5,color="black",label="subset mean")
-            ax.set_title(f"k={k}, subsets={len(members)}")
+            ax.set_title(rf"$|A_N|={k}$, subsets={len(members)}")
+            ax.axhline(100*bayes["validation"]["BA"],ls="--",
+                       color="#52525b",lw=1.0,
+                       label="Bayes MAP (Val BA)" if k==0 else None)
             ax.grid(alpha=.16);ax.set_xlim(0,60)
             if k in (0,3):ax.set_ylabel("Validation BA (%)")
             if k>=3:ax.set_xlabel("Adam update (0–60)")
@@ -323,8 +335,13 @@ def figures(traces,per,groups,paired):
         ax.bar(k+width/2,acc,width,label="Accuracy")
         ax.set(title=fam,xticks=k,xlabel="Noisy feature count k",ylim=(75,102))
         ax.grid(axis="y",alpha=.18)
+    for ax in axs:
+        ax.axhline(100*bayes["validation"]["BA"],ls="--",
+                   color="#52525b",lw=1.0,label="Bayes MAP BA (§4.13)")
+        ax.axhline(100*bayes["validation"]["Accuracy"],ls=":",
+                   color="#71717a",lw=1.0,label="Bayes MAP Accuracy (§4.13)")
     axs[0].set_ylabel("Validation score at step 60 (%)")
-    axs[0].legend()
+    axs[0].legend(fontsize=7)
     fig.suptitle("Step-60 classification quality (all 36 fits)")
     outs["25_final_60_BA_accuracy.svg"]=figure(fig)
     fig,axs=plt.subplots(1,3,figsize=(13.5,4.2))
@@ -412,6 +429,8 @@ def figures(traces,per,groups,paired):
             shrink=("no width" if ratio is None else
                     f"band at 60 = {100*ratio:.1f}% of start")
             ax.set_title(f"k={k}: rate={fit['rate_per_update']:.4f}; {shrink}",fontsize=8)
+            ax.axhline(100*bayes["validation"]["BA"],color="#52525b",
+                       ls="--",lw=.85,label="Bayes MAP (§4.13)" if k==0 else None)
             ax.grid(alpha=.17);ax.set_xlim(0,60)
             if k in (0,3):ax.set_ylabel("Validation BA (%, subset mean)")
             if k>=3:ax.set_xlabel("Cumulative Adam updates (0–60)")
@@ -429,7 +448,8 @@ def build():
     reports=load_step60_reports(traces)
     individual,group,paired=assemble(traces,reports)
     require(empirical_gradient_self_test(),"Gradient empirical envelope self-test failed")
-    fig,envelope_rows,grad_groups,grad_runs,grad_peaks=figures(traces,individual,group,paired)
+    bayes=compute_bayes_reference()
+    fig,envelope_rows,grad_groups,grad_runs,grad_peaks=figures(traces,individual,group,paired,bayes)
     summary={"schema":"e-ch4-14-single-60-update-v1","total_updates":2160,
         "updates_per_fit":60,"fits":36,"split_used":["train","validation"],
         "test_accessed":False,"single_experiment":True,
@@ -441,6 +461,7 @@ def build():
         TABLE/"final_60_by_noise_level.csv":csv_data(group),
         TABLE/"final_60_paired.csv":csv_data(paired),
         TABLE/"final_60_summary.json":b(summary),
+        TABLE/"final_60_bayes_reference.json":b(bayes),
         TABLE/"final_60_BA_exponential_envelopes.json":b({
             "schema":"e-ch4-14-exp-ba-envelope-v1",
             "metric":"Validation BA group mean, percentage points",

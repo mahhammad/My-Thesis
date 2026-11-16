@@ -5,6 +5,7 @@ on:
     paths:
       - 'code/experiments/synthetic-noise-feature-sensitivity/unified_60_analysis.py'
       - 'code/experiments/synthetic-noise-feature-sensitivity/gradient_empirical.py'
+      - 'code/experiments/synthetic-noise-feature-sensitivity/bayes_reference_e14.py'
       - '.github/workflows/e-ch4-14-unified-60-report.yml'
 permissions:
   contents: write
@@ -39,6 +40,7 @@ jobs:
           python -m pip install --disable-pip-version-check torch==2.9.1 --index-url https://download.pytorch.org/whl/cpu
       - name: Recompute canonical step60 metrics and full 0..60 plots read-only
         run: |
+          python code/experiments/synthetic-noise-feature-sensitivity/bayes_reference_e14.py
           python code/experiments/synthetic-noise-feature-sensitivity/gradient_empirical.py
           python code/experiments/synthetic-noise-feature-sensitivity/unified_60_analysis.py --mode write
           python code/experiments/synthetic-noise-feature-sensitivity/unified_60_analysis.py --mode check
@@ -49,7 +51,7 @@ jobs:
           git add "$root"/tables/final_60_*.csv "$root"/tables/final_60_*.json \
                   "$root"/tables/gradient_empirical_envelopes_60.json \
                   "$root"/tables/gradient_peak_*.csv \
-                  "$root"/figures/2[2-9]_*.svg "$root"/figures/3[01]_*.svg "$root"/figures/32_*.svg "$root"/figures/3[45]_*.svg
+                  "$root"/figures/2[2-9]_*.svg "$root"/figures/3[01]_*.svg "$root"/figures/32_*.svg "$root"/figures/3[45]_*.svg "$root"/figures/36_*.svg
           git diff --cached --name-only
           if ! git diff --cached --quiet; then
             git -c user.name='github-actions[bot]' \
