@@ -137,7 +137,7 @@ def audit():
             require(len([x for x in byrun[id] if x["event"]=="START"])==1
                     and len([x for x in byrun[id] if x["event"]=="SUCCESS"])==1,
                     "Start/success mismatch "+id)
-            all_steps=before+after[1:]
+            # Stitch the original 0..29 diagnostics to the richer recomputed\n            # step30..60 records; the common step30 scalars were checked above.\n            all_steps=before[:-1]+after
             old[id]=before;traces[id]=all_steps
             if family=="class":
                 class_curves[id]=[{str(c):r["nfi3"][str(c)] for c in range(3)}
