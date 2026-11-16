@@ -59,10 +59,13 @@ for(const family of ["shared","class"]){
 }
  for(const sub of [...new Set(runs.filter(x=>x.k===k).map(x=>x.subset_id))]){const a=runs.find(x=>x.subset_id===sub&&x.family==="shared"),b=runs.find(x=>x.subset_id===sub&&x.family==="class"),z={subset_id:sub,k};for(const field of fields)z[field+"_delta"]=b[field]-a[field];paired.push(z);}
 }
-const audit=read("tables/integrity_audit.json");assert.equal(audit.report_count,36);assert.equal(audit.ledger_events.UPDATE,1080);
+const audit=mode==="--check"?read("tables/integrity_audit.json"):{source_commit:"7bc66e4d2535fb15dfa5b569933b2d6c5a0962ac"};
+if(mode==="--check"){assert.equal(audit.report_count,36);assert.equal(audit.ledger_events.UPDATE,1080);}
 const result={schema:"e-ch4-14-derived-analysis-v1",source_commit:audit.source_commit,design:"One mother and dependent feature subsets; SD reflects subset dispersion, not independent seeds.",runs,level,paired,learning,classes};
-const existing=read("tables/analysis_summary.json");
-assert.equal(JSON.stringify(existing),JSON.stringify(result));
+if(mode==="--check"){
+ const existing=read("tables/analysis_summary.json");
+ assert.equal(JSON.stringify(existing),JSON.stringify(result),"Committed derived summaries disagree with raw reports");
+}
 const csv=(rows,fields)=>fields.join(",")+"\n"+rows.map(x=>fields.map(k=>{let v=x[k];if(v==null)return "";if(typeof v==="number")return Number(v.toPrecision(13));if(typeof v==="boolean")return v?"true":"false";let s=String(v);return /[,"\n]/.test(s)?'"'+s.replaceAll('"','""')+'"':s}).join(",")).join("\n")+"\n";
 const products={"per_dataset_metrics.csv":csv(runs,Object.keys(runs[0])),
 "summary_by_noise_level.csv":csv(level,["k","family","n_subsets","parameters",...fields.flatMap(f=>[f+"_mean",f+"_sd"])]),
