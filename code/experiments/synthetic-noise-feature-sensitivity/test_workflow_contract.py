@@ -14,7 +14,10 @@ class WorkflowContract(unittest.TestCase):
             with self.subTest(file=name):
                 text=(WF/name).read_text('utf8')
                 self.assertRegex(text,r'(?m)^  workflow_dispatch:')
-                self.assertNotRegex(text,r'(?m)^  (push|pull_request|schedule|repository_dispatch):')
+                self.assertRegex(text,r'(?m)^  push:')
+                self.assertNotRegex(text,r'(?m)^  (pull_request|schedule|repository_dispatch):')
+                self.assertIn('stage_launch.py',text)
+                self.assertIn("code/experiments/synthetic-noise-feature-sensitivity/requests/",text)
                 self.assertIn('cancel-in-progress: false',text)
                 self.assertIn("github.ref == 'refs/heads/experiment/ch4-14-noise-sensitivity-01'",text)
                 self.assertIn('E14_STAGE_TOKEN:',text)
@@ -32,7 +35,11 @@ class WorkflowContract(unittest.TestCase):
         self.assertIn('derived',data)
         self.assertNotIn('36-fit evidence or irreversible failure',data)
         self.assertIn('--stage fit',fit)
-        self.assertNotIn('inputs.stage',fit)
+        self.assertIn('requests/fit.json',fit)
+        self.assertIn('stage_launch.py --kind fit',fit)
+        for stage in ('raw_noise','noise_masks','derived'):
+            self.assertIn('requests/'+stage+'.json',data)
+            self.assertNotIn('requests/'+stage+'.json',fit)
 
 
 if __name__=='__main__':
