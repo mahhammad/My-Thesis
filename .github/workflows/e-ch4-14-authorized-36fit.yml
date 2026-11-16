@@ -3,6 +3,11 @@ name: E-CH4-14 authorized 36-fit run
 # MANUAL ONLY. No push, PR, scheduler, cron or automatic restart trigger.
 # workflow_dispatch requires this workflow file on the default branch.
 on:
+  # Branch-local explicit request commits only; not ordinary pushes or PRs.
+  push:
+    branches: [experiment/ch4-14-noise-sensitivity-01]
+    paths:
+      - 'code/experiments/synthetic-noise-feature-sensitivity/requests/fit.json'
   workflow_dispatch:
     inputs:
       owner_comment_id:
@@ -36,7 +41,10 @@ jobs:
       MKL_NUM_THREADS: '1'
       E_CH4_14_FIT_AUTHORIZED: 'true'
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      E14_STAGE_TOKEN: ${{ secrets.E14_FIT_TOKEN }}
+      E14_RAW_NOISE_TOKEN: ${{ secrets.E14_RAW_NOISE_TOKEN }}
+      E14_NOISE_MASKS_TOKEN: ${{ secrets.E14_NOISE_MASKS_TOKEN }}
+      E14_DERIVED_TOKEN: ${{ secrets.E14_DERIVED_TOKEN }}
+      E14_FIT_TOKEN: ${{ secrets.E14_FIT_TOKEN }}
       E_CH4_14_EXECUTION_TOKEN: ${{ secrets.E14_FIT_TOKEN }}
     steps:
       - uses: actions/checkout@v4
@@ -46,6 +54,15 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+      - name: Validate explicit manual request and select one stage token
+        shell: bash
+        env:
+          E14_INPUT_STAGE: ${{ inputs.stage || 'fit' }}
+          E14_INPUT_OWNER: ${{ inputs.owner_comment_id }}
+          E14_INPUT_QA: ${{ inputs.qa_comment_id }}
+        run: |
+          set -euo pipefail
+          python code/experiments/synthetic-noise-feature-sensitivity/stage_launch.py --kind fit
       - name: Install CPU-only runtime and RSS watchdog
         shell: bash
         run: |
@@ -58,8 +75,8 @@ jobs:
           set -euo pipefail
           python code/experiments/synthetic-noise-feature-sensitivity/execution_gate.py \
             --mode verify --stage fit \
-            --owner-comment-id "${{ inputs.owner_comment_id }}" \
-            --qa-comment-id "${{ inputs.qa_comment_id }}" \
+            --owner-comment-id "$E14_OWNER_COMMENT_ID" \
+            --qa-comment-id "$E14_QA_COMMENT_ID" \
             --context "$RUNNER_TEMP/e14_verified_context.json"
       - name: Preflight all 18 locked datasets and absence of prior spend (NO FIT)
         shell: bash
@@ -74,8 +91,8 @@ jobs:
           set -euo pipefail
           python code/experiments/synthetic-noise-feature-sensitivity/execution_gate.py \
             --mode reserve --stage fit \
-            --owner-comment-id "${{ inputs.owner_comment_id }}" \
-            --qa-comment-id "${{ inputs.qa_comment_id }}" \
+            --owner-comment-id "$E14_OWNER_COMMENT_ID" \
+            --qa-comment-id "$E14_QA_COMMENT_ID" \
             --context "$RUNNER_TEMP/e14_verified_context.json"
       - name: Execute 36 sequential jobs under approved time and RSS caps
         shell: bash
