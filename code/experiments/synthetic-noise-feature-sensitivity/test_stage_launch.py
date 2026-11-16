@@ -1,5 +1,6 @@
 """Live-shaped GitHub Actions push event regression, no research execution."""
 import json
+import subprocess
 import os
 from pathlib import Path
 import sys
@@ -102,6 +103,27 @@ class PushGateTests(unittest.TestCase):
         with self.assertRaises(PermissionError):verify(data=p)
         p=list(fixture());p[0]["owner_comment_id"]="111"
         with self.assertRaises(PermissionError):verify(data=p)
+
+    def test_actual_github_actions_push_envelope_read_only(self):
+        """Runs against GITHUB_EVENT_PATH on branch CI, never requests a fit."""
+        if (os.environ.get("GITHUB_ACTIONS")!="true" or
+                os.environ.get("GITHUB_EVENT_NAME")!="push" or
+                os.environ.get("GITHUB_REF_NAME")!=launch.BRANCH):
+            self.skipTest("Only applicable to the real Actions branch-push event")
+        event=json.loads(Path(os.environ["GITHUB_EVENT_PATH"]).read_text("utf8"))
+        head=subprocess.check_output(["git","rev-parse","HEAD"],
+                                     cwd=launch.ROOT,text=True).strip()
+        parents=subprocess.check_output(["git","rev-list","--parents","-n","1","HEAD"],
+                                        cwd=launch.ROOT,text=True).strip().split()
+        self.assertEqual(len(parents),2,"CI must fetch enough history to know parent")
+        self.assertEqual(head,os.environ["GITHUB_SHA"])
+        self.assertEqual(event.get("after"),head)
+        self.assertEqual(event.get("before"),parents[1])
+        self.assertEqual(event.get("head_commit",{}).get("id"),head)
+        self.assertNotIn("added",event.get("head_commit",{}))
+        self.assertNotIn("modified",event.get("head_commit",{}))
+        self.assertNotIn("removed",event.get("head_commit",{}))
+        self.assertEqual(event.get("ref"),"refs/heads/"+launch.BRANCH)
 
     def test_dispatch_no_secret_output(self):
         r=launch.validate_dispatch("fit",111,222,kind="fit")
