@@ -430,15 +430,15 @@ git diff -- code/experiments/synthetic-noise-feature-sensitivity/tables code/exp
 - [`resume_watchdog.py`](resume_watchdog.py) بعد از رزرو سقف مجموع ۳۰۰ دقیقه، هر job حداکثر ۲۰ دقیقه و مجموع RSS فرایندهای کودک حداکثر ۶۱۴۴ MiB دارد؛ شکست به `FAIL_STOP` و حفظ داده‌های جزئی می‌انجامد. یک artifact مستقل GitHub Actions با نگهداری **۹۰ روزه** پیش از تلاش push تولید می‌شود و موفقیت فقط پس از مشاهده خروجی در شاخه و artifact اعلام می‌گردد. پایان سخت runner/kill یا قطعی زیرساخت ممکن است اجرای step artifact را ناممکن سازد؛ در چنین رخدادی ادعای بازیابی کامل مجاز نیست.
 - توکن مرحله FIT فقط به درخواست صریح مالک **به‌عنوان credential** بازاستفاده می‌شود، نه مجوز یا بودجهٔ پیشین. budget tag مستقل ادامه همچنان فقط یک‌بار ایجاد می‌شود؛ شکست/قطع اجرا حق retry خودکار نمی‌دهد.
 
-### بازتولید بی‌خطر پیش از مجوز
+### بازتولید بی‌خطر پس از اجرای ثبت‌شده
 
 ```bash
 python -m unittest discover -s code/experiments/synthetic-noise-feature-sensitivity -p 'test_resume_30_60.py' -v
 python code/experiments/synthetic-noise-feature-sensitivity/resume_gate.py --mode fingerprint
-python code/experiments/synthetic-noise-feature-sensitivity/resume_30_60.py --mode preflight
+python code/experiments/synthetic-noise-feature-sensitivity/continuation_analysis.py --mode check
 ```
 
-دستورهای بالا checkpointهای واقعی را فقط می‌خوانند و گام ۳۰ را بازحساب می‌کنند؛ **هیچ optimizer.step در داده ۳۰۰ نمونه‌ای اجرا نمی‌شود.** آزمون تابع Adam تنها روی fixture کوچک کنترل می‌کند که restored optimizer و ادامهٔ بی‌وقفه دقیقاً یکسان‌اند و restart از logits تنها مساوی نیست. اجرای عادی CI شاخه و job ویژه preflight بی‌Secret باید پیش از رأی QA موفق باشند.
+دستورهای بالا فقط شواهد ثابت و ۳۶ خروجی واقعی را می‌خوانند؛ هیچ `optimizer.step()` اجرا نمی‌شود. پس از مصرف بودجه، حالت `resume_30_60.py --mode preflight` عمداً در صورت وجود خروجی ادامه، برای پیشگیری از retry متوقف می‌شود؛ بنابراین دستور مناسب بازتولید پس از اجرا، `continuation_analysis.py --mode check` است.
 
 **وضعیت پس از اجرا:** گیت واقعاً عبور کرده و tag بودجهٔ جداگانه رزرو و مصرف شده است؛ هر تکرار خودکارِ مصرف بودجه ممنوع است. صحت ۳۶ خروجی و تحلیل ۳۰–۶۰ به‌صورت read-only در §۲۰ ممیزی شده و کد بازتولید آن موجود است.
 
@@ -449,7 +449,7 @@ python code/experiments/synthetic-noise-feature-sensitivity/resume_30_60.py --mo
 
 همهٔ **۳۶ آموزش** (۱۸ زیرمجموعه × دو خانوادهٔ `shared` و `class`) با **همان checkpoint گام ۳۰، logits و ممان‌های Adam** و بدون بازشروع تا گام ۶۰ ادامه یافته‌اند. درخواست اجرا `7393aafd244fb82d01e4aab7fa922e48a64a9813` و [GitHub Actions #43881004168](https://github.com/mahhammad/My-Thesis/actions/runs/43881004168) با وضعیت `SUCCESS` ثبت شده‌اند؛ خروجی اصلی در `results/continuation_30_60/` قرار دارد. بودجهٔ جدید از بودجهٔ گام‌های ۰–۳۰ مستقل و فقط یک‌بار مصرف‌شده است.
 
-اسکریپت [`continuation_analysis.py`](continuation_analysis.py) ممیزی سراسری **بدون حتی یک آپدیت Adam جدید** را اجرا کرده است: `BUDGET_RESERVED=1`، `START=36`، `UPDATE=1080` و `SUCCESS=36`، بدون `FAIL_STOP`؛ ترتیب دقیق `31..60` برای هر یک از ۳۶ اجرا؛ تطبیق سنجه‌های مشترک گام ۳۰ با trace منجمد؛ ۳۱ رکورد پیوستهٔ `30..60` در trace و logits؛ مطابقت بایت‌های `float64` و SHA256 تک‌تک ماتریس‌ها با NPZ؛ صحت SHA256 فایل‌های trace، ژورنال، NPZ و checkpoint گام ۶۰ نسبت به manifest؛ یکسانی logits نهایی checkpoint با آخرین ژورنال؛ و وجود دو ممان `float64` و شمارندهٔ Adam برابر ۶۰. کنترل `test_accessed=false` و نبود فایل Test در مجموعهٔ ورودی نیز انجام شده است. شواهد قدیمی آموزش ۰–۳۰ تغییر نکرده‌اند.
+اسکریپت [`continuation_analysis.py`](continuation_analysis.py) ممیزی سراسری **بدون حتی یک آپدیت Adam جدید** را اجرا کرده است: `BUDGET_RESERVED=1`، `START=36`، `UPDATE=1080` و `SUCCESS=36`، بدون `FAIL_STOP`؛ ترتیب دقیق `31..60` برای هر یک از ۳۶ اجرا؛ تطبیق سنجه‌های مشترک گام ۳۰ با trace منجمد؛ ۳۱ رکورد پیوستهٔ `30..60` در trace و logits؛ مطابقت بایت‌های `float64` و SHA256 تک‌تک ماتریس‌ها با NPZ و **محاسبهٔ مستقل F₃/E₃/NFI₃، q₁..q₃ و احتمال شرطی انتخاب مجدد نویز از تمام logits ذخیره‌شده**؛ صحت SHA256 فایل‌های trace، ژورنال، NPZ و checkpoint گام ۶۰ نسبت به manifest؛ یکسانی logits نهایی checkpoint با آخرین ژورنال؛ و وجود دو ممان `float64` و شمارندهٔ Adam برابر ۶۰. کنترل `test_accessed=false` و نبود فایل Test در مجموعهٔ ورودی نیز انجام شده است. شواهد قدیمی آموزش ۰–۳۰ تغییر نکرده‌اند.
 
 نسخهٔ تحلیل فقط داده‌های Train و Validation را می‌خواند، نه Test را؛ علاوه بر کنترل SHA، **هیچ تابع fit یا `optimizer.step()` را اجرا نمی‌کند**. [CI بازتولید و ممیزی ۳۶ اجرا](https://github.com/mahhammad/My-Thesis/actions/runs/43893347246) تمام کنترل‌ها، تولید نمودارها و بررسی تطابق byte-for-byte خروجی‌های مشتق را با موفقیت گذرانده است. کنترل یکسانی با منشأ قطعی و آزمایش اتصال مرز گام ۳۰ جایگزین ادعای تأیید علیت یا همگرایی نیست.
 

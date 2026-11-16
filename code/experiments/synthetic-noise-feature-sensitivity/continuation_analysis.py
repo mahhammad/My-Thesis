@@ -46,6 +46,58 @@ def candidates(row,family):
 def get_nfi(row,family,key):
     return candidates(row,family)[0][key]
 
+
+def independently_recompute_three_choices(logits, mapping):
+    """Recompute F3/E3/NFI3, three marginals and conditional repeat from logits."""
+    m=tuple(int(x) for x in mapping)
+    d=len(m)
+    useful={0,1,3}
+    J=np.asarray([i for i,x in enumerate(m) if x in useful],dtype=int)
+    N=np.asarray([i for i,x in enumerate(m) if x not in useful],dtype=int)
+    require(len(J)==3 and len(N)==d-3 and logits.shape==(d+1,d),
+            "Malformed feature mapping or logits for policy3")
+    require(logits.dtype==np.float64 and np.isfinite(logits).all(),
+            "Non-finite float64 policy logits")
+    ex=np.exp(logits-np.max(logits,axis=1,keepdims=True))
+    probs=ex/ex.sum(axis=1,keepdims=True)
+    p0=probs[d,:]
+    P=probs[:d,:]
+    p1=p0@P
+    p2=p1@P
+    q1=float(p0[N].sum())
+    q2=float(p1[N].sum())
+    q3=float(p2[N].sum())
+    f3=float(1-p0[J]@P[np.ix_(J,J)]@P[np.ix_(J,J)]@np.ones(3)) if len(N) else 0.0
+    e3=q1+q2+q3
+    uniform_f=1-(3/d)**3
+    conditional=(float(p0[N]@P[np.ix_(N,N)]@np.ones(len(N))/q1)
+                 if q1>0 else None)
+    return {"F3":f3,"E3":e3,"NFI3":f3/uniform_f if len(N) else None,
+            "q1":q1,"q2":q2,"q3":q3,"p0_noise":q1,
+            "p_N_to_N_given_start_N":conditional}
+
+def verify_policy_metrics_against_logits(row,logits,mapping,family,id):
+    if family=="shared":
+        calculated={"shared":independently_recompute_three_choices(logits,mapping)}
+    else:
+        calculated={str(c):independently_recompute_three_choices(logits[c],mapping)
+                    for c in range(3)}
+        calculated["macro"]={
+           key:(float(np.mean([calculated[str(c)][key] for c in range(3)]))
+                if all(calculated[str(c)][key] is not None for c in range(3))
+                else None)
+           for key in calculated["0"]}
+    require(set(calculated)==set(row["nfi3"]),"Class policies missing from saved trace "+id)
+    for candidate,metrics in calculated.items():
+        for key,actual in metrics.items():
+            recorded=row["nfi3"][candidate][key]
+            if actual is None:
+                require(recorded is None,"Null NFI/pNN must remain undefined "+id)
+            else:
+                require(recorded is not None and
+                        np.isclose(float(recorded),actual,rtol=2e-9,atol=2e-11),
+                        "Derived noise statistic disagrees with logits "+id+" "+candidate+" "+key)
+
 def tv(rows,key):
     return float(np.abs(np.diff([r[key] for r in rows])).sum())
 
@@ -121,6 +173,7 @@ def audit():
                 require(np.array_equal(matrix,stacked[j]),"Journal/NPZ logits differ "+id)
                 require(hashlib.sha256(np.asarray(matrix,dtype="<f8").tobytes()).hexdigest()
                         ==entry["sha256_float64_le"],"Logit float64 SHA mismatch "+id)
+                verify_policy_metrics_against_logits(after[j],matrix,info["feature_mapping"],family,id)
             cp=torch.load(folder/"step_60.pt",map_location="cpu",weights_only=True)
             require(cp["step"]==60 and cp["schema"]=="e-ch4-14-resume-checkpoint-v1"
                     and cp["metadata"]["test_accessed"] is False
