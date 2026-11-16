@@ -266,11 +266,12 @@ def execute(authorization, source_sha, run_token):
     with ledger_path.open('x',encoding='utf8') as ledger:
         ledger.write(json.dumps({'event':'BUDGET_RESERVED','fits':36,'updates':1080,
                                  'source_sha':source_sha,'test_accessed':False})+'\n')
-        ledger.flush()
+        ledger.flush(); os.fsync(ledger.fileno())
         for subset, family in grid():
             run_id=f'{subset}__{family}'
             d=by_id[subset]
             try:
+                job_started=time.perf_counter()
                 graph=ExactMaskedWalk(d.train_x,d.train_y,d.gamma,
                                       beta=BETA,lam=LAMBDA,horizon=H,
                                       query_x=d.validation_x)
@@ -278,11 +279,11 @@ def execute(authorization, source_sha, run_token):
                 checkpoint_dir=HERE/'results/checkpoints'/run_id
                 trace_dir.mkdir(exist_ok=False)
                 checkpoint_dir.mkdir(exist_ok=False)
-                ledger.write(json.dumps({'event':'START','run_id':run_id})+'\n');ledger.flush()
+                ledger.write(json.dumps({'event':'START','run_id':run_id})+'\n');ledger.flush(); os.fsync(ledger.fileno())
                 def record_update(completed):
                     ledger.write(json.dumps({'event':'UPDATE','run_id':run_id,
                                              'updates_completed':completed})+'\n')
-                    ledger.flush()
+                    ledger.flush(); os.fsync(ledger.fileno())
                 z,opt,trace=_fit_trace(graph,d.validation_y,family,
                                       steps=UPDATES,update_callback=record_update)
                 from checkpoints import save_checkpoint
@@ -303,14 +304,22 @@ def execute(authorization, source_sha, run_token):
                 save_checkpoint(checkpoint_dir/'step_30.pt',z,opt,UPDATES,meta)
                 report=report_graph(graph,z,family,d.train_y,d.validation_y,
                                     data_hashes=d.hashes,subset_id=subset)
+                import psutil  # only the approved research workflow installs RSS monitoring
+                report['resource_usage'] = {
+                    'job_compute_elapsed_s': float(time.perf_counter()-job_started),
+                    'process_rss_mib_at_report': float(
+                        psutil.Process().memory_info().rss/(1024*1024)),
+                    'policy_parameter_count': int(z.numel()),
+                    'rss_measurement': 'process_current_not_peak',
+                }
                 reports[run_id] = report
                 new_file(ledger_dir/f'{run_id}.json',json.dumps(report,indent=2,allow_nan=False)+'\n')
                 ledger.write(json.dumps({'event':'SUCCESS','run_id':run_id,
-                                         'trace_sha256':trace_sha})+'\n');ledger.flush()
+                                         'trace_sha256':trace_sha})+'\n');ledger.flush(); os.fsync(ledger.fileno())
             except Exception as e:
                 ledger.write(json.dumps({'event':'FAIL_STOP','run_id':run_id,
                                          'error_type':type(e).__name__,
-                                         'message':str(e)})+'\n');ledger.flush()
+                                         'message':str(e)})+'\n');ledger.flush(); os.fsync(ledger.fileno())
                 raise
     if len(reports) != 36:
         raise AssertionError('Batch incomplete; no final summary')
