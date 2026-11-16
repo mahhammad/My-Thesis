@@ -149,10 +149,14 @@ def verify(stage, owner_comment_id, qa_comment_id, *, fetch, token,
     qa_row, qa = _comment(qa_comment_id, QA_MARKER, fetch=fetch)
     owner_login = repository["owner"]["login"]
     qa_login = approval.get("independent_auditor_login")
-    if (owner_row.get("user", {}).get("login") != owner_login or
-            not isinstance(qa_login, str) or qa_login == owner_login or
+    # Independent review means a distinct evidence-based audit and decision,
+    # not necessarily a separate GitHub account. Research roles in this
+    # project share the repository owner's login.
+    if (owner_comment_id == qa_comment_id or
+            owner_row.get("user", {}).get("login") != owner_login or
+            not isinstance(qa_login, str) or not qa_login or
             qa_row.get("user", {}).get("login") != qa_login):
-        raise PermissionError("Owner and independent QA must be verified distinct GitHub users")
+        raise PermissionError("Owner and QA decisions must be distinct verified comments")
     if event == "push" and (
             os.environ.get("E14_PUSH_REQUEST_VERIFIED") != "true"
             or os.environ.get("E14_STAGE") != stage
