@@ -84,7 +84,7 @@ def fig_ba(traces,bayes):
             avg=np.mean([[100*x[key] for x in trace] for trace in runs],axis=0)
             ax.plot(STEPS,avg,lw=1.55,color=COLORS[k],label=rf"$|A_N|={k}$")
         ax.axhline(100*bayes[split]["BA"],color="#373737",ls="--",
-                   lw=1.4,label=fa("مرجع بیزی"))
+                   lw=1.4,label=fa("بیز: داده مادر ۵ ویژگی"))
         ax.set_title(fa("آموزش" if i==0 else "اعتبارسنجی")+" — "+
                      fa("مشترک" if f=="shared" else "شرطی کلاس"))
         ax.set_xlim(0,60);ax.set_ylim(70,100.5)
@@ -92,7 +92,7 @@ def fig_ba(traces,bayes):
         if j==0:ax.set_ylabel(fa("دقت متوازن (درصد)"))
         ax.grid(alpha=.15)
         if i==0 and j==0:ax.legend(fontsize=7,ncol=4,loc="lower right")
-    fig.suptitle(fa("دقت متوازن در شصت گام و مرجع بیزی"),fontsize=13)
+    fig.suptitle(fa("دقت متوازن و مرجع زمینه‌ای بیزی داده مادر پنج‌ویژگی"),fontsize=13)
     fig.tight_layout()
     return render(fig)
 def fig_gradient(traces):
@@ -197,7 +197,7 @@ def produce():
        r" & \lr{shared} & \lr{class} & یکنواخت & \lr{shared} & \lr{class}\\\hline"],rows)
     figures=[
       ("e14_ba_bayes_fa","fig:ch4-e14-ba-bayes",
-       "دقت متوازن آموزش و اعتبارسنجی در طول شصت گام برای دو خانواده سیاست و شش مقدار نویز؛ خط افقیِ خط‌چین مرجع بیزی همان مجموعه است.",False,
+       "دقت متوازن آموزش و اعتبارسنجی در طول شصت گام برای دو خانواده سیاست و شش سطح نویز؛ خطوط افقی مرجع زمینه‌ای \lr{Bayes MAP} دادهٔ مادر پنج‌ویژگی با بذر $20261102$ هستند، نه مرجع بیزی محاسبه‌شده برای هر زیرمجموعهٔ نویزی.",False,
        fig_ba(traces,bayes)),
       ("e14_gradient_6x2_fa","fig:ch4-e14-gradient-envelopes",
        "هنجار گرادیان و پوش تجربی قله‌ها و دره‌ها؛ شش ردیف برای $|A_N|=0,\ldots,5$ و دو ستون برای سیاست مشترک و شرطی کلاس. پوش‌ها از میانگین هر گروه ساخته شده‌اند.",True,
