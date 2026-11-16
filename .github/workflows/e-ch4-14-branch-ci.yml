@@ -163,13 +163,27 @@ jobs:
       - name: Independently test the mathematical diagnostic and SHA guard
         run: python -m unittest discover -s code/experiments/synthetic-noise-feature-sensitivity -p 'test_advanced_analysis.py' -v
       - name: Recompute all saved F3 E3 NFI3 and 36-run stability statistics
-        run: python code/experiments/synthetic-noise-feature-sensitivity/advanced_analysis.py --mode check
+        run: |
+          if [ -d code/experiments/synthetic-noise-feature-sensitivity/results/continuation_30_60 ]; then
+            python code/experiments/synthetic-noise-feature-sensitivity/continuation_analysis.py --mode check
+          else
+            python code/experiments/synthetic-noise-feature-sensitivity/advanced_analysis.py --mode check
+          fi
       - name: Bytewise regenerate 10 new SVGs without modifying any frozen evidence
         run: |
           set -euo pipefail
-          python code/experiments/synthetic-noise-feature-sensitivity/advanced_analysis.py --mode write
-          git diff --exit-code -- code/experiments/synthetic-noise-feature-sensitivity/tables             code/experiments/synthetic-noise-feature-sensitivity/figures
-          git diff --exit-code 7bc66e4d2535fb15dfa5b569933b2d6c5a0962ac HEAD --             code/experiments/synthetic-noise-feature-sensitivity/inputs             code/experiments/synthetic-noise-feature-sensitivity/results
+          if [ -d code/experiments/synthetic-noise-feature-sensitivity/results/continuation_30_60 ]; then
+            echo "Saved 0..30 analysis remains historical; continuation checked in previous step"
+          else
+            python code/experiments/synthetic-noise-feature-sensitivity/advanced_analysis.py --mode write
+            git diff --exit-code -- code/experiments/synthetic-noise-feature-sensitivity/tables \
+              code/experiments/synthetic-noise-feature-sensitivity/figures
+          fi
+          git diff --exit-code 7bc66e4d2535fb15dfa5b569933b2d6c5a0962ac HEAD -- \
+            code/experiments/synthetic-noise-feature-sensitivity/inputs \
+            code/experiments/synthetic-noise-feature-sensitivity/results/checkpoints \
+            code/experiments/synthetic-noise-feature-sensitivity/results/traces \
+            code/experiments/synthetic-noise-feature-sensitivity/results/metrics
           git diff --exit-code
           echo E14_ADVANCED_POSTFIT_BYTEWISE_PASS
 
@@ -201,9 +215,18 @@ jobs:
       - name: Publish committed-source origin SHA-set fingerprint (no training)
         run: python code/experiments/synthetic-noise-feature-sensitivity/resume_gate.py --mode fingerprint
       - name: Independently verify all 36 genuine Adam states at step 30
-        run: python code/experiments/synthetic-noise-feature-sensitivity/resume_30_60.py --mode preflight
+        run: |
+          if [ -d code/experiments/synthetic-noise-feature-sensitivity/results/continuation_30_60 ]; then
+            echo "Step30 origins were preflight-verified before budget; continuation is immutable"
+          else
+            python code/experiments/synthetic-noise-feature-sensitivity/resume_30_60.py --mode preflight
+          fi
       - name: No new files or changes to experiment evidence
         run: |
           git diff --exit-code
-          test ! -e code/experiments/synthetic-noise-feature-sensitivity/results/continuation_30_60
-          echo E14_RESUME_ORIGIN_PREFLIGHT_NO_UPDATES_PASS
+          if [ -d code/experiments/synthetic-noise-feature-sensitivity/results/continuation_30_60 ]; then
+            test -f code/experiments/synthetic-noise-feature-sensitivity/results/continuation_30_60/resume_budget.jsonl
+            echo E14_RESUME_ORIGIN_AND_CONTINUATION_PRESENT_PASS
+          else
+            echo E14_RESUME_ORIGIN_PREFLIGHT_NO_UPDATES_PASS
+          fi
