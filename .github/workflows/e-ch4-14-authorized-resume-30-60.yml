@@ -95,7 +95,9 @@ jobs:
         run: |
           set -euo pipefail
           root="code/experiments/synthetic-noise-feature-sensitivity/results/continuation_30_60"
-          git add -A -- "$root"
+          if [ -d "$root" ]; then
+            git add -A -- "$root"
+          fi
           if ! git diff --cached --quiet; then
             git -c user.name='github-actions[bot]' \
               -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
