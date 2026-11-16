@@ -47,7 +47,7 @@ jobs:
           set -euo pipefail
           path=code/experiments/synthetic-noise-feature-sensitivity/latex
           git add "$path"/tables/*.tex "$path"/figures/*.tex \
-                  "$path"/figures/*.svg "$path"/figures/*.pdf
+                  "$path"/figures/*.svg "$path"/figures/*.pdf "$path"/figures/*.png
           git diff --cached --name-only
           if ! git diff --cached --quiet; then
             git -c user.name='github-actions[bot]' \

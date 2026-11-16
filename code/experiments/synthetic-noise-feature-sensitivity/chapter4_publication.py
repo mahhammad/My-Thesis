@@ -48,7 +48,7 @@ def render(fig):
     # Render once for QA: proves fonts and vector shapes are consumable.
     png=cairosvg.svg2png(bytestring=svg,output_width=1100)
     require(png.startswith(b"\x89PNG") and len(png)>10000,"PNG QA failed")
-    return svg,pdf
+    return svg,pdf,png
 def wrap(name,label,caption,tall=False):
     return txt("\n".join([
        "% E-CH4-14: Persian vector publication figure",
@@ -206,11 +206,12 @@ def produce():
        "شمار مورد انتظار و احتمال برخورد با ویژگی نویزی در گام شصت، در مقایسه با سیاست یکنواخت و برحسب $|A_N|$.",False,
        fig_noise(noise)),
     ]
-    for name,label,caption,tall,(svg,pdf) in figures:
+    for name,label,caption,tall,(svg,pdf,png) in figures:
         data[FDIR/(name+".svg")]=svg
         data[FDIR/(name+".pdf")]=pdf
+        data[FDIR/(name+".png")]=png
         data[FDIR/(name+".tex")]=wrap(name,label,caption,tall)
-    require(len(data)==13,"Wrong figure/table file count")
+    require(len(data)==16,"Wrong figure/table file count")
     return data
 def main():
     p=argparse.ArgumentParser()
