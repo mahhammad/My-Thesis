@@ -1,5 +1,6 @@
 """Independent small-fixture negative gates for QA G1/G2, never research data."""
 from pathlib import Path
+from hashlib import sha256
 import os
 import sys
 import tempfile
@@ -82,10 +83,14 @@ class ReviewGateTests(unittest.TestCase):
             self.assertEqual(len(save_npz_once(path,arrays,stage='raw_noise',
                          schema='e-ch4-14-raw-noise-v1',fixture=True)),64)
         real=HERE/'inputs/noise_raw/new_noise_seed20261102.npz'
+        # The production experiment may now exist. A rejected fixture call
+        # must preserve the exact preexisting bytes rather than require absence.
+        before=sha256(real.read_bytes()).hexdigest() if real.exists() else None
         with self.assertRaises(PermissionError):
             save_npz_once(real,arrays,stage='raw_noise',
                           schema='e-ch4-14-raw-noise-v1',fixture=True)
-        self.assertFalse(real.exists())
+        after=sha256(real.read_bytes()).hexdigest() if real.exists() else None
+        self.assertEqual(after,before)
 
     def test_derived_filename_must_match_noise_dimension(self):
         arrays={'train_x':np.zeros((9,3),dtype='float64'),
@@ -111,6 +116,7 @@ class ReviewGateTests(unittest.TestCase):
         arrays={'train_noise':np.zeros((300,3),dtype='float64'),
                 'validation_noise':np.zeros((90,3),dtype='float64')}
         target=HERE/'inputs/noise_raw/new_noise_seed20261102.npz'
+        original=sha256(target.read_bytes()).hexdigest() if target.exists() else None
         with patch.dict(os.environ,ENV):
             with self.assertRaises(PermissionError):
                 save_npz_once(target,arrays,stage='raw_noise',
@@ -122,7 +128,8 @@ class ReviewGateTests(unittest.TestCase):
                                   arrays,stage='raw_noise',
                                   schema='e-ch4-14-raw-noise-v1',
                                   approval=fake_approval(s,'raw_noise'),spec=s)
-        self.assertFalse(target.exists())
+        current=sha256(target.read_bytes()).hexdigest() if target.exists() else None
+        self.assertEqual(current,original)
 
 
 if __name__=='__main__':
