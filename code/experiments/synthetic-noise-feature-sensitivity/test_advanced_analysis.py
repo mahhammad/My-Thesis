@@ -48,7 +48,7 @@ class NFI3Tests(unittest.TestCase):
         self.assertAlmostEqual(a[k],b[k],places=13)
  def test_reject_malformed_mapping_or_logits(self):
     z=np.zeros((5,4))
-    for mapping in ([0,1,2,3],[0,1,3,3],[0,1,3,5,6]):
+    for mapping in ([0,1,2,4],[0,1,3,3],[0,1,3,5,6]):
       with self.assertRaises(ValueError):policy3(z,mapping)
     z[0,0]=float("nan")
     with self.assertRaises(ValueError):policy3(z,[0,1,3,4])
