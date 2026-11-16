@@ -1,0 +1,32 @@
+{
+  "approval_source_sha": "e3f52a21cf0c682f314bcbf83a2425d90e6013a1",
+  "array_sha256": {
+    "train_noise": "73cc7004741239b29273f16d53d8c12d8549b273af8e1ce12321658649dd72fc",
+    "validation_noise": "160d1e279cbedb21b0ff5355732a0754486de212931742383f801e1f0f8268b1"
+  },
+  "created_utc": "2026-11-16T09:22:57.525793+00:00",
+  "distribution": "independent_zero_mean_gaussian",
+  "file": "new_noise_seed20261102.npz",
+  "file_sha256": "5d74ea9fab7688398a68ed3e4a44c83f4791844dda49f574d5cbdea098fbb64f",
+  "gamma": [
+    0.6,
+    0.6,
+    0.6
+  ],
+  "independent_qa_url": "https://github.com/mahhammad/My-Thesis/issues/90#issuecomment-6912427493",
+  "n_train": 300,
+  "n_validation": 90,
+  "numpy": "2.4.6",
+  "owner_approval_url": "https://github.com/mahhammad/My-Thesis/issues/90#issuecomment-6912413831",
+  "python": "3.11.18",
+  "raw_seed": 2026111601,
+  "schema": "e-ch4-14-raw_noise-manifest-v1",
+  "source_mother_sha256": "e701cf9ef99b709fd5d6faee2d3ac631737d6b0195cf76eefc23d063bccb1b4a",
+  "spec_sha256": "82917272b0ac3850cecfd7bf4698dce55cbe955f8e3c308cf2c44d30e7f1ab8a",
+  "std": [
+    1.1,
+    1.1,
+    1.1
+  ],
+  "test_accessed": false
+}
