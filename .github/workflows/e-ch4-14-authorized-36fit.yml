@@ -1,0 +1,97 @@
+name: E-CH4-14 authorized 36-fit run
+
+# MANUAL ONLY. No push, PR, scheduler, cron or automatic restart trigger.
+# workflow_dispatch requires this workflow file on the default branch.
+on:
+  workflow_dispatch:
+    inputs:
+      owner_comment_id:
+        description: "Issue #90 exact OWNER full-protocol approval comment ID"
+        required: true
+        type: string
+      qa_comment_id:
+        description: "Issue #90 exact independent QA approval comment ID"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  issues: read
+  actions: read
+
+concurrency:
+  group: e-ch4-14-execution-exclusive
+  cancel-in-progress: false
+
+jobs:
+  authorized-36-fit:
+    if: github.repository == 'mahhammad/My-Thesis' && github.ref == 'refs/heads/experiment/ch4-14-noise-sensitivity-01'
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      OPENBLAS_CORETYPE: generic
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      E_CH4_14_FIT_AUTHORIZED: 'true'
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      E14_STAGE_TOKEN: ${{ secrets.E14_FIT_TOKEN }}
+      E_CH4_14_EXECUTION_TOKEN: ${{ secrets.E14_FIT_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install CPU-only runtime and RSS watchdog
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check 'numpy==2.4.6' 'psutil>=6,<8'
+          python -m pip install --disable-pip-version-check torch --index-url https://download.pytorch.org/whl/cpu
+      - name: Online read-only G4 verification (NO FIT)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python code/experiments/synthetic-noise-feature-sensitivity/execution_gate.py \
+            --mode verify --stage fit \
+            --owner-comment-id "${{ inputs.owner_comment_id }}" \
+            --qa-comment-id "${{ inputs.qa_comment_id }}" \
+            --context "$RUNNER_TEMP/e14_verified_context.json"
+      - name: Preflight all 18 locked datasets and absence of prior spend (NO FIT)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python code/experiments/synthetic-noise-feature-sensitivity/stage_execute.py \
+            --mode preflight --stage fit \
+            --context "$RUNNER_TEMP/e14_verified_context.json"
+      - name: Reserve exactly one 36-fit / 1080-update budget BEFORE first fit
+        shell: bash
+        run: |
+          set -euo pipefail
+          python code/experiments/synthetic-noise-feature-sensitivity/execution_gate.py \
+            --mode reserve --stage fit \
+            --owner-comment-id "${{ inputs.owner_comment_id }}" \
+            --qa-comment-id "${{ inputs.qa_comment_id }}" \
+            --context "$RUNNER_TEMP/e14_verified_context.json"
+      - name: Execute 36 sequential jobs under approved time and RSS caps
+        shell: bash
+        id: execute
+        run: |
+          set -euo pipefail
+          python code/experiments/synthetic-noise-feature-sensitivity/bounded_run.py \
+            --stage fit --context "$RUNNER_TEMP/e14_verified_context.json"
+      - name: Preserve checkpoint, trace, metrics, ledger and FAIL_STOP evidence
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add -A code/experiments/synthetic-noise-feature-sensitivity/results
+          if ! git diff --cached --quiet; then
+            git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+              commit -m "results(e-ch4-14): preserve 36-fit evidence or irreversible failure ${{ github.run_id }}"
+            git push origin "HEAD:refs/heads/experiment/ch4-14-noise-sensitivity-01"
+          fi

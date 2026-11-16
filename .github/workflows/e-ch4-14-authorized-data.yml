@@ -1,0 +1,101 @@
+name: E-CH4-14 authorized data generation
+
+# MANUAL ONLY. GitHub requires the workflow file on the default branch to
+# enable workflow_dispatch; placement on the research branch alone is inert.
+on:
+  workflow_dispatch:
+    inputs:
+      stage:
+        description: "One approved stage only (raw, masks, or 18 derived datasets)"
+        type: choice
+        required: true
+        options:
+          - raw_noise
+          - noise_masks
+          - derived
+      owner_comment_id:
+        description: "Issue #90 exact OWNER approval comment ID"
+        required: true
+        type: string
+      qa_comment_id:
+        description: "Issue #90 exact independent QA approval comment ID"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  issues: read
+  actions: read
+
+concurrency:
+  group: e-ch4-14-execution-exclusive
+  cancel-in-progress: false
+
+jobs:
+  stage-data:
+    if: github.repository == 'mahhammad/My-Thesis' && github.ref == 'refs/heads/experiment/ch4-14-noise-sensitivity-01'
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      OPENBLAS_CORETYPE: generic
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      E_CH4_14_DATA_AUTHORIZED: 'true'
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      E14_STAGE_TOKEN: ${{ (inputs.stage == 'raw_noise' && secrets.E14_RAW_NOISE_TOKEN) || (inputs.stage == 'noise_masks' && secrets.E14_NOISE_MASKS_TOKEN) || secrets.E14_DERIVED_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install pinned CPU-only data and resource-check dependencies
+        run: python -m pip install --disable-pip-version-check 'numpy==2.4.6' 'psutil>=6,<8'
+      - name: Online read-only G4 verification (owner, QA, CI, SHA, spec, stage, token)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python code/experiments/synthetic-noise-feature-sensitivity/execution_gate.py \
+            --mode verify --stage "${{ inputs.stage }}" \
+            --owner-comment-id "${{ inputs.owner_comment_id }}" \
+            --qa-comment-id "${{ inputs.qa_comment_id }}" \
+            --context "$RUNNER_TEMP/e14_verified_context.json"
+      - name: No-write exact mother and prerequisite preflight
+        shell: bash
+        run: |
+          set -euo pipefail
+          python code/experiments/synthetic-noise-feature-sensitivity/stage_execute.py \
+            --mode preflight --stage "${{ inputs.stage }}" \
+            --context "$RUNNER_TEMP/e14_verified_context.json"
+      - name: Burn stage-once budget atomically on GitHub BEFORE producing data
+        shell: bash
+        run: |
+          set -euo pipefail
+          python code/experiments/synthetic-noise-feature-sensitivity/execution_gate.py \
+            --mode reserve --stage "${{ inputs.stage }}" \
+            --owner-comment-id "${{ inputs.owner_comment_id }}" \
+            --qa-comment-id "${{ inputs.qa_comment_id }}" \
+            --context "$RUNNER_TEMP/e14_verified_context.json"
+      - name: Generate only authorized stage within memory and wall-clock cap
+        shell: bash
+        id: execute
+        run: |
+          set -euo pipefail
+          python code/experiments/synthetic-noise-feature-sensitivity/bounded_run.py \
+            --stage "${{ inputs.stage }}" \
+            --context "$RUNNER_TEMP/e14_verified_context.json"
+      - name: Preserve stage outputs and failure evidence on research branch
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add -A code/experiments/synthetic-noise-feature-sensitivity/inputs
+          if ! git diff --cached --quiet; then
+            git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+              commit -m "data(e-ch4-14): record irreversible ${{ inputs.stage }} stage ${{ github.run_id }}"
+            git push origin "HEAD:refs/heads/experiment/ch4-14-noise-sensitivity-01"
+          fi
