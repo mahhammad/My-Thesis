@@ -1,9 +1,8 @@
 name: E-CH4-14 authorized data generation
 
-# MANUAL dispatch OR a single explicit, new branch request commit.
-# Ordinary pushes, pull requests and schedules cannot execute research.
+# On a research-only branch, a single new requests/<stage>.json commit is
+# the intentional manual trigger. Ordinary code pushes never match this path.
 on:
-  # Branch-local explicit request commits only; not ordinary pushes or PRs.
   push:
     branches: [experiment/ch4-14-noise-sensitivity-01]
     paths:
@@ -13,19 +12,13 @@ on:
   workflow_dispatch:
     inputs:
       stage:
-        description: "One approved stage only (raw, masks, or 18 derived datasets)"
-        type: choice
         required: true
-        options:
-          - raw_noise
-          - noise_masks
-          - derived
+        type: choice
+        options: [raw_noise, noise_masks, derived]
       owner_comment_id:
-        description: "Issue #90 exact OWNER approval comment ID"
         required: true
         type: string
       qa_comment_id:
-        description: "Issue #90 exact independent QA approval comment ID"
         required: true
         type: string
 
@@ -49,12 +42,6 @@ jobs:
       OPENBLAS_NUM_THREADS: '1'
       OMP_NUM_THREADS: '1'
       MKL_NUM_THREADS: '1'
-      E_CH4_14_DATA_AUTHORIZED: 'true'
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      E14_RAW_NOISE_TOKEN: ${{ secrets.E14_RAW_NOISE_TOKEN }}
-      E14_NOISE_MASKS_TOKEN: ${{ secrets.E14_NOISE_MASKS_TOKEN }}
-      E14_DERIVED_TOKEN: ${{ secrets.E14_DERIVED_TOKEN }}
-      E14_FIT_TOKEN: ${{ secrets.E14_FIT_TOKEN }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -63,7 +50,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Validate explicit manual request and select one stage token
+      - name: Validate Git push request WITHOUT any research secret
+        id: request
         shell: bash
         env:
           E14_INPUT_STAGE: ${{ inputs.stage || '' }}
@@ -72,49 +60,103 @@ jobs:
         run: |
           set -euo pipefail
           python code/experiments/synthetic-noise-feature-sensitivity/stage_launch.py --kind data
-      - name: Install pinned CPU-only data and resource-check dependencies
-        run: python -m pip install --disable-pip-version-check 'numpy==2.4.6' 'psutil>=6,<8'
-      - name: Online read-only G4 verification (owner, QA, CI, SHA, spec, stage, token)
+      - name: Install fixed versions WITHOUT research secrets
         shell: bash
         run: |
           set -euo pipefail
-          python code/experiments/synthetic-noise-feature-sensitivity/execution_gate.py \
-            --mode verify --stage "$E14_STAGE" \
-            --owner-comment-id "$E14_OWNER_COMMENT_ID" \
-            --qa-comment-id "$E14_QA_COMMENT_ID" \
-            --context "$RUNNER_TEMP/e14_verified_context.json"
-      - name: No-write exact mother and prerequisite preflight
+          python -m pip install --disable-pip-version-check 'numpy==2.4.6' 'psutil==7.0.0'
+      - name: Authorized raw_noise (only this stage secret)
+        if: steps.request.outputs.stage == 'raw_noise'
+        id: execute_raw_noise
+        env:
+          E14_STAGE_TOKEN: ${{ secrets.E14_RAW_NOISE_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          E_CH4_14_DATA_AUTHORIZED: 'true'
+          E14_PUSH_REQUEST_VERIFIED: ${{ steps.request.outputs.push_verified }}
+          E14_REQUEST_APPROVED_CODE_SHA: ${{ steps.request.outputs.approved_code_sha }}
+          E14_STAGE: ${{ steps.request.outputs.stage }}
         shell: bash
         run: |
           set -euo pipefail
-          python code/experiments/synthetic-noise-feature-sensitivity/stage_execute.py \
-            --mode preflight --stage "$E14_STAGE" \
-            --context "$RUNNER_TEMP/e14_verified_context.json"
-      - name: Burn stage-once budget atomically on GitHub BEFORE producing data
+          python code/experiments/synthetic-noise-feature-sensitivity/secure_stage.py \
+            --stage raw_noise \
+            --owner-comment-id "${{ steps.request.outputs.owner_comment_id }}" \
+            --qa-comment-id "${{ steps.request.outputs.qa_comment_id }}"
+      - name: Authorized noise_masks (only this stage secret)
+        if: steps.request.outputs.stage == 'noise_masks'
+        id: execute_noise_masks
+        env:
+          E14_STAGE_TOKEN: ${{ secrets.E14_NOISE_MASKS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          E_CH4_14_DATA_AUTHORIZED: 'true'
+          E14_PUSH_REQUEST_VERIFIED: ${{ steps.request.outputs.push_verified }}
+          E14_REQUEST_APPROVED_CODE_SHA: ${{ steps.request.outputs.approved_code_sha }}
+          E14_STAGE: ${{ steps.request.outputs.stage }}
         shell: bash
         run: |
           set -euo pipefail
-          python code/experiments/synthetic-noise-feature-sensitivity/execution_gate.py \
-            --mode reserve --stage "$E14_STAGE" \
-            --owner-comment-id "$E14_OWNER_COMMENT_ID" \
-            --qa-comment-id "$E14_QA_COMMENT_ID" \
-            --context "$RUNNER_TEMP/e14_verified_context.json"
-      - name: Generate only authorized stage within memory and wall-clock cap
+          python code/experiments/synthetic-noise-feature-sensitivity/secure_stage.py \
+            --stage noise_masks \
+            --owner-comment-id "${{ steps.request.outputs.owner_comment_id }}" \
+            --qa-comment-id "${{ steps.request.outputs.qa_comment_id }}"
+      - name: Authorized derived (only this stage secret)
+        if: steps.request.outputs.stage == 'derived'
+        id: execute_derived
+        env:
+          E14_STAGE_TOKEN: ${{ secrets.E14_DERIVED_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          E_CH4_14_DATA_AUTHORIZED: 'true'
+          E14_PUSH_REQUEST_VERIFIED: ${{ steps.request.outputs.push_verified }}
+          E14_REQUEST_APPROVED_CODE_SHA: ${{ steps.request.outputs.approved_code_sha }}
+          E14_STAGE: ${{ steps.request.outputs.stage }}
         shell: bash
-        id: execute
         run: |
           set -euo pipefail
-          python code/experiments/synthetic-noise-feature-sensitivity/bounded_run.py \
-            --stage "$E14_STAGE" \
-            --context "$RUNNER_TEMP/e14_verified_context.json"
-      - name: Preserve stage outputs and failure evidence on research branch
+          python code/experiments/synthetic-noise-feature-sensitivity/secure_stage.py \
+            --stage derived \
+            --owner-comment-id "${{ steps.request.outputs.owner_comment_id }}" \
+            --qa-comment-id "${{ steps.request.outputs.qa_comment_id }}"
+      - name: Create non-secret fallback status even if G4 rejects request
+        if: always()
+        shell: bash
+        env:
+          E14_STATUS_STAGE: ${{ steps.request.outputs.stage }}
+          E14_STATUS_REQUEST: ${{ steps.request.outcome }}
+          E14_STATUS_RAW: ${{ steps.execute_raw_noise.outcome }}
+          E14_STATUS_MASK: ${{ steps.execute_noise_masks.outcome }}
+          E14_STATUS_DERIVED: ${{ steps.execute_derived.outcome }}
+        run: |
+          python code/experiments/synthetic-noise-feature-sensitivity/recovery_status.py
+      - name: Emergency archive independent of git push (90 days)
+        if: always()
+        id: recovery
+        uses: actions/upload-artifact@v4
+        with:
+          name: e14-data-recovery-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            code/experiments/synthetic-noise-feature-sensitivity/inputs/
+            code/experiments/synthetic-noise-feature-sensitivity/results/
+            ${{ runner.temp }}/e14_job_status.json
+          if-no-files-found: error
+          retention-days: 90
+      - name: Record evidence in research branch (NO RETRY)
         if: always()
         shell: bash
         run: |
           set -euo pipefail
           git add -A code/experiments/synthetic-noise-feature-sensitivity/inputs
+          git add -A code/experiments/synthetic-noise-feature-sensitivity/results
           if ! git diff --cached --quiet; then
             git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
-              commit -m "data(e-ch4-14): record irreversible $E14_STAGE stage ${{ github.run_id }}"
+              commit -m "data(e-ch4-14): preserve staged evidence ${{ github.run_id }}"
             git push origin "HEAD:refs/heads/experiment/ch4-14-noise-sensitivity-01"
           fi
+      - name: Confirm remote branch and independent recovery before SUCCESS
+        if: success()
+        shell: bash
+        env:
+          E14_STAGE: ${{ steps.request.outputs.stage }}
+          E14_ARTIFACT_ID: ${{ steps.recovery.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          python code/experiments/synthetic-noise-feature-sensitivity/persistence_check.py --kind data --stage "$E14_STAGE"

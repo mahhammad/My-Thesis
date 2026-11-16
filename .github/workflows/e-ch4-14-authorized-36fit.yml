@@ -1,9 +1,8 @@
 name: E-CH4-14 authorized 36-fit run
 
-# MANUAL dispatch OR a single explicit, new branch request commit.
-# Ordinary pushes, pull requests and schedules cannot execute research.
+# On a research-only branch, a single new requests/<stage>.json commit is
+# the intentional manual trigger. Ordinary code pushes never match this path.
 on:
-  # Branch-local explicit request commits only; not ordinary pushes or PRs.
   push:
     branches: [experiment/ch4-14-noise-sensitivity-01]
     paths:
@@ -11,11 +10,9 @@ on:
   workflow_dispatch:
     inputs:
       owner_comment_id:
-        description: "Issue #90 exact OWNER full-protocol approval comment ID"
         required: true
         type: string
       qa_comment_id:
-        description: "Issue #90 exact independent QA approval comment ID"
         required: true
         type: string
 
@@ -29,7 +26,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  authorized-36-fit:
+  stage-fit:
     if: github.repository == 'mahhammad/My-Thesis' && github.ref == 'refs/heads/experiment/ch4-14-noise-sensitivity-01'
     runs-on: ubuntu-latest
     timeout-minutes: 360
@@ -39,13 +36,6 @@ jobs:
       OPENBLAS_NUM_THREADS: '1'
       OMP_NUM_THREADS: '1'
       MKL_NUM_THREADS: '1'
-      E_CH4_14_FIT_AUTHORIZED: 'true'
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      E14_RAW_NOISE_TOKEN: ${{ secrets.E14_RAW_NOISE_TOKEN }}
-      E14_NOISE_MASKS_TOKEN: ${{ secrets.E14_NOISE_MASKS_TOKEN }}
-      E14_DERIVED_TOKEN: ${{ secrets.E14_DERIVED_TOKEN }}
-      E14_FIT_TOKEN: ${{ secrets.E14_FIT_TOKEN }}
-      E_CH4_14_EXECUTION_TOKEN: ${{ secrets.E14_FIT_TOKEN }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -54,7 +44,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Validate explicit manual request and select one stage token
+      - name: Validate Git push request WITHOUT any research secret
+        id: request
         shell: bash
         env:
           E14_INPUT_STAGE: ${{ inputs.stage || 'fit' }}
@@ -63,45 +54,51 @@ jobs:
         run: |
           set -euo pipefail
           python code/experiments/synthetic-noise-feature-sensitivity/stage_launch.py --kind fit
-      - name: Install CPU-only runtime and RSS watchdog
+      - name: Install fixed versions WITHOUT research secrets
         shell: bash
         run: |
           set -euo pipefail
-          python -m pip install --disable-pip-version-check 'numpy==2.4.6' 'psutil>=6,<8'
-          python -m pip install --disable-pip-version-check torch --index-url https://download.pytorch.org/whl/cpu
-      - name: Online read-only G4 verification (NO FIT)
+          python -m pip install --disable-pip-version-check 'numpy==2.4.6' 'psutil==7.0.0'
+          python -m pip install --disable-pip-version-check 'torch==2.9.1' --index-url https://download.pytorch.org/whl/cpu
+      - name: Authorized 36 sequential fits (only fit secret)
+        if: steps.request.outputs.stage == 'fit'
+        id: execute_fit
+        env:
+          E14_STAGE_TOKEN: ${{ secrets.E14_FIT_TOKEN }}
+          E_CH4_14_EXECUTION_TOKEN: ${{ secrets.E14_FIT_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          E_CH4_14_FIT_AUTHORIZED: 'true'
+          E14_PUSH_REQUEST_VERIFIED: ${{ steps.request.outputs.push_verified }}
+          E14_REQUEST_APPROVED_CODE_SHA: ${{ steps.request.outputs.approved_code_sha }}
+          E14_STAGE: fit
         shell: bash
         run: |
           set -euo pipefail
-          python code/experiments/synthetic-noise-feature-sensitivity/execution_gate.py \
-            --mode verify --stage fit \
-            --owner-comment-id "$E14_OWNER_COMMENT_ID" \
-            --qa-comment-id "$E14_QA_COMMENT_ID" \
-            --context "$RUNNER_TEMP/e14_verified_context.json"
-      - name: Preflight all 18 locked datasets and absence of prior spend (NO FIT)
+          python code/experiments/synthetic-noise-feature-sensitivity/secure_stage.py \
+            --stage fit \
+            --owner-comment-id "${{ steps.request.outputs.owner_comment_id }}" \
+            --qa-comment-id "${{ steps.request.outputs.qa_comment_id }}"
+      - name: Create non-secret fallback status even if G4 rejects request
+        if: always()
         shell: bash
+        env:
+          E14_STATUS_STAGE: fit
+          E14_STATUS_REQUEST: ${{ steps.request.outcome }}
+          E14_STATUS_FIT: ${{ steps.execute_fit.outcome }}
         run: |
-          set -euo pipefail
-          python code/experiments/synthetic-noise-feature-sensitivity/stage_execute.py \
-            --mode preflight --stage fit \
-            --context "$RUNNER_TEMP/e14_verified_context.json"
-      - name: Reserve exactly one 36-fit / 1080-update budget BEFORE first fit
-        shell: bash
-        run: |
-          set -euo pipefail
-          python code/experiments/synthetic-noise-feature-sensitivity/execution_gate.py \
-            --mode reserve --stage fit \
-            --owner-comment-id "$E14_OWNER_COMMENT_ID" \
-            --qa-comment-id "$E14_QA_COMMENT_ID" \
-            --context "$RUNNER_TEMP/e14_verified_context.json"
-      - name: Execute 36 sequential jobs under approved time and RSS caps
-        shell: bash
-        id: execute
-        run: |
-          set -euo pipefail
-          python code/experiments/synthetic-noise-feature-sensitivity/bounded_run.py \
-            --stage fit --context "$RUNNER_TEMP/e14_verified_context.json"
-      - name: Preserve checkpoint, trace, metrics, ledger and FAIL_STOP evidence
+          python code/experiments/synthetic-noise-feature-sensitivity/recovery_status.py
+      - name: Emergency archive independent of git push (90 days)
+        if: always()
+        id: recovery
+        uses: actions/upload-artifact@v4
+        with:
+          name: e14-fit-recovery-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            code/experiments/synthetic-noise-feature-sensitivity/results/
+            ${{ runner.temp }}/e14_job_status.json
+          if-no-files-found: error
+          retention-days: 90
+      - name: Record traces, checkpoints, ledger, completed fits or FAIL_STOP
         if: always()
         shell: bash
         run: |
@@ -109,6 +106,15 @@ jobs:
           git add -A code/experiments/synthetic-noise-feature-sensitivity/results
           if ! git diff --cached --quiet; then
             git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
-              commit -m "results(e-ch4-14): preserve 36-fit evidence or irreversible failure ${{ github.run_id }}"
+              commit -m "results(e-ch4-14): preserve completed fits and failure ${{ github.run_id }}"
             git push origin "HEAD:refs/heads/experiment/ch4-14-noise-sensitivity-01"
           fi
+      - name: Confirm remote branch and independent recovery before SUCCESS
+        if: success()
+        shell: bash
+        env:
+          E14_STAGE: fit
+          E14_ARTIFACT_ID: ${{ steps.recovery.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          python code/experiments/synthetic-noise-feature-sensitivity/persistence_check.py --kind fit --stage fit
