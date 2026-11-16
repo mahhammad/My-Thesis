@@ -40,6 +40,32 @@ EXPECTED_WORKFLOWS = {
 }
 TAG_NAMES = {stage: "e-ch4-14-" + stage.replace("_", "-") + "-budget-spent"
              for stage in STAGES}
+RECOVERY = {
+    "request": "raw_noise_recovery_01",
+    "failed_run_id": 43836997795,
+    "failed_request_sha": "5a21ef3cb4a248e46141ab4fca366162ede95a33",
+    "budget_tag": "e-ch4-14-raw-noise-recovery-01-budget-spent",
+}
+def _budget_tag(stage, owner, qa, *, fetch):
+    """Independent once-only budget for witnessed pre-generation failure only."""
+    recovery = owner.get("raw_noise_recovery")
+    if recovery is None:
+        return TAG_NAMES[stage], None
+    if stage != "raw_noise" or recovery != RECOVERY or qa.get("raw_noise_recovery") != RECOVERY:
+        raise PermissionError("Unapproved recovery or mismatched QA decision")
+    if (os.environ.get("E14_REQUEST_RECOVERY") != RECOVERY["request"]
+            or os.environ.get("GITHUB_EVENT_NAME") != "push"):
+        raise PermissionError("Recovery requires its own new one-file request")
+    tag = fetch(f"/repos/{REPO}/git/ref/tags/{TAG_NAMES['raw_noise']}")
+    if (tag.get("ref") != "refs/tags/" + TAG_NAMES["raw_noise"] or
+            tag.get("object", {}).get("sha") != RECOVERY["failed_request_sha"]):
+        raise PermissionError("Previous immutable spent tag does not match failed attempt")
+    run = fetch(f"/repos/{REPO}/actions/runs/{RECOVERY['failed_run_id']}")
+    if (run.get("head_sha") != RECOVERY["failed_request_sha"] or
+            run.get("conclusion") != "failure" or
+            run.get("name") != EXPECTED_WORKFLOWS["raw_noise"]):
+        raise PermissionError("Historical failed attempt not proven online")
+    return RECOVERY["budget_tag"], RECOVERY["request"]
 
 
 def _hash(text):
@@ -209,6 +235,7 @@ def verify(stage, owner_comment_id, qa_comment_id, *, fetch, token,
             or ci.get("name") != "E-CH4-14 branch checks (NO FIT)"
             or ci.get("head_branch") != BRANCH):
         raise PermissionError("Online CI not successful for approved code SHA")
+    budget_tag, recovery_request = _budget_tag(stage, approval, qa, fetch=fetch)
     mother = load_mother()  # immutable read-only checksum; never generates a split.
     ctx = {
         "issue": ISSUE, "stage": stage, "noise_spec": asdict(spec),
@@ -221,7 +248,8 @@ def verify(stage, owner_comment_id, qa_comment_id, *, fetch, token,
         "test_accessed": False, "workflow_run_id": str(run_id),
         "one_time_token_sha256": _hash(token),
         "max_wall_minutes": wall, "max_rss_mib": rss,
-        "budget_reservation": "refs/tags/" + TAG_NAMES[stage],
+        "budget_reservation": "refs/tags/" + budget_tag,
+        "recovery_request": recovery_request,
         "owner_comment_id": owner_comment_id, "qa_comment_id": qa_comment_id,
     }
     # Canonical URL is checked against actual returned GitHub records.
@@ -233,11 +261,17 @@ def verify(stage, owner_comment_id, qa_comment_id, *, fetch, token,
     return ctx
 
 
-def verify_unspent(stage, *, fetch):
+def verify_unspent(stage, *, fetch, budget_ref=None):
     if stage not in STAGES:
         raise PermissionError("Unknown stage")
+    budget_ref = budget_ref or ("refs/tags/" + TAG_NAMES[stage])
+    if budget_ref not in ("refs/tags/" + TAG_NAMES[stage],
+                          "refs/tags/" + RECOVERY["budget_tag"]):
+        raise PermissionError("Unrecognized once-only budget reference")
+    if stage != "raw_noise" and budget_ref.endswith(RECOVERY["budget_tag"]):
+        raise PermissionError("Recovery budget cannot pay for another stage")
     try:
-        fetch(f"/repos/{REPO}/git/ref/tags/{TAG_NAMES[stage]}")
+        fetch(f"/repos/{REPO}/git/ref/tags/{budget_ref.removeprefix('refs/tags/')}")
     except HTTPError as e:
         if e.code == 404:
             return True
@@ -245,10 +279,10 @@ def verify_unspent(stage, *, fetch):
     raise FileExistsError("E14 stage budget already reserved: retry forbidden")
 
 
-def reserve(stage, current_sha, *, fetch, post):
-    """Perform the globally exclusive once-only reservation, never a local marker."""
-    verify_unspent(stage, fetch=fetch)
-    ref = "refs/tags/" + TAG_NAMES[stage]
+def reserve(stage, current_sha, *, fetch, post, budget_ref=None):
+    """Perform globally exclusive once-only reservation; never reset an old tag."""
+    ref = budget_ref or ("refs/tags/" + TAG_NAMES[stage])
+    verify_unspent(stage, fetch=fetch, budget_ref=ref)
     result = post(f"/repos/{REPO}/git/refs", {"ref": ref, "sha": current_sha})
     if result.get("ref") != ref or result.get("object", {}).get("sha") != current_sha:
         raise RuntimeError("GitHub did not confirm stage reservation")
@@ -285,7 +319,8 @@ def main(argv=None):
                  branch=_env_input("GITHUB_REF_NAME"),
                  event=_env_input("GITHUB_EVENT_NAME"))
     if args.mode == "verify":
-        verify_unspent(args.stage, fetch=fetch)
+        verify_unspent(args.stage, fetch=fetch,
+                       budget_ref=ctx["budget_reservation"])
         if ctx_path.exists():
             raise FileExistsError("Refusing stale approval context")
         ctx_path.write_text(json.dumps(ctx, sort_keys=True, indent=2) + "\n", encoding="utf8")
@@ -299,7 +334,8 @@ def main(argv=None):
         if previous != ctx:
             raise PermissionError("Owner/QA/CI decision drift since verification")
         ref = reserve(args.stage, ctx["source_sha"], fetch=fetch,
-                      post=lambda path, payload: github_post(path, payload))
+                      post=lambda path, payload: github_post(path, payload),
+                      budget_ref=ctx["budget_reservation"])
         ctx["budget_reservation"] = ref
         ctx_path.write_text(json.dumps(ctx, sort_keys=True, indent=2) + "\n",
                             encoding="utf8")

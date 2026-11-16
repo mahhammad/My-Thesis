@@ -40,8 +40,11 @@ def load_context(path, stage):
     if (ctx.get('stage') != stage or ctx.get('test_accessed') is not False
             or ctx.get('issue') != 90
             or ctx.get('source_sha') != os.environ.get('GITHUB_SHA')
-            or ctx.get('budget_reservation') !=
-                    'refs/tags/e-ch4-14-'+stage.replace('_','-')+'-budget-spent'):
+            or ctx.get('budget_reservation') not in (
+                    'refs/tags/e-ch4-14-'+stage.replace('_','-')+'-budget-spent',
+                    'refs/tags/e-ch4-14-raw-noise-recovery-01-budget-spent'
+                    if stage=='raw_noise' and ctx.get('recovery_request')=='raw_noise_recovery_01'
+                    else 'UNAUTHORIZED_RECOVERY')):
         raise PermissionError('Unverified stage context')
     if not ctx.get('owner_approval_url') or not ctx.get('independent_qa_url'):
         raise PermissionError('No independently checked evidence')

@@ -28,8 +28,16 @@ def validate_reservation(stage, context, *, fetch=github_get):
     """Require the once-only tag to exist, at the current full Git SHA."""
     if stage not in TAG_NAMES:
         raise PermissionError("Unknown stage")
-    ref = fetch(f"/repos/mahhammad/My-Thesis/git/ref/tags/{TAG_NAMES[stage]}")
-    expected = "refs/tags/" + TAG_NAMES[stage]
+    approved_ref = context.get("budget_reservation","")
+    if not approved_ref.startswith("refs/tags/"):
+        raise PermissionError("No approved stage reservation in context")
+    ref = fetch(f"/repos/mahhammad/My-Thesis/git/ref/tags/{approved_ref.removeprefix('refs/tags/')}")
+    expected = context.get("budget_reservation")
+    allowed = {"refs/tags/" + TAG_NAMES[stage]}
+    if stage == "raw_noise" and context.get("recovery_request") == "raw_noise_recovery_01":
+        allowed.add("refs/tags/e-ch4-14-raw-noise-recovery-01-budget-spent")
+    if expected not in allowed:
+        raise PermissionError("Unapproved budget reference")
     if (ref.get("ref") != expected
             or ref.get("object", {}).get("sha") != context.get("source_sha")
             or context.get("budget_reservation") != expected):

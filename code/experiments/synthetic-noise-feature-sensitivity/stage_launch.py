@@ -40,7 +40,11 @@ def validate_request(stage, request, *, kind, changed_entries, event,
     name-status is a list like ['A\\tpath'], NOT event.head_commit.added.
     """
     _stage_kind(stage, kind)
-    path = f"{REQUEST_PREFIX}{stage}.json"
+    recovery = request.get("recovery_request") if isinstance(request, dict) else None
+    if recovery is not None and (stage != "raw_noise" or recovery != "raw_noise_recovery_01"):
+        raise PermissionError("Only documented raw_noise recovery request is supported")
+    request_name = recovery or stage
+    path = f"{REQUEST_PREFIX}{request_name}.json"
     if changed_entries != [f"A\t{path}"]:
         raise PermissionError("Push must add exactly one new request; no M/D/extra files")
     if not _sha(checkout_sha) or event.get("after") != checkout_sha:
@@ -63,13 +67,14 @@ def validate_request(stage, request, *, kind, changed_entries, event,
     head = event.get("head_commit")
     if (not isinstance(head, dict) or head.get("id") != checkout_sha):
         raise PermissionError("Head commit SHA missing/mismatched")
-    if (commit_message != f"run(e-ch4-14): request {stage}"
+    if (commit_message != f"run(e-ch4-14): request {request_name}"
             or head.get("message") != commit_message):
         raise PermissionError("Incorrect manual request commit message")
-    if not isinstance(request, dict) or set(request) != {
-        "schema", "stage", "owner_comment_id", "qa_comment_id",
-        "approved_code_sha", "test_accessed"
-    }:
+    expected_keys={"schema", "stage", "owner_comment_id", "qa_comment_id",
+                   "approved_code_sha", "test_accessed"}
+    if recovery is not None:
+        expected_keys.add("recovery_request")
+    if not isinstance(request, dict) or set(request) != expected_keys:
         raise PermissionError("Unexpected request fields")
     if (request["schema"] != SCHEMA or request["stage"] != stage
             or request["test_accessed"] is not False or
@@ -108,6 +113,7 @@ def _outputs(request, *, verified):
         "qa_comment_id": request["qa_comment_id"],
         "approved_code_sha": request["approved_code_sha"],
         "push_verified": "true" if verified else "false",
+        "recovery_request": request.get("recovery_request",""),
     }
     with out.open("a",encoding="utf8") as f:
         for k,v in values.items():
@@ -136,12 +142,13 @@ def main(argv=None):
         if len(entries) != 1:
             raise PermissionError("Only one new Git path may be changed")
         match=re.fullmatch(re.escape(REQUEST_PREFIX)+
-                           r"(raw_noise|noise_masks|derived|fit)\.json",
+                           r"(raw_noise_recovery_01|raw_noise|noise_masks|derived|fit)\.json",
                            entries[0].split("\t",1)[-1])
         if match is None:
             raise PermissionError("Exact E14 request filename required")
-        stage=match.group(1)
-        path=ROOT / (REQUEST_PREFIX+stage+".json")
+        request_name=match.group(1)
+        stage="raw_noise" if request_name=="raw_noise_recovery_01" else request_name
+        path=ROOT / (REQUEST_PREFIX+request_name+".json")
         request=validate_request(stage,json.loads(path.read_text("utf8")),
                       kind=args.kind,changed_entries=entries,event=event,
                       checkout_sha=checkout_sha,parents_line=parents,
