@@ -183,6 +183,19 @@ jobs:
                           print("E14_VISUAL_JPEG_BASE64="+base64.b64encode(jpg).decode("ascii"))
           else:
               print("E14_FIGURE_PAGE_UNRESOLVED")
+          for label,prefix in (("tab:ch4-e14-stability","E14_TABLE"),
+                               ("fig:ch4-e14-ba-bayes","E14_BAYES")):
+              record=next(x for x in info if x["label"]==label)
+              pageid=next((p for p in record["pages"] if isinstance(p,int)),None)
+              if pageid is None:
+                  print(prefix+"_PAGE_UNRESOLVED")
+                  continue
+              p=doc[pageid]
+              pix=p.get_pixmap(matrix=fitz.Matrix(.92,.92),alpha=False)
+              img=pix.tobytes("jpeg",jpg_quality=62)
+              (root/(prefix.lower()+"-visual-page-%d.jpg"%(pageid+1))).write_bytes(img)
+              print(prefix+"_PAGE",pageid+1,"bytes",len(img))
+              print(prefix+"_JPEG_BASE64="+base64.b64encode(img).decode("ascii"))
           print("E14_FULL_DOCUMENT_PAGES",len(doc))
           PY
       - name: Render representative cover page for human visual review
@@ -210,5 +223,7 @@ jobs:
             build/repo-lightweight/main.log
             build/repo-lightweight/e14-layout-audit.json
             build/repo-lightweight/e14-visual-page-*.jpg
+            build/repo-lightweight/e14_table-visual-page-*.jpg
+            build/repo-lightweight/e14_bayes-visual-page-*.jpg
           if-no-files-found: warn
           retention-days: 90
