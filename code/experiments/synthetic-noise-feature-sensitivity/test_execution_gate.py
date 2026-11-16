@@ -29,7 +29,7 @@ def evidence():
     owner = {
         'schema':g.OWNER_SCHEMA, 'issue':90, 'repo':g.REPO,
         'branch':g.BRANCH, 'approved_code_sha':CODE_SHA,
-        'approved_stages':list(g.STAGES), 'independent_auditor_login':'qa-auditor',
+        'approved_stages':list(g.STAGES), 'independent_auditor_login':'mahhammad',
         'stop_on_failure':True, 'no_auto_retry':True, 'sequential_fits':True,
         'test_accessed':False, 'n_train':300, 'n_validation':90,
         'fit_count':36, 'updates_per_fit':30, 'total_update_budget':1080,
@@ -52,7 +52,7 @@ def evidence():
         f'/repos/{g.REPO}/issues/comments/{OWNER_ID}':
             comment(OWNER_ID,'mahhammad',owner,g.OWNER_MARKER),
         f'/repos/{g.REPO}/issues/comments/{QA_ID}':
-            comment(QA_ID,'qa-auditor',qa,g.QA_MARKER),
+            comment(QA_ID,'mahhammad',qa,g.QA_MARKER),
         f'/repos/{g.REPO}/actions/runs/100':{
             'head_sha':CODE_SHA,'conclusion':'success',
             'name':'E-CH4-14 branch checks (NO FIT)','head_branch':g.BRANCH}
@@ -77,6 +77,34 @@ class VerificationTests(unittest.TestCase):
         self.assertFalse(ctx['test_accessed'])
         self.assertEqual(ctx['max_wall_minutes'],300)
 
+    def test_same_github_login_distinct_decisions_is_valid(self):
+        # Epistemic independence is established by the separate review and its
+        # cited evidence, not by pretending to have a different GitHub account.
+        rows=evidence()
+        owner=rows[f'/repos/{g.REPO}/issues/comments/{OWNER_ID}']
+        qa=rows[f'/repos/{g.REPO}/issues/comments/{QA_ID}']
+        self.assertEqual(owner['user']['login'], qa['user']['login'])
+        self.assertNotEqual(owner['id'], qa['id'])
+        self.assertEqual(verify(rows)['qa_comment_id'], QA_ID)
+
+    def test_named_reviewer_must_match_actual_comment_author(self):
+        rows=evidence()
+        key=f'/repos/{g.REPO}/issues/comments/{OWNER_ID}'
+        owner=json.loads(rows[key]['body'][len(g.OWNER_MARKER):])
+        owner['independent_auditor_login']='different-github-account'
+        rows[key]['body']=g.OWNER_MARKER+json.dumps(owner)
+        with self.assertRaises(PermissionError):
+            verify(rows)
+
+    def test_distinct_github_reviewer_still_supported(self):
+        rows=evidence()
+        key=f'/repos/{g.REPO}/issues/comments/{OWNER_ID}'
+        owner=json.loads(rows[key]['body'][len(g.OWNER_MARKER):])
+        owner['independent_auditor_login']='other-reviewer'
+        rows[key]['body']=g.OWNER_MARKER+json.dumps(owner)
+        rows[f'/repos/{g.REPO}/issues/comments/{QA_ID}']['user']['login']='other-reviewer'
+        self.assertEqual(verify(rows)['qa_comment_id'], QA_ID)
+
     def test_fake_owner_identity_rejected(self):
         rows=evidence()
         rows[f'/repos/{g.REPO}/issues/comments/{OWNER_ID}']['user']['login']='attacker'
@@ -84,7 +112,7 @@ class VerificationTests(unittest.TestCase):
 
     def test_fake_qa_identity_rejected(self):
         rows=evidence()
-        rows[f'/repos/{g.REPO}/issues/comments/{QA_ID}']['user']['login']='mahhammad'
+        rows[f'/repos/{g.REPO}/issues/comments/{QA_ID}']['user']['login']='unapproved-account'
         with self.assertRaises(PermissionError):verify(rows)
 
     def test_edited_owner_comment_rejected(self):
