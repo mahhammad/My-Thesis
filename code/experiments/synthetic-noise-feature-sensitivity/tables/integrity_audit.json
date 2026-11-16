@@ -1,0 +1,31 @@
+{
+  "schema": "e-ch4-14-postfit-verify-v1",
+  "source_commit": "7bc66e4d2535fb15dfa5b569933b2d6c5a0962ac",
+  "code_commit": "aaacfbc22c6fea02079777cfd8799bc573d05805",
+  "ledger_lines": 1153,
+  "ledger_events": {
+    "BUDGET_RESERVED": 1,
+    "START": 36,
+    "UPDATE": 1080,
+    "SUCCESS": 36
+  },
+  "report_count": 36,
+  "trace_json_count": 36,
+  "trace_csv_count": 36,
+  "checkpoint_count": 36,
+  "checkpoint_sha_count": 36,
+  "validated_step0_to_step30": 36,
+  "validated_per_run_updates": 1080,
+  "confusion_and_BA_recomputed": 72,
+  "prediction_flips_verified": 72,
+  "consistent_row_labels": 72,
+  "summary_comparison_verified": 36,
+  "derived_count": 18,
+  "independent_dataset_seeds": 1,
+  "coverage_status_counts": {
+    "measured": 1548,
+    "not_applicable": 72
+  },
+  "test_accessed": false,
+  "notes": "Cross-check against individual canonical reports and pre-existing summary; metrics_full.json tracked in frozen results; its large 5 MB JSON is not individually byte-compared in this audit."
+}
