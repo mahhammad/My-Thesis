@@ -213,9 +213,12 @@ def verify_runtime_context(path):
 
 def main(argv=None):
     p=argparse.ArgumentParser()
-    p.add_argument("--mode",choices=("validate-request","reserve"),required=True)
+    p.add_argument("--mode",choices=("fingerprint","validate-request","reserve"),required=True)
     p.add_argument("--context",type=pathlib.Path)
     args=p.parse_args(argv)
+    if args.mode=="fingerprint":
+        print("E14_RESUME_36_ORIGIN_CHECKPOINT_SET_SHA256",expected_checkpoint_set_sha())
+        return
     request,head,parent=validate_current_push()
     if args.mode=="validate-request":
         print("E14_RESUME_REQUEST_VALID",head,"No secret accessed; no fit")
