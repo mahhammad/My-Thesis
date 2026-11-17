@@ -48,7 +48,7 @@
       % آبی: سه نمونه مرزی (زاویه‌های 90، 210 و 330 درجه)
       \foreach \ang in {90,210,330}{%
         \filldraw[fill=jsballblue,draw=white,line width=.65pt]
-           ($(-.35,2.8)+( \ang:1.05 )$) circle (.066);
+           (-.35,2.8) ++(\ang:1.05) circle (.066);
       }
       % آبی: فقط دو نمونه داخلی
       \foreach \x/\y in {-.56/2.88,-.03/2.74}{%
@@ -58,7 +58,7 @@
       % نارنجی: سه نمونه مرزی (زاویه‌های 90، 210 و 330 درجه)
       \foreach \ang in {90,210,330}{%
         \filldraw[fill=jsballorange,draw=white,line width=.65pt]
-           ($(-1,0)+( \ang:.90 )$) circle (.066);
+           (-1,0) ++(\ang:.90) circle (.066);
       }
       % نارنجی: فقط دو نمونه داخلی
       \foreach \x/\y in {-1.14/.14,-.83/-.21}{%
