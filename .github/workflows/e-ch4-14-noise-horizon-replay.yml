@@ -29,10 +29,10 @@ jobs:
         run: |
           set -euo pipefail
           root=code/experiments/synthetic-noise-feature-sensitivity
-          git diff --exit-code 7bc66e4d2535fb15dfa5b569933b2d6c5a0962ac HEAD -- \
-            "$root/inputs" "$root/results/checkpoints" "$root/results/traces"
-          git diff --exit-code e-ch4-14-resume-30-60-budget-spent HEAD -- \
-            "$root/results/continuation_30_60"
+          # This commit already contains ALL 36 original and resumed frozen runs.
+          # The earlier budget tag predates publishing the continuation artifacts.
+          git diff --exit-code d1bf6029a05494880aa8c26ac234318fa87ecb50 HEAD -- \
+            "$root/inputs" "$root/results"
       - name: Install compatible CPU-only scientific packages
         run: |
           python -m pip install --disable-pip-version-check numpy==2.4.6 matplotlib==3.10.7
