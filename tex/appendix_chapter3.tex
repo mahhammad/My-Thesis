@@ -2984,3 +2984,211 @@ d_{\mathrm{JS}}(\mathscr Y_i,\mathcal V_r)
 \]
 با ساده‌سازی عامل $\log2$، صورت دوم همان کران حاصل می‌شود. این استدلال کاملاً به قاعده نزدیک‌ترین مرکز و متریک‌بودن جذر JSD مربوط است؛ هیچ استفاده‌ای از NLL یا Softmax ندارد. این کران برای توزیع تجربی نمونه‌های کلاس معتبر است و تضمین تعمیم‌پذیری روی نمونه‌های جدید نیست.
 
+
+\section{توپ کمینه پوشاننده جنسن--شنون و محاسبه تداخل کلاس‌ها}
+\label{app:ch3-js-enclosing-balls}
+در زیربخش~\ref{subsec:ch3-outlier-js-enclosing-balls}
+از نگاشت ایزومتریک
+$\Phi:\Delta_K\to\mathcal H$
+و تصاویر
+$x_i=\Phi(\mathscr Y_i)$
+برای صورت‌بندی توپ‌های پوشاننده استفاده شد.
+در اینجا، دوگان دقیق مسئله،
+خواص نقاط مرزی و روش محاسبه تداخل
+صرفاً از ماتریس جنسن--شنون را
+اثبات می‌کنیم. سیاست و بازنمایی‌ها
+در تمام این محاسبات ثابت‌اند.
+
+\paragraph{وجود و یکتایی مرکز و دوگان مسئله.}
+برای مجموعه متناهی و ناتهی
+$T$، تابع
+$f(\zeta)=\max_{i\in T}
+\|x_i-\zeta\|_{\mathcal H}^2$
+را در نظر بگیریم.
+اگر $L$ پوش افاین نقاط $x_i$ باشد،
+فرافکنی هر $\zeta$ بر $L$
+فاصله‌اش تا تمام $x_i$ را
+افزایش نمی‌دهد؛ در نتیجه
+می‌توان مینیمم را در فضای
+متناهی‌بعدی $L$ جست.
+تابع $f$ پیوسته و همگرا به
+بی‌نهایت در خارج از مجموعه‌های کراندار
+است؛ بنابراین کمینه دارد.
+چون هر تابع
+$\|x_i-\zeta\|^2-\|\zeta\|^2$
+نسبت به $\zeta$ افاین است،
+$f(\zeta)-\|\zeta\|^2$
+نیز محدب است؛ پس $f$
+اکیداً محدب و مرکز کمینه یکتاست.
+
+به‌جای کمینه‌سازی مستقیم، متغیر
+$t$ را برای مربع شعاع به کار
+می‌گیریم:
+\[
+\min_{\zeta,t}\ t,\qquad
+\|x_i-\zeta\|^2-t\le0
+\quad(i\in T).
+\]
+برای $t$ به‌اندازه کافی بزرگ،
+تمام قیدها اکیداً برقرارند
+و شرط اسلیتر برقرار است.
+بنابراین دوگان قوی داریم.
+ضرب‌کننده‌های لاگرانژ را با
+$w_i\ge0$ نشان می‌دهیم:
+\begin{equation}\label{eq:app-ch3-js-meb-lagrangian}
+\begin{aligned}
+\mathcal L(\zeta,t,w)
+&=t+\sum_{i\in T}w_i
+(\|x_i-\zeta\|^2-t),\\
+\inf_t\mathcal L>-\infty
+&\Longleftrightarrow
+\sum_{i\in T}w_i=1.
+\end{aligned}
+\end{equation}
+با شرط $\sum_iw_i=1$،
+بهینه‌سازی داخلی نسبت به مرکز،
+در $\zeta=\sum_iw_ix_i$ به دست
+می‌آید و مقدار آن برابر است با
+\begin{equation}\label{eq:app-ch3-js-meb-dual-proof}
+\begin{aligned}
+\inf_{\zeta}\sum_{i\in T}
+w_i\|x_i-\zeta\|^2
+&=\sum_{i\in T}w_i\|x_i\|^2
+-\left\|\sum_{i\in T}w_ix_i\right\|^2\\
+&=\frac12\sum_{i,j\in T}
+w_iw_j\|x_i-x_j\|^2\\
+&=\frac12\sum_{i,j\in T}
+w_iw_j\operatorname{JSD}
+(\mathscr Y_i,\mathscr Y_j).
+\end{aligned}
+\end{equation}
+در نتیجه، رابطه
+\eqref{eq:ch3-outlier-js-meb-dual}
+دقیق است. تابع هدف دوگان
+به‌دلیل صورت
+$\sum_iw_i\|x_i\|^2-
+\|\sum_iw_ix_i\|^2$
+روی سیمپلکس وزن‌ها
+مقعر است. همچنین شرط
+مکملی اسلیتر و KKT می‌گوید
+\begin{equation}\label{eq:app-ch3-js-meb-support-kkt}
+w_i^*>0
+\quad\Longrightarrow\quad
+\|x_i-\zeta^*\|_{\mathcal H}
+=\mathfrak r(T).
+\end{equation}
+عکس این گزاره لازم نیست:
+ممکن است نمونه روی مرز باشد
+ولی در یک جواب دوگان وزن صفر بگیرد.
+در صفحه، یک دایره کمینه با
+دو یا سه نقطه پشتیبان تعیین
+می‌شود؛ این کران \emph{به فضای
+هیلبرت بی‌نهایت‌بعدی تعمیم نمی‌یابد}.
+برای مجموعه متناهی، مرکز در
+پوش محدب تصاویر قرار دارد و
+تعداد پشتیبان‌های لازم ممکن است
+بیش از سه باشد.
+
+\paragraph{محاسبه با ماتریس JSD.}
+از رابطه
+\eqref{eq:ch3-js-Hilbert-cosine}
+و ثابت‌بودن نرم تصاویر نتیجه می‌شود
+\begin{equation}\label{eq:app-ch3-js-meb-gram}
+G_{ij}
+:=\langle x_i,x_j\rangle_{\mathcal H}
+=\frac{\log2-\operatorname{JSD}
+(\mathscr Y_i,\mathscr Y_j)}{2}.
+\end{equation}
+بنابراین نه‌تنها شعاع،
+بلکه فاصله میان مراکز توپ‌های
+دو کلاس نیز از همین ماتریس
+قابل محاسبه است. وزن‌های دوگان
+هر دو کلاس را روی مجموعه
+متحد اندیس‌ها با صفر گسترش
+می‌دهیم و اختلاف آن‌ها را
+$a_i=w_i^{(c)}-w_i^{(r)}$
+می‌گذاریم. چون
+$\sum_ia_i=0$، داریم:
+\begin{equation}\label{eq:app-ch3-js-meb-center-distance}
+\boxed{
+\begin{aligned}
+\|\zeta_c-\zeta_r\|_{\mathcal H}^2
+&=\sum_{i,j}a_i a_jG_{ij}\\
+&=-\frac12\sum_{i,j}a_i a_j
+\operatorname{JSD}
+(\mathscr Y_i,\mathscr Y_j).
+\end{aligned}}
+\end{equation}
+برای محاسبه فاصله یک نمونه
+از مرکز توپ رقیب نیز،
+اگر $w^{(r)}$ وزن‌های آن
+کلاس باشد، هویت زیر برقرار است:
+\begin{equation}\label{eq:app-ch3-js-meb-point-to-center}
+\begin{aligned}
+\|x_i-\zeta_r\|_{\mathcal H}^2
+={}&\sum_{j\in T_r}
+w_j^{(r)}\operatorname{JSD}
+(\mathscr Y_i,\mathscr Y_j)\\
+&-\frac12\sum_{j,k\in T_r}
+w_j^{(r)}w_k^{(r)}
+\operatorname{JSD}
+(\mathscr Y_j,\mathscr Y_k).
+\end{aligned}
+\end{equation}
+پس آزمون ورود نمونه به توپ
+رقیب در رابطه
+\eqref{eq:ch3-outlier-js-rival-intrusion}
+نیز بدون تقریب صریح تصویرهای
+بی‌نهایت‌بعدی انجام‌پذیر است.
+
+\paragraph{خواص کنارگذاری و حد تضمین‌ها.}
+اگر $T'\subseteq T$ و $T'\ne\varnothing$،
+برای هر مرکز دلخواه
+$\max_{i\in T'}\|x_i-\zeta\|
+\le\max_{i\in T}\|x_i-\zeta\|$؛
+ازاین‌رو
+\begin{equation}\label{eq:app-ch3-js-meb-removal-monotonicity}
+\mathfrak r(T')\le\mathfrak r(T).
+\end{equation}
+بااین‌حال مرکز بهینه ممکن است
+جابه‌جا شود؛ پس با وجود
+کاهش شعاع یک کلاس،
+شکاف $g_{cr}$ با تمام رقبا
+لزوماً افزایش نمی‌یابد.
+برای دو توپ بسته در فضای هیلبرت،
+شرط
+$\|\zeta_c-\zeta_r\|
+>\mathfrak r_c+\mathfrak r_r$
+دقیقاً معادل تهی‌بودن تقاطع است؛
+شرط تساوی، تماس مرزی را
+مجاز می‌گذارد. ازاین‌رو
+$\delta_{\mathrm{sep}}>0$
+در رابطه
+\eqref{eq:ch3-outlier-js-total-overlap}
+یک شکاف مثبت خواسته‌شده
+را صورت‌بندی می‌کند.
+
+در هر گام روش حریصانه
+\eqref{eq:ch3-outlier-js-greedy-gain}،
+یک عضو از یک مجموعه $T_c$
+کنار گذاشته می‌شود و
+حداقل پوشش
+$|T_c|\ge\lceil\alpha n_c\rceil$
+باقی می‌ماند؛ بنابراین شمار
+گام‌ها حداکثر
+$\sum_c(n_c-\lceil\alpha n_c\rceil)$
+است. شرط سود مثبت،
+کاهش اکید $\Omega_{\delta_{\mathrm{sep}}}$
+را در گام‌های پذیرفته‌شده
+تضمین می‌کند، ولی توقف
+با سود غیرمثبت
+\emph{ناممکن‌بودن جدایی}
+را ثابت نمی‌کند:
+ممکن است کنارگذاری هم‌زمان
+چند عضو یا انتخاب دیگری
+مفید باشد. هیچ‌یک از این
+نتایج، به‌تنهایی تضمین
+افزایش دقت طبقه‌بندی
+یا تعیین نادرستی برچسب
+نمونه‌های مرزی نیست.
+
