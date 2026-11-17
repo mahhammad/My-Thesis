@@ -115,7 +115,7 @@ GREEN_AFTER = {
 }
 CANDIDATE_NAME = "G-green-boundary-to-exclude"
 CANDIDATE = (-0.25, 0.0)
-GREEN_BEFORE = {**GREEN_AFTER, CANDIDATE: CANDIDATE}
+GREEN_BEFORE = {**GREEN_AFTER, CANDIDATE_NAME: CANDIDATE}
 # IMPORTANT: Candidate is still an existing GREEN data point after screening.
 # It is excluded ONLY from the dict of points used for the green fitted circle.
 
