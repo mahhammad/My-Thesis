@@ -5,6 +5,8 @@ on:
     paths:
       - 'tex/chapter4.tex'
       - 'code/experiments/synthetic-noise-feature-sensitivity/chapter4_publication.py'
+      - 'code/experiments/synthetic-noise-feature-sensitivity/tables/noise_horizon_*.json'
+      - 'code/experiments/synthetic-noise-feature-sensitivity/tables/noise_horizon_*.csv'
       - '.github/workflows/e-ch4-14-publication.yml'
 permissions:
   contents: write

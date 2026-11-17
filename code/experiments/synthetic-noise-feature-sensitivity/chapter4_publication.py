@@ -71,7 +71,12 @@ def read():
     require(b["data_seed"]==20261102 and not b["test_accessed"],"Bayes mismatch")
     require(len(s["grouped"])==len(e["groups"])==len(n)==12 and len(rates)==36,
             "Data coverage incomplete")
-    return s,e,b,n,rates
+    horizons=json.loads((ROOT/"tables/noise_horizon_summary.json").read_text())
+    require(horizons["horizons"]==[1,2,3,4] and
+            len(horizons["groups"])==48 and
+            horizons["n_timeline_rows"]==4464 and not horizons["test_accessed"],
+            "Chapter-3-consistent noise replay not complete")
+    return s,e,b,n,rates,horizons["groups"]
 def fig_ba(traces,bayes):
     fig,axs=plt.subplots(2,2,figsize=(11.6,7.7),sharex=True,sharey=True)
     for i,(split,key) in enumerate((("train","train_BA"),("validation","validation_BA"))):
@@ -126,29 +131,71 @@ def fig_gradient(traces):
                  fontsize=17,y=.997)
     fig.subplots_adjust(hspace=.42,wspace=.20,top=.945,bottom=.045)
     return render(fig)
-def fig_noise(rows):
-    fig,axs=plt.subplots(1,2,figsize=(11.1,4.7))
+def horizon_group(groups,f,k,h):
+    rows=[x for x in groups if x["family"]==f and
+          int(x["noise_count"])==k and int(x["h"])==h]
+    require(len(rows)==1,"Missing verified h group")
+    return rows[0]
+
+def fig_noise(groups):
+    """Three-choice counts and hit probabilities, same notation as §3.8."""
+    fig,axs=plt.subplots(1,2,figsize=(11.3,4.8))
     kk=np.arange(6)
-    for ax,key,title,uni in (
-      (axs[0],"E3","شمار مورد انتظار انتخاب نویز",
-       [3*k/(3+k) for k in kk]),
-      (axs[1],"F3","احتمال برخورد با نویز",
-       [1-(3/(3+k))**3 for k in kk])):
+    panels=(("nbar",r"$\bar n_N^{(3)}$",
+             "شمار مورد انتظار انتخاب نویز",
+             [3*k/(3+k) for k in kk]),
+            ("p_hit",r"$p_{\mathrm{hit},N}^{(3)}$",
+             "احتمال دست کم یک انتخاب نویزی",
+             [1-(3/(3+k))**3 for k in kk]))
+    for ax,(key,ylabel,title,reference) in zip(axs,panels):
         for i,f in enumerate(FAMILIES):
-            y=[float(by(rows,f,k)[key+"_60_mean"]) for k in kk]
-            ax.plot(kk,y,marker="o",lw=1.7,color=COLORS[i],
+            values=[horizon_group(groups,f,k,3)[key+"_60_mean"] for k in kk]
+            ax.plot(kk,values,marker="o",lw=1.7,color=COLORS[i],
                     label=fa("مشترک" if f=="shared" else "شرطی کلاس"))
-        ax.plot(kk,uni,ls="--",lw=1.4,color=".25",
-                label=fa("سیاست یکنواخت"))
-        ax.set(title=fa(title),xticks=kk,xlabel=r"$|A_N|$")
-        ax.set_ylabel("$"+key[0]+"_3$")
-        ax.grid(alpha=.17)
+        ax.plot(kk,reference,color=".22",ls="--",lw=1.4,
+                label=fa("یکنواخت"))
+        ax.set(title=fa(title),xlabel=r"$|A_N|$",ylabel=ylabel,xticks=kk)
+        ax.grid(alpha=.16)
     axs[0].legend(fontsize=8)
-    fig.suptitle(fa("تمایل سیاست به انتخاب ویژگی نویزی در گام شصت"),fontsize=13)
+    fig.suptitle(fa("مواجهه با نویز در سه نوبت انتخاب بدون ماسک — گام شصت"),
+                 fontsize=12)
     fig.tight_layout()
     return render(fig)
+
+def fig_horizons(groups):
+    """Complementary publication chart: h=1..4; NSR k=0 is undefined."""
+    fig,axes=plt.subplots(2,2,figsize=(11.6,8.3),sharex="col")
+    kk=np.arange(6)
+    for j,f in enumerate(FAMILIES):
+        for i,(metric,ylabel,title) in enumerate((
+            ("s",r"$s_N^{(h)}$","سهم متوسط انتخاب نویز"),
+            ("NSR",r"$\mathrm{NSR}_N^{(h)}$","سهم نسبی در برابر یکنواخت"))):
+            ax=axes[i,j]
+            for h in (1,2,3,4):
+                vals=[horizon_group(groups,f,k,h)[metric+"_60_mean"] for k in kk]
+                vals=[float(v) if v is not None else np.nan for v in vals]
+                ax.plot(kk,vals,color=COLORS[h-1],lw=1.8,
+                        marker="o",label=rf"$h={h}$")
+            if metric=="s":
+                ax.plot(kk,[k/(k+3) for k in kk],color=".25",lw=1.3,
+                        ls="--",label=fa("یکنواخت"))
+                ax.set_ylim(0,.85)
+            else:
+                ax.axhline(1,color=".25",lw=1.3,ls="--",
+                           label=fa("یکنواخت = ۱"))
+                ax.set_ylim(0,1.6)
+            ax.set(xlabel=r"$|A_N|$",ylabel=ylabel,xticks=kk)
+            ax.set_title(fa(title)+" — "+
+                         fa("مشترک" if f=="shared" else "شرطی کلاس"))
+            ax.grid(alpha=.16)
+            if j==0:ax.legend(fontsize=8,ncol=3,loc="best")
+    fig.suptitle(fa("شاخص های نرمال شده نویز در افق های یک تا چهار انتخاب"),
+                 fontsize=12)
+    fig.tight_layout()
+    return render(fig)
+
 def produce():
-    summary,gradient,bayes,noise,rates=read()
+    summary,gradient,bayes,noise,rates,horizons=read()
     _,traces,_,_,ledger=audit()
     require(len(traces)==36 and ledger.get("UPDATE")==1080,
             "Audit not complete")
@@ -188,14 +235,28 @@ def produce():
        r" & \lr{shared} & \lr{class} & \lr{shared} & \lr{class}\\\hline"],rows)
     rows=[]
     for k in range(6):
-        a=by(noise,"shared",k);c=by(noise,"class",k)
-        rows.append(" & ".join([t(k),t(float(a["E3_60_mean"]),3),
-           t(float(c["E3_60_mean"]),3),t(3*k/(3+k),3),
-           t(float(a["F3_60_mean"]),3),t(float(c["F3_60_mean"]),3)])+r"\\")
+        a=horizon_group(horizons,"shared",k,3)
+        c=horizon_group(horizons,"class",k,3)
+        val=lambda x:(t(x,3) if x is not None else "---")
+        rows.append(" & ".join([t(k),
+            val(a["nbar_60_mean"]),val(c["nbar_60_mean"]),
+            val(a["p_hit_60_mean"]),val(c["p_hit_60_mean"]),
+            val(a["NSR_60_mean"]),val(c["NSR_60_mean"])])+r"\\")
     data[TDIR/"e14_noise_fa.tex"]=tab("tab:ch4-e14-noise",
-      "شاخص‌های نویز سیاست در گام شصت؛ $E_3$ تعداد مورد انتظار و $F_3$ احتمال دست‌کم یک انتخاب نویز در سه انتخاب بدون ماسک هستند.",
-      "rrrrrr",[r"$|A_N|$ & \multicolumn{3}{c}{$E_3$} & \multicolumn{2}{c}{$F_3$}\\",
-       r" & \lr{shared} & \lr{class} & یکنواخت & \lr{shared} & \lr{class}\\\hline"],rows)
+      "مقایسهٔ سه‌نوبتی در گام ۶۰ مطابق بخش ۳.۸: شمار مورد انتظار نویز، احتمال دست‌کم یک برخورد و سهم نرمال‌شده نسبت به یکنواخت. نسبت برای $|A_N|=0$ تعریف‌نشده است.",
+      "rrrrrrr",[r"$|A_N|$ & \multicolumn{2}{c}{$\bar n_N^{(3)}$} & \multicolumn{2}{c}{$p_{\mathrm{hit},N}^{(3)}$} & \multicolumn{2}{c}{$\mathrm{NSR}_N^{(3)}$}\\",
+       r" & \lr{shared} & \lr{class} & \lr{shared} & \lr{class} & \lr{shared} & \lr{class}\\\hline"],rows)
+    rows=[]
+    for f in FAMILIES:
+      for k in range(6):
+        shares=[horizon_group(horizons,f,k,h)["s_60_mean"] for h in (1,2,3,4)]
+        r3=horizon_group(horizons,f,k,3)["NSR_60_mean"]
+        rows.append(" & ".join([r"\lr{"+f+"}",t(k),
+             *[t(v,3) for v in shares],
+             (t(r3,3) if r3 is not None else "---")])+r"\\")
+    data[TDIR/"e14_noise_horizons_fa.tex"]=tab("tab:ch4-e14-noise-horizons",
+      "سهم انتخاب نویز به‌ازای هر نوبت در افق‌های $h=1,2,3,4$ و نسبت سه‌نوبتی به سیاست یکنواخت، در گام ۶۰؛ \lr{class} میانگین برابر‌وزن سه سیاست کلاس‌مشروط است و علامت خط تیره نشان‌دهندهٔ مقدار تعریف‌نشده است.",
+      "lrrrrrr",[r"سیاست & $|A_N|$ & $s_N^{(1)}$ & $s_N^{(2)}$ & $s_N^{(3)}$ & $s_N^{(4)}$ & $\mathrm{NSR}_N^{(3)}$\\\hline"],rows)
     figures=[
       ("e14_ba_bayes_fa","fig:ch4-e14-ba-bayes",
        "دقت متوازن آموزش و اعتبارسنجی در طول شصت گام برای دو خانواده سیاست و شش سطح نویز؛ خطوط افقی مرجع زمینه‌ای \lr{Bayes MAP} دادهٔ مادر پنج‌ویژگی با بذر $20261102$ هستند، نه مرجع بیزی محاسبه‌شده برای هر زیرمجموعهٔ نویزی.",False,
@@ -204,15 +265,18 @@ def produce():
        "هنجار گرادیان و پوش تجربی قله‌ها و دره‌ها؛ شش ردیف برای $|A_N|=0,\ldots,5$ و دو ستون برای سیاست مشترک و شرطی کلاس. پوش‌ها از میانگین هر گروه ساخته شده‌اند.",True,
        fig_gradient(traces)),
       ("e14_noise_fa","fig:ch4-e14-noise-selection",
-       "شمار مورد انتظار و احتمال برخورد با ویژگی نویزی در گام شصت، در مقایسه با سیاست یکنواخت و برحسب $|A_N|$.",False,
-       fig_noise(noise)),
+       "شمار مورد انتظار $\bar n_N^{(3)}$ و احتمال برخورد $p_{\mathrm{hit},N}^{(3)}$ در گام شصت، مطابق تعاریف بخش ۳.۸ و در مقایسه با مرجع یکنواخت؛ محاسبه فقط برای انتخاب‌های بدون ماسک انجام شده است.",False,
+       fig_noise(horizons)),
+      ("e14_noise_horizons_fa","fig:ch4-e14-noise-horizons",
+       "سهم متوسط انتخاب نویز $s_N^{(h)}$ و نسبت آن به مرجع یکنواخت $mathrm{NSR}_N^{(h)}$ برای افق‌های $h=1,2,3,4$، مطابق بخش ۳.۸ و در گام ۶۰. نسبت در $|A_N|=0$ تعریف نشده است.",False,
+       fig_horizons(horizons)),
     ]
     for name,label,caption,tall,(svg,pdf,png) in figures:
         data[FDIR/(name+".svg")]=svg
         data[FDIR/(name+".pdf")]=pdf
         data[FDIR/(name+".png")]=png
         data[FDIR/(name+".tex")]=wrap(name,label,caption,tall)
-    require(len(data)==16,"Wrong figure/table file count")
+    require(len(data)==21,"Expected five Persian tables and four vector plots")
     return data
 def main():
     p=argparse.ArgumentParser()
@@ -238,6 +302,6 @@ def main():
                     + path.name)
                 require(ref in chapter,"LaTeX chapter missing asset "+str(path))
     print("E14_PERSIAN_PUBLICATION_PASS",json.dumps({
-        "mode":args.mode,"files":len(outputs),"figures":3,"tables":4,
+        "mode":args.mode,"files":len(outputs),"figures":4,"tables":5,
         "test_accessed":False,"optimizer_updates":0}))
 if __name__=="__main__":main()
