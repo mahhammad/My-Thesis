@@ -48,3 +48,5 @@ jobs:
               assert not bad,(str(source),bad)
           print('POST_TEMPLATE_STATIC_REFERENCES_PASS',len(sources))
           PY
+      - name: Verify chapter 3 JS minimum enclosing circles and TikZ alignment
+        run: python img/chap3/js_overlap_geometry_check.py
