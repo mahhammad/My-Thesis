@@ -1,0 +1,50 @@
+name: REPO-STATIC-01 fast LaTeX reference preflight (NO TEX INSTALL, NO FIT)
+
+on:
+  pull_request:
+    paths:
+      - 'main.tex'
+      - 'tex/**'
+      - 'img/**'
+      - 'code/experiments/objective-start-diagnostics/figures/**'
+      - '.github/workflows/repo-lightweight-pr83-xelatex-gate.yml'
+      - '.github/workflows/repo-static-references.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  static-reference-preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify removed template appendices and remaining TeX references
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          root=Path('.')
+          main=(root/'main.tex').read_text(encoding='utf-8')
+          for name in ('appendix1','appendix2','appendix3'):
+              assert not (root/'tex'/f'{name}.tex').exists(),name
+              assert not re.search(r'\\(?:input|include)\s*\{[^{}]*'+name+r'\}',main),name
+          for rel in re.findall(r'\\(?:input|include)\s*\{([^{}]+)\}',main):
+              candidate=root/rel
+              assert candidate.with_suffix('.tex').is_file() or candidate.is_file(),rel
+          deleted_labels=(
+            'app:latexIntro','formula','eq:yek','zirbakhsh','fig:shir','eq1','eq2',
+            'Sec:Ref','app:latex:more','tab:motionModels','tab:motionModelsCont',
+            'eq:DLT_Ah','alg:DLT','alg:simulation-random','alg:RANSAC',
+            'fig:twolion:one','fig:twolion:two','fig:twoLion','fig:parabola',
+            'sec:floatObjs','app:refMan','sec:refUsage'
+          )
+          sources=[root/'main.tex',*sorted((root/'tex').glob('*.tex'))]
+          for source in sources:
+              txt=source.read_text(encoding='utf-8')
+              refs=re.findall(r'\\(?:ref|eqref|autoref|pageref|cref|Cref)\s*\{([^{}]+)\}',txt)
+              bad=sorted(set(refs).intersection(deleted_labels))
+              assert not bad,(str(source),bad)
+          print('POST_TEMPLATE_STATIC_REFERENCES_PASS',len(sources))
+          PY
