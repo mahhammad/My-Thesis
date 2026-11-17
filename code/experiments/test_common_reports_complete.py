@@ -113,8 +113,17 @@ class CompleteExperimentEvidence(unittest.TestCase):
         self.assertTrue((HERE/slug/"tables/complete_metrics.tex").is_file())
         self.assertTrue((HERE/slug/"results/metrics_summary.csv").is_file())
 
-    def test_exactly_eleven_official_studies_plus_shared_benchmark(self):
-        study_dirs = ["q-validation","uniform-hyperparameter-sensitivity","fixed-policy-evaluation","center-target-observation","sigmoid-margin-evaluation","true-horizon-effect","exact-matrix-evaluation","inverse-attainable","bayes-center-inverse","standard-policy-comparison","objective-start-diagnostics"]
+    def test_exactly_twelve_official_studies_plus_shared_benchmark(self):
+        # Official Chapter 4 inventory includes the completed E-CH4-14 study.
+        # Keep this enumeration exact: unidentified directories must fail QA.
+        study_dirs = [
+            "q-validation", "uniform-hyperparameter-sensitivity",
+            "fixed-policy-evaluation", "center-target-observation",
+            "sigmoid-margin-evaluation", "true-horizon-effect",
+            "exact-matrix-evaluation", "inverse-attainable",
+            "bayes-center-inverse", "standard-policy-comparison",
+            "objective-start-diagnostics", "synthetic-noise-feature-sensitivity",
+        ]
         actual = {p.name for p in HERE.iterdir() if p.is_dir() and not p.name.startswith((".", "__"))}
         self.assertEqual(actual, set(study_dirs) | {"benchmark_v1"})
         for slug in study_dirs:
