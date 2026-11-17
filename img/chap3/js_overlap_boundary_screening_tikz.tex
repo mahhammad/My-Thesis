@@ -1,0 +1,127 @@
+% نمای شماتیک دوبعدیِ توپ‌های پوشاننده: بدون ادعای هم‌ارزی با مختصات هیلبرتی.
+% مراکز و شعاع‌های زیر با محاسبه مستقلِ کوچک‌ترین دایره پوشاننده تأیید شدند.
+% هر دو قاب: توپ آبی و نارنجی و تمام نقاطشان دقیقاً یکسان‌اند.
+% توپ سبز قبل: مرکز (.75,0)، شعاع 1.00؛ سه نقطه مرزی
+%   (-.25,0)، (1.55,.6)، (1.55,-.6).
+% توپ سبز بعد: مرکز (1.10,0)، شعاع .75؛ سه نقطه مرزی
+%   (.35,0)، (1.55,.6)، (1.55,-.6).
+% نمونه سبز (-.25,0) روی محیط توپ سبز نخست و درون توپ نارنجی است؛
+% در قاب دوم هنوز در داده و گراف وجود دارد، اما در برآورد توپ سبز نیست.
+% شکاف نارنجی/سبز: پیش از کنارگذاری -.15؛ پس از کنارگذاری +.45.
+% برای هر چهار توپ رسم‌شده در دو قاب، سه نمونه دقیقاً روی محیط قرار دارند.
+\begingroup
+\definecolor{jsballblue}{HTML}{286C9E}
+\definecolor{jsballorange}{HTML}{CE7B28}
+\definecolor{jsballgreen}{HTML}{25816B}
+\definecolor{jsballink}{HTML}{334453}
+\definecolor{jsballpanel}{HTML}{F7F9FC}
+\begin{tikzpicture}[x=1cm,y=1cm,line cap=round,line join=round]
+\foreach \panel/\offset in {1/0,2/5.35}{%
+  \begin{scope}[xshift=\offset cm]
+    \fill[jsballpanel,rounded corners=5pt]
+      (0,-1.55) rectangle (5.05,4.45);
+    \draw[jsballink!25,line width=.5pt,rounded corners=5pt]
+      (0,-1.55) rectangle (5.05,4.45);
+    \ifnum\panel=1
+      \node[font=\small\bfseries,text=jsballink]
+        at (2.52,4.24) {\RL{پیش از کنارگذاری}};
+    \else
+      \node[font=\small\bfseries,text=jsballink]
+        at (2.52,4.24) {\RL{پس از کنارگذاری}};
+    \fi
+    % دستگاه مختصات هر دو قاب یکسان است.
+    \begin{scope}[shift={(2.35,0)}]
+      % توپ مستقلِ آبی: ثابت در هر دو قاب
+      \fill[jsballblue!10] (-.35,2.8) circle (1.05);
+      \draw[jsballblue,line width=1.15pt] (-.35,2.8) circle (1.05);
+      % توپ نارنجی: ثابت در هر دو قاب
+      \fill[jsballorange!13] (-1,0) circle (.90);
+      \draw[jsballorange,line width=1.15pt] (-1,0) circle (.90);
+      % تنها توپ سبز تغییر می‌کند.
+      \ifnum\panel=1
+        \fill[jsballgreen!12] (.75,0) circle (1.00);
+        \draw[jsballgreen,line width=1.15pt] (.75,0) circle (1.00);
+      \else
+        \fill[jsballgreen!12] (1.10,0) circle (.75);
+        \draw[jsballgreen,line width=1.15pt] (1.10,0) circle (.75);
+      \fi
+      % آبی: سه نمونه مرزی (زاویه‌های 90، 210 و 330 درجه)
+      \foreach \ang in {90,210,330}{%
+        \filldraw[fill=jsballblue,draw=white,line width=.65pt]
+           (-.35,2.8) ++(\ang:1.05) circle (.066);
+      }
+      % آبی: فقط دو نمونه داخلی
+      \foreach \x/\y in {-.56/2.88,-.03/2.74}{%
+        \filldraw[fill=jsballblue,draw=white,line width=.65pt]
+           (\x,\y) circle (.065);
+      }
+      % نارنجی: سه نمونه مرزی (زاویه‌های 90، 210 و 330 درجه)
+      \foreach \ang in {90,210,330}{%
+        \filldraw[fill=jsballorange,draw=white,line width=.65pt]
+           (-1,0) ++(\ang:.90) circle (.066);
+      }
+      % نارنجی: فقط دو نمونه داخلی
+      \foreach \x/\y in {-1.14/.14,-.83/-.21}{%
+        \filldraw[fill=jsballorange,draw=white,line width=.65pt]
+           (\x,\y) circle (.065);
+      }
+      % سبز: دو نقطه مرزی مشترک قبل و بعد.
+      \foreach \y in {.6,-.6}{%
+        \filldraw[fill=jsballgreen,draw=white,line width=.65pt]
+           (1.55,\y) circle (.066);
+      }
+      % سبز: سومین نقطه مرزیِ توپ جدید؛ پیش از کنارگذاری داخل توپ قدیم.
+      \filldraw[fill=jsballgreen,draw=white,line width=.65pt]
+           (.35,0) circle (.066);
+      % سبز: فقط دو نمونه داخلی که در هر دو قاب داخل می‌مانند.
+      \foreach \x/\y in {1.13/.15,1.27/-.16}{%
+        \filldraw[fill=jsballgreen,draw=white,line width=.65pt]
+          (\x,\y) circle (.065);
+      }
+      % نمونه سبزِ مرزی در محل ثابتِ خودش، در هر دو قاب.
+      \filldraw[fill=jsballgreen,draw=jsballink,line width=.7pt]
+          (-.25,0) circle (.086);
+      \ifnum\panel=1
+        % در قاب قبل، نقطه مرزی سبز عضو محاسبه پوش است.
+        \draw[jsballink,line width=.7pt] (-.25,0) circle (.14);
+      \else
+        % در قاب بعد نمونه همچنان حضور دارد، اما در محاسبه پوش نیست.
+        \draw[jsballink,dashed,line width=.8pt] (-.25,0) circle (.15);
+        \draw[jsballink,line width=.8pt]
+          (-.30,-.05)--(-.20,.05)
+          (-.30,.05)--(-.20,-.05);
+      \fi
+      % مرکزهای ثابت آبی و نارنجی، دقیقاً یکسان در هر دو قاب.
+      \filldraw[fill=jsballblue,draw=white,line width=.7pt]
+        (-.415,2.735) rectangle (-.285,2.865);
+      \filldraw[fill=jsballorange,draw=white,line width=.7pt]
+        (-1.065,-.065) rectangle (-.935,.065);
+      % مرکز سبز، وابسته به پنل و دوباره بهینه‌شده.
+      \ifnum\panel=1
+        \filldraw[fill=jsballgreen,draw=white,line width=.7pt]
+          (.685,-.065) rectangle (.815,.065);
+        \node[font=\footnotesize,text=jsballgreen]
+          at (1.62,1.24) {$\mathcal B_2$};
+      \else
+        \filldraw[fill=jsballgreen,draw=white,line width=.7pt]
+          (1.035,-.065) rectangle (1.165,.065);
+        \node[font=\footnotesize,text=jsballgreen]
+          at (1.62,1.05) {$\mathcal B_2^{(-i)}$};
+      \fi
+      \node[font=\footnotesize,text=jsballblue]
+          at (-.35,1.50) {$\mathcal B_3$};
+      \node[font=\footnotesize,text=jsballorange]
+          at (-1.65,1.13) {$\mathcal B_1$};
+    \end{scope}
+    \ifnum\panel=1
+      \node[font=\footnotesize,text=jsballink]
+        at (2.52,-1.31) {$g_{12}<0$};
+    \else
+      \node[font=\footnotesize,text=jsballink]
+        at (2.52,-1.31) {$g_{12}>0$};
+    \fi
+  \end{scope}
+}
+\draw[->,line width=1.4pt,jsballink!70] (5.09,1.42)--(5.29,1.42);
+\end{tikzpicture}
+\endgroup
