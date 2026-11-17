@@ -1,0 +1,129 @@
+% تصویر کاملاً شماتیک: دو برش دوبعدی از مفهوم توپ پوشاننده در هندسه هیلبرت.
+% این مختصات ادعای تصویر دوبعدی دقیق نگاشت JS یا نتیجه یک آزمایش را ندارند.
+% با وجود این، دایره‌های ترسیم‌شده واقعاً کوچک‌ترین دایره پوشاننده
+% نقاط نمایشی خود هستند (کنترل هندسی مستقل در بازبینی انجام شده است).
+% ۱) توپ مستقلِ بزرگ کلاس ۳ دست‌نخورده باقی می‌ماند.
+% ۲) در پنل نخست، نقطه قرمز عضو کلاس ۱ است، روی پوش آن قرار دارد
+%    و در توپ کلاس ۲ هم قرار گرفته است.
+% ۳) در پنل دوم، همان نمونه هنوز رسم شده و در مجموعه داده/گراف وجود دارد
+%    ولی از مجموعه محاسبه توپ کلاس ۱ کنار گذاشته شده است.
+% ۴) مراکز و شعاع‌ها از روی نقاط حاضر در هر محاسبه بازبهینه شده‌اند.
+\begingroup
+\definecolor{jsballblue}{HTML}{286C9E}
+\definecolor{jsballorange}{HTML}{CE7B28}
+\definecolor{jsballgreen}{HTML}{25816B}
+\definecolor{jsballred}{HTML}{BD3443}
+\definecolor{jsballink}{HTML}{334453}
+\definecolor{jsballpanel}{HTML}{F7F9FC}
+
+\begin{tikzpicture}[x=1cm,y=1cm,line cap=round,line join=round]
+% سه توپ: کلاس ۳ (آبی)، کلاس ۱ (نارنجی)، کلاس ۲ (سبز).
+% نمونه‌های کلاس ۱ پیش از کنارگذاری:
+% (-.5,0),(-.05,.46),(0,-.45),(.4,.15),(1.4,.08)
+% MEB_1: مرکز (.45,.04)، شعاع .95084.
+% پس از کنارگذاری (1.4,.08):
+% MEB_1: مرکز (-.03906,.00937)، شعاع .46103.
+% MEB_2: مرکز (2.16,0)، شعاع 1؛ MEB_3: مرکز (-3.1,0)، شعاع 1.22.
+% شکاف کلاس‌های ۱ و ۲: پیش -0.24037 و پس +0.73805.
+% اعداد صرفاً کنترل هندسیِ چیدمان شماتیک‌اند، نه نتیجه تجربی.
+\foreach \panel/\shift in {1/0,2/9.1}{%
+  \begin{scope}[xshift=\shift cm]
+    \fill[jsballpanel,rounded corners=6pt] (0,-1.92) rectangle (8.55,1.94);
+    \draw[jsballink!25,line width=.45pt,rounded corners=6pt]
+        (0,-1.92) rectangle (8.55,1.94);
+    % انتقال دستگاه مختصات نمونه‌ها به کادر
+    \begin{scope}[shift={(4.56,0)}]
+      % کلاس بزرگ جدا: در هر دو قاب بدون تغییر
+      \fill[jsballblue!11] (-3.10,0) circle (1.22);
+      \draw[jsballblue,line width=1.1pt] (-3.10,0) circle (1.22);
+      % کلاس رقیب: در هر دو قاب بدون تغییر
+      \fill[jsballgreen!12] (2.16,0) circle (1.00);
+      \draw[jsballgreen,line width=1.1pt] (2.16,0) circle (1.00);
+      \ifnum\panel=1
+        \fill[jsballorange!14] (.45,.04) circle (.95084);
+        \draw[jsballorange,line width=1.2pt] (.45,.04) circle (.95084);
+        % مرکز پیشین (مربع نارنجی)
+        \filldraw[fill=jsballorange,draw=white,line width=.75pt]
+          (.45,.04) rectangle ++(.13,.13);
+        % نمونه مرزی کنارگذاری‌شونده، هم داخل توپ رقیب
+        \filldraw[fill=jsballred,draw=white,line width=.7pt]
+          (1.4,.08) circle (.092);
+        \draw[jsballred,line width=.8pt]
+          (1.4,.08) circle (.145);
+      \else
+        \fill[jsballorange!14] (-.03906,.00937) circle (.46103);
+        \draw[jsballorange,line width=1.2pt]
+          (-.03906,.00937) circle (.46103);
+        % مرکز تازه پس از بازبهینه‌سازی
+        \filldraw[fill=jsballorange,draw=white,line width=.75pt]
+          (-.03906,.00937) rectangle ++(.13,.13);
+        % نمونه همچنان وجود دارد؛ فقط در محاسبه توپ منظور نشده است.
+        \draw[jsballred,line width=1.1pt] (1.4,.08) circle (.11);
+        \draw[jsballred,line width=1.2pt]
+          (1.34,.02)--(1.46,.14)
+          (1.34,.14)--(1.46,.02);
+      \fi
+
+      % نقاط کلاس ۳ (دو نمونه روی قطرِ تعیین‌کننده پوش)
+      \foreach \x/\y in {-4.32/0,-1.88/0,-3.20/.91,-2.70/-.70,-3.65/.40,-2.92/.10}{%
+        \filldraw[fill=jsballblue,draw=white,line width=.65pt]
+          (\x,\y) circle (.073);
+      }
+      % نقاط کلاس ۲ (دو نمونه روی قطرِ تعیین‌کننده پوش)
+      \foreach \x/\y in {1.16/0,3.16/0,2.15/.78,2.45/-.73,1.85/-.60}{%
+        \filldraw[fill=jsballgreen,draw=white,line width=.65pt]
+          (\x,\y) circle (.073);
+      }
+      % نقاط باقی‌مانده کلاس ۱، شامل نقاط روی و داخل پوش
+      \foreach \x/\y in {-.50/0,-.05/.46,0/-.45,.40/.15}{%
+        \filldraw[fill=jsballorange,draw=white,line width=.65pt]
+          (\x,\y) circle (.073);
+      }
+      % مراکز توپ‌های تغییرنکرده
+      \filldraw[fill=jsballblue,draw=white,line width=.7pt]
+          (-3.10,0) rectangle ++(.13,.13);
+      \filldraw[fill=jsballgreen,draw=white,line width=.7pt]
+          (2.16,0) rectangle ++(.13,.13);
+      % مشخصه کلاس‌ها خارج از سطح توپ‌ها
+      \node[font=\footnotesize,text=jsballblue]
+          at (-3.10,1.51) {$\mathcal B_3$};
+      \node[font=\footnotesize,text=jsballgreen]
+          at (2.16,1.36) {$\mathcal B_2$};
+      \ifnum\panel=1
+        \node[font=\footnotesize,text=jsballorange]
+          at (.23,1.33) {$\mathcal B_1$};
+      \else
+        \node[font=\footnotesize,text=jsballorange]
+          at (-.06,.79) {$\mathcal B_1^{(-i)}$};
+      \fi
+    \end{scope}
+    \ifnum\panel=1
+      \node[font=\small\bfseries,text=jsballink]
+         at (4.28,1.73) {پیش از کنارگذاری نمونه مرزی};
+      \node[font=\footnotesize,text=jsballred]
+         at (4.25,-1.62) {هم‌پوشانی توپ‌های کلاس‌های ۱ و ۲};
+    \else
+      \node[font=\small\bfseries,text=jsballink]
+         at (4.28,1.73) {پس از بازبهینه‌سازی توپ};
+      \node[font=\footnotesize,text=jsballgreen]
+         at (4.25,-1.62) {جدایی دو توپ با حفظ نمونه در گراف};
+    \fi
+  \end{scope}
+}
+% فلش بین دو قاب
+\draw[->,line width=1.4pt,jsballink!70] (8.65,0)--(9.0,0);
+% راهنمای نمادها (به‌همراه متن فارسی کوتاه)
+\begin{scope}[shift={(3.15,-2.32)}]
+  \filldraw[fill=jsballorange,draw=white,line width=.4pt] (0,0) circle (.085);
+  \node[anchor=west,font=\scriptsize,text=jsballink] at (.17,0) {نمونه فعال};
+  \filldraw[fill=jsballblue,draw=white,line width=.4pt]
+      (2.05,-.075) rectangle +( .15,.15);
+  \node[anchor=west,font=\scriptsize,text=jsballink] at (2.35,0) {مرکز توپ};
+  \draw[jsballred,line width=1pt] (4.65,0) circle (.085);
+  \draw[jsballred,line width=.8pt] (4.60,-.05)--(4.70,.05)
+                                   (4.60,.05)--(4.70,-.05);
+  \node[anchor=west,font=\scriptsize,text=jsballink] at (4.88,0)
+      {نمونه کنارگذاشته از محاسبه توپ};
+\end{scope}
+\end{tikzpicture}
+\endgroup
