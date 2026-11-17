@@ -4753,6 +4753,31 @@ $0\le p_{\mathrm{hit},N}^{(3)}\le1$ و
 $p_{\mathrm{hit},N}^{(3)}\le\bar n_N^{(3)}
 \le3p_{\mathrm{hit},N}^{(3)}$.
 
+\paragraph{تعمیم افق و نرمال‌سازی شمار انتخاب نویز.}
+برای هر تعداد مثبت و ثابت $h$ از انتخاب‌های
+فرایند کمکی بدون ماسک، شاخص‌های پیشین
+به‌صورت زیر تعمیم می‌یابند:
+\begin{equation}\label{eq:ch3-noise-general-horizon}
+\boxed{
+\begin{aligned}
+p_{\mathrm{hit},N}^{(h)}
+&=1-p_0[A_P]P_{A_P,A_P}^{\,h-1}\mathbf 1_{A_P},\\
+\bar n_N^{(h)}
+&=\sum_{t=1}^{h}q_t
+=\sum_{t=1}^{h}p_0P^{t-1}\mathbf 1_{A_N}.
+\end{aligned}}
+\end{equation}
+چون $\bar n_N^{(h)}$ حداکثر $h$ است،
+برای مقایسه افق‌های متفاوت، سهم
+\emph{مورد انتظار انتخاب نویز به‌ازای هر نوبت}
+را تعریف می‌کنیم:
+\begin{equation}\label{eq:ch3-noise-normalized-expectation}
+\boxed{
+s_N^{(h)}=\frac{\bar n_N^{(h)}}{h}
+=\frac1h\sum_{t=1}^{h}q_t,\qquad
+0\le s_N^{(h)}\le1.
+}
+\end{equation}
 در سیاست یکنواخت بدون ماسک
 (رابطه~\eqref{eq:ch3-uniform-policy})،
 هر انتخاب ویژگی یکنواخت و
@@ -4791,37 +4816,7 @@ $1-(|A_P|/d)^2$
 $c_s$ محاسبه می‌شوند؛ میانگین برابر‌وزن کلاس‌ها
 تنها یک خلاصه توصیفی است، مگر آنکه همان وزن‌دهی
 در پروتکل نمونه‌گیری کلاس نیز برقرار باشد.
-\paragraph{تعمیم افق و نرمال‌سازی شمار انتخاب نویز.}
-برای هر تعداد مثبت و ثابت $h$ از انتخاب‌های
-فرایند کمکی بدون ماسک، شاخص‌های پیشین
-به‌صورت زیر تعمیم می‌یابند:
-\begin{equation}\label{eq:ch3-noise-general-horizon}
-\boxed{
-\begin{aligned}
-p_{\mathrm{hit},N}^{(h)}
-&=1-p_0[A_P]P_{A_P,A_P}^{\,h-1}\mathbf 1_{A_P},\\
-\bar n_N^{(h)}
-&=\sum_{t=1}^{h}q_t
-=\sum_{t=1}^{h}p_0P^{t-1}\mathbf 1_{A_N}.
-\end{aligned}}
-\end{equation}
-چون $\bar n_N^{(h)}$ حداکثر $h$ است،
-برای مقایسه افق‌های متفاوت، سهم
-\emph{مورد انتظار انتخاب نویز به‌ازای هر نوبت}
-را تعریف می‌کنیم:
-\begin{equation}\label{eq:ch3-noise-normalized-expectation}
-\boxed{
-s_N^{(h)}=\frac{\bar n_N^{(h)}}{h}
-=\frac1h\sum_{t=1}^{h}q_t,\qquad
-0\le s_N^{(h)}\le1.
-}
-\end{equation}
-در سیاست یکنواخت بدون ماسک
-این دو مقدار دقیقاً برابر
-$s_N^{(h),U}=|A_N|/d$ و
-$\bar n_N^{(h),U}=h|A_N|/d$
-هستند؛ مطابق مرجع عمومی
-رابطه~\eqref{eq:ch3-noise-uniform-reference}.
+
 برای مقایسه سیاست‌ها در ابعاد متفاوت،
 نسبت بی‌بعد دیگری نیز می‌توان تعریف کرد:
 \begin{equation}\label{eq:ch3-noise-normalized-uniform-ratio}
