@@ -1,0 +1,58 @@
+name: E-CH4-14 chapter-3 noise horizon audit (NO FIT)
+on:
+  push:
+    branches: [experiment/ch4-14-noise-sensitivity-01]
+    paths:
+      - 'code/experiments/synthetic-noise-feature-sensitivity/noise_horizon_analysis.py'
+      - '.github/workflows/e-ch4-14-noise-horizon-replay.yml'
+permissions:
+  contents: write
+concurrency:
+  group: e14-noise-horizon-replay
+  cancel-in-progress: false
+jobs:
+  full-logits-replay:
+    if: github.repository == 'mahhammad/My-Thesis' && github.ref == 'refs/heads/experiment/ch4-14-noise-sensitivity-01'
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Verify immutable E-CH4-14 training data and raw traces
+        run: |
+          set -euo pipefail
+          root=code/experiments/synthetic-noise-feature-sensitivity
+          git diff --exit-code 7bc66e4d2535fb15dfa5b569933b2d6c5a0962ac HEAD -- \
+            "$root/inputs" "$root/results/checkpoints" "$root/results/traces" \
+            "$root/results/continuation_30_60"
+      - name: Install compatible CPU-only scientific packages
+        run: |
+          python -m pip install --disable-pip-version-check numpy==2.4.6 matplotlib==3.10.7
+          python -m pip install --disable-pip-version-check torch==2.9.1 \
+            --index-url https://download.pytorch.org/whl/cpu
+      - name: Read-only replay 36 policies across 31 saved states, horizons 1 to 4
+        run: |
+          set -euo pipefail
+          python -m py_compile code/experiments/synthetic-noise-feature-sensitivity/noise_horizon_analysis.py
+          python code/experiments/synthetic-noise-feature-sensitivity/noise_horizon_analysis.py --mode write
+          python code/experiments/synthetic-noise-feature-sensitivity/noise_horizon_analysis.py --mode check
+      - name: Publish derived tables and charts only (no training output)
+        run: |
+          set -euo pipefail
+          root=code/experiments/synthetic-noise-feature-sensitivity
+          git add "$root"/tables/noise_horizon_* "$root"/figures/37_*.svg \
+            "$root"/figures/38_*.svg
+          git diff --cached --name-only
+          if ! git diff --cached --quiet; then
+            git -c user.name='github-actions[bot]' \
+                -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+                commit -m 'analysis(e14): immutable-logits replay of horizons 1-4'
+            git push origin HEAD:refs/heads/experiment/ch4-14-noise-sensitivity-01
+          fi
