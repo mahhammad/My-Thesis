@@ -48,12 +48,20 @@ jobs:
         run: |
           set -euo pipefail
           path=code/experiments/synthetic-noise-feature-sensitivity/latex
+          # CairoSVG can put nondeterministic metadata in identical PDFs.
+          # Only publish PDFs if the reproducible vector-source SVG/TeX or
+          # inspected PNG preview changed; avoid noisy PDF-only commits.
           git add "$path"/tables/*.tex "$path"/figures/*.tex \
-                  "$path"/figures/*.svg "$path"/figures/*.pdf "$path"/figures/*.png
+                  "$path"/figures/*.svg "$path"/figures/*.png
           git diff --cached --name-only
           if ! git diff --cached --quiet; then
+            git add "$path"/figures/*.pdf
             git -c user.name='github-actions[bot]' \
                 -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
                 commit -m 'publication(e-ch4-14): Persian vector figures and LaTeX result tables'
+            git fetch origin experiment/ch4-14-noise-sensitivity-01
+            git rebase origin/experiment/ch4-14-noise-sensitivity-01
             git push origin HEAD:refs/heads/experiment/ch4-14-noise-sensitivity-01
+          else
+            echo "E14_PUBLICATION_STABLE: no source/preview changes; ignore PDF metadata drift"
           fi
