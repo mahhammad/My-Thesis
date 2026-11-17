@@ -1,0 +1,232 @@
+name: E-CH4-14 branch checks (NO FIT)
+
+on:
+  push:
+    branches:
+      - experiment/ch4-14-noise-sensitivity-01
+    paths:
+      - 'code/experiments/synthetic-noise-feature-sensitivity/**'
+      - 'code/experiments/benchmark_v1/**'
+      - 'code/experiments/objective-start-diagnostics/**'
+      - 'code/experiments/COMMON_METRICS_CONTRACT.json'
+      - '.github/workflows/e-ch4-14-branch-ci.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'code/experiments/synthetic-noise-feature-sensitivity/**'
+      - 'code/experiments/benchmark_v1/**'
+      - 'code/experiments/objective-start-diagnostics/**'
+      - 'code/experiments/COMMON_METRICS_CONTRACT.json'
+      - '.github/workflows/e-ch4-14-branch-ci.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: e-ch4-14-no-fit-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  static-and-frozen-input:
+    name: Syntax, scope and frozen-input SHA (NO FIT)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validate frozen mother input and E-CH4-14 Python syntax
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from hashlib import sha256
+          import json
+          root = Path("code/experiments/synthetic-noise-feature-sensitivity")
+          frozen = Path("code/experiments/objective-start-diagnostics/inputs/phase2_train_validation")
+          manifest = json.loads((frozen / "manifest.json").read_text(encoding="utf-8"))
+          assert manifest["train_validation_only"] is True
+          assert manifest["test_accessed"] is False
+          record = manifest["records"]["20261102"]
+          mother = frozen / record["file"]
+          assert mother.is_file(), "Missing frozen Train/Validation mother dataset"
+          assert sha256(mother.read_bytes()).hexdigest() == record["file_sha256"], "FROZEN_MOTHER_SHA_MISMATCH"
+          print("E14_FROZEN_MOTHER_SHA_PASS", record["file"], record["file_sha256"])
+          if not root.exists():
+              print("E14_SCAFFOLD_PENDING: experiment directory not created yet")
+          else:
+              assert (root / "README_FA.md").is_file(), "Single experiment README_FA.md missing"
+              source_files = sorted(p for p in root.rglob("*.py") if not p.name.startswith("test_"))
+              test_files = sorted(root.rglob("test_*.py"))
+              for path in sorted(root.rglob("*.py")):
+                  compile(path.read_bytes(), str(path), "exec")
+              if source_files:
+                  assert test_files, "E14_IMPLEMENTATION_WITHOUT_TESTS"
+              print("E14_SYNTAX_PASS", "source_files", len(source_files), "test_files", len(test_files))
+          PY
+      - name: Confirm checks did not edit tracked files
+        run: git diff --exit-code
+
+  read-only-unit-tests:
+    name: Frozen-data, engine and E-CH4-14 units (NO FIT)
+    needs: static-and-frozen-input
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      OPENBLAS_CORETYPE: generic
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      E_CH4_14_FIT_AUTHORIZED: 'false'
+      E_CH4_13_PHASE2_OPT_IN: NOT_AUTHORIZED
+      E_CH4_13_PHASE2_EXTERNAL_GATE_VERIFIED: 'false'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install CPU-only dependencies for read-only unit tests
+        run: |
+          python -m pip install --disable-pip-version-check 'numpy==2.4.6'
+          python -m pip install --disable-pip-version-check torch --index-url https://download.pytorch.org/whl/cpu
+      - name: Frozen input checksum and tamper regression from E-CH4-13
+        run: python -m unittest discover -s code/experiments/objective-start-diagnostics -p 'test_phase2_frozen_data.py' -v
+      - name: ExactMaskedWalk and family-mapping regressions
+        run: python -m unittest discover -s code/experiments/benchmark_v1 -p 'test_engine.py' -v
+      - name: Shared metric contract regression
+        run: python -m unittest discover -s code/experiments/benchmark_v1 -p 'test_common_metrics_contract.py' -v
+      - name: Discover and run every E-CH4-14 unit test as it is added
+        run: |
+          set -euo pipefail
+          root="code/experiments/synthetic-noise-feature-sensitivity"
+          if [ -d "$root" ] && find "$root" -type f -name 'test_*.py' -print -quit | grep -q .; then
+            python -m unittest discover -s "$root" -p 'test_*.py' -v
+          else
+            echo "E14_NO_UNIT_TEST_FILES_YET (scaffold stage; not a scientific PASS)"
+          fi
+      - name: Confirm no checked-in evidence was modified
+        run: git diff --exit-code
+
+  postfit-audit:
+    name: Read-only 36-fit scientific replay and figure checksum (NO FIT)
+    if: github.ref == 'refs/heads/experiment/ch4-14-noise-sensitivity-01'
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Independently verify committed metric bundle, checkpoint SHA and tables
+        run: |
+          set -euo pipefail
+          node code/experiments/synthetic-noise-feature-sensitivity/reproduce_postfit.cjs --check
+      - name: Regenerate figures from immutable numerical tables and check exact SVG bytes
+        run: |
+          set -euo pipefail
+          node code/experiments/synthetic-noise-feature-sensitivity/render_figures.cjs
+          git diff --exit-code -- code/experiments/synthetic-noise-feature-sensitivity/figures
+      - name: Confirm all tracked files remain unchanged
+        run: git diff --exit-code
+
+  advanced-postfit-evidence:
+    name: Independent NFI3, stability and full-k SVG reproducibility (NO FIT)
+    if: github.ref == 'refs/heads/experiment/ch4-14-noise-sensitivity-01'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      contents: read
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install pinned read-only packages
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check 'numpy==2.4.6' 'matplotlib==3.10.7'
+          python -m pip install --disable-pip-version-check 'torch==2.9.1' --index-url https://download.pytorch.org/whl/cpu
+      - name: Independently test the mathematical diagnostic and SHA guard
+        run: python -m unittest discover -s code/experiments/synthetic-noise-feature-sensitivity -p 'test_advanced_analysis.py' -v
+      - name: Recompute all saved F3 E3 NFI3 and 36-run stability statistics
+        run: |
+          if [ -d code/experiments/synthetic-noise-feature-sensitivity/results/continuation_30_60 ]; then
+            python code/experiments/synthetic-noise-feature-sensitivity/continuation_analysis.py --mode check
+          else
+            python code/experiments/synthetic-noise-feature-sensitivity/advanced_analysis.py --mode check
+          fi
+      - name: Bytewise regenerate 10 new SVGs without modifying any frozen evidence
+        run: |
+          set -euo pipefail
+          if [ -d code/experiments/synthetic-noise-feature-sensitivity/results/continuation_30_60 ]; then
+            echo "Saved 0..30 analysis remains historical; continuation checked in previous step"
+          else
+            python code/experiments/synthetic-noise-feature-sensitivity/advanced_analysis.py --mode write
+            git diff --exit-code -- code/experiments/synthetic-noise-feature-sensitivity/tables \
+              code/experiments/synthetic-noise-feature-sensitivity/figures
+          fi
+          git diff --exit-code 7bc66e4d2535fb15dfa5b569933b2d6c5a0962ac HEAD -- \
+            code/experiments/synthetic-noise-feature-sensitivity/inputs \
+            code/experiments/synthetic-noise-feature-sensitivity/results/checkpoints \
+            code/experiments/synthetic-noise-feature-sensitivity/results/traces \
+            code/experiments/synthetic-noise-feature-sensitivity/results/metrics
+          git diff --exit-code
+          echo E14_ADVANCED_POSTFIT_BYTEWISE_PASS
+
+  resume-step30-preflight:
+    name: SHA-pinned 36-step30 origin reconstructions (NO FIT / NO SECRET)
+    if: github.ref == 'refs/heads/experiment/ch4-14-noise-sensitivity-01'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      contents: read
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      E_CH4_14_FIT_AUTHORIZED: 'false'
+      E14_RESUME_EXECUTE_VERIFIED: 'false'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install pinned CPU-only reconstruction packages
+        run: |
+          python -m pip install --disable-pip-version-check 'numpy==2.4.6'
+          python -m pip install --disable-pip-version-check 'torch==2.9.1' --index-url https://download.pytorch.org/whl/cpu
+      - name: Publish committed-source origin SHA-set fingerprint (no training)
+        run: python code/experiments/synthetic-noise-feature-sensitivity/resume_gate.py --mode fingerprint
+      - name: Independently verify all 36 genuine Adam states at step 30
+        run: |
+          if [ -d code/experiments/synthetic-noise-feature-sensitivity/results/continuation_30_60 ]; then
+            echo "Step30 origins were preflight-verified before budget; continuation is immutable"
+          else
+            python code/experiments/synthetic-noise-feature-sensitivity/resume_30_60.py --mode preflight
+          fi
+      - name: No new files or changes to experiment evidence
+        run: |
+          git diff --exit-code
+          if [ -d code/experiments/synthetic-noise-feature-sensitivity/results/continuation_30_60 ]; then
+            test -f code/experiments/synthetic-noise-feature-sensitivity/results/continuation_30_60/resume_budget.jsonl
+            echo E14_RESUME_ORIGIN_AND_CONTINUATION_PRESENT_PASS
+          else
+            echo E14_RESUME_ORIGIN_PREFLIGHT_NO_UPDATES_PASS
+          fi

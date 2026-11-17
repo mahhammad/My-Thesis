@@ -1,0 +1,127 @@
+name: E-CH4-14 authorized resume 30-60
+
+# Branch-only trigger: no ordinary code/CI push can start a fit.
+# Only the new one-shot request after the recorded owner override and distinct budget.
+on:
+  push:
+    branches: [experiment/ch4-14-noise-sensitivity-01]
+    paths:
+      - 'code/experiments/synthetic-noise-feature-sensitivity/requests/resume_30_60.json'
+
+permissions:
+  contents: write
+  actions: read
+  issues: read
+
+concurrency:
+  group: e-ch4-14-execution-exclusive
+  cancel-in-progress: false
+
+jobs:
+  resume-only:
+    if: github.repository == 'mahhammad/My-Thesis' && github.ref == 'refs/heads/experiment/ch4-14-noise-sensitivity-01'
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      OPENBLAS_CORETYPE: generic
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      E_CH4_14_FIT_AUTHORIZED: 'false'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validate exact one-file push (NO RESEARCH SECRET)
+        run: |
+          set -euo pipefail
+          python code/experiments/synthetic-noise-feature-sensitivity/resume_gate.py --mode validate-request
+      - name: Install pinned read-only dependencies (NO RESEARCH SECRET)
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check 'numpy==2.4.6' 'psutil==7.0.0'
+          python -m pip install --disable-pip-version-check 'torch==2.9.1' --index-url https://download.pytorch.org/whl/cpu
+      - name: Check original evidence and all 36 step-30 origins (NO FIT)
+        run: |
+          set -euo pipefail
+          git diff --exit-code 7bc66e4d2535fb15dfa5b569933b2d6c5a0962ac HEAD -- \
+            code/experiments/synthetic-noise-feature-sensitivity/inputs \
+            code/experiments/synthetic-noise-feature-sensitivity/results
+          python code/experiments/synthetic-noise-feature-sensitivity/resume_30_60.py --mode preflight
+      - name: Verify new owner/QA and unique tag, then one-shot monitored continuation
+        id: authorized_resume
+        env:
+          E14_RESUME_TOKEN: ${{ secrets.E14_FIT_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          python code/experiments/synthetic-noise-feature-sensitivity/resume_gate.py \
+            --mode reserve --context "$RUNNER_TEMP/e14_resume_verified.json"
+          export E14_RESUME_EXECUTE_VERIFIED=true
+          python code/experiments/synthetic-noise-feature-sensitivity/resume_watchdog.py \
+            --context "$RUNNER_TEMP/e14_resume_verified.json"
+      - name: Write non-secret recovery metadata even after fail-stop
+        if: always()
+        env:
+          E14_RESUME_OUTCOME: ${{ steps.authorized_resume.outcome }}
+        run: |
+          python - <<'PY'
+          import json,os,pathlib
+          p=pathlib.Path(os.environ["RUNNER_TEMP"])/"e14_resume_status.json"
+          p.write_text(json.dumps({"schema":"e-ch4-14-resume-emergency-v1",
+              "stage":"resume_only","run_id":os.environ["GITHUB_RUN_ID"],
+              "source_sha":os.environ["GITHUB_SHA"],
+              "outcome":os.environ.get("E14_RESUME_OUTCOME"),
+              "test_accessed":False},indent=2)+"\n")
+          PY
+      - name: Independently upload emergency evidence (90 days)
+        if: always()
+        id: saved
+        uses: actions/upload-artifact@v4
+        with:
+          name: e14-resume-30-60-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            code/experiments/synthetic-noise-feature-sensitivity/results/continuation_30_60/
+            ${{ runner.temp }}/e14_resume_status.json
+          if-no-files-found: error
+          retention-days: 90
+      - name: Preserve complete or partial new results on the SAME branch
+        if: always()
+        run: |
+          set -euo pipefail
+          root="code/experiments/synthetic-noise-feature-sensitivity/results/continuation_30_60"
+          if [ -d "$root" ]; then
+            git add -A -- "$root"
+          fi
+          if ! git diff --cached --quiet; then
+            git -c user.name='github-actions[bot]' \
+              -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+              commit -m "results(e-ch4-14): preserve continuation and fail-stop ${{ github.run_id }}"
+            git push origin HEAD:refs/heads/experiment/ch4-14-noise-sensitivity-01
+          fi
+      - name: Confirm remote branch + artifact and 1080 updates before SUCCESS
+        if: success()
+        env:
+          E14_RECOVERY_ID: ${{ steps.saved.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          test -n "$E14_RECOVERY_ID"
+          python - <<'PY'
+          import json,pathlib
+          root=pathlib.Path("code/experiments/synthetic-noise-feature-sensitivity/results/continuation_30_60")
+          ledger=[json.loads(x) for x in (root/"resume_budget.jsonl").read_text().splitlines()]
+          assert sum(x["event"]=="START" for x in ledger)==36
+          assert sum(x["event"]=="UPDATE" for x in ledger)==1080
+          assert sum(x["event"]=="SUCCESS" for x in ledger)==36
+          assert not any(x["event"]=="FAIL_STOP" for x in ledger)
+          assert len(list(root.glob("*/manifest.json")))==36
+          print("E14_RESUME_ADDITIONAL_1080_UPDATES_CONFIRMED")
+          PY
+          git ls-remote --exit-code origin refs/heads/experiment/ch4-14-noise-sensitivity-01 | \
+            grep -q "$(git rev-parse HEAD)"
+          echo E14_RESUME_REMOTE_AND_ARTIFACT_PERSISTED

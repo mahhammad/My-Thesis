@@ -1,0 +1,57 @@
+name: E-CH4-14 Persian chapter4 figures and tables (NO FIT)
+on:
+  push:
+    branches: [experiment/ch4-14-noise-sensitivity-01]
+    paths:
+      - 'tex/chapter4.tex'
+      - 'code/experiments/synthetic-noise-feature-sensitivity/chapter4_publication.py'
+      - '.github/workflows/e-ch4-14-publication.yml'
+permissions:
+  contents: write
+concurrency:
+  group: e14-persian-ch4-publication
+  cancel-in-progress: false
+jobs:
+  publication:
+    if: github.repository == 'mahhammad/My-Thesis' && github.ref == 'refs/heads/experiment/ch4-14-noise-sensitivity-01'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Assert no original training evidence or frozen input changed
+        run: |
+          set -eu
+          d=code/experiments/synthetic-noise-feature-sensitivity
+          git diff --exit-code 7bc66e4d2535fb15dfa5b569933b2d6c5a0962ac HEAD -- \
+            "$d/inputs" "$d/results/checkpoints" "$d/results/traces" "$d/results/metrics"
+      - name: Install CPU plotting and provenance audit packages
+        run: |
+          python -m pip install --disable-pip-version-check numpy==2.4.6 matplotlib==3.10.7 \
+            arabic-reshaper==3.0.0 python-bidi==0.6.7 CairoSVG==2.8.2
+          python -m pip install --disable-pip-version-check torch==2.9.1 \
+            --index-url https://download.pytorch.org/whl/cpu
+      - name: Produce Persian vector PDFs SVGs and LaTeX tables without training
+        run: |
+          python code/experiments/synthetic-noise-feature-sensitivity/chapter4_publication.py --mode write
+          python code/experiments/synthetic-noise-feature-sensitivity/chapter4_publication.py --mode check
+      - name: Commit only publication artifacts to experiment branch
+        run: |
+          set -euo pipefail
+          path=code/experiments/synthetic-noise-feature-sensitivity/latex
+          git add "$path"/tables/*.tex "$path"/figures/*.tex \
+                  "$path"/figures/*.svg "$path"/figures/*.pdf "$path"/figures/*.png
+          git diff --cached --name-only
+          if ! git diff --cached --quiet; then
+            git -c user.name='github-actions[bot]' \
+                -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+                commit -m 'publication(e-ch4-14): Persian vector figures and LaTeX result tables'
+            git push origin HEAD:refs/heads/experiment/ch4-14-noise-sensitivity-01
+          fi

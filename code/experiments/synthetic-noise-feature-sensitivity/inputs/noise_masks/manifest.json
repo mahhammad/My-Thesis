@@ -1,0 +1,28 @@
+{
+  "approval_source_sha": "8a76f1d417b80035e2a2b78f1324a89d53add011",
+  "array_sha256": {
+    "train_mask": "3bf203ab01af4399de97c9e3da450d61a56b6b464edfb2fc2e2b01f51711e315",
+    "validation_mask": "35650c29f7d3bd71e67912265016e2a00fe3ff75d9d26babd00e69cd28fcb7ca"
+  },
+  "contract_true_means": "observed",
+  "created_utc": "2026-11-16T09:25:24.371316+00:00",
+  "file": "new_noise_masks.npz",
+  "file_sha256": "55661feacaf6888ff4e162ebbeb6b52e4a0cefbae8e58f309d8b05a4c902d044",
+  "independent_qa_url": "https://github.com/mahhammad/My-Thesis/issues/90#issuecomment-6912477869",
+  "mask_seed": 2026111602,
+  "missing_rate": [
+    0.2,
+    0.2,
+    0.2
+  ],
+  "n_train": 300,
+  "n_validation": 90,
+  "numpy": "2.4.6",
+  "owner_approval_url": "https://github.com/mahhammad/My-Thesis/issues/90#issuecomment-6912473530",
+  "python": "3.11.18",
+  "raw_file_sha256": "5d74ea9fab7688398a68ed3e4a44c83f4791844dda49f574d5cbdea098fbb64f",
+  "schema": "e-ch4-14-noise_masks-manifest-v1",
+  "source_mother_sha256": "e701cf9ef99b709fd5d6faee2d3ac631737d6b0195cf76eefc23d063bccb1b4a",
+  "spec_sha256": "82917272b0ac3850cecfd7bf4698dce55cbe955f8e3c308cf2c44d30e7f1ab8a",
+  "test_accessed": false
+}
