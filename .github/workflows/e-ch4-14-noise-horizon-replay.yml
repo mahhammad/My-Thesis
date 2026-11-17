@@ -30,7 +30,8 @@ jobs:
           set -euo pipefail
           root=code/experiments/synthetic-noise-feature-sensitivity
           git diff --exit-code 7bc66e4d2535fb15dfa5b569933b2d6c5a0962ac HEAD -- \
-            "$root/inputs" "$root/results/checkpoints" "$root/results/traces" \
+            "$root/inputs" "$root/results/checkpoints" "$root/results/traces"
+          git diff --exit-code e-ch4-14-resume-30-60-budget-spent HEAD -- \
             "$root/results/continuation_30_60"
       - name: Install compatible CPU-only scientific packages
         run: |
