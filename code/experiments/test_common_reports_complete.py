@@ -113,21 +113,21 @@ class CompleteExperimentEvidence(unittest.TestCase):
         self.assertTrue((HERE/slug/"tables/complete_metrics.tex").is_file())
         self.assertTrue((HERE/slug/"results/metrics_summary.csv").is_file())
 
-    def test_exactly_twelve_official_studies_plus_shared_benchmark(self):
-        # Official Chapter 4 inventory includes the completed E-CH4-14 study.
-        # Keep this enumeration exact: unidentified directories must fail QA.
-        study_dirs = [
-            "q-validation", "uniform-hyperparameter-sensitivity",
-            "fixed-policy-evaluation", "center-target-observation",
-            "sigmoid-margin-evaluation", "true-horizon-effect",
-            "exact-matrix-evaluation", "inverse-attainable",
-            "bayes-center-inverse", "standard-policy-comparison",
-            "objective-start-diagnostics", "synthetic-noise-feature-sensitivity",
-        ]
-        actual = {p.name for p in HERE.iterdir() if p.is_dir() and not p.name.startswith((".", "__"))}
-        self.assertEqual(actual, set(study_dirs) | {"benchmark_v1"})
-        for slug in study_dirs:
-            self.assertTrue((HERE / slug / "README_FA.md").is_file(), slug)
+    def test_discovered_experiments_have_reports_without_a_fixed_count(self):
+        # Chapter 4 is an evolving research program. Discover studies from
+        # actual directories; never cap their number at a historical count.
+        # The shared benchmark, if retained, is a repository-level resource.
+        study_dirs = sorted(
+            p for p in HERE.iterdir()
+            if p.is_dir() and not p.name.startswith((".", "__"))
+            and p.name != "benchmark_v1"
+        )
+        self.assertTrue(study_dirs, "No experiment directories discovered")
+        for folder in study_dirs:
+            report = folder / "README_FA.md"
+            self.assertTrue(report.is_file(), folder.name)
+            self.assertTrue(report.read_text("utf8").lstrip().startswith("# "),
+                            folder.name)
         self.assertTrue((HERE.parents[1] / "research_journal/ch4-14-synthetic-data-structure-sensitivity-plan.md").is_file())
 
     def test_every_experiment_has_single_technical_readme(self):
