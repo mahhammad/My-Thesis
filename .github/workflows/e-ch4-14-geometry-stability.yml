@@ -60,7 +60,8 @@ jobs:
                   code/experiments/synthetic-noise-feature-sensitivity/figures/39_center_geometry_stability_60.svg \
                   code/experiments/synthetic-noise-feature-sensitivity/figures/40_center_separation_density_deltas_60.svg \
                   code/experiments/synthetic-noise-feature-sensitivity/figures/41_main_feature_preferences_h1_h3_60.svg \
-                  code/experiments/synthetic-noise-feature-sensitivity/figures/42_feature_rank_vs_relative_drift_60.svg
+                  code/experiments/synthetic-noise-feature-sensitivity/figures/42_feature_rank_vs_relative_drift_60.svg \
+                  code/experiments/synthetic-noise-feature-sensitivity/figures/43_exact_representation_drift_60.svg
           if git diff --cached --quiet; then
             echo E14_GEOMETRY_UNCHANGED
           else
