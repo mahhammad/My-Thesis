@@ -6,6 +6,8 @@
 
 این **یک آزمایش واحد با ۶۰ آپدیت برای هر سیاست** است. اجرای فنی در گام ۳۰ با حفظ کامل state بهینه‌ساز checkpoint شده و از همان نقطه ادامه یافته است؛ این مرزِ ذخیره‌سازی، دو آزمایش علمی ایجاد نمی‌کند. تمامی سنجه‌هایی که در ۰ تا ۶۰ واقعاً ثبت شده‌اند، روی **۶۱ وضعیت متوالی** گزارش می‌شوند. تنها سنجه‌های سیاست‌محور با تاریخچهٔ ناکامل، در پیوست انتهایی و صریحاً فقط برای **۳۰ تا ۶۰** آمده‌اند. ارقام هندسه، حاشیه، confusion و نتایج نهایی همگی از **گام ۶۰** بازحساب شده‌اند، نه گام ۳۰.
 
+**راهنمای مشاهدهٔ شکل‌ها و خروجی‌ها:** نمودارهای اصلی همراه تفسیر در بخش‌های ۵ تا ۱۵ دیده می‌شوند؛ [گالری تصویری تکمیلی](#۱۶-گالری-تکمیلی-نمودارهای-آزمایش-همه-شکلها-قابل-مشاهده) و [نمایهٔ کامل فایل‌های جدول](#۱۷-نمایهٔ-کامل-فایلهای-عددی-و-جدولها) در انتهای همین README قرار دارند.
+
 ## ۱. پرسش علمی و یافته‌های اصلی
 
 با ثابت‌گرفتن سه ویژگی اطلاع‌رسان، نمونه‌های Train/Validation، تابع هدف و بودجهٔ آموزش، آیا افزودن صفر تا پنج ویژگی نویزی روی کیفیت دسته‌بندی، نوسان مسیر یادگیری، هندسهٔ مراکز و حاشیهٔ تصمیم اثر یکنواخت دارد؟ رفتار دو خانوادهٔ `shared` و `class` چه تفاوتی دارد و آیا پایداری خروجی سخت را می‌توان از تغییرات سیاست Softmax توضیح داد؟
@@ -331,6 +333,14 @@ $$
 
 در هر دو خانواده و در تمام چهار افق، برای $|A_N|=2,\ldots,5$ نسبت $\mathrm{NSR}_N^{(h)}<1$ است. با این حال، برای class و $|A_N|=1$ در افق‌های سه و چهار، نسبت‌ها به‌ترتیب **۱٫۰۰۷** و **۱٫۰۱۷** هستند. بنابراین نتیجه به تعریف شاخص، افق و سطح نویز وابسته است.
 
+**شکل 37 — انتخاب نویز و مرجع Uniform در افق‌های مختلف**
+
+![شکل 37: انتخاب نویز و مرجع Uniform در افق‌های مختلف](figures/37_noise_horizon_normalized_reference.svg)
+
+**شکل 38 — مسیر واقعی شاخص‌ها در گام‌های ۳۰ تا ۶۰**
+
+![شکل 38: مسیر واقعی شاخص‌ها در گام‌های ۳۰ تا ۶۰](figures/38_noise_horizon_paths_30_60.svg)
+
 ### ۱۳.۳. تفاوت احتمال برخورد و میانگین دفعات انتخاب
 
 برای shared و $|A_N|=1$ در گام ۶۰، $\mathrm{NFI}_N^{(3)}=1.109$ ولی $\mathrm{NSR}_N^{(3)}=0.920$ است: احتمال حداقل یک برخورد با نویز *نسبت به Uniform بیشتر*، اما میانگین دفعات انتخاب نویز *کمتر* است. همین مثال نشان می‌دهد که احتمال و شمار مورد انتظار دو معیار مستقل‌اند.
@@ -398,6 +408,26 @@ $$
 
 **تفاوت دو نوع تغییر هندسی:** علامت ستون «فاصلهٔ میانگین مراکز» نشان می‌دهد مراکز در مجموع به یکدیگر نزدیک‌تر یا از هم دورتر شده‌اند؛ ستون «جابه‌جایی مراکز / فاصلهٔ مرجع» بزرگی حرکت مکان خود سه مرکز را ثبت می‌کند و همواره نامنفی است. در [شکل درصدی هندسه](figures/47_relative_center_geometry_percent_60.svg) و [شکل جابه‌جایی نرمال‌شده](figures/48_center_movement_percent_of_spacing_60.svg) این دو جدا رسم شده‌اند. کاهش `R_JS` یعنی **میانگین واگرایی نمونه‌ها از مرکز کلاس کمتر و بازنمایی‌ها برحسب این معیار فشرده‌تر** شده‌اند؛ بااین‌حال کاهش هم‌زمان `I` نیز مهم است و هیچ‌کدام جانشین BA نیستند.
 
+**شکل 39 — جابه‌جایی و هندسهٔ مراکز**
+
+![شکل 39: جابه‌جایی و هندسهٔ مراکز](figures/39_center_geometry_stability_60.svg)
+
+**شکل 40 — تغییر جدایی و تراکم**
+
+![شکل 40: تغییر جدایی و تراکم](figures/40_center_separation_density_deltas_60.svg)
+
+**شکل 43 — جابه‌جایی دقیق بازنمایی نمونه‌ها**
+
+![شکل 43: جابه‌جایی دقیق بازنمایی نمونه‌ها](figures/43_exact_representation_drift_60.svg)
+
+**شکل 47 — درصد تغییر فاصلهٔ مراکز، I و تراکم**
+
+![شکل 47: درصد تغییر فاصلهٔ مراکز، I و تراکم](figures/47_relative_center_geometry_percent_60.svg)
+
+**شکل 48 — جابه‌جایی مراکز برحسب درصد فاصلهٔ مرجع**
+
+![شکل 48: جابه‌جایی مراکز برحسب درصد فاصلهٔ مرجع](figures/48_center_movement_percent_of_spacing_60.svg)
+
 ### ۱۴.۲.۱. سهم هر ویژگی در تمام تعدادهای نویز و سه افق
 
 برای افق‌های `h=1,2,3` سهم مجموع سه ویژگی اصلی با `100×Σ_{a∈A_P}s_a^(h)`، سهم نویز با مکمل آن و مرجع Uniform با `100×k/(3+k)` محاسبه می‌شود. **در `k=0` سهم سه ویژگی اصلی دقیقاً ۱۰۰٪ است.** ستون «نویز منهای Uniform» در **واحد درصد (pp)** است. فاصلهٔ TV درون ویژگی‌های اصلی تغییر شکل توزیع نسبی انتخاب آن سه ویژگی را بیان می‌کند و **درصد تغییر از مقدار مبنای صفر نیست**.
@@ -422,6 +452,18 @@ $$
 **آزمون اولیهٔ فرضیهٔ بافر Softmax:** اختلاف درصدی Gradient RMS در این جدول از متوسط ۳۱ وضعیت حقیقی گام‌های **۳۰ تا ۶۰** و با همان تعداد پارامترهای هر اجرا نرمال‌شده به `sqrt(#logits)` گرفته شده است. ستون TV(BA) جدول قبلی به کل مسیر **۰ تا ۶۰** مربوط است؛ این دو بازهٔ زمانی یکسان نیستند. فرمول `∂p_a/∂z_b=p_a(δ_ab−p_b)` می‌تواند وابستگی حساسیت موضعی به جرم احتمال را توضیح دهد، اما اگر logits دو ویژگی اصلی ثابت بماند، نسبت `p_a/p_b=exp(z_a−z_b)` از افزودن گزینهٔ نویزی تغییر نمی‌کند. بنابراین افت نوسان در `k=2` با فرضیهٔ تعدیل احتمالات **سازگار است**، نه اثبات علت آن. برای بررسی کامل مشتق‌های Softmax و نوسان آموزش به بخش ۱۵ همین گزارش مراجعه شود.
 
 داده و نمودارهای درصدی این بخش: [مقایسهٔ هندسه](tables/relative_geometry_by_noise_level_60.csv)، [سهم ویژگی‌ها و مقایسهٔ Uniform](tables/feature_allocation_percent_by_level_60.csv)، [نمودار سهم سه‌افقی](figures/49_informative_mass_h1_h3_all_k_60.svg) و [نمودار نوسان نسبی گرادیان/BA](figures/50_gradient_BA_variability_relative_60.svg). محاسبه و بازتولید از [`relative_stability_analysis.py`](relative_stability_analysis.py)، [`relative_stability_figures.py`](relative_stability_figures.py) و [Workflow بدون آموزش](../../../.github/workflows/e-ch4-14-relative-stability.yml) صورت می‌گیرد؛ دادهٔ خام، checkpoint، Test و LaTeX دست‌نخورده مانده‌اند.
+
+**شکل 41 — ترجیحات سه ویژگی اصلی در افق‌های ۱ تا ۳**
+
+![شکل 41: ترجیحات سه ویژگی اصلی در افق‌های ۱ تا ۳](figures/41_main_feature_preferences_h1_h3_60.svg)
+
+**شکل 42 — پایداری رتبه و سهم نسبی ویژگی‌های اصلی**
+
+![شکل 42: پایداری رتبه و سهم نسبی ویژگی‌های اصلی](figures/42_feature_rank_vs_relative_drift_60.svg)
+
+**شکل 49 — درصد سهم ویژگی‌های اصلی در افق‌های ۱ تا ۳**
+
+![شکل 49: درصد سهم ویژگی‌های اصلی در افق‌های ۱ تا ۳](figures/49_informative_mass_h1_h3_all_k_60.svg)
 
 ### ۱۴.۳. تغییر سهم و ترتیب ویژگی‌های اصلی
 
@@ -494,6 +536,22 @@ $$
 
 افزایش $k$ همراه با تغییر بُعد، شمار پارامترها و مسیر Adam است. نرمال‌کردن گرادیان به $\sqrt{\#z}$ اختلاف شمار پارامترها را کاملاً کنترل نمی‌کند. رابطهٔ ژاکوبین موضعی با نوسانات کل گشت دقیق ماسک‌دار و پیش‌بینی سخت نیز غیرمستقیم است. نتیجهٔ این بخش **شاهد توصیفی سازگار با بخشی از فرضیه** است، نه شناسایی سازوکار علّی.
 
+**شکل 44 — جرم نویز و ژاکوبین Softmax**
+
+![شکل 44: جرم نویز و ژاکوبین Softmax](figures/44_noise_allocation_and_softmax_jacobian_60.svg)
+
+**شکل 45 — حساسیت Softmax و RMS گرادیان**
+
+![شکل 45: حساسیت Softmax و RMS گرادیان](figures/45_softmax_gradient_paths_30_60.svg)
+
+**شکل 46 — تعدیل حساسیت برحسب ژاکوبین شرطی**
+
+![شکل 46: تعدیل حساسیت برحسب ژاکوبین شرطی](figures/46_softmax_dilution_ratio_60.svg)
+
+**شکل 50 — درصد تغییر گرادیان و نوسان BA**
+
+![شکل 50: درصد تغییر گرادیان و نوسان BA](figures/50_gradient_BA_variability_relative_60.svg)
+
 ### ۱۵.۳. داده، نمودار و بازتولید بدون آموزش
 
 اسکریپت [softmax_buffer_analysis.py](softmax_buffer_analysis.py) از ۳۶ فایل logits گام‌های ۳۰ تا ۶۰، در مجموع **۱۱۱۶ رکورد** و trace متناظر استفاده می‌کند؛ هیچ گشت واقعی، Test یا آموزش تازه‌ای اجرا نمی‌کند. [آزمون‌های ریاضی](test_softmax_buffer_analysis.py) مشتق Softmax را با تفاضل محدود و نرمال‌سازی احتمال را مستقل بررسی می‌کنند. اسکریپت، سهم ویژگی‌های اصلی در افق‌های ۱ تا ۳ را با محاسبات مستقل §۳.۸ نیز تطبیق می‌دهد.
@@ -501,3 +559,238 @@ $$
 داده‌های مشتق‌شده: [تمام ۳۱ گام هر اجرا](tables/softmax_buffer_by_step_30_60.csv)، [۳۶ اجرای نهایی](tables/softmax_buffer_by_run_60.csv) و [۱۲ گروه خانواده × تعداد نویز](tables/softmax_buffer_by_noise_level_60.csv). نمودارها: [۴۴ ـ سهم احتمال و ژاکوبین](figures/44_noise_allocation_and_softmax_jacobian_60.svg)، [۴۵ ـ مسیر حساسیت Softmax و Gradient RMS](figures/45_softmax_gradient_paths_30_60.svg)، [۴۶ ـ نسبت ژاکوبین به حالت سه‌ویژگی شرطی](figures/46_softmax_dilution_ratio_60.svg). [Workflow مستقل بدون آموزش](../../../.github/workflows/e-ch4-14-softmax-buffer.yml) محاسبات و آزمون‌ها را بازتولید می‌کند.
 
 برای آزمون **علّی** این فرضیه در آینده، باید کنترل‌های دیگری مانند perturbation مشخص logits با ثابت‌بودن بخش اطلاع‌رسان، یا طراحی سیاست‌های هم‌ظرفیت انجام شود. این کنترل‌ها بخشی از آزمایش انجام‌شده نیستند.
+
+---
+
+## ۱۶. گالری تکمیلی نمودارهای آزمایش (همهٔ شکل‌ها قابل مشاهده)
+
+**موجودی کنترل‌شده:** ۶۴ نمودار SVG در پوشهٔ `figures/`؛ شکل‌های مربوط به نتیجهٔ نهایی، هندسه و Softmax در بخش‌های ۵ تا ۱۵ نمایش داده شده‌اند. این گالری، بقیهٔ نمودارها را **در خود Markdown** نمایش می‌دهد، نه فقط به‌شکل لینک. نمودارهای تاریخی صرفاً برای ردیابی مراحل تحلیل هستند و نباید با خروجی کاننیکال گام ۶۰ اشتباه گرفته شوند.
+
+### نمودارهای اولیه و تاریخی (گام‌های ۰ تا ۳۰؛ برای مقایسه، نه به‌جای تحلیل نهایی)
+
+**شکل 01 — دقت در برابر سطوح نویز**
+
+![شکل 01: دقت در برابر سطوح نویز](figures/01_accuracy_vs_noise.svg)
+
+**شکل 02 — هندسه و حاشیه**
+
+![شکل 02: هندسه و حاشیه](figures/02_geometry_and_margin.svg)
+
+**شکل 03 — تشخیص‌های مسیر یادگیری**
+
+![شکل 03: تشخیص‌های مسیر یادگیری](figures/03_learning_diagnostics.svg)
+
+**شکل 04 — تفاوت جفت‌شدهٔ دو خانواده**
+
+![شکل 04: تفاوت جفت‌شدهٔ دو خانواده](figures/04_paired_family_differences.svg)
+
+**شکل 05 — تغییر پیش‌بینی‌ها**
+
+![شکل 05: تغییر پیش‌بینی‌ها](figures/05_prediction_flips.svg)
+
+**شکل 06 — هزینهٔ مدل**
+
+![شکل 06: هزینهٔ مدل](figures/06_model_cost.svg)
+
+**شکل 07 — بازخوانی سه کلاس (class)**
+
+![شکل 07: بازخوانی سه کلاس (class)](figures/07_validation_class_recall.svg)
+
+**شکل 08 — BA برای تمام تعدادهای نویز (class)**
+
+![شکل 08: BA برای تمام تعدادهای نویز (class)](figures/08_validation_BA_all_k_class.svg)
+
+**شکل 08 — BA برای تمام تعدادهای نویز (shared)**
+
+![شکل 08: BA برای تمام تعدادهای نویز (shared)](figures/08_validation_BA_all_k_shared.svg)
+
+**شکل 09 — BA تک‌زیرمجموعه‌ها (class)**
+
+![شکل 09: BA تک‌زیرمجموعه‌ها (class)](figures/09_validation_BA_individual_class.svg)
+
+**شکل 09 — BA تک‌زیرمجموعه‌ها (shared)**
+
+![شکل 09: BA تک‌زیرمجموعه‌ها (shared)](figures/09_validation_BA_individual_shared.svg)
+
+**شکل 10 — منحنی‌های کامل یادگیری اولیه (class)**
+
+![شکل 10: منحنی‌های کامل یادگیری اولیه (class)](figures/10_full_learning_class.svg)
+
+**شکل 10 — منحنی‌های کامل یادگیری اولیه (shared)**
+
+![شکل 10: منحنی‌های کامل یادگیری اولیه (shared)](figures/10_full_learning_shared.svg)
+
+**شکل 11 — گرادیان تک‌زیرمجموعه‌ها (class)**
+
+![شکل 11: گرادیان تک‌زیرمجموعه‌ها (class)](figures/11_gradient_individual_class.svg)
+
+**شکل 11 — گرادیان تک‌زیرمجموعه‌ها (shared)**
+
+![شکل 11: گرادیان تک‌زیرمجموعه‌ها (shared)](figures/11_gradient_individual_shared.svg)
+
+**شکل 12 — مواجهه با نویز در سه نوبت (نام‌های تاریخی)**
+
+![شکل 12: مواجهه با نویز در سه نوبت (نام‌های تاریخی)](figures/12_nfi3_f3_e3.svg)
+
+**شکل 13 — مواجهه با نویز در برابر افت BA**
+
+![شکل 13: مواجهه با نویز در برابر افت BA](figures/13_nfi3_vs_BA_drawdown.svg)
+
+### تشخیص‌های ادامهٔ آموزش و پنجرهٔ ۳۰ تا ۶۰
+
+**شکل 14 — BA مسیر کامل ۰ تا ۶۰ (class)**
+
+![شکل 14: BA مسیر کامل ۰ تا ۶۰ (class)](figures/14_validation_BA_0_60_class.svg)
+
+**شکل 14 — BA مسیر کامل ۰ تا ۶۰ (shared)**
+
+![شکل 14: BA مسیر کامل ۰ تا ۶۰ (shared)](figures/14_validation_BA_0_60_shared.svg)
+
+**شکل 15 — Loss و Gradient در مسیر آموزش (class)**
+
+![شکل 15: Loss و Gradient در مسیر آموزش (class)](figures/15_loss_gradient_0_60_class.svg)
+
+**شکل 15 — Loss و Gradient در مسیر آموزش (shared)**
+
+![شکل 15: Loss و Gradient در مسیر آموزش (shared)](figures/15_loss_gradient_0_60_shared.svg)
+
+**شکل 16 — شاخص‌های تاریخی مواجههٔ سه‌نوبتی (class)**
+
+![شکل 16: شاخص‌های تاریخی مواجههٔ سه‌نوبتی (class)](figures/16_F3_E3_NFI3_30_60_class.svg)
+
+**شکل 16 — شاخص‌های تاریخی مواجههٔ سه‌نوبتی (shared)**
+
+![شکل 16: شاخص‌های تاریخی مواجههٔ سه‌نوبتی (shared)](figures/16_F3_E3_NFI3_30_60_shared.svg)
+
+**شکل 17 — احتمال نویز در نوبت‌های اول تا سوم (class)**
+
+![شکل 17: احتمال نویز در نوبت‌های اول تا سوم (class)](figures/17_q1_q2_q3_30_60_class.svg)
+
+**شکل 17 — احتمال نویز در نوبت‌های اول تا سوم (shared)**
+
+![شکل 17: احتمال نویز در نوبت‌های اول تا سوم (shared)](figures/17_q1_q2_q3_30_60_shared.svg)
+
+**شکل 18 — بازانتخاب نویز و تکرار (class)**
+
+![شکل 18: بازانتخاب نویز و تکرار (class)](figures/18_noise_repeat_30_60_class.svg)
+
+**شکل 18 — بازانتخاب نویز و تکرار (shared)**
+
+![شکل 18: بازانتخاب نویز و تکرار (shared)](figures/18_noise_repeat_30_60_shared.svg)
+
+**شکل 19 — مجموع نوسان BA در پنجره‌ها (class)**
+
+![شکل 19: مجموع نوسان BA در پنجره‌ها (class)](figures/19_BA_TV_window_class.svg)
+
+**شکل 19 — مجموع نوسان BA در پنجره‌ها (shared)**
+
+![شکل 19: مجموع نوسان BA در پنجره‌ها (shared)](figures/19_BA_TV_window_shared.svg)
+
+**شکل 20 — احتمال برخورد کلاس‌مشروط (class)**
+
+![شکل 20: احتمال برخورد کلاس‌مشروط (class)](figures/20_class_conditional_F3.svg)
+
+**شکل 21 — نسبت کلاس‌مشروط به مرجع یکنواخت (class)**
+
+![شکل 21: نسبت کلاس‌مشروط به مرجع یکنواخت (class)](figures/21_class_conditional_NFI3.svg)
+
+### شکل‌های تکمیلی گزارش نهایی ۶۰گامی
+
+**شکل 23 — مقایسهٔ Train و Validation (class)**
+
+![شکل 23: مقایسهٔ Train و Validation (class)](figures/23_train_validation_BA_60_class.svg)
+
+**شکل 23 — مقایسهٔ Train و Validation (shared)**
+
+![شکل 23: مقایسهٔ Train و Validation (shared)](figures/23_train_validation_BA_60_shared.svg)
+
+**شکل 24 — تمام زیرمجموعه‌ها در ۶۰ گام (class)**
+
+![شکل 24: تمام زیرمجموعه‌ها در ۶۰ گام (class)](figures/24_all_subsets_60_class.svg)
+
+**شکل 24 — تمام زیرمجموعه‌ها در ۶۰ گام (shared)**
+
+![شکل 24: تمام زیرمجموعه‌ها در ۶۰ گام (shared)](figures/24_all_subsets_60_shared.svg)
+
+**شکل 32 — پوش‌های نمایی تجربی BA (class)**
+
+![شکل 32: پوش‌های نمایی تجربی BA (class)](figures/32_full_60_BA_exponential_envelopes_class.svg)
+
+**شکل 32 — پوش‌های نمایی تجربی BA (shared)**
+
+![شکل 32: پوش‌های نمایی تجربی BA (shared)](figures/32_full_60_BA_exponential_envelopes_shared.svg)
+
+**شکل 34 — قله و درهٔ گرادیان (class)**
+
+![شکل 34: قله و درهٔ گرادیان (class)](figures/34_gradient_L2_peak_trough_class.svg)
+
+**شکل 34 — قله و درهٔ گرادیان (shared)**
+
+![شکل 34: قله و درهٔ گرادیان (shared)](figures/34_gradient_L2_peak_trough_shared.svg)
+
+**شکل 35 — عرض پوش گرادیان**
+
+![شکل 35: عرض پوش گرادیان](figures/35_gradient_L2_envelope_width.svg)
+
+
+## ۱۷. نمایهٔ کامل فایل‌های عددی و جدول‌ها
+
+تمام فایل‌های زیر در پوشهٔ `tables/` وجود دارند. فایل‌های CSV جدول‌های قابل پردازش‌اند؛ JSONها مشخصات و جزئیات بازتولید را نگه می‌دارند. خروجی‌های گام ۳۰ را با معیارهای نهایی گام ۶۰ یکسان فرض نکنید.
+
+### معیارهای نهایی و هندسهٔ گام ۶۰
+
+- [`final_60_BA_exponential_envelopes.json`](tables/final_60_BA_exponential_envelopes.json)
+- [`final_60_bayes_reference.json`](tables/final_60_bayes_reference.json)
+- [`final_60_by_noise_level.csv`](tables/final_60_by_noise_level.csv)
+- [`final_60_by_run.csv`](tables/final_60_by_run.csv)
+- [`final_60_canonical_reports.json`](tables/final_60_canonical_reports.json)
+- [`final_60_paired.csv`](tables/final_60_paired.csv)
+- [`final_60_summary.json`](tables/final_60_summary.json)
+- [`geometry_stability_by_noise_level_60.csv`](tables/geometry_stability_by_noise_level_60.csv)
+- [`geometry_stability_by_run_60.csv`](tables/geometry_stability_by_run_60.csv)
+- [`geometry_stability_by_run_60.json`](tables/geometry_stability_by_run_60.json)
+- [`relative_geometry_by_noise_level_60.csv`](tables/relative_geometry_by_noise_level_60.csv)
+- [`relative_geometry_by_run_60.csv`](tables/relative_geometry_by_run_60.csv)
+- [`representation_drift_by_noise_level_60.csv`](tables/representation_drift_by_noise_level_60.csv)
+- [`representation_drift_by_run_60.csv`](tables/representation_drift_by_run_60.csv)
+- [`representation_drift_by_sample_60.csv`](tables/representation_drift_by_sample_60.csv)
+
+### سهم ویژگی، نویز و حساسیت Softmax
+
+- [`feature_allocation_percent_by_level_60.csv`](tables/feature_allocation_percent_by_level_60.csv)
+- [`feature_preference_by_noise_level_60.csv`](tables/feature_preference_by_noise_level_60.csv)
+- [`feature_preference_by_run_60.csv`](tables/feature_preference_by_run_60.csv)
+- [`nfi3_by_noise_level.csv`](tables/nfi3_by_noise_level.csv)
+- [`nfi3_by_policy.csv`](tables/nfi3_by_policy.csv)
+- [`noise_horizon_by_class_60.csv`](tables/noise_horizon_by_class_60.csv)
+- [`noise_horizon_by_feature_60.csv`](tables/noise_horizon_by_feature_60.csv)
+- [`noise_horizon_by_group_30_60.csv`](tables/noise_horizon_by_group_30_60.csv)
+- [`noise_horizon_by_run_30_60.csv`](tables/noise_horizon_by_run_30_60.csv)
+- [`noise_horizon_by_step_30_60.csv`](tables/noise_horizon_by_step_30_60.csv)
+- [`noise_horizon_summary.json`](tables/noise_horizon_summary.json)
+- [`softmax_buffer_by_noise_level_60.csv`](tables/softmax_buffer_by_noise_level_60.csv)
+- [`softmax_buffer_by_run_60.csv`](tables/softmax_buffer_by_run_60.csv)
+- [`softmax_buffer_by_step_30_60.csv`](tables/softmax_buffer_by_step_30_60.csv)
+
+### مسیر یادگیری، گرادیان و پایداری
+
+- [`continuation_30_60_by_noise_level.csv`](tables/continuation_30_60_by_noise_level.csv)
+- [`continuation_30_60_by_run.csv`](tables/continuation_30_60_by_run.csv)
+- [`continuation_30_60_summary.json`](tables/continuation_30_60_summary.json)
+- [`gradient_empirical_envelopes_60.json`](tables/gradient_empirical_envelopes_60.json)
+- [`gradient_peak_amplitudes_60.csv`](tables/gradient_peak_amplitudes_60.csv)
+- [`gradient_peak_decay_by_run_60.csv`](tables/gradient_peak_decay_by_run_60.csv)
+- [`learning_by_step.csv`](tables/learning_by_step.csv)
+- [`noise_dynamics_summary.json`](tables/noise_dynamics_summary.json)
+- [`stability_by_noise_level.csv`](tables/stability_by_noise_level.csv)
+- [`stability_by_run.csv`](tables/stability_by_run.csv)
+
+### شواهد تاریخی، کنترل‌ها و خلاصه‌ها
+
+- [`analysis_summary.json`](tables/analysis_summary.json)
+- [`integrity_audit.json`](tables/integrity_audit.json)
+- [`paired_class_minus_shared.csv`](tables/paired_class_minus_shared.csv)
+- [`per_dataset_metrics.csv`](tables/per_dataset_metrics.csv)
+- [`summary_by_noise_level.csv`](tables/summary_by_noise_level.csv)
+- [`validation_class_recall.csv`](tables/validation_class_recall.csv)
+
