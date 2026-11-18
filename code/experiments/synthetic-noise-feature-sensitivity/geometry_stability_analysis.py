@@ -1,7 +1,7 @@
 """E-CH4-14 postfit geometry stability, using canonical 60-step reports only.
 
 No training, no Test, no checkpoint alteration. Outputs are strictly derived.
-The sample-wise *representations* are not retained in canonical metrics; only
+The sample-wise *representations* are not retained in final-60 canonical metrics; only
 sample-wise scores, margins, density distances, labels and predictions are.
 Consequently this script never claims to measure sample representation drift.
 """
@@ -14,7 +14,7 @@ from pathlib import Path
 import numpy as np
 
 HERE = Path(__file__).resolve().parent
-REPORTS = HERE / "results" / "metrics"
+REPORTS = HERE / "tables" / "final_60_canonical_reports.json"
 TABLE = HERE / "tables"
 IDS = ["N0-01"] + [f"N{k}-{i:02d}" for k in range(1,5)
                      for i in range(1,5)] + ["N5-01"]
@@ -122,16 +122,17 @@ def geometry(run,base):
 
 
 def build():
-    reports={}
+    reports=json.loads(REPORTS.read_text("utf-8"))
+    assert len(reports)==36
     for subset in IDS:
         for family in FAMILIES:
             name=f"{subset}__{family}"
-            report=json.loads((REPORTS/f"{name}.json").read_text("utf-8"))
+            report=reports[name]
             assert report["schema"]=="e-ch4-14-metrics-v1"
             assert report["test_accessed"] is False
             assert report["center_source"]=="train_only"
             assert report["subset_id"]==subset and report["family"]==family
-            reports[name]=report
+            assert report["subset_id"]==subset
     rows=[]
     for subset in IDS:
         for family in FAMILIES:
@@ -197,7 +198,7 @@ def csvbytes(rows):
 def artifacts():
     rows,compact,grouped=build()
     data={"schema":"e-ch4-14-postfit-geometry-stability-v1",
-          "source":"results/metrics/{run_id}.json; canonical step-60 outputs",
+          "source":"tables/final_60_canonical_reports.json; independently replayed step-60 outputs",
           "reference":"N0-01 within same policy family",
           "note":"Sample representations not stored; score/density shifts are NOT JSD representation drift",
           "n_runs":len(rows),"runs":rows}
