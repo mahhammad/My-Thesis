@@ -1,0 +1,180 @@
+name: E-CH4-14 100-step NumPy-only authorized experiment
+
+on:
+  push:
+    branches:
+      - experiment/ch4-14-noise-sensitivity-01
+    paths:
+      - 'code/experiments/noise-loss-learning-dynamics-100/APPROVAL_RUN_20261119.json'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: E14-100-20261119-single-budget
+  cancel-in-progress: false
+
+jobs:
+  preflight:
+    name: Verify approval marker, NumPy gradient and frozen data (NO FIT)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      OPENBLAS_CORETYPE: generic
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Confirm one-time marker was ADDED, not edited or force-reused
+        run: |
+          python - <<'PY'
+          import subprocess, json
+          from pathlib import Path
+          root=Path("code/experiments/noise-loss-learning-dynamics-100")
+          marker=root/"APPROVAL_RUN_20261119.json"
+          changed=subprocess.check_output(
+              ["git","diff-tree","--no-commit-id","--name-status","-r","HEAD"],
+              text=True).splitlines()
+          assert f"A\t{marker.as_posix()}" in changed, (
+              "Only an initial addition of one-time authorization can start training")
+          a=json.loads(marker.read_text("utf8"))
+          assert a["schema"]=="e14-numpy-once-owner-chat-authorization-v1"
+          assert a["manager_issue"]=="https://github.com/mahhammad/My-Thesis/issues/96"
+          assert a["total_fits"]==152 and a["updates_per_fit"]==100
+          assert a["source_standard_seed"]==20261102
+          assert a["backend"]=="numpy_only" and a["test_accessed"] is False
+          print("ONCE_ONLY_MARKER_AND_MANAGER_CHAT_SCOPE_CONFIRMED")
+          PY
+      - name: Install NumPy ONLY
+        run: python -m pip install --disable-pip-version-check 'numpy==2.4.6'
+      - name: No-fit design and full-gradient fixture
+        run: |
+          python -m unittest discover -s code/experiments/noise-loss-learning-dynamics-100/tests -p 'test_contract.py' -v
+          python -m unittest discover -s code/experiments/noise-loss-learning-dynamics-100/tests -p 'test_fixture.py' -v
+      - name: Verify standard-seed data and create 38 paired subsets
+        run: python code/experiments/noise-loss-learning-dynamics-100/protocol.py --write-data
+      - name: Verify dry-run remains no-fit and source unchanged
+        run: |
+          python code/experiments/noise-loss-learning-dynamics-100/runner.py
+          git diff --exit-code
+
+  fit:
+    name: 'NUMPY-100 / ${{ matrix.family } / ${{ matrix.objective } / noise ${{ matrix.noise_count }'
+    needs: preflight
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        family: [shared, class]
+        objective: [sigmoid_JS_margin_tau005, softplus_JS_tau005]
+        noise_count: [0, 1, 2, 3, 4, 5, 6, 7]
+    env:
+      E14_100_AUTHORIZED: 'true'
+      PYTHONDONTWRITEBYTECODE: '1'
+      OPENBLAS_CORETYPE: generic
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      NUMPY_E14_FAMILY: '${{ matrix.family }'
+      NUMPY_E14_OBJECTIVE: '${{ matrix.objective }'
+      NUMPY_E14_NOISE: '${{ matrix.noise_count }'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install pinned NumPy only
+        run: python -m pip install --disable-pip-version-check 'numpy==2.4.6'
+      - name: Derive exactly the same 38 SHA-pinned Train/Validation subsets
+        run: python code/experiments/noise-loss-learning-dynamics-100/protocol.py --write-data
+      - name: Prepare SHA-specific execution evidence from authorized marker
+        run: |
+          python - <<'PY'
+          import os,json
+          from pathlib import Path
+          p=Path("code/experiments/noise-loss-learning-dynamics-100")
+          marker=json.loads((p/"APPROVAL_RUN_20261119.json").read_text("utf8"))
+          evidence={
+            "source_sha":os.environ["GITHUB_SHA"],
+            "planned_fits":marker["total_fits"],
+            "updates_per_fit":marker["updates_per_fit"],
+            "test_accessed":False,
+            "manager_approval_url":marker["manager_issue"],
+            "evidence_type":"explicit chat approval recorded in assistant-created issue; not signed GitHub manager comment",
+          }
+          (p/"inputs/execution_approval_runtime.json").write_text(json.dumps(evidence,indent=2)+"\n")
+          PY
+      - name: Run each assigned pair exactly once (Train-only fit; Validation classification)
+        run: |
+          python code/experiments/noise-loss-learning-dynamics-100/runner.py \
+            --execute --source-sha "$GITHUB_SHA" \
+            --authorization code/experiments/noise-loss-learning-dynamics-100/inputs/execution_approval_runtime.json \
+            --family "$NUMPY_E14_FAMILY" \
+            --objective "$NUMPY_E14_OBJECTIVE" \
+            --noise-count "$NUMPY_E14_NOISE"
+      - name: Verify 101 states and SHA for every assigned trajectory
+        run: |
+          python - <<'PY'
+          import os,sys
+          from pathlib import Path
+          root=Path("code/experiments/noise-loss-learning-dynamics-100")
+          sys.path.insert(0,str(root))
+          from protocol import make_design
+          from report import read_trace
+          runs=[r for r in make_design()["runs"]
+                if r["family"]==os.environ["NUMPY_E14_FAMILY"]
+                and r["objective"]==os.environ["NUMPY_E14_OBJECTIVE"]
+                and r["noise_count"]==int(os.environ["NUMPY_E14_NOISE"])]
+          assert len(runs)==(1 if int(os.environ["NUMPY_E14_NOISE"]) in (0,7) else 6)
+          for r in runs:
+              rows=read_trace(r,root/"results")
+              assert len(rows)==101
+          print("E14_100_COMPLETE_GROUP_NO_TEST_PASS",len(runs))
+          PY
+      - name: Upload immutable result traces, including partial evidence on failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: 'E14-100-runs-${{ matrix.family }-${{ matrix.objective }-noise${{ matrix.noise_count }'
+          path: |
+            code/experiments/noise-loss-learning-dynamics-100/results/
+          retention-days: 60
+          if-no-files-found: warn
+
+  report:
+    name: Publish complete 144-comparison mean learning curves (NO FIT)
+    needs: fit
+    if: success()
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: 'E14-100-runs-*'
+          merge-multiple: true
+          path: code/experiments/noise-loss-learning-dynamics-100/results
+      - name: Verify all 144 comparable trajectories and SHA, no Test
+        run: python code/experiments/noise-loss-learning-dynamics-100/report.py --check
+      - name: Build all NumPy/stdlib-only tables and SVG plots
+        run: python code/experiments/noise-loss-learning-dynamics-100/report.py
+      - name: Publish complete final descriptive result bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: E14-100-NUMPY-FINAL-ALL-RESULTS
+          path: |
+            code/experiments/noise-loss-learning-dynamics-100/results/summary.csv
+            code/experiments/noise-loss-learning-dynamics-100/results/REPORT_FA.md
+            code/experiments/noise-loss-learning-dynamics-100/figures/*.svg
+          retention-days: 90
