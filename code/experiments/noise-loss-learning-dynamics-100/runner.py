@@ -78,13 +78,11 @@ def train_geometry_and_validation(graph, logits, family, validation_y):
                             for c in range(graph.k)])
         train_full = standard_metrics(tr, centers, tr_y, TAU,
                                       split="train", per_sample=False)
-        train = classification(
-            np.asarray(train_full["per_sample"]["scores"])
-            if "per_sample" in train_full and "scores" in train_full["per_sample"]
-            else np.stack([
-                1 - jsd(torch.from_numpy(tr[:, c, :]),
-                        torch.from_numpy(centers[c])) .numpy() / LN2
-                for c in range(graph.k)], axis=1), tr_y)
+        tr_scores = np.stack([
+            1 - jsd(torch.from_numpy(tr[:, c, :]),
+                    torch.from_numpy(centers[c])).numpy() / LN2
+            for c in range(graph.k)], axis=1)
+        train = classification(tr_scores, tr_y)
         train.update({
             "density_r_kl": train_full["R_KL"],
             "density_r_js": train_full["R_JS"],
@@ -94,9 +92,9 @@ def train_geometry_and_validation(graph, logits, family, validation_y):
             "separation_bt": train_full["center_geometry"]["BT"],
             "separation_tnl": train_full["center_geometry"]["TNL"],
             "separation_btnl": train_full["center_geometry"]["BTNL"],
-            "margin_mean": float(np.mean(np.asarray(train_full["margins"])))
-                 if "margins" in train_full else float(np.mean(
-                    train_full["per_sample"]["margin"])),
+            "margin_mean": float(np.mean([
+                c["mean_margin"] * c["count"] for c in train_full["per_class"]
+            ]) / len(tr_y)),
             "r_by_class": [
                 {"R_KL": c["R_KL"], "R_JS": c["R_JS"],
                  "R_sqrt_JS": c["R_sqrt_JS"]} for c in train_full["per_class"]
@@ -200,8 +198,9 @@ def load_graph(run, data_dir):
     if (tx.shape != (300, d) or vx.shape != (90, d) or
             ty.shape != (300,) or vy.shape != (90,) or gamma.shape != (d,)):
         raise ValueError("Unexpected derived dataset dimensions")
-    if not np.array_equal(np.unique(ty), np.arange(3)):
-        raise ValueError("All Train classes required")
+    if (not np.array_equal(np.unique(ty), np.arange(3))
+            or not np.array_equal(np.unique(vy), np.arange(3))):
+        raise ValueError("All Train and Validation classes required")
     graph = ExactMaskedWalk(tx, ty, gamma, beta=BETA, lam=LAMBDA,
                             horizon=H, query_x=vx)
     graph.validation_y = vy
