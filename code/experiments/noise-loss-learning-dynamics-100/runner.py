@@ -201,6 +201,9 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--execute", action="store_true")
     parser.add_argument("--run-id")
+    parser.add_argument("--family", choices=FAMILIES)
+    parser.add_argument("--objective", choices=OBJECTIVES)
+    parser.add_argument("--noise-count", type=int, choices=tuple(range(8)))
     parser.add_argument("--authorization", type=Path)
     parser.add_argument("--source-sha", default="")
     parser.add_argument("--data-dir", type=Path, default=DATA)
@@ -209,9 +212,20 @@ def main():
     design = make_design()
     runs = design["runs"]
     if args.run_id:
+        if any(v is not None for v in (args.family, args.objective, args.noise_count)):
+            raise ValueError("Use either --run-id or a family/objective/noise group")
         runs = [r for r in runs if r["run_id"] == args.run_id]
         if len(runs) != 1:
             raise ValueError("Unknown run id")
+    else:
+        if args.family is not None:
+            runs = [r for r in runs if r["family"] == args.family]
+        if args.objective is not None:
+            runs = [r for r in runs if r["objective"] == args.objective]
+        if args.noise_count is not None:
+            runs = [r for r in runs if r["noise_count"] == args.noise_count]
+    if not runs:
+        raise ValueError("No run matches requested group")
     if not args.execute:
         print(json.dumps({"status": "DRY_RUN_NO_FIT",
             "backend": "NUMPY_ONLY_ANALYTIC_GRADIENT", "jobs": len(runs),
