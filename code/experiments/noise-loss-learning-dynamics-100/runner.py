@@ -19,7 +19,7 @@ import numpy as np
 import torch
 
 HERE = Path(__file__).resolve().parent
-ROOT = HERE.parents[3]
+ROOT = HERE.parents[2]
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(ROOT / "code/experiments/benchmark_v1"))
 from protocol import make_design, OBJECTIVES, FAMILIES, UPDATES, ADAM_LR, TAU, BETA, LAMBDA, H, sha
