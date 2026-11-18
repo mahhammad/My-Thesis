@@ -99,10 +99,31 @@ def build():
     fig.suptitle("Relative preference drift and rank order under added noise")
     fig.tight_layout()
     f4=chart(fig)
+    rep=rows("representation_drift_by_noise_level_60.csv")
+    fig,axs=plt.subplots(1,2,figsize=(11,4.5),sharex=True,sharey=True)
+    for col,split in enumerate(("train","validation")):
+        ax=axs[col]
+        for j,fam in enumerate(("shared","class")):
+            group=sorted((r for r in rep if r["split"]==split and r["family"]==fam),
+                         key=lambda r:int(r["noise_count"]))
+            xx=np.arange(6)
+            yy=np.array([float(r["mean"]) for r in group])
+            low=np.array([float(r["min"]) for r in group])
+            high=np.array([float(r["max"]) for r in group])
+            ax.plot(xx,yy,marker="o",label=fam,color=colors[j])
+            ax.fill_between(xx,low,high,alpha=.12,color=colors[j])
+        ax.set(title=split.capitalize(),xlabel="Number of noise columns",
+               ylabel="Mean per-sample sqrt-JSD to k=0",ylim=(0,.035))
+        ax.grid(alpha=.2)
+        ax.legend()
+    fig.suptitle("Exact representation movement from frozen step-60 checkpoints")
+    fig.tight_layout()
+    f5=chart(fig)
     return {"39_center_geometry_stability_60.svg":f1,
             "40_center_separation_density_deltas_60.svg":f2,
             "41_main_feature_preferences_h1_h3_60.svg":f3,
-            "42_feature_rank_vs_relative_drift_60.svg":f4}
+            "42_feature_rank_vs_relative_drift_60.svg":f4,
+            "43_exact_representation_drift_60.svg":f5}
 
 
 if __name__=="__main__":
