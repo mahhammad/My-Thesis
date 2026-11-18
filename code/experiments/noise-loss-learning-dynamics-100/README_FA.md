@@ -78,6 +78,32 @@ Validation تنها Accuracy، BA، Precision و Recall را دارد. تمام 
     python code/experiments/noise-loss-learning-dynamics-100/report.py --check
     python code/experiments/noise-loss-learning-dynamics-100/report.py
 
+## ۵.۱. شروع یک‌بارهٔ آموزش از طرف مالک مخزن
+
+کد NumPy و تست‌های گشت دقیق در CI تأیید شده‌اند، ولی **هیچ بودجهٔ آموزش خودکار توسط دستیار فعال نشده است**. آغاز با یک commit صریح توسط مالک مخزن \`mahhammad\` روی همان شاخه انجام می‌شود؛ این روش هیچ تغییر روی \`main\` نمی‌خواهد.
+
+1. در شاخهٔ \`experiment/ch4-14-noise-sensitivity-01\`، فایل تازهٔ
+   \`code/experiments/noise-loss-learning-dynamics-100/APPROVAL_RUN_20261119.json\`
+   را **برای اولین بار** با محتوای زیر بسازید (ویرایش فایل موجود شروع مجدد نیست):
+
+\`\`\`json
+{
+  "schema": "e14-numpy-once-owner-chat-authorization-v1",
+  "manager_issue": "https://github.com/mahhammad/My-Thesis/issues/96",
+  "total_fits": 152,
+  "updates_per_fit": 100,
+  "source_standard_seed": 20261102,
+  "backend": "numpy_only",
+  "test_accessed": false
+}
+\`\`\`
+
+2. GitHub Actions workflow \`e-ch4-14-100-numpy-authorized.yml\` فقط به **افزودن اولیه**ٔ همین فایل توسط مالک واکنش نشان می‌دهد. دروازهٔ پیش‌اجرا، یک بار دیگر تست‌های تمام‌NumPy، صحت ورودی و SHA را کنترل می‌کند.
+3. اجرای ۱۵۲ مسیر به ۳۲ گروه غیرهمپوشان تقسیم می‌شود؛ هر گروه خروجی مستقل \`trace.jsonl\` و \`complete.json\` دارد. روی شکست‌ها retry خودکار مجاز نیست.
+4. تنها پس از تکمیل **تمام** گروه‌ها، Job نهایی گزارش و SVGهای وضعیت‌های ۰ تا ۱۰۰ را می‌سازد. هیچ گزارش نهایی پیش از تأیید تکمیل همهٔ گروه‌ها «قبول‌شده» تلقی نمی‌شود.
+
+**قرارداد GitHub Actions:** اقدام مستقیم دستیار برای ایجاد فایل فعال‌کننده به دلایل ایمنی اتصال مسدود شد؛ بنابراین فقط مالک می‌تواند با commit واقعی مجوز اجرای پرهزینه را فعال کند. خود Issue #96 صرفاً مستندسازی دستور کاربر در گفت‌وگو است، نه امضای مستقل او روی GitHub.
+
 ## ۶. معیار پذیرش پیش از خرج‌کردن بودجه
 
 تطبیق خط‌به‌خط Sigmoid و Softplus با کد §۴.۱۳؛ تأیید Train-only centers و ثبت Precision با قرارداد zero-division=0؛ تطبیق ۳۸ فایل داده با دادهٔ مادر استاندارد بذر 20261102، masking، γ، SHA؛ تست بدون fit با گراف کوچک، تمام ۱۰۱ وضعیت و عدم دسترسی Test؛ ممیزی سخت‌گیرانهٔ خروجی ناقص و آزمون CI همان SHA؛ و ثبت مستقل مجوز اجرای ۱۵۲ مسیر. نتیجهٔ این مرحله فقط **آمادگی کد** است و هیچ ادعای اتمام آزمایش یا پذیرش علمی ندارد.
