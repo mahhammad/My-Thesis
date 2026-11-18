@@ -66,7 +66,7 @@ jobs:
           git diff --exit-code
 
   fit:
-    name: 'NUMPY-100 / ${{ matrix.family } / ${{ matrix.objective } / noise ${{ matrix.noise_count }'
+    name: 'NUMPY-100 / ${{ matrix.family }} / ${{ matrix.objective }} / noise ${{ matrix.noise_count }}'
     needs: preflight
     runs-on: ubuntu-latest
     timeout-minutes: 360
@@ -84,9 +84,9 @@ jobs:
       OPENBLAS_NUM_THREADS: '1'
       OMP_NUM_THREADS: '1'
       MKL_NUM_THREADS: '1'
-      NUMPY_E14_FAMILY: '${{ matrix.family }'
-      NUMPY_E14_OBJECTIVE: '${{ matrix.objective }'
-      NUMPY_E14_NOISE: '${{ matrix.noise_count }'
+      NUMPY_E14_FAMILY: '${{ matrix.family }}'
+      NUMPY_E14_OBJECTIVE: '${{ matrix.objective }}'
+      NUMPY_E14_NOISE: '${{ matrix.noise_count }}'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -144,7 +144,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: 'E14-100-runs-${{ matrix.family }-${{ matrix.objective }-noise${{ matrix.noise_count }'
+          name: 'E14-100-runs-${{ matrix.family }}-${{ matrix.objective }}-noise${{ matrix.noise_count }}'
           path: |
             code/experiments/noise-loss-learning-dynamics-100/results/
           retention-days: 60
