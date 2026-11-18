@@ -6,6 +6,7 @@ on:
     paths:
       - 'code/experiments/synthetic-noise-feature-sensitivity/geometry_stability_analysis.py'
       - 'code/experiments/synthetic-noise-feature-sensitivity/feature_stability_analysis.py'
+      - 'code/experiments/synthetic-noise-feature-sensitivity/stability_figures.py'
       - '.github/workflows/e-ch4-14-geometry-stability.yml'
   workflow_dispatch:
 
@@ -33,13 +34,15 @@ jobs:
         with:
           python-version: '3.11'
       - name: Install minimal postfit dependency
-        run: python -m pip install --disable-pip-version-check 'numpy==2.4.6'
+        run: python -m pip install --disable-pip-version-check 'numpy==2.4.6' 'matplotlib==3.10.7'
       - name: Generate exact descriptive outputs from 36 immutable canonical reports
         run: |
           python code/experiments/synthetic-noise-feature-sensitivity/geometry_stability_analysis.py --mode write
           python code/experiments/synthetic-noise-feature-sensitivity/geometry_stability_analysis.py --mode check
           python code/experiments/synthetic-noise-feature-sensitivity/feature_stability_analysis.py --mode write
           python code/experiments/synthetic-noise-feature-sensitivity/feature_stability_analysis.py --mode check
+          python code/experiments/synthetic-noise-feature-sensitivity/stability_figures.py --mode write
+          python code/experiments/synthetic-noise-feature-sensitivity/stability_figures.py --mode check
       - name: Guard all frozen inputs and training artifacts
         run: |
           git diff --exit-code -- code/experiments/synthetic-noise-feature-sensitivity/results code/experiments/synthetic-noise-feature-sensitivity/inputs
@@ -53,7 +56,11 @@ jobs:
                   code/experiments/synthetic-noise-feature-sensitivity/tables/geometry_stability_by_run_60.csv \
                   code/experiments/synthetic-noise-feature-sensitivity/tables/geometry_stability_by_noise_level_60.csv \
                   code/experiments/synthetic-noise-feature-sensitivity/tables/feature_preference_by_run_60.csv \
-                  code/experiments/synthetic-noise-feature-sensitivity/tables/feature_preference_by_noise_level_60.csv
+                  code/experiments/synthetic-noise-feature-sensitivity/tables/feature_preference_by_noise_level_60.csv \
+                  code/experiments/synthetic-noise-feature-sensitivity/figures/39_center_geometry_stability_60.svg \
+                  code/experiments/synthetic-noise-feature-sensitivity/figures/40_center_separation_density_deltas_60.svg \
+                  code/experiments/synthetic-noise-feature-sensitivity/figures/41_main_feature_preferences_h1_h3_60.svg \
+                  code/experiments/synthetic-noise-feature-sensitivity/figures/42_feature_rank_vs_relative_drift_60.svg
           if git diff --cached --quiet; then
             echo E14_GEOMETRY_UNCHANGED
           else
