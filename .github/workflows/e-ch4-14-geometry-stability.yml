@@ -5,6 +5,7 @@ on:
     branches: [experiment/ch4-14-noise-sensitivity-01]
     paths:
       - 'code/experiments/synthetic-noise-feature-sensitivity/geometry_stability_analysis.py'
+      - 'code/experiments/synthetic-noise-feature-sensitivity/feature_stability_analysis.py'
       - '.github/workflows/e-ch4-14-geometry-stability.yml'
   workflow_dispatch:
 
@@ -37,6 +38,8 @@ jobs:
         run: |
           python code/experiments/synthetic-noise-feature-sensitivity/geometry_stability_analysis.py --mode write
           python code/experiments/synthetic-noise-feature-sensitivity/geometry_stability_analysis.py --mode check
+          python code/experiments/synthetic-noise-feature-sensitivity/feature_stability_analysis.py --mode write
+          python code/experiments/synthetic-noise-feature-sensitivity/feature_stability_analysis.py --mode check
       - name: Guard all frozen inputs and training artifacts
         run: |
           git diff --exit-code -- code/experiments/synthetic-noise-feature-sensitivity/results code/experiments/synthetic-noise-feature-sensitivity/inputs
@@ -48,7 +51,9 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add code/experiments/synthetic-noise-feature-sensitivity/tables/geometry_stability_by_run_60.json \
                   code/experiments/synthetic-noise-feature-sensitivity/tables/geometry_stability_by_run_60.csv \
-                  code/experiments/synthetic-noise-feature-sensitivity/tables/geometry_stability_by_noise_level_60.csv
+                  code/experiments/synthetic-noise-feature-sensitivity/tables/geometry_stability_by_noise_level_60.csv \
+                  code/experiments/synthetic-noise-feature-sensitivity/tables/feature_preference_by_run_60.csv \
+                  code/experiments/synthetic-noise-feature-sensitivity/tables/feature_preference_by_noise_level_60.csv
           if git diff --cached --quiet; then
             echo E14_GEOMETRY_UNCHANGED
           else
