@@ -36,6 +36,8 @@ def build():
     meta=json.loads((HERE/"inputs/derived/manifest.json").read_text("utf8"))
     mapping={x["subset_id"]:x for x in meta["datasets"]}
     assert len(mapping)==18 and meta["test_accessed"] is False
+    reports=json.loads((TABLE/"final_60_canonical_reports.json").read_text("utf8"))
+    assert len(reports)==36
     data={}
     byrun=[]
     bysample=[]
@@ -54,7 +56,7 @@ def build():
                                   beta=BETA,lam=LAMBDA,horizon=H,
                                   query_x=raw["validation_x"])
             train,val=by_hypothesis(graph,z,family)
-            saved=json.loads((HERE/"results/metrics"/(run+".json")).read_text("utf8"))
+            saved=reports[run]
             centers=np.stack([train[raw["train_y"]==c,c,:].mean(0) for c in range(3)])
             assert np.allclose(centers,saved["centers"],atol=3e-8,rtol=1e-8)
             for split,representations in (("train",train),("validation",val)):
