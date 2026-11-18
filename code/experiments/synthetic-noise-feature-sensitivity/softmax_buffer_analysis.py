@@ -14,9 +14,6 @@ import json
 from collections import defaultdict
 from pathlib import Path
 import numpy as np
-import matplotlib
-matplotlib.use("Agg")
-import matplotlib.pyplot as plt
 
 HERE = Path(__file__).resolve().parent
 TABLE = HERE / "tables"
@@ -25,9 +22,6 @@ RAW = HERE / "results/continuation_30_60"
 INFO = (0, 1, 3)
 FAMILIES = ("shared", "class")
 HORIZONS = (1, 2, 3)
-COLORS = plt.get_cmap("tab10").colors
-plt.rcParams.update({"font.size":9,"figure.dpi":110,
-                     "svg.fonttype":"path","svg.hashsalt":"e14-softmax-buffer-01"})
 
 
 def softmax(z):
@@ -213,6 +207,7 @@ def csvbytes(rows):
 
 
 def svg(fig):
+    import matplotlib.pyplot as plt
     b=io.BytesIO()
     fig.savefig(b,format="svg",bbox_inches="tight",metadata={"Date":None})
     plt.close(fig)
@@ -220,6 +215,12 @@ def svg(fig):
 
 
 def plots(timeline,last,groups):
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    colors=plt.get_cmap("tab10").colors
+    plt.rcParams.update({"font.size":9,"figure.dpi":110,
+                         "svg.fonttype":"path","svg.hashsalt":"e14-softmax-buffer-01"})
     fig,axes=plt.subplots(2,2,figsize=(11,8),sharex=True)
     for j,fam in enumerate(FAMILIES):
         g=sorted((r for r in groups if r["family"]==fam),
@@ -253,7 +254,7 @@ def plots(timeline,last,groups):
                     assert len(rr)==(1 if k in (0,5) else 4)
                     ys.append(float(np.mean(rr)))
                 ax.plot(range(30,61),ys,label=f"k={k}",lw=1.7,
-                        color=COLORS[k])
+                        color=colors[k])
             ax.set(xlabel="Adam step 30..60",ylabel=label,
                    title=f"{fam}: {label}")
             ax.grid(alpha=.15)
