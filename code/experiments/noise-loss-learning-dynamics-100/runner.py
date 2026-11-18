@@ -1,296 +1,225 @@
-"""Exact E-CH4-14 dual-objective 100-update trainer (fail closed by default).
+"""NumPy-only E-CH4-14 exact-walk dual-objective 100-step learner.
 
-Uses canonical thesis ExactMaskedWalk, canonical Sigmoid-JS (§4.13), canonical
-Softplus-JS (§4.13), and canonical Train-only center geometry. Validation
-labels are used only for accuracy, BA, precision, recall. No Test access.
-Normal CLI prints the job grid and never trains.
+No torch or automatic fitting. Both losses match thesis §4.13. Every update
+records all logits, analytic gradients, Adam moments/updates and Train I/R;
+Validation is classification-only, no checkpoint selection or Test access.
 """
 from __future__ import annotations
-from hashlib import sha256
 import argparse
 import json
-import math
 import os
 from pathlib import Path
 import sys
 import time
 
 import numpy as np
-import torch
-
-HERE = Path(__file__).resolve().parent
-ROOT = HERE.parents[2]
-sys.path.insert(0, str(HERE))
-sys.path.insert(0, str(ROOT / "code/experiments/benchmark_v1"))
-from protocol import make_design, OBJECTIVES, FAMILIES, UPDATES, ADAM_LR, TAU, BETA, LAMBDA, H, sha
-from engine import DT, LN2, ExactMaskedWalk, jsd
-from replay_v1 import objective_loss
-from train_missing_objectives import train_loss
-from report_snapshot import standard_metrics
+from protocol import (HERE, make_design, OBJECTIVES, FAMILIES, UPDATES,
+                      ADAM_LR, TAU, BETA, LAMBDA, H, sha)
+from numpy_engine import ExactMaskedWalkNP
+from numpy_objectives import (train_loss_and_grad, train_diagnostics,
+                              validation_diagnostics, classification)
 
 BRANCH = "experiment/ch4-14-noise-sensitivity-01"
-WORKFLOW = "E-CH4-14 100-step dual-objective authorized experiment"
+WORKFLOW = "E-CH4-14 100-step NumPy-only authorized experiment"
 DATA = HERE / "inputs/derived"
 RESULTS = HERE / "results"
 
 
-def canonical_objective(graph, logits, family, objective):
-    if objective == "sigmoid_JS_margin_tau005":
-        return objective_loss(graph, graph.train_outputs(logits, family),
-                              "margin_JSD", TAU)
-    if objective == "softplus_JS_tau005":
-        return train_loss(graph, logits, family, "softplus_JS_tau005")
-    raise ValueError(f"Objective not in Chapter 4.13: {objective}")
+class AdamNP:
+    """PyTorch-default Adam convention implemented without PyTorch."""
+    def __init__(self, shape, lr=ADAM_LR, beta1=.9, beta2=.999, eps=1e-8):
+        self.m = np.zeros(shape, dtype=np.float64)
+        self.v = np.zeros(shape, dtype=np.float64)
+        self.step_count = 0
+        self.lr, self.beta1, self.beta2, self.eps = lr, beta1, beta2, eps
 
-
-def classification(scores, labels, n_classes=3):
-    """Only class predictions and true labels; undefined precision set to 0."""
-    actual = np.asarray(labels, dtype=np.int64)
-    pred = np.asarray(scores).argmax(axis=1)
-    confusion = np.zeros((n_classes, n_classes), dtype=np.int64)
-    np.add.at(confusion, (actual, pred), 1)
-    true_positive = np.diag(confusion).astype(float)
-    recall = true_positive / np.maximum(1, confusion.sum(axis=1))
-    precision = true_positive / np.maximum(1, confusion.sum(axis=0))
-    return {"accuracy": float(np.mean(actual == pred)),
-            "balanced_accuracy": float(np.mean(recall)),
-            "precision_macro": float(np.mean(precision)),
-            "recall_macro": float(np.mean(recall)),
-            "precision_by_class": precision.tolist(),
-            "recall_by_class": recall.tolist()}
-
-
-def representations(graph, logits, family, *, query):
-    fn = graph.represent_query if query else graph.represent_train
-    if family == "shared":
-        rep = fn(logits, family).detach().cpu().numpy()
-        return np.repeat(rep[:, None, :], graph.k, axis=1)
-    return np.stack([fn(logits, family, c).detach().cpu().numpy()
-                     for c in range(graph.k)], axis=1)
-
-
-def train_geometry_and_validation(graph, logits, family, validation_y):
-    """Canonical R/I measured on Train; Validation solely classification."""
-    with torch.no_grad():
-        tr = representations(graph, logits, family, query=False)
-        tr_y = graph.labels.detach().cpu().numpy()
-        centers = np.stack([tr[tr_y == c, c, :].mean(axis=0)
-                            for c in range(graph.k)])
-        train_full = standard_metrics(tr, centers, tr_y, TAU,
-                                      split="train", per_sample=False)
-        tr_scores = np.stack([
-            1 - jsd(torch.from_numpy(tr[:, c, :]),
-                    torch.from_numpy(centers[c])).numpy() / LN2
-            for c in range(graph.k)], axis=1)
-        train = classification(tr_scores, tr_y)
-        train.update({
-            "density_r_kl": train_full["R_KL"],
-            "density_r_js": train_full["R_JS"],
-            "density_r_sqrt_js": train_full["R_sqrt_JS"],
-            "separation_i": train_full["center_geometry"]["I"],
-            "separation_t": train_full["center_geometry"]["T"],
-            "separation_bt": train_full["center_geometry"]["BT"],
-            "separation_tnl": train_full["center_geometry"]["TNL"],
-            "separation_btnl": train_full["center_geometry"]["BTNL"],
-            "margin_mean": float(np.mean([
-                c["mean_margin"] * c["count"] for c in train_full["per_class"]
-            ]) / len(tr_y)),
-            "r_by_class": [
-                {"R_KL": c["R_KL"], "R_JS": c["R_JS"],
-                 "R_sqrt_JS": c["R_sqrt_JS"]} for c in train_full["per_class"]
-            ],
-        })
-        va = representations(graph, logits, family, query=True)
-        score = np.stack([
-            1 - jsd(torch.from_numpy(va[:, c, :]),
-                    torch.from_numpy(centers[c])).numpy() / LN2
-            for c in range(graph.k)], axis=1)
-        validation = classification(score, validation_y)
-    return train, validation, centers
+    def update(self, z, gradient):
+        if z.shape != self.m.shape or gradient.shape != z.shape:
+            raise ValueError("Adam parameter/gradient shape mismatch")
+        self.step_count += 1
+        self.m *= self.beta1
+        self.m += (1 - self.beta1) * gradient
+        self.v *= self.beta2
+        self.v += (1 - self.beta2) * gradient**2
+        mhat = self.m / (1 - self.beta1**self.step_count)
+        vhat = self.v / (1 - self.beta2**self.step_count)
+        delta = -self.lr * mhat / (np.sqrt(vhat) + self.eps)
+        z += delta
+        if not np.isfinite(z).all():
+            raise FloatingPointError("Nonfinite NumPy Adam update")
+        return delta
 
 
 def exposure_from_logits(logits, feature_indices):
-    """Unmasked auxiliary policy of Chapter 3.8, per hypothesis."""
-    arr = logits.detach().cpu().numpy()
-    matrices = [arr] if arr.ndim == 2 else list(arr)
+    """Unmasked Chapter 3.8 feature-policy process; not the masked walk."""
+    matrices = [logits] if logits.ndim == 2 else list(logits)
     noise = [i for i, old in enumerate(feature_indices) if old not in (0, 1, 3)]
-    pure = [i for i, old in enumerate(feature_indices) if old in (0, 1, 3)]
+    informative = [i for i, old in enumerate(feature_indices) if old in (0, 1, 3)]
     out = []
-    for matrix in matrices:
-        a = matrix - matrix.max(axis=1, keepdims=True)
-        p = np.exp(a) / np.exp(a).sum(axis=1, keepdims=True)
-        p0, P = p[-1], p[:-1]
+    for a in matrices:
+        e = np.exp(a - a.max(axis=1, keepdims=True))
+        p = e / e.sum(axis=1, keepdims=True)
+        p0, transition = p[-1], p[:-1]
         dist = p0.copy()
-        hit_no_noise = float(p0[pure] @ P[np.ix_(pure, pure)]
-                             @ P[np.ix_(pure, pure)] @ np.ones(len(pure)))
-        expected = 0.0
         q = []
         for _ in range(3):
             q.append(float(dist[noise].sum()))
-            expected += q[-1]
-            dist = dist @ P
-        hit = 1.0 - hit_no_noise
-        ref = 1.0 - (len(pure) / len(p0))**3
-        out.append({"p0": p0.tolist(), "P": P.tolist(),
-                    "q": q, "hit_at_least_once": hit,
-                    "expected_noise_visits": expected,
-                    "relative_hit_to_uniform": hit / ref if ref > 0 else None})
+            dist = dist @ transition
+        no_noise = (p0[informative]
+                    @ transition[np.ix_(informative, informative)]
+                    @ transition[np.ix_(informative, informative)]
+                    @ np.ones(len(informative)))
+        hit = float(1 - no_noise)
+        uniform = 1 - (len(informative) / len(p0))**3
+        out.append({
+            "p0": p0.tolist(), "P": transition.tolist(),
+            "q": q, "hit_at_least_once": hit,
+            "expected_noise_visits": float(sum(q)),
+            "relative_hit_to_uniform": hit / uniform if uniform > 0 else None
+        })
     return out
 
 
-def _safe_number(x):
-    if x is None: return None
-    f = float(x)
-    return f if math.isfinite(f) else None
-
-
-def prepare_row(graph, z, optimizer, run, step, previous_update_l2):
-    optimizer.zero_grad(set_to_none=True)
-    loss = canonical_objective(graph, z, run["family"], run["objective"])
-    if not bool(torch.isfinite(loss)):
-        raise FloatingPointError(f"Nonfinite loss at {step}")
-    loss.backward()
-    if z.grad is None or not bool(torch.isfinite(z.grad).all()):
-        raise FloatingPointError(f"Nonfinite gradient at {step}")
-    train, validation, centers = train_geometry_and_validation(
-        graph, z, run["family"], graph.validation_y)
-    state = optimizer.state[z]
-    m = state.get("exp_avg", torch.zeros_like(z))
-    v = state.get("exp_avg_sq", torch.zeros_like(z))
-    with torch.no_grad():
-        train["loss"] = float(loss.detach())
-        train["gradient_l2"] = float(torch.linalg.vector_norm(z.grad))
-        record = {
-            "step": step, "run_id": run["run_id"],
-            "train": train, "validation": validation,
-            "policy": {"centers": centers.tolist(),
-                       "unmasked": exposure_from_logits(z, run["feature_indices"])},
-            "optimizer": {
-                "shape": list(z.shape), "logits": z.detach().flatten().tolist(),
-                "gradients": z.grad.detach().flatten().tolist(),
-                "adam_m": m.detach().flatten().tolist(),
-                "adam_v": v.detach().flatten().tolist(),
-                "previous_update_l2": previous_update_l2,
-                "adam_update_to_next": None
-            }
-        }
-    return record
-
-
 def load_graph(run, data_dir):
+    """Use only SHA-checked derived Train/Validation data."""
+    data_dir = Path(data_dir)
+    manifest = json.loads((data_dir / "manifest.json").read_text("utf8"))
+    if (manifest.get("schema") != "E-CH4-14-100-derived-standard-seed-v1"
+            or manifest.get("standard_data_seed") != 20261102
+            or manifest.get("test_accessed") is not False):
+        raise ValueError("Missing approved standard-seed provenance")
     ds = run["dataset_id"]
-    manifest_file = data_dir / "manifest.json"
-    manifest = json.loads(manifest_file.read_text("utf8"))
-    if manifest.get("test_accessed") is not False:
-        raise ValueError("Unexpected Test provenance")
-    record = next(x for x in manifest["datasets"] if x["dataset_id"] == ds)
+    record = next(r for r in manifest["datasets"] if r["dataset_id"] == ds)
     if record["feature_indices"] != run["feature_indices"]:
-        raise ValueError("Feature mapping drift")
+        raise ValueError("Derived subset mapping differs from frozen grid")
     source = data_dir / (ds + ".npz")
     if sha(source) != record["sha256"]:
-        raise ValueError("Frozen subset hash mismatch")
+        raise ValueError("Dataset content SHA differs from audited manifest")
     with np.load(source, allow_pickle=False) as f:
-        if set(f.files) != {"train_x", "train_y", "validation_x", "validation_y", "gamma"}:
-            raise ValueError("Test or other unapproved key in derived data")
-        tx, ty, vx, vy, gamma = (f[k].copy() for k in
-            ("train_x", "train_y", "validation_x", "validation_y", "gamma"))
+        if set(f.files) != {"train_x", "train_y", "validation_x",
+                            "validation_y", "gamma"}:
+            raise ValueError("An unapproved or Test field exists")
+        tx, ty, vx, vy, gamma = [f[k].copy() for k in
+             ("train_x", "train_y", "validation_x", "validation_y", "gamma")]
     d = len(run["feature_indices"])
-    if (tx.shape != (300, d) or vx.shape != (90, d) or
-            ty.shape != (300,) or vy.shape != (90,) or gamma.shape != (d,)):
-        raise ValueError("Unexpected derived dataset dimensions")
+    if (tx.shape != (300, d) or vx.shape != (90, d)
+            or ty.shape != (300,) or vy.shape != (90,) or gamma.shape != (d,)):
+        raise ValueError("Derived dataset shape mismatch")
     if (not np.array_equal(np.unique(ty), np.arange(3))
             or not np.array_equal(np.unique(vy), np.arange(3))):
-        raise ValueError("All Train and Validation classes required")
-    graph = ExactMaskedWalk(tx, ty, gamma, beta=BETA, lam=LAMBDA,
-                            horizon=H, query_x=vx)
-    graph.validation_y = vy
-    return graph
+        raise ValueError("Expected three Train/Validation classes")
+    return ExactMaskedWalkNP(tx, ty, gamma, beta=BETA, lam=LAMBDA,
+                             horizon=H, query_x=vx), vy
 
 
-def authorization_gate(approval_path, source_sha):
-    """A preliminary gate, NOT independent online proof of owner authorization."""
+def prepare_row(graph, z, adam, run, step, vy, previous_update_l2=None):
+    """Every metric, upstream gradient and optimizer state at z_step."""
+    loss, gradient, reps, centers, scores = train_loss_and_grad(
+        graph, z, run["family"], run["objective"])
+    train = train_diagnostics(graph, reps, centers, scores)
+    train["loss"] = float(loss)
+    train["gradient_l2"] = float(np.linalg.norm(gradient.ravel()))
+    validation = validation_diagnostics(graph, z, run["family"], centers, vy)
+    return {
+        "step": step, "run_id": run["run_id"],
+        "train": train, "validation": validation,
+        "policy": {
+            "centers": centers.tolist(),
+            "unmasked": exposure_from_logits(z, run["feature_indices"])
+        },
+        "optimizer": {
+            "shape": list(z.shape),
+            "logits": z.ravel().tolist(),
+            "gradients": gradient.ravel().tolist(),
+            "adam_m": adam.m.ravel().tolist(),
+            "adam_v": adam.v.ravel().tolist(),
+            "previous_update_l2": previous_update_l2,
+            "adam_update_to_next": None,
+            "adam_step_completed": adam.step_count
+        }
+    }, gradient
+
+
+def authorization_gate(path, source_sha):
+    """Requires manual authorization captured in separately audited workflow.
+
+    This local preflight is *not* a substitute for an online manager approval
+    and branch/SHA-locked CI and single-use batch budget.
+    """
     if (os.environ.get("GITHUB_ACTIONS") != "true"
             or os.environ.get("GITHUB_REF_NAME") != BRANCH
             or os.environ.get("GITHUB_WORKFLOW") != WORKFLOW
             or os.environ.get("E14_100_AUTHORIZED") != "true"):
-        raise PermissionError("Only separately authorized manual GitHub Actions fits allowed")
-    if len(source_sha) != 40 or any(c not in "0123456789abcdef" for c in source_sha):
-        raise ValueError("Commit SHA must be complete")
-    if os.environ.get("GITHUB_SHA") != source_sha:
-        raise PermissionError("Authorization must refer to the executed commit")
-    if approval_path is None:
-        raise PermissionError("Missing separately verified authorization")
-    approval = json.loads(Path(approval_path).read_text("utf8"))
-    if (approval.get("source_sha") != source_sha
-            or approval.get("planned_fits") != 152
-            or approval.get("updates_per_fit") != 100
-            or approval.get("test_accessed") is not False
-            or not str(approval.get("manager_approval_url", "")).startswith(
+        raise PermissionError("No approved 152-fit GitHub Actions execution")
+    if (len(source_sha) != 40 or
+            any(x not in "0123456789abcdef" for x in source_sha)
+            or os.environ.get("GITHUB_SHA") != source_sha):
+        raise PermissionError("Execution SHA is not pinned")
+    if path is None:
+        raise PermissionError("Signed off manager authorization missing")
+    record = json.loads(Path(path).read_text("utf8"))
+    if (record.get("source_sha") != source_sha
+            or record.get("planned_fits") != 152
+            or record.get("updates_per_fit") != 100
+            or record.get("test_accessed") is not False
+            or not str(record.get("manager_approval_url", "")).startswith(
                 "https://github.com/mahhammad/My-Thesis/issues/")):
-        raise PermissionError("Research execution budget requires separate review")
-    return approval
+        raise PermissionError("A separate owner-approved budget is necessary")
+    return record
 
 
-def execute_run(run, output_dir, data_dir):
-    torch.set_num_threads(1)
-    graph = load_graph(run, data_dir)
-    d = graph.d
-    shape = (d + 1, d) if run["family"] == "shared" else (3, d + 1, d)
-    z = torch.nn.Parameter(torch.zeros(shape, dtype=DT))
-    opt = torch.optim.Adam([z], lr=ADAM_LR)
-    dest = output_dir / run["run_id"]
-    dest.mkdir(parents=True, exist_ok=False)
+def execute_run(run, results_root, data_root, *, steps=UPDATES):
+    """One irreversible run; no reuse of a partially written run directory."""
+    graph, vy = load_graph(run, data_root)
+    z = np.zeros(graph.shape(run["family"]), dtype=np.float64)
+    adam = AdamNP(z.shape)
+    output = Path(results_root) / run["run_id"]
+    output.mkdir(parents=True, exist_ok=False)
     started = time.perf_counter()
     previous = None
-    trace = dest / "trace.jsonl"
-    try:
-        with trace.open("x", encoding="utf8") as log:
-            for step in range(UPDATES + 1):
-                row = prepare_row(graph, z, opt, run, step, previous)
-                row["elapsed_s"] = time.perf_counter() - started
-                if step < UPDATES:
-                    old = z.detach().clone()
-                    opt.step()
-                    if not bool(torch.isfinite(z).all()):
-                        raise FloatingPointError("Nonfinite Adam update")
-                    update = (z.detach() - old)
-                    row["optimizer"]["adam_update_to_next"] = update.flatten().tolist()
-                    previous = float(torch.linalg.vector_norm(update))
-                log.write(json.dumps(row, ensure_ascii=False, allow_nan=False) + "\n")
-                log.flush()
-                os.fsync(log.fileno())
-        (dest / "complete.json").write_text(json.dumps({
-            "schema": "E-CH4-14-100-run-complete-v1", "run_id": run["run_id"],
-            "status": "COMPLETE_UNAUDITED", "updates": UPDATES,
-            "trace_sha256": sha(trace), "test_accessed": False}, indent=2) + "\n",
-            encoding="utf8")
-    except BaseException:
-        # Partial trace is preserved for forensic review, never auto-resumed.
-        raise
+    trace = output / "trace.jsonl"
+    with trace.open("x", encoding="utf8") as log:
+        for step in range(steps + 1):
+            row, gradient = prepare_row(graph, z, adam, run, step, vy, previous)
+            row["elapsed_s"] = float(time.perf_counter() - started)
+            if step < steps:
+                change = adam.update(z, gradient)
+                previous = float(np.linalg.norm(change.ravel()))
+                row["optimizer"]["adam_update_to_next"] = change.ravel().tolist()
+            log.write(json.dumps(row, ensure_ascii=False, allow_nan=False) + "\n")
+            log.flush()
+            os.fsync(log.fileno())
+    (output / "complete.json").write_text(json.dumps({
+        "schema": "E-CH4-14-100-run-complete-v1", "run_id": run["run_id"],
+        "status": "COMPLETE_UNAUDITED",
+        "updates": steps, "trace_sha256": sha(trace),
+        "test_accessed": False}, indent=2) + "\n", encoding="utf8")
+    return output
 
 
 def main():
-    p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument("--execute", action="store_true")
-    p.add_argument("--run-id", default=None)
-    p.add_argument("--authorization", type=Path, default=None)
-    p.add_argument("--source-sha", default="")
-    p.add_argument("--data-dir", type=Path, default=DATA)
-    p.add_argument("--out", type=Path, default=RESULTS)
-    args = p.parse_args()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--execute", action="store_true")
+    parser.add_argument("--run-id")
+    parser.add_argument("--authorization", type=Path)
+    parser.add_argument("--source-sha", default="")
+    parser.add_argument("--data-dir", type=Path, default=DATA)
+    parser.add_argument("--out", type=Path, default=RESULTS)
+    args = parser.parse_args()
     design = make_design()
     runs = design["runs"]
-    if args.run_id is not None:
+    if args.run_id:
         runs = [r for r in runs if r["run_id"] == args.run_id]
         if len(runs) != 1:
-            raise ValueError("Unknown run ID")
+            raise ValueError("Unknown run id")
     if not args.execute:
-        print(json.dumps({"status": "DRY_RUN_NO_FIT", "jobs": len(runs),
-            "steps": UPDATES, "test_accessed": False}, ensure_ascii=False))
+        print(json.dumps({"status": "DRY_RUN_NO_FIT",
+            "backend": "NUMPY_ONLY_ANALYTIC_GRADIENT", "jobs": len(runs),
+            "updates": UPDATES, "test_accessed": False}))
         return
     authorization_gate(args.authorization, args.source_sha)
-    for j, run in enumerate(runs, 1):
-        print(f"[{j}/{len(runs)}] {run['run_id']}", flush=True)
+    for i, run in enumerate(runs, 1):
+        print(f"[{i}/{len(runs)}] {run['run_id']}", flush=True)
         execute_run(run, args.out, args.data_dir)
 
 
