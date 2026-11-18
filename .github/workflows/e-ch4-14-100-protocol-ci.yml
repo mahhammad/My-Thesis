@@ -58,3 +58,69 @@ jobs:
         run: python -m unittest discover -s code/experiments/noise-loss-learning-dynamics-100/tests -p 'test_fixture.py' -v
       - name: Verify no data, model or tracked output was modified
         run: git diff --exit-code
+
+  standard-data-and-dryrun:
+    name: SHA-verified standard mother + 38 derived datasets (NO FIT)
+    needs: protocol-only
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      OPENBLAS_CORETYPE: generic
+      OPENBLAS_NUM_THREADS: '1'
+      E14_100_AUTHORIZED: 'false'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install pinned NumPy
+        run: python -m pip install --disable-pip-version-check 'numpy==2.4.6'
+      - name: Generate independent five extra noises from standard SHA-verified mother
+        run: |
+          python code/experiments/noise-loss-learning-dynamics-100/protocol.py --write-data
+          python - <<'PY'
+          import json, sys
+          from pathlib import Path
+          import numpy as np
+          p=Path("code/experiments/noise-loss-learning-dynamics-100")
+          sys.path.insert(0, str(p))
+          from protocol import load_frozen, make_design
+          base_train, train_y, base_val, val_y, original_gamma, source = load_frozen()
+          assert base_train.shape == (300,5) and base_val.shape == (90,5)
+          manifest=json.loads((p/"inputs/derived/manifest.json").read_text())
+          design=make_design()
+          assert manifest["standard_data_seed"] == 20261102
+          assert manifest["standard_mother_sha256"] == source
+          assert len(manifest["datasets"]) == 38
+          assert manifest["newly_generated_noise_columns"] == [5,6,7,8,9]
+          assert manifest["test_accessed"] is False
+          for ds in manifest["datasets"]:
+              path=p/"inputs/derived"/(ds["dataset_id"]+".npz")
+              from protocol import sha
+              assert sha(path)==ds["sha256"]
+              with np.load(path, allow_pickle=False) as f:
+                  assert set(f.files)=={"train_x","train_y","validation_x","validation_y","gamma"}
+                  assert f["train_x"].shape==(300,3+ds["noise_count"])
+                  assert f["validation_x"].shape==(90,3+ds["noise_count"])
+                  assert np.array_equal(f["train_y"],train_y)
+                  assert np.array_equal(f["validation_y"],val_y)
+                  for old_feature in (0,1,2,3,4):
+                      if old_feature in ds["feature_indices"]:
+                          j=ds["feature_indices"].index(old_feature)
+                          assert np.array_equal(f["train_x"][:,j],base_train[:,old_feature],equal_nan=True)
+                          assert np.array_equal(f["validation_x"][:,j],base_val[:,old_feature],equal_nan=True)
+          print("E14_100_STANDARD_MOTHER_AND_38_DATASETS_PASS")
+          PY
+      - name: Runner dry-run must not fit models
+        run: python code/experiments/noise-loss-learning-dynamics-100/runner.py
+      - name: Publish approved-input audit artifact, no training
+        uses: actions/upload-artifact@v4
+        with:
+          name: E14-100-standard-seed20261102-data-38
+          path: |
+            code/experiments/noise-loss-learning-dynamics-100/inputs/design.json
+            code/experiments/noise-loss-learning-dynamics-100/inputs/derived/**
+          retention-days: 30
+      - name: Verify old committed research files unaffected
+        run: git diff --exit-code
