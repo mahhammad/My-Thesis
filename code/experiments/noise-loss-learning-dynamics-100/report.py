@@ -162,50 +162,86 @@ def write_summary(design, complete):
 
 
 def chart_metric(design, complete, family, metric):
-    import matplotlib
-    matplotlib.use("Agg")
-    import matplotlib.pyplot as plt
-    figure, axes = plt.subplots(2, 3, figsize=(15, 8), sharex=True,
-                               layout="constrained")
-    colors = {"sigmoid_JS_margin_tau005": "#245b8c",
-              "softplus_JS_tau005": "#c56c32"}
-    for count, ax in enumerate(axes.flat, 1):
+    """Six-panel SVG chart using only standard-library rendering, no matplotlib."""
+    import html
+    width, height = 1320, 910
+    colors = {"sigmoid_JS_margin_tau005": "#265ea7",
+              "softplus_JS_tau005": "#db7837"}
+    items = [
+        f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {width} {height}">',
+        '<rect width="100%" height="100%" fill="#ffffff"/>',
+        '<style>text{font-family:Arial,sans-serif;fill:#1f2937} .grid{stroke:#e5e7eb;stroke-width:1}</style>',
+        f'<text x="54" y="30" font-size="20" font-weight="bold">{html.escape(family)} | {html.escape(metric)}</text>',
+        '<line x1="58" y1="49" x2="94" y2="49" stroke="#265ea7" stroke-width="3"/>',
+        '<text x="101" y="54" font-size="13">Sigmoid-JS</text>',
+        '<line x1="250" y1="49" x2="286" y2="49" stroke="#db7837" stroke-width="3"/>',
+        '<text x="293" y="54" font-size="13">Softplus-JS</text>',
+        '<text x="510" y="54" font-size="12">Six dependent subsets: faint individual curves, bold arithmetic mean</text>'
+    ]
+    factor = (100 if any(x in metric for x in
+              ("accuracy", "precision", "recall")) else 1)
+    for count in range(1, 7):
+        row, col = divmod(count - 1, 3)
+        px, py = 65 + col * 425, 85 + row * 405
+        w, h = 365, 295
         group = complete[(family, count)]
+        curves = []
         for objective in design["objectives"]:
-            series = [rows for (name, ds), rows in group.items()
-                      if name == objective]
-            if len(series) != 6:
-                raise AssertionError("Missing six traces in plot")
-            factor = 100 if ("accuracy" in metric or "precision" in metric
-                              or "recall" in metric) else 1
-            for rows in series:
-                y = [fetch(row, metric) for row in rows]
-                if any(x is None for x in y):
-                    raise ValueError(f"Undefined metric in {family}/{count}: {metric}")
-                ax.plot(range(UPDATES + 1), [factor * x for x in y],
-                        color=colors[objective], alpha=0.15, linewidth=0.8)
-            aggregate = aggregation(group, objective, metric)
-            if aggregate is None:
-                raise ValueError("Metric is undefined; omit only after audited explanation")
-            label = "Sigmoid-JS" if objective.startswith("sigmoid") else "Softplus-JS"
-            ax.plot(range(UPDATES + 1),
-                    [factor * x[0] for x in aggregate],
-                    color=colors[objective], linewidth=2.0, label=label)
-        ax.set(title=f"|A_N| = {count}", xlim=(0, UPDATES))
-        ax.grid(alpha=0.18)
+            members = [rows for (obj, _), rows in group.items()
+                       if obj == objective]
+            if len(members) != 6:
+                raise AssertionError("Missing six subset traces")
+            for rows in members:
+                v = [fetch(record, metric) for record in rows]
+                if any(x is None for x in v):
+                    raise ValueError(f"Undefined metric: {metric}")
+                curves.append((objective, False, [factor * float(x) for x in v]))
+            agg = aggregation(group, objective, metric)
+            if agg is None:
+                raise ValueError("Missing aggregate for chart")
+            curves.append((objective, True, [factor * x[0] for x in agg]))
+        all_y = [value for _, _, vals in curves for value in vals]
+        low, high = min(all_y), max(all_y)
         if metric.endswith("balanced_accuracy"):
-            ax.set_ylim(70, 100)
-        elif "accuracy" in metric or "precision" in metric or "recall" in metric:
-            ax.set_ylim(0, 100)
-        ax.set_xlabel("Adam updates")
-        ax.set_ylabel(metric.replace("_", " "))
-    h, labels = axes[0, 0].get_legend_handles_labels()
-    figure.legend(h, labels, loc="upper center", ncol=2)
-    figure.suptitle(f"{family}: {metric} | 6 dependent subsets per noise level", y=1.02)
-    dest = HERE / "figures" / (family + "__" + metric.replace(".", "_") + ".png")
+            low, high = 70., 100.
+        elif any(x in metric for x in ("accuracy", "precision", "recall")):
+            low, high = 0., 100.
+        else:
+            margin = max((high - low) * .08, max(abs(high), abs(low), 1e-8) * .025)
+            low -= margin
+            high += margin
+        if high <= low:
+            high = low + 1.
+        items.append(f'<text x="{px+8}" y="{py+9}" font-size="17" font-weight="bold">|A_N| = {count}</text>')
+        clip_id = f"panel-{family}-{count}-{metric.replace('.', '-')}"
+        x0, y0 = px + 52, py + 28
+        pw, ph = w - 64, h - 55
+        items.append(f'<clipPath id="{html.escape(clip_id)}"><rect x="{x0}" y="{y0}" width="{pw}" height="{ph}"/></clipPath>')
+        for tick in range(5):
+            val = low + (high - low) * tick / 4
+            yy = y0 + ph * (1 - tick/4)
+            items.append(f'<line class="grid" x1="{x0}" y1="{yy:.2f}" x2="{x0+pw}" y2="{yy:.2f}"/>')
+            items.append(f'<text x="{x0-8}" y="{yy+4:.2f}" font-size="10" text-anchor="end">{val:.3g}</text>')
+        for step in (0, 50, 100):
+            xx = x0 + pw * step / UPDATES
+            items.append(f'<text x="{xx:.2f}" y="{y0+ph+17}" font-size="11" text-anchor="middle">{step}</text>')
+        items.append(f'<g clip-path="url(#{html.escape(clip_id)})">')
+        for objective, mean, values in sorted(curves, key=lambda v: v[1]):
+            points = " ".join(f'{x0+pw*t/UPDATES:.2f},{y0+ph*(1-(v-low)/(high-low)):.2f}'
+                              for t, v in enumerate(values))
+            items.append(f'<polyline points="{points}" fill="none" stroke="{colors[objective]}" '
+                         f'stroke-width="{2.5 if mean else .9}" stroke-opacity="{1 if mean else .22}"/>')
+        items.append('</g>')
+        items.append(f'<line x1="{x0}" y1="{y0}" x2="{x0}" y2="{y0+ph}" stroke="#4b5563" stroke-width="1"/>')
+        items.append(f'<line x1="{x0}" y1="{y0+ph}" x2="{x0+pw}" y2="{y0+ph}" stroke="#4b5563" stroke-width="1"/>')
+        items.append(f'<text x="{x0+pw/2}" y="{y0+ph+32}" font-size="11" text-anchor="middle">Adam updates</text>')
+        if metric.endswith("balanced_accuracy") and (min(all_y) < low or max(all_y) > high):
+            items.append(f'<text x="{x0}" y="{py+h+13}" fill="#9a3412" font-size="11">Note: off-scale values are clipped by fixed BA axis</text>')
+    items.append("</svg>")
+    dest = HERE / "figures" / (family + "__" + metric.replace(".", "_") + ".svg")
     dest.parent.mkdir(parents=True, exist_ok=True)
-    figure.savefig(dest, dpi=160, bbox_inches="tight")
-    plt.close(figure)
+    with dest.open("x", encoding="utf8") as f:
+        f.write("\n".join(items) + "\n")
     return dest
 
 
