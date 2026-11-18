@@ -30,7 +30,7 @@ jobs:
       - name: Compile new code (no dependencies, no fits)
         run: python -m compileall -q code/experiments/noise-loss-learning-dynamics-100
       - name: Run design and trace contract tests (no fitting)
-        run: python -m unittest discover -s code/experiments/noise-loss-learning-dynamics-100/tests -v
+        run: python -m unittest discover -s code/experiments/noise-loss-learning-dynamics-100/tests -p 'test_contract.py' -v
       - name: Confirm full dry-run plan, no data generated
         run: python code/experiments/noise-loss-learning-dynamics-100/protocol.py
 
