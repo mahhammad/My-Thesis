@@ -1,9 +1,9 @@
 """E-CH4-14 controlled 100-update comparison: fixed design and paired data.
 
 No training is performed here. Only frozen Train/Validation inputs are read.
-The standard five-column seed-20261102 mother is SHA-verified. The prior
-E14 three added noise columns are kept byte-identical. Two more noise
-columns bring the total to five newly added and seven noise columns overall.
+The standard five-column seed-20261102 mother is SHA-verified.
+Five new noise columns are generated independently here; no historical E14
+noise assets or results are reused or compared.
 """
 from __future__ import annotations
 from collections import Counter
@@ -26,15 +26,15 @@ ADAM_LR = 0.12
 BETA, LAMBDA, H = 0.4, 0.8, 12
 ROOT = Path(__file__).resolve().parents[3]
 HERE = Path(__file__).resolve().parent
-PREVIOUS = ROOT / "code/experiments/synthetic-noise-feature-sensitivity"
 STANDARD = ROOT / "code/experiments/objective-start-diagnostics/inputs/phase2_train_validation"
 STANDARD_FILE = STANDARD / "ds20261102_train_val.npz"
 STANDARD_MANIFEST = STANDARD / "manifest.json"
 STANDARD_SEED = 20261102
-PREVIOUS_FILE = PREVIOUS / "inputs/derived/N5-01.npz"
-PREVIOUS_MANIFEST = PREVIOUS / "inputs/derived/manifest.json"
+NEW_NOISE_COUNT = 5
+NEW_NOISE_STD = 1.1
+NEW_NOISE_MISSING_RATE = 0.20
+NEW_NOISE_GAMMA = 0.6
 CONFIG = ROOT / "code/data_generator/config.json"
-
 
 def sha(path):
     return sha256(Path(path).read_bytes()).hexdigest()
@@ -118,125 +118,119 @@ def fingerprint(array):
     return sha256(head + b"\0" + a.tobytes()).hexdigest()
 
 
-def load_frozen():
-    """Use standard seed-20261102 mother plus three authenticated previous noises.
-
-    Return an eight-column base that is *proved* to be the standard five
-    columns followed by exactly the prior three added columns. Neither the
-    mother nor the prior three noises is regenerated.
-    """
+def fingerprint(array):
+    """Use the standard frozen source's array-fingerprint contract."""
     import numpy as np
-    m = json.loads(STANDARD_MANIFEST.read_text("utf8"))
-    if (m.get("schema") != "e-ch4-13-phase2-frozen-train-validation-v1"
-            or m.get("train_validation_only") is not True
-            or m.get("test_accessed") is not False
-            or STANDARD_SEED not in m.get("seed_set", [])):
+    a = np.ascontiguousarray(np.asarray(array))
+    header = json.dumps({"dtype": a.dtype.str, "shape": list(a.shape)},
+                        sort_keys=True).encode("utf8")
+    return sha256(header + b"\0" + a.tobytes()).hexdigest()
+
+
+def load_frozen():
+    """SHA-verified standard five-column data; no historical E14 assets."""
+    import numpy as np
+    manifest = json.loads(STANDARD_MANIFEST.read_text("utf8"))
+    if (manifest.get("schema") != "e-ch4-13-phase2-frozen-train-validation-v1"
+            or manifest.get("train_validation_only") is not True
+            or manifest.get("test_accessed") is not False
+            or STANDARD_SEED not in manifest.get("seed_set", [])):
         raise ValueError("Unexpected standard mother manifest")
-    if sha(CONFIG) != m["config_sha256"]:
-        raise ValueError("Frozen generator config SHA mismatch")
-    rec = m["records"][str(STANDARD_SEED)]
+    if sha(CONFIG) != manifest["config_sha256"]:
+        raise ValueError("Standard frozen generator configuration changed")
+    rec = manifest["records"][str(STANDARD_SEED)]
     if (rec.get("file") != STANDARD_FILE.name
             or rec.get("test_accessed") is not False
             or sha(STANDARD_FILE) != rec["file_sha256"]):
         raise ValueError("Standard mother file SHA mismatch")
     with np.load(STANDARD_FILE, allow_pickle=False) as f:
         if set(f.files) != {"train_x", "train_y", "validation_x", "validation_y"}:
-            raise ValueError("Unexpected keys in standard mother")
-        tx, ty, vx, vy = (f[k].copy() for k in
+            raise ValueError("Only Train/Validation source fields are allowed")
+        tx, ty, vx, vy = (f[key].copy() for key in
                           ("train_x", "train_y", "validation_x", "validation_y"))
     if (tx.shape != (300, 5) or vx.shape != (90, 5)
             or ty.shape != (300,) or vy.shape != (90,)
             or tx.dtype != np.float64 or vx.dtype != np.float64
             or ty.dtype != np.int64 or vy.dtype != np.int64):
-        raise ValueError("Standard mother shape/dtype mismatch")
-    checks = {"train_x_sha256": fingerprint(tx),
-              "train_y_sha256": fingerprint(ty),
-              "validation_x_sha256": fingerprint(vx),
-              "validation_y_sha256": fingerprint(vy),
-              "mask_train_sha256": fingerprint(np.isfinite(tx)),
-              "mask_validation_sha256": fingerprint(np.isfinite(vx))}
-    if any(checks[k] != rec[k] for k in checks):
-        raise ValueError("Standard mother array/mask SHA mismatch")
-    config_gamma = np.asarray(
-        json.loads(CONFIG.read_text("utf8"))["kernel_gamma"], dtype=np.float64)
-    if config_gamma.shape != (5,) or not np.isfinite(config_gamma).all():
-        raise ValueError("Invalid standard gamma")
-
-    prev = json.loads(PREVIOUS_MANIFEST.read_text("utf8"))
-    if prev.get("test_accessed") is not False:
-        raise ValueError("Previous experiment Test evidence invalid")
-    old = next(d for d in prev["datasets"] if d["subset_id"] == "N5-01")
-    if (old["feature_mapping"] != list(range(8))
-            or old["hashes"]["source_mother_sha256"] != rec["file_sha256"]
-            or sha(PREVIOUS_FILE) != old["file_sha256"]):
-        raise ValueError("Prior three added noises are not authenticated")
-    with np.load(PREVIOUS_FILE, allow_pickle=False) as f:
-        if set(f.files) != {"train_x", "train_y", "validation_x", "validation_y"}:
-            raise ValueError("Unexpected old experiment input keys")
-        tx8, ty8, vx8, vy8 = (f[k].copy() for k in
-                              ("train_x", "train_y", "validation_x", "validation_y"))
-    if (tx8.shape != (300, 8) or vx8.shape != (90, 8)
-            or not np.array_equal(tx, tx8[:, :5], equal_nan=True)
-            or not np.array_equal(vx, vx8[:, :5], equal_nan=True)
-            or not np.array_equal(ty, ty8)
-            or not np.array_equal(vy, vy8)):
-        raise ValueError("The old eight-column data do not preserve the standard mother")
-    old_gamma = np.asarray(old["gamma"], dtype=np.float64)
-    if (old_gamma.shape != (8,)
-            or not np.array_equal(config_gamma, old_gamma[:5])
-            or not np.array_equal(old_gamma[5:],
-                                  np.full(3, 0.6, dtype=np.float64))):
-        raise ValueError("Old kernels do not match the standard and three reused noises")
-    return (tx8, ty, vx8, vy, old_gamma,
-            {"standard_mother_sha256": rec["file_sha256"],
-             "prior_e14_eight_column_sha256": old["file_sha256"],
-             "reused_old_noise_raw_seed": old["hashes"]["raw_seed"],
-             "reused_old_noise_mask_seed": old["hashes"]["mask_seed"]})
+        raise ValueError("Standard mother shape/dtype changed")
+    checks = {
+        "train_x_sha256": fingerprint(tx),
+        "train_y_sha256": fingerprint(ty),
+        "validation_x_sha256": fingerprint(vx),
+        "validation_y_sha256": fingerprint(vy),
+        "mask_train_sha256": fingerprint(np.isfinite(tx)),
+        "mask_validation_sha256": fingerprint(np.isfinite(vx)),
+    }
+    if any(checks[key] != rec[key] for key in checks):
+        raise ValueError("Standard mother source or mask fingerprint mismatch")
+    if (np.isinf(tx).any() or np.isinf(vx).any()
+            or not np.array_equal(np.unique(ty), np.arange(3))
+            or not np.array_equal(np.unique(vy), np.arange(3))):
+        raise ValueError("Invalid source observations/classes")
+    gammas = np.asarray(json.loads(CONFIG.read_text("utf8"))["kernel_gamma"],
+                        dtype=np.float64)
+    if gammas.shape != (5,) or not np.isfinite(gammas).all():
+        raise ValueError("Invalid standard kernel gammas")
+    return tx, ty, vx, vy, gammas, rec["file_sha256"]
 
 
 def generate_datasets(output_dir):
-    """Generate five *additional* noises in total: reuse three, create two.
+    """Derive 38 paired subsets from the same standard mother plus five noises.
 
-    No Test access, no model fit. The old standardized five columns and
-    previously generated three noise columns remain unchanged.
+    The two original standard noise columns are preserved. Every additional
+    noise column is generated independent of class labels and other columns.
+    The five added columns are not taken from any previous E14 result.
     """
     import numpy as np
     output_dir = Path(output_dir)
     design = make_design()
-    tx8, ty, vx8, vy, old_gamma, lineage = load_frozen()
+    tx, ty, vx, vy, gamma_standard, mother_sha = load_frozen()
     rng = np.random.default_rng(SEED_NEW_VALUES)
-    new_train = rng.standard_normal((len(tx8), 2)) * 1.1
-    new_val = rng.standard_normal((len(vx8), 2)) * 1.1
+    new_train = rng.standard_normal((len(tx), NEW_NOISE_COUNT)) * NEW_NOISE_STD
+    new_val = rng.standard_normal((len(vx), NEW_NOISE_COUNT)) * NEW_NOISE_STD
     mask_rng = np.random.default_rng(SEED_NEW_MASK)
-    new_train[mask_rng.random(new_train.shape) < .20] = np.nan
-    new_val[mask_rng.random(new_val.shape) < .20] = np.nan
-    full_train = np.column_stack((tx8, new_train))
-    full_val = np.column_stack((vx8, new_val))
-    gamma = np.concatenate((old_gamma, np.array([.6, .6], dtype=np.float64)))
+    new_train[mask_rng.random(new_train.shape) < NEW_NOISE_MISSING_RATE] = np.nan
+    new_val[mask_rng.random(new_val.shape) < NEW_NOISE_MISSING_RATE] = np.nan
+    full_train = np.column_stack((tx, new_train))
+    full_val = np.column_stack((vx, new_val))
+    gammas = np.concatenate((gamma_standard,
+                             np.full(NEW_NOISE_COUNT, NEW_NOISE_GAMMA)))
     if (full_train.shape != (300, 10) or full_val.shape != (90, 10)
-            or len(gamma) != 10):
-        raise AssertionError("Expected three informative plus seven noise columns")
+            or gammas.shape != (10,)
+            or not np.array_equal(full_train[:, :5], tx, equal_nan=True)
+            or not np.array_equal(full_val[:, :5], vx, equal_nan=True)):
+        raise AssertionError("Standard columns changed or total noise pool size wrong")
     if output_dir.exists():
-        raise FileExistsError("Refusing to overwrite existing derived input directory")
+        raise FileExistsError("Never replace previously generated subset evidence")
     output_dir.mkdir(parents=True, exist_ok=False)
-    manifest = {"schema": "E-CH4-14-100-derived-v2",
-                "test_accessed": False, "standard_seed": STANDARD_SEED,
-                **lineage,
-                "new_values_seed": SEED_NEW_VALUES, "new_mask_seed": SEED_NEW_MASK,
-                "noise_columns_in_standard_mother": [2, 4],
-                "reused_prior_added_noise_columns": [5, 6, 7],
-                "newly_generated_noise_columns": [8, 9],
-                "n_train": 300, "n_validation": 90, "datasets": []}
+    manifest = {
+        "schema": "E-CH4-14-100-derived-standard-seed-v1",
+        "standard_data_seed": STANDARD_SEED,
+        "standard_mother_sha256": mother_sha,
+        "new_value_seed": SEED_NEW_VALUES,
+        "new_mask_seed": SEED_NEW_MASK,
+        "new_noise_std": NEW_NOISE_STD,
+        "new_noise_missing_rate": NEW_NOISE_MISSING_RATE,
+        "new_noise_gamma": NEW_NOISE_GAMMA,
+        "informative_columns": list(PRIMARY),
+        "original_standard_noise_columns": [2, 4],
+        "newly_generated_noise_columns": [5, 6, 7, 8, 9],
+        "n_train": 300, "n_validation": 90,
+        "test_accessed": False, "datasets": []
+    }
     for ds in design["datasets"]:
         selected = ds["feature_indices"]
         dest = output_dir / (ds["dataset_id"] + ".npz")
-        with dest.open("xb") as f:
-            np.savez_compressed(f, train_x=full_train[:, selected],
-                                train_y=ty, validation_x=full_val[:, selected],
-                                validation_y=vy, gamma=gamma[selected])
+        with dest.open("xb") as stream:
+            np.savez_compressed(stream,
+                train_x=full_train[:, selected],
+                train_y=ty,
+                validation_x=full_val[:, selected],
+                validation_y=vy,
+                gamma=gammas[selected])
         manifest["datasets"].append({**ds, "sha256": sha(dest)})
     with (output_dir / "manifest.json").open("x", encoding="utf8") as f:
-        json.dump(manifest, f, ensure_ascii=False, indent=2)
+        json.dump(manifest, f, indent=2, ensure_ascii=False)
         f.write("\n")
     return manifest
 
