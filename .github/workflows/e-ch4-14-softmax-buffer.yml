@@ -1,0 +1,65 @@
+name: E-CH4-14 Softmax buffer hypothesis replay (NO FIT)
+
+on:
+  push:
+    branches: [experiment/ch4-14-noise-sensitivity-01]
+    paths:
+      - 'code/experiments/synthetic-noise-feature-sensitivity/softmax_buffer_analysis.py'
+      - 'code/experiments/synthetic-noise-feature-sensitivity/test_softmax_buffer_analysis.py'
+      - '.github/workflows/e-ch4-14-softmax-buffer.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: e14-softmax-buffer-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      E_CH4_14_FIT_AUTHORIZED: 'false'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install minimal analysis-only environment
+        run: python -m pip install --disable-pip-version-check 'numpy==2.4.6' 'matplotlib==3.10.7'
+      - name: Validate Softmax differential and unmasked chain identities
+        run: |
+          python -m unittest discover -s code/experiments/synthetic-noise-feature-sensitivity -p 'test_softmax_buffer_analysis.py' -v
+      - name: Replay archived policy logits, no optimizer or model walk
+        run: |
+          python code/experiments/synthetic-noise-feature-sensitivity/softmax_buffer_analysis.py --mode write
+          python code/experiments/synthetic-noise-feature-sensitivity/softmax_buffer_analysis.py --mode check
+      - name: Verify evidence immutability
+        run: |
+          git diff --exit-code -- code/experiments/synthetic-noise-feature-sensitivity/inputs \
+            code/experiments/synthetic-noise-feature-sensitivity/results
+      - name: Publish derived evidence to existing branch
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add code/experiments/synthetic-noise-feature-sensitivity/tables/softmax_buffer_by_step_30_60.csv \
+                  code/experiments/synthetic-noise-feature-sensitivity/tables/softmax_buffer_by_run_60.csv \
+                  code/experiments/synthetic-noise-feature-sensitivity/tables/softmax_buffer_by_noise_level_60.csv \
+                  code/experiments/synthetic-noise-feature-sensitivity/figures/44_noise_allocation_and_softmax_jacobian_60.svg \
+                  code/experiments/synthetic-noise-feature-sensitivity/figures/45_softmax_gradient_paths_30_60.svg \
+                  code/experiments/synthetic-noise-feature-sensitivity/figures/46_softmax_dilution_ratio_60.svg
+          if git diff --cached --quiet; then
+            echo E14_SOFTMAX_OUTPUTS_UNCHANGED
+          else
+            git commit -m "data(e14): replay Softmax noise buffer metrics from frozen logits"
+            git fetch origin experiment/ch4-14-noise-sensitivity-01
+            git rebase origin/experiment/ch4-14-noise-sensitivity-01
+            git push origin HEAD:experiment/ch4-14-noise-sensitivity-01
+          fi
