@@ -1,0 +1,35 @@
+name: E-CH4-14 100-step protocol QA (NO FIT)
+
+on:
+  push:
+    branches:
+      - experiment/ch4-14-noise-sensitivity-01
+    paths:
+      - 'code/experiments/noise-loss-learning-dynamics-100/**'
+      - '.github/workflows/e-ch4-14-100-protocol-ci.yml'
+  pull_request:
+    paths:
+      - 'code/experiments/noise-loss-learning-dynamics-100/**'
+      - '.github/workflows/e-ch4-14-100-protocol-ci.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  protocol-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout exact commit
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Compile new code (no dependencies, no fits)
+        run: python -m compileall -q code/experiments/noise-loss-learning-dynamics-100
+      - name: Run design and trace contract tests (no fitting)
+        run: python -m unittest discover -s code/experiments/noise-loss-learning-dynamics-100/tests -v
+      - name: Confirm full dry-run plan, no data generated
+        run: python code/experiments/noise-loss-learning-dynamics-100/protocol.py
