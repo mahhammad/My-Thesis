@@ -65,5 +65,7 @@ jobs:
             echo E14_GEOMETRY_UNCHANGED
           else
             git commit -m "data(e14): compute geometry stability from frozen step-60 canonical reports"
+            git fetch origin experiment/ch4-14-noise-sensitivity-01
+            git rebase origin/experiment/ch4-14-noise-sensitivity-01
             git push origin HEAD:experiment/ch4-14-noise-sensitivity-01
           fi
