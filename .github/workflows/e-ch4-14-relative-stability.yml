@@ -1,0 +1,74 @@
+name: E-CH4-14 relative geometry and feature percentages (NO FIT)
+
+on:
+  push:
+    branches: [experiment/ch4-14-noise-sensitivity-01]
+    paths:
+      - 'code/experiments/synthetic-noise-feature-sensitivity/relative_stability_analysis.py'
+      - 'code/experiments/synthetic-noise-feature-sensitivity/relative_stability_figures.py'
+      - 'code/experiments/synthetic-noise-feature-sensitivity/test_relative_stability_analysis.py'
+      - '.github/workflows/e-ch4-14-relative-stability.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: e-ch4-14-relative-postfit-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  derive-and-verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      E_CH4_14_FIT_AUTHORIZED: 'false'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install deterministic plotting dependencies
+        run: |
+          python -m pip install --disable-pip-version-check 'numpy==2.4.6' 'matplotlib==3.10.7'
+      - name: Assert percentages are measured against valid same-family step-60 baselines
+        run: python -m unittest discover -s code/experiments/synthetic-noise-feature-sensitivity -p 'test_relative_stability_analysis.py' -v
+      - name: Derive all 36 per-run and 12 group percentages from saved evidence
+        run: |
+          python code/experiments/synthetic-noise-feature-sensitivity/relative_stability_analysis.py --mode write
+          python code/experiments/synthetic-noise-feature-sensitivity/relative_stability_analysis.py --mode check
+          python code/experiments/synthetic-noise-feature-sensitivity/relative_stability_figures.py --mode write
+          python code/experiments/synthetic-noise-feature-sensitivity/relative_stability_figures.py --mode check
+      - name: Prove no frozen or canonical evidence has been changed
+        run: |
+          git diff --exit-code -- code/experiments/synthetic-noise-feature-sensitivity/inputs \
+              code/experiments/synthetic-noise-feature-sensitivity/results \
+              code/experiments/synthetic-noise-feature-sensitivity/tables/final_60_canonical_reports.json \
+              code/experiments/synthetic-noise-feature-sensitivity/tables/final_60_by_run.csv \
+              code/experiments/synthetic-noise-feature-sensitivity/tables/geometry_stability_by_run_60.json \
+              code/experiments/synthetic-noise-feature-sensitivity/tables/feature_preference_by_noise_level_60.csv \
+              code/experiments/synthetic-noise-feature-sensitivity/tables/softmax_buffer_by_noise_level_60.csv
+      - name: Publish only derived CSV and vector figures on experiment branch
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add code/experiments/synthetic-noise-feature-sensitivity/tables/relative_geometry_by_run_60.csv \
+                  code/experiments/synthetic-noise-feature-sensitivity/tables/relative_geometry_by_noise_level_60.csv \
+                  code/experiments/synthetic-noise-feature-sensitivity/tables/feature_allocation_percent_by_level_60.csv \
+                  code/experiments/synthetic-noise-feature-sensitivity/figures/47_relative_center_geometry_percent_60.svg \
+                  code/experiments/synthetic-noise-feature-sensitivity/figures/48_center_movement_percent_of_spacing_60.svg \
+                  code/experiments/synthetic-noise-feature-sensitivity/figures/49_informative_mass_h1_h3_all_k_60.svg \
+                  code/experiments/synthetic-noise-feature-sensitivity/figures/50_gradient_BA_variability_relative_60.svg
+          if git diff --cached --quiet; then
+            echo E14_RELATIVE_NO_CHANGES
+          else
+            git commit -m "data(e14): report all-k percent-relative geometry, feature shares and variability"
+            git fetch origin experiment/ch4-14-noise-sensitivity-01
+            git rebase origin/experiment/ch4-14-noise-sensitivity-01
+            git push origin HEAD:experiment/ch4-14-noise-sensitivity-01
+          fi
