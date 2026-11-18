@@ -33,3 +33,28 @@ jobs:
         run: python -m unittest discover -s code/experiments/noise-loss-learning-dynamics-100/tests -v
       - name: Confirm full dry-run plan, no data generated
         run: python code/experiments/noise-loss-learning-dynamics-100/protocol.py
+
+  exact-walk-fixture:
+    name: Tiny exact-walk integration (NO FIT)
+    needs: protocol-only
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      E14_100_AUTHORIZED: 'false'
+      OPENBLAS_CORETYPE: generic
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install pinned CPU dependencies
+        run: |
+          python -m pip install --disable-pip-version-check 'numpy==2.4.6'
+          python -m pip install --disable-pip-version-check 'torch==2.9.1' --index-url https://download.pytorch.org/whl/cpu
+      - name: Validate exact engine, Sigmoid-JS, Softplus-JS, center R/I and Precision scope
+        run: python -m unittest discover -s code/experiments/noise-loss-learning-dynamics-100/tests -p 'test_fixture.py' -v
+      - name: Verify no data, model or tracked output was modified
+        run: git diff --exit-code
