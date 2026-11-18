@@ -149,7 +149,9 @@ def authorization_gate(path, source_sha):
     if (os.environ.get("GITHUB_ACTIONS") != "true"
             or os.environ.get("GITHUB_REF_NAME") != BRANCH
             or os.environ.get("GITHUB_WORKFLOW") != WORKFLOW
-            or os.environ.get("E14_100_AUTHORIZED") != "true"):
+            or os.environ.get("E14_100_AUTHORIZED") != "true"
+            or os.environ.get("GITHUB_ACTOR") != "mahhammad"
+            or os.environ.get("GITHUB_RUN_ATTEMPT") != "1"):
         raise PermissionError("No approved 152-fit GitHub Actions execution")
     if (len(source_sha) != 40 or
             any(x not in "0123456789abcdef" for x in source_sha)
