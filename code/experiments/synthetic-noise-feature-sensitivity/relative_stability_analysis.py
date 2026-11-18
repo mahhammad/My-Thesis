@@ -109,7 +109,7 @@ def derive():
                 out[name + "_min"] = min(values)
                 out[name + "_max"] = max(values)
             grouped.append(out)
-    assert all(abs(r[key]) < 1e-9 for r in grouped if r["noise_count"] == 0
+    assert all(abs(r[key+"_mean"]) < 1e-9 for r in grouped if r["noise_count"] == 0
                for key in KEYS)
 
     prefs = loadcsv("feature_preference_by_noise_level_60.csv")
