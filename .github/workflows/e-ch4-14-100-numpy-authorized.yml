@@ -50,6 +50,12 @@ jobs:
           assert a["total_fits"]==152 and a["updates_per_fit"]==100
           assert a["source_standard_seed"]==20261102
           assert a["backend"]=="numpy_only" and a["test_accessed"] is False
+          import os
+          assert os.environ.get("GITHUB_EVENT_NAME")=="push"
+          assert os.environ.get("GITHUB_ACTOR")=="mahhammad", (
+              "Only the repository owner can initiate this one-time budget")
+          assert os.environ.get("GITHUB_RUN_ATTEMPT")=="1", (
+              "Retries require a new separately authorized research budget")
           print("ONCE_ONLY_MARKER_AND_MANAGER_CHAT_SCOPE_CONFIRMED")
           PY
       - name: Install NumPy ONLY
