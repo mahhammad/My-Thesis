@@ -1,0 +1,57 @@
+name: E-CH4-14 frozen postfit geometry stability (NO FIT)
+
+on:
+  push:
+    branches: [experiment/ch4-14-noise-sensitivity-01]
+    paths:
+      - 'code/experiments/synthetic-noise-feature-sensitivity/geometry_stability_analysis.py'
+      - '.github/workflows/e-ch4-14-geometry-stability.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: e14-frozen-geometry-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  postfit-geometry:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      E_CH4_14_FIT_AUTHORIZED: 'false'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install minimal postfit dependency
+        run: python -m pip install --disable-pip-version-check 'numpy==2.4.6'
+      - name: Generate exact descriptive outputs from 36 immutable canonical reports
+        run: |
+          python code/experiments/synthetic-noise-feature-sensitivity/geometry_stability_analysis.py --mode write
+          python code/experiments/synthetic-noise-feature-sensitivity/geometry_stability_analysis.py --mode check
+      - name: Guard all frozen inputs and training artifacts
+        run: |
+          git diff --exit-code -- code/experiments/synthetic-noise-feature-sensitivity/results code/experiments/synthetic-noise-feature-sensitivity/inputs
+          git status --short
+      - name: Commit derived results to the experiment branch only
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add code/experiments/synthetic-noise-feature-sensitivity/tables/geometry_stability_by_run_60.json \
+                  code/experiments/synthetic-noise-feature-sensitivity/tables/geometry_stability_by_run_60.csv \
+                  code/experiments/synthetic-noise-feature-sensitivity/tables/geometry_stability_by_noise_level_60.csv
+          if git diff --cached --quiet; then
+            echo E14_GEOMETRY_UNCHANGED
+          else
+            git commit -m "data(e14): compute geometry stability from frozen step-60 canonical reports"
+            git push origin HEAD:experiment/ch4-14-noise-sensitivity-01
+          fi
