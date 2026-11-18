@@ -173,7 +173,8 @@ class ExactMaskedWalkNP:
         gm = np.zeros((d, d), dtype=np.float64)
         bar_next = None
         for t in range(self.horizon - 1, -1, -1):
-            bar = self.alpha[t] * incoming[:, :, None]
+            bar = np.broadcast_to(self.alpha[t] * incoming[:, :, None],
+                                  (n, n, d)).copy()
             if bar_next is not None:
                 dchoice = np.empty((n, n, d), dtype=np.float64)
                 for b in range(d):
