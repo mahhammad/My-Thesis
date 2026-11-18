@@ -63,7 +63,7 @@ jobs:
     name: SHA-verified standard mother + 38 derived datasets (NO FIT)
     needs: protocol-only
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 40
     env:
       PYTHONDONTWRITEBYTECODE: '1'
       OPENBLAS_CORETYPE: generic
@@ -111,6 +111,30 @@ jobs:
                           assert np.array_equal(f["train_x"][:,j],base_train[:,old_feature],equal_nan=True)
                           assert np.array_equal(f["validation_x"][:,j],base_val[:,old_feature],equal_nan=True)
           print("E14_100_STANDARD_MOTHER_AND_38_DATASETS_PASS")
+          PY
+      - name: Profile one real full-size class gradient with NumPy (zero optimizer updates)
+        run: |
+          python - <<'PY'
+          import sys, time, numpy as np
+          from pathlib import Path
+          root=Path("code/experiments/noise-loss-learning-dynamics-100")
+          sys.path.insert(0,str(root))
+          from protocol import make_design
+          from runner import load_graph
+          from numpy_objectives import train_loss_and_grad
+          run=next(x for x in make_design()["runs"]
+                   if x["noise_count"]==7 and x["family"]=="class"
+                   and x["objective"]=="softplus_JS_tau005")
+          graph,_=load_graph(run,root/"inputs/derived")
+          z=np.zeros(graph.shape("class"),dtype=np.float64)
+          start=time.perf_counter()
+          loss,grad,_,_,_=train_loss_and_grad(graph,z,"class",run["objective"])
+          seconds=time.perf_counter()-start
+          assert np.isfinite(loss) and np.isfinite(grad).all()
+          print("E14_100_FULL_SIZE_NUMPY_ZERO_UPDATE_PROFILE",
+                {"seconds_for_one_objective_and_exact_gradient":round(seconds,4),
+                 "shape":z.shape,"loss":loss,"gradient_l2":float(np.linalg.norm(grad)),
+                 "sample_size":graph.n,"noise_count":run["noise_count"]},flush=True)
           PY
       - name: Publish approved-input audit artifact, no training
         uses: actions/upload-artifact@v4
