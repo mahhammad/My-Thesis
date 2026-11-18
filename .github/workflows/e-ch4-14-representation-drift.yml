@@ -1,0 +1,56 @@
+name: E-CH4-14 exact representation drift replay (NO FIT)
+
+on:
+  push:
+    branches: [experiment/ch4-14-noise-sensitivity-01]
+    paths:
+      - 'code/experiments/synthetic-noise-feature-sensitivity/representation_drift_analysis.py'
+      - '.github/workflows/e-ch4-14-representation-drift.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: e14-representation-replay-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      E_CH4_14_FIT_AUTHORIZED: 'false'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install CPU-only evaluation dependencies
+        run: |
+          python -m pip install --disable-pip-version-check 'numpy==2.4.6'
+          python -m pip install --disable-pip-version-check 'torch==2.9.1' --index-url https://download.pytorch.org/whl/cpu
+      - name: Re-evaluate 36 frozen step-60 policies without gradients or updates
+        run: |
+          python code/experiments/synthetic-noise-feature-sensitivity/representation_drift_analysis.py --mode write
+      - name: Immutable Train/Validation and checkpoint guard
+        run: |
+          git diff --exit-code -- code/experiments/synthetic-noise-feature-sensitivity/inputs \
+            code/experiments/synthetic-noise-feature-sensitivity/results
+          git status --short
+      - name: Publish derived sample drift only
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add code/experiments/synthetic-noise-feature-sensitivity/tables/representation_drift_by_run_60.csv \
+                  code/experiments/synthetic-noise-feature-sensitivity/tables/representation_drift_by_sample_60.csv \
+                  code/experiments/synthetic-noise-feature-sensitivity/tables/representation_drift_by_noise_level_60.csv
+          if git diff --cached --quiet; then echo E14_REP_DRIFT_UNCHANGED; else
+            git commit -m "data(e14): measure sample representation drift from frozen step-60 policies"
+            git push origin HEAD:experiment/ch4-14-noise-sensitivity-01
+          fi
