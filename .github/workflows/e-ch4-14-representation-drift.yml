@@ -52,5 +52,7 @@ jobs:
                   code/experiments/synthetic-noise-feature-sensitivity/tables/representation_drift_by_noise_level_60.csv
           if git diff --cached --quiet; then echo E14_REP_DRIFT_UNCHANGED; else
             git commit -m "data(e14): measure sample representation drift from frozen step-60 policies"
+            git fetch origin experiment/ch4-14-noise-sensitivity-01
+            git rebase origin/experiment/ch4-14-noise-sensitivity-01
             git push origin HEAD:experiment/ch4-14-noise-sensitivity-01
           fi
