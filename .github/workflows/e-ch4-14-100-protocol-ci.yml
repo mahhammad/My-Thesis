@@ -56,6 +56,8 @@ jobs:
           python -m pip install --disable-pip-version-check 'torch==2.9.1' --index-url https://download.pytorch.org/whl/cpu
       - name: Validate exact engine, Sigmoid-JS, Softplus-JS, center R/I and Precision scope
         run: python -m unittest discover -s code/experiments/noise-loss-learning-dynamics-100/tests -p 'test_fixture.py' -v
+      - name: Standalone runner dry-run without research fit
+        run: python code/experiments/noise-loss-learning-dynamics-100/runner.py
       - name: Verify no data, model or tracked output was modified
         run: git diff --exit-code
 
@@ -112,8 +114,6 @@ jobs:
                           assert np.array_equal(f["validation_x"][:,j],base_val[:,old_feature],equal_nan=True)
           print("E14_100_STANDARD_MOTHER_AND_38_DATASETS_PASS")
           PY
-      - name: Runner dry-run must not fit models
-        run: python code/experiments/noise-loss-learning-dynamics-100/runner.py
       - name: Publish approved-input audit artifact, no training
         uses: actions/upload-artifact@v4
         with:
