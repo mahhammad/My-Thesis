@@ -38,3 +38,13 @@ nbar_a^(h) = sum_(t=1)^h [p0 P^(t-1)]_a ، و s_a^(h) = nbar_a^(h)/h.
 شش زیرمجموعه تکرار مستقل نیستند؛ با تغییر شمار نویز تعداد پارامترها، بعد سیاست و ویژگی‌های حاضر تغییر می‌کند. یکسان‌بودن BA نیز به‌معنای یکسان‌بودن مجموعهٔ پیش‌بینی‌های درست یا خود سیاست نیست. این تحلیل برای توصیف چندگانگی جواب‌هاست، نه اثبات علت یا شناسایی خودکار ویژگی نویزی.
 
 **منبع:** [GitHub Actions Run #44419173443](https://github.com/mahhammad/My-Thesis/actions/runs/44419173443)، ۳۲ artifact و مجموعه‌دادهٔ استاندارد بذر 20261102.
+
+## دسترسی مستقیم به شکل‌ها و داده‌های منتشرشده
+
+- **سیاست مشترک ـ سیگمویدی**: [نقشهٔ رتبهٔ ویژگی‌ها](shared__sigmoid__final_ranks.svg) ([PNG](shared__sigmoid__final_ranks.png))؛ [نمودار سهم انتخاب ویژگی](shared__sigmoid__final_shares.svg) ([PNG](shared__sigmoid__final_shares.png))
+- **سیاست مشترک ـ سافت‌پلاس**: [نقشهٔ رتبهٔ ویژگی‌ها](shared__softplus__final_ranks.svg) ([PNG](shared__softplus__final_ranks.png))؛ [نمودار سهم انتخاب ویژگی](shared__softplus__final_shares.svg) ([PNG](shared__softplus__final_shares.png))
+- **سیاست وابسته به کلاس ـ سیگمویدی**: [نقشهٔ رتبهٔ ویژگی‌ها](class__sigmoid__final_ranks.svg) ([PNG](class__sigmoid__final_ranks.png))؛ [نمودار سهم انتخاب ویژگی](class__sigmoid__final_shares.svg) ([PNG](class__sigmoid__final_shares.png))
+- **سیاست وابسته به کلاس ـ سافت‌پلاس**: [نقشهٔ رتبهٔ ویژگی‌ها](class__softplus__final_ranks.svg) ([PNG](class__softplus__final_ranks.png))؛ [نمودار سهم انتخاب ویژگی](class__softplus__final_shares.svg) ([PNG](class__softplus__final_shares.png))
+
+داده‌های پشتیبان: [سهم و رتبهٔ هر فرض کلاس](final_per_feature_by_hypothesis_t100.csv)، [سهم و رتبهٔ تجمیعی](final_per_feature_macro_t100.csv)، [خلاصهٔ تمام آموزش‌ها](final_run_overview_t100.csv)، [مقایسهٔ زوجی رتبه‌ها](pairwise_common_feature_rank_t100.csv).
+
