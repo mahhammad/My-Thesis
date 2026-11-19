@@ -158,7 +158,9 @@ def policy_metrics(p0, P, feature_indices, h=3):
     uniform = len(nn)/d
     result = dict(q1=q[0], q2=q[1], q3=q[2], hit2=hit2, hit3=hit3,
                   nbar3=sum(q), s2=s2, s3=s3, sp3=1-s3,
-                  NFI3=hit3/(1-(3/d)**3), NSR2=s2/uniform, NSR3=s3/uniform)
+                  NFI3=(hit3/(1-(3/d)**3) if len(nn) else None),
+                  NSR2=(s2/uniform if len(nn) else None),
+                  NSR3=(s3/uniform if len(nn) else None))
     return result, (states[0]+states[1]+states[2])/3
 
 
@@ -170,7 +172,10 @@ def policy_at(run, row):
         metrics, shares = policy_metrics(item["p0"], item["P"], features)
         assert abs(metrics["hit3"]-item["hit_at_least_once"]) < 1e-8
         assert abs(metrics["nbar3"]-item["expected_noise_visits"]) < 1e-8
-        assert abs(metrics["NFI3"]-item["relative_hit_to_uniform"]) < 1e-8
+        if metrics["NFI3"] is None:
+            assert item["relative_hit_to_uniform"] is None
+        else:
+            assert abs(metrics["NFI3"]-item["relative_hit_to_uniform"]) < 1e-8
         vals.append((metrics, shares))
     keys = vals[0][0]
     avg = {key: float(np.mean([x[0][key] for x in vals])) for key in keys}
