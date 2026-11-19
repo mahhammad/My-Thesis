@@ -1,0 +1,56 @@
+name: E14 chance separability analysis (read-only inputs, NO FIT)
+on:
+  push:
+    branches:
+      - experiment/ch4-14-noise-sensitivity-01
+    paths:
+      - code/experiments/noise-loss-learning-dynamics-100/chance_separability.py
+      - .github/workflows/e-ch4-14-chance-separability.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: e14-chance-separability
+  cancel-in-progress: false
+jobs:
+  chance-separability:
+    if: github.repository == 'mahhammad/My-Thesis' && github.ref == 'refs/heads/experiment/ch4-14-noise-sensitivity-01'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - name: Checkout experiment branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install NumPy (no training dependencies)
+        run: python -m pip install --disable-pip-version-check 'numpy==2.4.6'
+      - name: Run read-only Train/Validation separability test
+        run: python code/experiments/noise-loss-learning-dynamics-100/chance_separability.py
+      - name: Verify no raw inputs, old results, or trained policies were modified
+        run: |
+          git diff --exit-code -- code/experiments/objective-start-diagnostics/inputs \
+            code/experiments/noise-loss-learning-dynamics-100/inputs \
+            code/experiments/noise-loss-learning-dynamics-100/results \
+            code/experiments/synthetic-noise-feature-sensitivity
+      - name: Commit only derived analytical results to the experiment branch
+        run: |
+          set -euo pipefail
+          out=code/experiments/noise-loss-learning-dynamics-100/analysis/chance-separability
+          git add "$out/results.json" "$out/by_feature.csv" "$out/README_FA.md"
+          if ! git diff --cached --quiet; then
+            git -c user.name='github-actions[bot]' \
+                -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+                commit -m 'analysis(e14): publish observed noise-class separability diagnostics (no fit)'
+            git fetch origin experiment/ch4-14-noise-sensitivity-01
+            git rebase origin/experiment/ch4-14-noise-sensitivity-01
+            git push origin HEAD:refs/heads/experiment/ch4-14-noise-sensitivity-01
+          fi
