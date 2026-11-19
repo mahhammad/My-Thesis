@@ -28,8 +28,8 @@ jobs:
       MKL_NUM_THREADS: '1'
       GH_TOKEN: ${{ github.token }}
       PUB: code/experiments/noise-loss-learning-dynamics-100/publication
-      ARCHIVES: ${{ runner.temp }}/e14-verified-run-artifacts
-      DATASET: ${{ runner.temp }}/e14-standard-data
+      ARCHIVES: /tmp/e14-verified-run-artifacts
+      DATASET: /tmp/e14-standard-data
     steps:
       - uses: actions/checkout@v4
         with:
