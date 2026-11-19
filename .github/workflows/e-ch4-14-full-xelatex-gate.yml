@@ -10,6 +10,7 @@ on:
       - 'code/experiments/synthetic-noise-feature-sensitivity/chapter4_publication.py'
       - 'code/experiments/noise-loss-learning-dynamics-100/publication/build_selected_tables.py'
       - 'code/experiments/noise-loss-learning-dynamics-100/publication/build_t100_sweep_figures.py'
+      - 'code/experiments/noise-loss-learning-dynamics-100/publication/build_revision_figures.py'
       - 'code/experiments/noise-loss-learning-dynamics-100/publication/latex/tables/**'
       - 'code/experiments/noise-loss-learning-dynamics-100/publication/feature-rank/*.csv'
       - 'code/experiments/noise-loss-learning-dynamics-100/publication/figures/**'
@@ -65,6 +66,7 @@ jobs:
           set -euo pipefail
           python -m pip install --disable-pip-version-check 'matplotlib==3.10.0' 'arabic-reshaper>=3.0.0' 'python-bidi>=0.6.0'
           python code/experiments/noise-loss-learning-dynamics-100/publication/build_t100_sweep_figures.py --write
+          python code/experiments/noise-loss-learning-dynamics-100/publication/build_revision_figures.py --write
       - name: Verify all curated figures and seven reproducible CSV-derived tables (NO FIT)
         run: |
           set -euo pipefail
@@ -99,6 +101,11 @@ jobs:
                      for name in ('decision_t100.png','geometry_primary_t100.png',
                                   'geometry_other_t100.png','policy_exposure_t100.png',
                                   'policy_normalized_t100.png'))
+          new_dir=root/'figures'/'revision-trends'
+          assert len(list(new_dir.glob('*.png')))==20
+          for rel in figures:
+              if 'revision-trends/' in rel:
+                  assert (Path(rel)).stat().st_size>8000,rel
           print('E14_FIGURES_AND_REPRODUCIBLE_TABLES_PASS',
                 len(figures),len(main_tables),len(all_tables))
           PY
@@ -184,27 +191,19 @@ jobs:
           log=(root/"main.log").read_text(errors="replace")
           doc=fitz.open(root/"main.pdf")
           names=doc.resolve_names()
-          required=("fig:ch4-e14-ba-bayes","fig:ch4-e14-ba-shared",
-                    "fig:ch4-e14-ba-class","fig:ch4-e14-ba-train-shared",
-                    "fig:ch4-e14-ba-train-class",
-                    "fig:ch4-e14-val-precision-shared",
-                    "fig:ch4-e14-val-precision-class",
-                    "fig:ch4-e14-train-separation",
-                    "fig:ch4-e14-rjs-shared","fig:ch4-e14-rjs-class",
-                    "fig:ch4-e14-gradient","fig:ch4-e14-gradient-shared-softplus",
-                    "fig:ch4-e14-gradient-class-sigmoid",
-                    "fig:ch4-e14-gradient-class-softplus",
-                    "fig:ch4-e14-noise-selection","fig:ch4-e14-nfi-shared-sigmoid",
-                    "fig:ch4-e14-nsr-class-softplus",
-                    "fig:ch4-e14-rank-shared-sigmoid",
-                    "fig:ch4-e14-rank-class-softplus",
-                    "tab:ch4-e14-ba","tab:ch4-e14-zero",
-                    "fig:ch4-e14-decision-noise-sweep",
-                    "fig:ch4-e14-geometry-sweep",
-                    "fig:ch4-e14-geometry-extra-sweep",
-                    "fig:ch4-e14-policy-exposure-sweep",
-                    "fig:ch4-e14-policy-normalized-sweep",
-                    "eq:ch4-e14-p-fwer7")
+          required=(
+                    "fig:ch4-e14-ba-bayes","fig:ch4-e14-ba-train-combined","fig:ch4-e14-ba-val-combined",
+                    "fig:ch4-e14-train-separation","fig:ch4-e14-train-separation-class","fig:ch4-e14-rjs-shared",
+                    "fig:ch4-e14-rjs-class","fig:ch4-e14-rkl-shared","fig:ch4-e14-rkl-class",
+                    "fig:ch4-e14-rsqrt-shared","fig:ch4-e14-rsqrt-class","fig:ch4-e14-margin-shared",
+                    "fig:ch4-e14-margin-class","fig:ch4-e14-gradient","fig:ch4-e14-gradient-shared-softplus",
+                    "fig:ch4-e14-gradient-class-sigmoid","fig:ch4-e14-gradient-class-softplus","fig:ch4-e14-loss-shared-sigmoid",
+                    "fig:ch4-e14-loss-shared-softplus","fig:ch4-e14-loss-class-sigmoid","fig:ch4-e14-loss-class-softplus",
+                    "fig:ch4-e14-noise-selection","fig:ch4-e14-nfi-shared-sigmoid","fig:ch4-e14-nsr-class-softplus",
+                    "fig:ch4-e14-rank-shared-sigmoid","fig:ch4-e14-rank-class-softplus","fig:ch4-e14-policy-exposure-sweep",
+                    "fig:ch4-e14-policy-normalized-sweep","tab:ch4-e14-ba","tab:ch4-e14-zero",
+                    "eq:ch4-e14-p-fwer7",
+                    )
           labels={}
           for key in required:
               found=[line for line in aux.splitlines()
