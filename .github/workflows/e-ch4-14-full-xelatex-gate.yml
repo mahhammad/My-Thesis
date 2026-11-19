@@ -55,28 +55,34 @@ jobs:
               assert not bad,(str(source),bad)
           print('POST_TEMPLATE_STATIC_REFERENCES_PASS',len(sources))
           PY
-      - name: Verify selected figures and reproducible CSV-derived tables (NO FIT)
+      - name: Verify all curated figures and seven reproducible CSV-derived tables (NO FIT)
         run: |
           set -euo pipefail
           python code/experiments/noise-loss-learning-dynamics-100/publication/build_selected_tables.py
           python - <<'PY'
           from pathlib import Path
+          import re
           root=Path('code/experiments/noise-loss-learning-dynamics-100/publication')
-          selected=(
-              'figures/shared/balanced_accuracy_validation.png',
-              'figures/class/balanced_accuracy_validation.png',
-              'figures/shared/separation_i.png',
-              'loss-gradient/shared__gradient_l2__sigmoid__zoom.png',
-              'noise-policy/shared__sigmoid__s3.png'
-          )
-          for rel in selected:
-              p=root/rel
-              assert p.is_file() and p.stat().st_size>5000, rel
           chapter=Path('tex/chapter4.tex').read_text(encoding='utf-8')
-          for name in ('zero_noise_t100','validation_ba_t100','noise_share_t100'):
+          section=chapter.split(r'\section{حساسیت سیاست انتخاب ویژگی به افزودن ویژگی‌های نویزی}',1)[1]
+          figures=re.findall(r'\\includegraphics\[[^\]]+\]\{([^}]+)\}',section)
+          assert len(figures)==27, ('curated-figures',len(figures))
+          assert len(set(figures))==len(figures)
+          for rel in figures:
+              p=Path(rel)
+              assert p.is_relative_to(root),rel
+              assert p.suffix=='.png' and p.is_file() and p.stat().st_size>5000,rel
+          tables=(
+              'zero_noise_t100','validation_ba_t100','noise_share_t100',
+              'performance_t100','geometry_t100',
+              'noise_exposure_t100','noise_normalized_t100'
+          )
+          for name in tables:
               tex=str(root/'latex'/'tables'/name)
-              assert chapter.count(r'\input{'+tex+'}')==1, tex
-          print('E14_SELECTED_CHARTS_AND_CSV_TABLES_PASS',len(selected),3)
+              assert section.count(r'\input{'+tex+'}')==1,tex
+              assert (root/'latex'/'tables'/(name+'.tex')).is_file(),tex
+          assert section.count(r'\input{')==len(tables)
+          print('E14_FIGURES_AND_REPRODUCIBLE_TABLES_PASS',len(figures),len(tables))
           PY
       - name: Install XeLaTeX and Persian support
         run: |
@@ -161,10 +167,24 @@ jobs:
           doc=fitz.open(root/"main.pdf")
           names=doc.resolve_names()
           required=("fig:ch4-e14-ba-bayes","fig:ch4-e14-ba-shared",
-                    "fig:ch4-e14-ba-class","fig:ch4-e14-gradient",
-                    "fig:ch4-e14-noise-selection","fig:ch4-e14-train-separation",
+                    "fig:ch4-e14-ba-class","fig:ch4-e14-ba-train-shared",
+                    "fig:ch4-e14-ba-train-class",
+                    "fig:ch4-e14-val-precision-shared",
+                    "fig:ch4-e14-val-precision-class",
+                    "fig:ch4-e14-train-separation",
+                    "fig:ch4-e14-rjs-shared","fig:ch4-e14-rjs-class",
+                    "fig:ch4-e14-gradient","fig:ch4-e14-gradient-shared-softplus",
+                    "fig:ch4-e14-gradient-class-sigmoid",
+                    "fig:ch4-e14-gradient-class-softplus",
+                    "fig:ch4-e14-noise-selection","fig:ch4-e14-nfi-shared-sigmoid",
+                    "fig:ch4-e14-nsr-class-softplus",
+                    "fig:ch4-e14-rank-shared-sigmoid",
+                    "fig:ch4-e14-rank-class-softplus",
                     "tab:ch4-e14-ba","tab:ch4-e14-zero",
-                    "tab:ch4-e14-noise-share","eq:ch4-e14-p-fwer7")
+                    "tab:ch4-e14-noise-share","tab:ch4-e14-perf-complete",
+                    "tab:ch4-e14-geom-complete","tab:ch4-e14-noise-exposure",
+                    "tab:ch4-e14-noise-normalized",
+                    "eq:ch4-e14-p-fwer7")
           labels={}
           for key in required:
               found=[line for line in aux.splitlines()
