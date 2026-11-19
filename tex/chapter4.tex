@@ -2189,21 +2189,7 @@ $84.30$ و $96.60$ درصد هستند.
 میانگین‌های چندزیرمجموعه‌ای
 فقط توصیفی است.
 
-\begin{table}[htbp]
-\centering\small
-\caption{مرجع تجربی بدون نویز در گام $100$؛
-هر سطر از \emph{یک پیکربندی} حاصل شده
-و میانگین زیرمجموعه‌ها نیست.
-مقادیر بر حسب درصد هستند.}
-\label{tab:ch4-e14-zero}
-\begin{tabular}{rcc}\hline
-خانواده و زیان & \lr{Validation BA} & \lr{Validation Accuracy}\\\hline
-\lr{shared / Sigmoid--JS} & $97.28$ & $95.56$\\
-\lr{shared / Softplus--JS} & $96.60$ & $94.44$\\
-\lr{class / Sigmoid--JS} & $97.28$ & $95.56$\\
-\lr{class / Softplus--JS} & $96.60$ & $94.44$\\\hline
-\end{tabular}
-\end{table}
+\input{code/experiments/noise-loss-learning-dynamics-100/publication/latex/tables/zero_noise_t100}
 
 \subsection{دقت متوازن و حساسیت به تعداد نویز}
 \label{subsec:ch4-e14-accuracy}
@@ -2216,21 +2202,7 @@ $84.30$ و $96.60$ درصد هستند.
 جایگزین تکرار با بذرهای مولد مستقل
 یا فاصلهٔ اطمینان آماری نیستند.
 
-\begin{table}[htbp]
-\centering\small
-\caption{میانگین دقت متوازن اعتبارسنجی
-در گام $100$ (درصد)،
-برای شش زیرمجموعهٔ هر سطح نویز؛
-مقایسهٔ دو تابع هدف و دو خانوادهٔ سیاست.}
-\label{tab:ch4-e14-ba}
-\begin{tabular}{rcccccc}\hline
-خانواده و زیان & $|A_N|=1$ & $2$ & $3$ & $4$ & $5$ & $6$\\\hline
-\lr{shared / Sigmoid--JS} & $97.28$ & $97.28$ & $97.28$ & $97.28$ & $97.28$ & $97.28$\\
-\lr{shared / Softplus--JS} & $97.00$ & $97.34$ & $97.14$ & $96.94$ & $96.94$ & $96.66$\\
-\lr{class / Sigmoid--JS} & $97.28$ & $96.94$ & $96.94$ & $96.83$ & $96.60$ & $96.71$\\
-\lr{class / Softplus--JS} & $96.66$ & $97.19$ & $97.42$ & $97.19$ & $97.62$ & $97.73$\\\hline
-\end{tabular}
-\end{table}
+\input{code/experiments/noise-loss-learning-dynamics-100/publication/latex/tables/validation_ba_t100}
 
 شکل‌های~\ref{fig:ch4-e14-ba-shared}
 و~\ref{fig:ch4-e14-ba-class}
@@ -2413,25 +2385,7 @@ $|A_N|=1,3,6$ گزارش شده‌اند؛
 تمام وضعیت‌های آموزش
 در پیوست الکترونیکی موجود است.
 
-\begin{table}[htbp]
-\centering\small
-\caption{میانگین سهم مورد انتظار
-انتخاب نویز $s_N^{(3)}$ در گام $100$
-(درصد) و نسبت آن به یکنواخت هم‌بُعد
-$\mathrm{NSR}_N^{(3)}$،
-بر شش زیرمجموعهٔ وابستهٔ هر سطح.
-این شاخص‌ها مربوط به فرایند
-کمکیِ بدون ماسک‌اند.}
-\label{tab:ch4-e14-noise-share}
-\begin{tabular}{rcccccc}\hline
-خانواده و زیان & $s_N^{(3)}(1)$ & $s_N^{(3)}(3)$ & $s_N^{(3)}(6)$ &
-$\mathrm{NSR}(1)$ & $\mathrm{NSR}(3)$ & $\mathrm{NSR}(6)$\\\hline
-\lr{shared / Sigmoid--JS} & $0.28$ & $1.08$ & $1.81$ & $0.011$ & $0.022$ & $0.027$\\
-\lr{shared / Softplus--JS} & $25.23$ & $27.38$ & $33.71$ & $1.009$ & $0.548$ & $0.506$\\
-\lr{class / Sigmoid--JS} & $1.74$ & $4.33$ & $7.35$ & $0.070$ & $0.087$ & $0.110$\\
-\lr{class / Softplus--JS} & $21.52$ & $24.28$ & $23.90$ & $0.861$ & $0.486$ & $0.359$\\\hline
-\end{tabular}
-\end{table}
+\input{code/experiments/noise-loss-learning-dynamics-100/publication/latex/tables/noise_share_t100}
 
 در این تحقق، دو خانواده
 با \lr{Sigmoid--JS}
