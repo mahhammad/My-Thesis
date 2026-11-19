@@ -37,6 +37,91 @@ def table(label, caption, shape, headings, rows):
         r"\hline", r"\end{tabular}", r"\end{table}", ""
     ])
 
+def read_aggregate_csv(path):
+    with path.open(encoding="utf-8-sig", newline="") as handle:
+        return list(csv.DictReader(handle))
+
+
+def extended_tables():
+    """Additional scientific tables: group means, not independent replicates."""
+    metrics = read_aggregate_csv(ROOT / "all_metrics_101_steps.csv")
+    policy = read_aggregate_csv(ROOT / "noise-policy" / "noise_policy_101_steps.csv")
+    assert len(metrics) == 46056 and len(policy) == 29088
+    m = {}
+    for row in metrics:
+        key = (row["family"], row["objective"], int(row["noise_count"]),
+               int(row["step"]), row["split"], row["metric"])
+        assert key not in m and int(row["subset_count"]) == 6
+        m[key] = float(row["mean"])
+    p = {}
+    for row in policy:
+        key = (row["family"], row["objective"], int(row["noise_count"]),
+               int(row["step"]), row["metric"])
+        assert key not in p and int(row["subset_count"]) == 6
+        p[key] = float(row["mean"])
+
+    def get(fam, loss, k, split, metric, step=100):
+        return m[fam, loss, k, step, split, metric]
+
+    def getp(fam, loss, k, metric, step=100):
+        return p[fam, loss, k, step, metric]
+
+    def decimal(value, digits=3):
+        return "$" + format(value, "." + str(digits) + "f") + "$"
+
+    perf, geom, exposure, normal = [], [], [], []
+    for fam in FAMILIES:
+        for loss in LOSSES:
+            for k in (1, 3, 6):
+                title = heading(fam, loss) + " & $" + str(k) + "$"
+                ba_t = get(fam, loss, k, "train", "balanced_accuracy")
+                ba_v = get(fam, loss, k, "validation", "balanced_accuracy")
+                assert abs(ba_t - get(fam, loss, k, "train", "recall_macro")) < 1e-10
+                assert abs(ba_v - get(fam, loss, k, "validation", "recall_macro")) < 1e-10
+                perf.append(title + " & " + " & ".join(
+                    decimal(100*get(fam, loss, k, split, metric), 2)
+                    for split in ("train", "validation")
+                    for metric in ("accuracy", "balanced_accuracy", "precision_macro")))
+                geom.append(title + " & " + " & ".join(
+                    decimal(get(fam, loss, k, "train", metric), 4)
+                    for metric in ("separation_i", "density_r_kl", "density_r_js",
+                                   "density_r_sqrt_js", "margin_mean")))
+                exposure.append(title + " & " + " & ".join(
+                    decimal(getp(fam, loss, k, metric), 4)
+                    for metric in ("q1", "q2", "q3", "hit3", "nbar3")))
+                assert abs(getp(fam, loss, k, "s3") +
+                           getp(fam, loss, k, "sp3") - 1) < 1e-9
+                normal.append(title + " & " + " & ".join(
+                    decimal(getp(fam, loss, k, metric), 4)
+                    for metric in ("s3", "sp3", "NFI3", "NSR3")))
+    return {
+      "performance_t100.tex": table(
+          "tab:ch4-e14-perf-complete",
+          "Accuracy و دقت متوازن (BA، معادل Recall کلان) و Precision کلان در آموزش و اعتبارسنجی؛ میانگین شش زیرمجموعهٔ وابسته در گام $100$، برحسب درصد.",
+          "rccccccc",
+          r"خانواده و زیان & $k$ & \lr{Tr Acc} & \lr{Tr BA/R} & \lr{Tr P} & \lr{Val Acc} & \lr{Val BA/R} & \lr{Val P}",
+          perf),
+      "geometry_t100.tex": table(
+          "tab:ch4-e14-geom-complete",
+          "هندسهٔ مراکز آموزش در گام $100$؛ جدایی $I$، تراکم‌های سه‌گانه و حاشیهٔ تصمیم؛ میانگین شش زیرمجموعهٔ وابسته.",
+          "rcccccc",
+          r"خانواده و زیان & $k$ & $I$ & $R_{\mathrm{KL}}$ & $R_{\mathrm{JS}}$ & $R_{\sqrt{\mathrm{JS}}}$ & \lr{Margin}",
+          geom),
+      "noise_exposure_t100.tex": table(
+          "tab:ch4-e14-noise-exposure",
+          "مواجههٔ سیاست کمکی بدون ماسک با نویز؛ احتمال انتخاب در سه نوبت، احتمال برخورد و شمار موردانتظار تا افق سه در گام $100$.",
+          "rcccccc",
+          r"خانواده و زیان & $k$ & $q_1$ & $q_2$ & $q_3$ & $p_{\mathrm{hit},N}^{(3)}$ & $\bar n_N^{(3)}$",
+          exposure),
+      "noise_normalized_t100.tex": table(
+          "tab:ch4-e14-noise-normalized",
+          "سهم نویز و غیرنویز و نسبت احتمال برخورد و سهم به سیاست یکنواخت هم‌بُعد، در افق سه و گام $100$.",
+          "rccccc",
+          r"خانواده و زیان & $k$ & $s_N^{(3)}$ & $s_P^{(3)}$ & $\mathrm{NFI}_N^{(3)}$ & $\mathrm{NSR}_N^{(3)}$",
+          normal),
+    }
+
+
 def render_tables():
     runs = read_csv("final_run_overview_t100.csv")
     assert len(runs) == 152
@@ -93,7 +178,7 @@ def render_tables():
             values += ["$" + format(s[k]/(k/(k+3)), ".3f") + "$" for k in (1, 3, 6)]
             noise.append(h + " & " + " & ".join(values))
 
-    return {
+    result = {
       "zero_noise_t100.tex": table(
         "tab:ch4-e14-zero",
         "مرجع تجربی بدون نویز در گام $100$؛ هر سطر تنها یک پیکربندی است و میانگین زیرمجموعه‌ها نیست. مقادیر بر حسب درصد.",
@@ -113,11 +198,13 @@ def render_tables():
         r"خانواده و زیان & $s_N^{(3)}(1)$ & $s_N^{(3)}(3)$ & $s_N^{(3)}(6)$ & $\mathrm{NSR}(1)$ & $\mathrm{NSR}(3)$ & $\mathrm{NSR}(6)$",
         noise)
     }
+    result.update(extended_tables())
+    return result
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--write", action="store_true",
-                        help="Generate exactly three derived tables; no fitting")
+                        help="Generate derived tables; no fitting")
     args = parser.parse_args()
     generated = render_tables()
     if args.write:
@@ -130,7 +217,7 @@ def main():
             p = DEST/name
             assert p.is_file() and p.read_text(encoding="utf-8") == contents, (
                 "Incorrect or stale published table: " + str(p))
-        print("E14_SELECTED_TABLES_PASS: 3 CSV-derived tables, NO FIT, NO TEST")
+        print("E14_SELECTED_TABLES_PASS: 7 CSV-derived tables, NO FIT, NO TEST")
 
 if __name__ == "__main__":
     main()
