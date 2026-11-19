@@ -1,0 +1,26 @@
+% Extended Persian letter page numbering (only for preliminary pages).
+% Keep XePersian's original 1..32 harfi names, then use pairs:
+% 33 = آ.آ, 34 = آ.ب, 64 = آ.ی, 65 = ب.آ, 1056 = ی.ی.
+% Load after xepersian; use \pagenumbering{extendedharfi}.
+% Chapter, section, equation, figure, and table counters are unchanged.
+\makeatletter
+\ExplSyntaxOn
+\cs_new:Npn \thesis_extended_harfi:n #1
+  {
+    \int_compare:nNnTF {#1} > {1056}
+      { \@ctrerr }
+      {
+        \int_compare:nNnTF {#1} > {32}
+          {
+            \harfinumeral
+              { \int_eval:n { 1 + \int_div_truncate:nn { #1 - 33 } { 32 } } }
+            .
+            \harfinumeral
+              { \int_eval:n { 1 + \int_mod:nn { #1 - 33 } { 32 } } }
+          }
+          { \harfinumeral { #1 } }
+      }
+  }
+\cs_new_eq:NN \@extendedharfi \thesis_extended_harfi:n
+\ExplSyntaxOff
+\makeatother
