@@ -56,6 +56,10 @@ jobs:
               assert not bad,(str(source),bad)
           print('POST_TEMPLATE_STATIC_REFERENCES_PASS',len(sources))
           PY
+      - name: Use supported Python for Matplotlib t100 figures
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
       - name: Generate five frozen t100 sweep charts (NO FIT, NO TEST)
         run: |
           set -euo pipefail
