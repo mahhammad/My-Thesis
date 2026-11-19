@@ -99,25 +99,25 @@ def extended_tables():
           "tab:ch4-e14-perf-complete",
           "Accuracy و دقت متوازن (BA، معادل Recall کلان) و Precision کلان در آموزش و اعتبارسنجی؛ میانگین شش زیرمجموعهٔ وابسته در گام $100$، برحسب درصد.",
           "rccccccc",
-          r"خانواده و زیان & $k$ & \lr{Tr Acc} & \lr{Tr BA/R} & \lr{Tr P} & \lr{Val Acc} & \lr{Val BA/R} & \lr{Val P}",
+          r"خانواده و زیان & $|A_N|$ & \lr{Tr Acc} & \lr{Tr BA/R} & \lr{Tr P} & \lr{Val Acc} & \lr{Val BA/R} & \lr{Val P}",
           perf),
       "geometry_t100.tex": table(
           "tab:ch4-e14-geom-complete",
           "هندسهٔ مراکز آموزش در گام $100$؛ جدایی $I$، تراکم‌های سه‌گانه و حاشیهٔ تصمیم؛ میانگین شش زیرمجموعهٔ وابسته.",
           "rcccccc",
-          r"خانواده و زیان & $k$ & $I$ & $R_{\mathrm{KL}}$ & $R_{\mathrm{JS}}$ & $R_{\sqrt{\mathrm{JS}}}$ & \lr{Margin}",
+          r"خانواده و زیان & $|A_N|$ & $I$ & $R_{\mathrm{KL}}$ & $R_{\mathrm{JS}}$ & $R_{\sqrt{\mathrm{JS}}}$ & \lr{Margin}",
           geom),
       "noise_exposure_t100.tex": table(
           "tab:ch4-e14-noise-exposure",
           "مواجههٔ سیاست کمکی بدون ماسک با نویز؛ احتمال انتخاب در سه نوبت، احتمال برخورد و شمار موردانتظار تا افق سه در گام $100$.",
           "rcccccc",
-          r"خانواده و زیان & $k$ & $q_1$ & $q_2$ & $q_3$ & $p_{\mathrm{hit},N}^{(3)}$ & $\bar n_N^{(3)}$",
+          r"خانواده و زیان & $|A_N|$ & $q_1$ & $q_2$ & $q_3$ & $p_{\mathrm{hit},N}^{(3)}$ & $\bar n_N^{(3)}$",
           exposure),
       "noise_normalized_t100.tex": table(
           "tab:ch4-e14-noise-normalized",
           "سهم نویز و غیرنویز و نسبت احتمال برخورد و سهم به سیاست یکنواخت هم‌بُعد، در افق سه و گام $100$.",
           "rccccc",
-          r"خانواده و زیان & $k$ & $s_N^{(3)}$ & $s_P^{(3)}$ & $\mathrm{NFI}_N^{(3)}$ & $\mathrm{NSR}_N^{(3)}$",
+          r"خانواده و زیان & $|A_N|$ & $s_N^{(3)}$ & $s_P^{(3)}$ & $\mathrm{NFI}_N^{(3)}$ & $\mathrm{NSR}_N^{(3)}$",
           normal),
     }
 
