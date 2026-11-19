@@ -287,7 +287,7 @@ p_{\mathrm{FWER7},4}=\frac{34+1}{2000+1}
 - [جدول BA اعتبارسنجی](latex/tables/validation_ba_t100.tex): میانگین شش زیرمجموعهٔ وابسته در سطوح ۱ تا ۶ نویز
 - [جدول سهم انتخاب نویز و NSR](latex/tables/noise_share_t100.tex): سهم انتخاب نویز و نسبت هم‌بُعد یکنواخت در گام ۱۰۰
 
-پنج تصویر PNG منتخب در متن اصلی LaTeX به فایل‌های واقعی موجود در زیرپوشه‌های figures/shared، figures/class، loss-gradient و noise-policy ارجاع داده شده‌اند؛ SVGهای مجموعه نیز برای دسترسی به نسخهٔ برداری نگهداری می‌شوند.
+۲۷ تصویر PNG منتخب در متن اصلی LaTeX به فایل‌های واقعی موجود در زیرپوشه‌های figures/shared، figures/class، loss-gradient و noise-policy ارجاع داده شده‌اند؛ SVGهای مجموعه نیز برای دسترسی به نسخهٔ برداری نگهداری می‌شوند.
 
 فرمان **کنترل read-only** جدول‌ها بدون آموزش یا استفاده از Test:
 
@@ -297,7 +297,7 @@ p_{\mathrm{FWER7},4}=\frac{34+1}{2000+1}
 
     python code/experiments/noise-loss-learning-dynamics-100/publication/build_selected_tables.py --write
 
-[گیت اختصاصی XeLaTeX §۴.۱۴](https://github.com/mahhammad/My-Thesis/blob/experiment/ch4-14-noise-sensitivity-01/.github/workflows/e-ch4-14-full-xelatex-gate.yml) پیش از کامپایل جدول‌ها و وجود پنج تصویر را کنترل می‌کند. این گیت آموزش IMC انجام نمی‌دهد. نتیجهٔ اجرای واقعی XeLaTeX و بررسی بصری PDF باید جداگانه تأیید شود.
+[گیت اختصاصی XeLaTeX §۴.۱۴](https://github.com/mahhammad/My-Thesis/blob/experiment/ch4-14-noise-sensitivity-01/.github/workflows/e-ch4-14-full-xelatex-gate.yml) پیش از کامپایل هفت جدول و وجود ۲۷ تصویر را کنترل می‌کند. این گیت آموزش IMC انجام نمی‌دهد. نتیجهٔ اجرای واقعی XeLaTeX و بررسی بصری PDF باید جداگانه تأیید شود.
 
 ## ۹. شواهد و بازتولید
 
