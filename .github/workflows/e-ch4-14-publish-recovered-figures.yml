@@ -55,6 +55,7 @@ jobs:
           git config user.name "E14 publication (GitHub Actions)"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
       - name: Audit all traces, compute official metrics and commit CSV
+        if: ${{ hashFiles('code/experiments/noise-loss-learning-dynamics-100/publication/audit.json') == '' }}
         run: |
           python - <<'PY'
           import os,sys,json
@@ -76,6 +77,7 @@ jobs:
           git add "$PUB/audit.json" "$PUB/all_metrics_101_steps.csv"
           git diff --cached --quiet || { git commit -m "E14 publication data: 152 SHA-verified traces and complete 101-step metric table"; git push origin HEAD:refs/heads/experiment/ch4-14-noise-sensitivity-01; }
       - name: Create separate Persian Sigmoid/Softplus Loss and gradient plots; commit
+        if: ${{ hashFiles('code/experiments/noise-loss-learning-dynamics-100/publication/loss-gradient/shared__loss__sigmoid__zoom.svg') == '' }}
         run: |
           python "$PUB/plots_fa.py" --artifacts "$ARCHIVES" --dataset "$DATASET" --part loss --output "$PUB/loss-gradient"
           test "$(find "$PUB/loss-gradient" -name '*.svg' | wc -l)" -eq 16
@@ -83,6 +85,7 @@ jobs:
           git add "$PUB/loss-gradient"
           git diff --cached --quiet || { git commit -m "E14 publication figures: 16 separate Persian loss/gradient panels, SVG and PNG"; git push origin HEAD:refs/heads/experiment/ch4-14-noise-sensitivity-01; }
       - name: Create Persian noise/non-noise policy share diagnostics and CSV; commit
+        if: ${{ hashFiles('code/experiments/noise-loss-learning-dynamics-100/publication/noise-policy/shared__softplus__NFI3.svg') == '' }}
         run: |
           python - <<'PY'
           import os,sys
