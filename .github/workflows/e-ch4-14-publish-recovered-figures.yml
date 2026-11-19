@@ -1,0 +1,119 @@
+name: E14 publish verified recovered Persian figures (NO FIT)
+
+on:
+  push:
+    branches:
+      - experiment/ch4-14-noise-sensitivity-01
+    paths:
+      - 'code/experiments/noise-loss-learning-dynamics-100/publication/PUBLISH_REQUEST_*.json'
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: e14-publish-verified-artifacts
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: Recover 152 trajectories, publish Persian figures in staged commits
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      OPENBLAS_CORETYPE: generic
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      GH_TOKEN: ${{ github.token }}
+      PUB: code/experiments/noise-loss-learning-dynamics-100/publication
+      ARCHIVES: ${{ runner.temp }}/e14-verified-run-artifacts
+      DATASET: ${{ runner.temp }}/e14-standard-data
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install plotting dependencies (no PyTorch, no fitting)
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-core
+          python -m pip install --disable-pip-version-check 'numpy==2.4.6' 'matplotlib==3.10.7' 'arabic-reshaper==3.0.0' 'python-bidi==0.6.7'
+      - name: Retrieve original 32 fit artifacts (DO NOT rerun training)
+        run: |
+          gh run download 44419173443 --repo "$GITHUB_REPOSITORY" --pattern 'E14-100-runs-*' --dir "$ARCHIVES"
+          test "$(find "$ARCHIVES" -name trace.jsonl | wc -l)" -eq 152
+      - name: Retrieve frozen standard-data manifest and 38 checksummed subsets
+        run: |
+          gh run download 44417037644 --repo "$GITHUB_REPOSITORY" --name 'E14-100-standard-seed20261102-data-38' --dir "$DATASET"
+          test -f "$DATASET/derived/manifest.json"
+      - name: Configure staged git publishing
+        run: |
+          git config user.name "E14 publication (GitHub Actions)"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - name: Audit all traces, compute official metrics and commit CSV
+        run: |
+          python - <<'PY'
+          import os,sys,json
+          from pathlib import Path
+          sys.path.insert(0, os.environ["PUB"])
+          from source import load,aggregate_metrics
+          data=load(os.environ["ARCHIVES"],os.environ["DATASET"])
+          root=Path(os.environ["PUB"])
+          n=aggregate_metrics(data,root/"all_metrics_101_steps.csv")
+          info={"schema":"e14-publication-sha-audit-v1",
+                "source_run_id":44419173443,
+                "datasets_origin_run_id":44417037644,
+                "trajectories_checked":len(data),"records_checked":len(data)*101,
+                "complete_sha256_verified":True,"no_fit":True,"test_accessed":False,
+                "aggregated_metric_rows":n}
+          (root/"audit.json").write_text(json.dumps(info,indent=2)+"\n")
+          print("E14_PUBLICATION_AUDIT_PASS",info,flush=True)
+          PY
+          git add "$PUB/audit.json" "$PUB/all_metrics_101_steps.csv"
+          git diff --cached --quiet || { git commit -m "E14 publication data: 152 SHA-verified traces and complete 101-step metric table"; git push origin HEAD:refs/heads/experiment/ch4-14-noise-sensitivity-01; }
+      - name: Create separate Persian Sigmoid/Softplus Loss and gradient plots; commit
+        run: |
+          python "$PUB/plots_fa.py" --artifacts "$ARCHIVES" --dataset "$DATASET" --part loss --output "$PUB/loss-gradient"
+          test "$(find "$PUB/loss-gradient" -name '*.svg' | wc -l)" -eq 16
+          test "$(find "$PUB/loss-gradient" -name '*.png' | wc -l)" -eq 16
+          git add "$PUB/loss-gradient"
+          git diff --cached --quiet || { git commit -m "E14 publication figures: 16 separate Persian loss/gradient panels, SVG and PNG"; git push origin HEAD:refs/heads/experiment/ch4-14-noise-sensitivity-01; }
+      - name: Create Persian noise/non-noise policy share diagnostics and CSV; commit
+        run: |
+          python - <<'PY'
+          import os,sys
+          from pathlib import Path
+          sys.path.insert(0,os.environ["PUB"])
+          from source import load,noise_table
+          data=load(os.environ["ARCHIVES"],os.environ["DATASET"])
+          n=noise_table(data,Path(os.environ["PUB"])/"noise-policy/noise_policy_101_steps.csv")
+          print("E14_POLICY_TABLE_PASS",n)
+          PY
+          python "$PUB/plots_fa.py" --artifacts "$ARCHIVES" --dataset "$DATASET" --part policy --output "$PUB/noise-policy"
+          test "$(find "$PUB/noise-policy" -name '*.svg' | wc -l)" -eq 48
+          test "$(find "$PUB/noise-policy" -name '*.png' | wc -l)" -eq 48
+          git add "$PUB/noise-policy"
+          git diff --cached --quiet || { git commit -m "E14 publication figures: 48 Persian unmasked noise-policy indicators and raw CSV"; git push origin HEAD:refs/heads/experiment/ch4-14-noise-sensitivity-01; }
+      - name: Generate t=100 per-feature shares and ranking heatmaps; commit
+        run: |
+          python "$PUB/rank_final.py" --artifacts "$ARCHIVES" --dataset "$DATASET" --output "$PUB/feature-rank"
+          test "$(find "$PUB/feature-rank" -name '*.svg' | wc -l)" -eq 8
+          test "$(find "$PUB/feature-rank" -name '*.png' | wc -l)" -eq 8
+          test -f "$PUB/feature-rank/pairwise_common_feature_rank_t100.csv"
+          git add "$PUB/feature-rank"
+          git diff --cached --quiet || { git commit -m "E14 publication figures: final per-feature share, rank shift and BA pairing"; git push origin HEAD:refs/heads/experiment/ch4-14-noise-sensitivity-01; }
+      - name: Generate Persian I/R and Train/Validation classification plots; commit
+        run: |
+          python "$PUB/plots_fa.py" --artifacts "$ARCHIVES" --dataset "$DATASET" --part core --output "$PUB/figures"
+          test "$(find "$PUB/figures" -name '*.svg' | wc -l)" -eq 28
+          test "$(find "$PUB/figures" -name '*.png' | wc -l)" -eq 28
+          git add "$PUB/figures"
+          git diff --cached --quiet || { git commit -m "E14 publication figures: Persian Train I/R and Validation classification learning curves"; git push origin HEAD:refs/heads/experiment/ch4-14-noise-sensitivity-01; }
+      - name: Final output inventory, no training job invoked
+        run: |
+          echo "Publication completed from original GitHub Actions artifacts; NO FIT."
+          git status --short
