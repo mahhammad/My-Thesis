@@ -1,0 +1,37 @@
+% Generated from noise_policy_101_steps.csv at step=100; NO FIT; NO TEST.
+% Each curve is a mean of six DEPENDENT subsets per |A_N|.
+\begin{tikzpicture}
+\begin{groupplot}[group style={group size=2 by 2, horizontal sep=1.0cm, vertical sep=1.1cm},
+width=0.43\linewidth, height=0.245\textheight,
+xmin=1, xmax=6, xtick={1,2,3,4,5,6},
+xlabel={$|A_N|$}, tick label style={font=\scriptsize},
+label style={font=\scriptsize}, title style={font=\small},
+grid=major, grid style={gray!18},
+legend style={draw=none, font=\tiny, fill opacity=0.9, text opacity=1},
+legend cell align=left]
+\nextgroupplot[title={$q_1$}]
+\addplot+[color=blue!75!black, solid, mark=*, mark size=1.3pt, thick] coordinates {(1,0.004536) (2,0.008590) (3,0.012068) (4,0.015111) (5,0.016631) (6,0.017482)};
+\addlegendentry{\lr{shared / Sigmoid--JS}}
+\addplot+[color=orange!85!black, solid, mark=diamond*, mark size=1.3pt, thick] coordinates {(1,0.233070) (2,0.262388) (3,0.295790) (4,0.315154) (5,0.335116) (6,0.356280)};
+\addlegendentry{\lr{shared / Softplus--JS}}
+\addplot+[color=blue!75!black, dashed, mark=square*, mark size=1.3pt, thick] coordinates {(1,0.026506) (2,0.041701) (3,0.047472) (4,0.063023) (5,0.071508) (6,0.073203)};
+\addlegendentry{\lr{class / Sigmoid--JS}}
+\addplot+[color=orange!85!black, dashed, mark=triangle*, mark size=1.3pt, thick] coordinates {(1,0.237218) (2,0.275430) (3,0.282584) (4,0.282998) (5,0.290355) (6,0.300825)};
+\addlegendentry{\lr{class / Softplus--JS}}
+\nextgroupplot[title={$q_2$}]
+\addplot+[color=blue!75!black, solid, mark=*, mark size=1.3pt, thick] coordinates {(1,0.001826) (2,0.007292) (3,0.010379) (4,0.015680) (5,0.016697) (6,0.018110)};
+\addplot+[color=orange!85!black, solid, mark=diamond*, mark size=1.3pt, thick] coordinates {(1,0.129889) (2,0.306903) (3,0.249800) (4,0.248565) (5,0.272148) (6,0.317933)};
+\addplot+[color=blue!75!black, dashed, mark=square*, mark size=1.3pt, thick] coordinates {(1,0.013021) (2,0.030437) (3,0.042632) (4,0.052331) (5,0.068499) (6,0.072026)};
+\addplot+[color=orange!85!black, dashed, mark=triangle*, mark size=1.3pt, thick] coordinates {(1,0.182341) (2,0.220955) (3,0.227335) (4,0.183761) (5,0.198458) (6,0.207800)};
+\nextgroupplot[title={$q_3$}]
+\addplot+[color=blue!75!black, solid, mark=*, mark size=1.3pt, thick] coordinates {(1,0.001925) (2,0.006112) (3,0.009908) (4,0.016750) (5,0.017339) (6,0.018676)};
+\addplot+[color=orange!85!black, solid, mark=diamond*, mark size=1.3pt, thick] coordinates {(1,0.393967) (2,0.531572) (3,0.275731) (4,0.272578) (5,0.318913) (6,0.337141)};
+\addplot+[color=blue!75!black, dashed, mark=square*, mark size=1.3pt, thick] coordinates {(1,0.012775) (2,0.030060) (3,0.039775) (4,0.051066) (5,0.068649) (6,0.075298)};
+\addplot+[color=orange!85!black, dashed, mark=triangle*, mark size=1.3pt, thick] coordinates {(1,0.225926) (2,0.197087) (3,0.218443) (4,0.177412) (5,0.187968) (6,0.208494)};
+\nextgroupplot[title={$s_N^{(3)}$}]
+\addplot+[color=blue!75!black, solid, mark=*, mark size=1.3pt, thick] coordinates {(1,0.002763) (2,0.007331) (3,0.010785) (4,0.015847) (5,0.016889) (6,0.018089)};
+\addplot+[color=orange!85!black, solid, mark=diamond*, mark size=1.3pt, thick] coordinates {(1,0.252308) (2,0.366954) (3,0.273773) (4,0.278766) (5,0.308726) (6,0.337118)};
+\addplot+[color=blue!75!black, dashed, mark=square*, mark size=1.3pt, thick] coordinates {(1,0.017434) (2,0.034066) (3,0.043293) (4,0.055473) (5,0.069552) (6,0.073509)};
+\addplot+[color=orange!85!black, dashed, mark=triangle*, mark size=1.3pt, thick] coordinates {(1,0.215162) (2,0.231158) (3,0.242787) (4,0.214724) (5,0.225594) (6,0.239040)};
+\end{groupplot}
+\end{tikzpicture}
