@@ -2205,32 +2205,49 @@ $84.30$ و $96.60$ درصد هستند.
 \input{code/experiments/noise-loss-learning-dynamics-100/publication/latex/tables/validation_ba_t100}
 
 \paragraph{ارزیابی کامل هر دو تقسیم.}
-جدول~\ref{tab:ch4-e14-perf-complete}
-مقادیر میانگین
-\lr{Accuracy}،
-دقت متوازن و
-\lr{Macro Precision}
-را بر دادهٔ آموزش
-و اعتبارسنجی کنار هم
-گزارش می‌کند.
-در این مسئلهٔ چندکلاسه،
-دقت متوازن دقیقاً برابر
-\lr{Macro Recall} است؛
-بنابراین دو عنوان
-\lr{BA} و \lr{Macro Recall}
-یک عدد مشترک‌اند،
-نه دو شاهد مستقل.
-\lr{Recall} هر کلاس
-در مسیرهای خام ثبت
-شده ولی جدول خلاصه
-به‌تنهایی آن‌ها را
-بازسازی نمی‌کند.
-تمام نتایج جدول
-در گام ثابت $100$
-میانگین شش زیرمجموعهٔ
-\emph{وابسته} هستند.
+برای آنکه تغییر عملکرد با افزودن نویز
+در هر شش سطح $|A_N|=1,\ldots,6$
+قابل مشاهده باشد،
+شکل~\ref{fig:ch4-e14-decision-noise-sweep}
+مقادیر گام ثابت $100$ را
+برای \lr{Accuracy}،
+دقت متوازن
+($\mathrm{BA}=\mathrm{Macro\ Recall}$)
+و \lr{Macro Precision}
+به تفکیک آموزش و اعتبارسنجی
+نمایش می‌دهد.
+در هر پنل چهار منحنی
+(دو خانوادهٔ سیاست و دو زیان)
+وجود دارد؛
+هر نقطه میانگین شش زیرمجموعهٔ وابسته
+و نوار کم‌رنگ بازهٔ کمینه تا بیشینهٔ
+همان شش زیرمجموعه است،
+\emph{نه فاصلهٔ اطمینان}.
+شکل، هر شش سطح را بدون حذف
+سطوح میانی عرضه می‌کند.
+جدول عددی کامل هر دو تقسیم
+در فایل بازتولیدپذیر
+\lr{performance\_t100.tex}
+و مقادیر تمام $101$ وضعیت
+در \lr{all\_metrics\_101\_steps.csv}
+در پوشهٔ انتشار محفوظ‌اند.
+ریکال کلان جداگانه تکرار نشده
+زیرا دقیقاً برابر BA است؛
+ریکال تک‌کلاس‌ها را نباید
+از این برابری نتیجه گرفت.
 
-\input{code/experiments/noise-loss-learning-dynamics-100/publication/latex/tables/performance_t100}
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.98\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/figures/final-sweep/decision_t100.png}
+\caption{عملکرد نهایی آموزش و اعتبارسنجی
+در شش سطح $|A_N|=1,\ldots,6$؛
+هر پنل چهار منحنی و هر نقطه
+میانگین شش زیرمجموعهٔ وابسته
+با نوار کمینه--بیشینه است.
+$\mathrm{BA}=\mathrm{Macro\ Recall}$؛
+مقیاس عملکرد $70$ تا $100$ درصد است.}
+\label{fig:ch4-e14-decision-noise-sweep}
+\end{figure}
 
 در خانوادهٔ مشترک و
 \lr{Sigmoid--JS}،
@@ -2448,54 +2465,55 @@ $T$، $BT$، $TNL$ و $BTNL$
 \end{figure}
 
 \paragraph{قیاس هندسی کنترل‌شده در گام پایانی.}
-جدول~\ref{tab:ch4-e14-geom-complete}
-مقادیر
-$I$،
-$R_{\mathrm{KL}}$،
+شکل‌های~\ref{fig:ch4-e14-geometry-sweep}
+و~\ref{fig:ch4-e14-geometry-extra-sweep}
+همهٔ سطوح $|A_N|=1,\ldots,6$
+را برای دو خانواده و دو تابع هدف
+در گام ثابت $100$ پوشش می‌دهند.
+شکل نخست
+$I$، $R_{\mathrm{KL}}$،
 $R_{\mathrm{JS}}$،
 $R_{\sqrt{\mathrm{JS}}}$
-و حاشیهٔ میانگین
-آموزش را برای هر
-دو تابع هدف و
-دو خانواده
-در سطوح نویز
-$1$، $3$ و $6$
-نشان می‌دهد.
-برای
-\lr{shared / Sigmoid--JS}
+و حاشیهٔ تصمیم را جداگانه نشان می‌دهد.
+شکل دوم همهٔ چهار سنجهٔ مکمل
+$T$، $BT$، $TNL$ و $BTNL$ را
+در مقیاس مستقل نمایش می‌دهد.
+هیچ متریکی حذف نشده؛
+اعداد دقیق در
+\lr{geometry\_t100.tex} و
+\lr{all\_metrics\_101\_steps.csv}
+برای بازتولید نگهداری می‌شوند.
+این کمیت‌ها فقط از دادهٔ آموزش
+به دست آمده‌اند و از اختلاف مقیاس
+آن‌ها برتری سیاست نتیجه نمی‌گیریم.
+برای نمونه،
+در \lr{shared / Sigmoid--JS}
 از یک تا شش نویز،
-$I$ از $0.05213$
-به $0.05075$
-و $R_{\mathrm{JS}}$
-از $0.00871$
-به $0.00830$
-تغییر می‌کند،
-درحالی‌که BA
-هر دو تقسیم
-ثابت گزارش شده است.
-برای
-\lr{class / Softplus--JS}
-جدایی از حدود
-$0.01956$ به
-$0.01885$ می‌رسد،
-ولی BA اعتبارسنجی
-افزایش توصیفی دارد.
-پس سنجه‌های هندسی
-توضیحِ یکتایی
-برای کیفیت تصمیم نیستند.
-مقادیر $T$،
-$BT$، $TNL$ و $BTNL$
-برای تمام گام‌ها
-در دادهٔ تجمیعی
-و نمودارهای
-پیوست ثبت شده‌اند؛
-از برتری عدد خام
-این متریک‌های
-ناهم‌مقیاس نیز
-نتیجهٔ عمومی
-استنتاج نمی‌کنیم.
+$I$ تقریباً از $0.05213$ به
+$0.05075$ می‌رسد، در حالی که
+BA نهایی تغییر نکرده است.
+این هم‌زمانی اثبات رابطهٔ علّی نیست.
 
-\input{code/experiments/noise-loss-learning-dynamics-100/publication/latex/tables/geometry_t100}
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.98\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/figures/final-sweep/geometry_primary_t100.png}
+\caption{سنجه‌های اصلی هندسهٔ مراکز و
+حاشیهٔ تصمیم روی آموزش در گام $100$،
+در هر شش سطح $|A_N|$؛
+چهار منحنی در هر پنل و
+دامنهٔ توصیفی شش زیرمجموعهٔ وابسته.}
+\label{fig:ch4-e14-geometry-sweep}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.98\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/figures/final-sweep/geometry_other_t100.png}
+\caption{چهار معیار مکمل جدایی
+$T$، $BT$، $TNL$ و $BTNL$
+روی آموزش در شش سطح نویز؛
+مقیاس هر پنل مستقل است.}
+\label{fig:ch4-e14-geometry-extra-sweep}
+\end{figure}
 
 \begin{figure}[htbp]
 \centering
@@ -2659,69 +2677,89 @@ $\mathrm{NFI}_N^{(3)}$،
 از نویز در گشت ماسک‌دار
 با عمق $H=12$ نیستند.
 
-در جدول~\ref{tab:ch4-e14-noise-share}،
-$s_N^{(3)}$ در گام $100$
-از جمع سهم هر ستون نویزی
-مطابق رابطه~
-\eqref{eq:ch3-noise-per-feature-selection}
-در هر سیاست به دست آمده
-و سپس بر شش زیرمجموعهٔ
-وابسته میانگین گرفته شده است.
-برای خوانایی، سه سطح
-$|A_N|=1,3,6$ گزارش شده‌اند؛
-دادهٔ کامل هر شش سطح و
-تمام وضعیت‌های آموزش
-در پیوست الکترونیکی موجود است.
-
-\input{code/experiments/noise-loss-learning-dynamics-100/publication/latex/tables/noise_share_t100}
-
-\paragraph{تمایز اندازه‌گیری احتمال برخورد و انتظار انتخاب.}
-مقادیر کامل
+به‌جای محدودکردن جدول سهم نویز
+به سطح‌های $|A_N|=1,3,6$،
+دو شکل
+\ref{fig:ch4-e14-policy-exposure-sweep}
+و~\ref{fig:ch4-e14-policy-normalized-sweep}
+\emph{تمام شش سطح} $|A_N|=1,\ldots,6$
+را نمایش می‌دهند.
+در هر پنل چهار منحنی مربوط به
+دو خانوادهٔ \lr{shared/class}
+و دو زیان \lr{Sigmoid--JS/Softplus--JS}
+وجود دارد؛
+هر نقطه میانگین شش زیرمجموعهٔ
+وابسته و نوار کم‌رنگ
+کمینه تا بیشینهٔ توصیفی آن‌هاست.
+تمام دوازده سنجهٔ سیاست
+به‌صورت تفکیک‌شده دیده می‌شوند:
 $q_1,q_2,q_3$،
+$p_{\mathrm{hit},N}^{(2)}$،
 $p_{\mathrm{hit},N}^{(3)}$،
 $\bar n_N^{(3)}$،
+$s_N^{(2)}$،
 $s_N^{(3)}$،
 $s_P^{(3)}$،
-$\mathrm{NFI}_N^{(3)}$
-و $\mathrm{NSR}_N^{(3)}$
-در جدول‌های
-\ref{tab:ch4-e14-noise-exposure}
-و~\ref{tab:ch4-e14-noise-normalized}
-برای هر دو هدف و
-هر دو خانواده
-گزارش شده‌اند.
+$\mathrm{NFI}_N^{(3)}$،
+$\mathrm{NSR}_N^{(2)}$
+و $\mathrm{NSR}_N^{(3)}$.
+در نتیجه «احتمال حداقل یک برخورد»،
+«شمار مورد انتظار انتخاب»
+و «سهم نویز» با یک درصد مبهم
+جایگزین نمی‌شوند.
+جدول‌های دقیق
+\lr{noise\_share\_t100.tex}،
+\lr{noise\_exposure\_t100.tex}
+و \lr{noise\_normalized\_t100.tex}
+و تمام وضعیت‌ها در CSV سیاست
+به‌عنوان شواهد عددی
+در پوشهٔ انتشار نگهداری می‌شوند.
+
 برای مثال در
 \lr{shared / Softplus--JS}
 با یک نویز،
-$\mathrm{NFI}_N^{(3)}
-\simeq1.250$
-ولی
-$\mathrm{NSR}_N^{(3)}
-\simeq1.009$ است.
-یعنی نسبت احتمال
-\emph{حداقل یک برخورد}
-و نسبت
-\emph{سهم مورد انتظار انتخاب}
-رفتار یکسانی ندارند.
-در
-\lr{shared / Sigmoid--JS}
-با شش نویز نیز
-$p_{\mathrm{hit},N}^{(3)}
-\simeq0.0244$
+$\mathrm{NFI}_N^{(3)}\simeq1.250$
 اما
-$\bar n_N^{(3)}
-\simeq0.0543$
-ثبت شده است.
-هیچ‌کدام را
-معادل احتمال
-مواجههٔ واقعی
-گشت ماسک‌دار
-نمی‌گیریم.
+$\mathrm{NSR}_N^{(3)}\simeq1.009$ است؛
+پس نسبت احتمال حداقل یک برخورد
+و نسبت سهم مورد انتظار انتخاب
+رفتار یکسانی ندارند.
+در \lr{shared / Sigmoid--JS}
+با شش نویز نیز
+$p_{\mathrm{hit},N}^{(3)}\simeq0.0244$
+اما $\bar n_N^{(3)}\simeq0.0543$
+است؛ این دو تعریف یکسانی ندارند.
+تمام سنجه‌های این دو شکل
+مربوط به سیاست کمکی \emph{بدون ماسک}
+هستند، نه گشت ماسک‌دار واقعی
+با عمق $H=12$.
 
-\input{code/experiments/noise-loss-learning-dynamics-100/publication/latex/tables/noise_exposure_t100}
-\input{code/experiments/noise-loss-learning-dynamics-100/publication/latex/tables/noise_normalized_t100}
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.98\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/figures/final-sweep/policy_exposure_t100.png}
+\caption{سه احتمال انتخاب $q_1,q_2,q_3$،
+احتمال حداقل یک برخورد نویزی در دو
+و سه انتخاب و تعداد مورد انتظار انتخاب نویز
+در گام $100$، برای هر شش سطح
+$|A_N|$ و هر چهار ترکیب خانواده/زیان.
+نوارها بازهٔ کمینه--بیشینهٔ
+شش زیرمجموعهٔ وابسته هستند.}
+\label{fig:ch4-e14-policy-exposure-sweep}
+\end{figure}
 
-
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.98\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/figures/final-sweep/policy_normalized_t100.png}
+\caption{سهم نویز و غیرنویز
+در افق دو و سه، و نسبت‌های
+$\mathrm{NFI}$ و $\mathrm{NSR}$
+به یکنواخت هم‌بُعد؛
+تمام شش سطح نویز و چهار ترکیب
+خانواده/زیان در گام $100$.
+این نسبت‌ها بی‌بُعدند و با
+احتمال خام یکسان نیستند.}
+\label{fig:ch4-e14-policy-normalized-sweep}
+\end{figure}
 
 در این تحقق، دو خانواده
 با \lr{Sigmoid--JS}

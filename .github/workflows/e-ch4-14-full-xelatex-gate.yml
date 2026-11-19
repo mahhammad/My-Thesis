@@ -9,6 +9,7 @@ on:
       - 'code/experiments/synthetic-noise-feature-sensitivity/latex/**'
       - 'code/experiments/synthetic-noise-feature-sensitivity/chapter4_publication.py'
       - 'code/experiments/noise-loss-learning-dynamics-100/publication/build_selected_tables.py'
+      - 'code/experiments/noise-loss-learning-dynamics-100/publication/build_t100_sweep_figures.py'
       - 'code/experiments/noise-loss-learning-dynamics-100/publication/latex/tables/**'
       - 'code/experiments/noise-loss-learning-dynamics-100/publication/feature-rank/*.csv'
       - 'code/experiments/noise-loss-learning-dynamics-100/publication/figures/**'
@@ -55,6 +56,11 @@ jobs:
               assert not bad,(str(source),bad)
           print('POST_TEMPLATE_STATIC_REFERENCES_PASS',len(sources))
           PY
+      - name: Generate five frozen t100 sweep charts (NO FIT, NO TEST)
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check 'matplotlib==3.10.0'
+          python code/experiments/noise-loss-learning-dynamics-100/publication/build_t100_sweep_figures.py --write
       - name: Verify all curated figures and seven reproducible CSV-derived tables (NO FIT)
         run: |
           set -euo pipefail
@@ -66,23 +72,29 @@ jobs:
           chapter=Path('tex/chapter4.tex').read_text(encoding='utf-8')
           section=chapter.split(r'\section{حساسیت سیاست انتخاب ویژگی به افزودن ویژگی‌های نویزی}',1)[1]
           figures=re.findall(r'\\includegraphics\[[^\]]+\]\{([^}]+)\}',section)
-          assert len(figures)==27, ('curated-figures',len(figures))
+          assert len(figures)==32, ('curated-figures',len(figures))
           assert len(set(figures))==len(figures)
           for rel in figures:
               p=Path(rel)
               assert p.is_relative_to(root),rel
               assert p.suffix=='.png' and p.is_file() and p.stat().st_size>5000,rel
-          tables=(
+          all_tables=(
               'zero_noise_t100','validation_ba_t100','noise_share_t100',
               'performance_t100','geometry_t100',
               'noise_exposure_t100','noise_normalized_t100'
           )
-          for name in tables:
+          main_tables=('zero_noise_t100','validation_ba_t100')
+          for name in all_tables:
               tex=str(root/'latex'/'tables'/name)
-              assert section.count(r'\input{'+tex+'}')==1,tex
               assert (root/'latex'/'tables'/(name+'.tex')).is_file(),tex
-          assert section.count(r'\input{')==len(tables)
-          print('E14_FIGURES_AND_REPRODUCIBLE_TABLES_PASS',len(figures),len(tables))
+              assert section.count(r'\input{'+tex+'}')==int(name in main_tables),tex
+          assert section.count(r'\input{')==len(main_tables)
+          assert all((root/'figures'/'final-sweep'/name).stat().st_size>10000
+                     for name in ('decision_t100.png','geometry_primary_t100.png',
+                                  'geometry_other_t100.png','policy_exposure_t100.png',
+                                  'policy_normalized_t100.png'))
+          print('E14_FIGURES_AND_REPRODUCIBLE_TABLES_PASS',
+                len(figures),len(main_tables),len(all_tables))
           PY
       - name: Install XeLaTeX and Persian support
         run: |
@@ -181,9 +193,11 @@ jobs:
                     "fig:ch4-e14-rank-shared-sigmoid",
                     "fig:ch4-e14-rank-class-softplus",
                     "tab:ch4-e14-ba","tab:ch4-e14-zero",
-                    "tab:ch4-e14-noise-share","tab:ch4-e14-perf-complete",
-                    "tab:ch4-e14-geom-complete","tab:ch4-e14-noise-exposure",
-                    "tab:ch4-e14-noise-normalized",
+                    "fig:ch4-e14-decision-noise-sweep",
+                    "fig:ch4-e14-geometry-sweep",
+                    "fig:ch4-e14-geometry-extra-sweep",
+                    "fig:ch4-e14-policy-exposure-sweep",
+                    "fig:ch4-e14-policy-normalized-sweep",
                     "eq:ch4-e14-p-fwer7")
           labels={}
           for key in required:
