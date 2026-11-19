@@ -26,11 +26,13 @@ except ImportError as exc:
 # SVG text is converted to vector paths so browser font fallback cannot break it.
 from math import floor, ceil, log10
 from matplotlib.ft2font import FT2Font
+import unicodedata
 font_path = font_manager.findfont("DejaVu Sans", fallback_to_default=False)
 font_chars = FT2Font(font_path).get_charmap()
 def check_glyphs(text):
     missing = {f"U+{ord(ch):04X}" for ch in str(text)
-               if ord(ch) >= 32 and ord(ch) not in font_chars}
+               if ord(ch) >= 32 and unicodedata.category(ch) != "Cf"
+               and ord(ch) not in font_chars}
     if missing:
         raise ValueError("Persian figure font misses glyphs: " + ", ".join(sorted(missing)))
     return text
@@ -48,8 +50,8 @@ def nice_bounds(low, high, percent=False):
         raise ValueError("Invalid chart limits")
     if percent:
         step = 10.
-        lower = max(0., step * floor((low - 1e-9) / step))
-        upper = min(100., step * ceil((high + 1e-9) / step))
+        lower = max(0., step * floor(low / step))
+        upper = min(100., step * ceil(high / step))
         if upper <= lower:
             lower = max(0., lower-step)
             upper = min(100., upper+step)
@@ -188,7 +190,7 @@ def draw_six(data, out, family, specification, objective=None,
             ax.set_ylim(lo-pad, hi+pad)
         ax.set_xlim(0, 100)
         ax.set_xticks([0, 25, 50, 75, 100])
-        ax.set_title(fa("تعداد نویز: " + str(noise)))
+        ax.set_title(fa("نویز " + str(noise)))
         ax.set_xlabel(fa("گام آموزش"))
         ax.grid(alpha=.16)
         if noise in (1, 4):
