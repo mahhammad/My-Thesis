@@ -2204,6 +2204,153 @@ $84.30$ و $96.60$ درصد هستند.
 
 \input{code/experiments/noise-loss-learning-dynamics-100/publication/latex/tables/validation_ba_t100}
 
+\paragraph{ارزیابی کامل هر دو تقسیم.}
+جدول~\ref{tab:ch4-e14-perf-complete}
+مقادیر میانگین
+\lr{Accuracy}،
+دقت متوازن و
+\lr{Macro Precision}
+را بر دادهٔ آموزش
+و اعتبارسنجی کنار هم
+گزارش می‌کند.
+در این مسئلهٔ چندکلاسه،
+دقت متوازن دقیقاً برابر
+\lr{Macro Recall} است؛
+بنابراین دو عنوان
+\lr{BA} و \lr{Macro Recall}
+یک عدد مشترک‌اند،
+نه دو شاهد مستقل.
+\lr{Recall} هر کلاس
+در مسیرهای خام ثبت
+شده ولی جدول خلاصه
+به‌تنهایی آن‌ها را
+بازسازی نمی‌کند.
+تمام نتایج جدول
+در گام ثابت $100$
+میانگین شش زیرمجموعهٔ
+\emph{وابسته} هستند.
+
+\input{code/experiments/noise-loss-learning-dynamics-100/publication/latex/tables/performance_t100}
+
+در خانوادهٔ مشترک و
+\lr{Sigmoid--JS}،
+میانگین هر سه سنجهٔ
+آموزش و اعتبارسنجی
+در شش سطح نویز
+در گام پایانی ثابت
+ثبت شده است:
+\lr{Train BA}$=86.52\%$،
+\lr{Validation BA}$=97.28\%$،
+\lr{Train Precision}$=83.79\%$
+و \lr{Validation Precision}$=93.33\%$.
+این ثبات عددی
+برابری سیاست‌های
+درونی یا پیش‌بینی‌های
+تک‌نمونه را ثابت نمی‌کند.
+در مقابل،
+\lr{class / Softplus--JS}
+از یک تا شش نویز
+در \lr{Train BA}
+تقریباً
+$85.15\%\rightarrow85.82\%$
+و در \lr{Validation BA}
+تقریباً
+$96.66\%\rightarrow97.73\%$
+را نشان می‌دهد.
+نمی‌توان صرف اختلاف
+دو تقسیم را به اثر
+علی نویز نسبت داد؛
+زیرا مرجع بیزی جدول
+\ref{tab:ch4-base-bayes-split}
+نشان می‌دهد تحقق
+اعتبارسنجی این داده
+ذاتاً از تحقق آموزش
+ساده‌تر است.
+
+شکل‌های
+\ref{fig:ch4-e14-ba-train-shared}
+و~\ref{fig:ch4-e14-ba-train-class}
+مسیر دقت متوازن
+آموزش را مستقل
+از اعتبارسنجی
+نمایش می‌دهند.
+شکل‌های
+\ref{fig:ch4-e14-val-precision-shared}
+و~\ref{fig:ch4-e14-val-precision-class}
+نیز \lr{Precision} کلان
+اعتبارسنجی را عرضه می‌کنند؛
+مسیر \lr{Macro Recall}
+اعتبارسنجی همان
+مسیر BA است.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/figures/shared/balanced_accuracy_train.png}
+\caption{مسیر دقت متوازن آموزش برای سیاست مشترک، دو هدف زیان و شش سطح نویز؛ میانگین توصیفی و شش زیرمجموعهٔ وابسته در هر پنل.}
+\label{fig:ch4-e14-ba-train-shared}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/figures/class/balanced_accuracy_train.png}
+\caption{مسیر دقت متوازن آموزش برای سیاست شرطی کلاس و دو تابع هدف؛ مستقل از ارزیابی اعتبارسنجی.}
+\label{fig:ch4-e14-ba-train-class}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/figures/shared/precision_macro_validation.png}
+\caption{مسیر lr{Macro Precision} اعتبارسنجی برای سیاست مشترک در هر ۱۰۱ وضعیت و هر دو تابع هدف.}
+\label{fig:ch4-e14-val-precision-shared}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/figures/class/precision_macro_validation.png}
+\caption{مسیر lr{Macro Precision} اعتبارسنجی برای سیاست شرطی کلاس؛ منحنی‌های شش زیرمجموعه و میانگین توصیفی.}
+\label{fig:ch4-e14-val-precision-class}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/figures/shared/accuracy_validation.png}
+\caption{مسیر lr{Accuracy} معمول اعتبارسنجی برای سیاست مشترک؛ نمودار مکمل BA و Precision و مرجع بیزی مخصوص تقسیم.}
+\label{fig:ch4-e14-val-accuracy-shared}
+\end{figure}
+
+\paragraph{نوسان‌های در طول آموزش.}
+هیچ یک از تابع‌های
+هدف مسیر یکنواختی
+برای BA تضمین نمی‌کند.
+برای نمونه، در
+\lr{class / Sigmoid--JS}
+با شش نویز،
+میانگین BA اعتبارسنجی
+در گام $79$ به حدود
+$98.19\%$ رسیده
+ولی در گام ثابت $100$
+$96.71\%$ بوده است؛
+این افت $1.47$ واحد
+درصدی، مشاهدهٔ
+پسینی از منحنی
+میانگین است،
+نه مبنای انتخاب
+بهترین checkpoint.
+در \lr{shared / Softplus--JS}
+با سه نویز
+میانگین BA در گام
+$25$ حدود $97.25\%$
+و در گام پایانی
+$97.14\%$ است.
+جزئیات تمام گام‌ها
+و انحراف معیار
+\emph{توصیفیِ}
+زیرمجموعه‌ها
+در پیوست الکترونیکی
+ثبت شده‌اند.
+
+
+
 شکل‌های~\ref{fig:ch4-e14-ba-shared}
 و~\ref{fig:ch4-e14-ba-class}
 مسیر کامل $0$ تا $100$
@@ -2300,6 +2447,79 @@ $T$، $BT$، $TNL$ و $BTNL$
 \label{fig:ch4-e14-train-separation}
 \end{figure}
 
+\paragraph{قیاس هندسی کنترل‌شده در گام پایانی.}
+جدول~\ref{tab:ch4-e14-geom-complete}
+مقادیر
+$I$،
+$R_{\mathrm{KL}}$،
+$R_{\mathrm{JS}}$،
+$R_{\sqrt{\mathrm{JS}}}$
+و حاشیهٔ میانگین
+آموزش را برای هر
+دو تابع هدف و
+دو خانواده
+در سطوح نویز
+$1$، $3$ و $6$
+نشان می‌دهد.
+برای
+\lr{shared / Sigmoid--JS}
+از یک تا شش نویز،
+$I$ از $0.05213$
+به $0.05075$
+و $R_{\mathrm{JS}}$
+از $0.00871$
+به $0.00830$
+تغییر می‌کند،
+درحالی‌که BA
+هر دو تقسیم
+ثابت گزارش شده است.
+برای
+\lr{class / Softplus--JS}
+جدایی از حدود
+$0.01956$ به
+$0.01885$ می‌رسد،
+ولی BA اعتبارسنجی
+افزایش توصیفی دارد.
+پس سنجه‌های هندسی
+توضیحِ یکتایی
+برای کیفیت تصمیم نیستند.
+مقادیر $T$،
+$BT$، $TNL$ و $BTNL$
+برای تمام گام‌ها
+در دادهٔ تجمیعی
+و نمودارهای
+پیوست ثبت شده‌اند؛
+از برتری عدد خام
+این متریک‌های
+ناهم‌مقیاس نیز
+نتیجهٔ عمومی
+استنتاج نمی‌کنیم.
+
+\input{code/experiments/noise-loss-learning-dynamics-100/publication/latex/tables/geometry_t100}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/figures/class/separation_i.png}
+\caption{مسیر جدایی مراکز $I$ روی آموزش برای سیاست وابسته به کلاس و هر دو تابع هدف؛ مکمل شکل سیاست مشترک.}
+\label{fig:ch4-e14-train-separation-class}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/figures/shared/density_r_js.png}
+\caption{مسیر تراکم $R_{mathrm{JS}}$ آموزش در سیاست مشترک؛ معیار هندسی نه دقت اعتبارسنجی.}
+\label{fig:ch4-e14-rjs-shared}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/figures/class/density_r_js.png}
+\caption{مسیر تراکم $R_{mathrm{JS}}$ آموزش برای سیاست شرطی کلاس و هر دو تابع هدف.}
+\label{fig:ch4-e14-rjs-class}
+\end{figure}
+
+
+
 برای جداکردن روند تابع هدف
 از رفتار هندسه و کیفیت تصمیم،
 زیان آموزش و هنجار گرادیان
@@ -2334,6 +2554,70 @@ $\|\nabla_Z\mathcal L\|_2$
 در پیوست الکترونیکی آمده است.}
 \label{fig:ch4-e14-gradient}
 \end{figure}
+
+\paragraph{حضور متوازن هر دو تابع هدف در پویایی آموزش.}
+شکل~\ref{fig:ch4-e14-gradient}
+برای \lr{Sigmoid--JS}
+در سیاست مشترک است.
+به‌منظور جلوگیری از
+محدودشدن تحلیل
+به یک هدف،
+شکل‌های
+\ref{fig:ch4-e14-gradient-shared-softplus}،
+\ref{fig:ch4-e14-gradient-class-sigmoid}
+و~\ref{fig:ch4-e14-gradient-class-softplus}
+سه حالت دیگر را
+نشان می‌دهند.
+همچنین نمودارهای
+\ref{fig:ch4-e14-loss-shared-sigmoid}
+و~\ref{fig:ch4-e14-loss-shared-softplus}
+تابع زیان همان
+دو هدف را
+\emph{در مقیاس مستقل}
+نمایش می‌دهند؛
+مقایسهٔ بزرگی
+مطلق مقادیر
+دو زیان یا هنجار
+گرادیان آن‌ها
+معیار رتبه‌بندی
+کیفیت مدل نیست.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/loss-gradient/shared__gradient_l2__softplus__zoom.png}
+\caption{هنجار گرادیان آموزش در سیاست مشترک و lr{Softplus--JS}؛ مقیاس و دامنه مستقل از هدف سیگمویدی.}
+\label{fig:ch4-e14-gradient-shared-softplus}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/loss-gradient/class__gradient_l2__sigmoid__zoom.png}
+\caption{هنجار گرادیان آموزش در سیاست شرطی کلاس و lr{Sigmoid--JS}، برای شش سطح نویز.}
+\label{fig:ch4-e14-gradient-class-sigmoid}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/loss-gradient/class__gradient_l2__softplus__zoom.png}
+\caption{هنجار گرادیان آموزش در سیاست شرطی کلاس و lr{Softplus--JS}، با مسیرهای وابستهٔ هر سطح.}
+\label{fig:ch4-e14-gradient-class-softplus}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/loss-gradient/shared__loss__sigmoid__zoom.png}
+\caption{روند تابع زیان lr{Sigmoid--JS} روی آموزش برای سیاست مشترک؛ مقایسهٔ درون همان هدف.}
+\label{fig:ch4-e14-loss-shared-sigmoid}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/loss-gradient/shared__loss__softplus__zoom.png}
+\caption{روند تابع زیان lr{Softplus--JS} روی آموزش برای سیاست مشترک؛ مقیاس مستقل از شکل سیگمویدی.}
+\label{fig:ch4-e14-loss-shared-softplus}
+\end{figure}
+
+
 
 \subsection{سهم انتخاب ویژگی‌های نویزی و چندگانگی سیاست}
 \label{subsec:ch4-e14-noise-probability}
@@ -2387,6 +2671,54 @@ $|A_N|=1,3,6$ گزارش شده‌اند؛
 
 \input{code/experiments/noise-loss-learning-dynamics-100/publication/latex/tables/noise_share_t100}
 
+\paragraph{تمایز اندازه‌گیری احتمال برخورد و انتظار انتخاب.}
+مقادیر کامل
+$q_1,q_2,q_3$،
+$p_{\mathrm{hit},N}^{(3)}$،
+$\bar n_N^{(3)}$،
+$s_N^{(3)}$،
+$s_P^{(3)}$،
+$\mathrm{NFI}_N^{(3)}$
+و $\mathrm{NSR}_N^{(3)}$
+در جدول‌های
+\ref{tab:ch4-e14-noise-exposure}
+و~\ref{tab:ch4-e14-noise-normalized}
+برای هر دو هدف و
+هر دو خانواده
+گزارش شده‌اند.
+برای مثال در
+\lr{shared / Softplus--JS}
+با یک نویز،
+$\mathrm{NFI}_N^{(3)}
+\simeq1.250$
+ولی
+$\mathrm{NSR}_N^{(3)}
+\simeq1.009$ است.
+یعنی نسبت احتمال
+\emph{حداقل یک برخورد}
+و نسبت
+\emph{سهم مورد انتظار انتخاب}
+رفتار یکسانی ندارند.
+در
+\lr{shared / Sigmoid--JS}
+با شش نویز نیز
+$p_{\mathrm{hit},N}^{(3)}
+\simeq0.0244$
+اما
+$\bar n_N^{(3)}
+\simeq0.0543$
+ثبت شده است.
+هیچ‌کدام را
+معادل احتمال
+مواجههٔ واقعی
+گشت ماسک‌دار
+نمی‌گیریم.
+
+\input{code/experiments/noise-loss-learning-dynamics-100/publication/latex/tables/noise_exposure_t100}
+\input{code/experiments/noise-loss-learning-dynamics-100/publication/latex/tables/noise_normalized_t100}
+
+
+
 در این تحقق، دو خانواده
 با \lr{Sigmoid--JS}
 سهم به‌مراتب کمتری
@@ -2427,6 +2759,66 @@ $s_N^{(3)}$
 \label{fig:ch4-e14-noise-selection}
 \end{figure}
 
+\paragraph{تغییر شاخص‌ها در طول آموزش.}
+برای فهم حساسیت
+به تعداد نویز،
+لازم است علاوه
+بر سهم متوسط،
+احتمال برخورد،
+نسبت به یکنواخت
+و تفاوت سیاست‌های
+شرطی کلاس
+به‌صورت مستقل دیده شود.
+شکل‌های زیر مسیر
+نسبت برخورد
+\lr{NFI} را برای
+دو هدف در سیاست مشترک
+و نسبت سهم
+\lr{NSR} را برای
+دو هدف در سیاست
+شرطی کلاس نشان می‌دهند.
+تمام شاخص‌ها
+از فرایند کمکی
+\emph{بدون ماسک}
+به دست آمده‌اند.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/noise-policy/shared__sigmoid__NFI3.png}
+\caption{نسبت احتمال برخورد با نویز به یکنواخت، $mathrm{NFI}_N^{(3)}$، برای سیاست مشترک و هدف سیگمویدی در تمام گام‌ها.}
+\label{fig:ch4-e14-nfi-shared-sigmoid}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/noise-policy/shared__softplus__NFI3.png}
+\caption{مسیر $mathrm{NFI}_N^{(3)}$ برای سیاست مشترک و lr{Softplus--JS}؛ کمیتی متفاوت از سهم انتخاب.}
+\label{fig:ch4-e14-nfi-shared-softplus}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/noise-policy/class__sigmoid__NSR3.png}
+\caption{نسبت سهم انتخاب نویز به یکنواخت، $mathrm{NSR}_N^{(3)}$، در سیاست وابسته به کلاس و lr{Sigmoid--JS}.}
+\label{fig:ch4-e14-nsr-class-sigmoid}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/noise-policy/class__softplus__NSR3.png}
+\caption{مسیر $mathrm{NSR}_N^{(3)}$ برای سیاست وابسته به کلاس با lr{Softplus--JS}.}
+\label{fig:ch4-e14-nsr-class-softplus}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/noise-policy/shared__softplus__hit3.png}
+\caption{احتمال حداقل یک برخورد با نویز در افق سه برای سیاست مشترک و lr{Softplus--JS}؛ نه تعداد مورد انتظار انتخاب نویز.}
+\label{fig:ch4-e14-hit3-shared-softplus}
+\end{figure}
+
+
+
 سیاست مشترک با
 \lr{Sigmoid--JS}
 در هر $36$ اجرای گروهی
@@ -2448,6 +2840,95 @@ $s_N^{(3)}$
 اهمیت علّی ویژگی نیست.
 
 \paragraph{دو منشأ متفاوت برای چندگانگی جواب.}
+
+\paragraph{سهم و رتبهٔ تک‌ویژگی‌ها.}
+در کنار احتمال تجمعی
+برخورد با مجموعهٔ نویز،
+سهم $s_a^{(3)}$
+و رتبهٔ هر ویژگی
+با شناسهٔ اصلی
+آن ثبت شده است.
+در گام $100$،
+در هر شش زیرمجموعه
+از سطوح
+$1$، $3$ و $6$
+برای هر دو خانواده با
+\lr{Sigmoid--JS}،
+ویژگی اطلاع‌رسان
+با اندیس $1$
+رتبهٔ اول را دارد؛
+در مقابل،
+رتبهٔ اول در
+\lr{shared / Softplus--JS}
+با تغییر تعداد نویز
+می‌تواند بین
+ویژگی‌های اطلاع‌رسان
+جابجا شود.
+این رتبه،
+\emph{سهم انتخاب}
+است، نه سنجهٔ
+اهمیت علّی
+یا اثر حذف ویژگی
+بر دقت تصمیم.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/feature-rank/shared__sigmoid__final_ranks.png}
+\caption{نقشهٔ رتبهٔ تک‌ویژگی‌های حاضر برای سیاست مشترک با lr{Sigmoid--JS}، فقط در گام $100$.}
+\label{fig:ch4-e14-rank-shared-sigmoid}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/feature-rank/shared__softplus__final_ranks.png}
+\caption{نقشهٔ رتبهٔ تک‌ویژگی‌ها برای سیاست مشترک با lr{Softplus--JS}، با شناسه‌های اصلی.}
+\label{fig:ch4-e14-rank-shared-softplus}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/feature-rank/class__sigmoid__final_ranks.png}
+\caption{رتبهٔ تک‌ویژگی‌ها در سیاست شرطی کلاس با lr{Sigmoid--JS}؛ تحلیل رتبهٔ کلان.}
+\label{fig:ch4-e14-rank-class-sigmoid}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/feature-rank/class__softplus__final_ranks.png}
+\caption{رتبهٔ تک‌ویژگی‌ها در سیاست شرطی کلاس با lr{Softplus--JS}؛ خانهٔ فاقد حضور ویژگی به معنای سهم صفر نیست.}
+\label{fig:ch4-e14-rank-class-softplus}
+\end{figure}
+
+برای جلوگیری از پنهان‌ماندن
+تفاوت بین فرض‌های
+کلاس، سهم انتخاب
+نویز در حالت
+\lr{class / Sigmoid--JS}
+با شش نویز،
+برای کلاس‌های
+$0$، $1$ و $2$
+به‌ترتیب حدود
+$0.160$،
+$0.043$ و $0.018$
+است؛ در هدف
+\lr{Softplus--JS}
+حدود
+$0.328$،
+$0.209$ و $0.180$
+به دست آمده است.
+این ناهمگنی از
+دادهٔ سهم تک‌ویژگی
+برای هر فرض کلاس
+استخراج شده،
+نه از دقت مستقل
+هر کلاس.
+در پیوست الکترونیکی،
+سهم کامل تک‌ویژگی
+و رتبه‌ها برای
+هر فرض کلاس
+به تفصیل آمده‌اند.
+
+
 وابستگی ساختاری ویژگی‌ها
 می‌تواند نگاشت پارامترها
 به خروجی را غیرتزریقی کند.
