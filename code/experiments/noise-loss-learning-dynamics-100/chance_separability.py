@@ -145,6 +145,16 @@ def analyse(repeats=N_PERM):
           "mask_p_train_fwer7": pt[col]["mask_p_fwer7"],
           "mask_eta2_validation": pv[col]["mask_eta2"],
           "mask_p_validation_fwer7": pv[col]["mask_p_fwer7"],
+          "missing_by_class_train": [
+            {"class": int(c), "n": int(np.count_nonzero(ty == c)),
+             "missing": int(np.count_nonzero(~np.isfinite(tr[ty == c, col]))),
+             "rate": float(np.mean(~np.isfinite(tr[ty == c, col])))}
+            for c in range(3)],
+          "missing_by_class_validation": [
+            {"class": int(c), "n": int(np.count_nonzero(vy == c)),
+             "missing": int(np.count_nonzero(~np.isfinite(va[vy == c, col]))),
+             "rate": float(np.mean(~np.isfinite(va[vy == c, col])))}
+            for c in range(3)],
           "selected_class_train": target,
           "signed_d_train": float(d[target]),
           "auc_train": auc(tr[:, col], ty, target, sign),
@@ -190,6 +200,10 @@ def report(result):
             " {selected_class_train} | {auc_train:.4f} |"
             " {auc_validation_same_class:.4f} |".format(**r))
     lines += [
+      "",
+      "در ستون by_feature.csv، نرخ فقدان هر کلاس برای Train و Validation",
+      " نیز از نمونه‌ها شمارش شده است؛ مقایسهٔ آن‌ها با مولد",
+      " باید احتمال وقوع تصادفی و محدودیت یک تقسیم کوچک را در نظر بگیرد.",
       "",
       "کنترل مکمل: ارتباط ماسک فقدان با برچسب و بیشینهٔ",
       "هم‌بستگی هر نویز با سه ستون اطلاع‌رسان در by_feature.csv ثبت شده است.",
