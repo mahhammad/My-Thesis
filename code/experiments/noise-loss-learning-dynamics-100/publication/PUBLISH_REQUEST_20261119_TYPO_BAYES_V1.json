@@ -1,0 +1,15 @@
+{
+  "task": "rebuild all Persian figures with legible mixed-script glyphs, rounded six-panel group axes and correct split-matched Bayes MAP reference",
+  "fit_run": 44419173443,
+  "data_run": 44417037644,
+  "source_commit_previous": "d8ac112fcd34580b1781a628c8e8e793f8b309c3",
+  "no_training": true,
+  "no_test": true,
+  "charts": "102 SVG plus 102 PNG; keep each loss and gradient objective/family separate",
+  "bayes_map_pct": {
+    "train_accuracy": 82.67,
+    "train_ba": 84.32,
+    "validation_accuracy": 96.67,
+    "validation_ba": 97.45
+  }
+}
