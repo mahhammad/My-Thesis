@@ -85,7 +85,9 @@ jobs:
           all_tables=(
               'zero_noise_t100','validation_ba_t100','noise_share_t100',
               'performance_t100','geometry_t100',
-              'noise_exposure_t100','noise_normalized_t100'
+              'noise_exposure_t100','noise_normalized_t100',
+              'precision_train_t100','precision_validation_t100',
+              'recall_train_t100','recall_validation_t100'
           )
           main_tables=('zero_noise_t100','validation_ba_t100')
           for name in all_tables:
