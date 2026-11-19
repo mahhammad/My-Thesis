@@ -17,12 +17,13 @@
 | معیار TNL، فقط Train | [SVG](shared/separation_tnl.svg) | [SVG](class/separation_tnl.svg) |
 | معیار BTNL، فقط Train | [SVG](shared/separation_btnl.svg) | [SVG](class/separation_btnl.svg) |
 | میانگین حاشیه، فقط Train | [SVG](shared/margin_mean.svg) | [SVG](class/margin_mean.svg) |
+| Accuracy آموزش | [SVG](shared/accuracy_train.svg) | [SVG](class/accuracy_train.svg) |
 | BA آموزش | [SVG](shared/balanced_accuracy_train.svg) | [SVG](class/balanced_accuracy_train.svg) |
 | BA اعتبارسنجی | [SVG](shared/balanced_accuracy_validation.svg) | [SVG](class/balanced_accuracy_validation.svg) |
 | Accuracy اعتبارسنجی | [SVG](shared/accuracy_validation.svg) | [SVG](class/accuracy_validation.svg) |
 | Precision اعتبارسنجی | [SVG](shared/precision_macro_validation.svg) | [SVG](class/precision_macro_validation.svg) |
 | Recall اعتبارسنجی | [SVG](shared/recall_macro_validation.svg) | [SVG](class/recall_macro_validation.svg) |
 
-تمام شکل‌ها در PNG نیز با همین نام در پوشهٔ مربوط موجودند. نمودار BA با بازهٔ ۷۰ تا ۱۰۰ درصد نمایش داده می‌شود و برش احتمالی داده‌ها در شکل مشخص شده است. سایر سنجه‌ها مقیاس عمودی متناسب با دامنهٔ واقعی داده دارند و محور افقی، گام‌های ۰ تا ۱۰۰ را نشان می‌دهد.
+تمام شکل‌ها با همین نام در PNG نیز موجودند. محورهای هر گروه از شش پنل، مقیاس رُند مشترک و متناسب با داده دارند. خط‌چین نمودارهای Accuracy و BA، مرجع بیزی MAP همان تقسیم داده است (جدول `tab:ch4-base-bayes-split` در فصل چهارم). محور افقی، گام‌های ۰ تا ۱۰۰ را نشان می‌دهد.
 
 **مرز استنباط:** سنجه‌های I و R تنها برای Train محاسبه شده‌اند؛ Validation در هندسهٔ مراکز، Loss، گرادیان یا آموزش دخالت ندارد. شش زیرمجموعه از یک دادهٔ مادر هستند، نه شش تکرار مستقل.
