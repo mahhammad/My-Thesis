@@ -1,0 +1,37 @@
+name: E-CH4-14 frozen policy noise-level charts (NO FIT)
+on:
+  push:
+    branches: [experiment/ch4-14-noise-sensitivity-01]
+    paths:
+      - 'code/experiments/noise-loss-learning-dynamics-100/publication/plot_policy_noise_levels.py'
+      - '.github/workflows/e-ch4-14-policy-noise-level-plots.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  regenerate-t100-policy-panels:
+    if: github.repository == 'mahhammad/My-Thesis' && github.ref == 'refs/heads/experiment/ch4-14-noise-sensitivity-01'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Generate and verify all 12 frozen policy metrics (NO FIT, NO TEST)
+        run: |
+          set -euo pipefail
+          python code/experiments/noise-loss-learning-dynamics-100/publication/plot_policy_noise_levels.py --write
+          python code/experiments/noise-loss-learning-dynamics-100/publication/plot_policy_noise_levels.py
+      - name: Commit only derived text plots on the research branch
+        run: |
+          set -euo pipefail
+          rel='code/experiments/noise-loss-learning-dynamics-100/publication/latex/noise-level-plots'
+          git add -- "$rel"
+          if ! git diff --cached --quiet; then
+            git -c user.name='github-actions[bot]' \
+                -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+                commit -m 'fig(e14): publish six-level policy diagnostic panels (NO FIT)'
+            git push origin "HEAD:$GITHUB_REF_NAME"
+          else
+            echo 'NO_CHANGES: derived panels already current'
+          fi
