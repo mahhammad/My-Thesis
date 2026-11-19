@@ -65,7 +65,7 @@ def read_data():
             vals = tuple(float(r[k]) for k in
                          ("mean", "minimum", "maximum", "descriptive_sd"))
             assert all(math.isfinite(v) for v in vals)
-            assert vals[1] <= vals[0]+1e-10 <= vals[2]+1e-10
+            assert vals[1] <= vals[0]+1e-10 and vals[0] <= vals[2]+1e-10
             data[key] = vals
     assert len(data) == 46056
     return data
