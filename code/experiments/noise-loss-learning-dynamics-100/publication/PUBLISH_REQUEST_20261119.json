@@ -1,0 +1,17 @@
+{
+  "purpose": "publish existing E14 images and CSV as several committed milestones",
+  "fit_workflow_run": 44419173443,
+  "standard_data_artifact_run": 44417037644,
+  "source_trajectories": 152,
+  "expect_trace_states": 101,
+  "only_recovered_artifacts": true,
+  "run_training": false,
+  "output_branch": "experiment/ch4-14-noise-sensitivity-01",
+  "scope": [
+    "persian_loss_gradient",
+    "noise_policy",
+    "feature_rank_t100",
+    "train_geometry_validation_classification"
+  ],
+  "requested_by": "thesis owner in conversation"
+}
