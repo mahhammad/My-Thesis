@@ -8,6 +8,12 @@ on:
       - 'tex/**'
       - 'code/experiments/synthetic-noise-feature-sensitivity/latex/**'
       - 'code/experiments/synthetic-noise-feature-sensitivity/chapter4_publication.py'
+      - 'code/experiments/noise-loss-learning-dynamics-100/publication/build_selected_tables.py'
+      - 'code/experiments/noise-loss-learning-dynamics-100/publication/latex/tables/**'
+      - 'code/experiments/noise-loss-learning-dynamics-100/publication/feature-rank/*.csv'
+      - 'code/experiments/noise-loss-learning-dynamics-100/publication/figures/**'
+      - 'code/experiments/noise-loss-learning-dynamics-100/publication/loss-gradient/**'
+      - 'code/experiments/noise-loss-learning-dynamics-100/publication/noise-policy/**'
       - '.github/workflows/e-ch4-14-full-xelatex-gate.yml'
   workflow_dispatch:
 
@@ -48,6 +54,29 @@ jobs:
               bad=sorted(set(refs).intersection(deleted_labels))
               assert not bad,(str(source),bad)
           print('POST_TEMPLATE_STATIC_REFERENCES_PASS',len(sources))
+          PY
+      - name: Verify selected figures and reproducible CSV-derived tables (NO FIT)
+        run: |
+          set -euo pipefail
+          python code/experiments/noise-loss-learning-dynamics-100/publication/build_selected_tables.py
+          python - <<'PY'
+          from pathlib import Path
+          root=Path('code/experiments/noise-loss-learning-dynamics-100/publication')
+          selected=(
+              'figures/shared/balanced_accuracy_validation.png',
+              'figures/class/balanced_accuracy_validation.png',
+              'figures/shared/separation_i.png',
+              'loss-gradient/shared__gradient_l2__sigmoid__zoom.png',
+              'noise-policy/shared__sigmoid__s3.png'
+          )
+          for rel in selected:
+              p=root/rel
+              assert p.is_file() and p.stat().st_size>5000, rel
+          chapter=Path('tex/chapter4.tex').read_text(encoding='utf-8')
+          for name in ('zero_noise_t100','validation_ba_t100','noise_share_t100'):
+              tex=str(root/'latex'/'tables'/name)
+              assert chapter.count(r'\input{'+tex+'}')==1, tex
+          print('E14_SELECTED_CHARTS_AND_CSV_TABLES_PASS',len(selected),3)
           PY
       - name: Install XeLaTeX and Persian support
         run: |
@@ -131,10 +160,11 @@ jobs:
           log=(root/"main.log").read_text(errors="replace")
           doc=fitz.open(root/"main.pdf")
           names=doc.resolve_names()
-          required=("fig:ch4-e14-ba-bayes","fig:ch4-e14-gradient-envelopes",
-                    "fig:ch4-e14-noise-selection","tab:ch4-e14-ba",
-                    "tab:ch4-e14-stability","tab:ch4-e14-geometry",
-                    "tab:ch4-e14-noise")
+          required=("fig:ch4-e14-ba-bayes","fig:ch4-e14-ba-shared",
+                    "fig:ch4-e14-ba-class","fig:ch4-e14-gradient",
+                    "fig:ch4-e14-noise-selection","fig:ch4-e14-train-separation",
+                    "tab:ch4-e14-ba","tab:ch4-e14-zero",
+                    "tab:ch4-e14-noise-share","eq:ch4-e14-p-fwer7")
           labels={}
           for key in required:
               found=[line for line in aux.splitlines()
@@ -162,7 +192,7 @@ jobs:
               ensure_ascii=False,indent=2))
           print("E14_LABEL_AUDIT",json.dumps(info,ensure_ascii=False))
           print("E14_LAYOUT_WARNINGS",len(overfull),overfull[:12])
-          target=next(x for x in info if x["label"]=="fig:ch4-e14-gradient-envelopes")
+          target=next(x for x in info if x["label"]=="fig:ch4-e14-gradient")
           pg=next((p for p in target["pages"] if isinstance(p,int)),None)
           if pg is None:
               matches=[]
@@ -183,7 +213,7 @@ jobs:
                           print("E14_VISUAL_JPEG_BASE64="+base64.b64encode(jpg).decode("ascii"))
           else:
               print("E14_FIGURE_PAGE_UNRESOLVED")
-          for label,prefix in (("tab:ch4-e14-stability","E14_TABLE"),
+          for label,prefix in (("tab:ch4-e14-ba","E14_TABLE"),
                                ("fig:ch4-e14-ba-bayes","E14_BAYES")):
               record=next(x for x in info if x["label"]==label)
               pageid=next((p for p in record["pages"] if isinstance(p,int)),None)
