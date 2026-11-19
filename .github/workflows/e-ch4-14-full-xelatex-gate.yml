@@ -63,7 +63,7 @@ jobs:
       - name: Generate five frozen t100 sweep charts (NO FIT, NO TEST)
         run: |
           set -euo pipefail
-          python -m pip install --disable-pip-version-check 'matplotlib==3.10.0'
+          python -m pip install --disable-pip-version-check 'matplotlib==3.10.0' 'arabic-reshaper>=3.0.0' 'python-bidi>=0.6.0'
           python code/experiments/noise-loss-learning-dynamics-100/publication/build_t100_sweep_figures.py --write
       - name: Verify all curated figures and seven reproducible CSV-derived tables (NO FIT)
         run: |

@@ -2684,6 +2684,11 @@ $\mathrm{NFI}_N^{(3)}$،
 و~\ref{fig:ch4-e14-policy-normalized-sweep}
 \emph{تمام شش سطح} $|A_N|=1,\ldots,6$
 را نمایش می‌دهند.
+خط‌چین تیره در این دو شکل
+مرجع تحلیلی سیاست یکنواخت هم‌بُعد
+طبق رابطه~\eqref{eq:ch3-noise-uniform-reference}
+است؛ در نمودارهای روند آموزش
+این خط‌چین اضافه نمی‌شود.
 در هر پنل چهار منحنی مربوط به
 دو خانوادهٔ \lr{shared/class}
 و دو زیان \lr{Sigmoid--JS/Softplus--JS}
@@ -2738,26 +2743,27 @@ $p_{\mathrm{hit},N}^{(3)}\simeq0.0244$
 \centering
 \includegraphics[width=.98\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/figures/final-sweep/policy_exposure_t100.png}
 \caption{سه احتمال انتخاب $q_1,q_2,q_3$،
-احتمال حداقل یک برخورد نویزی در دو
-و سه انتخاب و تعداد مورد انتظار انتخاب نویز
-در گام $100$، برای هر شش سطح
-$|A_N|$ و هر چهار ترکیب خانواده/زیان.
-نوارها بازهٔ کمینه--بیشینهٔ
-شش زیرمجموعهٔ وابسته هستند.}
+احتمال حداقل یک برخورد نویزی در دو و سه انتخاب
+و تعداد مورد انتظار انتخاب نویز در گام $100$،
+برای $|A_N|=1,\ldots,6$ و هر چهار ترکیب خانواده/زیان.
+خط‌چین تیره مرجع یکنواخت هم‌بُعدِ رابطه~
+\eqref{eq:ch3-noise-uniform-reference} است؛
+نوارهای کم‌رنگ بازهٔ کمینه--بیشینهٔ
+شش زیرمجموعهٔ وابسته‌اند.}
 \label{fig:ch4-e14-policy-exposure-sweep}
 \end{figure}
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.98\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/figures/final-sweep/policy_normalized_t100.png}
-\caption{سهم نویز و غیرنویز
-در افق دو و سه، و نسبت‌های
-$\mathrm{NFI}$ و $\mathrm{NSR}$
-به یکنواخت هم‌بُعد؛
-تمام شش سطح نویز و چهار ترکیب
-خانواده/زیان در گام $100$.
-این نسبت‌ها بی‌بُعدند و با
-احتمال خام یکسان نیستند.}
+\caption{سهم انتخاب نویز و ویژگی‌های اطلاع‌رسان،
+و نسبت‌های $\mathrm{NFI}_N^{(3)}$ و
+$\mathrm{NSR}_N^{(2)},\mathrm{NSR}_N^{(3)}$
+در شش سطح $|A_N|=1,\ldots,6$ در گام $100$.
+خط‌چین تیره سیاست یکنواخت هم‌بُعد است
+که مقدار نسبت‌های نرمال‌شدهٔ آن برابر یک است؛
+نوارهای کم‌رنگ دامنهٔ توصیفی
+شش زیرمجموعهٔ وابسته‌اند.}
 \label{fig:ch4-e14-policy-normalized-sweep}
 \end{figure}
 

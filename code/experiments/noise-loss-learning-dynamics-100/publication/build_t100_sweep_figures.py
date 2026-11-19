@@ -18,6 +18,11 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
+import arabic_reshaper
+from bidi.algorithm import get_display
+
+plt.rcParams.update({"font.family": "DejaVu Sans", "axes.unicode_minus": False,
+                     "mathtext.fontset": "dejavusans"})
 
 ROOT = Path(__file__).resolve().parent
 OUT = ROOT / "figures" / "final-sweep"
@@ -55,33 +60,60 @@ FIGURES = {
             ("separation_btnl", "BTNL", "train"),
         )),
     "policy_exposure_t100.png": (
-        "Unmasked feature-only walk: noise exposure (h=2,3)", "policy",
+        "سیاست کمکی بدون ماسک: انتخاب و برخورد با نویز در گام ۱۰۰", "policy",
         (
-            ("q1", "q1: first selection", ""),
-            ("q2", "q2: second selection", ""),
-            ("q3", "q3: third selection", ""),
-            ("hit2", "p_hit,N(2)", ""),
-            ("hit3", "p_hit,N(3)", ""),
-            ("nbar3", "Expected noise selections (h=3)", ""),
+            ("q1", ("احتمال انتخاب نویز در نوبت اول", r"$q_1$"), ""),
+            ("q2", ("احتمال انتخاب نویز در نوبت دوم", r"$q_2$"), ""),
+            ("q3", ("احتمال انتخاب نویز در نوبت سوم", r"$q_3$"), ""),
+            ("hit2", ("حداقل یک برخورد در دو نوبت", r"$p_{\mathrm{hit},N}^{(2)}$"), ""),
+            ("hit3", ("حداقل یک برخورد در سه نوبت", r"$p_{\mathrm{hit},N}^{(3)}$"), ""),
+            ("nbar3", ("امید تعداد انتخاب نویز در سه نوبت", r"$\bar n_N^{(3)}$"), ""),
         )),
     "policy_normalized_t100.png": (
-        "Unmasked feature-only walk: shares and uniform-relative ratios", "policy",
+        "سیاست کمکی بدون ماسک: سهم نویز و نسبت به مرجع یکنواخت در گام ۱۰۰", "policy",
         (
-            ("s2", "s_N(2)", ""),
-            ("s3", "s_N(3)", ""),
-            ("sp3", "s_P(3)", ""),
-            ("NFI3", "NFI_N(3)", ""),
-            ("NSR2", "NSR_N(2)", ""),
-            ("NSR3", "NSR_N(3)", ""),
+            ("s2", ("سهم نویز در دو نوبت", r"$s_N^{(2)}$"), ""),
+            ("s3", ("سهم نویز در سه نوبت", r"$s_N^{(3)}$"), ""),
+            ("sp3", ("سهم ویژگی‌های اطلاع‌رسان", r"$s_P^{(3)}$"), ""),
+            ("NFI3", ("نسبت احتمال برخورد به یکنواخت", r"$\mathrm{NFI}_N^{(3)}$"), ""),
+            ("NSR2", ("نسبت سهم نویز در دو نوبت", r"$\mathrm{NSR}_N^{(2)}$"), ""),
+            ("NSR3", ("نسبت سهم نویز در سه نوبت", r"$\mathrm{NSR}_N^{(3)}$"), ""),
         )),
+
 }
 
 STYLES = {
-    ("shared", LOSSES[0]): ("Shared / Sigmoid-JS", "#2563eb", "-", "o"),
-    ("shared", LOSSES[1]): ("Shared / Softplus-JS", "#d97706", "--", "s"),
-    ("class", LOSSES[0]): ("Class / Sigmoid-JS", "#0f766e", "-.", "^"),
-    ("class", LOSSES[1]): ("Class / Softplus-JS", "#a21caf", ":", "D"),
+    ("shared", LOSSES[0]): ("سیاست مشترک، زیان سیگمویدی", "#2563eb", "-", "o"),
+    ("shared", LOSSES[1]): ("سیاست مشترک، زیان سافت‌پلاس", "#d97706", "--", "s"),
+    ("class", LOSSES[0]): ("سیاست وابسته به کلاس، زیان سیگمویدی", "#0f766e", "-.", "^"),
+    ("class", LOSSES[1]): ("سیاست وابسته به کلاس، زیان سافت‌پلاس", "#a21caf", ":", "D"),
 }
+
+
+def fa(text):
+    """Persian shaping for Matplotlib; mathtext fragments stay untouched."""
+    return get_display(arabic_reshaper.reshape(str(text)))
+
+
+def uniform_noise_reference(metric, noise):
+    """Exact unmasked same-dimensional Uniform baseline; §3.8."""
+    assert 1 <= noise <= 6
+    d = 3 + noise
+    p = noise / d
+    if metric in ("q1", "q2", "q3", "s2", "s3"):
+        return p
+    if metric == "sp3":
+        return 3 / d
+    if metric == "hit2":
+        return 1 - (3 / d)**2
+    if metric == "hit3":
+        return 1 - (3 / d)**3
+    if metric == "nbar3":
+        return 3 * p
+    if metric in ("NFI3", "NSR2", "NSR3"):
+        return 1.0
+    raise KeyError(metric)
+
 
 
 def read_summary(path: Path, kind: str):
@@ -135,7 +167,22 @@ def plot_one(name, title, kind, panels, metrics, policies):
                                 linewidth=0)
                 if ax is axes.flat[0]:
                     used.append(artist)
-        ax.set_title(title_panel, fontsize=16, pad=10)
+        if kind == "policy":
+            uniform_values = np.array(
+                [uniform_noise_reference(metric, n) for n in NOISE_LEVELS],
+                dtype=float)
+            assert np.isfinite(uniform_values).all()
+            uniform_artist, = ax.plot(
+                NOISE_LEVELS, uniform_values, color="#253349",
+                linestyle=(0, (6, 3)), linewidth=2.2,
+                label=fa("سیاست یکنواخت"), zorder=4)
+            if ax is axes.flat[0]:
+                used.append(uniform_artist)
+            all_values.extend(uniform_values.tolist())
+            description, formula = title_panel
+            ax.set_title(fa(description) + "\n" + formula, fontsize=15, pad=10)
+        else:
+            ax.set_title(title_panel, fontsize=16, pad=10)
         ax.set_xlabel(r"$|A_N|$", fontsize=15)
         ax.set_xticks(NOISE_LEVELS)
         ax.tick_params(axis='both', labelsize=13)
@@ -151,11 +198,16 @@ def plot_one(name, title, kind, panels, metrics, policies):
             ax.set_ylim(floor, high + 0.14 * span)
     for ax in list(axes.flat)[len(panels):]:
         ax.axis("off")
-    fig.suptitle(title, fontsize=19, weight="semibold")
-    labels = [STYLES[k][0] for k in STYLES]
-    fig.legend(used, labels, loc="lower center", ncol=4,
-               bbox_to_anchor=(0.5, 0.01), fontsize=13, frameon=False)
-    fig.tight_layout(rect=(0, 0.085, 1, 0.94), h_pad=2.2, w_pad=1.5)
+    fig.suptitle(fa(title) if kind == "policy" else title,
+                 fontsize=19, weight="semibold")
+    labels = [fa(STYLES[k][0]) for k in STYLES]
+    if kind == "policy":
+        labels.append(fa("مرجع یکنواخت"))
+    fig.legend(used, labels, loc="lower center",
+               ncol=3 if kind == "policy" else 4,
+               bbox_to_anchor=(0.5, 0.01), fontsize=12, frameon=False)
+    fig.tight_layout(rect=(0, 0.115 if kind == "policy" else 0.085, 1, 0.94),
+                     h_pad=2.4, w_pad=1.5)
     OUT.mkdir(parents=True, exist_ok=True)
     target = OUT / name
     fig.savefig(target, dpi=160, facecolor="white",
@@ -194,6 +246,14 @@ def main():
                 assert abs(mean("s3") + mean("sp3") - 1) < 1e-8
                 assert abs(mean("NSR3") -
                            mean("s3") / (noise / (noise + 3))) < 1e-8
+    for noise in NOISE_LEVELS:
+        p = noise / (3 + noise)
+        assert abs(uniform_noise_reference("nbar3", noise) - 3*p) < 1e-12
+        assert abs(uniform_noise_reference("s3", noise) - p) < 1e-12
+        assert abs(uniform_noise_reference("hit3", noise) -
+                   (1 - (3 / (3 + noise))**3)) < 1e-12
+        assert uniform_noise_reference("NFI3", noise) == 1.0
+        assert uniform_noise_reference("NSR3", noise) == 1.0
     if args.write:
         generated = [str(plot_one(name, title, kind, panels, metrics, policies))
                      for name, (title, kind, panels) in FIGURES.items()]
