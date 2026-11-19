@@ -111,9 +111,9 @@ def read_summary(path: Path, kind: str):
 
 def plot_one(name, title, kind, panels, metrics, policies):
     source = policies if kind == "policy" else metrics
-    columns = 3 if len(panels) >= 5 else 2
+    columns = 2  # A4-readable panels; never squeeze six metrics into three columns.
     rows = (len(panels) + columns - 1) // columns
-    fig, axes = plt.subplots(rows, columns, figsize=(15.4, 4.25 * rows),
+    fig, axes = plt.subplots(rows, columns, figsize=(13.0, 4.4 * rows),
                              squeeze=False)
     used = []
     for ax, (metric, title_panel, split) in zip(axes.flat, panels):
@@ -129,18 +129,19 @@ def plot_one(name, title, kind, panels, metrics, policies):
                 hi = np.array([v[2] for v in vals]) * factor
                 all_values.extend(lo.tolist() + hi.tolist())
                 artist, = ax.plot(NOISE_LEVELS, y, color=color,
-                                  ls=line, marker=marker, ms=5, lw=2.2,
+                                  ls=line, marker=marker, ms=7, lw=2.6,
                                   label=label)
                 ax.fill_between(NOISE_LEVELS, lo, hi, color=color, alpha=0.09,
                                 linewidth=0)
                 if ax is axes.flat[0]:
                     used.append(artist)
-        ax.set_title(title_panel, fontsize=11, pad=9)
-        ax.set_xlabel(r"$|A_N|$", fontsize=11)
+        ax.set_title(title_panel, fontsize=16, pad=10)
+        ax.set_xlabel(r"$|A_N|$", fontsize=15)
         ax.set_xticks(NOISE_LEVELS)
+        ax.tick_params(axis='both', labelsize=13)
         ax.grid(alpha=0.22, linewidth=0.65)
         if kind == "classification":
-            ax.set_ylabel("%")
+            ax.set_ylabel("%", fontsize=14)
             # Keep the agreed category-wide BA scale, not one scale per panel.
             ax.set_ylim(70, 100)
         else:
@@ -150,11 +151,11 @@ def plot_one(name, title, kind, panels, metrics, policies):
             ax.set_ylim(floor, high + 0.14 * span)
     for ax in list(axes.flat)[len(panels):]:
         ax.axis("off")
-    fig.suptitle(title, fontsize=15, weight="semibold")
+    fig.suptitle(title, fontsize=19, weight="semibold")
     labels = [STYLES[k][0] for k in STYLES]
     fig.legend(used, labels, loc="lower center", ncol=4,
-               bbox_to_anchor=(0.5, 0.01), fontsize=9, frameon=False)
-    fig.tight_layout(rect=(0, 0.065, 1, 0.94), h_pad=1.7, w_pad=1.2)
+               bbox_to_anchor=(0.5, 0.01), fontsize=13, frameon=False)
+    fig.tight_layout(rect=(0, 0.085, 1, 0.94), h_pad=2.2, w_pad=1.5)
     OUT.mkdir(parents=True, exist_ok=True)
     target = OUT / name
     fig.savefig(target, dpi=160, facecolor="white",
