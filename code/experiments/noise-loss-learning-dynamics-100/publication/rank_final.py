@@ -16,7 +16,7 @@ from matplotlib import font_manager
 from source import load, policy_at, policy_metrics, write_table, PRIMARY, FAMILIES, OBJECTIVES, COMPARABLE
 from plots_fa import fa, OBJ, FAM
 
-plt.rcParams.update({"font.size":10,"svg.fonttype":"none"})
+plt.rcParams.update({"font.family":"DejaVu Sans","font.size":10,"svg.fonttype":"path"})
 
 
 def rankings(data):
@@ -108,14 +108,14 @@ def draw_rank(macro,root,family,obj):
     heat=ax.imshow(np.ma.masked_invalid(ar),cmap=cmap,vmin=1,vmax=10,aspect="auto")
     ax.set_xticks(range(10),["F"+str(x) for x in range(10)])
     ax.set_yticks(range(len(ds)),[d+" | "+f"{100*ba[d]:.2f}%" for d in ds],fontsize=8)
-    ax.set_xlabel("ID "+fa("ویژگی در دادهٔ مادر"))
+    ax.set_xlabel(fa("شناسهٔ ویژگی در دادهٔ مادر"))
     ax.set_ylabel(fa("زیرمجموعه و دقت متوازن اعتبارسنجی"))
     for i in range(len(ds)):
         for j in range(10):
             if np.isfinite(ar[i,j]):
                 ax.text(j,i,str(int(ar[i,j])),ha="center",va="center",fontsize=7,
                         color="white" if ar[i,j]>6 else "#101827")
-    fig.colorbar(heat,ax=ax,shrink=.73,label="Rank (1 = highest share)")
+    fig.colorbar(heat,ax=ax,shrink=.73,label=fa("رتبه؛ یک یعنی بیشترین سهم"))
     ax.set_title(fa("رتبهٔ انتخاب هر ویژگی در گام ۱۰۰؛ "+FAM[family]+"؛ زیان "+OBJ[obj][1]))
     fig.savefig(root.with_suffix(".png"),dpi=155,bbox_inches="tight")
     fig.savefig(root.with_suffix(".svg"),bbox_inches="tight")
@@ -142,12 +142,11 @@ def draw_shares(macro,root,family,obj):
         ax.set_ylim(0,max([x for x in vals if np.isfinite(x)]+[1/(3+noise)])*1.23)
         ax.set_xticks(range(10),["F"+str(x) for x in range(10)],fontsize=8)
         ax.grid(axis="y",alpha=.14)
-        ax.set_title("|A_N| = "+str(noise))
+        ax.set_title(fa("تعداد نویز: "+str(noise)))
         if noise in (1,4):ax.set_ylabel("s_a^(3)")
-        ax.set_xlabel("ID "+fa("ویژگی"))
+        ax.set_xlabel(fa("شناسهٔ ویژگی"))
     fig.suptitle(fa("میانگین سهم انتخاب ویژگی‌های حاضر؛ "+FAM[family]+"؛ زیان "+OBJ[obj][1]))
-    fig.text(.5,.012,fa("عدد بالای میله: تعداد زیرمجموعه‌های دارای آن ویژگی؛ خط‌چین: مرجع یکنواخت"),
-             ha="center",fontsize=10)
+    # The Persian explanatory caption is in README_FA.md, not on top of axes.
     fig.savefig(root.with_suffix(".png"),dpi=155,bbox_inches="tight")
     fig.savefig(root.with_suffix(".svg"),bbox_inches="tight")
     plt.close(fig)
