@@ -2526,9 +2526,13 @@ $BT$، $TNL$ و $BTNL$
 $\|\nabla_Z\mathcal L\|_2$
 نیز در گام‌های $0$ تا $100$
 ثبت شده‌اند.
-نمودارهای خطی بزرگ‌نمایی‌شده
-و لگاریتمی هر خانواده/هدف
-در پیوست الکترونیکی موجودند.
+در متن اصلی، هنجار گرادیان هر چهار ترکیب
+خانواده/تابع هدف با \emph{مقیاس لگاریتمی}
+رسم می‌شود تا افت‌های چندمرتبه‌ای و جهش‌های کوچک
+پنهان نمانند؛ نسخهٔ خطی بزرگ‌نمایی‌شده
+برای کنترل در پیوست الکترونیکی باقی مانده است.
+تابع زیان در نمودارهای مستقل و با مقیاس
+مخصوص همان هدف نمایش داده می‌شود.
 از آنجا که
 \lr{Sigmoid--JS} و \lr{Softplus--JS}
 تابع‌های هم‌مقیاس نیستند،
@@ -2544,7 +2548,7 @@ $\|\nabla_Z\mathcal L\|_2$
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/loss-gradient/shared__gradient_l2__sigmoid__zoom.png}
+\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/loss-gradient/shared__gradient_l2__sigmoid__log.png}
 \caption{هنجار گرادیان آموزش برای
 سیاست مشترک و تابع هدف سیگمویدی
 در $100$ به‌روزرسانی؛
@@ -2584,21 +2588,21 @@ $\|\nabla_Z\mathcal L\|_2$
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/loss-gradient/shared__gradient_l2__softplus__zoom.png}
+\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/loss-gradient/shared__gradient_l2__softplus__log.png}
 \caption{هنجار گرادیان آموزش در سیاست مشترک و lr{Softplus--JS}؛ مقیاس و دامنه مستقل از هدف سیگمویدی.}
 \label{fig:ch4-e14-gradient-shared-softplus}
 \end{figure}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/loss-gradient/class__gradient_l2__sigmoid__zoom.png}
+\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/loss-gradient/class__gradient_l2__sigmoid__log.png}
 \caption{هنجار گرادیان آموزش در سیاست شرطی کلاس و lr{Sigmoid--JS}، برای شش سطح نویز.}
 \label{fig:ch4-e14-gradient-class-sigmoid}
 \end{figure}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/loss-gradient/class__gradient_l2__softplus__zoom.png}
+\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/loss-gradient/class__gradient_l2__softplus__log.png}
 \caption{هنجار گرادیان آموزش در سیاست شرطی کلاس و lr{Softplus--JS}، با مسیرهای وابستهٔ هر سطح.}
 \label{fig:ch4-e14-gradient-class-softplus}
 \end{figure}
