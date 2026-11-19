@@ -125,6 +125,13 @@ def draw_rank(macro,root,family,obj):
 def draw_shares(macro,root,family,obj):
     fig,axes=plt.subplots(2,3,figsize=(15,8),sharex=True,layout="constrained")
     rows=[r for r in macro if r["family"]==family and r["objective"]==obj]
+    # One rounded vertical scale for the full group of six feature-share panels.
+    peak = max([r["share_s_a_3"] for r in rows if r["noise_count"] in COMPARABLE]
+               + [1/(3+noise) for noise in COMPARABLE])
+    from math import ceil
+    group_upper = ceil(peak / 0.1 - 1e-12) * 0.1
+    if group_upper <= peak:
+        group_upper += 0.1
     for noise,ax in zip(COMPARABLE,axes.flat):
         subset=[r for r in rows if r["noise_count"]==noise]
         vals=[];numbers=[]
@@ -139,7 +146,7 @@ def draw_shares(macro,root,family,obj):
                 ax.text(feature,v+max(.001,abs(v)*.035),str(numbers[feature]),
                         ha="center",fontsize=8)
         ax.axhline(1/(3+noise),ls="--",lw=1,color="#444b59")
-        ax.set_ylim(0,max([x for x in vals if np.isfinite(x)]+[1/(3+noise)])*1.23)
+        ax.set_ylim(0,group_upper)
         ax.set_xticks(range(10),["F"+str(x) for x in range(10)],fontsize=8)
         ax.grid(axis="y",alpha=.14)
         ax.set_title(fa("تعداد نویز: "+str(noise)))
