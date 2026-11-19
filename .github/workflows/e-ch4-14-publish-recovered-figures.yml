@@ -27,6 +27,7 @@ jobs:
       OMP_NUM_THREADS: '1'
       MKL_NUM_THREADS: '1'
       GH_TOKEN: ${{ github.token }}
+      REFRESH_FIGURES: 'true'
       PUB: code/experiments/noise-loss-learning-dynamics-100/publication
       ARCHIVES: /tmp/e14-verified-run-artifacts
       DATASET: /tmp/e14-standard-data
@@ -42,6 +43,31 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y -qq fonts-noto-core
           python -m pip install --disable-pip-version-check 'numpy==2.4.6' 'matplotlib==3.10.7' 'arabic-reshaper==3.0.0' 'python-bidi==0.6.7'
+      - name: Validate Persian glyph coverage, six-panel limits and split-specific Bayes values
+        run: |
+          python - <<'PY'
+          import os,sys
+          sys.path.insert(0,os.environ["PUB"])
+          from plots_fa import fa,check_glyphs,nice_bounds,BAYES_MAP_PERCENT,CORE
+          assert nice_bounds(79,98,percent=True)==(70,100)
+          assert nice_bounds(91,98,percent=True)==(90,100)
+          assert nice_bounds(31,47,percent=True)==(30,50)
+          assert BAYES_MAP_PERCENT=={
+              ("train","accuracy"):82.67,("train","balanced_accuracy"):84.32,
+              ("validation","accuracy"):96.67,
+              ("validation","balanced_accuracy"):97.45}
+          assert len(CORE)==15
+          for phrase in ("روند دقت متوازن اعتبارسنجی",
+                         "سیاست وابسته به کلاس",
+                         "تعداد نویز",
+                         "زیان سافت‌پلاس",
+                         "ویژگی‌های غیرنویزی",
+                         "شمارهٔ گام آموزش"):
+              check_glyphs(fa(phrase))
+          for text in ("F0","BA","Accuracy (%)","R_JS","NFI_N","s_a^(3)"):
+              check_glyphs(text)
+          print("E14_PERSIAN_GLYPH_AND_GROUP_SCALES_PASS")
+          PY
       - name: Retrieve original 32 fit artifacts (DO NOT rerun training)
         run: |
           gh run download 44419173443 --repo "$GITHUB_REPOSITORY" --pattern 'E14-100-runs-*' --dir "$ARCHIVES"
@@ -77,7 +103,7 @@ jobs:
           git add "$PUB/audit.json" "$PUB/all_metrics_101_steps.csv"
           git diff --cached --quiet || { git commit -m "E14 publication data: 152 SHA-verified traces and complete 101-step metric table"; git push origin HEAD:refs/heads/experiment/ch4-14-noise-sensitivity-01; }
       - name: Create separate Persian Sigmoid/Softplus Loss and gradient plots; commit
-        if: ${{ hashFiles('code/experiments/noise-loss-learning-dynamics-100/publication/loss-gradient/shared__loss__sigmoid__zoom.svg') == '' }}
+        if: ${{ env.REFRESH_FIGURES == 'true' || hashFiles('code/experiments/noise-loss-learning-dynamics-100/publication/loss-gradient/shared__loss__sigmoid__zoom.svg') == '' }}
         run: |
           python "$PUB/plots_fa.py" --artifacts "$ARCHIVES" --dataset "$DATASET" --part loss --output "$PUB/loss-gradient"
           test "$(find "$PUB/loss-gradient" -name '*.svg' | wc -l)" -eq 16
@@ -85,7 +111,7 @@ jobs:
           git add "$PUB/loss-gradient"
           git diff --cached --quiet || { git commit -m "E14 publication figures: 16 separate Persian loss/gradient panels, SVG and PNG"; git push origin HEAD:refs/heads/experiment/ch4-14-noise-sensitivity-01; }
       - name: Create Persian noise/non-noise policy share diagnostics and CSV; commit
-        if: ${{ hashFiles('code/experiments/noise-loss-learning-dynamics-100/publication/noise-policy/shared__softplus__NFI3.svg') == '' }}
+        if: ${{ env.REFRESH_FIGURES == 'true' || hashFiles('code/experiments/noise-loss-learning-dynamics-100/publication/noise-policy/shared__softplus__NFI3.svg') == '' }}
         run: |
           python - <<'PY'
           import os,sys
@@ -112,8 +138,8 @@ jobs:
       - name: Generate Persian I/R and Train/Validation classification plots; commit
         run: |
           python "$PUB/plots_fa.py" --artifacts "$ARCHIVES" --dataset "$DATASET" --part core --output "$PUB/figures"
-          test "$(find "$PUB/figures" -name '*.svg' | wc -l)" -eq 28
-          test "$(find "$PUB/figures" -name '*.png' | wc -l)" -eq 28
+          test "$(find "$PUB/figures" -name '*.svg' | wc -l)" -eq 30
+          test "$(find "$PUB/figures" -name '*.png' | wc -l)" -eq 30
           git add "$PUB/figures"
           git diff --cached --quiet || { git commit -m "E14 publication figures: Persian Train I/R and Validation classification learning curves"; git push origin HEAD:refs/heads/experiment/ch4-14-noise-sensitivity-01; }
       - name: Final output inventory, no training job invoked
