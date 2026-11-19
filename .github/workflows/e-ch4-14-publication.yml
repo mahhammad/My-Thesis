@@ -1,13 +1,8 @@
 name: E-CH4-14 Persian chapter4 figures and tables (NO FIT)
+# Historical vector-publication job, preserved for manual reproducibility only.
+# Do not trigger old publication regeneration when the 100-step chapter changes.
 on:
-  push:
-    branches: [experiment/ch4-14-noise-sensitivity-01]
-    paths:
-      - 'tex/chapter4.tex'
-      - 'code/experiments/synthetic-noise-feature-sensitivity/chapter4_publication.py'
-      - 'code/experiments/synthetic-noise-feature-sensitivity/tables/noise_horizon_*.json'
-      - 'code/experiments/synthetic-noise-feature-sensitivity/tables/noise_horizon_*.csv'
-      - '.github/workflows/e-ch4-14-publication.yml'
+  workflow_dispatch:
 permissions:
   contents: write
 concurrency:
