@@ -201,6 +201,120 @@ def render_tables():
     result.update(extended_tables())
     return result
 
+
+# Keep the original numerical outputs in the electronic appendix; override
+# only the two on-page tables and publish four supplementary P/R tables.
+_original_render_tables = render_tables
+
+def _farsi_family_loss(family, objective, compact=False):
+    family_fa = "سیاست مشترک" if family == "shared" else "سیاست وابسته به کلاس"
+    loss_fa = "زیان سیگمویدی" if objective == LOSSES[0] else "زیان سافت‌پلاس"
+    if compact:
+        return r"\shortstack{" + family_fa + r"\\" + loss_fa + "}"
+    return family_fa + " ـ " + loss_fa
+
+def _pct(value):
+    return "$" + format(100*float(value), ".2f") + "$"
+
+def _mean_variance(row):
+    # Mean in percent, unbiased *sample* variance in percentage-point squared.
+    variance = (100*float(row["descriptive_sd"]))**2
+    return "$" + format(100*float(row["mean"]), ".2f") + r"\;(" + format(variance, ".3f") + ")$"
+
+def _pivot_table(index, metric, split, label, caption):
+    heading = r"$|A_N|$ & " + " & ".join(
+        _farsi_family_loss(fam, loss, compact=True)
+        for fam in FAMILIES for loss in LOSSES)
+    rows = []
+    for count in range(1, 7):
+        line = "$" + str(count) + "$"
+        for fam in FAMILIES:
+            for loss in LOSSES:
+                line += " & " + _mean_variance(index[fam, loss, count, split, metric])
+        rows.append(line)
+    return table(label, caption, "ccccc", heading, rows)
+
+def render_tables():
+    result = _original_render_tables()
+    zero_data = read_aggregate_csv(ROOT / "zero_noise_source_t100.csv")
+    overview = read_csv("final_run_overview_t100.csv")
+    assert len(zero_data) == 4
+    lookup = {(r["family"], r["objective"]): r for r in zero_data}
+    assert len(lookup) == 4
+    for row in zero_data:
+        assert len(row["trace_sha256"]) == 64
+        orig = [r for r in overview if r["dataset_id"] == "N0-01"
+                and r["family"] == row["family"] and r["objective"] == row["objective"]]
+        assert len(orig) == 1
+        assert abs(float(orig[0]["validation_BA"]) -
+                   float(row["validation_balanced_accuracy"])) < 1e-12
+        assert abs(float(orig[0]["validation_accuracy"]) -
+                   float(row["validation_accuracy"])) < 1e-12
+
+    # Context only: MAP is evaluated on the standard five-feature split.
+    # It is NOT recomputed for each zero-noise configuration.
+    zero = [r"مرجع بیزی \lr{MAP} & $84.32$ & $82.67$ & $97.45$ & $96.67$"]
+    for fam in FAMILIES:
+        for loss in LOSSES:
+            data = lookup[fam, loss]
+            zero.append(_farsi_family_loss(fam, loss) + " & " + " & ".join(
+                _pct(data[key]) for key in
+                ("train_balanced_accuracy", "train_accuracy",
+                 "validation_balanced_accuracy", "validation_accuracy")))
+    result["zero_noise_t100.tex"] = table(
+        "tab:ch4-e14-zero",
+        "مرجع بیزی آگاه از مولد روی تقسیم استاندارد پنج‌ویژگی، در قیاس با چهار پیکربندی بدون نویز در گام $100$؛ تمام اعداد درصد هستند. مرجع بیزی مخصوص مجموعهٔ صفرنویز بازحساب نشده است.",
+        "rcccc",
+        r"مرجع یا پیکربندی & \shortstack{دقت متوازن\\آموزش} & \shortstack{دقت معمول\\آموزش} & \shortstack{دقت متوازن\\اعتبارسنجی} & \shortstack{دقت معمول\\اعتبارسنجی}",
+        zero)
+
+    index = {}
+    for row in read_aggregate_csv(ROOT / "all_metrics_101_steps.csv"):
+        if int(row["step"]) != 100:
+            continue
+        key = (row["family"], row["objective"], int(row["noise_count"]),
+               row["split"], row["metric"])
+        assert key not in index and int(row["subset_count"]) == 6
+        index[key] = row
+    assert len(index) == 6*4*19
+
+    # Six dependent subsets per cell: descriptive variance, not independent
+    # resampling variance or confidence intervals.
+    groups = defaultdict(list)
+    for r in overview:
+        groups[r["family"], r["objective"], int(r["noise_count"])].append(
+            float(r["validation_BA"]))
+    for fam in FAMILIES:
+        for loss in LOSSES:
+            for count in range(1, 7):
+                vals = groups[fam, loss, count]
+                assert len(vals) == 6
+                mu = sum(vals)/6
+                variance = sum((v-mu)**2 for v in vals)/5
+                rec = index[fam, loss, count, "validation", "balanced_accuracy"]
+                recall = index[fam, loss, count, "validation", "recall_macro"]
+                assert abs(mu-float(rec["mean"])) < 1e-10
+                assert abs(variance-float(rec["descriptive_sd"])**2) < 1e-10
+                assert abs(float(rec["mean"])-float(recall["mean"])) < 1e-10
+
+    result["validation_ba_t100.tex"] = _pivot_table(
+        index, "balanced_accuracy", "validation", "tab:ch4-e14-ba",
+        "دقت متوازن اعتبارسنجی در گام $100$؛ هر خانه میانگین درصد (واریانس نمونه‌ای در مجذور واحد درصد) روی شش زیرمجموعهٔ وابسته است. سطرها تعداد ویژگی نویزی $|A_N|=1,\ldots,6$ هستند.")
+    for metric, split, filename, label, cap in (
+        ("precision_macro", "train", "precision_train_t100.tex",
+         "tab:ch4-e14-precision-train-sup", "پرسیژن کلان آموزش"),
+        ("precision_macro", "validation", "precision_validation_t100.tex",
+         "tab:ch4-e14-precision-val-sup", "پرسیژن کلان اعتبارسنجی"),
+        ("recall_macro", "train", "recall_train_t100.tex",
+         "tab:ch4-e14-recall-train-sup", "ریکال کلان آموزش (برابر دقت متوازن)"),
+        ("recall_macro", "validation", "recall_validation_t100.tex",
+         "tab:ch4-e14-recall-val-sup", "ریکال کلان اعتبارسنجی (برابر دقت متوازن)")):
+        result[filename] = _pivot_table(
+            index, metric, split, label,
+            "پیوست الکترونیکی: " + cap +
+            "؛ میانگین درصد (واریانس نمونه‌ای در مجذور واحد درصد)، گام $100$.")
+    return result
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--write", action="store_true",
@@ -217,7 +331,7 @@ def main():
             p = DEST/name
             assert p.is_file() and p.read_text(encoding="utf-8") == contents, (
                 "Incorrect or stale published table: " + str(p))
-        print("E14_SELECTED_TABLES_PASS: 7 CSV-derived tables, NO FIT, NO TEST")
+        print("E14_SELECTED_TABLES_PASS: 11 CSV-derived tables, NO FIT, NO TEST")
 
 if __name__ == "__main__":
     main()
