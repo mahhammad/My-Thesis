@@ -2195,451 +2195,346 @@ $84.30$ و $96.60$ درصد هستند.
 \label{subsec:ch4-e14-accuracy}
 
 جدول~\ref{tab:ch4-e14-ba}
-میانگین دقت متوازن اعتبارسنجی
-در گام $100$ را برای شش زیرمجموعهٔ
-\emph{وابسته} در هر سطح نویز نشان می‌دهد.
-این میانگین‌ها و پراکندگی زیرمجموعه‌ها
-جایگزین تکرار با بذرهای مولد مستقل
-یا فاصلهٔ اطمینان آماری نیستند.
+دقت متوازن اعتبارسنجی را
+در گام ازپیش‌تعیین‌شدهٔ $100$
+برای همهٔ سطوح
+$|A_N|=1,\ldots,6$
+نشان می‌دهد.
+ستون‌ها چهار ترکیب خانوادهٔ سیاست
+و تابع زیان‌اند.
+هر خانه به صورت
+\emph{میانگین (واریانس نمونه‌ای)}
+گزارش شده است؛
+میانگین به درصد و واریانس
+به مجذور واحد درصد است.
+واریانس با مخرج پنج
+روی شش زیرمجموعهٔ متمایز
+\emph{اما وابسته} محاسبه شده
+و فاصلهٔ اطمینان بین‌بذری نیست.
 
 \input{code/experiments/noise-loss-learning-dynamics-100/publication/latex/tables/validation_ba_t100}
 
-\paragraph{ارزیابی کامل هر دو تقسیم.}
-برای آنکه تغییر عملکرد با افزودن نویز
-در هر شش سطح $|A_N|=1,\ldots,6$
-قابل مشاهده باشد،
-شکل~\ref{fig:ch4-e14-decision-noise-sweep}
-مقادیر گام ثابت $100$ را
-برای \lr{Accuracy}،
-دقت متوازن
-($\mathrm{BA}=\mathrm{Macro\ Recall}$)
-و \lr{Macro Precision}
-به تفکیک آموزش و اعتبارسنجی
-نمایش می‌دهد.
-در هر پنل چهار منحنی
-(دو خانوادهٔ سیاست و دو زیان)
-وجود دارد؛
-هر نقطه میانگین شش زیرمجموعهٔ وابسته
-و نوار کم‌رنگ بازهٔ کمینه تا بیشینهٔ
-همان شش زیرمجموعه است،
-\emph{نه فاصلهٔ اطمینان}.
-شکل، هر شش سطح را بدون حذف
-سطوح میانی عرضه می‌کند.
-جدول عددی کامل هر دو تقسیم
-در فایل بازتولیدپذیر
-\lr{performance\_t100.tex}
-و مقادیر تمام $101$ وضعیت
-در \lr{all\_metrics\_101\_steps.csv}
-در پوشهٔ انتشار محفوظ‌اند.
-ریکال کلان جداگانه تکرار نشده
-زیرا دقیقاً برابر BA است؛
-ریکال تک‌کلاس‌ها را نباید
-از این برابری نتیجه گرفت.
+بیشترین واریانس توصیفی
+دقت متوازن اعتبارسنجی
+در $24$ خانهٔ جدول،
+تقریباً $1.859$ مجذور واحد درصد،
+در سیاست وابسته به کلاس
+با \lr{Softplus--JS} و
+$|A_N|=1$ است.
+بیشترین دامنهٔ تغییر میانگین
+میان شش سطح نویز
+در یک ترکیب ثابت نیز
+حدود $1.077$ واحد درصد است.
+سیاست مشترک با
+\lr{Sigmoid--JS}
+در تمامی $36$ اجرای مقایسه‌ای
+دقت متوازن نهایی
+$97.28\%$ داشته است؛
+این هم‌ارزی عددی به معنای
+یکسانی سیاست‌های درونی نیست.
+بیشترین واریانس توصیفی
+پرسیژن کلان اعتبارسنجی
+$4.988$ مجذور واحد درصد،
+و بیشترین دامنهٔ تغییر
+میانگین پرسیژن در سطح‌های نویز
+$1.332$ واحد درصد بوده است.
+در مسئلهٔ چندکلاسهٔ حاضر،
+ریکال کلان دقیقاً
+معادل دقت متوازن است.
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.98\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/figures/final-sweep/decision_t100.png}
-\caption{عملکرد نهایی آموزش و اعتبارسنجی
-در شش سطح $|A_N|=1,\ldots,6$؛
-هر پنل چهار منحنی و هر نقطه
-میانگین شش زیرمجموعهٔ وابسته
-با نوار کمینه--بیشینه است.
-$\mathrm{BA}=\mathrm{Macro\ Recall}$؛
-مقیاس عملکرد $70$ تا $100$ درصد است.}
-\label{fig:ch4-e14-decision-noise-sweep}
-\end{figure}
+این تغییرات محدود با
+\emph{پایداری تجربی عملکرد}
+روی همین تحقق داده سازگارند،
+اما آزمون هم‌ارزی یا
+اثبات مقاومت نسبت به
+تقسیم‌ها و بذرهای مستقل نیستند.
+مرجع بیزی آگاه از مولد
+بر تقسیم استاندارد پنج‌ویژگی،
+دقت متوازن تجربی
+$84.32\%$ در آموزش
+و $97.45\%$ در اعتبارسنجی دارد.
+چهار پیکربندی بدون نویز نیز
+در اعتبارسنجی
+$96.60\%$ تا $97.28\%$
+را نشان داده‌اند.
+نتایج نویزی در همین سطح‌اند،
+ولی مرجع بیزی برای تک‌تک
+زیرمجموعه‌های آزمایش
+جداگانه بازحساب نشده
+و کران قطعی عملکرد تجربی
+روی این مجموعهٔ محدود نیست.
+اختلاف دشواری آموزش و
+اعتبارسنجی نیز باید
+هنگام مقایسه در نظر گرفته شود.
 
-در خانوادهٔ مشترک و
-\lr{Sigmoid--JS}،
-میانگین هر سه سنجهٔ
-آموزش و اعتبارسنجی
-در شش سطح نویز
-در گام پایانی ثابت
-ثبت شده است:
-\lr{Train BA}$=86.52\%$،
-\lr{Validation BA}$=97.28\%$،
-\lr{Train Precision}$=83.79\%$
-و \lr{Validation Precision}$=93.33\%$.
-این ثبات عددی
-برابری سیاست‌های
-درونی یا پیش‌بینی‌های
-تک‌نمونه را ثابت نمی‌کند.
-در مقابل،
-\lr{class / Softplus--JS}
-از یک تا شش نویز
-در \lr{Train BA}
-تقریباً
-$85.15\%\rightarrow85.82\%$
-و در \lr{Validation BA}
-تقریباً
-$96.66\%\rightarrow97.73\%$
-را نشان می‌دهد.
-نمی‌توان صرف اختلاف
-دو تقسیم را به اثر
-علی نویز نسبت داد؛
-زیرا مرجع بیزی جدول
-\ref{tab:ch4-base-bayes-split}
-نشان می‌دهد تحقق
-اعتبارسنجی این داده
-ذاتاً از تحقق آموزش
-ساده‌تر است.
-
+\paragraph{مسیر یادگیری دقت متوازن.}
 شکل‌های
-\ref{fig:ch4-e14-ba-train-shared}
-و~\ref{fig:ch4-e14-ba-train-class}
-مسیر دقت متوازن
-آموزش را مستقل
-از اعتبارسنجی
-نمایش می‌دهند.
-شکل‌های
-\ref{fig:ch4-e14-val-precision-shared}
-و~\ref{fig:ch4-e14-val-precision-class}
-نیز \lr{Precision} کلان
-اعتبارسنجی را عرضه می‌کنند؛
-مسیر \lr{Macro Recall}
-اعتبارسنجی همان
-مسیر BA است.
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/figures/shared/balanced_accuracy_train.png}
-\caption{مسیر دقت متوازن آموزش برای سیاست مشترک، دو هدف زیان و شش سطح نویز؛ میانگین توصیفی و شش زیرمجموعهٔ وابسته در هر پنل.}
-\label{fig:ch4-e14-ba-train-shared}
-\end{figure}
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/figures/class/balanced_accuracy_train.png}
-\caption{مسیر دقت متوازن آموزش برای سیاست شرطی کلاس و دو تابع هدف؛ مستقل از ارزیابی اعتبارسنجی.}
-\label{fig:ch4-e14-ba-train-class}
-\end{figure}
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/figures/shared/precision_macro_validation.png}
-\caption{مسیر lr{Macro Precision} اعتبارسنجی برای سیاست مشترک در هر ۱۰۱ وضعیت و هر دو تابع هدف.}
-\label{fig:ch4-e14-val-precision-shared}
-\end{figure}
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/figures/class/precision_macro_validation.png}
-\caption{مسیر lr{Macro Precision} اعتبارسنجی برای سیاست شرطی کلاس؛ منحنی‌های شش زیرمجموعه و میانگین توصیفی.}
-\label{fig:ch4-e14-val-precision-class}
-\end{figure}
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/figures/shared/accuracy_validation.png}
-\caption{مسیر lr{Accuracy} معمول اعتبارسنجی برای سیاست مشترک؛ نمودار مکمل BA و Precision و مرجع بیزی مخصوص تقسیم.}
-\label{fig:ch4-e14-val-accuracy-shared}
-\end{figure}
-
-\paragraph{نوسان‌های در طول آموزش.}
-هیچ یک از تابع‌های
-هدف مسیر یکنواختی
-برای BA تضمین نمی‌کند.
-برای نمونه، در
-\lr{class / Sigmoid--JS}
-با شش نویز،
-میانگین BA اعتبارسنجی
-در گام $79$ به حدود
-$98.19\%$ رسیده
-ولی در گام ثابت $100$
-$96.71\%$ بوده است؛
-این افت $1.47$ واحد
-درصدی، مشاهدهٔ
-پسینی از منحنی
-میانگین است،
-نه مبنای انتخاب
-بهترین checkpoint.
-در \lr{shared / Softplus--JS}
-با سه نویز
-میانگین BA در گام
-$25$ حدود $97.25\%$
-و در گام پایانی
-$97.14\%$ است.
-جزئیات تمام گام‌ها
-و انحراف معیار
-\emph{توصیفیِ}
-زیرمجموعه‌ها
-در پیوست الکترونیکی
-ثبت شده‌اند.
-
-
-
-شکل‌های~\ref{fig:ch4-e14-ba-shared}
-و~\ref{fig:ch4-e14-ba-class}
+\ref{fig:ch4-e14-ba-train-combined}
+و~\ref{fig:ch4-e14-ba-val-combined}
 مسیر کامل $0$ تا $100$
-را نشان می‌دهند. در هر پنل،
-شش مسیر کم‌رنگ به زیرمجموعه‌های
-همان سطح تعلق دارد و
-منحنی ضخیم میانگین آن‌هاست.
-خط‌چین مرجع بیزی
-برای تفسیر دشواری تقسیم داده
-آمده است، نه به منزلهٔ
-کران تجربی هر زیرمجموعه.
+را به‌ترتیب برای آموزش
+و اعتبارسنجی نشان می‌دهند.
+هر شکل شش پنل
+$|A_N|=1,\ldots,6$
+و هر پنل چهار منحنی
+متناظر با دو خانوادهٔ سیاست
+و دو تابع زیان دارد.
+خط‌چین خاکستری
+مرجع بیزی همان تقسیم است:
+$84.32\%$ در آموزش و
+$97.45\%$ در اعتبارسنجی،
+نه کران قطعی دقت
+هر زیرمجموعه.
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=.95\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/figures/shared/balanced_accuracy_validation.png}
-\caption{دقت متوازن اعتبارسنجی در $101$ وضعیت
-برای سیاست مشترک و دو تابع هدف؛
-هر پنل یک سطح نویز و هر گروه شامل
-شش زیرمجموعهٔ وابسته است.}
-\label{fig:ch4-e14-ba-shared}
+\includegraphics[width=.97\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/figures/revision-trends/ba_train_combined.png}
+\caption{روند دقت متوازن آموزش
+در شش سطح $|A_N|$،
+با چهار منحنی سیاست/زیان
+در هر پنل و خط‌چین مرجع بیزی
+آموزش ($84.32\%$).}
+\label{fig:ch4-e14-ba-train-combined}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.97\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/figures/revision-trends/ba_validation_combined.png}
+\caption{روند دقت متوازن اعتبارسنجی
+در شش سطح $|A_N|$،
+با چهار منحنی سیاست/زیان
+در هر پنل و خط‌چین مرجع بیزی
+اعتبارسنجی ($97.45\%$).}
+\label{fig:ch4-e14-ba-val-combined}
 \label{fig:ch4-e14-ba-bayes}
 \end{figure}
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.95\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/figures/class/balanced_accuracy_validation.png}
-\caption{دقت متوازن اعتبارسنجی برای سیاست
-شرطی کلاس در $100$ به‌روزرسانی،
-با دو تابع هدف و مرجع زمینه‌ای بیزی.}
-\label{fig:ch4-e14-ba-class}
-\end{figure}
+مسیرها الزاماً یکنواخت نیستند؛
+در سیاست وابسته به کلاس
+با \lr{Sigmoid--JS} و شش نویز،
+میانگین دقت متوازن اعتبارسنجی
+در گام $79$ حدود
+$98.19\%$ بوده، اما
+در گام ثابت $100$
+حدود $96.71\%$ است.
+این قله مشاهدهٔ پسینی،
+نه معیار انتخاب
+گام آموزش است.
+در مقایسهٔ جفتی خانواده‌ها
+روی همان $36$ زیرمجموعه
+برای هر زیان،
+در \lr{Sigmoid--JS}
+سیاست مشترک $23$ بار،
+سیاست وابسته به کلاس $2$ بار
+بهتر و $11$ بار برابر بوده‌اند؛
+در \lr{Softplus--JS}
+تعدادهای متناظر
+$10$، $19$ و $7$ است.
+این شمارش‌ها آزمون آماری
+برتری یک خانواده نیستند.
 
-در سیاست مشترک با
-\lr{Sigmoid--JS}،
-هر $36$ مسیر مقایسه‌ای
-در گام نهایی به دقت متوازن
-$97.28$ درصد رسیده‌اند؛
-این ثبات دقت به معنای
-یکسان‌شدن خود سیاست‌ها نیست.
-در خانوادهٔ شرطی کلاس،
-میانگین \lr{Sigmoid--JS}
-از $97.28$ درصد در یک نویز
-به $96.71$ درصد در شش نویز
-تغییر کرده است؛
-در مقابل، \lr{Softplus--JS}
-در همین دو سطح از $96.66$
-به $97.73$ درصد رسیده است.
-تغییرات میانی لزوماً یکنواخت نیستند.
-در مقایسهٔ جفتی دو خانواده
-برای هر زیان روی همان $36$
-زیرمجموعه، سیاست مشترک در
-\lr{Sigmoid--JS} در $23$ جفت بهتر،
-سیاست کلاس‌مشروط در $2$ جفت بهتر
-و $11$ جفت مساوی بوده‌اند؛
-برای \lr{Softplus--JS} به‌ترتیب
-$10$، $19$ و $7$ جفت حاصل شده است.
-این‌ها فراوانی‌های توصیفیِ
-یک مجموعهٔ مادر هستند،
-نه رأی آماری دربارهٔ
-برتری کلی دو خانواده.
-
-\subsection{هندسهٔ بازنمایی و پویایی آموزش}
+\subsection{هندسهٔ مراکز و پویایی آموزش}
 \label{subsec:ch4-e14-geometry-dynamics}
 
-در تمام $101$ وضعیت،
-جدایی مراکز آموزش $I$،
+برای مطالعهٔ اثر افزایش نویز،
+معیار جدایی مراکز $I$،
 تراکم‌های
 $R_{\mathrm{KL}}$،
-$R_{\mathrm{JS}}$ و
-$R_{\sqrt{\mathrm{JS}}}$،
-معیارهای جدایی مکمل
-$T$، $BT$، $TNL$ و $BTNL$
+$R_{\mathrm{JS}}$،
+$R_{\sqrt{\mathrm{JS}}}$
 و میانگین حاشیهٔ تصمیم
-ثبت شده‌اند.
-تعریف‌های این کمیت‌ها
-همان تعریف‌های فصل سوم‌اند؛
-برای نمونه، افزایش جدایی مراکز
-به‌تنهایی تضمین‌کنندهٔ
-بهبود دقت تصمیم نیست.
-مقایسهٔ نمودارهای هندسی
-با دقت نهایی باید با
-این تمایز انجام شود که
-هندسه بر Train محاسبه شده است
-و دقت جدول اصلی بر Validation.
+روی آموزش بررسی می‌شوند.
+برای هر معیار، نمودارهای
+سیاست مشترک و
+وابسته به کلاس جدا هستند؛
+هر نمودار دو پنل
+برای دو تابع زیان
+و در هر پنل شش منحنی
+برای $|A_N|=1,\ldots,6$
+دارد.
+به این ترتیب تغییر تعداد نویز
+در یک خانوادهٔ ثابت
+مستقیماً قابل مشاهده است.
+مقیاس‌ها متناسب با مقدار
+هر سنجه انتخاب شده‌اند
+و افزایش جدایی به‌تنهایی
+تضمین افزایش دقت نیست.
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/figures/shared/separation_i.png}
-\caption{مسیر معیار جدایی مراکز آموزش $I$
-برای سیاست مشترک، دو تابع هدف
-و شش سطح نویز.
-منحنی میانگین و شش مسیر زیرمجموعه
-از هم متمایز نمایش داده شده‌اند.}
+\includegraphics[width=.95\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/figures/revision-trends/shared__separation_i.png}
+\caption{روند جدایی مراکز $I$ برای سیاست مشترک در $101$ وضعیت؛ شش منحنی تعداد نویز در هر پنل، با پنل‌های جدا برای دو زیان.}
 \label{fig:ch4-e14-train-separation}
 \end{figure}
 
-\paragraph{قیاس هندسی کنترل‌شده در گام پایانی.}
-شکل‌های~\ref{fig:ch4-e14-geometry-sweep}
-و~\ref{fig:ch4-e14-geometry-extra-sweep}
-همهٔ سطوح $|A_N|=1,\ldots,6$
-را برای دو خانواده و دو تابع هدف
-در گام ثابت $100$ پوشش می‌دهند.
-شکل نخست
-$I$، $R_{\mathrm{KL}}$،
-$R_{\mathrm{JS}}$،
-$R_{\sqrt{\mathrm{JS}}}$
-و حاشیهٔ تصمیم را جداگانه نشان می‌دهد.
-شکل دوم همهٔ چهار سنجهٔ مکمل
-$T$، $BT$، $TNL$ و $BTNL$ را
-در مقیاس مستقل نمایش می‌دهد.
-هیچ متریکی حذف نشده؛
-اعداد دقیق در
-\lr{geometry\_t100.tex} و
-\lr{all\_metrics\_101\_steps.csv}
-برای بازتولید نگهداری می‌شوند.
-این کمیت‌ها فقط از دادهٔ آموزش
-به دست آمده‌اند و از اختلاف مقیاس
-آن‌ها برتری سیاست نتیجه نمی‌گیریم.
-برای نمونه،
-در \lr{shared / Sigmoid--JS}
-از یک تا شش نویز،
-$I$ تقریباً از $0.05213$ به
-$0.05075$ می‌رسد، در حالی که
-BA نهایی تغییر نکرده است.
-این هم‌زمانی اثبات رابطهٔ علّی نیست.
-
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=.98\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/figures/final-sweep/geometry_primary_t100.png}
-\caption{سنجه‌های اصلی هندسهٔ مراکز و
-حاشیهٔ تصمیم روی آموزش در گام $100$،
-در هر شش سطح $|A_N|$؛
-چهار منحنی در هر پنل و
-دامنهٔ توصیفی شش زیرمجموعهٔ وابسته.}
-\label{fig:ch4-e14-geometry-sweep}
-\end{figure}
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.98\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/figures/final-sweep/geometry_other_t100.png}
-\caption{چهار معیار مکمل جدایی
-$T$، $BT$، $TNL$ و $BTNL$
-روی آموزش در شش سطح نویز؛
-مقیاس هر پنل مستقل است.}
-\label{fig:ch4-e14-geometry-extra-sweep}
-\end{figure}
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/figures/class/separation_i.png}
-\caption{مسیر جدایی مراکز $I$ روی آموزش برای سیاست وابسته به کلاس و هر دو تابع هدف؛ مکمل شکل سیاست مشترک.}
+\includegraphics[width=.95\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/figures/revision-trends/class__separation_i.png}
+\caption{روند جدایی مراکز $I$ برای سیاست وابسته به کلاس در $101$ وضعیت؛ شش منحنی تعداد نویز در هر پنل، با پنل‌های جدا برای دو زیان.}
 \label{fig:ch4-e14-train-separation-class}
 \end{figure}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/figures/shared/density_r_js.png}
-\caption{مسیر تراکم $R_{mathrm{JS}}$ آموزش در سیاست مشترک؛ معیار هندسی نه دقت اعتبارسنجی.}
+\includegraphics[width=.95\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/figures/revision-trends/shared__density_r_kl.png}
+\caption{روند تراکم کولبک–لایبلر $R_{\mathrm{KL}}$ برای سیاست مشترک در $101$ وضعیت؛ شش منحنی تعداد نویز در هر پنل، با پنل‌های جدا برای دو زیان.}
+\label{fig:ch4-e14-rkl-shared}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.95\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/figures/revision-trends/class__density_r_kl.png}
+\caption{روند تراکم کولبک–لایبلر $R_{\mathrm{KL}}$ برای سیاست وابسته به کلاس در $101$ وضعیت؛ شش منحنی تعداد نویز در هر پنل، با پنل‌های جدا برای دو زیان.}
+\label{fig:ch4-e14-rkl-class}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.95\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/figures/revision-trends/shared__density_r_js.png}
+\caption{روند تراکم جنسن–شنون $R_{\mathrm{JS}}$ برای سیاست مشترک در $101$ وضعیت؛ شش منحنی تعداد نویز در هر پنل، با پنل‌های جدا برای دو زیان.}
 \label{fig:ch4-e14-rjs-shared}
 \end{figure}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/figures/class/density_r_js.png}
-\caption{مسیر تراکم $R_{mathrm{JS}}$ آموزش برای سیاست شرطی کلاس و هر دو تابع هدف.}
+\includegraphics[width=.95\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/figures/revision-trends/class__density_r_js.png}
+\caption{روند تراکم جنسن–شنون $R_{\mathrm{JS}}$ برای سیاست وابسته به کلاس در $101$ وضعیت؛ شش منحنی تعداد نویز در هر پنل، با پنل‌های جدا برای دو زیان.}
 \label{fig:ch4-e14-rjs-class}
 \end{figure}
 
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.95\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/figures/revision-trends/shared__density_r_sqrt_js.png}
+\caption{روند تراکم ریشهٔ جنسن–شنون $R_{\sqrt{\mathrm{JS}}}$ برای سیاست مشترک در $101$ وضعیت؛ شش منحنی تعداد نویز در هر پنل، با پنل‌های جدا برای دو زیان.}
+\label{fig:ch4-e14-rsqrt-shared}
+\end{figure}
 
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.95\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/figures/revision-trends/class__density_r_sqrt_js.png}
+\caption{روند تراکم ریشهٔ جنسن–شنون $R_{\sqrt{\mathrm{JS}}}$ برای سیاست وابسته به کلاس در $101$ وضعیت؛ شش منحنی تعداد نویز در هر پنل، با پنل‌های جدا برای دو زیان.}
+\label{fig:ch4-e14-rsqrt-class}
+\end{figure}
 
-برای جداکردن روند تابع هدف
-از رفتار هندسه و کیفیت تصمیم،
-زیان آموزش و هنجار گرادیان
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.95\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/figures/revision-trends/shared__margin_mean.png}
+\caption{روند حاشیهٔ تصمیم $\mathrm{Margin}$ برای سیاست مشترک در $101$ وضعیت؛ شش منحنی تعداد نویز در هر پنل، با پنل‌های جدا برای دو زیان.}
+\label{fig:ch4-e14-margin-shared}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.95\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/figures/revision-trends/class__margin_mean.png}
+\caption{روند حاشیهٔ تصمیم $\mathrm{Margin}$ برای سیاست وابسته به کلاس در $101$ وضعیت؛ شش منحنی تعداد نویز در هر پنل، با پنل‌های جدا برای دو زیان.}
+\label{fig:ch4-e14-margin-class}
+\end{figure}
+
+برای مثال،
+در سیاست مشترک با
+\lr{Sigmoid--JS}،
+$I$ از حدود $0.05213$
+در یک نویز به
+$0.05075$ در شش نویز
+رسیده، بااین‌حال
+میانگین دقت متوازن اعتبارسنجی
+تغییر نکرده است.
+این هم‌زمانی به معنای
+رابطهٔ علّی مستقیم
+بین یک سنجهٔ هندسی
+و خطای طبقه‌بندی نیست.
+
+\paragraph{پویایی زیان و گرادیان.}
+زیان و هنجار گرادیان
+فقط روی آموزش محاسبه شده‌اند.
+دو تابع \lr{Sigmoid--JS} و
+\lr{Softplus--JS} هم‌مقیاس نیستند،
+پس هر ترکیب خانواده/زیان
+در شکلی مستقل ارائه می‌شود.
+در چهار شکل زیان،
+شش منحنی نویز روی هم
+و محور عمودی لگاریتمی است.
+چهار شکل گرادیان،
+هر یک شش پنل نویز و
+محور عمودی لگاریتمی با
+نماد درست
 $\|\nabla_Z\mathcal L\|_2$
-نیز در گام‌های $0$ تا $100$
-ثبت شده‌اند.
-در متن اصلی، هنجار گرادیان هر چهار ترکیب
-خانواده/تابع هدف با \emph{مقیاس لگاریتمی}
-رسم می‌شود تا افت‌های چندمرتبه‌ای و جهش‌های کوچک
-پنهان نمانند؛ نسخهٔ خطی بزرگ‌نمایی‌شده
-برای کنترل در پیوست الکترونیکی باقی مانده است.
-تابع زیان در نمودارهای مستقل و با مقیاس
-مخصوص همان هدف نمایش داده می‌شود.
-از آنجا که
-\lr{Sigmoid--JS} و \lr{Softplus--JS}
-تابع‌های هم‌مقیاس نیستند،
-مقدار خام دو Loss و
-نرم گرادیان‌های آن‌ها را
-نباید فقط از نظر اندازهٔ مطلق
-با یکدیگر رتبه‌بندی کرد.
-به‌علاوه تعداد پارامترهای
-سیاست با $d$ تغییر می‌کند؛
-کوچک‌شدن هنجار گرادیان
-اثبات همگرایی نظری
-یا بهبود عملکرد نیست.
+دارند.
+نوار کم‌رنگ گرادیان
+بازهٔ کمینه تا بیشینهٔ
+شش زیرمجموعهٔ وابسته است،
+نه فاصلهٔ اطمینان.
+همچنین با افزایش تعداد ویژگی‌ها
+تعداد پارامترهای سیاست تغییر می‌کند؛
+بنابراین بزرگی مطلق گرادیان
+به‌تنهایی شاهد
+همگرایی یا برتری مدل نیست.
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/loss-gradient/shared__gradient_l2__sigmoid__log.png}
-\caption{هنجار گرادیان آموزش برای
-سیاست مشترک و تابع هدف سیگمویدی
-در $100$ به‌روزرسانی؛
-هر پنل شش زیرمجموعه و
-میانگین گروه را نشان می‌دهد.
-شکل مربوط به تابع هدف دیگر
-در پیوست الکترونیکی آمده است.}
-\label{fig:ch4-e14-gradient}
-\end{figure}
-
-\paragraph{حضور متوازن هر دو تابع هدف در پویایی آموزش.}
-شکل~\ref{fig:ch4-e14-gradient}
-برای \lr{Sigmoid--JS}
-در سیاست مشترک است.
-به‌منظور جلوگیری از
-محدودشدن تحلیل
-به یک هدف،
-شکل‌های
-\ref{fig:ch4-e14-gradient-shared-softplus}،
-\ref{fig:ch4-e14-gradient-class-sigmoid}
-و~\ref{fig:ch4-e14-gradient-class-softplus}
-سه حالت دیگر را
-نشان می‌دهند.
-همچنین نمودارهای
-\ref{fig:ch4-e14-loss-shared-sigmoid}
-و~\ref{fig:ch4-e14-loss-shared-softplus}
-تابع زیان همان
-دو هدف را
-\emph{در مقیاس مستقل}
-نمایش می‌دهند؛
-مقایسهٔ بزرگی
-مطلق مقادیر
-دو زیان یا هنجار
-گرادیان آن‌ها
-معیار رتبه‌بندی
-کیفیت مدل نیست.
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/loss-gradient/shared__gradient_l2__softplus__log.png}
-\caption{هنجار گرادیان آموزش در سیاست مشترک و lr{Softplus--JS}؛ مقیاس و دامنه مستقل از هدف سیگمویدی.}
-\label{fig:ch4-e14-gradient-shared-softplus}
-\end{figure}
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/loss-gradient/class__gradient_l2__sigmoid__log.png}
-\caption{هنجار گرادیان آموزش در سیاست شرطی کلاس و lr{Sigmoid--JS}، برای شش سطح نویز.}
-\label{fig:ch4-e14-gradient-class-sigmoid}
-\end{figure}
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/loss-gradient/class__gradient_l2__softplus__log.png}
-\caption{هنجار گرادیان آموزش در سیاست شرطی کلاس و lr{Softplus--JS}، با مسیرهای وابستهٔ هر سطح.}
-\label{fig:ch4-e14-gradient-class-softplus}
-\end{figure}
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/loss-gradient/shared__loss__sigmoid__zoom.png}
-\caption{روند تابع زیان lr{Sigmoid--JS} روی آموزش برای سیاست مشترک؛ مقایسهٔ درون همان هدف.}
+\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/figures/revision-trends/shared__sigmoid__loss_log.png}
+\caption{تابع زیان آموزش برای سیاست مشترک با زیان سیگمویدی؛ شش منحنی نویز با محور لگاریتمی.}
 \label{fig:ch4-e14-loss-shared-sigmoid}
 \end{figure}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/loss-gradient/shared__loss__softplus__zoom.png}
-\caption{روند تابع زیان lr{Softplus--JS} روی آموزش برای سیاست مشترک؛ مقیاس مستقل از شکل سیگمویدی.}
+\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/figures/revision-trends/shared__sigmoid__gradient_log.png}
+\caption{هنجار گرادیان آموزش برای سیاست مشترک با زیان سیگمویدی؛ شش پنل نویز با محور لگاریتمی.}
+\label{fig:ch4-e14-gradient}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/figures/revision-trends/shared__softplus__loss_log.png}
+\caption{تابع زیان آموزش برای سیاست مشترک با زیان سافت‌پلاس؛ شش منحنی نویز با محور لگاریتمی.}
 \label{fig:ch4-e14-loss-shared-softplus}
 \end{figure}
 
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/figures/revision-trends/shared__softplus__gradient_log.png}
+\caption{هنجار گرادیان آموزش برای سیاست مشترک با زیان سافت‌پلاس؛ شش پنل نویز با محور لگاریتمی.}
+\label{fig:ch4-e14-gradient-shared-softplus}
+\end{figure}
 
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/figures/revision-trends/class__sigmoid__loss_log.png}
+\caption{تابع زیان آموزش برای سیاست وابسته به کلاس با زیان سیگمویدی؛ شش منحنی نویز با محور لگاریتمی.}
+\label{fig:ch4-e14-loss-class-sigmoid}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/figures/revision-trends/class__sigmoid__gradient_log.png}
+\caption{هنجار گرادیان آموزش برای سیاست وابسته به کلاس با زیان سیگمویدی؛ شش پنل نویز با محور لگاریتمی.}
+\label{fig:ch4-e14-gradient-class-sigmoid}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/figures/revision-trends/class__softplus__loss_log.png}
+\caption{تابع زیان آموزش برای سیاست وابسته به کلاس با زیان سافت‌پلاس؛ شش منحنی نویز با محور لگاریتمی.}
+\label{fig:ch4-e14-loss-class-softplus}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.94\linewidth]{code/experiments/noise-loss-learning-dynamics-100/publication/figures/revision-trends/class__softplus__gradient_log.png}
+\caption{هنجار گرادیان آموزش برای سیاست وابسته به کلاس با زیان سافت‌پلاس؛ شش پنل نویز با محور لگاریتمی.}
+\label{fig:ch4-e14-gradient-class-softplus}
+\end{figure}
+
+نتایج پویایی آموزش
+و هندسه، تحلیل توصیفی
+همین دادهٔ منجمد هستند:
+حفظ دقت متوازن،
+کاهش زیان یا هنجار گرادیان
+به‌تنهایی اثبات همگرایی نظری،
+سازوکار علّی
+یا مقاومت در برابر
+تقسیم‌های تازه نیستند.
 
 \subsection{سهم انتخاب ویژگی‌های نویزی و چندگانگی سیاست}
 \label{subsec:ch4-e14-noise-probability}
