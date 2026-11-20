@@ -948,7 +948,7 @@ $\mathcal J_{i,b}^{(s)}=\mathcal N_{i,b}^{(s)}$
 به همین دلیل حالت $H=1$ نیز مستقیماً
 پوشش داده می‌شود.
 \begin{algorithm}[!htbp]
-\caption{محاسبهٔ ضرایب گشت با افق سقف‌دار}
+\caption{زیرروال $\operatorname{CappedWeights}$ برای محاسبهٔ ضرایب گشت}
 \label{cmp:alg:ch3-capped-walk-weights}
 \begin{algorithmic}[1]
 \REQUIRE $H\ge1$، $0<\beta\le1$ و $0<\lambda\le1$
@@ -973,9 +973,9 @@ $\mathcal J_{i,b}^{(s)}=\mathcal N_{i,b}^{(s)}$
 \end{algorithm}
 
 الگوریتم~\ref{cmp:alg:ch3-advance-walk-state}
-ضرب $\nu\mathsf P_s$ را به‌صورت دو مرحلهٔ
+پیش‌برد یک‌گام توزیع حالت را به‌صورت دو مرحلهٔ
 افقی و عمودی اجرا می‌کند، بدون آنکه
-$\mathsf P_s$ یا حتی عامل‌های $F_s,S_s$
+ماتریس انتقال یا حتی عامل‌های $F_s,S_s$
 به‌صورت ماتریس ساخته شوند. در این روال،
 $r_b$ جرم حاصل از انتخاب ویژگی $b$
 در نمونهٔ جاری است و سپس روی مقصدهای
@@ -985,7 +985,7 @@ $r_b$ جرم حاصل از انتخاب ویژگی $b$
 \label{cmp:alg:ch3-advance-walk-state}
 \begin{algorithmic}[1]
 \REQUIRE $\nu$ روی $\mathcal S_s$؛ $s,c_s$؛ سیاست $\pi_s^{(c_s)}$؛ $\bar q,\mathcal J$
-\ENSURE $\nu^+=\nu\mathsf P_s$
+\ENSURE $\nu^+$، توزیع حالت پس از یک گام با قانون $\bar q$
 \STATE $\nu^+(j,b)\gets0$ برای هر $(j,b)\in\mathcal S_s$
 \FORALL{$i\in\{1,\ldots,n\}\setminus\{s\}$}
     \FORALL{$b\in A_{X_i}$}
