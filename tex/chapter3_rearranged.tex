@@ -920,53 +920,142 @@ $\operatorname{TV}(q_b^{(s)}(\cdot\mid i),
 یک بهینه‌سازیِ بی‌اثر بر توزیع گشت نیست.
 
 \paragraph{شبه‌کد محاسبهٔ امید گشت با افق محدود.}
-روال زیر بازگشت پیش‌روندهٔ
-رابطه~\eqref{cmp:eq:ch3-matrix-forward-recursion}
-را بدون تشکیل صریح توان‌های ماتریس انتقال اجرا می‌کند.
-ورودی، مبدأ $s$، فرض طبقهٔ آن $c_s$، پارامترهای
-$H,\beta,\lambda$، سیاست انتخاب ویژگی، وزن‌های
-عمودی و ماتریس برچسب مرجع $Y$ است. توزیع عمودی
-می‌تواند $q_b^{(s)}$ در گراف کامل یا
-$\widetilde q_b^{(s)}$ در گراف تنک‌شده باشد.
-\begin{enumerate}
-\item ضرایب $p_\ell^{(H)}$ و
-$\alpha_t^{(H)}$ را طبق
-رابطه~\eqref{cmp:eq:ch3-capped-alpha}
-محاسبه کن؛ جمع پس‌رونده برای این ضرایب
-$O(H)$ عملیات نیاز دارد.
-\item برای مبدأ و فرض طبقهٔ ثابت،
-بردار شروع $\rho_s$ و عامل‌های تنک
-$F_s,S_s$ را مطابق
-روابط~\eqref{cmp:eq:ch3-block-first-step}
-و~\eqref{cmp:eq:ch3-block-factorization}
-بساز؛ سطر شروع $\bot$ را فقط در $\rho_s$
-به کار ببر.
-\item مقداردهی اولیه کن:
-$\nu\gets\rho_s$ و
-$u\gets 0_{1\times K}$.
-\item برای $t=1,\ldots,H$، ابتدا
-$u\gets u+\alpha_t^{(H)}\nu\mathsf M_s^{(Y)}$
-را محاسبه کن؛ اگر $t<H$ بود،
-$\nu\gets(\nu F_s)S_s$ را اجرا کن.
-تجمیع با $\mathsf M_s^{(Y)}$ را می‌توان
-مستقیماً بر اساس برچسب حالت‌ها انجام داد
-و نیازی به ذخیرهٔ این ماتریس نیست.
-\item خروجی را $\mathscr Y_s\gets u$
-قرار بده. اگر بازنمایی نمونه‌ای $h_s$ نیز
-مورد نیاز باشد، از ابتدا بردار صفر $n$بعدی
-در نظر بگیر و در هر تکرار، \emph{پیش از}
-به‌روزرسانی $\nu$، مقدار
-$\alpha_t^{(H)}\nu\mathsf M_s^{(X)}$
-را به آن اضافه کن.
-\end{enumerate}
-این شبه‌کد برای افق سقف‌دار $H$ و
-قانون انتقال انتخاب‌شده، بدون خطای
-نمونه‌گیری مونت‌کارلو محاسبه می‌کند.
-برای پردازش مبدأهای مختلف می‌توان بردارهای حالت
-و عامل‌های وابسته به هر مبدأ را پس از پایان همان
-محاسبه آزاد کرد؛ همچنین در استنتاج مبتنی بر
-فرضیهٔ طبقه، روال باید برای هر $c_s$ مورد نظر
-با سیاست متناظر اجرا شود.
+برای مشخص‌کردن تمام مراحل محاسبه، سه الگوریتم زیر
+را تعریف می‌کنیم: محاسبهٔ ضرایب وزن‌دار گشت،
+پیش‌برد یک‌گام توزیع حالت، و روال اصلی تجمیع امید.
+در هر سه الگوریتم، مبدأ $s$ و فرض طبقهٔ $c_s$
+در طول یک اجرا ثابت‌اند. برای یکسان‌کردن حالت
+کامل و تنک، مجموعهٔ مقصدهای مجاز را با
+$\mathcal J_{i,b}^{(s)}$ و احتمال انتقال
+عمودی متناظر را با $\bar q_b^{(s)}(j\mid i)$
+نشان می‌دهیم. در گراف کامل،
+$\mathcal J_{i,b}^{(s)}
+=D_b\setminus\{X_i,X_s\}$ و
+$\bar q_b^{(s)}=q_b^{(s)}$ است؛
+در گراف تنک،
+$\mathcal J_{i,b}^{(s)}=\mathcal N_{i,b}^{(s)}$
+و $\bar q_b^{(s)}=\widetilde q_b^{(s)}$
+خواهد بود. در هر دو حالت، مجموعهٔ مقصدها
+ناتهی است و $\bar q_b^{(s)}$ روی همان
+مجموعه نرمال شده است.
+
+الگوریتم~\ref{cmp:alg:ch3-capped-walk-weights}
+ضرایب رابطه~\eqref{cmp:eq:ch3-capped-alpha}
+را با جمع پس‌رونده و بدون محاسبهٔ
+جداگانهٔ مجموع‌های تودرتو می‌سازد.
+متغیر $r$ در این الگوریتم جرم طول گشت
+باقی‌مانده پیش از اعمال توقف است؛
+به همین دلیل حالت $H=1$ نیز مستقیماً
+پوشش داده می‌شود.
+\begin{algorithm}[!htbp]
+\caption{محاسبهٔ ضرایب گشت با افق سقف‌دار}
+\label{cmp:alg:ch3-capped-walk-weights}
+\begin{algorithmic}[1]
+\REQUIRE $H\ge1$، $0<\beta\le1$ و $0<\lambda\le1$
+\ENSURE $\alpha_1^{(H)},\ldots,\alpha_H^{(H)}$
+\STATE $r\gets1$؛ $\mathcal N_0\gets0$
+\FOR{$\ell=1,\ldots,H$}
+    \STATE $\mathcal N_\ell\gets1+\lambda\mathcal N_{\ell-1}$
+    \IF{$\ell<H$}
+        \STATE $p_\ell^{(H)}\gets\beta r$
+        \STATE $r\gets(1-\beta)r$
+    \ELSE
+        \STATE $p_H^{(H)}\gets r$
+    \ENDIF
+\ENDFOR
+\STATE $z\gets0$
+\FOR{$t=H,H-1,\ldots,1$}
+    \STATE $z\gets z+p_t^{(H)}/\mathcal N_t$
+    \STATE $\alpha_t^{(H)}\gets\lambda^{t-1}z$
+\ENDFOR
+\STATE \textbf{بازگردان} $(\alpha_1^{(H)},\ldots,\alpha_H^{(H)})$
+\end{algorithmic}
+\end{algorithm}
+
+الگوریتم~\ref{cmp:alg:ch3-advance-walk-state}
+ضرب $\nu\mathsf P_s$ را به‌صورت دو مرحلهٔ
+افقی و عمودی اجرا می‌کند، بدون آنکه
+$\mathsf P_s$ یا حتی عامل‌های $F_s,S_s$
+به‌صورت ماتریس ساخته شوند. در این روال،
+$r_b$ جرم حاصل از انتخاب ویژگی $b$
+در نمونهٔ جاری است و سپس روی مقصدهای
+مجاز همان ویژگی پخش می‌شود.
+\begin{algorithm}[!htbp]
+\caption{پیش‌برد یک گام توزیع حالت $\operatorname{Advance}$}
+\label{cmp:alg:ch3-advance-walk-state}
+\begin{algorithmic}[1]
+\REQUIRE $\nu$ روی $\mathcal S_s$؛ $s,c_s$؛ سیاست $\pi_s^{(c_s)}$؛ $\bar q,\mathcal J$
+\ENSURE $\nu^+=\nu\mathsf P_s$
+\STATE $\nu^+(j,b)\gets0$ برای هر $(j,b)\in\mathcal S_s$
+\FORALL{$i\in\{1,\ldots,n\}\setminus\{s\}$}
+    \FORALL{$b\in A_{X_i}$}
+        \STATE $r_b\gets0$
+        \FORALL{$a\in A_{X_i}$}
+            \STATE $r_b\gets r_b+\nu(i,a)\pi_s^{(c_s)}(b\mid i,a)$
+        \ENDFOR
+        \FORALL{$X_j\in\mathcal J_{i,b}^{(s)}$}
+            \STATE $\nu^+(j,b)\gets\nu^+(j,b)+r_b\bar q_b^{(s)}(j\mid i)$
+        \ENDFOR
+    \ENDFOR
+\ENDFOR
+\STATE \textbf{بازگردان} $\nu^+$
+\end{algorithmic}
+\end{algorithm}
+
+الگوریتم~\ref{cmp:alg:ch3-exact-walk-expectation}
+از دو زیرروال بالا استفاده می‌کند.
+توزیع اولیهٔ $\nu=\rho_s$ با سطر آغاز
+$\bot$ ساخته می‌شود؛ در گام‌های بعدی
+سطرهای انتقال میانی سیاست به کار می‌روند.
+تجمیع مستقیم در مؤلفهٔ نمونهٔ $j$ و
+برچسب $y_j$ دقیقاً معادل ضرب در
+$\mathsf M_s^{(X)}$ و $\mathsf M_s^{(Y)}$
+است، ولی نیازی به ذخیرهٔ این دو ماتریس ندارد.
+\begin{algorithm}[!htbp]
+\caption{محاسبهٔ دقیق امید گشت روی گراف انتخاب‌شده}
+\label{cmp:alg:ch3-exact-walk-expectation}
+\begin{algorithmic}[1]
+\REQUIRE $s,c_s,H,\beta,\lambda$؛ سیاست $\pi_s^{(c_s)}$؛ $\bar q,\mathcal J$؛ برچسب‌های $Y$
+\ENSURE بازنمایی نمونه‌ای $h_s$ و بازنمایی برچسبی $\mathscr Y_s$
+\STATE $\alpha^{(H)}\gets\operatorname{CappedWeights}(H,\beta,\lambda)$
+\STATE $\mathcal S_s\gets\{(j,b)\mid j\ne s,\ b\in A_{X_j}\}$
+\STATE $\nu(j,b)\gets0$ برای هر $(j,b)\in\mathcal S_s$
+\FORALL{$b\in A_{X_s}$}
+    \FORALL{$X_j\in\mathcal J_{s,b}^{(s)}$}
+        \STATE $\nu(j,b)\gets\nu(j,b)+\pi_s^{(c_s)}(b\mid s,\bot)\bar q_b^{(s)}(j\mid s)$
+    \ENDFOR
+\ENDFOR
+\STATE $h_s\gets0_{1\times n}$؛ $\mathscr Y_s\gets0_{1\times K}$
+\FOR{$t=1,\ldots,H$}
+    \FORALL{$(j,b)\in\mathcal S_s$}
+        \STATE $h_s[j]\gets h_s[j]+\alpha_t^{(H)}\nu(j,b)$
+        \STATE $\mathscr Y_s[y_j]\gets\mathscr Y_s[y_j]+\alpha_t^{(H)}\nu(j,b)$
+    \ENDFOR
+    \IF{$t<H$}
+        \STATE $\nu\gets\operatorname{Advance}(\nu,s,c_s,\pi_s^{(c_s)},\bar q,\mathcal J)$
+    \ENDIF
+\ENDFOR
+\STATE \textbf{بازگردان} $(h_s,\mathscr Y_s)$
+\end{algorithmic}
+\end{algorithm}
+
+این سه الگوریتم برای افق سقف‌دار $H$ و
+قانون انتقال انتخاب‌شده، بدون خطای نمونه‌گیری
+مونت‌کارلو امید بازنمایی را محاسبه می‌کنند.
+در حالت تنک، دقت محاسبه نسبت به \emph{گراف
+تنک‌شده} است؛ خطای تغییر گراف از خطای
+محاسبهٔ امید متمایز می‌ماند.
+هزینهٔ محاسبهٔ ضرایب $O(H)$ است و
+هر فراخوانی $\operatorname{Advance}$،
+پس از آماده‌سازی وزن‌ها و همسایگان،
+در حالت کامل حداکثر $O(e_h+e_v)$ و
+در حالت تنک حداکثر
+$O(e_h+k_{\mathrm{nbr}}m)$ عملیات دارد.
+برای مبدأهای مختلف، فضای حالت و بردارهای
+وابسته به هر مبدأ را می‌توان پس از اتمام
+همان اجرا آزاد کرد؛ برای سیاست شرطی به طبقه
+نیز هر فرض $c_s$ باید با سیاست متناظر
+ارزیابی شود.
 
 
 \section{از بازنمایی همسایگی تا پیش‌بینی برچسب نمونه}
