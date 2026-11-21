@@ -4306,9 +4306,11 @@ $\operatorname{LogSumExp}$ پایدار استفاده می‌شود.
 \REQUIRE داده، برچسب و ماسک مجموعهٔ آموزش
 $D_{\mathrm{tr}},Y_{\mathrm{tr}},M_{\mathrm{tr}}$؛
 خانوادهٔ سیاست، $\theta^{(0)}$، $H,\beta,\lambda$،
-وزن‌های $\Omega$، قرارداد امتیاز و زیان
-$\mathcal C\in\{\mathrm{NLL},\mathrm{sig},\mathrm{SP\!-\!JS}\}$،
-فراپارامترهای عددی و بهینه‌ساز؛ شمار گام $T$
+وزن‌های $\Omega$ و قرارداد
+$\mathsf{cfg}=(\mathsf{loss},D,\tau_D,\tau,\tau_{\mathrm{SP}},
+\text{نرمال‌سازی و پایداری})$ با
+$\mathsf{loss}\in\{\mathrm{NLL},\mathrm{sig},
+\mathrm{SP\!-\!JS}\}$؛ بهینه‌ساز و شمار گام $T$
 \ENSURE مدل آموزش‌دیده
 $\mathcal M_{\mathrm{tr}}$ و در صورت درخواست،
 حالت بهینه‌ساز برای ادامهٔ آموزش
@@ -4339,16 +4341,16 @@ $\xi\gets\operatorname{InitOptimizer}(\theta)$
             \STATE $d_{i,c}\gets
             D(\mathscr Y_i^{[c]},\mathcal V_c(\theta))$
         \ENDFOR
-        \IF{$\mathcal C=\mathrm{NLL}$}
+        \IF{$\mathsf{loss}=\mathrm{NLL}$}
             \STATE $s_{i,:}\gets
-            \operatorname{Score}_{\mathcal C}(d_{i,:})$
+            \operatorname{Score}_{\mathsf{cfg}}(d_{i,:})$
             \STATE $\ell_i\gets
             -s_{i,y_i}+\operatorname{LogSumExp}_r(s_{i,r})$
         \ELSE
             \STATE $S_{i,c}\gets 1-
             \operatorname{JSD}(\mathscr Y_i^{[c]},\mathcal V_c)/\log2$
             برای تمام $c$
-            \IF{$\mathcal C=\mathrm{sig}$}
+            \IF{$\mathsf{loss}=\mathrm{sig}$}
                 \STATE $m_i\gets S_{i,y_i}-\max_{r\ne y_i}S_{i,r}$
                 \STATE $\ell_i\gets \ell_\tau(m_i)$
             \ELSE
@@ -4366,26 +4368,26 @@ $\xi\gets\operatorname{InitOptimizer}(\theta)$
     \STATE $(\theta,\xi)\gets
     \operatorname{OptimizerStep}(\theta,g,\xi)$
 \ENDFOR
-\STATE $\theta^\star\gets\theta$
+\STATE $\theta^{\mathrm{fit}}\gets\theta$
 \STATE محاسبهٔ مجدد
-$\mathscr Y_i^{[c]}(\theta^\star)$
+$\mathscr Y_i^{[c]}(\theta^{\mathrm{fit}})$
 برای همهٔ مبدأها و نامزدهای لازم با
 $\operatorname{ExactWalk}_{\mathrm{tr}}$
-\STATE $\mathcal V_c^\star\gets
+\STATE $\mathcal V_c^{\mathrm{fit}}\gets
 |C_c|^{-1}\sum_{i\in C_c}
-\mathscr Y_i^{[c]}(\theta^\star)$
+\mathscr Y_i^{[c]}(\theta^{\mathrm{fit}})$
 برای تمام $c$
 \STATE $\mathcal M_{\mathrm{tr}}\gets
-(\theta^\star,\mathcal V^\star,
+(\theta^{\mathrm{fit}},\mathcal V^{\mathrm{fit}},
 D_{\mathrm{tr}},Y_{\mathrm{tr}},M_{\mathrm{tr}},
-\mathcal C,H,\beta,\lambda,\text{کرنل و قرارداد سیاست})$
+\mathsf{cfg},H,\beta,\lambda,\text{کرنل و قرارداد سیاست})$
 \STATE \textbf{بازگردان}
 $\mathcal M_{\mathrm{tr}}$ و، در صورت نیاز، $\xi$
 \end{algorithmic}
 \end{algorithm}
 
 در شاخهٔ NLL، نگاشت
-$\operatorname{Score}_{\mathcal C}$
+$\operatorname{Score}_{\mathsf{cfg}}$
 دقیقاً قرارداد انتخاب‌شدهٔ
 $-d/\tau_D$ یا نرمال‌سازی مجاز بخش
 \ref{cmp:sec:ch3-score-normalization-analysis}
@@ -4413,7 +4415,7 @@ $D=\operatorname{JSD}$ و امتیازها با
 مراکزِ بازحساب‌شدهٔ نهایی همراه با
 مرجع آموزش و قرارداد امتیاز لازم‌اند؛
 مراکز محاسبه‌شده \emph{پیش از آخرین}
-به‌روزرسانی عموماً با $\theta^\star$
+به‌روزرسانی عموماً با $\theta^{\mathrm{fit}}$
 سازگار نیستند. در این شبه‌کد دادهٔ
 اعتبارسنجی در محاسبهٔ گرادیان یا
 بازبرآورد مراکز وارد نمی‌شود؛
@@ -4433,7 +4435,7 @@ $\mathcal M_{\mathrm{tr}}$ روی نمونهٔ جدید،
 \emph{سیاست میانگین} تبدیل شوند،
 مراکز باید با همان سیاست میانگین
 بازمحاسبه گردند؛ مراکز
-$\mathcal V_c^\star$ در الگوریتم حاضر
+$\mathcal V_c^{\mathrm{fit}}$ در الگوریتم حاضر
 برای استنتاج \emph{فرضیه‌محور} ساخته شده‌اند
 و بدون این بازبرآورد قابل جایگزینی نیستند.
 
