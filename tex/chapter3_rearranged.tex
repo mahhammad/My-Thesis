@@ -4503,8 +4503,14 @@ $D_b^{\mathrm{tr}}\setminus\{X_i\}$ برای
 بدون تغییر از فراخوانی گشت
 \emph{مبدأ آموزشی} را نامعتبر می‌کند.
 
-برای اختصار،
-$\operatorname{QueryExactWalk}(x,c;\mathcal M_{\mathrm{tr}})$
+برای اختصار، $\mathfrak a$ را قرارداد آغاز
+برون‌گراف می‌نامیم؛ در خانواده‌های
+\lr{shared} و \lr{class}، این قرارداد
+از سطر آغاز سیاست آموزش‌دیده به‌دست می‌آید،
+اما در خانواده‌های گره‌محور آزاد باید
+جداگانه مشخص شود.
+$\operatorname{QueryExactWalk}(x,c;
+\mathcal M_{\mathrm{tr}},\mathfrak a)$
 به این قرارداد اشاره دارد: حالت اولیهٔ
 رابطه~\eqref{cmp:eq:ch3-heldout-first-state}،
 ادامهٔ گشت روی مرجع آموزش با سازوکار
@@ -4549,7 +4555,7 @@ $\mathcal V_c^{\mathrm{fit}}$ مقایسه می‌شود.
 ویژگی‌ها و ماسک‌های پرس‌وجو
 $X_{\mathrm{val}},M_{\mathrm{val}}$؛
 برچسب‌های $Y_{\mathrm{val}}$ تنها برای ارزیابی؛
-قاعدهٔ آغاز برون‌گراف، اگر خانوادهٔ سیاست به آن نیاز دارد
+قاعدهٔ آغاز برون‌گراف $\mathfrak a$، اگر خانوادهٔ سیاست به آن نیاز دارد
 \ENSURE امتیازهای $s_{x,c}$،
 پیش‌بینی‌های $\widehat y_x$،
 احتمال‌های تخمینی $\widehat p_{x,c}$ و،
@@ -4560,22 +4566,26 @@ $\mathcal V^{\mathrm{fit}}$،
 $\mathsf{cfg}$ از $\mathcal M_{\mathrm{tr}}$
 \STATE ثابت نگه‌داشتن تمام مؤلفه‌های مدل؛
 هیچ گام گرادیان یا بازبرآورد مرکز انجام نشود
+\STATE $\mathcal Q_{\mathrm{ok}}\gets\varnothing$؛
+$\mathcal R_{\mathrm{val}}\gets\varnothing$
 \FORALL{$x\in X_{\mathrm{val}}$}
     \STATE تعیین ویژگی‌های مشاهده‌شده و
     مقصدهای معتبر در مرجع Train
     \IF{هیچ ویژگی با مقصد معتبر وجود ندارد}
         \STATE علامت‌گذاری $x$ به‌عنوان
-        \textbf{فاقد پیش‌بینی معتبر}؛ ادامه با پرس‌وجوی بعدی
-    \ENDIF
+        \textbf{فاقد پیش‌بینی معتبر}
+    \ELSE
     \IF{سیاست مستقل از فرضیهٔ طبقهٔ مبدأ است}
         \STATE $\mathscr Y_x^{[\cdot]}\gets
-        \operatorname{QueryExactWalk}(x,\cdot;\mathcal M_{\mathrm{tr}})$
+        \operatorname{QueryExactWalk}(x,\cdot;
+        \mathcal M_{\mathrm{tr}},\mathfrak a)$
         \STATE $\mathscr Y_x^{[c]}\gets
         \mathscr Y_x^{[\cdot]}$ برای تمام $c=1,\ldots,K$
     \ELSE
         \FOR{$c=1,\ldots,K$}
             \STATE $\mathscr Y_x^{[c]}\gets
-            \operatorname{QueryExactWalk}(x,c;\mathcal M_{\mathrm{tr}})$
+            \operatorname{QueryExactWalk}(x,c;
+            \mathcal M_{\mathrm{tr}},\mathfrak a)$
         \ENDFOR
     \ENDIF
     \FOR{$c=1,\ldots,K$}
@@ -4590,17 +4600,21 @@ $\mathsf{cfg}$ از $\mathcal M_{\mathrm{tr}}$
         1-\operatorname{JSD}(\mathscr Y_x^{[c]},
         \mathcal V_c^{\mathrm{fit}})/\log2$ برای تمام $c$
     \ENDIF
-    \STATE $\widehat y_x\gets\arg\max_{c}s_{x,c}$
-    با قاعدهٔ قطعی رفع تساویِ ثبت‌شده در مدل
+    \STATE $\widehat y_x\gets
+    \min\{c:s_{x,c}=\max_{r}s_{x,r}\}$
+    برای رفع تساوی به‌صورت قطعی
     \STATE $\widehat p_{x,:}\gets
     \operatorname{Softmax}(s_{x,:})$
-    با قرارداد مقیاس/نرمال‌سازی ذخیره‌شده
+    بدون اعمال مجدد مقیاس روی امتیازهای آماده
+    \STATE $\mathcal Q_{\mathrm{ok}}\gets
+    \mathcal Q_{\mathrm{ok}}\cup\{x\}$
+    \ENDIF
 \ENDFOR
 \IF{$Y_{\mathrm{val}}$ برای ارزیابی موجود است}
     \STATE استفاده از $Y_{\mathrm{val}}$
     \textbf{فقط اکنون} برای مقایسه با $\widehat y$
     \STATE $\mathsf{Conf}_{a,b}^{\mathrm{val}}\gets
-    \sum_{x\in X_{\mathrm{val}}}
+    \sum_{x\in\mathcal Q_{\mathrm{ok}}}
     \mathbf1\{y_x=a,\widehat y_x=b\}$
     برای $a,b=1,\ldots,K$
     \STATE محاسبهٔ Accuracy،
@@ -4609,20 +4623,24 @@ $\mathsf{cfg}$ از $\mathcal M_{\mathrm{tr}}$
     زیان اعتبارسنجی طبق $\mathsf{cfg}$ در صورت تعریف
     \STATE $\mathcal R_{\mathrm{val}}\gets
     (\mathsf{Conf}^{\mathrm{val}},\mathrm{Accuracy},
-    \mathrm{Recall},\mathrm{BA},\text{سایر سنجه‌های معتبر})$
+    \mathrm{Recall},\mathrm{BA},\mathrm{Coverage},
+    \text{سایر سنجه‌های معتبر})$
 \ENDIF
 \STATE \textbf{بازگردان}
 $(s,\widehat p,\widehat y,\mathcal R_{\mathrm{val}})$
 \end{algorithmic}
 \end{algorithm}
 
-در ارزیابی، Accuracy نسبت نمونه‌های درست
-به کل نمونه‌های معتبر و Recall طبقهٔ $c$
+در ارزیابی، پوشش پیش‌بینی برابر
+$|\mathcal Q_{\mathrm{ok}}|/|X_{\mathrm{val}}|$
+و Accuracy نسبت نمونه‌های درست
+به شمار نمونه‌های دارای پیش‌بینی معتبر است.
+Recall طبقهٔ $c$
 برابر
 $\mathsf{Conf}_{c,c}^{\mathrm{val}}/
 \sum_b\mathsf{Conf}_{c,b}^{\mathrm{val}}$
-است. اگر تمام $K$ طبقه در مجموعهٔ
-اعتبارسنجی حضور داشته باشند،
+است. اگر تمام $K$ طبقه در
+$\mathcal Q_{\mathrm{ok}}$ حضور داشته باشند،
 $\mathrm{BA}=K^{-1}\sum_c\mathrm{Recall}_c$
 خواهد بود. Precision طبقهٔ $c$
 نیز در صورت مثبت بودن شمار پیش‌بینی‌شده
@@ -4653,6 +4671,14 @@ Softplus--JS باید به‌ترتیب از زیان
 استفاده کرد. خروجی Softmax در اینجا
 \emph{احتمال تخمینی مدل} است، نه
 پسین واقعیِ معلوم از مولد داده.
+برای مقایسهٔ checkpointهای مختلف،
+این الگوریتم می‌تواند برای هر مدلِ حاصل از
+\emph{گام تکمیل‌شدهٔ آموزش} جداگانه اجرا شود؛
+در هر بار، مراکز باید از سیاست همان checkpoint
+و \emph{فقط} نمونه‌های Train محاسبه شده باشند.
+انتخاب بهترین checkpoint یا فراپارامتر
+از روی معیار مشخصِ اعتبارسنجی به‌معنای
+پس‌انتشار گرادیان Validation نیست.
 از همین سازوکار استنتاج می‌توان برای
 نمونهٔ آزمون مستقل \emph{پس از تثبیت مدل}
 استفاده کرد؛ انتخاب پارامتر، checkpoint
