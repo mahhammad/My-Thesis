@@ -6383,6 +6383,103 @@ $\mathrm{NSR}_N^{(h)}$ بر
 به Uniform از نویز کمتر استفاده کرده است؛
 این نتیجه به نسبت $|A_N|/d$ نیز وابسته است.
 
+\paragraph{زیرروال بازتولیدپذیر برای شاخص‌های مواجههٔ بدون ماسک.}
+برای بازتولید سنجه‌های چندافقی، می‌توان به‌جای
+محاسبهٔ مستقیم توان‌های $P$، دو توزیع سطری را
+هم‌زمان پیش برد: $v^{(t)}$ توزیع \emph{تمام}
+مسیرها در انتخاب $t$ام و $u^{(t)}$
+توزیع \emph{زیرنرمال} مسیرهایی که تا همان
+انتخاب، فقط در $A_P$ باقی مانده‌اند.
+تفاوت جرم $u^{(t)}$ از یک، احتمال
+برخورد دست‌کم یک‌باره با نویز را می‌دهد.
+برای افق عمومی و $|A_N|>0$،
+تعمیم طبیعی نسبت برخورد به مرجع
+یکنواخت به‌صورت زیر است:
+\begin{equation}\label{cmp:eq:ch3-noise-NFI-general-horizon}
+\mathrm{NFI}_N^{(h)}
+:=\frac{p_{\mathrm{hit},N}^{(h)}}
+{1-(|A_P|/d)^h},\qquad h\ge1,\ |A_N|>0.
+\end{equation}
+این تعریف در $h=3$ دقیقاً همان
+$\mathrm{NFI}_N^{(3)}$ در
+رابطه~\eqref{cmp:eq:ch3-noise-F3-E3} است.
+برای $|A_N|=0$، هم
+$\mathrm{NFI}_N^{(h)}$ و هم
+$\mathrm{NSR}_N^{(h)}$ به علت
+مخرج صفر \emph{تعریف‌نشده‌اند}؛
+اما احتمال برخورد و شمار مورد انتظار
+انتخاب نویز همچنان صفر هستند.
+
+\begin{algorithm}[!htbp]
+\caption{زیرروال $\operatorname{NoiseExposure}$ برای شاخص‌های فرایند کمکی بدون ماسک}
+\label{cmp:alg:ch3-unmasked-noise-exposure}
+\begin{algorithmic}[1]
+\REQUIRE بردار احتمال سطری $p_0$ و ماتریس
+گذار سطری $P$ از
+رابطه~\eqref{cmp:eq:ch3-noise-policy-probabilities}؛
+افراز ثابت $A_D=A_P\mathbin{\dot\cup}A_N$؛
+افق صحیح $h_{\max}\ge1$
+\ENSURE برای هر $t=1,\ldots,h_{\max}$:
+$q_t$، $p_{\mathrm{hit},N}^{(t)}$،
+$\bar n_N^{(t)}$، $s_N^{(t)}$،
+$\mathrm{NSR}_N^{(t)}$ و $\mathrm{NFI}_N^{(t)}$
+\STATE $v\gets p_0$؛ $u\gets p_0[A_P]$؛
+$E\gets0$؛ $d\gets|A_D|$
+\FOR{$t=1,\ldots,h_{\max}$}
+    \STATE $q_t\gets\sum_{b\in A_N}v[b]$؛
+    $E\gets E+q_t$
+    \STATE $\bar n_N^{(t)}\gets E$؛
+    $p_{\mathrm{hit},N}^{(t)}
+    \gets1-\sum_{b\in A_P}u[b]$
+    \STATE $s_N^{(t)}\gets E/t$
+    \IF{$|A_N|=0$}
+        \STATE $\mathrm{NSR}_N^{(t)},
+        \mathrm{NFI}_N^{(t)}
+        \gets\text{تعریف‌نشده}$
+    \ELSE
+        \STATE $\mathrm{NSR}_N^{(t)}
+        \gets s_N^{(t)}/(|A_N|/d)$
+        \STATE $\mathrm{NFI}_N^{(t)}
+        \gets p_{\mathrm{hit},N}^{(t)}
+        /\bigl[1-(|A_P|/d)^t\bigr]$
+    \ENDIF
+    \IF{$t<h_{\max}$}
+        \STATE $v\gets vP$؛
+        $u\gets uP_{A_P,A_P}$
+    \ENDIF
+\ENDFOR
+\STATE \textbf{بازگردان} تمام شاخص‌های ثبت‌شده
+\end{algorithmic}
+\end{algorithm}
+
+در این الگوریتم،
+$\sum_{b\in A_P}u[b]$ جرم
+\emph{بقای بدون برخورد} است؛
+ازاین‌رو در به‌روزرسانی $u$،
+مسیرهایی که قبلاً به نویز رسیده‌اند
+دوباره وارد نمی‌شوند. در مقابل،
+$v$ تمام مسیرها، از جمله مسیرهای
+برگشتی از نویز به ویژگی اصلی، را
+برای محاسبهٔ تعداد مورد انتظار نگه می‌دارد.
+این دو کمیت با یکدیگر متفاوت‌اند.
+مبنای محاسبه صرفاً $p_0$، $P$ و
+افراز ویژگی‌هاست؛ الگوریتم نه گراف
+نمونه--ویژگی، نه ماسک‌های نمونه،
+نه برچسب‌ها و نه
+$\operatorname{QueryExactWalk}$ را فراخوانی می‌کند.
+برای \lr{shared} یک‌بار و برای
+\lr{class} جداگانه برای هر
+فرضیهٔ طبقه محاسبه می‌شود.
+میانگین طبقه‌ای تنها در صورت
+اعلام قرارداد وزن‌دهی گزارش می‌شود.
+این الگوریتم \emph{آمار گشت واقعی
+ماسک‌دار} نیست و مستقل از
+الگوریتم‌های محاسبهٔ امید گشت
+\ref{cmp:alg:ch3-capped-walk-weights}،
+\ref{cmp:alg:ch3-advance-walk-state}
+و~\ref{cmp:alg:ch3-exact-walk-expectation}
+باقی می‌ماند.
+
 \paragraph{مقایسه موضعی در نزدیکی عمق مفید.}
 اگر بر اساس ساختار گراف و جرم وزن‌های گشت
 در رابطه~\eqref{cmp:eq:ch3-effective-depth}
