@@ -4289,34 +4289,32 @@ $C_c=\{i\in\mathcal I_{\mathrm{tr}}:y_i=c\}$ است؛
 داشته باشند. دادهٔ مرجع، برچسب‌ها و ماسک‌های
 ویژگی فقط از مجموعهٔ آموزش ساخته می‌شوند.
 
-در محاسبهٔ بازنمایی‌های آموزشیِ مراکز،
-اندیس سیاست مستقیماً از برچسب معلومِ مبدأ
-به دست می‌آید و هیچ نماد دیگری برای آن
-تعریف نمی‌کنیم. نامزدهای $c$ در قرارداد
-امتیازدهیِ جداگانه، اندیس گزینه‌های تصمیم‌اند.
+در آموزش برای هر مبدأ $i$ برچسب واقعی $y_i$
+معلوم است. در خانواده‌های طبقه‌محور،
+سیاست متناظر با همین برچسب انتخاب می‌شود؛
+در خانواده‌های \lr{shared} و \lr{node}
+انتخاب سیاست مستقل از طبقه است.
+فراخوانی
+$\operatorname{ExactWalk}_{\mathrm{tr}}(i;\theta)$
+الگوریتم~\ref{cmp:alg:ch3-exact-walk-expectation}
+را با گراف، کرنل و ماسک مرجع آموزش،
+مبدأ $i$، سیاست برگزیدهٔ $\pi_i$
+و مقادیر ثابت $H,\beta,\lambda$
+اجرا می‌کند. این فراخوانی تنها یک
+بازنمایی $\mathscr Y_i(\theta)$
+برای هر نمونهٔ آموزشی تولید می‌کند.
+مبدأ از مقصدهای تمامی گام‌ها حذف می‌شود
+و سیاست روی ویژگی‌های موجود و مجاز
+نمونهٔ جاری نرمال می‌شود.
 
-در این الگوریتم، فراخوانی کوتاه
-$\operatorname{ExactWalk}_{\mathrm{tr}}(i,c;\theta)$
-به‌معنای اجرای الگوریتم
-\ref{cmp:alg:ch3-exact-walk-expectation}
-برای مبدأ آموزشی $i$، فرضیهٔ طبقهٔ $c$،
-گراف و کرنل مرجع آموزش، سیاست $\pi_\theta$
-و پارامترهای ثابت $H,\beta,\lambda$ است.
-مبدأ $i$ از مقصدهای تمام گام‌ها حذف می‌شود
-و سیاست افقی فقط روی ویژگی‌های موجود و مجاز
-همان وضعیت نرمال می‌شود.
-$\mathscr Y_i^{[c]}$ بازنمایی این اجراست؛
-برای خانواده‌های مستقل از فرضیهٔ طبقهٔ مبدأ
-(\lr{shared} و \lr{node}) محاسبهٔ آن تنها یک‌بار
-لازم است. برای خانواده‌های وابسته به فرضیه
-(\lr{class} و \lr{node\_class}) هر نامزد $c$
-جداگانه ارزیابی می‌شود. حتی در آموزش نیز
-استفاده از $c=y_i$ برای ساخت \emph{تمام}
-امتیازهای پیش‌بینی مجاز نیست؛ برچسب واقعیِ مبدأ برای تعیین
-\emph{سیاست فرضیهٔ نامزد} به کار نمی‌رود؛
-برچسب‌های آموزش برای تعیین مجموعه‌های $C_c$،
-تجمیع برچسبِ مقصد در گشت‌ها و زیان نظارت‌شده
-استفاده می‌شوند.
+در محاسبهٔ زیان، بازنمایی آموزشی
+$\mathscr Y_i(\theta)$ با مراکز تمام
+طبقات مقایسه می‌شود، اما برای رقبا
+گشت دیگری اجرا نمی‌شود. اندیس طبقهٔ
+نامزد فقط در آزمونِ نمونهٔ بدون
+برچسب وارد انتخاب سیاست می‌شود؛
+در آن مرحله مراکز و پارامترهای
+سیاست ثابت باقی می‌مانند.
 
 زیان Softplus--JS در بخش~\ref{cmp:subsec:ch3-softplus-js-objective}
 تعریف شد و مشتق آن در بخش~\ref{cmp:subsec:ch3-softplus-js-policy-gradient}
@@ -4342,29 +4340,23 @@ $\mathcal M_{\mathrm{tr}}$ و در صورت درخواست،
 \STATE ساخت گراف، کرنل‌ها، مجموعه‌های مجاز و
 $C_1,\ldots,C_K$ \textbf{فقط} از $D_{\mathrm{tr}}$
 \STATE $\theta\gets\theta^{(0)}$؛
-$\xi\gets\operatorname{InitOptimizer}(\theta)$
+$\chi_{\mathrm{opt}}\gets\operatorname{InitOptimizer}(\theta)$
 \FOR{$t=0,\ldots,T-1$}
     \FORALL{$i\in\mathcal I_{\mathrm{tr}}$}
-        \IF{سیاست مستقل از فرضیهٔ طبقهٔ مبدأ است}
-            \STATE $\mathscr Y_i^{[\cdot]}
-            \gets\operatorname{ExactWalk}_{\mathrm{tr}}(i,\cdot;\theta)$
-            \STATE $\mathscr Y_i^{[c]}\gets\mathscr Y_i^{[\cdot]}$
-            برای همهٔ $c=1,\ldots,K$
-        \ELSE
-            \FOR{$c=1,\ldots,K$}
-                \STATE $\mathscr Y_i^{[c]}
-                \gets\operatorname{ExactWalk}_{\mathrm{tr}}(i,c;\theta)$
-            \ENDFOR
-        \ENDIF
+        \STATE انتخاب $\pi_i$ با برچسب معلوم $y_i$
+        در خانوادهٔ طبقه‌محور؛ سیاست مستقل از طبقه
+        در خانواده‌های دیگر
+        \STATE $\mathscr Y_i(\theta)\gets
+        \operatorname{ExactWalk}_{\mathrm{tr}}(i;\theta)$
     \ENDFOR
     \FOR{$c=1,\ldots,K$}
         \STATE $\mathcal V_c(\theta)\gets
-        |C_c|^{-1}\sum_{i\in C_c}\mathscr Y_i^{[c]}$
+        |C_c|^{-1}\sum_{i\in C_c}\mathscr Y_i(\theta)$
     \ENDFOR
     \FORALL{$i\in\mathcal I_{\mathrm{tr}}$}
         \FOR{$c=1,\ldots,K$}
             \STATE $d_{i,c}\gets
-            D(\mathscr Y_i^{[c]},\mathcal V_c(\theta))$
+            D(\mathscr Y_i(\theta),\mathcal V_c(\theta))$
         \ENDFOR
         \IF{$\mathsf{loss}=\mathrm{NLL}$}
             \STATE $s_{i,:}\gets
@@ -4373,7 +4365,7 @@ $\xi\gets\operatorname{InitOptimizer}(\theta)$
             -s_{i,y_i}+\operatorname{LogSumExp}_r(s_{i,r})$
         \ELSE
             \STATE $S_{i,c}\gets 1-
-            \operatorname{JSD}(\mathscr Y_i^{[c]},\mathcal V_c)/\log2$
+            \operatorname{JSD}(\mathscr Y_i(\theta),\mathcal V_c(\theta))/\log2$
             برای تمام $c$
             \IF{$\mathsf{loss}=\mathrm{sig}$}
                 \STATE $m_i\gets S_{i,y_i}-\max_{r\ne y_i}S_{i,r}$
@@ -4393,24 +4385,24 @@ $\xi\gets\operatorname{InitOptimizer}(\theta)$
     \IF{$\mathcal L_{\mathrm{tr}}$ یا $g$ متناهی نیست}
         \STATE \textbf{توقف با گزارش خطای عددی}
     \ENDIF
-    \STATE $(\theta,\xi)\gets
-    \operatorname{OptimizerStep}(\theta,g,\xi)$
+    \STATE $(\theta,\chi_{\mathrm{opt}})\gets
+    \operatorname{OptimizerStep}(\theta,g,\chi_{\mathrm{opt}})$
 \ENDFOR
 \STATE $\theta^{\mathrm{fit}}\gets\theta$
 \STATE محاسبهٔ مجدد
-$\mathscr Y_i^{[c]}(\theta^{\mathrm{fit}})$
-برای همهٔ مبدأها و نامزدهای لازم با
-$\operatorname{ExactWalk}_{\mathrm{tr}}$
+$\mathscr Y_i(\theta^{\mathrm{fit}})$
+فقط یک بار برای هر مبدأ آموزشی با
+$\operatorname{ExactWalk}_{\mathrm{tr}}(i;\theta^{\mathrm{fit}})$
 \STATE $\mathcal V_c^{\mathrm{fit}}\gets
 |C_c|^{-1}\sum_{i\in C_c}
-\mathscr Y_i^{[c]}(\theta^{\mathrm{fit}})$
+\mathscr Y_i(\theta^{\mathrm{fit}})$
 برای تمام $c$
 \STATE $\mathcal M_{\mathrm{tr}}\gets
 (\theta^{\mathrm{fit}},\mathcal V^{\mathrm{fit}},
 D_{\mathrm{tr}},Y_{\mathrm{tr}},M_{\mathrm{tr}},
 \mathsf{cfg},H,\beta,\lambda,\text{کرنل و قرارداد سیاست})$
 \STATE \textbf{بازگردان}
-$\mathcal M_{\mathrm{tr}}$ و، در صورت نیاز، $\xi$
+$\mathcal M_{\mathrm{tr}}$ و، در صورت نیاز، $\chi_{\mathrm{opt}}$
 \end{algorithmic}
 \end{algorithm}
 
@@ -4433,14 +4425,14 @@ $D=\operatorname{JSD}$ و امتیازها با
 اعمال شوند؛ رابطهٔ گرادیانِ مشتق‌پذیر
 به‌طور خودکار این وضعیت‌ها را حل نمی‌کند.
 
-حالت بهینه‌ساز $\xi$ در گام‌های آموزش
+حالت بهینه‌ساز $\chi_{\mathrm{opt}}$ در گام‌های آموزش
 نگهداری می‌شود: در SGD می‌تواند تهی و
 در Adam شامل ممان‌ها و شمار گام باشد.
 در نتیجهٔ ادامهٔ آموزش از checkpoint،
 صرفاً ذخیرهٔ $\theta$ برای بازسازی همان
 مسیر به‌روزرسانی کافی نیست.
 به‌عنوان کنترل سازگاری، در پایان هر محاسبهٔ
-معتبر باید $\sum_u\mathscr Y_i^{[c]}(u)=1$
+معتبر باید $\sum_u\mathscr Y_i(u)=1$
 و $\sum_u\mathcal V_c^{\mathrm{fit}}(u)=1$
 برقرار باشد و مرکز نهایی با میانگین
 بازنمایی‌های \emph{سیاست نهایی} مطابقت کند.
