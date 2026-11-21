@@ -4218,6 +4218,103 @@ JSD، دقت تقریب
 
 
 
+\subsection{شبه‌کد یکپارچهٔ آموزش سیاست}
+\label{cmp:subsec:ch3-policy-training-pseudocode}
+برای تبدیل مشتق‌های بالا به یک فرایند یادگیری
+مشخص، مجموعهٔ آموزش را با $\mathcal I_{\mathrm{tr}}$
+نشان می‌دهیم و فرض می‌کنیم مجموعه‌های $C_c$
+فقط از همین مجموعه ساخته شده‌اند.
+در هر گام، امید دقیق گشت با الگوریتم
+\ref{cmp:alg:ch3-exact-walk-expectation}
+محاسبه می‌شود؛ برای اختصار، فراخوانی آن را
+$\operatorname{ExactWalk}$ می‌نویسیم.
+نماد $\mathscr Y_i^{[c]}$ بازنمایی لازم برای
+\emph{فرضیهٔ نامزد} $c$ است؛ اگر سیاست
+مستقل از طبقهٔ مبدأ باشد، همین بازنمایی
+برای تمام نامزدها مشترک و محاسبهٔ مکرر آن
+غیرضروری است. در سیاست شرطی،
+بازنمایی هر فرضیه جداگانه محاسبه می‌شود
+و مرکز طبقهٔ $c$ از بازنمایی‌های
+$\mathscr Y_i^{[c]}$ اعضای آموزشی همان طبقه
+ساخته خواهد شد.
+
+\begin{algorithm}[!htbp]
+\caption{آموزش سیاست انتخاب ویژگی بر پایهٔ امید دقیق گشت}
+\label{cmp:alg:ch3-learn-feature-policy}
+\begin{algorithmic}[1]
+\REQUIRE گراف و ماسک ویژگی‌های دادهٔ آموزش؛ $Y$ و $C_1,\ldots,C_K$؛
+$H,\beta,\lambda$؛ $\Omega$؛ $\theta^{(0)}$ و شمار گام $T$؛
+نوع هدف $\mathsf{loss}\in\{\mathrm{NLL},\mathrm{sig}\}$؛
+سنجهٔ $D$، مقیاس $\tau_D$ و پهنای $\tau$ در صورت کاربرد
+\ENSURE پارامتر سیاست آموخته‌شده $\theta^{(T)}$
+\STATE $\theta\gets\theta^{(0)}$
+\FOR{$t=0,\ldots,T-1$}
+    \FORALL{$i\in\mathcal I_{\mathrm{tr}}$}
+        \IF{سیاست مستقل از فرضیهٔ طبقهٔ مبدأ است}
+            \STATE $\mathscr Y_i^{[\cdot]}\gets
+            \operatorname{ExactWalk}(i,\pi_\theta,H,\beta,\lambda)$
+            \STATE $\mathscr Y_i^{[c]}\gets\mathscr Y_i^{[\cdot]}$
+            برای تمام $c=1,\ldots,K$
+        \ELSE
+            \FOR{$c=1,\ldots,K$}
+                \STATE $\mathscr Y_i^{[c]}\gets
+                \operatorname{ExactWalk}(i,c,\pi_\theta,H,\beta,\lambda)$
+            \ENDFOR
+        \ENDIF
+    \ENDFOR
+    \FOR{$c=1,\ldots,K$}
+        \STATE $\mathcal V_c(\theta)\gets
+        |C_c|^{-1}\sum_{i\in C_c}\mathscr Y_i^{[c]}$
+    \ENDFOR
+    \FORALL{$i\in\mathcal I_{\mathrm{tr}}$}
+        \FOR{$c=1,\ldots,K$}
+            \STATE $d_{i,c}\gets
+            D(\mathscr Y_i^{[c]},\mathcal V_c(\theta))$
+        \ENDFOR
+        \IF{$\mathsf{loss}=\mathrm{NLL}$}
+            \STATE $s_{i,c}\gets-d_{i,c}/\tau_D$
+            برای تمام $c$، یا امتیاز نرمال‌شدهٔ منتخب
+            \STATE $\ell_i\gets -s_{i,y_i}
+            +\log\bigl(\sum_{c=1}^{K}e^{s_{i,c}}\bigr)$
+        \ELSE
+            \STATE $s_{i,c}\gets 1-
+            \operatorname{JSD}(\mathscr Y_i^{[c]},\mathcal V_c)/\log2$
+            برای تمام $c$
+            \STATE $m_i\gets s_{i,y_i}-\max_{r\ne y_i}s_{i,r}$
+            \STATE $\ell_i\gets\ell_\tau(m_i)$
+        \ENDIF
+    \ENDFOR
+    \STATE $\mathcal L(\theta)\gets
+    \sum_{c=1}^{K}\frac{\omega_c}{|C_c|}
+    \sum_{i\in C_c}\ell_i$
+    \STATE $g\gets\nabla_\theta\mathcal L(\theta)$
+    با مشتق‌گیری از گشت‌ها، مراکز و امتیازها
+    \STATE $\theta\gets\operatorname{OptimizerStep}(\theta,g)$
+\ENDFOR
+\STATE \textbf{بازگردان} $\theta^{(T)}\gets\theta$
+\end{algorithmic}
+\end{algorithm}
+
+در الگوریتم بالا، $\operatorname{OptimizerStep}$ می‌تواند
+یک گام گرادیان نزولی یا به‌روزرسانیِ بهینه‌ساز انتخابی
+مانند Adam باشد؛ انتخاب بهینه‌ساز و فراپارامترهای آن
+باید هنگام گزارش اجرای آزمایش تصریح شود.
+برای نرمال‌سازی امتیازها، صورت انتخاب‌شده باید
+مطابق بخش~\ref{cmp:sec:ch3-score-normalization-analysis}
+در \emph{تمام نامزدها} و به‌طور یکسان اعمال شود.
+همچنین اگر نزدیک‌ترین رقیب یکتا نباشد،
+می‌توان به‌جای بیشینهٔ سخت از تقریب هموار با
+$\kappa>0$ در
+رابطه~\eqref{cmp:eq:ch3-margin-smooth-competitor}
+استفاده کرد؛ گرادیان متناظر در
+رابطه~\eqref{cmp:eq:ch3-margin-loss-policy-gradient}
+آمده است. برای KL و نرمال‌سازیِ دارای
+تقسیم بر انحراف معیار، مشتق‌گیری در نقاط
+نامتناهی یا تکین بدون قرارداد پایداری معتبر نیست.
+این شبه‌کد فقط روی داده‌های آموزش عمل می‌کند؛
+انتخاب فراپارامترها می‌تواند با اعتبارسنجی انجام شود،
+ولی هیچ مرحله‌ای از آن به برچسب دادهٔ آزمون نیاز ندارد.
+
 \section{رابطهٔ سیاست و مراکز: دستیابی، چندگانگی و اصلاح سیاست}
 \label{cmp:sec:ch3-inverse-center-policy}
 در روابط پیشین، سیاست انتخاب ویژگی معلوم بود و بازنمایی‌ها و مراکز طبقه‌ها از آن محاسبه می‌شدند. در این بخش، نخست وجود و یکتایی بازنمایی‌ها و مراکز حاصل از یک سیاست ثابت را با استفاده از خواص مارکوفی گشت بررسی می‌کنیم. سپس مسئلهٔ معکوس، محدودیت دست‌یابی به مراکز و امکان وجود سیاست‌های هم‌مرکز را توضیح می‌دهیم. در پایان، چارچوبی دومرحله‌ای برای بهبود سیاست با مراکز ثابت معرفی می‌کنیم. این صورت‌بندی‌ها بخشی از روش تحقیق‌اند و ارزیابی تجربی آن‌ها موضوعی جداگانه است.
