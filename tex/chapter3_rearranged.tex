@@ -2711,7 +2711,7 @@ $M_i^{\mathrm{JS}}$ حالت خاص همین حاشیه است.
 \widehat{\mathrm{BA}}
 &=\frac1K\sum_{c=1}^{K}\frac1{|C_c|}
 \sum_{i\in C_c}\mathbf1\{\widehat y_i=c\},\\
-\widehat E_{\mathrm{bal}}
+E_{\mathrm{bal}}
 &=1-\widehat{\mathrm{BA}}
 =\frac1K\sum_{c=1}^{K}\frac1{|C_c|}
 \sum_{i\in C_c}\mathbf1\{\widehat y_i\ne c\}.
@@ -2750,13 +2750,13 @@ $\mathbf1\{M_i^{\mathrm{JS}}<0\}
 با قرارداد محافظه‌کارانه شمردن تساوی به‌عنوان خطا،
 صورت زیر را داریم:
 \begin{equation}\label{cmp:eq:ch3-js-hard-margin-error}
-\widehat E_{\mathrm{bal}}^{\,\le0}
+E_{\mathrm{bal}}^{\,\le0}
 =\frac1K\sum_{c=1}^{K}\frac1{|C_c|}
 \sum_{i\in C_c}
 \mathbf1\{M_i^{\mathrm{JS}}\le0\}.
 \end{equation}
 در نبود تساوی، این مقدار دقیقاً برابر
-$\widehat E_{\mathrm{bal}}$ است و در حضور تساوی
+$E_{\mathrm{bal}}$ است و در حضور تساوی
 کران بالای آن خواهد بود.
 پس حاشیه، اطلاعاتی درباره \emph{میزان برتری یا شکست}
 تصمیم دارد که در خطای صفر--یک حذف می‌شود.
@@ -3537,8 +3537,8 @@ $\ell_\tau(m)\ge\tfrac12$ برای $m\le0$،
 برای هر $\tau>0$ کران عمومی
 \begin{equation}\label{cmp:eq:ch3-margin-sigmoid-error-bound}
 \boxed{
-\widehat E_{\mathrm{bal}}
-\le \widehat E_{\mathrm{bal}}^{\,\le0}
+E_{\mathrm{bal}}
+\le E_{\mathrm{bal}}^{\,\le0}
 \le 2\mathcal L_{\mathrm{sig}}(\tau)
 }
 \end{equation}
