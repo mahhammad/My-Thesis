@@ -4240,45 +4240,93 @@ JSD، دقت تقریب
 
 \subsection{شبه‌کد یکپارچهٔ آموزش سیاست}
 \label{cmp:subsec:ch3-policy-training-pseudocode}
-برای تبدیل مشتق‌های بالا به یک فرایند یادگیری
-مشخص، مجموعهٔ آموزش را با $\mathcal I_{\mathrm{tr}}$
-نشان می‌دهیم و فرض می‌کنیم مجموعه‌های $C_c$
-فقط از همین مجموعه ساخته شده‌اند.
-در هر گام، امید دقیق گشت با الگوریتم
+سه زیرروال
+\ref{cmp:alg:ch3-capped-walk-weights}،
+\ref{cmp:alg:ch3-advance-walk-state} و
 \ref{cmp:alg:ch3-exact-walk-expectation}
-محاسبه می‌شود؛ برای اختصار، فراخوانی آن را
-$\operatorname{ExactWalk}$ می‌نویسیم.
-نماد $\mathscr Y_i^{[c]}$ بازنمایی لازم برای
-\emph{فرضیهٔ نامزد} $c$ است؛ اگر سیاست
-مستقل از طبقهٔ مبدأ باشد، همین بازنمایی
-برای تمام نامزدها مشترک و محاسبهٔ مکرر آن
-غیرضروری است. در سیاست شرطی،
-بازنمایی هر فرضیه جداگانه محاسبه می‌شود
-و مرکز طبقهٔ $c$ از بازنمایی‌های
-$\mathscr Y_i^{[c]}$ اعضای آموزشی همان طبقه
-ساخته خواهد شد.
+به‌ترتیب ضرایب گشت، توزیع حالت و امید دقیق
+بازنمایی را برای \emph{سیاست و گراف ثابت} محاسبه
+می‌کنند. الگوریتم حاضر این محاسبهٔ پیشرو را
+درون چرخهٔ یادگیری پارامترهای سیاست به کار می‌گیرد؛
+جزئیات گشت در اینجا تکرار نمی‌شوند.
+$\mathcal I_{\mathrm{tr}}$ اندیس‌های مجموعهٔ آموزش و
+$C_c=\{i\in\mathcal I_{\mathrm{tr}}:y_i=c\}$ است؛
+تمام طبقاتِ مورد استفاده در آموزش باید $|C_c|>0$
+داشته باشند. دادهٔ مرجع، برچسب‌ها و ماسک‌های
+ویژگی فقط از مجموعهٔ آموزش ساخته می‌شوند.
+
+در این الگوریتم، فراخوانی کوتاه
+$\operatorname{ExactWalk}_{\mathrm{tr}}(i,c;\theta)$
+به‌معنای اجرای الگوریتم
+\ref{cmp:alg:ch3-exact-walk-expectation}
+برای مبدأ آموزشی $i$، فرضیهٔ طبقهٔ $c$،
+گراف و کرنل مرجع آموزش، سیاست $\pi_\theta$
+و پارامترهای ثابت $H,\beta,\lambda$ است.
+مبدأ $i$ از مقصدهای تمام گام‌ها حذف می‌شود
+و سیاست افقی فقط روی ویژگی‌های موجود و مجاز
+همان وضعیت نرمال می‌شود.
+$\mathscr Y_i^{[c]}$ بازنمایی این اجراست؛
+برای خانواده‌های مستقل از فرضیهٔ طبقهٔ مبدأ
+(\lr{shared} و \lr{node}) محاسبهٔ آن تنها یک‌بار
+لازم است. برای خانواده‌های وابسته به فرضیه
+(\lr{class} و \lr{node\_class}) هر نامزد $c$
+جداگانه ارزیابی می‌شود. حتی در آموزش نیز
+استفاده از $c=y_i$ برای ساخت \emph{تمام}
+امتیازهای پیش‌بینی مجاز نیست؛ برچسب واقعی
+تنها برای ساخت مرکز درست و محاسبهٔ زیان نظارت‌شده
+به کار می‌رود.
+
+افزون بر NLL و زیان سیگموئیدیِ
+رابطه~\eqref{cmp:eq:ch3-js-sigmoid-loss}،
+برای سازگاری با تابع هدف به‌کاررفته در
+آزمایش‌های فصل~\ref{chap:results}،
+صورت \emph{Softplus--JS} را نیز با
+امتیازهای $S_{i,c}=
+1-\operatorname{JSD}(\mathscr Y_i^{[c]},\mathcal V_c)/\log2$
+و مقیاس $\tau_{\mathrm{SP}}>0$ تعریف می‌کنیم:
+\begin{equation}\label{cmp:eq:ch3-softplus-js-training-objective}
+\boxed{
+\ell_i^{\mathrm{SP}}
+=\tau_{\mathrm{SP}}
+\log\sum_{r=1}^{K}
+\exp\left(\frac{S_{i,r}-S_{i,y_i}}{\tau_{\mathrm{SP}}}\right).
+}
+\end{equation}
+در پیاده‌سازی عددی از
+$\operatorname{LogSumExp}$ پایدار استفاده می‌شود.
+این رابطه \emph{تعریف تابع هدف} است؛
+مشتق کامل آن نسبت به سیاست و تحلیل حساسیت
+تغییر logits، موضوع تکمیل نظری مستقل‌اند
+و نباید به‌جای مشتق سیگموئید فرض شوند.
 
 \begin{algorithm}[!htbp]
-\caption{آموزش سیاست انتخاب ویژگی بر پایهٔ امید دقیق گشت}
+\caption{آموزش سیاست انتخاب ویژگی با گشت دقیق و مراکز وابسته به سیاست}
 \label{cmp:alg:ch3-learn-feature-policy}
 \begin{algorithmic}[1]
-\REQUIRE گراف و ماسک ویژگی‌های دادهٔ آموزش؛ $Y$ و $C_1,\ldots,C_K$؛
-$H,\beta,\lambda$؛ $\Omega$؛ $\theta^{(0)}$ و شمار گام $T$؛
-نوع هدف $\mathsf{loss}\in\{\mathrm{NLL},\mathrm{sig}\}$؛
-سنجهٔ $D$، مقیاس $\tau_D$ و پهنای $\tau$ در صورت کاربرد
-\ENSURE پارامتر سیاست آموخته‌شده $\theta^{(T)}$
-\STATE $\theta\gets\theta^{(0)}$
+\REQUIRE داده، برچسب و ماسک مجموعهٔ آموزش
+$D_{\mathrm{tr}},Y_{\mathrm{tr}},M_{\mathrm{tr}}$؛
+خانوادهٔ سیاست، $\theta^{(0)}$، $H,\beta,\lambda$،
+وزن‌های $\Omega$، قرارداد امتیاز و زیان
+$\mathcal C\in\{\mathrm{NLL},\mathrm{sig},\mathrm{SP\!-\!JS}\}$،
+فراپارامترهای عددی و بهینه‌ساز؛ شمار گام $T$
+\ENSURE مدل آموزش‌دیده
+$\mathcal M_{\mathrm{tr}}$ و در صورت درخواست،
+حالت بهینه‌ساز برای ادامهٔ آموزش
+\STATE ساخت گراف، کرنل‌ها، مجموعه‌های مجاز و
+$C_1,\ldots,C_K$ \textbf{فقط} از $D_{\mathrm{tr}}$
+\STATE $\theta\gets\theta^{(0)}$؛
+$\xi\gets\operatorname{InitOptimizer}(\theta)$
 \FOR{$t=0,\ldots,T-1$}
     \FORALL{$i\in\mathcal I_{\mathrm{tr}}$}
         \IF{سیاست مستقل از فرضیهٔ طبقهٔ مبدأ است}
-            \STATE $\mathscr Y_i^{[\cdot]}\gets
-            \operatorname{ExactWalk}(i,\pi_\theta,H,\beta,\lambda)$
+            \STATE $\mathscr Y_i^{[\cdot]}
+            \gets\operatorname{ExactWalk}_{\mathrm{tr}}(i,\cdot;\theta)$
             \STATE $\mathscr Y_i^{[c]}\gets\mathscr Y_i^{[\cdot]}$
-            برای تمام $c=1,\ldots,K$
+            برای همهٔ $c=1,\ldots,K$
         \ELSE
             \FOR{$c=1,\ldots,K$}
-                \STATE $\mathscr Y_i^{[c]}\gets
-                \operatorname{ExactWalk}(i,c,\pi_\theta,H,\beta,\lambda)$
+                \STATE $\mathscr Y_i^{[c]}
+                \gets\operatorname{ExactWalk}_{\mathrm{tr}}(i,c;\theta)$
             \ENDFOR
         \ENDIF
     \ENDFOR
@@ -4291,49 +4339,103 @@ $H,\beta,\lambda$؛ $\Omega$؛ $\theta^{(0)}$ و شمار گام $T$؛
             \STATE $d_{i,c}\gets
             D(\mathscr Y_i^{[c]},\mathcal V_c(\theta))$
         \ENDFOR
-        \IF{$\mathsf{loss}=\mathrm{NLL}$}
-            \STATE $s_{i,c}\gets-d_{i,c}/\tau_D$
-            برای تمام $c$، یا امتیاز نرمال‌شدهٔ منتخب
-            \STATE $\ell_i\gets -s_{i,y_i}
-            +\log\bigl(\sum_{c=1}^{K}e^{s_{i,c}}\bigr)$
+        \IF{$\mathcal C=\mathrm{NLL}$}
+            \STATE $s_{i,:}\gets
+            \operatorname{Score}_{\mathcal C}(d_{i,:})$
+            \STATE $\ell_i\gets
+            -s_{i,y_i}+\operatorname{LogSumExp}_r(s_{i,r})$
         \ELSE
-            \STATE $s_{i,c}\gets 1-
+            \STATE $S_{i,c}\gets 1-
             \operatorname{JSD}(\mathscr Y_i^{[c]},\mathcal V_c)/\log2$
             برای تمام $c$
-            \STATE $m_i\gets s_{i,y_i}-\max_{r\ne y_i}s_{i,r}$
-            \STATE $\ell_i\gets\ell_\tau(m_i)$
+            \IF{$\mathcal C=\mathrm{sig}$}
+                \STATE $m_i\gets S_{i,y_i}-\max_{r\ne y_i}S_{i,r}$
+                \STATE $\ell_i\gets \ell_\tau(m_i)$
+            \ELSE
+                \STATE $\ell_i\gets\tau_{\mathrm{SP}}\,
+                \operatorname{LogSumExp}_r
+                ((S_{i,r}-S_{i,y_i})/\tau_{\mathrm{SP}})$
+            \ENDIF
         \ENDIF
     \ENDFOR
-    \STATE $\mathcal L(\theta)\gets
+    \STATE $\mathcal L_{\mathrm{tr}}(\theta)\gets
     \sum_{c=1}^{K}\frac{\omega_c}{|C_c|}
     \sum_{i\in C_c}\ell_i$
-    \STATE $g\gets\nabla_\theta\mathcal L(\theta)$
-    با مشتق‌گیری از گشت‌ها، مراکز و امتیازها
-    \STATE $\theta\gets\operatorname{OptimizerStep}(\theta,g)$
+    \STATE $g\gets\nabla_\theta\mathcal L_{\mathrm{tr}}(\theta)$
+    با مشتق‌گیری از \textbf{گشت‌ها و مراکز}
+    \STATE $(\theta,\xi)\gets
+    \operatorname{OptimizerStep}(\theta,g,\xi)$
 \ENDFOR
-\STATE \textbf{بازگردان} $\theta^{(T)}\gets\theta$
+\STATE $\theta^\star\gets\theta$
+\STATE محاسبهٔ مجدد
+$\mathscr Y_i^{[c]}(\theta^\star)$
+برای همهٔ مبدأها و نامزدهای لازم با
+$\operatorname{ExactWalk}_{\mathrm{tr}}$
+\STATE $\mathcal V_c^\star\gets
+|C_c|^{-1}\sum_{i\in C_c}
+\mathscr Y_i^{[c]}(\theta^\star)$
+برای تمام $c$
+\STATE $\mathcal M_{\mathrm{tr}}\gets
+(\theta^\star,\mathcal V^\star,
+D_{\mathrm{tr}},Y_{\mathrm{tr}},M_{\mathrm{tr}},
+\mathcal C,H,\beta,\lambda,\text{کرنل و قرارداد سیاست})$
+\STATE \textbf{بازگردان}
+$\mathcal M_{\mathrm{tr}}$ و، در صورت نیاز، $\xi$
 \end{algorithmic}
 \end{algorithm}
 
-در الگوریتم بالا، $\operatorname{OptimizerStep}$ می‌تواند
-یک گام گرادیان نزولی یا به‌روزرسانیِ بهینه‌ساز انتخابی
-مانند Adam باشد؛ انتخاب بهینه‌ساز و فراپارامترهای آن
-باید هنگام گزارش اجرای آزمایش تصریح شود.
-برای نرمال‌سازی امتیازها، صورت انتخاب‌شده باید
-مطابق بخش~\ref{cmp:sec:ch3-score-normalization-analysis}
-در \emph{تمام نامزدها} و به‌طور یکسان اعمال شود.
-همچنین اگر نزدیک‌ترین رقیب یکتا نباشد،
-می‌توان به‌جای بیشینهٔ سخت از تقریب هموار با
-$\kappa>0$ در
+در شاخهٔ NLL، نگاشت
+$\operatorname{Score}_{\mathcal C}$
+دقیقاً قرارداد انتخاب‌شدهٔ
+$-d/\tau_D$ یا نرمال‌سازی مجاز بخش
+\ref{cmp:sec:ch3-score-normalization-analysis}
+را اعمال می‌کند؛ این انتخاب باید در همهٔ
+نامزدها یکسان و در بستهٔ مدل ذخیره شود.
+در شاخه‌های سیگموئید و Softplus--JS،
+$D=\operatorname{JSD}$ و امتیازها با
+شباهت نرمال‌شدهٔ JS ساخته می‌شوند.
+نقاط تساوی رقبا در حاشیهٔ سخت ممکن است
+مشتق‌پذیر نباشند؛ تقریب هموار
 رابطه~\eqref{cmp:eq:ch3-margin-smooth-competitor}
-استفاده کرد؛ گرادیان متناظر در
-رابطه~\eqref{cmp:eq:ch3-margin-loss-policy-gradient}
-آمده است. برای KL و نرمال‌سازیِ دارای
-تقسیم بر انحراف معیار، مشتق‌گیری در نقاط
-نامتناهی یا تکین بدون قرارداد پایداری معتبر نیست.
-این شبه‌کد فقط روی داده‌های آموزش عمل می‌کند؛
-انتخاب فراپارامترها می‌تواند با اعتبارسنجی انجام شود،
-ولی هیچ مرحله‌ای از آن به برچسب دادهٔ آزمون نیاز ندارد.
+یک قرارداد اختیاریِ مستقل است.
+برای KL نامتناهی و نرمال‌سازی تکین نیز
+فرض‌ها یا روش پایدارسازی باید به‌صراحت
+اعمال شوند؛ رابطهٔ گرادیانِ مشتق‌پذیر
+به‌طور خودکار این وضعیت‌ها را حل نمی‌کند.
+
+حالت بهینه‌ساز $\xi$ در گام‌های آموزش
+نگهداری می‌شود: در SGD می‌تواند تهی و
+در Adam شامل ممان‌ها و شمار گام باشد.
+در نتیجهٔ ادامهٔ آموزش از checkpoint،
+صرفاً ذخیرهٔ $\theta$ برای بازسازی همان
+مسیر به‌روزرسانی کافی نیست.
+در مقابل، برای \emph{استنتاج}، پارامترها و
+مراکزِ بازحساب‌شدهٔ نهایی همراه با
+مرجع آموزش و قرارداد امتیاز لازم‌اند؛
+مراکز محاسبه‌شده \emph{پیش از آخرین}
+به‌روزرسانی عموماً با $\theta^\star$
+سازگار نیستند. در این شبه‌کد دادهٔ
+اعتبارسنجی در محاسبهٔ گرادیان یا
+بازبرآورد مراکز وارد نمی‌شود؛
+پایش و انتخاب checkpoint با اعتبارسنجی
+در الگوریتم جداگانه توضیح داده خواهد شد.
+
+خانواده‌های گره‌محور
+(\lr{node} و \lr{node\_class})
+در مجموعهٔ \emph{آموزشِ ثابت} قابل
+صورت‌بندی‌اند، ولی برای استفاده از
+$\mathcal M_{\mathrm{tr}}$ روی نمونهٔ جدید،
+به قاعدهٔ آغاز برون‌گراف نیاز دارند؛
+مطابق بخش~\ref{cmp:subsec:ch3-node-policy-families}،
+تا تعیین این قاعده، اعتبارسنجی برون‌نمونه‌ای
+آن‌ها تعریف کامل ندارد.
+همچنین اگر سیاست‌های شرطی طبقه به
+\emph{سیاست میانگین} تبدیل شوند،
+مراکز باید با همان سیاست میانگین
+بازمحاسبه گردند؛ مراکز
+$\mathcal V_c^\star$ در الگوریتم حاضر
+برای استنتاج \emph{فرضیه‌محور} ساخته شده‌اند
+و بدون این بازبرآورد قابل جایگزینی نیستند.
 
 \section{رابطهٔ سیاست و مراکز: دستیابی، چندگانگی و اصلاح سیاست}
 \label{cmp:sec:ch3-inverse-center-policy}
