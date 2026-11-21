@@ -4464,6 +4464,9 @@ $\mathcal V_c^{\mathrm{fit}}$ در الگوریتم حاضر
 بخش~\ref{subsec:ch4-data-splits} نیز سازگار است.
 
 \paragraph{گام نخست پرس‌وجو در برابر گشت آموزشی.}
+در این زیربخش، $x$ شناسهٔ یک مشاهدهٔ پرس‌وجو
+به‌همراه بردار ویژگی آن است؛ دو مشاهده با
+مقادیر یکسان همچنان دو شناسهٔ متمایزند.
 برای هر ویژگی مشاهده‌شدهٔ $b$ از نمونهٔ جدید،
 $D_b^{\mathrm{tr}}=\{X_j\in D_{\mathrm{tr}}:
 b\in A_{X_j}\}$ مجموعهٔ مقصدهای آموزشیِ
@@ -4600,14 +4603,19 @@ $\mathcal R_{\mathrm{val}}\gets\varnothing$
         1-\operatorname{JSD}(\mathscr Y_x^{[c]},
         \mathcal V_c^{\mathrm{fit}})/\log2$ برای تمام $c$
     \ENDIF
-    \STATE $\widehat y_x\gets
-    \min\{c:s_{x,c}=\max_{r}s_{x,r}\}$
-    برای رفع تساوی به‌صورت قطعی
-    \STATE $\widehat p_{x,:}\gets
-    \operatorname{Softmax}(s_{x,:})$
-    بدون اعمال مجدد مقیاس روی امتیازهای آماده
-    \STATE $\mathcal Q_{\mathrm{ok}}\gets
-    \mathcal Q_{\mathrm{ok}}\cup\{x\}$
+    \IF{امتیازهای $s_{x,:}$ یا بازنمایی‌ها نامعتبرند}
+        \STATE علامت‌گذاری $x$ به‌عنوان
+        \textbf{فاقد پیش‌بینی معتبر}
+    \ELSE
+        \STATE $\widehat y_x\gets
+        \min\{c:s_{x,c}=\max_{r}s_{x,r}\}$
+        برای رفع تساوی به‌صورت قطعی
+        \STATE $\widehat p_{x,:}\gets
+        \operatorname{Softmax}(s_{x,:})$
+        بدون اعمال مجدد مقیاس روی امتیازهای آماده
+        \STATE $\mathcal Q_{\mathrm{ok}}\gets
+        \mathcal Q_{\mathrm{ok}}\cup\{x\}$
+    \ENDIF
     \ENDIF
 \ENDFOR
 \IF{$Y_{\mathrm{val}}$ برای ارزیابی موجود است}
@@ -4631,6 +4639,12 @@ $(s,\widehat p,\widehat y,\mathcal R_{\mathrm{val}})$
 \end{algorithmic}
 \end{algorithm}
 
+منظور از نامعتبربودن بازنمایی یا امتیاز
+در الگوریتم، وجود مقدار نامتناهی،
+جرم احتمال نامتعارف یا نقض شرط
+نرمال‌بودن بازنمایی است؛ چنین خطایی
+با دست‌کاری برچسب یا جایگذاری یک
+برچسب دلخواه رفع نمی‌شود.
 در ارزیابی، پوشش پیش‌بینی برابر
 $|\mathcal Q_{\mathrm{ok}}|/|X_{\mathrm{val}}|$
 و Accuracy نسبت نمونه‌های درست
