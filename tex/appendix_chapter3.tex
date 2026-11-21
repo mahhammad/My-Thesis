@@ -1,17 +1,23 @@
 % !TeX root=../main.tex
 \chapter{اثبات‌های تکمیلی فصل سوم}
 \label{app:ch3-proofs}
+این پیوست، اثبات‌ها و محاسبات تکمیلیِ
+فصل~\ref{cmp:ch:method} را ارائه می‌کند.
+شماره‌های روابط و بخش‌های ارجاع‌شده در ادامه،
+همگی به \emph{نسخهٔ بازنویسی‌شدهٔ فصل سوم}
+مربوط‌اند؛ در صورت تغییر ترتیب متن،
+مقصد هر ارجاع باید همراه با بیان علمی آن کنترل شود.
 
 \section{تجزیه توزیع همسایگی به توزیع‌های انتقال چندگامی}
 \label{app:ch3-weighted-walk-proof}
 
-در این پیوست، نخست رابطه~\eqref{eq:ch3-h-alpha} از بخش~\ref{sec:ch3-interwoven} را اثبات می‌کنیم. همچنین نشان می‌دهیم که ضرایب ترکیب نامنفی‌اند و مجموع آن‌ها یک است.
+در این پیوست، نخست رابطه~\eqref{cmp:eq:ch3-h-alpha} از بخش~\ref{cmp:sec:ch3-interwoven} را اثبات می‌کنیم. همچنین نشان می‌دهیم که ضرایب ترکیب نامنفی‌اند و مجموع آن‌ها یک است.
 
-فرض کنیم $X_s$ نمونهٔ آغازین و $J_t$ اندیس نمونهٔ مشاهده‌شده در گام $t$ام حرکت ادامه‌یافته روی گراف باشد. به ازای هر $t\ge1$، بردار سطری $P_{X_s,t}$ را طبق رابطه \eqref{eq:ch3-step-observation-distribution} تعریف می‌کنیم. فرض می‌کنیم برای تمام گام‌های مورد نیاز، انتقال‌های مجاز تعریف شده باشند و طول گشت $L$ مستقل از مسیر حرکت بوده و توزیع هندسی با پارامتر توقف $\beta$ داشته باشد:
+فرض کنیم $X_s$ نمونهٔ آغازین و $J_t$ اندیس نمونهٔ مشاهده‌شده در گام $t$ام حرکت ادامه‌یافته روی گراف باشد. به ازای هر $t\ge1$، بردار سطری $P_{X_s,t}$ را طبق رابطه \eqref{cmp:eq:ch3-step-observation-distribution} تعریف می‌کنیم. فرض می‌کنیم برای تمام گام‌های مورد نیاز، انتقال‌های مجاز تعریف شده باشند و طول گشت $L$ مستقل از مسیر حرکت بوده و توزیع هندسی با پارامتر توقف $\beta$ داشته باشد:
 \begin{equation}\label{eq:app-ch3-L}
 \Pr(L=\ell)=p_\ell=\beta(1-\beta)^{\ell-1},\qquad \ell\ge1.
 \end{equation}
-همچنین $0<\lambda\le1$ و $\mathcal N_\ell(\lambda)=\sum_{t=1}^{\ell}\lambda^{t-1}$ است. بردار حاصل از یک گشت با طول تصادفی $L$ مطابق رابطه \eqref{eq:ch3-walk-vector} تعریف می‌شود.
+همچنین $0<\lambda\le1$ و $\mathcal N_\ell(\lambda)=\sum_{t=1}^{\ell}\lambda^{t-1}$ است. بردار حاصل از یک گشت با طول تصادفی $L$ مطابق رابطه \eqref{cmp:eq:ch3-walk-vector} تعریف می‌شود.
 
 \begin{proposition}\label{prop:app-ch3-alpha}
 با فرض‌های بالا، توزیع همسایگی نمونه آغازین را می‌توان به‌صورت
@@ -47,7 +53,7 @@ h_s
 \frac{p_\ell}{\mathcal N_\ell(\lambda)}\right)P_{X_s,t}.
 \end{aligned}
 \end{equation}
-تغییر ترتیب جمع‌ها به‌دلیل نامنفی‌بودن جمله‌ها مجاز است؛ زیرا همهٔ بردارهای $P_{X_s,t}$ توزیع احتمال‌اند. با قراردادن تعریف $p_\ell$ از رابطه \eqref{eq:app-ch3-L}، عبارت داخل پرانتز دقیقاً ضریب $\alpha_t(\beta,\lambda)$ در رابطه \eqref{eq:ch3-h-alpha} می‌شود.
+تغییر ترتیب جمع‌ها به‌دلیل نامنفی‌بودن جمله‌ها مجاز است؛ زیرا همهٔ بردارهای $P_{X_s,t}$ توزیع احتمال‌اند. با قراردادن تعریف $p_\ell$ از رابطه \eqref{eq:app-ch3-L}، عبارت داخل پرانتز دقیقاً ضریب $\alpha_t(\beta,\lambda)$ در رابطه \eqref{cmp:eq:ch3-h-alpha} می‌شود.
 
 برای اثبات نرمال‌بودن ضرایب، ابتدا از نامنفی بودن $p_\ell$، $\lambda^{t-1}$ و $\mathcal N_\ell(\lambda)>0$ نتیجه می‌گیریم که $\alpha_t\ge0$. سپس:
 \begin{equation}\label{eq:app-ch3-normalization}
@@ -67,7 +73,7 @@ h_s
 در ضرایب \eqref{eq:app-ch3-result}، پارامتر $\beta$ احتمال طول گشت $\ell$ و پارامتر $\lambda$ توزیع وزن مشاهدات \emph{درون هر گشت} را تعیین می‌کند. ازاین‌رو حتی وقتی متوسط طول گشت با $\beta=1/3$ برابر سه است، کاهش $\lambda$ سهم گام‌های دورتر را نسبت به گام‌های نزدیک‌تر کاهش می‌دهد. به‌طور خاص، اگر $\beta=1$ باشد، همه گشت‌ها طول یک دارند و $h_s=Q_{X_s}^{(1)}$، مستقل از $\lambda$.
 
 \paragraph{تفاوت با نرمال‌سازی پس از تجمیع گشت‌ها.}
-در این پژوهش، نخست بردار هر گشت بر $\mathcal N_L(\lambda)$ تقسیم و سپس امید ریاضی گرفته می‌شود. اگر به‌جای آن، ابتدا وزن بازدیدها روی تمام گشت‌ها تجمیع و \emph{پس از} امیدگیری نرمال شود، ضرایبی متناسب با $[\lambda(1-\beta)]^{t-1}$ به‌دست می‌آید. این دو روش در حالت کلی یکسان نیستند؛ زیرا امید ریاضی یک نسبت الزاماً با نسبت امیدهای ریاضی برابر نیست. ازاین‌رو رابطه \eqref{eq:ch3-h-alpha} صورت دقیق تعریف مبتنی بر نرمال‌سازی جداگانه هر گشت است، نه یک تقریب حاصل از سری هندسی ماتریس گذار.
+در این پژوهش، نخست بردار هر گشت بر $\mathcal N_L(\lambda)$ تقسیم و سپس امید ریاضی گرفته می‌شود. اگر به‌جای آن، ابتدا وزن بازدیدها روی تمام گشت‌ها تجمیع و \emph{پس از} امیدگیری نرمال شود، ضرایبی متناسب با $[\lambda(1-\beta)]^{t-1}$ به‌دست می‌آید. این دو روش در حالت کلی یکسان نیستند؛ زیرا امید ریاضی یک نسبت الزاماً با نسبت امیدهای ریاضی برابر نیست. ازاین‌رو رابطه \eqref{cmp:eq:ch3-h-alpha} صورت دقیق تعریف مبتنی بر نرمال‌سازی جداگانه هر گشت است، نه یک تقریب حاصل از سری هندسی ماتریس گذار.
 
 
 
@@ -79,10 +85,10 @@ h_s
 بنابراین سیاست استفاده‌شده در \emph{همه نمونه‌های میانی}
 $\pi_s^{(c_s)}$ است و نمادهای ماتریسی کوتاه
 $\Pi_i^{(s)}$ و $\mathsf P_s$ دقیقاً طبق
-بخش~\ref{subsec:ch3-block-matrix-transition}
+بخش~\ref{cmp:subsec:ch3-block-matrix-transition}
 معنا می‌شوند.
 برای هر حالت قابل دسترس $(i,a)$، از شرط
-$|D_b|\ge3$ و رابطه~\eqref{eq:ch3-feature-eligibility}
+$|D_b|\ge3$ و رابطه~\eqref{cmp:eq:ch3-feature-eligibility}
 می‌دانیم $\sum_{j\ne i,s}q_b^{(s)}(j\mid i)=1$
 برای تمام $b\in A_{X_i}$. بنابراین:
 \begin{equation}\label{eq:app-ch3-block-stochastic}
@@ -100,12 +106,12 @@ $\pi_s^{(c_s)}(b\mid i,a)q_b^{(s)}(j\mid i)$ است.
 در نتیجه محدودسازی دو عامل به $\mathcal S_s$
 پیش یا پس از ضرب، حاصل یکسانی روی حالت‌های مجاز می‌دهد.
 چون توزیع نخستین حالت $\rho_s$ از
-رابطه~\eqref{eq:ch3-block-first-step} به‌دست می‌آید،
+رابطه~\eqref{cmp:eq:ch3-block-first-step} به‌دست می‌آید،
 استقرا روی $t$ توزیع
 $\rho_s\mathsf P_s^{t-1}$ را برای گام $t$ام نتیجه می‌دهد.
 ضرب در دو ماتریس تجمیع
 $\mathsf M_s^{(X)}$ و $\mathsf M_s^{(Y)}$
-از رابطه~\eqref{eq:ch3-state-aggregation-matrices}
+از رابطه~\eqref{cmp:eq:ch3-state-aggregation-matrices}
 به‌ترتیب مؤلفه‌های حالت را بر اساس
 \emph{شناسه نمونه} و \emph{برچسب نمونه} جمع می‌کند.
 
@@ -125,7 +131,7 @@ $\mathsf M_s^{(X)}$ و $\mathsf M_s^{(Y)}$
 عبارت سمت راست فقط به نمونه جاری و مبدأ ثابت
 وابسته است و مجموع آن روی $j$ برابر یک است.
 در نتیجه با آغاز از $J_0=s$ و استقرا روی گام‌ها،
-رابطه~\eqref{eq:ch3-uniform-step-distribution} یعنی
+رابطه~\eqref{cmp:eq:ch3-uniform-step-distribution} یعنی
 $P_{X_s,t}=e_s(P_s^U)^t$ حاصل می‌شود.
 این فروکاست برای سیاست وابسته به ویژگی پیشین
 الزاماً برقرار نیست؛ زیرا دو گشت که به
@@ -152,7 +158,7 @@ $\sum_{\ell=1}^{H}p_\ell^{(H)}=1$ تبدیل می‌شود. این محاسبه 
 
 \paragraph{هم‌ارزی محاسبه پیش‌رونده و پس‌رونده.}
 برای $G_{s,t}$ در
-رابطه~\eqref{eq:ch3-matrix-backward-recursion}
+رابطه~\eqref{cmp:eq:ch3-matrix-backward-recursion}
 به روش استقرای معکوس داریم:
 \begin{equation}\label{eq:app-ch3-backward-recursion-proof}
 G_{s,t}
@@ -171,7 +177,7 @@ $\rho_sG_{s,1}
 =\sum_{u=1}^{H}\alpha_u^{(H)}
 \rho_s\mathsf P_s^{u-1}\mathsf M_s^{(Y)}$
 همان جمع پیش‌رونده
-رابطه~\eqref{eq:ch3-matrix-forward-recursion} است.
+رابطه~\eqref{cmp:eq:ch3-matrix-forward-recursion} است.
 
 \paragraph{اثبات کران تقریب.}
 بگذار
@@ -357,7 +363,7 @@ $\mathsf P_s^t$
 در هر طبقه نیز
 مرکز یکتای
 رابطه
-\eqref{eq:ch3-class-center}
+\eqref{cmp:eq:ch3-class-center}
 را تعیین می‌کند.
 این یکتایی
 \emph{پیشرو} است
@@ -386,7 +392,7 @@ $\rho_s$ است و
 با $\mathsf P_s$
 انتقال می‌یابیم.
 این تعریف به
-\eqref{eq:ch3-sequential-restart-matrix}
+\eqref{cmp:eq:ch3-sequential-restart-matrix}
 می‌انجامد.
 مجموع سطر آغاز
 برابر یک است و
@@ -496,7 +502,7 @@ $1-\pi_0=1/(1+\beta)$،
 توزیع مشروط
 حالت‌های داخلی
 دقیقاً رابطه
-\eqref{eq:ch3-sequential-restart-stationary}
+\eqref{cmp:eq:ch3-sequential-restart-stationary}
 را به‌دست می‌دهد.
 اگر توقف
 \emph{با سقف ثابت $H$}
@@ -577,7 +583,7 @@ $\frac1M\sum_{r=1}^MB_{s,r}$
 \]
 نوشت؛ این همان
 تعریف بازنمایی
-\eqref{eq:ch3-h-alpha}
+\eqref{cmp:eq:ch3-h-alpha}
 است. در حالت
 سقف‌دار جمع
 تا $H$ ادامه
@@ -681,16 +687,16 @@ $\beta(1-\beta)^{t-1}$
 \end{equation}
 در این مشتق، $\alpha_t^{(H)}$ و ماتریس برچسب $\mathsf M_s^{(Y)}$ برای $\beta,\lambda$ و داده ثابت‌اند؛ برای مشتق‌گیری نسبت به خود $\beta$ یا $\lambda$ باید تغییر ضرایب $\alpha_t^{(H)}$ نیز لحاظ شود. رابطه فوق هم مبنای مشتق‌گیری خودکار و هم روشی برای محاسبه حساسیت مراکز بدون مونت‌کارلو است. اگر $J$ ژاکوبین مؤلفه‌های مستقل مراکز باشد، کمینه‌ساز مسئله خطی‌شده منظم‌شده از شرط بهینگی
 $(J^\top J+\mu I_p)\delta=J^\top(u^\star-u)$
-به‌دست می‌آید؛ با هویت ماتریسی و $\mu>0$، این حل با صورت کم‌بعد رابطه~\eqref{eq:ch3-inverse-GN} برابر است.
+به‌دست می‌آید؛ با هویت ماتریسی و $\mu>0$، این حل با صورت کم‌بعد رابطه~\eqref{cmp:eq:ch3-inverse-GN} برابر است.
 
 \paragraph{قضیهٔ کران‌های دوطرفهٔ بلمن با هستهٔ مبدأحذف.}
 دادهٔ مرجع $D$، برچسب‌های آموزشی و وزن‌های مثبت گراف را ثابت می‌گیریم.
 فرض می‌کنیم برای هر نمونه، دست‌کم یک ویژگی مشاهده‌شده وجود دارد و هر ویژگی
-دست‌کم در سه نمونه موجود است (فرض پنجم بخش~\ref{subsec:ch3-definitions}).
+دست‌کم در سه نمونه موجود است (فرض پنجم بخش~\ref{cmp:subsec:ch3-definitions}).
 بنابراین برای هر مبدأ $s$، هر وضعیت قابل‌دسترس $(i,a)$ با $i\ne s$، و
 هر $b\in A_{X_i}$، مجموعهٔ مقصدهای
 $D_b\setminus\{X_i,X_s\}$ ناتهی و مخرج
-$q_b^{(s)}(j\mid i)$ در رابطه~\eqref{eq:ch3-vertical-transition}
+$q_b^{(s)}(j\mid i)$ در رابطه~\eqref{cmp:eq:ch3-vertical-transition}
 مثبت است. خودانتقال و انتقال به $s$ در \emph{همهٔ گام‌های درون قطعه}
 ممنوع‌اند؛ بازآغاز میان قطعه‌ها جزو این هسته نیست.
 برای انتقال نخست از $i=s$ نیز، به دلیل حذف خودانتقال، داریم
@@ -705,7 +711,7 @@ $X_s$ حذف شود؛ جایگزینی این هسته با انتقالی که 
 
 طول سقف‌دار $L_H=\min(L,H)$ مستقل از مسیر و سیاست است.
 با $p_\ell^{(H)}=\beta(1-\beta)^{\ell-1}$ برای $\ell<H$ و
-$p_H^{(H)}=(1-\beta)^{H-1}$، ضرایب رابطه~\eqref{eq:ch3-capped-alpha} عبارت‌اند از
+$p_H^{(H)}=(1-\beta)^{H-1}$، ضرایب رابطه~\eqref{cmp:eq:ch3-capped-alpha} عبارت‌اند از
 \[
 \alpha_t^{(H)}
 =\lambda^{t-1}\sum_{\ell=t}^{H}\frac{p_\ell^{(H)}}{\mathcal N_\ell(\lambda)},
@@ -970,7 +976,7 @@ $z_1$ نسبت به $z_2$ هدف کمتری دارد؛ این گزاره
 \]
 هستند. در هر ویژگی متریک $\mu(x,y)=|x-y|$ و
 تابع مثبتِ نزولی $\kappa(r)=(1+r)^{-1}$ را می‌گیریم؛
-پس این وزن‌ها دقیقاً با رابطه~\eqref{eq:ch3-edge-weight} سازگارند.
+پس این وزن‌ها دقیقاً با رابطه~\eqref{cmp:eq:ch3-edge-weight} سازگارند.
 هر ویژگی در چهار نمونه وجود دارد و هر نمونه دو ویژگی مجاز دارد؛
 در نتیجه شرط وجود مقصد حتی پس از حذف مبدأ برقرار است.
 
@@ -1124,7 +1130,7 @@ $z+t\Delta z$
 \section{بهینگی درست‌نماییِ نماینده مشترک توزیع‌های مخلوط}
 \label{app:ch3-mixture-likelihood}
 
-این اثبات، صورت عمومی استدلال درست‌نماییِ مطرح‌شده در رابطه~\eqref{eq:ch3-mixture-likelihood-optimum} را ارائه می‌کند و به تعریف شعاع درون‌طبقه‌ای وابسته نیست. فرض کنیم مشاهدات در $g$ گروه تولید شده‌اند؛ در گروه $r$، تعداد $n_r$ مشاهده مستقل و هم‌توزیع $Z_{r,1},\ldots,Z_{r,n_r}$ از توزیع احتمال $P_r$ روی یک فضای متناهی داریم. اگر $n=\sum_r n_r$ و در حد $n\to\infty$ نسبت $n_r/n$ به وزن $\eta_r$ میل کند، فرض می‌کنیم $\eta_r\ge0$ و $\sum_r\eta_r=1$؛ گروه‌های با وزن صفر در محاسبات حدی سهمی ندارند.
+این اثبات، صورت عمومی استدلال درست‌نماییِ مطرح‌شده در رابطه~\eqref{cmp:eq:ch3-mixture-likelihood-optimum} را ارائه می‌کند و به تعریف شعاع درون‌طبقه‌ای وابسته نیست. فرض کنیم مشاهدات در $g$ گروه تولید شده‌اند؛ در گروه $r$، تعداد $n_r$ مشاهده مستقل و هم‌توزیع $Z_{r,1},\ldots,Z_{r,n_r}$ از توزیع احتمال $P_r$ روی یک فضای متناهی داریم. اگر $n=\sum_r n_r$ و در حد $n\to\infty$ نسبت $n_r/n$ به وزن $\eta_r$ میل کند، فرض می‌کنیم $\eta_r\ge0$ و $\sum_r\eta_r=1$؛ گروه‌های با وزن صفر در محاسبات حدی سهمی ندارند.
 
 اگر بدانیم هر مشاهده از کدام توزیع تولید شده، درست‌نمایی مدل آگاه از مبدأ برابر است با
 \[
@@ -1227,7 +1233,7 @@ D_{\mathrm{KL}}(\mathscr Y_i\|\mathcal V_c)\\
 &=R_c+D_{\mathrm{KL}}(\mathcal V_c\|U).
 \end{aligned}
 \end{equation}
-این همان قضیه~\ref{thm:ch3-KL-decomposition} است. چون برای هر مؤلفه $d$، برابری $\mathcal V_c(d)=0$ همراه با نامنفی‌بودن $\mathscr Y_i(d)$ها مستلزم $\mathscr Y_i(d)=0$ برای همه اعضای طبقه است، جمله‌های دارای مؤلفه صفر را می‌توان با قرارداد معمول KL محاسبه کرد. اگر در مؤلفه‌ای $\mathcal V_c(d)>0$ اما $U(d)=0$ باشد، هر دو طرفِ عبارت مربوط به مدل $U$ نامتناهی‌اند و تفسیر مستقیم لگاریتم درست‌نمایی برقرار نیست؛ به همین دلیل قضیه در متن اصلی با شرط متناهی‌بودن واگرایی‌ها بیان شده است. نامنفی‌بودن $D_{\mathrm{KL}}(\mathcal V_c\|U)$ ثابت می‌کند که نماینده بهینه دقیقاً $\mathcal V_c$ است. همچنین در این صورت، هویت~\eqref{eq:ch3-R-entropy} تفسیرِ هزینه تجمیع را در قالب آنتروپی و میانگین KL ارائه می‌کند.
+این همان قضیه~\ref{cmp:thm:ch3-KL-decomposition} است. چون برای هر مؤلفه $d$، برابری $\mathcal V_c(d)=0$ همراه با نامنفی‌بودن $\mathscr Y_i(d)$ها مستلزم $\mathscr Y_i(d)=0$ برای همه اعضای طبقه است، جمله‌های دارای مؤلفه صفر را می‌توان با قرارداد معمول KL محاسبه کرد. اگر در مؤلفه‌ای $\mathcal V_c(d)>0$ اما $U(d)=0$ باشد، هر دو طرفِ عبارت مربوط به مدل $U$ نامتناهی‌اند و تفسیر مستقیم لگاریتم درست‌نمایی برقرار نیست؛ به همین دلیل قضیه در متن اصلی با شرط متناهی‌بودن واگرایی‌ها بیان شده است. نامنفی‌بودن $D_{\mathrm{KL}}(\mathcal V_c\|U)$ ثابت می‌کند که نماینده بهینه دقیقاً $\mathcal V_c$ است. همچنین در این صورت، هویت~\eqref{cmp:eq:ch3-R-entropy} تفسیرِ هزینه تجمیع را در قالب آنتروپی و میانگین KL ارائه می‌کند.
 
 \section{هویت آنتروپی مخلوط و تعبیر معیارهای R و I}
 \label{app:ch3-entropy-mixture}
@@ -1261,12 +1267,12 @@ $R_{\mathrm{KL}}$ و $I$ و نیز اختلاف هزینه
 اگر $\overline P(d)=0$، با نامنفی بودن وزن‌ها و توزیع‌ها، تمام $P_r(d)$هایی که وزن مثبت دارند نیز صفر هستند؛ بنابراین همان قرارداد معمول واگرایی در آن مؤلفه برقرار است.
 \end{proof}
 
-برای معیار شعاع درون‌طبقه‌ای $R_c$، با انتخاب $P_r=\mathscr Y_i$ برای $i\in C_c$ و وزن $1/|C_c|$، مستقیماً رابطه~\eqref{eq:ch3-R-entropy} به‌دست می‌آید. در گام بعد، با میانگین‌گیری روی طبقه‌ها طبق وزن‌های $\Omega$، تعبیر آنتروپی میانگین $R$ در رابطه~\eqref{eq:ch3-R-average-entropy} حاصل می‌شود. همچنین با انتخاب $P_r=\mathcal V_c$ و $a_r=\omega_c$، همین گزاره رابطه~\eqref{eq:ch3-I-entropy} را نتیجه می‌دهد. به این ترتیب، تعبیر آنتروپی $R$ و $I$ دو کاربرد از یک هویت واحدند.
+برای معیار شعاع درون‌طبقه‌ای $R_c$، با انتخاب $P_r=\mathscr Y_i$ برای $i\in C_c$ و وزن $1/|C_c|$، مستقیماً رابطه~\eqref{cmp:eq:ch3-R-entropy} به‌دست می‌آید. در گام بعد، با میانگین‌گیری روی طبقه‌ها طبق وزن‌های $\Omega$، تعبیر آنتروپی میانگین $R$ در رابطه~\eqref{cmp:eq:ch3-R-average-entropy} حاصل می‌شود. همچنین با انتخاب $P_r=\mathcal V_c$ و $a_r=\omega_c$، همین گزاره رابطه~\eqref{cmp:eq:ch3-I-entropy} را نتیجه می‌دهد. به این ترتیب، تعبیر آنتروپی $R$ و $I$ دو کاربرد از یک هویت واحدند.
 
 \subsection{کران تیز هزینه تجمیع و رابطه آن با تراکم جنسن--شنون}
 \label{app:ch3-compactness-entropy-relations}
 این قسمت دو نتیجه‌ای را که در
-بخش~\ref{subsec:ch3-within-class-compactness}
+بخش~\ref{cmp:subsec:ch3-within-class-compactness}
 بیان شدند، از هویت عمومی
 \eqref{eq:app-ch3-mixture-entropy}
 استخراج می‌کند: کران تراکم KL
@@ -1343,7 +1349,7 @@ $R=\log K$ تنها در صورتی رخ می‌دهد
 
 \paragraph{میانگین‌های جفتی و هویت تراکم JS.}
 برای هر عضو طبقه $c$، تعریف
-\eqref{eq:ch3-R-JS-midpoint-distributions}
+\eqref{cmp:eq:ch3-R-JS-midpoint-distributions}
 را بازنویسی می‌کنیم:
 $\mathscr B_{c,i}
 =(\mathscr Y_i+\mathcal V_c)/2$.
@@ -1365,7 +1371,7 @@ R_{B,c}
 \]
 را نتیجه می‌دهد.
 از سوی دیگر، هویت آنتروپی
-\eqref{eq:ch3-JSD-entropy}
+\eqref{cmp:eq:ch3-JSD-entropy}
 با قرار دادن $P=\mathscr Y_i$ و
 $Q=\mathcal V_c$ می‌دهد:
 \[
@@ -1428,7 +1434,7 @@ $\mathcal V_c$ تشکیل می‌شد.
 $i,j\in C_c$ را، با احتساب
 زوج‌های $i=j$، در نظر می‌گیریم.
 اگر $n_c=|C_c|$، طبق
-تعریف~\eqref{eq:ch3-R-JS-pairwise-distributions}،
+تعریف~\eqref{cmp:eq:ch3-R-JS-pairwise-distributions}،
 مرکز مجموعه $n_c^2$ توزیع
 $\mathscr B_{c,ij}^{\mathrm{pair}}$
 دوباره $\mathcal V_c$ است:
@@ -1493,7 +1499,7 @@ $i<j$ را با وزن برابر میانگین بگیریم،
 R_{c,\mathrm{JS}}^{\mathrm{pair}}
 \]
 به‌دست می‌آید. بنابراین در
-به‌کارگیری هویت~\eqref{eq:ch3-R-JS-pairwise-entropy-identity}
+به‌کارگیری هویت~\eqref{cmp:eq:ch3-R-JS-pairwise-entropy-identity}
 باید قرارداد وزن‌دهی زوج‌ها
 حفظ شود. هیچ‌یک از این تعریف‌ها
 خودبه‌خود با سنجه \emph{نمونه--مرکز}
@@ -1563,7 +1569,7 @@ BTNL(\mathcal V)\le TNL(\mathcal V).
 
 \section{کران‌ها و حالت‌های تساوی معیار اطلاعات متقابل}
 \label{app:ch3-I-bounds-proof}
-فرض کنیم $C_0$ طبقه آغازین با توزیع $\Omega$ و $C_\xi$ برچسب مشاهده‌شده با توزیع شرطی $\mathcal V$ باشد. برای اثبات هویت~\eqref{eq:ch3-I-conditional} از توزیع مشترک در رابطه~\eqref{eq:ch3-I-joint-distribution} استفاده می‌کنیم. برای هر $d$ با $\overline{\mathcal V}(d)>0$، از قاعده احتمال شرطی داریم:
+فرض کنیم $C_0$ طبقه آغازین با توزیع $\Omega$ و $C_\xi$ برچسب مشاهده‌شده با توزیع شرطی $\mathcal V$ باشد. برای اثبات هویت~\eqref{cmp:eq:ch3-I-conditional} از توزیع مشترک در رابطه~\eqref{cmp:eq:ch3-I-joint-distribution} استفاده می‌کنیم. برای هر $d$ با $\overline{\mathcal V}(d)>0$، از قاعده احتمال شرطی داریم:
 \[
 \mathrm P(C_0=c\mid C_\xi=d)
 =\frac{\omega_c\mathcal V_{cd}}{\overline{\mathcal V}(d)}.
@@ -1582,9 +1588,9 @@ H(C_0\mid C_\xi)
 &=H(\Omega)-I(\mathcal V).
 \end{aligned}
 \end{equation}
-در تساوی دوم از $\sum_{d=1}^{K}\mathcal V_{cd}=1$ استفاده کرده‌ایم و درایه‌های با احتمال صفر طبق قرارداد رایج در آنتروپی و واگرایی KL سهمی در جمع ندارند. با جابه‌جا کردن دو طرف، دقیقاً رابطه~\eqref{eq:ch3-I-conditional} به‌دست می‌آید.
+در تساوی دوم از $\sum_{d=1}^{K}\mathcal V_{cd}=1$ استفاده کرده‌ایم و درایه‌های با احتمال صفر طبق قرارداد رایج در آنتروپی و واگرایی KL سهمی در جمع ندارند. با جابه‌جا کردن دو طرف، دقیقاً رابطه~\eqref{cmp:eq:ch3-I-conditional} به‌دست می‌آید.
 
-از نامنفی بودن آنتروپی شرطی و اطلاعات متقابل، به‌ترتیب $I(\mathcal V)\le H(\Omega)$ و $I(\mathcal V)\ge0$ نتیجه می‌شود. همچنین آنتروپی توزیع احتمال روی $K$ طبقه از $\log K$ بیشتر نیست؛ بنابراین کران‌های رابطه~\eqref{eq:ch3-I-bounds} اثبات می‌شوند.
+از نامنفی بودن آنتروپی شرطی و اطلاعات متقابل، به‌ترتیب $I(\mathcal V)\le H(\Omega)$ و $I(\mathcal V)\ge0$ نتیجه می‌شود. همچنین آنتروپی توزیع احتمال روی $K$ طبقه از $\log K$ بیشتر نیست؛ بنابراین کران‌های رابطه~\eqref{cmp:eq:ch3-I-bounds} اثبات می‌شوند.
 تساوی $I=0$ دقیقاً زمانی رخ می‌دهد که $C_0$ و $C_\xi$ مستقل باشند؛ با فرض مثبت بودن وزن‌های طبقه‌ها، این شرط معادل یکسان بودن تمام سطرهای $\mathcal V$ با توزیع حاشیه‌ای $\overline{\mathcal V}$ است.
 
 برابری $I=H(\Omega)$ نیز معادل $H(C_0\mid C_\xi)=0$ است؛ یعنی هر برچسب مشاهده‌شده با احتمال مثبت، طبقه آغازین را به‌طور یکتا مشخص کند. در نتیجه، تکیه‌گاه سطرهای دارای وزن مثبت ماتریس $\mathcal V$ باید دوبه‌دو مجزا باشند. اگر همه $K$ وزن طبقه مثبت باشند و فضای برچسب مشاهده‌شده نیز دقیقاً $K$ عضو داشته باشد، هر یک از $K$ سطر باید دست‌کم یک مؤلفه مثبت داشته باشد؛ مجزا بودن تکیه‌گاه‌ها با وجود تنها $K$ ستون، هر سطر را به یک بردار یکه روی ستونی متمایز مجبور می‌کند. بنابراین $\mathcal V$ باید ماتریس جایگشتی باشد. عکس آن نیز از تعیین‌پذیری طبقه مبدأ با دانستن برچسب مشاهده‌شده نتیجه می‌شود.
@@ -1592,7 +1598,7 @@ H(C_0\mid C_\xi)
 \paragraph{اثبات رابطه معیار اطلاعات متقابل با $T$ و $BT$.}
 توزیع مشترک طبقه آغازین و برچسب مشاهده‌شده را با
 $p(c,d)=\omega_c\mathcal V_{cd}$ و حاصل‌ضرب حاشیه‌های آن‌ها را با
-$q(c,d)=\omega_c\overline{\mathcal V}(d)$ نشان می‌دهیم. طبق تعریف اطلاعات متقابل در رابطه~\eqref{eq:ch3-I-mutual-info}، داریم $D_{\mathrm{KL}}(p\|q)=I(\mathcal V)$. برای هر جایگشت $\sigma\in S_K$، نگاشت دودویی
+$q(c,d)=\omega_c\overline{\mathcal V}(d)$ نشان می‌دهیم. طبق تعریف اطلاعات متقابل در رابطه~\eqref{cmp:eq:ch3-I-mutual-info}، داریم $D_{\mathrm{KL}}(p\|q)=I(\mathcal V)$. برای هر جایگشت $\sigma\in S_K$، نگاشت دودویی
 $z_\sigma(c,d)=\mathbf 1_{\{d=\sigma(c)\}}$ را در نظر می‌گیریم. با اعمال این نگاشت به هر دو توزیع، احتمال رخداد مقدار یک به‌ترتیب برابر می‌شود با:
 \begin{equation}\label{eq:app-ch3-I-BT-Bernoulli-params}
 \begin{aligned}
@@ -1614,7 +1620,7 @@ I(\mathcal V)=D_{\mathrm{KL}}(p\|q)
 \operatorname{Bern}(q_\sigma)\right).
 \end{equation}
 با انتخاب جایگشت همانی، $t_\sigma=T(\mathcal V)$ و
-$q_\sigma=\sum_c\omega_c\overline{\mathcal V}(c)$ می‌شود. بنابراین رابطه~\eqref{eq:ch3-I-vs-T} به‌دست می‌آید.
+$q_\sigma=\sum_c\omega_c\overline{\mathcal V}(c)$ می‌شود. بنابراین رابطه~\eqref{cmp:eq:ch3-I-vs-T} به‌دست می‌آید.
 
 حال فرض کنیم وزن طبقه‌ها برابر و $\omega_c=1/K$ باشد. برای هر جایگشت $\sigma$ داریم:
 \begin{equation}\label{eq:app-ch3-I-BT-uniform}
@@ -1624,7 +1630,7 @@ q_\sigma=\frac1K\sum_{c=1}^{K}\overline{\mathcal V}(\sigma(c))
 \end{equation}
 چون تعداد جایگشت‌ها محدود است، جایگشت $\sigma^\star$ وجود دارد که
 $t_{\sigma^\star}=\max_\sigma t_\sigma=BT(\mathcal V)$ باشد.
-قرار دادن $\sigma^\star$ در رابطه~\eqref{eq:app-ch3-I-BT-data-processing}، با توجه به رابطه~\eqref{eq:app-ch3-I-BT-uniform}، کران~\eqref{eq:ch3-I-vs-BT} را اثبات می‌کند.
+قرار دادن $\sigma^\star$ در رابطه~\eqref{eq:app-ch3-I-BT-data-processing}، با توجه به رابطه~\eqref{eq:app-ch3-I-BT-uniform}، کران~\eqref{cmp:eq:ch3-I-vs-BT} را اثبات می‌کند.
 
 برای بررسی وابستگی این کران به مقدار $BT$، تابع زیر را برای $K\ge2$ تعریف می‌کنیم:
 \begin{equation}\label{eq:app-ch3-I-BT-monotonicity}
@@ -1664,14 +1670,14 @@ f_U(V)=\exp(H(U))\prod_{d=1}^{K}V(d)^{U(d)}.
 \frac1K\sum_{r=1}^{K}f_U(V_r)
 \le f_U\left(\frac1K\sum_{r=1}^{K}V_r\right).
 \end{equation}
-با انتخاب $U=\mathscr Y_i$ و $V_r=\mathcal V_r$، رابطه~\eqref{eq:ch3-NLL-Jensen} به‌دست می‌آید. اگر مؤلفه‌های مثبت $U$ در برخی $V_r$ صفر باشند، $f_U(V_r)$ را با مقدار حدی صفر تفسیر می‌کنیم؛ در نرمال‌سازی با بیشینهٔ هموارِ متن اصلی، وجود دست‌کم یک فاصله متناهی برای تعریف مخرج کافی است؛ در مورد نمونه‌های آموزش، فاصله از مرکز واقعی خود نمونه متناهی است.
+با انتخاب $U=\mathscr Y_i$ و $V_r=\mathcal V_r$، رابطه~\eqref{cmp:eq:ch3-NLL-Jensen} به‌دست می‌آید. اگر مؤلفه‌های مثبت $U$ در برخی $V_r$ صفر باشند، $f_U(V_r)$ را با مقدار حدی صفر تفسیر می‌کنیم؛ در نرمال‌سازی با بیشینهٔ هموارِ متن اصلی، وجود دست‌کم یک فاصله متناهی برای تعریف مخرج کافی است؛ در مورد نمونه‌های آموزش، فاصله از مرکز واقعی خود نمونه متناهی است.
 
-از تعریف خطای نمونه در رابطه~\eqref{eq:ch3-NLL-sample} و گرفتن لگاریتم از رابطه~\eqref{eq:ch3-NLL-Jensen} داریم:
+از تعریف خطای نمونه در رابطه~\eqref{cmp:eq:ch3-NLL-sample} و گرفتن لگاریتم از رابطه~\eqref{cmp:eq:ch3-NLL-Jensen} داریم:
 \[
 \ell_i\le d_{i,y_i}+\log K-
 D_{\mathrm{KL}}(\mathscr Y_i\|\overline{\mathcal V}).
 \]
-با وزن‌های یکنواخت، میانگین متوازن جمله اول برابر $R$ است و میانگین متوازن جمله آخر، طبق تجزیه~\eqref{eq:ch3-R-I-decomposition}، برابر $R+I(\mathcal V)$ است؛ بنابراین:
+با وزن‌های یکنواخت، میانگین متوازن جمله اول برابر $R$ است و میانگین متوازن جمله آخر، طبق تجزیه~\eqref{cmp:eq:ch3-R-I-decomposition}، برابر $R+I(\mathcal V)$ است؛ بنابراین:
 \[
 NLL_U\le R+\log K-(R+I(\mathcal V))
 =\log K-I(\mathcal V).
@@ -1726,7 +1732,7 @@ NLL_\Omega\le\log K-I(\mathcal V)
 
 \subsection{کران تجربی خطای طبقه‌بندی بر اساس حاشیه}
 \label{app:ch3-margin-error}
-نمونه $X$ را به‌طور یکنواخت از طبقه $c$ انتخاب می‌کنیم. برای طبقه رقیب $r$، متغیر تصادفی حاشیه $M=M_{c,r}(X)$ طبق روابط~\eqref{eq:ch3-margin-mean} و \eqref{eq:ch3-margin-variance} دارای میانگین $\mu=\mu_{c,r}\ge0$ و واریانس $\nu=\nu_{c,r}\ge0$ است. اگر $\mu>0$، نامساوی یک‌طرفه چبیشف یا کانتلی به‌صورت زیر برقرار است:
+نمونه $X$ را به‌طور یکنواخت از طبقه $c$ انتخاب می‌کنیم. برای طبقه رقیب $r$، متغیر تصادفی حاشیه $M=M_{c,r}(X)$ طبق روابط~\eqref{cmp:eq:ch3-margin-mean} و \eqref{cmp:eq:ch3-margin-variance} دارای میانگین $\mu=\mu_{c,r}\ge0$ و واریانس $\nu=\nu_{c,r}\ge0$ است. اگر $\mu>0$، نامساوی یک‌طرفه چبیشف یا کانتلی به‌صورت زیر برقرار است:
 \begin{equation}\label{eq:app-ch3-margin-Cantelli-proof}
 \mathrm P(M\le0)
 =\mathrm P(\mu-M\ge\mu)
@@ -1750,7 +1756,7 @@ $\mu=D_{\mathrm{KL}}(\mathcal V_c\|\mathcal V_r)$ است، دو مرکز برا�
 &\le\sum_{r\ne c}G_{c,r}.
 \end{aligned}
 \end{equation}
-با میانگین‌گیری یکنواخت روی طبقه‌ها و در نظر گرفتن کران بدیهی یک برای احتمال خطا، رابطه~\eqref{eq:ch3-margin-error-bound} به‌دست می‌آید. این اثبات درباره توزیع تجربیِ نمونه‌های مورد ارزیابی است و تضمین تعمیم‌پذیری آماری مستقلی به داده‌های دیگر فراهم نمی‌کند.
+با میانگین‌گیری یکنواخت روی طبقه‌ها و در نظر گرفتن کران بدیهی یک برای احتمال خطا، رابطه~\eqref{cmp:eq:ch3-margin-error-bound} به‌دست می‌آید. این اثبات درباره توزیع تجربیِ نمونه‌های مورد ارزیابی است و تضمین تعمیم‌پذیری آماری مستقلی به داده‌های دیگر فراهم نمی‌کند.
 
 
 
@@ -1886,7 +1892,7 @@ z_r=-\frac{\rho}{\sqrt{K(K-1)}}
 \emph{تیز} است.
 برای $\rho=\sqrt K$
 رابطه
-\eqref{eq:ch3-normalized-softmax-pmax}
+\eqref{cmp:eq:ch3-normalized-softmax-pmax}
 حاصل می‌شود.
 
 \paragraph{کف مثبت NLL و حالت‌های مرزی.}
@@ -1965,7 +1971,7 @@ $\tau\downarrow0$ کف مثبت
 \end{aligned}
 \end{equation}
 با گرفتن کمینه بالای همه $t>0$
-به رابطه~\eqref{eq:ch3-margin-Chernoff}
+به رابطه~\eqref{cmp:eq:ch3-margin-Chernoff}
 می‌رسیم؛ اگر کمینه روی
 بازه باز به‌دست نیاید،
 منظور همان اینفیمم است.
@@ -1973,7 +1979,7 @@ $\tau\downarrow0$ کف مثبت
 $M_{c,r}\le0$ و کران
 بدیهی یک برای احتمال
 خطای هر طبقه، رابطه
-\eqref{eq:ch3-margin-Chernoff-balanced}
+\eqref{cmp:eq:ch3-margin-Chernoff-balanced}
 حاصل می‌شود. این برهان
 نیازی به استقلال حاشیه‌های
 یک نمونه نسبت به
@@ -2006,7 +2012,7 @@ e^{-a}+e^{-b}\le1+e^{-(a+b)},
 \le K-1+e^{-S}
 \le K-1+e^{-K/\sqrt{K-1}}.
 \end{equation}
-با گرفتن لگاریتم، کران~\eqref{eq:ch3-normalized-correct-bound} اثبات می‌شود.
+با گرفتن لگاریتم، کران~\eqref{cmp:eq:ch3-normalized-correct-bound} اثبات می‌شود.
 
 \paragraph{کران عمومی نمونه.}
 از نامساوی کوشی--شوارتس برای هر $r\ne y$ داریم:
@@ -2021,7 +2027,7 @@ z_r-z_y
 \ell_i^{\mathrm{norm}}
 \le C_K+(B_K-C_K)\mathbf1_{\{\widehat y_i\ne y_i\}}.
 \]
-میانگین‌گیری متوازن و به‌کارگیری کران~\eqref{eq:ch3-margin-error-bound}، رابطه~\eqref{eq:ch3-normalized-NLL-margin-bound} را نتیجه می‌دهد.
+میانگین‌گیری متوازن و به‌کارگیری کران~\eqref{cmp:eq:ch3-margin-error-bound}، رابطه~\eqref{cmp:eq:ch3-normalized-NLL-margin-bound} را نتیجه می‌دهد.
 
 
 \paragraph{کران مکمل خطای تصمیم از کف NLL.}
@@ -2062,7 +2068,7 @@ $\log x\le x-1$ برای $x=\sqrt{K-1}$
 \frac{K}{\sqrt{K-1}}>\log(K-1)
 \]
 نتیجه گرفت. با میانگین‌گیری متوازن،
-رابطه~\eqref{eq:ch3-normalized-NLL-error-lower-bound}
+رابطه~\eqref{cmp:eq:ch3-normalized-NLL-error-lower-bound}
 به‌دست می‌آید.
 برهان تنها از کران نرم
 استفاده کرده و در
@@ -2072,7 +2078,7 @@ $\|z\|_2\le\sqrt K$
 
 \paragraph{برابری دقیق برای دو طبقه.}
 اگر $K=2$ و $\sigma_i>0$ باشد، دو فاصله برابر نیستند و بردار $z_i$ فقط یکی از دو حالت $(1,-1)$ یا $(-1,1)$ را دارد. در صورت پیش‌بینی درست، خطا برابر $\log(1+e^{-2})$ است. در صورت پیش‌بینی نادرست، خطا برابر
-$\log(1+e^{2})=\log(1+e^{-2})+2$ می‌شود. با میانگین‌گیری متوازن، رابطه~\eqref{eq:ch3-normalized-NLL-binary} به‌دست می‌آید.
+$\log(1+e^{2})=\log(1+e^{-2})+2$ می‌شود. با میانگین‌گیری متوازن، رابطه~\eqref{cmp:eq:ch3-normalized-NLL-binary} به‌دست می‌آید.
 
 
 
@@ -2158,7 +2164,7 @@ $(\overline d'-d'_c)/\sigma'=(\overline d-d_c)/\sigma$.
 \section{هموارسازی KL و نرمال‌سازی پایدار در حالت واریانس صفر}
 \label{app:ch3-stable-KL-normalization}
 این قسمت صورت پایدار
-زیربخش~\ref{subsec:ch3-stable-KL-normalization}
+زیربخش~\ref{cmp:subsec:ch3-stable-KL-normalization}
 را برای دو حالت مرزی، واگرایی
 نامتناهی KL و صفر بودن واریانس
 امتیازها، توجیه می‌کند. هیچ‌یک از
@@ -2387,7 +2393,7 @@ $\ell\le\log K$.
 \mathbf1_{\{\widehat y_i\ne y_i\}}.
 \]
 میانگین‌گیری با وزن‌های $\Omega$
-رابطه~\eqref{eq:ch3-stable-normalized-error-bound}
+رابطه~\eqref{cmp:eq:ch3-stable-normalized-error-bound}
 را ثابت می‌کند، حتی هنگامی که
 تمام فاصله‌های یک نمونه برابر
 و امتیازهایش صفر باشند.
@@ -2442,16 +2448,16 @@ $\frac{\partial H(P)}{\partial P(u)}
 $s(P,Q)=1-\operatorname{JSD}(P,Q)/\log2$
 و قاعده زنجیره‌ای،
 روابط
-\eqref{eq:ch3-margin-JS-partials}
+\eqref{cmp:eq:ch3-margin-JS-partials}
 و
-\eqref{eq:ch3-margin-score-policy-gradient}
+\eqref{cmp:eq:ch3-margin-score-policy-gradient}
 ثابت می‌شوند.
 همچنین چون مرکز
 یک میانگین متناهی
 از بازنمایی‌هاست،
 مشتق و میانگین جابه‌جا
 می‌شوند و رابطه
-\eqref{eq:ch3-margin-center-policy-derivative}
+\eqref{cmp:eq:ch3-margin-center-policy-derivative}
 حاصل می‌شود.
 اگر امتیازهای رقیب
 در یک نقطه یکتایی
@@ -2460,7 +2466,7 @@ $s(P,Q)=1-\operatorname{JSD}(P,Q)/\log2$
 به همان رقیب وابسته
 است و مشتق حاشیه
 مطابق
-\eqref{eq:ch3-margin-policy-gradient}
+\eqref{cmp:eq:ch3-margin-policy-gradient}
 خواهد بود.
 
 \paragraph{کران خطای تقریب نزدیک‌ترین رقیب.}
@@ -2488,19 +2494,19 @@ $x_r=s_{i,r}$ و
 کم‌کردن عبارت از
 $s_{i,y_i}$،
 رابطه
-\eqref{eq:ch3-margin-smooth-competitor}
+\eqref{cmp:eq:ch3-margin-smooth-competitor}
 به‌دست می‌آید.
 مشتق عبارت میانیِ نامساوی بالا
 نسبت به $x_r$،
 برابر خروجی نرمال‌سازی با بیشینهٔ هموارِ همان امتیازها
 با دمای $\kappa$ است.
 این محاسبه رابطهٔ
-\eqref{eq:ch3-margin-smooth-gradient}
+\eqref{cmp:eq:ch3-margin-smooth-gradient}
 را نتیجه می‌دهد.
 سپس قاعده زنجیره‌ای
 و وزن‌دهی متوازن طبقات را اعمال می‌کنیم.
 به این ترتیب، رابطهٔ
-\eqref{eq:ch3-margin-loss-policy-gradient}
+\eqref{cmp:eq:ch3-margin-loss-policy-gradient}
 اثبات می‌شود.
 \emph{هموار بودن این حاشیه
 نسبت به امتیازهای طبقه‌ای}
@@ -2736,7 +2742,7 @@ $\ell_\tau(m)=1/(1+e^{m/\tau})\ge1/2$.
 \]
 با قرار دادن حاشیه واقعی
 و میانگین‌گیری متوازن،
-\eqref{eq:ch3-margin-sigmoid-error-bound}
+\eqref{cmp:eq:ch3-margin-sigmoid-error-bound}
 به‌دست می‌آید. اگر
 $\widetilde m\le m$ باشد،
 چون $\ell_\tau$ نزولی است،
@@ -2812,7 +2818,7 @@ $m_{i,c,r}=2\delta h/\log2$
 \le\sqrt{\frac2{\log2}}\,\delta.
 \]
 این همان
-\eqref{eq:ch3-js-margin-separation-factorization}
+\eqref{cmp:eq:ch3-js-margin-separation-factorization}
 است. اگر $\delta=0$،
 دو مرکز هم‌مکان،
 حاشیه شباهت صفر و
@@ -2837,7 +2843,7 @@ d(P,V_c)+\varepsilon_i+\varepsilon_c.
 \end{aligned}
 \]
 تفاضل این دو رابطه
-\eqref{eq:ch3-margin-perturbation-bound}
+\eqref{cmp:eq:ch3-margin-perturbation-bound}
 را نتیجه می‌دهد.
 اگر کران پایین تفاضل
 برای تمام رقیب‌ها اکیداً
@@ -2986,7 +2992,7 @@ $P,Q$، ضرب داخلی تصاویر آن‌ها
 $e_j$ و $e_k$ برای $j\ne k$
 متعامدند: برای این دو توزیع
 تکیه‌گاه جدا، $\operatorname{JSD}(e_j,e_k)=\log2$
-و از رابطه~\eqref{eq:ch3-js-Hilbert-cosine}
+و از رابطه~\eqref{cmp:eq:ch3-js-Hilbert-cosine}
 ضرب داخلی صفر می‌شود.
 پس عبارت «بخشی از کره» بیان
 دقیقی از هندسه این تصویر است،
@@ -3194,7 +3200,7 @@ Q=\left(0,\frac12,\frac12\right).
 برداری یک‌داغ باشد.
 
 \paragraph{اثبات کران هندسی خطای تصمیم.}
-یک طبقه واقعی $c$ با $\delta_c>0$ در رابطه~\eqref{eq:ch3-js-center-separation} را در نظر می‌گیریم. طبق نامساوی مثلثی، برای هر رقیب $r\ne c$:
+یک طبقه واقعی $c$ با $\delta_c>0$ در رابطه~\eqref{cmp:eq:ch3-js-center-separation} را در نظر می‌گیریم. طبق نامساوی مثلثی، برای هر رقیب $r\ne c$:
 \[
 \begin{aligned}
 d_{\mathrm{JS}}(\mathscr Y_i,\mathcal V_r)
@@ -3210,7 +3216,7 @@ d_{\mathrm{JS}}(\mathscr Y_i,\mathcal V_r)
 \le\frac{4\,\operatorname{JSD}(\mathscr Y_i,\mathcal V_c)}
 {\delta_c^2}.
 \end{equation}
-میانگین‌گیری روی نمونه‌های طبقه $c$ و استفاده از کران بدیهی یک، نامساوی اول رابطه~\eqref{eq:ch3-js-class-error-bound} را نتیجه می‌دهد. همچنین از تعریف شباهت:
+میانگین‌گیری روی نمونه‌های طبقه $c$ و استفاده از کران بدیهی یک، نامساوی اول رابطه~\eqref{cmp:eq:ch3-js-class-error-bound} را نتیجه می‌دهد. همچنین از تعریف شباهت:
 \[
 \operatorname{JSD}(\mathscr Y_i,\mathcal V_c)
 =\log2\,[1-s(\mathscr Y_i,\mathcal V_c)]
@@ -3226,7 +3232,7 @@ d_{\mathrm{JS}}(\mathscr Y_i,\mathcal V_r)
 
 \section{توپ کمینه پوشاننده جنسن--شنون و محاسبه تداخل طبقه‌ها}
 \label{app:ch3-js-enclosing-balls}
-در زیربخش~\ref{subsec:ch3-outlier-js-enclosing-balls}
+در زیربخش~\ref{cmp:subsec:ch3-outlier-js-enclosing-balls}
 از نگاشت ایزومتریک
 $\Phi:\Delta_K\to\mathcal H$
 و تصاویر
@@ -3302,7 +3308,7 @@ w_iw_j\operatorname{JSD}
 \end{aligned}
 \end{equation}
 در نتیجه، رابطه
-\eqref{eq:ch3-outlier-js-meb-dual}
+\eqref{cmp:eq:ch3-outlier-js-meb-dual}
 دقیق است. تابع هدف دوگان
 به‌دلیل صورت
 $\sum_iw_i\|x_i\|^2-
@@ -3355,7 +3361,7 @@ $i$ نیز شدنی‌اند و
 
 \paragraph{محاسبه با ماتریس JSD.}
 از رابطه
-\eqref{eq:ch3-js-Hilbert-cosine}
+\eqref{cmp:eq:ch3-js-Hilbert-cosine}
 و ثابت‌بودن نرم تصاویر نتیجه می‌شود
 \begin{equation}\label{eq:app-ch3-js-meb-gram}
 G_{ij}
@@ -3401,7 +3407,7 @@ w_j^{(r)}w_k^{(r)}
 \end{equation}
 پس آزمون ورود نمونه به توپ
 رقیب در رابطه
-\eqref{eq:ch3-outlier-js-rival-intrusion}
+\eqref{cmp:eq:ch3-outlier-js-rival-intrusion}
 نیز بدون تقریب صریح تصویرهای
 بی‌نهایت‌بعدی انجام‌پذیر است.
 
@@ -3428,12 +3434,12 @@ $\|\zeta_c-\zeta_r\|
 مجاز می‌گذارد. ازاین‌رو
 $\delta_{\mathrm{sep}}>0$
 در رابطه
-\eqref{eq:ch3-outlier-js-total-overlap}
+\eqref{cmp:eq:ch3-outlier-js-total-overlap}
 یک شکاف مثبت خواسته‌شده
 را صورت‌بندی می‌کند.
 
 در هر گام روش حریصانه
-\eqref{eq:ch3-outlier-js-greedy-gain}،
+\eqref{cmp:eq:ch3-outlier-js-greedy-gain}،
 یک عضو از یک مجموعه $T_c$
 کنار گذاشته می‌شود و
 حداقل پوشش
