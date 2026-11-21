@@ -4674,94 +4674,161 @@ $\mathcal V_c^{\mathrm{fit}}$ مقایسه می‌شود.
 نیز با همان سیاست میانگین ساخته شده باشند،
 نه با مراکز فرضیه‌محور فعلی.
 
+\paragraph{تفکیک پیش‌بینی یک نمونه از سنجش عملکرد.}
+محاسبهٔ امتیازهای نامزد و برچسب پیش‌بینی‌شده برای
+یک پرس‌وجوی برون‌نمونه‌ای، به برچسب واقعی آن نیاز ندارد.
+ازاین‌رو زیرروال
+$\operatorname{PredictOne}(x;\mathcal M_{\mathrm{tr}},\mathfrak a)$
+را فقط یک‌بار تعریف می‌کنیم. ورودی آن یک \emph{نمونهٔ
+دارای شناسه و ماسک} است و خروجی آن، وضعیت اعتبار
+پیش‌بینی و در صورت اعتبار، همهٔ امتیازها،
+احتمال‌های تخمینی و برچسب برنده است.
+این زیرروال نه پارامتر سیاست را به‌روزرسانی می‌کند،
+نه مرکز جدید می‌سازد و نه به برچسب واقعی
+پرس‌وجو دسترسی دارد. الگوریتم اعتبارسنجی
+\ref{cmp:alg:ch3-heldout-validation} تنها همین
+زیرروال را برای همهٔ نمونه‌ها تکرار می‌کند.
+این تفکیک برای استنتاج یک نمونهٔ جدید، ارزیابی
+مجموعهٔ اعتبارسنجی و استنتاج مجموعهٔ آزمونِ
+پس از قفل‌شدن مدل \emph{یک قرارداد مشترک} می‌سازد.
+
 \begin{algorithm}[!htbp]
-\caption{استنتاج و اعتبارسنجی با سیاست، مراکز و مرجع آموزشی ثابت}
-\label{cmp:alg:ch3-heldout-validation}
+\caption{زیرروال $\operatorname{PredictOne}$ برای یک نمونهٔ برون‌نمونه‌ای}
+\label{cmp:alg:ch3-heldout-predict-one}
 \begin{algorithmic}[1]
-\REQUIRE مدل منجمد $\mathcal M_{\mathrm{tr}}$؛
-ویژگی‌ها و ماسک‌های پرس‌وجو
-$X_{\mathrm{val}},M_{\mathrm{val}}$؛
-برچسب‌های $Y_{\mathrm{val}}$ تنها برای ارزیابی؛
-قاعدهٔ آغاز برون‌گراف $\mathfrak a$، اگر خانوادهٔ سیاست به آن نیاز دارد
-\ENSURE امتیازهای $s_{x,c}$،
-پیش‌بینی‌های $\widehat y_x$،
-احتمال‌های تخمینی $\widehat p_{x,c}$ و،
-در صورت وجود برچسب، گزارش اعتبارسنجی $\mathcal R_{\mathrm{val}}$
-\STATE بازیابی $\theta^{\mathrm{fit}}$،
-$\mathcal V^{\mathrm{fit}}$،
-گراف و برچسب‌های مرجع Train و
-$\mathsf{cfg}$ از $\mathcal M_{\mathrm{tr}}$
-\STATE ثابت نگه‌داشتن تمام مؤلفه‌های مدل؛
-هیچ گام گرادیان یا بازبرآورد مرکز انجام نشود
-\STATE $\mathcal Q_{\mathrm{ok}}\gets\varnothing$؛
-$\mathcal R_{\mathrm{val}}\gets\varnothing$
-\FORALL{$x\in X_{\mathrm{val}}$}
-    \STATE تعیین ویژگی‌های مشاهده‌شده و
-    مقصدهای معتبر در مرجع Train
-    \IF{هیچ ویژگی با مقصد معتبر وجود ندارد}
-        \STATE علامت‌گذاری $x$ به‌عنوان
-        \textbf{فاقد پیش‌بینی معتبر}
-    \ELSE
-    \IF{سیاست مستقل از فرضیهٔ طبقهٔ مبدأ است}
-        \STATE $\mathscr Y_x^{[\cdot]}\gets
-        \operatorname{QueryExactWalk}(x,\cdot;
-        \mathcal M_{\mathrm{tr}},\mathfrak a)$
+\REQUIRE نمونهٔ پرس‌وجو $x$ با ماسک مشاهده و شناسهٔ مستقل؛
+مدل منجمد $\mathcal M_{\mathrm{tr}}$؛
+قاعدهٔ آغاز $\mathfrak a$، در صورت نیازِ خانوادهٔ سیاست
+\ENSURE $(v_x,s_{x,:},\widehat p_{x,:},\widehat y_x)$؛
+$v_x\in\{0,1\}$ نشانگر پیش‌بینی معتبر است
+\STATE بازیابی سیاست، مراکز $\mathcal V^{\mathrm{fit}}$،
+مرجع برچسب‌دار Train و $\mathsf{cfg}$ از مدل
+\IF{خانوادهٔ گره‌محور است و قاعدهٔ آغاز برون‌گراف موجود نیست}
+    \STATE \textbf{توقف: قرارداد استنتاج این خانواده تعریف نشده است}
+\ENDIF
+\STATE $B_x\gets\{b\in A_x:
+\sum_{X_j\in D_b^{\mathrm{tr}}}w_b(x,X_j)>0\}$
+\IF{$B_x=\varnothing$}
+    \STATE \textbf{بازگردان} $(0,\bot,\bot,\bot)$
+\ENDIF
+\STATE ساخت انتقال آغازین روی $B_x$ از
+رابطه~\eqref{cmp:eq:ch3-heldout-initial-transition}
+و نرمال‌سازی سیاست آغاز فقط روی گزینه‌های مجاز
+\IF{سیاست مستقل از فرضیهٔ طبقهٔ مبدأ است}
+    \STATE $\mathscr Y_x^{[\cdot]}\gets
+    \operatorname{QueryExactWalk}(x,\cdot;
+    \mathcal M_{\mathrm{tr}},\mathfrak a)$
+    \STATE $\mathscr Y_x^{[c]}\gets\mathscr Y_x^{[\cdot]}$
+    برای همهٔ $c=1,\ldots,K$
+\ELSE
+    \FOR{$c=1,\ldots,K$}
         \STATE $\mathscr Y_x^{[c]}\gets
-        \mathscr Y_x^{[\cdot]}$ برای تمام $c=1,\ldots,K$
-    \ELSE
-        \FOR{$c=1,\ldots,K$}
-            \STATE $\mathscr Y_x^{[c]}\gets
-            \operatorname{QueryExactWalk}(x,c;
-            \mathcal M_{\mathrm{tr}},\mathfrak a)$
-        \ENDFOR
-    \ENDIF
+        \operatorname{QueryExactWalk}(x,c;
+        \mathcal M_{\mathrm{tr}},\mathfrak a)$
+    \ENDFOR
+\ENDIF
+\IF{یکی از بازنمایی‌های لازم نامعتبر یا نانرمال است}
+    \STATE \textbf{بازگردان} $(0,\bot,\bot,\bot)$
+\ENDIF
+\IF{$\mathsf{loss}=\mathrm{NLL}$}
     \FOR{$c=1,\ldots,K$}
         \STATE $d_{x,c}\gets
         D(\mathscr Y_x^{[c]},\mathcal V_c^{\mathrm{fit}})$
     \ENDFOR
-    \IF{$\mathsf{loss}=\mathrm{NLL}$}
-        \STATE $s_{x,:}\gets
-        \operatorname{Score}_{\mathsf{cfg}}(d_{x,:})$
-    \ELSE
+    \STATE $s_{x,:}\gets
+    \operatorname{Score}_{\mathsf{cfg}}(d_{x,:})$
+\ELSE
+    \FOR{$c=1,\ldots,K$}
         \STATE $s_{x,c}\gets
         1-\operatorname{JSD}(\mathscr Y_x^{[c]},
-        \mathcal V_c^{\mathrm{fit}})/\log2$ برای تمام $c$
-    \ENDIF
-    \IF{امتیازهای $s_{x,:}$ یا بازنمایی‌ها نامعتبرند}
-        \STATE علامت‌گذاری $x$ به‌عنوان
-        \textbf{فاقد پیش‌بینی معتبر}
-    \ELSE
-        \STATE $\widehat y_x\gets
-        \min\{c:s_{x,c}=\max_{r}s_{x,r}\}$
-        برای رفع تساوی به‌صورت قطعی
-        \STATE $\widehat p_{x,:}\gets
-        \operatorname{Softmax}(s_{x,:})$
-        بدون اعمال مجدد مقیاس روی امتیازهای آماده
-        \STATE $\mathcal Q_{\mathrm{ok}}\gets
-        \mathcal Q_{\mathrm{ok}}\cup\{x\}$
-    \ENDIF
-    \ENDIF
-\ENDFOR
-\IF{$Y_{\mathrm{val}}$ برای ارزیابی موجود است}
-    \STATE استفاده از $Y_{\mathrm{val}}$
-    \textbf{فقط اکنون} برای مقایسه با $\widehat y$
-    \STATE $\mathsf{Conf}_{a,b}^{\mathrm{val}}\gets
-    \sum_{x\in\mathcal Q_{\mathrm{ok}}}
-    \mathbf1\{y_x=a,\widehat y_x=b\}$
-    برای $a,b=1,\ldots,K$
-    \STATE محاسبهٔ Accuracy،
-    Recall هر طبقه و BA از $\mathsf{Conf}^{\mathrm{val}}$
-    \STATE محاسبهٔ Precision، حاشیهٔ صحیح و
-    زیان اعتبارسنجی طبق $\mathsf{cfg}$ در صورت تعریف
-    \STATE $\mathcal R_{\mathrm{val}}\gets
-    (\mathsf{Conf}^{\mathrm{val}},\mathrm{Accuracy},
-    \mathrm{Recall},\mathrm{BA},\mathrm{Coverage},
-    \text{سایر سنجه‌های معتبر})$
+        \mathcal V_c^{\mathrm{fit}})/\log2$
+    \ENDFOR
 \ENDIF
+\IF{هر یک از $K$ امتیاز نامعتبر یا نامتناهی است}
+    \STATE \textbf{بازگردان} $(0,\bot,\bot,\bot)$
+\ENDIF
+\STATE $\widehat y_x\gets
+\min\{c:s_{x,c}=\max_{r=1,\ldots,K}s_{x,r}\}$
+\STATE $\widehat p_{x,:}\gets
+\operatorname{Softmax}(s_{x,:})$
+بدون تکرار مقیاس‌دهی قرارداد $\mathsf{cfg}$
 \STATE \textbf{بازگردان}
-$(s,\widehat p,\widehat y,\mathcal R_{\mathrm{val}})$
+$(1,s_{x,:},\widehat p_{x,:},\widehat y_x)$
 \end{algorithmic}
 \end{algorithm}
+
+\begin{algorithm}[!htbp]
+\caption{استنتاج و اعتبارسنجی با فراخوانی مشترک پیش‌بینیِ یک نمونه}
+\label{cmp:alg:ch3-heldout-validation}
+\begin{algorithmic}[1]
+\REQUIRE مدل منجمد $\mathcal M_{\mathrm{tr}}$؛
+نمونه‌های برون‌نمونه‌ای و ماسک‌هایشان
+$X_{\mathrm{val}},M_{\mathrm{val}}$ با شناسه‌های متمایز؛
+$Y_{\mathrm{val}}$ \textbf{اختیاری و فقط برای ارزیابی}؛
+قاعدهٔ آغاز برون‌گراف $\mathfrak a$ در صورت نیاز
+\ENSURE وضعیت، امتیاز، احتمال و برچسب پیش‌بینی
+هر پرس‌وجو؛ گزارش $\mathcal R_{\mathrm{val}}$
+\STATE $\mathcal Q_{\mathrm{ok}}\gets\varnothing$؛
+$\mathcal Q_{\mathrm{bad}}\gets\varnothing$؛
+$\mathcal R_{\mathrm{val}}\gets\varnothing$
+\STATE نگه‌داشتن تمام مؤلفه‌های
+$\mathcal M_{\mathrm{tr}}$ به‌صورت ثابت
+\FORALL{$x\in X_{\mathrm{val}}$}
+    \STATE $(v_x,s_{x,:},\widehat p_{x,:},\widehat y_x)
+    \gets\operatorname{PredictOne}
+    (x;\mathcal M_{\mathrm{tr}},\mathfrak a)$
+    با الگوریتم~\ref{cmp:alg:ch3-heldout-predict-one}
+    \IF{$v_x=1$}
+        \STATE $\mathcal Q_{\mathrm{ok}}\gets
+        \mathcal Q_{\mathrm{ok}}\cup\{\operatorname{id}(x)\}$
+    \ELSE
+        \STATE $\mathcal Q_{\mathrm{bad}}\gets
+        \mathcal Q_{\mathrm{bad}}\cup\{\operatorname{id}(x)\}$
+    \ENDIF
+\ENDFOR
+\STATE ثبت $\mathrm{Coverage}\gets
+|\mathcal Q_{\mathrm{ok}}|/|X_{\mathrm{val}}|$
+و شمار پرس‌وجوهای نامعتبر؛ فرض $|X_{\mathrm{val}}|>0$
+\IF{$Y_{\mathrm{val}}$ برای ارزیابی موجود است}
+    \STATE \textbf{اکنون و فقط اکنون} استفاده از
+    $Y_{\mathrm{val}}$ برای مقایسه با پیش‌بینی‌ها
+    \STATE $\mathsf{Conf}_{a,b}^{\mathrm{val}}\gets
+    \sum_{\operatorname{id}(x)\in\mathcal Q_{\mathrm{ok}}}
+    \mathbf1\{y_x=a,\widehat y_x=b\}$
+    برای $a,b=1,\ldots,K$
+    \STATE محاسبهٔ Accuracy، Recall هر طبقه،
+    BA و Precision از ماتریس اغتشاش، در صورت تعریف
+    \STATE محاسبهٔ حاشیهٔ صحیح و زیان
+    برچسب‌دار با همان $\mathsf{cfg}$، در صورت تعریف
+    \STATE $\mathcal R_{\mathrm{val}}\gets
+    (\mathsf{Conf}^{\mathrm{val}},\mathrm{Accuracy},
+    \mathrm{Recall},\mathrm{BA},\mathrm{Precision},
+    \mathrm{Coverage},|\mathcal Q_{\mathrm{bad}}|,
+    \text{سایر سنجه‌های معتبر})$
+\ELSE
+    \STATE $\mathcal R_{\mathrm{val}}\gets
+    (\mathrm{Coverage},|\mathcal Q_{\mathrm{bad}}|)$
+\ENDIF
+\STATE \textbf{بازگردان}
+$(v,s,\widehat p,\widehat y,\mathcal R_{\mathrm{val}})$
+\end{algorithmic}
+\end{algorithm}
+
+در الگوریتم~\ref{cmp:alg:ch3-heldout-predict-one}،
+نماد $\bot$ به معنی \emph{نبود خروجی معتبر} است،
+نه یک امتیاز عددی یا برچسب طبقه.
+بنابراین تنها پرس‌وجوهای دارای $v_x=1$
+در ماتریس اغتشاشِ اعتبارسنجی وارد می‌شوند.
+در حالت یک نمونهٔ بدون برچسب، همان زیرروال
+بدون فراخوانی الگوریتم سنجش مجموعه‌ای قابل‌استفاده است.
+این زیرروال تنها یک لایهٔ امتیازدهی و تصمیم
+بر فراخوانی محاسباتی
+$\operatorname{QueryExactWalk}$ است؛
+نسخهٔ تازه‌ای از موتور گشت، $\operatorname{ExactWalk}_{\mathrm{tr}}$
+یا الگوریتم~\ref{cmp:alg:ch3-exact-walk-expectation}
+تعریف نمی‌کند. ثبت شناسهٔ هر پرس‌وجو مانع
+یکی‌گرفتن دو مشاهدهٔ هم‌مقدار در شمارش
+پوشش و ماتریس اغتشاش می‌شود.
 
 منظور از نامعتبربودن بازنمایی یا امتیاز
 در الگوریتم، وجود مقدار نامتناهی،
