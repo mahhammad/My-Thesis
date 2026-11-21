@@ -98,7 +98,7 @@ $|D_b|\ge3$ و رابطه~\eqref{cmp:eq:ch3-feature-eligibility}
 \end{equation}
 پس $\mathsf P_s$ یک ماتریس گذار سطری روی حالت‌های مجاز است.
 عامل $F_s$ ابتدا ویژگی $b$ را از $A_{X_i}$ انتخاب می‌کند
-و عامل $S_s$ با \emph{همان ویژگی} نمونه مقصد $j$ را برمی‌گزیند؛
+و عامل $\mathsf S_s$ با \emph{همان ویژگی} نمونه مقصد $j$ را برمی‌گزیند؛
 درایه حاصل دقیقاً
 $\pi_s(b\mid i,a)q_b^{(s)}(j\mid i)$ است.
 درایه‌هایی که حالتشان ویژگی ناموجود دارد صفر هستند؛
@@ -200,7 +200,7 @@ $\varepsilon_r\le\Pr(L_H>r)=(1-\beta)^r$ برای $r<H$.
 \paragraph{اعتبار کران مرتبه محاسباتی.}
 در ضرب تنک با $F_s$، برای هر نمونه جاری
 حداکثر $d_i^2$ درایه سیاست محاسبه می‌شود؛
-در ضرب بعدی با $S_s$، هر ویژگی $b$ در بدترین حالت
+در ضرب بعدی با $\mathsf S_s$، هر ویژگی $b$ در بدترین حالت
 $|D_b|(|D_b|-1)$ ارتباط عمودی جهت‌دار دارد.
 حذف نمونه آغازین و محدودکردن حالت‌های ناموجود
 این شمار را تنها کاهش می‌دهد. پس تعداد عملیات
@@ -684,7 +684,7 @@ $0<\beta<1$ توجیه می‌کند،
 \label{app:ch3-inverse-policy-proof}
 
 \paragraph{مشتق ماتریسی.}
-در ناحیه‌ای که ویژگی‌های موجود و مقصدهای مجاز ثابت‌اند، عامل‌های عمودی $S_s$ مستقل از امتیازهای سیاست هستند و $\mathsf P_s=F_sS_s$ از طریق نرمال‌سازی با بیشینهٔ هموار نسبت به امتیازها مشتق‌پذیر است. برای یک تغییر کوچک در پارامترهای سیاست و با قرارداد $\mathsf P_s^0=I$، از قاعده ضرب ماتریس‌ها نتیجه می‌شود:
+در ناحیه‌ای که ویژگی‌های موجود و مقصدهای مجاز ثابت‌اند، عامل‌های عمودی $\mathsf S_s$ مستقل از امتیازهای سیاست هستند و $\mathsf P_s=F_s\mathsf S_s$ از طریق نرمال‌سازی با بیشینهٔ هموار نسبت به امتیازها مشتق‌پذیر است. برای یک تغییر کوچک در پارامترهای سیاست و با قرارداد $\mathsf P_s^0=I$، از قاعده ضرب ماتریس‌ها نتیجه می‌شود:
 \begin{equation}\label{eq:app-ch3-power-differential}
 \mathrm d(\mathsf P_s^q)
 =\sum_{j=0}^{q-1}\mathsf P_s^j
@@ -3272,8 +3272,8 @@ $x_i=\Phi(\mathscr Y_i)$
 
 \paragraph{وجود و یکتایی مرکز و دوگان مسئله.}
 برای مجموعه متناهی و ناتهی
-$T$، تابع
-$f(\zeta)=\max_{i\in T}
+$S$، تابع
+$f(\zeta)=\max_{i\in S}
 \|x_i-\zeta\|_{\mathcal H}^2$
 را در نظر بگیریم.
 اگر $L$ پوش افاین نقاط $x_i$ باشد،
@@ -3298,7 +3298,7 @@ $t$ را برای مربع شعاع به کار
 \[
 \min_{\zeta,t}\ t,\qquad
 \|x_i-\zeta\|^2-t\le0
-\quad(i\in T).
+\quad(i\in S).
 \]
 برای $t$ به‌اندازه کافی بزرگ،
 تمام قیدها اکیداً برقرارند
@@ -3309,11 +3309,11 @@ $w_i\ge0$ نشان می‌دهیم:
 \begin{equation}\label{eq:app-ch3-js-meb-lagrangian}
 \begin{aligned}
 \mathcal L(\zeta,t,w)
-&=t+\sum_{i\in T}w_i
+&=t+\sum_{i\in S}w_i
 (\|x_i-\zeta\|^2-t),\\
 \inf_t\mathcal L>-\infty
 &\Longleftrightarrow
-\sum_{i\in T}w_i=1.
+\sum_{i\in S}w_i=1.
 \end{aligned}
 \end{equation}
 با شرط $\sum_iw_i=1$،
@@ -3322,13 +3322,13 @@ $w_i\ge0$ نشان می‌دهیم:
 می‌آید و مقدار آن برابر است با
 \begin{equation}\label{eq:app-ch3-js-meb-dual-proof}
 \begin{aligned}
-\inf_{\zeta}\sum_{i\in T}
+\inf_{\zeta}\sum_{i\in S}
 w_i\|x_i-\zeta\|^2
-&=\sum_{i\in T}w_i\|x_i\|^2
--\left\|\sum_{i\in T}w_ix_i\right\|^2\\
-&=\frac12\sum_{i,j\in T}
+&=\sum_{i\in S}w_i\|x_i\|^2
+-\left\|\sum_{i\in S}w_ix_i\right\|^2\\
+&=\frac12\sum_{i,j\in S}
 w_iw_j\|x_i-x_j\|^2\\
-&=\frac12\sum_{i,j\in T}
+&=\frac12\sum_{i,j\in S}
 w_iw_j\operatorname{JSD}
 (\mathscr Y_i,\mathscr Y_j).
 \end{aligned}
@@ -3346,7 +3346,7 @@ $\sum_iw_i\|x_i\|^2-
 w_i^*>0
 \quad\Longrightarrow\quad
 \|x_i-\zeta^*\|_{\mathcal H}
-=\mathfrak r(T).
+=\mathfrak r(S).
 \end{equation}
 عکس این گزاره لازم نیست:
 ممکن است نمونه روی مرز باشد
@@ -3422,10 +3422,10 @@ $\sum_ia_i=0$، داریم:
 \begin{equation}\label{eq:app-ch3-js-meb-point-to-center}
 \begin{aligned}
 \|x_i-\zeta_r\|_{\mathcal H}^2
-={}&\sum_{j\in T_r}
+={}&\sum_{j\in S_r}
 w_j^{(r)}\operatorname{JSD}
 (\mathscr Y_i,\mathscr Y_j)\\
-&-\frac12\sum_{j,k\in T_r}
+&-\frac12\sum_{j,k\in S_r}
 w_j^{(r)}w_k^{(r)}
 \operatorname{JSD}
 (\mathscr Y_j,\mathscr Y_k).
@@ -3438,13 +3438,13 @@ w_j^{(r)}w_k^{(r)}
 بی‌نهایت‌بعدی انجام‌پذیر است.
 
 \paragraph{خواص کنارگذاری و حد تضمین‌ها.}
-اگر $T'\subseteq T$ و $T'\ne\varnothing$،
+اگر $S'\subseteq S$ و $S'\ne\varnothing$،
 برای هر مرکز دلخواه
-$\max_{i\in T'}\|x_i-\zeta\|
-\le\max_{i\in T}\|x_i-\zeta\|$؛
+$\max_{i\in S'}\|x_i-\zeta\|
+\le\max_{i\in S}\|x_i-\zeta\|$؛
 ازاین‌رو
 \begin{equation}\label{eq:app-ch3-js-meb-removal-monotonicity}
-\mathfrak r(T')\le\mathfrak r(T).
+\mathfrak r(S')\le\mathfrak r(S).
 \end{equation}
 بااین‌حال مرکز بهینه ممکن است
 جابه‌جا شود؛ پس با وجود
@@ -3466,10 +3466,10 @@ $\delta_{\mathrm{sep}}>0$
 
 در هر گام روش حریصانه
 \eqref{cmp:eq:ch3-outlier-js-greedy-gain}،
-یک عضو از یک مجموعه $T_c$
+یک عضو از یک مجموعه $S_c$
 کنار گذاشته می‌شود و
 حداقل پوشش
-$|T_c|\ge\lceil\alpha n_c\rceil$
+$|S_c|\ge\lceil\alpha n_c\rceil$
 باقی می‌ماند؛ بنابراین شمار
 گام‌ها حداکثر
 $\sum_c(n_c-\lceil\alpha n_c\rceil)$

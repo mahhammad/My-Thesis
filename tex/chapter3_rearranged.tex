@@ -725,14 +725,14 @@ $A_D$ می‌سازیم و سپس سطرها و ستون‌ها را به حال
 صفر تعریف شده است.
 اگر $F_s=\operatorname{blockdiag}_{i\ne s}(\Pi_i^{(s)})$
 عامل انتخاب افقی ویژگی و
-$S_s=[D_{ij}^{(s)}]_{i,j\ne s}$
+$\mathsf S_s=[D_{ij}^{(s)}]_{i,j\ne s}$
 عامل انتقال عمودی باشد (هر دو پس از محدودسازی
 به $\mathcal S_s$)، آنگاه:
 \begin{equation}\label{cmp:eq:ch3-block-factorization}
-\boxed{\mathsf P_s=F_sS_s,\qquad
+\boxed{\mathsf P_s=F_s\mathsf S_s,\qquad
 \mathsf P_s\in\mathbb R^{m_s\times m_s}.}
 \end{equation}
-بنابراین $F_s$ در ترتیب نمونه‌ای بلوکی‌قطری است و بلوک‌های $S_s$ قطری‌اند؛ با مرتب‌کردن حالت‌ها برحسب ویژگی، خود $S_s$ بلوکی‌قطری می‌شود. هر سطر قابل دسترس $\mathsf P_s$ مجموع یک دارد؛
+بنابراین $F_s$ در ترتیب نمونه‌ای بلوکی‌قطری است و بلوک‌های $\mathsf S_s$ قطری‌اند؛ با مرتب‌کردن حالت‌ها برحسب ویژگی، خود $\mathsf S_s$ بلوکی‌قطری می‌شود. هر سطر قابل دسترس $\mathsf P_s$ مجموع یک دارد؛
 زیرا برای وضعیت $(i,a)$:
 \[
 \sum_{(j,b)\in\mathcal S_s}[\mathsf P_s]_{(i,a),(j,b)}
@@ -906,7 +906,7 @@ e_h=\sum_{i=1}^{n}d_i^2.
 برای هر ویژگی $b$، احتمال‌ها روی حداکثر
 $|D_b|(|D_b|-1)$ انتقال عمودی پخش می‌شوند.
 ممنوعیت بازگشت به مبدأ فقط برخی یال‌ها را حذف می‌کند.
-بنابراین یک ضرب بردار حالت در $\mathsf P_s=F_sS_s$
+بنابراین یک ضرب بردار حالت در $\mathsf P_s=F_s\mathsf S_s$
 حداکثر $O(e_h+e_v)$ عملیات نیاز دارد؛ در نتیجه
 هزینه محاسبه دقیق بازنمایی یک مبدأ تا عمق $H$ برابر
 $O(H(e_h+e_v))$ و تقریب $r$گامی برابر $O(r(e_h+e_v))$ است، پس از ساخت وزن‌ها و ساختار گراف. برای تمام $n$ مبدأ و \emph{یک قرارداد سیاست ثابت}
@@ -1065,7 +1065,7 @@ $\mathcal J_{i,b}^{(s)}=\mathcal N_{i,b}^{(s)}$
 الگوریتم~\ref{cmp:alg:ch3-advance-walk-state}
 پیش‌برد یک‌گام توزیع حالت را به‌صورت دو مرحلهٔ
 افقی و عمودی اجرا می‌کند، بدون آنکه
-ماتریس انتقال یا حتی عامل‌های $F_s,S_s$
+ماتریس انتقال یا حتی عامل‌های $F_s,\mathsf S_s$
 به‌صورت ماتریس ساخته شوند. در این روال،
 $r_b$ جرم حاصل از انتخاب ویژگی $b$
 در نمونهٔ جاری است و سپس روی مقصدهای
@@ -4353,7 +4353,7 @@ $D_{\mathrm{tr}},Y_{\mathrm{tr}},M_{\mathrm{tr}}$؛
 شامل $\psi,\tau_\psi,\tau,\tau_{\mathrm{SP}}$،
 روش نرمال‌سازی و پایداری و
 $\mathsf{loss}\in\{\mathrm{NLL},\mathrm{sig},
-\mathrm{SP\!-\!JS}\}$؛ بهینه‌ساز و شمار گام $T$
+\mathrm{SP\!-\!JS}\}$؛ بهینه‌ساز و شمار اپوک‌ها $N_{\mathrm{ep}}$
 \ENSURE مدل آموزش‌دیده
 $\mathcal M_{\mathrm{tr}}$ و در صورت درخواست،
 حالت بهینه‌ساز برای ادامهٔ آموزش
@@ -4361,7 +4361,7 @@ $\mathcal M_{\mathrm{tr}}$ و در صورت درخواست،
 $C_1,\ldots,C_K$ \textbf{فقط} از $D_{\mathrm{tr}}$
 \STATE $\theta\gets\theta^{(0)}$؛
 $\chi_{\mathrm{opt}}\gets\operatorname{InitOptimizer}(\theta)$
-\FOR{$t=0,\ldots,T-1$}
+\FOR{$t=0,\ldots,N_{\mathrm{ep}}-1$}
     \FORALL{$i\in\mathcal I_{\mathrm{tr}}$}
         \STATE انتخاب $\pi_i$ با برچسب معلوم $y_i$
         در خانوادهٔ طبقه‌محور؛ سیاست مستقل از طبقه
@@ -4425,6 +4425,10 @@ D_{\mathrm{tr}},Y_{\mathrm{tr}},M_{\mathrm{tr}},
 $\mathcal M_{\mathrm{tr}}$ و، در صورت نیاز، $\chi_{\mathrm{opt}}$
 \end{algorithmic}
 \end{algorithm}
+
+در این الگوریتم، هر تکرار حلقهٔ بیرونی با پردازش تمام نمونه‌های آموزش
+و یک به‌روزرسانی بهینه‌ساز، یک اپوکِ آموزش تمام‌دسته‌ای است؛
+بنابراین $N_{\mathrm{ep}}$ شمار اپوک‌ها و $t$ اندیس آن‌هاست.
 
 در شاخهٔ NLL، نگاشت
 $\operatorname{Score}_{\mathsf{cfg}}$
@@ -7469,7 +7473,7 @@ $c$، مجموعه کامل نمونه‌های
 آموزشی با برچسب همان طبقه را
 $C_c$ و زیرمجموعه مورد استفاده
 برای \emph{برآورد توپ پوشاننده}
-را $T_c\subseteq C_c$ می‌نامیم.
+را $S_c\subseteq C_c$ می‌نامیم.
 هدف هندسی آن است که با حفظ
 حداقل شمار از پیش تعیین‌شده
 در هر طبقه، زیرمجموعه‌هایی
@@ -7524,25 +7528,25 @@ $x_i=\Phi(\mathscr Y_i)\in\mathcal H$
 جدایی توپ‌های این بازنمایی‌های آموزشی
 به‌تنهایی کرانی برای قاعده استنتاج
 شرطی نمونه جدید نیست. برای هر مجموعه ناتهی
-$T_c\subseteq C_c$، مرکز توپ هیلبرتی
-$\zeta_c(T_c)$ و شعاع آن
-$\mathfrak r_c(T_c)$ را با مسئله
+$S_c\subseteq C_c$، مرکز توپ هیلبرتی
+$\zeta_c(S_c)$ و شعاع آن
+$\mathfrak r_c(S_c)$ را با مسئله
 \begin{equation}\label{cmp:eq:ch3-outlier-js-meb-primal}
 \boxed{
 \begin{aligned}
-\mathfrak r_c(T_c)^2
+\mathfrak r_c(S_c)^2
 &=\min_{\zeta\in\mathcal H}
-\max_{i\in T_c}\|x_i-\zeta\|_{\mathcal H}^2,\\
-\zeta_c(T_c)
+\max_{i\in S_c}\|x_i-\zeta\|_{\mathcal H}^2,\\
+\zeta_c(S_c)
 &\in\operatorname*{arg\,min}_{\zeta\in\mathcal H}
-\max_{i\in T_c}\|x_i-\zeta\|_{\mathcal H}^2.
+\max_{i\in S_c}\|x_i-\zeta\|_{\mathcal H}^2.
 \end{aligned}}
 \end{equation}
 تعریف می‌کنیم و توپ متناظر را
-$\mathcal B_c(T_c)=
+$\mathcal B_c(S_c)=
 \{z\in\mathcal H:
-\|z-\zeta_c(T_c)\|_{\mathcal H}
-\le\mathfrak r_c(T_c)\}$
+\|z-\zeta_c(S_c)\|_{\mathcal H}
+\le\mathfrak r_c(S_c)\}$
 می‌نامیم. برای مجموعه متناهی،
 جواب وجود دارد و مرکز توپ یکتاست.
 مرکز این توپ \emph{آزاد در فضای هیلبرت}
@@ -7557,17 +7561,17 @@ $\Phi(\mathcal V_c)$ یا مرکز
 را می‌توان صرفاً با
 $\operatorname{JSD}(\mathscr Y_i,\mathscr Y_j)$
 محاسبه کرد. به‌طور دقیق، اگر
-$\Delta(T_c)$ سیمپلکس وزن‌های
-نامنفی با مجموع یک روی اعضای $T_c$ باشد،
+$\Delta(S_c)$ سیمپلکس وزن‌های
+نامنفی با مجموع یک روی اعضای $S_c$ باشد،
 \begin{equation}\label{cmp:eq:ch3-outlier-js-meb-dual}
 \boxed{
 \begin{aligned}
-\mathfrak r_c(T_c)^2
-&=\max_{w\in\Delta(T_c)}
-\frac12\sum_{i,j\in T_c}w_iw_j
+\mathfrak r_c(S_c)^2
+&=\max_{w\in\Delta(S_c)}
+\frac12\sum_{i,j\in S_c}w_iw_j
 \operatorname{JSD}(\mathscr Y_i,\mathscr Y_j),\\
-\zeta_c(T_c)
-&=\sum_{i\in T_c}w_i^*x_i
+\zeta_c(S_c)
+&=\sum_{i\in S_c}w_i^*x_i
 \quad\text{برای یک وزن بهینه }w^*.
 \end{aligned}}
 \end{equation}
@@ -7630,7 +7634,7 @@ $\kappa_{\mathrm{JS}}(P,P)=\log2/2$
 صورت مرز نرم \lr{SVDD}
 با کرنل~\eqref{cmp:eq:ch3-outlier-js-svdd-kernel}
 را نیز می‌توان نوشت.
-برای مجموعه ناتهی $T_c$
+برای مجموعه ناتهی $S_c$
 و ضریب جریمه
 $C_{\mathrm{SVDD}}>0$،
 مسئله اولیه عبارت است از:
@@ -7638,10 +7642,10 @@ $C_{\mathrm{SVDD}}>0$،
 \boxed{
 \begin{aligned}
 \min_{\zeta,t,\xi}\quad&
-t+C_{\mathrm{SVDD}}\sum_{i\in T_c}\xi_i\\
+t+C_{\mathrm{SVDD}}\sum_{i\in S_c}\xi_i\\
 \text{\lr{s.t.}}\quad&
 \|x_i-\zeta\|_{\mathcal H}^2
-\le t+\xi_i\quad(i\in T_c),\\
+\le t+\xi_i\quad(i\in S_c),\\
 &t\ge0,\qquad \xi_i\ge0.
 \end{aligned}}
 \end{equation}
@@ -7656,7 +7660,7 @@ $\zeta=\sum_iw_ix_i$
 را در حالتی که
 $\sum_iw_i=1$ می‌دهد.
 برای $C_{\mathrm{SVDD}}\ge
-1/|T_c|$، می‌توان
+1/|S_c|$، می‌توان
 یک جواب بهینه دوگان با
 $\sum_iw_i=1$ برگزید؛
 در این صورت دوگان
@@ -7665,11 +7669,11 @@ $\sum_iw_i=1$ برگزید؛
 \boxed{
 \begin{aligned}
 \max_{w}\quad&
-\frac12\sum_{i,j\in T_c}
+\frac12\sum_{i,j\in S_c}
 w_iw_j\operatorname{JSD}
 (\mathscr Y_i,\mathscr Y_j),\\
 \text{\lr{s.t.}}\quad&
-\sum_{i\in T_c}w_i=1,\qquad
+\sum_{i\in S_c}w_i=1,\qquad
 0\le w_i\le C_{\mathrm{SVDD}}.
 \end{aligned}}
 \end{equation}
@@ -7704,10 +7708,10 @@ $0<w_i<C_{\mathrm{SVDD}}$
 مجموعه نقاط قرارگرفته روی مرز
 توپ کمینه را تعریف می‌کنیم:
 \begin{equation}\label{cmp:eq:ch3-outlier-js-meb-boundary}
-\mathcal S_c(T_c)=
-\left\{i\in T_c:
-\|x_i-\zeta_c(T_c)\|_{\mathcal H}
-=\mathfrak r_c(T_c)\right\}.
+\mathcal S_c(S_c)=
+\left\{i\in S_c:
+\|x_i-\zeta_c(S_c)\|_{\mathcal H}
+=\mathfrak r_c(S_c)\right\}.
 \end{equation}
 وزن‌های مثبت یک جواب دوگان
 تنها به نقاط این مجموعه تعلق می‌گیرند.
@@ -7727,7 +7731,7 @@ $0<w_i<C_{\mathrm{SVDD}}$
 از دید تحلیلی، سه مفهوم
 را تفکیک می‌کنیم:
 \emph{نمونه مرزی} عضوی از
-$\mathcal S_c(T_c)$ است؛
+$\mathcal S_c(S_c)$ است؛
 \emph{نمونه مؤثر بر توپ}
 عضوی است که حذف آن، مرکز یا
 شعاع توپ کمینه را تغییر می‌دهد؛
@@ -7753,13 +7757,13 @@ $i$ وزن صفر داشته باشد،
 
 \paragraph{تعریف تداخل توپ‌های طبقه‌ها.}
 با قرار دادن
-$T=(T_1,\ldots,T_K)$،
+$\mathscr S=(S_1,\ldots,S_K)$،
 برای هر دو طبقه متفاوت $c,r$
 شکاف هندسی توپ‌ها را چنین می‌سنجیم:
 \begin{equation}\label{cmp:eq:ch3-outlier-js-ball-gap}
-g_{cr}(T)=
-\|\zeta_c(T_c)-\zeta_r(T_r)\|_{\mathcal H}
--\mathfrak r_c(T_c)-\mathfrak r_r(T_r).
+g_{cr}(\mathscr S)=
+\|\zeta_c(S_c)-\zeta_r(S_r)\|_{\mathcal H}
+-\mathfrak r_c(S_c)-\mathfrak r_r(S_r).
 \end{equation}
 شرط $g_{cr}>0$ به معنای
 جدا بودن دو توپ بسته،
@@ -7771,9 +7775,9 @@ $\delta_{\mathrm{sep}}>0$،
 هزینه تداخل کل را تعریف می‌کنیم:
 \begin{equation}\label{cmp:eq:ch3-outlier-js-total-overlap}
 \boxed{
-\Omega_{\delta_{\mathrm{sep}}}(T)=
+\Omega_{\delta_{\mathrm{sep}}}(\mathscr S)=
 \sum_{1\le c<r\le K}
-\bigl[\delta_{\mathrm{sep}}-g_{cr}(T)\bigr]_+,
+\bigl[\delta_{\mathrm{sep}}-g_{cr}(\mathscr S)\bigr]_+,
 \qquad [u]_+=\max\{u,0\}.
 }
 \end{equation}
@@ -7795,23 +7799,23 @@ $\delta_{\mathrm{sep}}$ است.
 با فرض ثابت بودن
 $\alpha$ و $\delta_{\mathrm{sep}}$،
 خانواده زیرمجموعه‌های مجاز را
-$\mathcal T_\alpha$ تعریف
+$\mathcal A_\alpha$ تعریف
 می‌کنیم و هدف هندسی را می‌نویسیم:
 \begin{equation}\label{cmp:eq:ch3-outlier-js-subset-problem}
 \boxed{
 \begin{aligned}
-\mathcal T_\alpha
-&=\left\{(T_1,\ldots,T_K):
- T_c\subseteq C_c,\;
- |T_c|\ge\lceil\alpha n_c\rceil
+\mathcal A_\alpha
+&=\left\{(S_1,\ldots,S_K):
+ S_c\subseteq C_c,\;
+ |S_c|\ge\lceil\alpha n_c\rceil
  \ \forall c\right\},\\
-\min_{T\in\mathcal T_\alpha}
-&\quad\Omega_{\delta_{\mathrm{sep}}}(T).
+\min_{\mathscr S\in\mathcal A_\alpha}
+&\quad\Omega_{\delta_{\mathrm{sep}}}(\mathscr S).
 \end{aligned}}
 \end{equation}
 در اینجا $n_c=|C_c|$ و
 $0<\alpha\le1$ تضمین می‌کند
-که هر $T_c$ ناتهی بماند.
+که هر $S_c$ ناتهی بماند.
 خانواده مجاز متناهی و ناتهی
 است؛ ازاین‌رو کمینه سراسری
 وجود دارد، اما پیدا کردن
@@ -7839,16 +7843,16 @@ $0<\alpha\le1$ تضمین می‌کند
 یک توپ رقیب شکاف کمتر از
 $\delta_{\mathrm{sep}}$ دارند.
 نامزدها از نقاط مرزی
-$\mathcal S_c(T_c)$ همین طبقه‌ها
+$\mathcal S_c(S_c)$ همین طبقه‌ها
 انتخاب می‌شوند. برای اولویت‌بندی
 نمونه‌های نزدیک یا واردشده به
 توپ رقیب می‌توان کمیت
 \begin{equation}\label{cmp:eq:ch3-outlier-js-rival-intrusion}
-a_{i,c}(T)=
-\min_{\substack{r\ne c\\g_{cr}(T)<\delta_{\mathrm{sep}}}}
+a_{i,c}(\mathscr S)=
+\min_{\substack{r\ne c\\g_{cr}(\mathscr S)<\delta_{\mathrm{sep}}}}
 \bigl[
-\|x_i-\zeta_r(T_r)\|_{\mathcal H}
--\mathfrak r_r(T_r)
+\|x_i-\zeta_r(S_r)\|_{\mathcal H}
+-\mathfrak r_r(S_r)
 \bigr]
 \end{equation}
 را محاسبه کرد.
@@ -7863,15 +7867,15 @@ a_{i,c}(T)=
 برای هر نامزد $(c,i)$،
 فقط $i$ را \emph{به‌طور آزمایشی
 از مجموعه برآورد توپ} خارج می‌کنیم،
-$T_c^{(-i)}=T_c\setminus\{i\}$،
+$S_c^{(-i)}=S_c\setminus\{i\}$،
 توپ همین طبقه را از نو می‌یابیم
 و تغییر هزینه سراسری را می‌سنجیم:
 \begin{equation}\label{cmp:eq:ch3-outlier-js-greedy-gain}
 \boxed{
-\Delta_{c,i}(T)=
-\Omega_{\delta_{\mathrm{sep}}}(T)
+\Delta_{c,i}(\mathscr S)=
+\Omega_{\delta_{\mathrm{sep}}}(\mathscr S)
 -\Omega_{\delta_{\mathrm{sep}}}
-(T_1,\ldots,T_c^{(-i)},\ldots,T_K).
+(S_1,\ldots,S_c^{(-i)},\ldots,S_K).
 }
 \end{equation}
 در هر دور، از میان نامزدهای
@@ -7883,9 +7887,9 @@ $T_c^{(-i)}=T_c\setminus\{i\}$،
 هنگام تساوی سود، می‌توان
 به نمونه دارای $a_{i,c}$
 کمتر اولویت داد. در هر گام، نامزد
-$i\in T_c$ تنها زمانی
+$i\in S_c$ تنها زمانی
 \emph{مجاز} است که
-$|T_c|-1\ge
+$|S_c|-1\ge
 \lceil\alpha n_c\rceil$؛
 بنابراین قید شمارشی
 رابطه~\eqref{cmp:eq:ch3-outlier-js-subset-problem}

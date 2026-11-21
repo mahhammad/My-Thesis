@@ -103,7 +103,7 @@
 \notationrow{D_{ij}^{(s)}}{بلوک انتقال عمودی از نمونه i به j}{cmp:eq:ch3-block-diagonal-D}
 \notationrow{\Pi_i^{(s)}}{ماتریس انتقال میانیِ سیاست برگزیدهٔ $\pi_s$، بدون سطر آغاز $\bot$}{cmp:eq:ch3-intermediate-policy-matrix}
 \notationrow{\mathsf P_{s,ij}}{بلوک انتقال کامل}{cmp:eq:ch3-block-Tij}
-\notationrow{F_s,\ S_s}{عامل‌های افقی و عمودی تجزیه بلوکی}{cmp:eq:ch3-block-factorization}
+\notationrow{F_s,\ \mathsf S_s}{عامل‌های افقی و عمودی تجزیه بلوکی}{cmp:eq:ch3-block-factorization}
 \notationrow{\mathsf P_s}{ماتریس انتقال حالت‌های نمونه–ویژگی}{cmp:eq:ch3-block-factorization}
 \notationrow{\rho_s}{توزیع حالت بعد از گام نخست؛ غیر از وزن کلاس}{cmp:eq:ch3-block-first-step}
 \notationrow{\mathsf M_s^{(X)},\ \mathsf M_s^{(Y)}}{ماتریس‌های تجمیع حالت به شناسه نمونه و برچسب}{cmp:eq:ch3-state-aggregation-matrices}
@@ -203,6 +203,7 @@
 \notationrow{g^{(t)},\ \eta_{\mathrm A}}{گرادیان زیان در گام آموزش و نرخ یادگیری Adam؛ متمایز از دمای Softplus}{cmp:eq:ch3-adam-logit-update}
 \notationrow{m^{(t)},\ v^{(t)},\ \beta_1,\ \beta_2,\ \varepsilon_{\mathrm A}}{ممان‌های مرتبهٔ اول/دوم Adam، ضرایب ممان و ثابت عددی مخرج}{cmp:eq:ch3-adam-logit-update}
 \notationrow{\mathcal I_{\mathrm{tr}}}{مجموعهٔ اندیس نمونه‌های آموزش در شبه‌کد یادگیری}{cmp:subsec:ch3-policy-training-pseudocode}
+\notationrow{N_{\mathrm{ep}}}{شمار اپوک‌های آموزش تمام‌دسته‌ای؛ در هر اپوک تمام نمونه‌ها پردازش و سیاست یک‌بار به‌روزرسانی می‌شود}{cmp:alg:ch3-learn-feature-policy}
 \notationrowpage{\mathcal L_{\mathrm{tr}}(\theta)}{تابع زیان متوازن کل آموزش که برای به‌روزرسانی سیاست مشتق گرفته می‌شود}{cmp:alg:ch3-learn-feature-policy}
 \notationrow{\theta^{(t)}}{پارامترهای سیاست در گام $t$ فرایند آموزش}{cmp:alg:ch3-learn-feature-policy}
 \notationrow{\mathsf{cfg},\ \mathsf{loss}}{قرارداد امتیازدهی و نوع تابع هدف آموزش}{cmp:alg:ch3-learn-feature-policy}
@@ -243,19 +244,20 @@
 \notationrow{R_{c,\alpha},\ \widehat G_c(r)}{شعاع چندکی در سطح پوشش $\alpha$ و تابع پوشش تجربی حول مرکز ثابت}{cmp:eq:ch3-outlier-quantile-coverage}
 \notationrow{C_{c,\alpha}}{کمینه شعاع چندکی KL با مرکز آزاد؛ متفاوت از شعاع مرکز ثابت}{cmp:eq:ch3-outlier-optimized-quantile}
 \notationrow{x_i=\Phi(\mathscr Y_i)}{تصویر هیلبرتی بازنمایی نمونه، با قرارداد سیاست ثابت}{cmp:eq:ch3-js-Hilbert-map}
-\notationrow{T_c,\ \zeta_c(T_c)}{زیرمجموعه حاضر در محاسبه توپ کلاس و مرکز آزاد هیلبرتی آن}{cmp:eq:ch3-outlier-js-meb-primal}
-\notationrow{\mathfrak r_c(T_c)}{شعاع توپ کمینه پوشاننده تصاویر نمونه‌های کلاس}{cmp:eq:ch3-outlier-js-meb-primal}
-\notationrow{\mathcal B_c(T_c)}{توپ بسته هیلبرتی با مرکز و شعاع کمینه برای کلاس}{cmp:eq:ch3-outlier-js-meb-primal}
-\notationrow{w_i^*,\ \Delta(T_c)}{وزن دوگان بهینه و سیمپلکس وزن‌های مجموعه پوشش}{cmp:eq:ch3-outlier-js-meb-dual}
+\notationrow{S_c,\ \zeta_c(S_c)}{زیرمجموعه حاضر در محاسبه توپ طبقه و مرکز آزاد هیلبرتی آن}{cmp:eq:ch3-outlier-js-meb-primal}
+\notationrow{\mathscr S=(S_1,\ldots,S_K)}{بردار زیرمجموعه‌های منتخب برای محاسبه توپ‌های طبقات}{cmp:eq:ch3-outlier-js-ball-gap}
+\notationrow{\mathfrak r_c(S_c)}{شعاع توپ کمینه پوشاننده تصاویر نمونه‌های کلاس}{cmp:eq:ch3-outlier-js-meb-primal}
+\notationrow{\mathcal B_c(S_c)}{توپ بسته هیلبرتی با مرکز و شعاع کمینه برای کلاس}{cmp:eq:ch3-outlier-js-meb-primal}
+\notationrow{w_i^*,\ \Delta(S_c)}{وزن دوگان بهینه و سیمپلکس وزن‌های مجموعه پوشش}{cmp:eq:ch3-outlier-js-meb-dual}
 \notationrow{\kappa_{\mathrm{JS}}(P,Q)}{کرنل هیلبرتیِ متناظر با واگرایی جنسن--شنون}{cmp:eq:ch3-outlier-js-svdd-kernel}
 \notationrow{C_{\mathrm{SVDD}}}{ضریب مثبت جریمهٔ متغیرهای شُل در مدل مرز نرم SVDD}{cmp:eq:ch3-outlier-js-svdd-soft-primal}
-\notationrow{\mathcal S_c(T_c)}{مجموعه نمونه‌های روی مرز توپ کمینه}{cmp:eq:ch3-outlier-js-meb-boundary}
-\notationrow{g_{cr}(T)}{شکاف میان توپ‌های بسته دو کلاس در فضای هیلبرت}{cmp:eq:ch3-outlier-js-ball-gap}
+\notationrow{\mathcal S_c(S_c)}{مجموعه نمونه‌های روی مرز توپ کمینه}{cmp:eq:ch3-outlier-js-meb-boundary}
+\notationrow{g_{cr}(\mathscr S)}{شکاف میان توپ‌های بسته دو کلاس در فضای هیلبرت}{cmp:eq:ch3-outlier-js-ball-gap}
 \notationrow{\delta_{\mathrm{sep}}}{شکاف مثبت هدف برای جداکردن توپ‌های کلاس‌ها}{cmp:eq:ch3-outlier-js-total-overlap}
-\notationrow{\Omega_{\delta_{\mathrm{sep}}}(T)}{هزینه تجمعی هم‌پوشانی و کمبود شکاف توپ‌های کلاس‌ها}{cmp:eq:ch3-outlier-js-total-overlap}
-\notationrow{\mathcal T_\alpha}{خانوادهٔ زیرمجموعه‌های مجاز با حداقل پوشش شمارشی برای هر طبقه}{cmp:eq:ch3-outlier-js-subset-problem}
-\notationrow{a_{i,c}(T)}{فاصله علامت‌دار نمونه مرزی از نزدیک‌ترین توپ رقیب متداخل}{cmp:eq:ch3-outlier-js-rival-intrusion}
-\notationrow{\Delta_{c,i}(T)}{کاهش هزینه تداخل سراسری پس از کنارگذاری آزمایشی نمونه از محاسبه توپ}{cmp:eq:ch3-outlier-js-greedy-gain}
+\notationrow{\Omega_{\delta_{\mathrm{sep}}}(\mathscr S)}{هزینه تجمعی هم‌پوشانی و کمبود شکاف توپ‌های کلاس‌ها}{cmp:eq:ch3-outlier-js-total-overlap}
+\notationrow{\mathcal A_\alpha}{مجموعهٔ بردارهای مجاز $\mathscr S$ با حداقل پوشش شمارشی برای هر طبقه}{cmp:eq:ch3-outlier-js-subset-problem}
+\notationrow{a_{i,c}(\mathscr S)}{فاصله علامت‌دار نمونه مرزی از نزدیک‌ترین توپ رقیب متداخل}{cmp:eq:ch3-outlier-js-rival-intrusion}
+\notationrow{\Delta_{c,i}(\mathscr S)}{کاهش هزینه تداخل سراسری پس از کنارگذاری آزمایشی نمونه از محاسبه توپ}{cmp:eq:ch3-outlier-js-greedy-gain}
 \notationrow{\mathcal O_{c,\alpha},\ \mathcal E_c}{مجموعه نامزدهای پرت و مجموعه نمونه‌های اشتباه طبقه‌بندی‌شده در کلاس $c$}{cmp:eq:ch3-outlier-error-sets}
 \notationrow{w_i,\ \widetilde{\mathcal V}_c}{وزن سهم نمونه در برآورد مرکز و مرکز کلاس وزن‌دار}{cmp:eq:ch3-outlier-weighted-center}
 \notationrow{\widetilde{\mathcal V}_{c,\varepsilon}}{مرکز آمیخته برای حفظ تکیه‌گاه در KL پیشرو؛ $\varepsilon$ وزن اختلاط محلی}{cmp:eq:ch3-outlier-support-preserving-center}
