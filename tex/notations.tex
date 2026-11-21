@@ -89,6 +89,9 @@
 \notationrow{p_{\mathrm{hit},N}^{(3)}}{احتمال برخورد با دست‌کم یک ستون نویزی در سه انتخاب}{cmp:eq:ch3-noise-F3-E3}
 \notationrow{\bar n_N^{(3)}}{تعداد مورد انتظار انتخاب نویز در سه نوبت، با امکان تکرار}{cmp:eq:ch3-noise-F3-E3}
 \notationrow{\mathrm{NFI}_N^{(3)}}{نسبت احتمال برخورد نویزی سیاست به مرجع یکنواخت هم‌بُعد}{cmp:eq:ch3-noise-F3-E3}
+\notationrow{\mathrm{NFI}_N^{(h)}}{نسبت برخورد دست‌کم یک‌باره با نویز به مرجع یکنواخت در افق عمومی $h$؛ برای $|A_N|=0$ تعریف‌نشده}{cmp:eq:ch3-noise-NFI-general-horizon}
+\notationrow{v,\ u}{دو توزیع سطری بازگشتی فرایند کمکی: همهٔ مسیرها و مسیرهای هنوز بدون برخورد نویز، به‌ترتیب}{cmp:alg:ch3-unmasked-noise-exposure}
+\notationrow{h_{\max}}{بزرگ‌ترین افق گزارش شاخص‌های مواجههٔ بدون ماسک}{cmp:alg:ch3-unmasked-noise-exposure}
 \notationrow{p_{\mathrm{hit},N}^{(h),U},\ \bar n_N^{(h),U}}{احتمال برخورد و تعداد مورد انتظار نویز در سیاست یکنواخت برای افق دلخواه}{cmp:eq:ch3-noise-uniform-reference}
 \notationrow{\Delta s_N^{(h),U}}{افزایش سهم مرجع یکنواخت با افزودن تنها یک ستون نویزی}{cmp:eq:ch3-noise-uniform-growth-derivative}
 \notationrow{\bar n_a^{(h)}}{تعداد مورد انتظار انتخاب ستون $a$ تا افق $h$، بدون ماسک؛ نه گواه نویز بودن}{cmp:eq:ch3-noise-per-feature-selection}
@@ -199,6 +202,9 @@
 \notationrow{\mathfrak a,\ \pi_\star^{[c]}}{قرارداد آغاز پرس‌وجو و سیاست آغاز تحت فرضیهٔ طبقهٔ نامزد}{cmp:eq:ch3-heldout-first-state}
 \notationrow{\nu_{x,1}^{[c]}}{توزیع حالت گشت برون‌نمونه‌ای بلافاصله پس از گام اول}{cmp:eq:ch3-heldout-first-state}
 \notationrow{\mathcal Q_{\mathrm{ok}}}{شناسه‌های پرس‌وجوهایی که پیش‌بینی معتبر دارند}{cmp:alg:ch3-heldout-validation}
+\notationrow{B_x}{مجموعه ویژگی‌های مشاهده‌شدهٔ پرس‌وجو با مقصد عمودی معتبر در Train}{cmp:alg:ch3-heldout-predict-one}
+\notationrow{v_x}{نشانگر معتبر بودن پیش‌بینی یک پرس‌وجو؛ از این نماد در سنجش معیارها استفاده نمی‌شود مگر با مقدار یک}{cmp:alg:ch3-heldout-predict-one}
+\notationrow{\mathcal Q_{\mathrm{bad}}}{شناسه‌های پرس‌وجوهای فاقد پیش‌بینی معتبر}{cmp:alg:ch3-heldout-validation}
 \notationrow{\mathsf{Conf}^{\mathrm{val}},\ \mathcal R_{\mathrm{val}}}{ماتریس اغتشاش و گزارش معیارهای اعتبارسنجی با مدل ثابت}{cmp:alg:ch3-heldout-validation}
 \notationgroup{مسئله معکوس سیاست}
 \notationrow{z=\operatorname{vec}(Z)}{بردار پارامترهای سیاست}{cmp:eq:ch3-center-forward-map}
