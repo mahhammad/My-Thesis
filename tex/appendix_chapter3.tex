@@ -79,9 +79,9 @@ h_s
 \label{app:ch3-matrix-walk-proofs}
 
 \paragraph{درستی ماتریس انتقال.}
-مبدأ $s$ و طبقه فرضی آغازین $c_s$ را در تمام این اثبات ثابت می‌گیریم.
+مبدأ $s$ و اندیس طبقهٔ سیاست $c$ را در تمام این اثبات ثابت می‌گیریم.
 بنابراین سیاست استفاده‌شده در \emph{همه نمونه‌های میانی}
-$\pi_s^{(c_s)}$ است و نمادهای ماتریسی کوتاه
+$\pi_s^{(c)}$ است و نمادهای ماتریسی کوتاه
 $\Pi_i^{(s)}$ و $\mathsf P_s$ دقیقاً طبق
 بخش~\ref{cmp:subsec:ch3-block-matrix-transition}
 معنا می‌شوند.
@@ -91,15 +91,15 @@ $|D_b|\ge3$ و رابطه~\eqref{cmp:eq:ch3-feature-eligibility}
 برای تمام $b\in A_{X_i}$. بنابراین:
 \begin{equation}\label{eq:app-ch3-block-stochastic}
 \sum_{(j,b)\in\mathcal S_s}[\mathsf P_s]_{(i,a),(j,b)}
-=\sum_{b\in A_{X_i}}\pi_s^{(c_s)}(b\mid i,a)
+=\sum_{b\in A_{X_i}}\pi_s^{(c)}(b\mid i,a)
 \underbrace{\sum_{j\ne i,s}q_b^{(s)}(j\mid i)}_{=1}
-=\sum_{b\in A_{X_i}}\pi_s^{(c_s)}(b\mid i,a)=1.
+=\sum_{b\in A_{X_i}}\pi_s^{(c)}(b\mid i,a)=1.
 \end{equation}
 پس $\mathsf P_s$ یک ماتریس گذار سطری روی حالت‌های مجاز است.
 عامل $F_s$ ابتدا ویژگی $b$ را از $A_{X_i}$ انتخاب می‌کند
 و عامل $S_s$ با \emph{همان ویژگی} نمونه مقصد $j$ را برمی‌گزیند؛
 درایه حاصل دقیقاً
-$\pi_s^{(c_s)}(b\mid i,a)q_b^{(s)}(j\mid i)$ است.
+$\pi_s^{(c)}(b\mid i,a)q_b^{(s)}(j\mid i)$ است.
 درایه‌هایی که حالتشان ویژگی ناموجود دارد صفر هستند؛
 در نتیجه محدودسازی دو عامل به $\mathcal S_s$
 پیش یا پس از ضرب، حاصل یکسانی روی حالت‌های مجاز می‌دهد.
