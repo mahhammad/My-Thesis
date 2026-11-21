@@ -468,11 +468,15 @@ $\sum_{c=1}^{K}\rho_c\,\mathscr Y_s^{(c)}$، برابر نیست.
 توابع پارامتری و هم برای سیاست‌های ثابت ماتریسی برقرارند.
 
 
-راه دوم، \emph{استنتاج مبتنی بر فرضیه طبقه} است: برای هر مقدار نامزد $c$، گشت از نمونه آزمون را \emph{با فرض آزمایشی طبقه مبدأ $c$} اجرا کرده و بازنمایی متناظر $\mathscr Y_x^{[c]}$ را می‌سازیم. سپس این بازنمایی را با مرکز $\mathcal V_c$ که از نمونه‌های آموزشی دارای برچسب $c$ و با همان سیاست شرطی تشکیل شده است مقایسه می‌کنیم. با انتخاب معیار فاصله مشترک $d$، قاعده تصمیم چنین خواهد بود:
+راه دوم، \emph{استنتاج مبتنی بر فرضیه طبقه} است: برای هر مقدار نامزد $c$، گشت از نمونه آزمون را \emph{با فرض آزمایشی طبقه مبدأ $c$} اجرا کرده و بازنمایی متناظر $\mathscr Y_x^{[c]}$ را می‌سازیم. سپس این بازنمایی را با مرکز $\mathcal V_c$ که از نمونه‌های آموزشی دارای برچسب $c$ و با همان سیاست شرطی تشکیل شده است مقایسه می‌کنیم. با انتخاب یک تابع ناهمانندی مشترک، قاعدهٔ تصمیم چنین خواهد بود:
 \begin{equation}\label{cmp:eq:ch3-class-hypothesis-inference}
 \widehat y(x)=\arg\min_{c\in\{1,\ldots,K\}}
-d\bigl(\mathscr Y_x^{[c]},\mathcal V_c\bigr).
+d_\psi\bigl(\mathscr Y_x^{[c]},\mathcal V_c\bigr).
 \end{equation}
+در این رابطه، $d_\psi$ تابع ناهمانندیِ انتخاب‌شده برای مقایسهٔ
+بازنمایی و مرکز طبقه است و $\psi\in\{\mathrm{KL},\mathrm{JS},\sqrt{\mathrm{JS}}\}$
+نوع آن را تعیین می‌کند؛ تعریف دقیق این سنجه‌ها در
+بخش~\ref{cmp:subsec:ch3-probability-dissimilarity-families} آمده است.
 در روش دوم، مقدار $c$ فقط یک \emph{فرضیه} برای اجرای گشت است و برچسب واقعی نمونه آزمون استفاده نمی‌شود. این روش وابستگی سیاست به طبقه آغازین را حفظ می‌کند، اما مقایسه امتیازهای حاصل از سیاست‌های متفاوت نیازمند ارزیابی تجربی است و برتری آن نسبت به سیاست میانگین از تعریف‌ها به‌تنهایی نتیجه نمی‌شود. قواعد تصمیم مبتنی بر یک بازنمایی واحد در ادامه فصل برای سیاست مشترک یا میانگین به همان شکل نوشته می‌شوند.
 
 \subsection{خانواده‌های سیاست ناپارامتری}
@@ -2014,20 +2018,20 @@ T(\mathcal V)=
 
 \subsubsection{معیار خطی جایگشتی: \texorpdfstring{$BT$}{BT}}
 \label{cmp:subsubsec:ch3-BT}
-برای حذف الزام انطباق مستقیم برچسب مشاهده‌شده با برچسب طبقه آغازین، به هر طبقه آغازین یک برچسب مقصد اختصاص می‌دهیم؛ به شرط آنکه این انتساب برای تمام طبقات یک‌به‌یک باشد. اگر $S_K$ مجموعه همه جایگشت‌های $K$ برچسب و $\sigma(c)$ برچسب مقصد منتسب به طبقه $c$ باشد، معیار بهترین اثر جایگشتی را به شکل زیر تعریف می‌کنیم:
+برای حذف الزام انطباق مستقیم برچسب مشاهده‌شده با برچسب طبقه آغازین، به هر طبقه آغازین یک برچسب مقصد اختصاص می‌دهیم؛ به شرط آنکه این انتساب برای تمام طبقات یک‌به‌یک باشد. اگر $\mathfrak{S}_K$ مجموعه همه جایگشت‌های $K$ برچسب و $\sigma(c)$ برچسب مقصد منتسب به طبقه $c$ باشد، معیار بهترین اثر جایگشتی را به شکل زیر تعریف می‌کنیم:
 \begin{equation}\label{cmp:eq:ch3-BT-on-V}
 \boxed{BT(\mathcal V)=
-\max_{\sigma\in S_K}
+\max_{\sigma\in \mathfrak{S}_K}
 \sum_{c=1}^{K}\omega_c\mathcal V_{c,\sigma(c)}.}
 \end{equation}
 در این تعریف، معیار $T$ حالت خاصی است که جایگشت همانی $\sigma(c)=c$ به کار رود؛ بنابراین $BT(\mathcal V)\ge T(\mathcal V)$. تعبیر این معیار روی دو بازنمایی پیشین برابر است با:
 \begin{equation}\label{cmp:eq:ch3-BT-on-Y-H}
 \begin{aligned}
 BT(\mathcal V)
-&=\max_{\sigma\in S_K}
+&=\max_{\sigma\in \mathfrak{S}_K}
 \sum_{c=1}^{K}\frac{\omega_c}{|C_c|}
 \sum_{i\in C_c}\mathscr Y_i\bigl(\sigma(c)\bigr)\\
-&=\max_{\sigma\in S_K}
+&=\max_{\sigma\in \mathfrak{S}_K}
 \sum_{c=1}^{K}\frac{\omega_c}{|C_c|}
 \sum_{i\in C_c}\sum_{j\in C_{\sigma(c)}}h_{ij}.
 \end{aligned}
@@ -2106,15 +2110,15 @@ TNL(\mathcal V)
 
 \subsubsection{معیار لگاریتمی جایگشتی: \texorpdfstring{$BTNL$}{BTNL}}
 \label{cmp:subsubsec:ch3-BTNL}
-مانند تعمیم $T$ به $BT$، می‌توان الزام هم‌برچسب‌بودن را از معیار لگاریتمی برداشت. برای هر جایگشت $\sigma\in S_K$، الگوی مطلوب فرضی طبقه $c$ را توزیع قطعی $e_{\sigma(c)}$ در نظر می‌گیریم. در این صورت مدل مرکزی $\mathcal V_c$ به برچسب مطلوب $\sigma(c)$ احتمال $\mathcal V_{c,\sigma(c)}$ می‌دهد و منفی لگاریتم درست‌نمایی وزن‌دار آن برابر $-\sum_c\omega_c\log\mathcal V_{c,\sigma(c)}$ است. انتخاب جایگشت با کمترین هزینه، معیار زیر را به‌دست می‌دهد:
+مانند تعمیم $T$ به $BT$، می‌توان الزام هم‌برچسب‌بودن را از معیار لگاریتمی برداشت. برای هر جایگشت $\sigma\in \mathfrak{S}_K$، الگوی مطلوب فرضی طبقه $c$ را توزیع قطعی $e_{\sigma(c)}$ در نظر می‌گیریم. در این صورت مدل مرکزی $\mathcal V_c$ به برچسب مطلوب $\sigma(c)$ احتمال $\mathcal V_{c,\sigma(c)}$ می‌دهد و منفی لگاریتم درست‌نمایی وزن‌دار آن برابر $-\sum_c\omega_c\log\mathcal V_{c,\sigma(c)}$ است. انتخاب جایگشت با کمترین هزینه، معیار زیر را به‌دست می‌دهد:
 \begin{equation}\label{cmp:eq:ch3-BTNL-on-V}
 \boxed{
 \begin{aligned}
 BTNL(\mathcal V)
-&=\min_{\sigma\in S_K}
+&=\min_{\sigma\in \mathfrak{S}_K}
 \left[-\sum_{c=1}^{K}\omega_c
 \log\mathcal V_{c,\sigma(c)}\right]\\
-&=\min_{\sigma\in S_K}
+&=\min_{\sigma\in \mathfrak{S}_K}
 \sum_{c=1}^{K}\omega_c
 D_{\mathrm{KL}}(e_{\sigma(c)}\|\mathcal V_c).
 \end{aligned}}
@@ -2146,11 +2150,11 @@ $BTNL$ کافی است.
 \begin{equation}\label{cmp:eq:ch3-BTNL-on-Y-H}
 \begin{aligned}
 BTNL(\mathcal V)
-&=\min_{\sigma\in S_K}
+&=\min_{\sigma\in \mathfrak{S}_K}
 \left[-\sum_{c=1}^{K}\omega_c\log
 \left(\frac{1}{|C_c|}
 \sum_{i\in C_c}\mathscr Y_i(\sigma(c))\right)\right]\\
-&=\min_{\sigma\in S_K}
+&=\min_{\sigma\in \mathfrak{S}_K}
 \left[-\sum_{c=1}^{K}\omega_c\log
 \left(\frac{1}{|C_c|}
 \sum_{i\in C_c}\sum_{j\in C_{\sigma(c)}}h_{ij}\right)\right].
@@ -6952,7 +6956,7 @@ T_j^{(r)}
 \qquad
 M^{(r)}
 =\max_{k\in A_N^{\max}}
-T_k^{(b)}.
+T_k^{(r)}.
 \end{equation}
 مقدار $p$ تصحیح‌شدهٔ
 تک‌مرحله‌ای برای ستون $j$

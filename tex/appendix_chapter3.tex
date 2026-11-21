@@ -1533,16 +1533,16 @@ $R_{c,\mathrm{JS}}$
 
 \subsection{اثبات کران پایین معیار BT}
 \label{app:ch3-BT-bound-proof}
-مجموعه جایگشت‌های $K$ طبقه را با $S_K$ نشان می‌دهیم و برای هر $\sigma\in S_K$ می‌نویسیم:
+مجموعه جایگشت‌های $K$ طبقه را با $\mathfrak{S}_K$ نشان می‌دهیم و برای هر $\sigma\in \mathfrak{S}_K$ می‌نویسیم:
 \begin{equation}\label{eq:app-ch3-BT-score}
 F_\sigma=\sum_{c=1}^{K}\omega_c\mathcal V_{c,\sigma(c)}.
 \end{equation}
 برای یک سطر ثابت $c$، هر ستون $d$ دقیقاً در $(K-1)!$ جایگشت در جایگاه $\sigma(c)$ قرار می‌گیرد. ازآنجاکه $\sum_d\mathcal V_{cd}=1$، میانگین امتیاز روی تمام جایگشت‌ها برابر است با:
 \begin{equation}\label{eq:app-ch3-BT-average}
 \begin{aligned}
-\frac{1}{K!}\sum_{\sigma\in S_K}F_\sigma
+\frac{1}{K!}\sum_{\sigma\in \mathfrak{S}_K}F_\sigma
 &=\frac{1}{K!}\sum_{c=1}^{K}\omega_c
-\sum_{\sigma\in S_K}\mathcal V_{c,\sigma(c)}\\
+\sum_{\sigma\in \mathfrak{S}_K}\mathcal V_{c,\sigma(c)}\\
 &=\frac{(K-1)!}{K!}\sum_{c=1}^{K}\omega_c
 \sum_{d=1}^{K}\mathcal V_{cd}\\
 &=\frac{1}{K}\sum_{c=1}^{K}\omega_c=\frac{1}{K}.
@@ -1578,7 +1578,7 @@ BTNL(\mathcal V)
 &=-\log BT(\mathcal V).
 \end{aligned}
 \end{equation}
-از آنجا که جایگشت همانی عضوی از $S_K$ است، به‌طور مستقل داریم:
+از آنجا که جایگشت همانی عضوی از $\mathfrak{S}_K$ است، به‌طور مستقل داریم:
 \begin{equation}\label{eq:app-ch3-identity-compare}
 BT(\mathcal V)\ge T(\mathcal V),
 \qquad
@@ -1619,7 +1619,7 @@ H(C_0\mid C_\xi)
 \paragraph{اثبات رابطه معیار اطلاعات متقابل با $T$ و $BT$.}
 توزیع مشترک طبقه آغازین و برچسب مشاهده‌شده را با
 $p(c,d)=\omega_c\mathcal V_{cd}$ و حاصل‌ضرب حاشیه‌های آن‌ها را با
-$q(c,d)=\omega_c\overline{\mathcal V}(d)$ نشان می‌دهیم. طبق تعریف اطلاعات متقابل در رابطه~\eqref{cmp:eq:ch3-I-mutual-info}، داریم $D_{\mathrm{KL}}(p\|q)=I(\mathcal V)$. برای هر جایگشت $\sigma\in S_K$، نگاشت دودویی
+$q(c,d)=\omega_c\overline{\mathcal V}(d)$ نشان می‌دهیم. طبق تعریف اطلاعات متقابل در رابطه~\eqref{cmp:eq:ch3-I-mutual-info}، داریم $D_{\mathrm{KL}}(p\|q)=I(\mathcal V)$. برای هر جایگشت $\sigma\in \mathfrak{S}_K$، نگاشت دودویی
 $z_\sigma(c,d)=\mathbf 1_{\{d=\sigma(c)\}}$ را در نظر می‌گیریم. با اعمال این نگاشت به هر دو توزیع، احتمال رخداد مقدار یک به‌ترتیب برابر می‌شود با:
 \begin{equation}\label{eq:app-ch3-I-BT-Bernoulli-params}
 \begin{aligned}
