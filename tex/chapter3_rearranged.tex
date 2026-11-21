@@ -4177,347 +4177,30 @@ $I$ با \emph{سقف} NLL در حالت KL را نشان می‌دهد،
 
 
 
-\section{مشتق‌گیری و الگوریتم یادگیری سیاست انتخاب ویژگی}
+\section{آموزش سیاست انتخاب ویژگی و استنتاج برون‌نمونه‌ای}
 \label{cmp:sec:ch3-policy-learning-algorithm}
-پس از تعیین تابع هدف، باید وابستگی آن به سیاست
-انتخاب ویژگی محاسبه شود. در این بخش ابتدا
-مشتق‌گیری از مسیر سیاست، بازنمایی و مراکز را
-بررسی و سپس مراحل آموزش را به‌شکل یک الگوریتم
-یکپارچه جمع‌بندی می‌کنیم.
-
-\subsection{مشتق‌گیری از بازنمایی‌ها، مراکز و حاشیه}
-\label{cmp:subsec:ch3-margin-policy-derivatives}
-زیان سیگموئیدی یک تابع
-هموار از \emph{مقدار حاشیه}
-است، اما مشتق‌گیری نسبت به
-پارامترهای سیاست نیازمند
-محاسبه اثر سیاست بر
-بازنمایی نمونه‌ها و مراکز
-نیز هست. نگاشت پیشرو
-سیاست به بازنمایی‌ها،
-از طریق احتمالات انتقال
-و امید گشت‌ها در بخش‌های
-پیشین این فصل معرفی شد.
-برای یک سیاست پارامتری
-$\pi_\theta$، رابطه
-\eqref{cmp:eq:ch3-class-center}
-نتیجه می‌دهد:
-\begin{equation}\label{cmp:eq:ch3-margin-center-policy-derivative}
-\boxed{
-\nabla_\theta\mathcal V_c(\theta)
-=\frac1{|C_c|}\sum_{j\in C_c}
-\nabla_\theta\mathscr Y_j(\theta).
-}
-\end{equation}
-این رابطه برای داده و
-تعداد اعضای ثابت طبقه برقرار است.
-ازاین‌رو در مدل اصلی،
-تغییر سیاست هم خودِ
-بازنمایی یک نمونه و
-هم تمامی مراکز را
-تغییر می‌دهد؛ حذف مشتق
-مراکز بدون فرضی صریح
-در این تحلیل مجاز نیست.
-
-\paragraph{مشتق امتیاز مبتنی بر JSD.}
-برای پرهیز از مشکل مشتق
-در مؤلفه‌های صفر،
-بازنمایی‌ها و مراکز
-هموارشده رابطه
-\eqref{cmp:eq:ch3-stable-smoothed-representations}
-را در نظر می‌گیریم و
-برای اختصار
-$P_i=\mathscr Y_i^{(\eta)}$،
-$V_c=\mathcal V_c^{(\eta)}$
-و $s_{i,c}=s(P_i,V_c)$
-می‌نویسیم. با بسط
-آنتروپی در تعریف JSD،
-برای هر مؤلفه $u$ با
-$P_i(u),V_c(u)>0$ داریم:
-\begin{equation}\label{cmp:eq:ch3-margin-JS-partials}
-\boxed{
-\begin{aligned}
-\frac{\partial s(P_i,V_c)}{\partial P_i(u)}
-&=-\frac1{2\log2}
-\log\frac{2P_i(u)}{P_i(u)+V_c(u)},\\
-\frac{\partial s(P_i,V_c)}{\partial V_c(u)}
-&=-\frac1{2\log2}
-\log\frac{2V_c(u)}{P_i(u)+V_c(u)}.
-\end{aligned}}
-\end{equation}
-با قاعده زنجیره‌ای،
-مشتق امتیاز نسبت به
-پارامترهای سیاست برابر است با:
-\begin{equation}\label{cmp:eq:ch3-margin-score-policy-gradient}
-\boxed{
-\begin{aligned}
-\nabla_\theta s_{i,c}
-=-\frac1{2\log2}\sum_{u=1}^{K}
-\Bigg[
-&\log\frac{2P_i(u)}{P_i(u)+V_c(u)}
-\nabla_\theta P_i(u)\\
-+&\log\frac{2V_c(u)}{P_i(u)+V_c(u)}
-\nabla_\theta V_c(u)
-\Bigg].
-\end{aligned}}
-\end{equation}
-در این فرمول، برای $\eta$
-ثابت، مشتق بازنمایی‌های
-هموارشده برابر
-$(1-\eta)$ برابر مشتق
-بازنمایی اولیه است.
-رابطه مشتق مرکز در این
-حالت نیز با همان میانگین
-مشتق بازنمایی‌ها برقرار
-می‌ماند. بنابراین هیچ
-نیازی به فرض ثابت بودن
-مراکز در یادگیری آزاد
-سیاست نداریم.
-
-\paragraph{مشتق حاشیه و نزدیک‌ترین رقیب.}
-اگر رقیب برنده
-$r_i^\star=\arg\max_{r\ne y_i}s_{i,r}$
-یکتا باشد، در ناحیه‌ای
-که این رقیب تغییر نمی‌کند:
-\begin{equation}\label{cmp:eq:ch3-margin-policy-gradient}
-\boxed{
-\nabla_\theta M_i^{\mathrm{JS}}
-=\nabla_\theta s_{i,y_i}
--\nabla_\theta s_{i,r_i^\star}.
-}
-\end{equation}
-برای تساوی امتیاز رقبا،
-مشتق طبقه‌ایک حاشیه ممکن
-است وجود نداشته باشد.
-برای حذف این نقطه نامشتق‌پذیر،
-با $\kappa>0$ حاشیه نرم
-را تعریف می‌کنیم:
-\begin{equation}\label{cmp:eq:ch3-margin-smooth-competitor}
-\boxed{
-\widetilde M_{i,\kappa}^{\mathrm{JS}}
-=s_{i,y_i}
--\kappa\log\sum_{r\ne y_i}
-\exp(s_{i,r}/\kappa),
-\qquad
-0\le M_i^{\mathrm{JS}}
--\widetilde M_{i,\kappa}^{\mathrm{JS}}
-\le\kappa\log(K-1).
-}
-\end{equation}
-پس این تقریب همواره
-حاشیه را به‌اندازه‌ای
-محدود و \emph{به سمت
-مقادیر کوچک‌تر} تغییر
-می‌دهد و برای $K=2$
-دقیقاً با حاشیه اصلی
-برابر است. اگر وزن‌های
-نرم رقبا را با
-\[
-w_{i,r}^{(\kappa)}
-=\frac{\exp(s_{i,r}/\kappa)}
-{\sum_{q\ne y_i}\exp(s_{i,q}/\kappa)}
-\]
-نشان دهیم، مشتق حاشیه
-نرم دقیقاً برابر است با:
-\begin{equation}\label{cmp:eq:ch3-margin-smooth-gradient}
-\boxed{
-\nabla_\theta\widetilde M_{i,\kappa}^{\mathrm{JS}}
-=\nabla_\theta s_{i,y_i}
--\sum_{r\ne y_i}
-w_{i,r}^{(\kappa)}
-\nabla_\theta s_{i,r}.
-}
-\end{equation}
-در نتیجه، برای میانگین
-متوازن زیان سیگموئیدی
-با حاشیه نرم، گرادیان
-قابل محاسبه زیر حاصل
-می‌شود:
-\begin{equation}\label{cmp:eq:ch3-margin-loss-policy-gradient}
-\boxed{
-\nabla_\theta\widetilde{\mathcal L}_{\mathrm{sig}}
-=\frac1K\sum_{c=1}^{K}\frac1{|C_c|}
-\sum_{i\in C_c}
-\ell_\tau'\!\left(\widetilde M_{i,\kappa}^{\mathrm{JS}}\right)
-\nabla_\theta\widetilde M_{i,\kappa}^{\mathrm{JS}}.
-}
-\end{equation}
-این فرمول،
-\emph{روش محاسبه مشتق
-هدف حاشیه‌ای} را مشخص
-می‌کند، نه تضمین کاهش
-خطای صفر--یک در هر
-گام بهینه‌سازی.
-
-\paragraph{بازنمایی مشترک، شرطی و مراکز موقتاً ثابت.}
-در حالت بازنمایی مشترک،
-$P_i$ در امتیاز همه
-طبقات یکسان است و
-مشتق آن در تمامی امتیازها
-تکرار می‌شود. در
-استنتاج شرطی طبقه،
-امتیاز نامزد $c$
-از $P_i^{(c)}$ و
-مرکز متناظر به‌دست
-می‌آید؛ در نتیجه
-مشتق هر امتیاز باید
-از همان مسیر محاسبه
-شود و دیگر نمی‌توان
-مشتق تمام امتیازها را
-با یک بردار $P_i$
-مشترک نوشت.
-اگر مراکز فقط هنگام
-محاسبه یک گام گرادیان
-\emph{ثابت فرض شوند}،
-جمله
-$\nabla_\theta V_c$
-از رابطه
-\eqref{cmp:eq:ch3-margin-score-policy-gradient}
-حذف می‌شود؛ اما این
-تقریب با \emph{ثابت
-ماندن واقعی مراکز
-تحت تغییر سیاست}
-یکسان نیست. برای
-ثابت‌ماندن واقعی
-مراکز باید قید
-$\mathcal V_c(\theta)
-=\mathcal V_c^\star$
-برقرار باشد؛ چگونگی
-تحلیل فضای سیاست‌های
-دارای مرکز مشترک
-در بحث نگاشت پیشرو
-و مسئله معکوس این فصل
-بررسی می‌شود.
-
-شرح مفصل مشتق‌های
-JSD، دقت تقریب
-بیشینه نرم و شرایط
-مرزی آن‌ها در
-پیوست~\ref{app:ch3-margin-gradient}
+پس از تعریف توابع هدف، باید روشن کنیم
+سیاست چگونه آموزش می‌بیند و چگونه
+برای نمونهٔ جدید به کار می‌رود.
+پارامترهای سیاست، احتمال‌های انتخاب
+ویژگی در گشت را تعیین می‌کنند؛
+این احتمال‌ها بازنمایی‌های همسایگی
+و در نتیجه مراکز طبقات و امتیازهای
+پیش‌بینی را تغییر می‌دهند. بنابراین
+در یادگیری مبتنی بر گرادیان، وابستگی
+\emph{هر دو} جزءِ بازنمایی نمونه
+و مرکز طبقه به سیاست باید لحاظ شود؛
+نمی‌توان مراکز را در محاسبهٔ گرادیان
+به‌طور ضمنی ثابت فرض کرد.
+در این بخش، بدون ورود به مشتق‌های
+مؤلفه‌ای JSD و تحلیل تکیه‌گاه صفر،
+چرخهٔ آموزش و قرارداد استنتاج
+و اعتبارسنجی را به شکل الگوریتم
+شرح می‌دهیم. صورت‌بندی دقیق مشتق‌ها،
+شرایط اعتبار آن‌ها و رابطهٔ گرادیان
+با به‌روزرسانی بهینه‌ساز در
+بخش~\ref{cmp:sec:ch3-policy-gradient-theory}
 آمده است.
-
-
-
-
-\subsection{مشتق زیان Softplus--JS و منشأ تغییر سیاست}
-\label{cmp:subsec:ch3-softplus-js-policy-gradient}
-در زیان Softplus--JS رابطه~\eqref{cmp:eq:ch3-softplus-js-training-objective}،
-امتیاز $S_{i,r}$ به \emph{طبقهٔ نامزد} $r$ تعلق دارد؛
-این امتیاز نباید با $z_{ab}$، یعنی logits انتخاب \emph{ویژگی}، اشتباه شود.
-برای هر نمونهٔ آموزشی $i$ و نامزد $r$، بازنمایی
-$U_{i,r}(z)=\mathscr Y_i^{[r]}(z)$ و مرکز
-$V_r(z)=|C_r|^{-1}\sum_{j\in C_r}U_{j,r}(z)$
-را در نظر می‌گیریم که در آن $z=\operatorname{vec}(Z)$
-برای خانواده‌های ماتریسی ثابت است.
-هم خودِ بازنمایی‌ها و هم مراکز فقط از گشت دقیق
-\emph{ماسک‌دار روی Train} حاصل می‌شوند؛ در محاسبهٔ مرکز،
-مبدأهای $j\in C_r$ با فرضیهٔ سازگار $r$ ارزیابی می‌شوند.
-اما برای امتیازِ نمونهٔ $i$، \emph{تمام} نامزدهای $r$
-بدون استفاده از $y_i$ برای انتخاب سیاست فرضیه محاسبه می‌شوند.
-
-با تعریف وزن‌های نرم \emph{روی امتیاز طبقه‌ها}
-و مشتق زیان نمونه نسبت به همان امتیازها، داریم:
-\begin{equation}\label{cmp:eq:ch3-softplus-js-score-weights}
-\boxed{
-w_{i,r}^{\mathrm{SP}}
-=\frac{\exp(S_{i,r}/\tau_{\mathrm{SP}})}
-{\sum_{q=1}^{K}\exp(S_{i,q}/\tau_{\mathrm{SP}})},
-\qquad
-\frac{\partial\ell_i^{\mathrm{SP}}}{\partial S_{i,r}}
-=w_{i,r}^{\mathrm{SP}}-\mathbf1\{r=y_i\}.
-}
-\end{equation}
-وزن $w_{i,r}^{\mathrm{SP}}$ احتمال انتخاب ویژگی نیست
-و با $p_0$ و $P$ در تحلیل نویز نیز تفاوت دارد.
-زیان متوازن برای وزن‌های طبقات $\Omega$،
-مطابق قرارداد آموزش، برابر است با
-$\mathcal L_{\mathrm{SP},\Omega}(z)
-=\sum_{c=1}^{K}\frac{\omega_c}{|C_c|}
-\sum_{i\in C_c}\ell_i^{\mathrm{SP}}(z)$.
-در صورت $\omega_c=1/K$، گرادیان آن برابر است با:
-\begin{equation}\label{cmp:eq:ch3-softplus-js-policy-gradient}
-\boxed{
-\nabla_z\mathcal L_{\mathrm{SP},U}
-=\frac1K\sum_{c=1}^{K}\frac1{|C_c|}
-\sum_{i\in C_c}\sum_{r=1}^{K}
-\bigl(w_{i,r}^{\mathrm{SP}}-\mathbf1\{r=c\}\bigr)
-\nabla_z S_{i,r}.
-}
-\end{equation}
-برای وزن‌های عمومی $\Omega$، تنها $1/K$ در جمع بیرونی
-با $\omega_c$ جایگزین می‌شود؛ مشتق نمونه تغییر نمی‌کند.
-
-در ناحیه‌ای که مؤلفه‌های لازم مثبت و نگاشت گشت
-با ماسک‌های ثابت مشتق‌پذیر است، با استفاده از
-رابطه~\eqref{cmp:eq:ch3-margin-JS-partials}،
-مشتق امتیاز هر نامزد از \emph{دو مسیر} به‌دست می‌آید:
-\begin{equation}\label{cmp:eq:ch3-softplus-js-score-chain}
-\boxed{
-\begin{aligned}
-\nabla_z S_{i,r}
-=-\frac1{2\log2}\sum_{u=1}^{K}\Bigg[
-&\log\frac{2U_{i,r}(u)}{U_{i,r}(u)+V_r(u)}
-\,\nabla_z U_{i,r}(u)\\
-+&\log\frac{2V_r(u)}{U_{i,r}(u)+V_r(u)}
-\,\frac1{|C_r|}\sum_{j\in C_r}\nabla_z U_{j,r}(u)
-\Bigg].
-\end{aligned}}
-\end{equation}
-برای اعمال این فرمول به هموارسازی مثبت مشترکِ
-رابطه~\eqref{cmp:eq:ch3-stable-smoothed-representations}،
-باید $U_{i,r}$ و $V_r$ را با صورت‌های هموارشده
-جایگزین و ضرایب مشتق نگاشت هموارسازی را لحاظ کرد.
-حذف جملهٔ مشتق مرکز در آموزش آزاد مجاز نیست.
-در خانوادهٔ \lr{shared} مسیر بازنمایی نامزدها مشترک است،
-اما برای \lr{class} هر $U_{i,r}$ از سیاست فرضیهٔ $r$ می‌آید.
-
-\paragraph{تکیه‌گاه صفر و پیاده‌سازی واقعی.}
-رابطه~\eqref{cmp:eq:ch3-softplus-js-score-chain} فرمول
-داخلیِ مشتق‌پذیر است، نه مجوز جایگذاری لگاریتم صفر.
-در کد گشت دقیق، JSD با قرارداد $0\log0=0$،
-تابع $\operatorname{where}$، کف عددی در لگاریتم
-و $\operatorname{clamp}_{\min}(0)$ روی نتیجه اجرا می‌شود؛
-\emph{هموارسازی مثبت سراسری با $\eta>0$ در آن فعال نیست}.
-روی تکیه‌گاه‌های ساختاری ثابت، مؤلفه‌هایی که همواره صفرند
-مشتق صفر دارند و باید سهمشان جداگانه تفسیر شود.
-در مرز تغییر تکیه‌گاه، مقادیر بسیار کوچک، یا محل فعال‌شدن
-\lr{clamp}، مشتق صوری بالا لزوماً با مشتق انتخابی
-\lr{autograd} یکسان نیست؛ کنترل عددی این مرزها جداگانه لازم است.
-جزئیات مشتق و حدود اعتبار آن در
-بخش~\ref{app:ch3-softplus-gradient-proof}
-از پیوست~\ref{app:ch3-proofs}
-آمده‌اند.
-
-\paragraph{از گرادیان تا تغییر واقعی logits.}
-اگر $g^{(t)}=\nabla_z\mathcal L_{\mathrm{SP},U}(z^{(t)})$
-باشد، این گرادیان \emph{خودِ آپدیت} نیست.
-برای Adam استاندارد، بدون کاهش وزن یا اصلاح اضافی، با
-نرخ یادگیری $\eta_{\mathrm A}$ و ممان‌های $m^{(t)},v^{(t)}$ داریم:
-\begin{equation}\label{cmp:eq:ch3-adam-logit-update}
-\boxed{
-\begin{aligned}
-m^{(t+1)}&=\beta_1m^{(t)}+(1-\beta_1)g^{(t)},\\
-v^{(t+1)}&=\beta_2v^{(t)}+(1-\beta_2)(g^{(t)})^{\odot2},\\
-\widehat m^{(t+1)}&=m^{(t+1)}/(1-\beta_1^{t+1}),\quad
-\widehat v^{(t+1)}=v^{(t+1)}/(1-\beta_2^{t+1}),\\
-\Delta z^{(t)}&=z^{(t+1)}-z^{(t)}
-=-\eta_{\mathrm A}
-\frac{\widehat m^{(t+1)}}{\sqrt{\widehat v^{(t+1)}}+
-\varepsilon_{\mathrm A}} .
-\end{aligned}}
-\end{equation}
-توان دوم، تقسیم و ریشه در این رابطه مؤلفه‌به‌مؤلفه‌اند؛
-$\beta_1,\beta_2$ ممان‌های Adam هستند و
-با $\beta$ توقف گشت تفاوت دارند.
-اگر logits خروجی تابع پارامتری $Z(\theta)$ باشند،
-تغییر واقعی از $Z(\theta^{(t+1)})-Z(\theta^{(t)})$
-به‌دست می‌آید، نه از جایگذاری مستقیم گرادیان $z$
-در فرمول مخصوص پارامتر مستقل.
-حتی در مدل‌های ماتریسی، $\Delta z^{(t)}$ را می‌توان
-مستقیماً از دو checkpoint پیاپی به‌دست آورد.
-نگاشت این تغییر به تغییر احتمال سیاست
-در بخش~\ref{cmp:subsec:ch3-noise-logpolicy-sensitivity}
-\emph{مستقل از زیان و بهینه‌ساز} بررسی می‌شود.
 
 \subsection{شبه‌کد یکپارچهٔ آموزش سیاست}
 \label{cmp:subsec:ch3-policy-training-pseudocode}
@@ -5028,6 +4711,357 @@ Softplus--JS باید به‌ترتیب از زیان
 نمونهٔ آزمون مستقل \emph{پس از تثبیت مدل}
 استفاده کرد؛ انتخاب پارامتر، checkpoint
 یا آستانه بر اساس Test مجاز نیست.
+
+\section{تحلیل نظری مشتق‌ها و گرادیان یادگیری سیاست}
+\label{cmp:sec:ch3-policy-gradient-theory}
+این بخش جزئیات تحلیلی
+مشتق‌گیری از گشت، بازنمایی‌ها،
+مراکز و توابع زیان را تکمیل می‌کند.
+مفاهیم لازم برای درک چرخهٔ آموزش
+و پیش‌بینی در
+بخش~\ref{cmp:sec:ch3-policy-learning-algorithm}
+معرفی شدند و مطالعهٔ این مشتق‌های
+مؤلفه‌ای برای اجرای شبه‌کد آن بخش
+ضروری نیست. روابط زیر روشن می‌کنند
+چگونه گرادیان به سیاست بازمی‌گردد،
+در چه شرایطی فرمول‌های مشتق‌پذیر
+معتبرند و چرا گرادیان و
+\emph{تغییر واقعی پارامترها}
+یک کمیت نیستند.
+
+\subsection{مشتق‌گیری از بازنمایی‌ها، مراکز و حاشیه}
+\label{cmp:subsec:ch3-margin-policy-derivatives}
+زیان سیگموئیدی یک تابع
+هموار از \emph{مقدار حاشیه}
+است، اما مشتق‌گیری نسبت به
+پارامترهای سیاست نیازمند
+محاسبه اثر سیاست بر
+بازنمایی نمونه‌ها و مراکز
+نیز هست. نگاشت پیشرو
+سیاست به بازنمایی‌ها،
+از طریق احتمالات انتقال
+و امید گشت‌ها در بخش‌های
+پیشین این فصل معرفی شد.
+برای یک سیاست پارامتری
+$\pi_\theta$، رابطه
+\eqref{cmp:eq:ch3-class-center}
+نتیجه می‌دهد:
+\begin{equation}\label{cmp:eq:ch3-margin-center-policy-derivative}
+\boxed{
+\nabla_\theta\mathcal V_c(\theta)
+=\frac1{|C_c|}\sum_{j\in C_c}
+\nabla_\theta\mathscr Y_j(\theta).
+}
+\end{equation}
+این رابطه برای داده و
+تعداد اعضای ثابت طبقه برقرار است.
+ازاین‌رو در مدل اصلی،
+تغییر سیاست هم خودِ
+بازنمایی یک نمونه و
+هم تمامی مراکز را
+تغییر می‌دهد؛ حذف مشتق
+مراکز بدون فرضی صریح
+در این تحلیل مجاز نیست.
+
+\paragraph{مشتق امتیاز مبتنی بر JSD.}
+برای پرهیز از مشکل مشتق
+در مؤلفه‌های صفر،
+بازنمایی‌ها و مراکز
+هموارشده رابطه
+\eqref{cmp:eq:ch3-stable-smoothed-representations}
+را در نظر می‌گیریم و
+برای اختصار
+$P_i=\mathscr Y_i^{(\eta)}$،
+$V_c=\mathcal V_c^{(\eta)}$
+و $s_{i,c}=s(P_i,V_c)$
+می‌نویسیم. با بسط
+آنتروپی در تعریف JSD،
+برای هر مؤلفه $u$ با
+$P_i(u),V_c(u)>0$ داریم:
+\begin{equation}\label{cmp:eq:ch3-margin-JS-partials}
+\boxed{
+\begin{aligned}
+\frac{\partial s(P_i,V_c)}{\partial P_i(u)}
+&=-\frac1{2\log2}
+\log\frac{2P_i(u)}{P_i(u)+V_c(u)},\\
+\frac{\partial s(P_i,V_c)}{\partial V_c(u)}
+&=-\frac1{2\log2}
+\log\frac{2V_c(u)}{P_i(u)+V_c(u)}.
+\end{aligned}}
+\end{equation}
+با قاعده زنجیره‌ای،
+مشتق امتیاز نسبت به
+پارامترهای سیاست برابر است با:
+\begin{equation}\label{cmp:eq:ch3-margin-score-policy-gradient}
+\boxed{
+\begin{aligned}
+\nabla_\theta s_{i,c}
+=-\frac1{2\log2}\sum_{u=1}^{K}
+\Bigg[
+&\log\frac{2P_i(u)}{P_i(u)+V_c(u)}
+\nabla_\theta P_i(u)\\
++&\log\frac{2V_c(u)}{P_i(u)+V_c(u)}
+\nabla_\theta V_c(u)
+\Bigg].
+\end{aligned}}
+\end{equation}
+در این فرمول، برای $\eta$
+ثابت، مشتق بازنمایی‌های
+هموارشده برابر
+$(1-\eta)$ برابر مشتق
+بازنمایی اولیه است.
+رابطه مشتق مرکز در این
+حالت نیز با همان میانگین
+مشتق بازنمایی‌ها برقرار
+می‌ماند. بنابراین هیچ
+نیازی به فرض ثابت بودن
+مراکز در یادگیری آزاد
+سیاست نداریم.
+
+\paragraph{مشتق حاشیه و نزدیک‌ترین رقیب.}
+اگر رقیب برنده
+$r_i^\star=\arg\max_{r\ne y_i}s_{i,r}$
+یکتا باشد، در ناحیه‌ای
+که این رقیب تغییر نمی‌کند:
+\begin{equation}\label{cmp:eq:ch3-margin-policy-gradient}
+\boxed{
+\nabla_\theta M_i^{\mathrm{JS}}
+=\nabla_\theta s_{i,y_i}
+-\nabla_\theta s_{i,r_i^\star}.
+}
+\end{equation}
+برای تساوی امتیاز رقبا،
+مشتق طبقه‌ایک حاشیه ممکن
+است وجود نداشته باشد.
+برای حذف این نقطه نامشتق‌پذیر،
+با $\kappa>0$ حاشیه نرم
+را تعریف می‌کنیم:
+\begin{equation}\label{cmp:eq:ch3-margin-smooth-competitor}
+\boxed{
+\widetilde M_{i,\kappa}^{\mathrm{JS}}
+=s_{i,y_i}
+-\kappa\log\sum_{r\ne y_i}
+\exp(s_{i,r}/\kappa),
+\qquad
+0\le M_i^{\mathrm{JS}}
+-\widetilde M_{i,\kappa}^{\mathrm{JS}}
+\le\kappa\log(K-1).
+}
+\end{equation}
+پس این تقریب همواره
+حاشیه را به‌اندازه‌ای
+محدود و \emph{به سمت
+مقادیر کوچک‌تر} تغییر
+می‌دهد و برای $K=2$
+دقیقاً با حاشیه اصلی
+برابر است. اگر وزن‌های
+نرم رقبا را با
+\[
+w_{i,r}^{(\kappa)}
+=\frac{\exp(s_{i,r}/\kappa)}
+{\sum_{q\ne y_i}\exp(s_{i,q}/\kappa)}
+\]
+نشان دهیم، مشتق حاشیه
+نرم دقیقاً برابر است با:
+\begin{equation}\label{cmp:eq:ch3-margin-smooth-gradient}
+\boxed{
+\nabla_\theta\widetilde M_{i,\kappa}^{\mathrm{JS}}
+=\nabla_\theta s_{i,y_i}
+-\sum_{r\ne y_i}
+w_{i,r}^{(\kappa)}
+\nabla_\theta s_{i,r}.
+}
+\end{equation}
+در نتیجه، برای میانگین
+متوازن زیان سیگموئیدی
+با حاشیه نرم، گرادیان
+قابل محاسبه زیر حاصل
+می‌شود:
+\begin{equation}\label{cmp:eq:ch3-margin-loss-policy-gradient}
+\boxed{
+\nabla_\theta\widetilde{\mathcal L}_{\mathrm{sig}}
+=\frac1K\sum_{c=1}^{K}\frac1{|C_c|}
+\sum_{i\in C_c}
+\ell_\tau'\!\left(\widetilde M_{i,\kappa}^{\mathrm{JS}}\right)
+\nabla_\theta\widetilde M_{i,\kappa}^{\mathrm{JS}}.
+}
+\end{equation}
+این فرمول،
+\emph{روش محاسبه مشتق
+هدف حاشیه‌ای} را مشخص
+می‌کند، نه تضمین کاهش
+خطای صفر--یک در هر
+گام بهینه‌سازی.
+
+\paragraph{بازنمایی مشترک، شرطی و مراکز موقتاً ثابت.}
+در حالت بازنمایی مشترک،
+$P_i$ در امتیاز همه
+طبقات یکسان است و
+مشتق آن در تمامی امتیازها
+تکرار می‌شود. در
+استنتاج شرطی طبقه،
+امتیاز نامزد $c$
+از $P_i^{(c)}$ و
+مرکز متناظر به‌دست
+می‌آید؛ در نتیجه
+مشتق هر امتیاز باید
+از همان مسیر محاسبه
+شود و دیگر نمی‌توان
+مشتق تمام امتیازها را
+با یک بردار $P_i$
+مشترک نوشت.
+اگر مراکز فقط هنگام
+محاسبه یک گام گرادیان
+\emph{ثابت فرض شوند}،
+جمله
+$\nabla_\theta V_c$
+از رابطه
+\eqref{cmp:eq:ch3-margin-score-policy-gradient}
+حذف می‌شود؛ اما این
+تقریب با \emph{ثابت
+ماندن واقعی مراکز
+تحت تغییر سیاست}
+یکسان نیست. برای
+ثابت‌ماندن واقعی
+مراکز باید قید
+$\mathcal V_c(\theta)
+=\mathcal V_c^\star$
+برقرار باشد؛ چگونگی
+تحلیل فضای سیاست‌های
+دارای مرکز مشترک
+در بحث نگاشت پیشرو
+و مسئله معکوس این فصل
+بررسی می‌شود.
+
+شرح مفصل مشتق‌های
+JSD، دقت تقریب
+بیشینه نرم و شرایط
+مرزی آن‌ها در
+پیوست~\ref{app:ch3-margin-gradient}
+آمده است.
+
+
+
+
+\subsection{مشتق زیان Softplus--JS و منشأ تغییر سیاست}
+\label{cmp:subsec:ch3-softplus-js-policy-gradient}
+در زیان Softplus--JS رابطه~\eqref{cmp:eq:ch3-softplus-js-training-objective}،
+امتیاز $S_{i,r}$ به \emph{طبقهٔ نامزد} $r$ تعلق دارد؛
+این امتیاز نباید با $z_{ab}$، یعنی logits انتخاب \emph{ویژگی}، اشتباه شود.
+برای هر نمونهٔ آموزشی $i$ و نامزد $r$، بازنمایی
+$U_{i,r}(z)=\mathscr Y_i^{[r]}(z)$ و مرکز
+$V_r(z)=|C_r|^{-1}\sum_{j\in C_r}U_{j,r}(z)$
+را در نظر می‌گیریم که در آن $z=\operatorname{vec}(Z)$
+برای خانواده‌های ماتریسی ثابت است.
+هم خودِ بازنمایی‌ها و هم مراکز فقط از گشت دقیق
+\emph{ماسک‌دار روی Train} حاصل می‌شوند؛ در محاسبهٔ مرکز،
+مبدأهای $j\in C_r$ با فرضیهٔ سازگار $r$ ارزیابی می‌شوند.
+اما برای امتیازِ نمونهٔ $i$، \emph{تمام} نامزدهای $r$
+بدون استفاده از $y_i$ برای انتخاب سیاست فرضیه محاسبه می‌شوند.
+
+با تعریف وزن‌های نرم \emph{روی امتیاز طبقه‌ها}
+و مشتق زیان نمونه نسبت به همان امتیازها، داریم:
+\begin{equation}\label{cmp:eq:ch3-softplus-js-score-weights}
+\boxed{
+w_{i,r}^{\mathrm{SP}}
+=\frac{\exp(S_{i,r}/\tau_{\mathrm{SP}})}
+{\sum_{q=1}^{K}\exp(S_{i,q}/\tau_{\mathrm{SP}})},
+\qquad
+\frac{\partial\ell_i^{\mathrm{SP}}}{\partial S_{i,r}}
+=w_{i,r}^{\mathrm{SP}}-\mathbf1\{r=y_i\}.
+}
+\end{equation}
+وزن $w_{i,r}^{\mathrm{SP}}$ احتمال انتخاب ویژگی نیست
+و با $p_0$ و $P$ در تحلیل نویز نیز تفاوت دارد.
+زیان متوازن برای وزن‌های طبقات $\Omega$،
+مطابق قرارداد آموزش، برابر است با
+$\mathcal L_{\mathrm{SP},\Omega}(z)
+=\sum_{c=1}^{K}\frac{\omega_c}{|C_c|}
+\sum_{i\in C_c}\ell_i^{\mathrm{SP}}(z)$.
+در صورت $\omega_c=1/K$، گرادیان آن برابر است با:
+\begin{equation}\label{cmp:eq:ch3-softplus-js-policy-gradient}
+\boxed{
+\nabla_z\mathcal L_{\mathrm{SP},U}
+=\frac1K\sum_{c=1}^{K}\frac1{|C_c|}
+\sum_{i\in C_c}\sum_{r=1}^{K}
+\bigl(w_{i,r}^{\mathrm{SP}}-\mathbf1\{r=c\}\bigr)
+\nabla_z S_{i,r}.
+}
+\end{equation}
+برای وزن‌های عمومی $\Omega$، تنها $1/K$ در جمع بیرونی
+با $\omega_c$ جایگزین می‌شود؛ مشتق نمونه تغییر نمی‌کند.
+
+در ناحیه‌ای که مؤلفه‌های لازم مثبت و نگاشت گشت
+با ماسک‌های ثابت مشتق‌پذیر است، با استفاده از
+رابطه~\eqref{cmp:eq:ch3-margin-JS-partials}،
+مشتق امتیاز هر نامزد از \emph{دو مسیر} به‌دست می‌آید:
+\begin{equation}\label{cmp:eq:ch3-softplus-js-score-chain}
+\boxed{
+\begin{aligned}
+\nabla_z S_{i,r}
+=-\frac1{2\log2}\sum_{u=1}^{K}\Bigg[
+&\log\frac{2U_{i,r}(u)}{U_{i,r}(u)+V_r(u)}
+\,\nabla_z U_{i,r}(u)\\
++&\log\frac{2V_r(u)}{U_{i,r}(u)+V_r(u)}
+\,\frac1{|C_r|}\sum_{j\in C_r}\nabla_z U_{j,r}(u)
+\Bigg].
+\end{aligned}}
+\end{equation}
+برای اعمال این فرمول به هموارسازی مثبت مشترکِ
+رابطه~\eqref{cmp:eq:ch3-stable-smoothed-representations}،
+باید $U_{i,r}$ و $V_r$ را با صورت‌های هموارشده
+جایگزین و ضرایب مشتق نگاشت هموارسازی را لحاظ کرد.
+حذف جملهٔ مشتق مرکز در آموزش آزاد مجاز نیست.
+در خانوادهٔ \lr{shared} مسیر بازنمایی نامزدها مشترک است،
+اما برای \lr{class} هر $U_{i,r}$ از سیاست فرضیهٔ $r$ می‌آید.
+
+\paragraph{تکیه‌گاه صفر و پیاده‌سازی واقعی.}
+رابطه~\eqref{cmp:eq:ch3-softplus-js-score-chain} فرمول
+داخلیِ مشتق‌پذیر است، نه مجوز جایگذاری لگاریتم صفر.
+در کد گشت دقیق، JSD با قرارداد $0\log0=0$،
+تابع $\operatorname{where}$، کف عددی در لگاریتم
+و $\operatorname{clamp}_{\min}(0)$ روی نتیجه اجرا می‌شود؛
+\emph{هموارسازی مثبت سراسری با $\eta>0$ در آن فعال نیست}.
+روی تکیه‌گاه‌های ساختاری ثابت، مؤلفه‌هایی که همواره صفرند
+مشتق صفر دارند و باید سهمشان جداگانه تفسیر شود.
+در مرز تغییر تکیه‌گاه، مقادیر بسیار کوچک، یا محل فعال‌شدن
+\lr{clamp}، مشتق صوری بالا لزوماً با مشتق انتخابی
+\lr{autograd} یکسان نیست؛ کنترل عددی این مرزها جداگانه لازم است.
+جزئیات مشتق و حدود اعتبار آن در
+بخش~\ref{app:ch3-softplus-gradient-proof}
+از پیوست~\ref{app:ch3-proofs}
+آمده‌اند.
+
+\paragraph{از گرادیان تا تغییر واقعی logits.}
+اگر $g^{(t)}=\nabla_z\mathcal L_{\mathrm{SP},U}(z^{(t)})$
+باشد، این گرادیان \emph{خودِ آپدیت} نیست.
+برای Adam استاندارد، بدون کاهش وزن یا اصلاح اضافی، با
+نرخ یادگیری $\eta_{\mathrm A}$ و ممان‌های $m^{(t)},v^{(t)}$ داریم:
+\begin{equation}\label{cmp:eq:ch3-adam-logit-update}
+\boxed{
+\begin{aligned}
+m^{(t+1)}&=\beta_1m^{(t)}+(1-\beta_1)g^{(t)},\\
+v^{(t+1)}&=\beta_2v^{(t)}+(1-\beta_2)(g^{(t)})^{\odot2},\\
+\widehat m^{(t+1)}&=m^{(t+1)}/(1-\beta_1^{t+1}),\quad
+\widehat v^{(t+1)}=v^{(t+1)}/(1-\beta_2^{t+1}),\\
+\Delta z^{(t)}&=z^{(t+1)}-z^{(t)}
+=-\eta_{\mathrm A}
+\frac{\widehat m^{(t+1)}}{\sqrt{\widehat v^{(t+1)}}+
+\varepsilon_{\mathrm A}} .
+\end{aligned}}
+\end{equation}
+توان دوم، تقسیم و ریشه در این رابطه مؤلفه‌به‌مؤلفه‌اند؛
+$\beta_1,\beta_2$ ممان‌های Adam هستند و
+با $\beta$ توقف گشت تفاوت دارند.
+اگر logits خروجی تابع پارامتری $Z(\theta)$ باشند،
+تغییر واقعی از $Z(\theta^{(t+1)})-Z(\theta^{(t)})$
+به‌دست می‌آید، نه از جایگذاری مستقیم گرادیان $z$
+در فرمول مخصوص پارامتر مستقل.
+حتی در مدل‌های ماتریسی، $\Delta z^{(t)}$ را می‌توان
+مستقیماً از دو checkpoint پیاپی به‌دست آورد.
+نگاشت این تغییر به تغییر احتمال سیاست
+در بخش~\ref{cmp:subsec:ch3-noise-logpolicy-sensitivity}
+\emph{مستقل از زیان و بهینه‌ساز} بررسی می‌شود.
 
 \section{رابطهٔ سیاست و مراکز: دستیابی، چندگانگی و اصلاح سیاست}
 \label{cmp:sec:ch3-inverse-center-policy}
