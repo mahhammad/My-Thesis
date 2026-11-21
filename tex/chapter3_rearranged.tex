@@ -4449,6 +4449,215 @@ $\mathcal V_c^{\mathrm{fit}}$ در الگوریتم حاضر
 برای استنتاج \emph{فرضیه‌محور} ساخته شده‌اند
 و بدون این بازبرآورد قابل جایگزینی نیستند.
 
+\subsection{استنتاج برون‌نمونه‌ای و الگوریتم اعتبارسنجی}
+\label{cmp:subsec:ch3-heldout-validation-algorithm}
+الگوریتم~\ref{cmp:alg:ch3-learn-feature-policy} یک بستهٔ
+مدل $\mathcal M_{\mathrm{tr}}$ تولید می‌کند که
+پارامترهای سیاست، مراکز محاسبه‌شده با سیاست نهایی،
+مرجع آموزشی و قرارداد امتیازدهی را در بر دارد.
+برای ارزیابی نمونهٔ جدید $x$، \emph{نه} پارامترهای
+سیاست و \emph{نه} مراکز آموزش دوباره برازش می‌شوند.
+نمونهٔ پرس‌وجو، حتی اگر برچسبش در مجموعهٔ
+اعتبارسنجی موجود باشد، عضو گراف مرجع برچسب‌دار
+نیست؛ برچسب آن در ساخت بازنمایی به کار نمی‌رود.
+این قرارداد با تفکیک مجموعه‌ها در
+بخش~\ref{subsec:ch4-data-splits} نیز سازگار است.
+
+\paragraph{گام نخست پرس‌وجو در برابر گشت آموزشی.}
+برای هر ویژگی مشاهده‌شدهٔ $b$ از نمونهٔ جدید،
+$D_b^{\mathrm{tr}}=\{X_j\in D_{\mathrm{tr}}:
+b\in A_{X_j}\}$ مجموعهٔ مقصدهای آموزشیِ
+دارای آن ویژگی است. با همان وزن کرنل
+رابطه~\eqref{cmp:eq:ch3-edge-weight}،
+توزیع \emph{گام نخست} را به‌شکل زیر می‌سازیم:
+\begin{equation}\label{cmp:eq:ch3-heldout-initial-transition}
+q_b^{(x)}(j\mid x)=
+\frac{w_b(x,X_j)}
+{\sum_{X_k\in D_b^{\mathrm{tr}}}w_b(x,X_k)},
+\qquad X_j\in D_b^{\mathrm{tr}}.
+\end{equation}
+این رابطه فقط برای ویژگی دارای مقدار مشاهده‌شده
+در $x$ و مخرج مثبت به کار می‌رود؛ ویژگی‌های
+ناموجود یا بدون مقصد معتبر از انتخاب نخست
+حذف می‌شوند. اگر هیچ ویژگی قابل‌انتخابی
+باقی نماند، پیش‌بینی در این قرارداد
+تعریف نشده است و باید به‌جای ساخت
+احتمال مصنوعی، وضعیت نامعتبر گزارش شود.
+
+با سیاست آغازِ مجاز
+$\pi_{\star}^{[c]}(b\mid x,\bot)$،
+توزیع حالت پس از گام اول برابر است با
+\begin{equation}\label{cmp:eq:ch3-heldout-first-state}
+\nu_{x,1}^{[c]}(j,b)
+=\pi_{\star}^{[c]}(b\mid x,\bot)\,
+q_b^{(x)}(j\mid x).
+\end{equation}
+از گام دوم به بعد، گشت فقط روی
+نمونه--ویژگی‌های مجموعهٔ آموزش ادامه
+می‌یابد؛ توزیع‌های عمودی از
+$D_b^{\mathrm{tr}}\setminus\{X_i\}$ برای
+گرهٔ جاری $X_i$ ساخته می‌شوند.
+چون $x\notin D_{\mathrm{tr}}$ است،
+نیازی به حذف مبدأ پرس‌وجو از گره‌های
+آموزشی نیست. همین تفاوت، استفادهٔ
+بدون تغییر از فراخوانی گشت
+\emph{مبدأ آموزشی} را نامعتبر می‌کند.
+
+برای اختصار،
+$\operatorname{QueryExactWalk}(x,c;\mathcal M_{\mathrm{tr}})$
+به این قرارداد اشاره دارد: حالت اولیهٔ
+رابطه~\eqref{cmp:eq:ch3-heldout-first-state}،
+ادامهٔ گشت روی مرجع آموزش با سازوکار
+$\operatorname{Advance}$ در
+الگوریتم~\ref{cmp:alg:ch3-advance-walk-state}،
+ضرایب $\alpha_t^{(H)}$ از
+الگوریتم~\ref{cmp:alg:ch3-capped-walk-weights}
+و جمع وزن‌دار برچسب \emph{مقصدهای آموزش}
+مانند الگوریتم~\ref{cmp:alg:ch3-exact-walk-expectation}.
+این نام، یک \emph{فراخوانی برون‌نمونه‌ای}
+است، نه الگوریتم آموزشی چهارم یا روشی
+مبتنی بر مونت‌کارلو. برای هر فرضیهٔ $c$،
+خروجی آن $\mathscr Y_x^{[c]}\in\Delta_K$
+است؛ شرط نرمال‌بودن فقط در صورت اعتبار
+همهٔ انتقال‌های لازم برقرار خواهد بود.
+
+\paragraph{سیاست شرطی و قابلیت پیش‌بینی برون‌نمونه‌ای.}
+در خانوادهٔ \lr{shared} بازنمایی پرس‌وجو
+بین همهٔ طبقات نامزد مشترک است؛ در خانوادهٔ
+\lr{class} برای هر فرضیهٔ طبقهٔ مبدأ $c$
+گشت جداگانه اجرا و فقط با مرکز سازگارِ
+$\mathcal V_c^{\mathrm{fit}}$ مقایسه می‌شود.
+این همان روش فرضیه‌محور
+رابطه~\eqref{cmp:eq:ch3-class-hypothesis-inference}
+است. برای خانواده‌های آزاد \lr{node}
+و \lr{node\_class}، سطر آغاز مخصوص
+نمونهٔ جدید در پارامترهای آموزش وجود ندارد؛
+ازاین‌رو تنها در صورت ارائهٔ \emph{قاعدهٔ آغاز
+برون‌گرافِ ازپیش‌تعیین‌شده} می‌توان از
+الگوریتم زیر استفاده کرد.
+راه‌حل مبتنی بر سیاست میانگینِ
+رابطه~\eqref{cmp:eq:ch3-mean-policy-inference}
+قرارداد متفاوتی است: در آن باید مراکز
+نیز با همان سیاست میانگین ساخته شده باشند،
+نه با مراکز فرضیه‌محور فعلی.
+
+\begin{algorithm}[!htbp]
+\caption{استنتاج و اعتبارسنجی با سیاست، مراکز و مرجع آموزشی ثابت}
+\label{cmp:alg:ch3-heldout-validation}
+\begin{algorithmic}[1]
+\REQUIRE مدل منجمد $\mathcal M_{\mathrm{tr}}$؛
+ویژگی‌ها و ماسک‌های پرس‌وجو
+$X_{\mathrm{val}},M_{\mathrm{val}}$؛
+برچسب‌های $Y_{\mathrm{val}}$ تنها برای ارزیابی؛
+قاعدهٔ آغاز برون‌گراف، اگر خانوادهٔ سیاست به آن نیاز دارد
+\ENSURE امتیازهای $s_{x,c}$،
+پیش‌بینی‌های $\widehat y_x$،
+احتمال‌های تخمینی $\widehat p_{x,c}$ و،
+در صورت وجود برچسب، گزارش اعتبارسنجی $\mathcal R_{\mathrm{val}}$
+\STATE بازیابی $\theta^{\mathrm{fit}}$،
+$\mathcal V^{\mathrm{fit}}$،
+گراف و برچسب‌های مرجع Train و
+$\mathsf{cfg}$ از $\mathcal M_{\mathrm{tr}}$
+\STATE ثابت نگه‌داشتن تمام مؤلفه‌های مدل؛
+هیچ گام گرادیان یا بازبرآورد مرکز انجام نشود
+\FORALL{$x\in X_{\mathrm{val}}$}
+    \STATE تعیین ویژگی‌های مشاهده‌شده و
+    مقصدهای معتبر در مرجع Train
+    \IF{هیچ ویژگی با مقصد معتبر وجود ندارد}
+        \STATE علامت‌گذاری $x$ به‌عنوان
+        \textbf{فاقد پیش‌بینی معتبر}؛ ادامه با پرس‌وجوی بعدی
+    \ENDIF
+    \IF{سیاست مستقل از فرضیهٔ طبقهٔ مبدأ است}
+        \STATE $\mathscr Y_x^{[\cdot]}\gets
+        \operatorname{QueryExactWalk}(x,\cdot;\mathcal M_{\mathrm{tr}})$
+        \STATE $\mathscr Y_x^{[c]}\gets
+        \mathscr Y_x^{[\cdot]}$ برای تمام $c=1,\ldots,K$
+    \ELSE
+        \FOR{$c=1,\ldots,K$}
+            \STATE $\mathscr Y_x^{[c]}\gets
+            \operatorname{QueryExactWalk}(x,c;\mathcal M_{\mathrm{tr}})$
+        \ENDFOR
+    \ENDIF
+    \FOR{$c=1,\ldots,K$}
+        \STATE $d_{x,c}\gets
+        D(\mathscr Y_x^{[c]},\mathcal V_c^{\mathrm{fit}})$
+    \ENDFOR
+    \IF{$\mathsf{loss}=\mathrm{NLL}$}
+        \STATE $s_{x,:}\gets
+        \operatorname{Score}_{\mathsf{cfg}}(d_{x,:})$
+    \ELSE
+        \STATE $s_{x,c}\gets
+        1-\operatorname{JSD}(\mathscr Y_x^{[c]},
+        \mathcal V_c^{\mathrm{fit}})/\log2$ برای تمام $c$
+    \ENDIF
+    \STATE $\widehat y_x\gets\arg\max_{c}s_{x,c}$
+    با قاعدهٔ قطعی رفع تساویِ ثبت‌شده در مدل
+    \STATE $\widehat p_{x,:}\gets
+    \operatorname{Softmax}(s_{x,:})$
+    با قرارداد مقیاس/نرمال‌سازی ذخیره‌شده
+\ENDFOR
+\IF{$Y_{\mathrm{val}}$ برای ارزیابی موجود است}
+    \STATE استفاده از $Y_{\mathrm{val}}$
+    \textbf{فقط اکنون} برای مقایسه با $\widehat y$
+    \STATE $\mathsf{Conf}_{a,b}^{\mathrm{val}}\gets
+    \sum_{x\in X_{\mathrm{val}}}
+    \mathbf1\{y_x=a,\widehat y_x=b\}$
+    برای $a,b=1,\ldots,K$
+    \STATE محاسبهٔ Accuracy،
+    Recall هر طبقه و BA از $\mathsf{Conf}^{\mathrm{val}}$
+    \STATE محاسبهٔ Precision، حاشیهٔ صحیح و
+    زیان اعتبارسنجی طبق $\mathsf{cfg}$ در صورت تعریف
+    \STATE $\mathcal R_{\mathrm{val}}\gets
+    (\mathsf{Conf}^{\mathrm{val}},\mathrm{Accuracy},
+    \mathrm{Recall},\mathrm{BA},\text{سایر سنجه‌های معتبر})$
+\ENDIF
+\STATE \textbf{بازگردان}
+$(s,\widehat p,\widehat y,\mathcal R_{\mathrm{val}})$
+\end{algorithmic}
+\end{algorithm}
+
+در ارزیابی، Accuracy نسبت نمونه‌های درست
+به کل نمونه‌های معتبر و Recall طبقهٔ $c$
+برابر
+$\mathsf{Conf}_{c,c}^{\mathrm{val}}/
+\sum_b\mathsf{Conf}_{c,b}^{\mathrm{val}}$
+است. اگر تمام $K$ طبقه در مجموعهٔ
+اعتبارسنجی حضور داشته باشند،
+$\mathrm{BA}=K^{-1}\sum_c\mathrm{Recall}_c$
+خواهد بود. Precision طبقهٔ $c$
+نیز در صورت مثبت بودن شمار پیش‌بینی‌شده
+برای آن، برابر
+$\mathsf{Conf}_{c,c}^{\mathrm{val}}/
+\sum_a\mathsf{Conf}_{a,c}^{\mathrm{val}}$
+است. در نبودِ نمونهٔ واقعی برای یک طبقه،
+BA تعریف‌شده روی تمام $K$ طبقه
+قابل محاسبه نیست و باید وضعیت آن گزارش
+شود؛ Precision با مخرج صفر نیز بدون
+تعیین قرارداد، \emph{تعریف‌نشده} است.
+اگر پرس‌وجویی فاقد پیش‌بینی معتبر باشد،
+پوشش پیش‌بینی و تعداد موارد حذف‌شده باید
+گزارش شوند و نباید BA/Accuracy نمونه‌های
+پوشش‌داده‌شده را به‌جای معیار کل مجموعه
+معرفی کرد.
+
+برچسب واقعی $y_x$ برای محاسبهٔ
+حاشیهٔ نظارت‌شده
+$m_x=s_{x,y_x}-\max_{r\ne y_x}s_{x,r}$
+و زیان اعتبارسنجی، \emph{پس از}
+تکمیل همهٔ امتیازهای نامزد به کار می‌رود.
+در صورت انتخاب NLL، زیان با همان احتمال
+تخمینی تعریف می‌شود؛ برای سیگموئید و
+Softplus--JS باید به‌ترتیب از زیان
+رابطه~\eqref{cmp:eq:ch3-js-sigmoid-loss}
+و~\eqref{cmp:eq:ch3-softplus-js-training-objective}
+استفاده کرد. خروجی Softmax در اینجا
+\emph{احتمال تخمینی مدل} است، نه
+پسین واقعیِ معلوم از مولد داده.
+از همین سازوکار استنتاج می‌توان برای
+نمونهٔ آزمون مستقل \emph{پس از تثبیت مدل}
+استفاده کرد؛ انتخاب پارامتر، checkpoint
+یا آستانه بر اساس Test مجاز نیست.
+
 \section{رابطهٔ سیاست و مراکز: دستیابی، چندگانگی و اصلاح سیاست}
 \label{cmp:sec:ch3-inverse-center-policy}
 در روابط پیشین، سیاست انتخاب ویژگی معلوم بود و بازنمایی‌ها و مراکز طبقه‌ها از آن محاسبه می‌شدند. در این بخش، نخست وجود و یکتایی بازنمایی‌ها و مراکز حاصل از یک سیاست ثابت را با استفاده از خواص مارکوفی گشت بررسی می‌کنیم. سپس مسئلهٔ معکوس، محدودیت دست‌یابی به مراکز و امکان وجود سیاست‌های هم‌مرکز را توضیح می‌دهیم. در پایان، چارچوبی دومرحله‌ای برای بهبود سیاست با مراکز ثابت معرفی می‌کنیم. این صورت‌بندی‌ها بخشی از روش تحقیق‌اند و ارزیابی تجربی آن‌ها موضوعی جداگانه است.
