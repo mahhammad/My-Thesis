@@ -2266,24 +2266,24 @@ $R^{(\eta)}$ حذف می‌شود.
 
 \paragraph{پایداری نرمال‌سازی.}
 برای بردار فاصله‌های هموارشده
-$d=(d_1,\ldots,d_K)$،
+$\mathbf u=(u_1,\ldots,u_K)$،
 بردار مرکز‌شده
-$v=\overline d\mathbf1-d$
+$v=\overline u\mathbf1-\mathbf u$
 و $\sigma^2=\|v\|_2^2/K$
 را تعریف می‌کنیم. نگاشت
 \[
-z_\varepsilon(d)
-=\frac{v(d)}{\sqrt{\sigma(d)^2+\varepsilon^2}}
+z_\varepsilon(\mathbf u)
+=\frac{v(\mathbf u)}{\sqrt{\sigma(\mathbf u)^2+\varepsilon^2}}
 \]
 برای $\varepsilon>0$ مشتق‌پذیر است؛
-زیرا صورت و تابع $\sigma(d)^2$
-چندجمله‌ای درجه حداکثر دو در $d$
+زیرا صورت و تابع $\sigma(\mathbf u)^2$
+چندجمله‌ای درجه حداکثر دو در $\mathbf u$
 هستند و مخرج هیچ‌گاه صفر نیست.
 اگر همه فاصله‌ها مساوی باشند،
 $v=0$ و بنابراین $z_\varepsilon=0$.
 همچنین:
 \[
-\|z_\varepsilon(d)\|_2^2
+\|z_\varepsilon(\mathbf u)\|_2^2
 =\frac{\|v\|_2^2}{\sigma^2+\varepsilon^2}
 =K\frac{\sigma^2}{\sigma^2+\varepsilon^2}
 \le K.
@@ -2299,7 +2299,7 @@ $p_K^\star$ بیشتر نمی‌شود
 و زیان نمونه کمتر از
 $L_K$ نخواهد بود.
 اگر $\varepsilon>0$،
-$\|z_\varepsilon(d)\|_2<\sqrt K$
+$\|z_\varepsilon(\mathbf u)\|_2<\sqrt K$
 برای هر بردار فاصله
 متناهی است و بنابراین
 در حالت پایدار برابری
@@ -2326,15 +2326,15 @@ $z_\varepsilon$ دقیقاً وارون
 فرض کنیم یک نگاشت امتیاز
 $F:\mathbb R_{\ge0}^K\to\mathbb R^K$
 برای تمام $a>0$ و همه بردارهای
-فاصله $d$، ناوردایی
-$F(ad)=F(d)$ را داشته باشد
+فاصله $\mathbf u$، ناوردایی
+$F(a\mathbf u)=F(\mathbf u)$ را داشته باشد
 و در بردار صفر پیوسته باشد.
-برای هر $d$ ثابت و دنباله
+برای هر $\mathbf u$ ثابت و دنباله
 $a_n\downarrow0$، از ناوردایی
-داریم $F(d)=F(a_nd)$؛
+داریم $F(\mathbf u)=F(a_n\mathbf u)$؛
 اما پیوستگی در صفر نتیجه می‌دهد
 \[
-F(d)=\lim_{n\to\infty}F(a_nd)=F(0).
+F(\mathbf u)=\lim_{n\to\infty}F(a_n\mathbf u)=F(0).
 \]
 پس $F$ ناگزیر تابعی ثابت است.
 بنابراین یک نگاشت امتیاز
