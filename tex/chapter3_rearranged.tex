@@ -4793,7 +4793,7 @@ $\mathcal M_{\mathrm{tr}}$ به‌صورت ثابت
     \STATE \textbf{اکنون و فقط اکنون} استفاده از
     $Y_{\mathrm{val}}$ برای مقایسه با پیش‌بینی‌ها
     \STATE $\mathsf{Conf}_{a,b}^{\mathrm{val}}\gets
-    \sum_{\operatorname{id}(x)\in\mathcal Q_{\mathrm{ok}}}
+    \sum_{x\in X_{\mathrm{val}}:\,v_x=1}
     \mathbf1\{y_x=a,\widehat y_x=b\}$
     برای $a,b=1,\ldots,K$
     \STATE محاسبهٔ Accuracy، Recall هر طبقه،
