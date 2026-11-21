@@ -43,6 +43,32 @@ jobs:
               assert not bad,(str(source),bad)
           print('POST_TEMPLATE_STATIC_REFERENCES_PASS',len(sources))
           PY
+      - name: Use Python for frozen Chapter 4 chart reproduction (NO FIT)
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Recreate missing Chapter 4 figures from audited frozen CSV only
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check 'numpy>=1.24' 'matplotlib==3.10.0' 'arabic-reshaper>=3.0.0' 'python-bidi>=0.6.0'
+          python code/experiments/noise-loss-learning-dynamics-100/publication/build_t100_sweep_figures.py --write
+          python code/experiments/noise-loss-learning-dynamics-100/publication/build_revision_figures.py --write
+          python - <<'PY'
+          from pathlib import Path
+          root = Path('code/experiments/noise-loss-learning-dynamics-100/publication/figures')
+          needed = (
+              'revision-trends/ba_train_combined.png',
+              'revision-trends/ba_validation_combined.png',
+              'revision-trends/shared__separation_i.png',
+              'revision-trends/class__separation_i.png',
+              'final-sweep/policy_exposure_t100.png',
+              'final-sweep/policy_normalized_t100.png',
+          )
+          for rel in needed:
+              p = root / rel
+              assert p.is_file() and p.stat().st_size > 8000, p
+          print('CH4_FROZEN_FIGURES_AVAILABLE')
+          PY
       - name: Install XeLaTeX and Persian support
         run: |
           sudo apt-get update -qq
