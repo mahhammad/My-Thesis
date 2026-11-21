@@ -81,7 +81,7 @@
 \notationrow{p_0,\ P}{توزیع انتخاب نخست و ماتریس انتخاب ویژگی بدون ماسک}{cmp:eq:ch3-noise-policy-probabilities}
 \notationrow{p_b,\ z_b}{احتمال و logit یک ویژگی در یک سطر ثابت از سیاست بدون ماسک؛ سطر آغاز یا سطر انتقال}{cmp:eq:ch3-noise-logpolicy-differential}
 \notationrow{\mathrm d\log p_b}{تغییر دیفرانسیلی لگاریتم احتمال انتخاب در یک سطر بدون ماسک}{cmp:eq:ch3-noise-logpolicy-differential}
-\notationrow{\Delta z_b^{(t)},\ \Delta\log p_b^{(t)}}{تغییر متناهی logit و لگاریتم احتمال انتخاب در دو checkpoint پیاپی با مجموعهٔ ویژگی ثابت}{cmp:eq:ch3-noise-logpolicy-finite}
+\notationrow{\Delta z_b^{(t)},\ \Delta\log p_b^{(t)}}{تغییر متناهی logit و لگاریتم احتمال انتخاب در دو نقطهٔ وارسی پیاپی با مجموعهٔ ویژگی ثابت}{cmp:eq:ch3-noise-logpolicy-finite}
 \notationrow{\Delta\log(p_a/p_b)}{تغییر دقیق ترجیح نسبی دو ویژگی در یک سطر بدون ماسک}{cmp:eq:ch3-noise-logpolicy-ratio}
 \notationrow{q_t}{احتمال انتخاب یکی از ستون‌های نویزی در نوبت $t$ام، در فرایند کمکی بدون ماسک}{cmp:eq:ch3-noise-qt}
 \notationrow{h}{افق تحلیل انتخاب‌های متوالی ویژگی در فرایند کمکی؛ متمایز از سقف گشت $H$}{cmp:eq:ch3-noise-general-horizon}
@@ -203,7 +203,7 @@
 \notationrow{\ell_i^{\mathrm{SP}},\ \tau_{\mathrm{SP}}}{زیان Softplus مبتنی بر شباهت JS و پارامتر مقیاس آن}{cmp:eq:ch3-softplus-js-training-objective}
 \notationrow{S_{i,r},\ w_{i,r}^{\mathrm{SP}}}{امتیاز مقایسهٔ بازنمایی آموزشی با مرکز $r$ و وزن نرمال‌سازی با بیشینهٔ هموار آن در گرادیان Softplus؛ نه احتمال انتخاب ویژگی}{cmp:eq:ch3-softplus-js-score-weights}
 \notationrow{U_i,\ V_r}{بازنمایی یگانهٔ آموزشی و مرکز طبقهٔ $r$؛ هر دو وابسته به سیاست}{cmp:eq:ch3-softplus-js-score-chain}
-\notationrow{\mathcal L_{\mathrm{SP},\Omega}}{زیان Softplus--JS با وزن‌دهی طبقات؛ در حالت یکنواخت $\mathcal L_{\mathrm{SP},U}$}{cmp:eq:ch3-softplus-js-policy-gradient}
+\notationrow{\mathcal L_{\mathrm{SP},\Omega}}{زیان سافت‌پلاس--JS با وزن‌دهی طبقات؛ در حالت یکنواخت $\mathcal L_{\mathrm{SP},U}$}{cmp:eq:ch3-softplus-js-policy-gradient}
 \notationrow{g^{(t)},\ \eta_{\mathrm A}}{گرادیان زیان در گام آموزش و نرخ یادگیری Adam؛ متمایز از دمای Softplus}{cmp:eq:ch3-adam-logit-update}
 \notationrow{m^{(t)},\ v^{(t)},\ \beta_1,\ \beta_2,\ \varepsilon_{\mathrm A}}{ممان‌های مرتبهٔ اول/دوم Adam، ضرایب ممان و ثابت عددی مخرج}{cmp:eq:ch3-adam-logit-update}
 \notationrow{\mathcal I_{\mathrm{tr}}}{مجموعهٔ اندیس نمونه‌های آموزش در شبه‌کد یادگیری}{cmp:subsec:ch3-policy-training-pseudocode}
@@ -213,7 +213,7 @@
 \notationrow{\mathsf{cfg},\ \mathsf{loss}}{قرارداد امتیازدهی و نوع تابع هدف آموزش}{cmp:alg:ch3-learn-feature-policy}
 \notationrow{\chi_{\mathrm{opt}}}{حالت بهینه‌ساز آموزش؛ ممان‌ها و شمار گام در Adam}{cmp:alg:ch3-learn-feature-policy}
 \notationrow{\theta^{\mathrm{fit}},\ \mathcal V^{\mathrm{fit}}}{پارامتر و مراکز بازبرآوردشده پس از پایان آموزش؛ متمایز از مراکز هدف معکوس $\mathcal V^\star$}{cmp:alg:ch3-learn-feature-policy}
-\notationrow{\mathcal M_{\mathrm{tr}}}{بستهٔ مدل آموخته‌شده، شامل سیاست و مراکز، مرجع Train و قرارداد امتیاز}{cmp:alg:ch3-learn-feature-policy}
+\notationrow{\mathcal M_{\mathrm{tr}}}{بستهٔ مدل آموخته‌شده، شامل سیاست و مراکز، مرجع آموزش و قرارداد امتیاز}{cmp:alg:ch3-learn-feature-policy}
 \notationgroup{استنتاج برون‌نمونه‌ای و اعتبارسنجی}
 \notationrow{\mathscr Y_x^{[c]}}{بازنمایی پرس‌وجوی بدون برچسب $x$ با سیاست نامزد $c$؛ مراکز آموزش در آزمون ثابت‌اند}{cmp:eq:ch3-heldout-first-state}
 \notationrow{\widehat y_{\mathrm{self}}(x)}{قاعدهٔ کمترین ناهمانندی با مرکز خودی؛ مبنای مقایسه}{cmp:eq:ch3-class-hypothesis-self-distance}
@@ -223,7 +223,7 @@
 \notationrow{\mathfrak a,\ \pi_\star^{[c]}}{قرارداد آغاز پرس‌وجو و سیاست آغاز تحت فرضیهٔ طبقهٔ نامزد}{cmp:eq:ch3-heldout-first-state}
 \notationrow{\nu_{x,1}^{[c]}}{توزیع حالت گشت برون‌نمونه‌ای بلافاصله پس از گام اول}{cmp:eq:ch3-heldout-first-state}
 \notationrow{\mathcal Q_{\mathrm{ok}}}{شناسه‌های پرس‌وجوهایی که پیش‌بینی معتبر دارند}{cmp:alg:ch3-heldout-validation}
-\notationrow{B_x}{مجموعه ویژگی‌های مشاهده‌شدهٔ پرس‌وجو با مقصد عمودی معتبر در Train}{cmp:alg:ch3-heldout-predict-one}
+\notationrow{B_x}{مجموعه ویژگی‌های مشاهده‌شدهٔ پرس‌وجو با مقصد عمودی معتبر در آموزش}{cmp:alg:ch3-heldout-predict-one}
 \notationrow{v_x}{نشانگر معتبر بودن پیش‌بینی یک پرس‌وجو؛ از این نماد در سنجش معیارها استفاده نمی‌شود مگر با مقدار یک}{cmp:alg:ch3-heldout-predict-one}
 \notationrow{\mathcal Q_{\mathrm{bad}}}{شناسه‌های پرس‌وجوهای فاقد پیش‌بینی معتبر}{cmp:alg:ch3-heldout-validation}
 \notationrow{\mathsf{Conf}^{\mathrm{val}},\ \mathcal R_{\mathrm{val}}}{ماتریس اغتشاش و گزارش معیارهای اعتبارسنجی با مدل ثابت}{cmp:alg:ch3-heldout-validation}
