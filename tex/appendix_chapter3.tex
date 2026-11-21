@@ -2855,17 +2855,17 @@ $m_{i,c,r}=2\delta h/\log2$
 در آن حالت استفاده کرد.
 
 \paragraph{گواه پایداری با تغییر نمونه و مراکز.}
-برای متریک $d=d_{\mathrm{JS}}$،
-اگر $d(P,P')\le\varepsilon_i$،
-$d(V_c,V_c')\le\varepsilon_c$ و
-$d(V_r,V_r')\le\varepsilon_r$،
+برای متریک $d_{\sqrt{\mathrm{JS}}}$،
+اگر $d_{\sqrt{\mathrm{JS}}}(P,P')\le\varepsilon_i$،
+$d_{\sqrt{\mathrm{JS}}}(V_c,V_c')\le\varepsilon_c$ و
+$d_{\sqrt{\mathrm{JS}}}(V_r,V_r')\le\varepsilon_r$،
 با نامساوی مثلثی به‌ترتیب:
 \[
 \begin{aligned}
-d(P',V_r')&\ge
-d(P,V_r)-\varepsilon_i-\varepsilon_r,\\
-d(P',V_c')&\le
-d(P,V_c)+\varepsilon_i+\varepsilon_c.
+d_{\sqrt{\mathrm{JS}}}(P',V_r')&\ge
+d_{\sqrt{\mathrm{JS}}}(P,V_r)-\varepsilon_i-\varepsilon_r,\\
+d_{\sqrt{\mathrm{JS}}}(P',V_c')&\le
+d_{\sqrt{\mathrm{JS}}}(P,V_c)+\varepsilon_i+\varepsilon_c.
 \end{aligned}
 \]
 تفاضل این دو رابطه
@@ -2878,8 +2878,8 @@ d(P,V_c)+\varepsilon_i+\varepsilon_c.
 نزدیک‌ترین مرکز است.
 از نامساوی مثلثی معکوس:
 \[
-d(P,V_r)-d(P,V_c)
-\le d(V_c,V_r)=\delta_{c,r}.
+d_{\sqrt{\mathrm{JS}}}(P,V_r)-d_{\sqrt{\mathrm{JS}}}(P,V_c)
+\le d_{\sqrt{\mathrm{JS}}}(V_c,V_r)=\delta_{c,r}.
 \]
 پس گواه پایداری
 در حالت مراکز بسیار
@@ -2905,7 +2905,7 @@ d(P,V_r)-d(P,V_c)
 \section{نگاشت هیلبرتی جنسن--شنون و کران خطای تصمیم}
 \label{app:ch3-js-error-proof}
 متن اصلی، تعریف متریک
-$d_{\mathrm{JS}}=\sqrt{\operatorname{JSD}}$
+$d_{\sqrt{\mathrm{JS}}}=\sqrt{\operatorname{JSD}}$
 و شباهت $s$ را برای تعبیر تراکم، جدایی مراکز
 و حاشیه تصمیم به کار می‌برد. در این بخش،
 برای کامل‌بودن زنجیره استدلال،
@@ -3054,8 +3054,8 @@ p_c\log\frac{2p_c}{p_c+q_c}
 \]
 این برابری نشان می‌دهد که نگاشت $\Phi$ \emph{ایزومتریک} است؛ به‌ویژه از یک‌به‌یک بودن نگاشت و خواص نرم هیلبرتی نتیجه می‌شود جذر JSD یک متریک است و:
 \begin{equation}\label{eq:app-ch3-js-triangle}
-d_{\mathrm{JS}}(P,R)\le
-d_{\mathrm{JS}}(P,Q)+d_{\mathrm{JS}}(Q,R).
+d_{\sqrt{\mathrm{JS}}}(P,R)\le
+d_{\sqrt{\mathrm{JS}}}(P,Q)+d_{\sqrt{\mathrm{JS}}}(Q,R).
 \end{equation}
 به‌علاوه، چون همه مؤلفه‌های $\Phi(P)(t)$ و $\Phi(Q)(t)$ نامنفی‌اند، ضرب داخلی آن‌ها نامنفی است. از رابطه مربع فاصله نتیجه می‌شود
 $0\le\operatorname{JSD}(P,Q)\le\log2$؛
@@ -3077,7 +3077,7 @@ $0\le\operatorname{JSD}(P,Q)\le\log2$؛
 =s(P,Q).
 \end{gathered}
 \end{equation}
-بنابراین $d_{\mathrm{JS}}$ فاصلهٔ هیلبرتی تصاویر است؛
+بنابراین $d_{\sqrt{\mathrm{JS}}}$ فاصلهٔ هیلبرتی تصاویر است؛
 $s$ نیز شباهت کسینوسی همان تصاویر را نشان می‌دهد.
 هر دو متقارن‌اند و $0\le s(P,Q)\le1$.
 همچنین $s(P,Q)=1$ اگر و فقط اگر $P=Q$.
@@ -3125,7 +3125,7 @@ s(e_c,P)>s(e_r,P).
 ترتیب احتمالات را حفظ می‌کند.
 از طرف دیگر،
 \[
-d_{\mathrm{JS}}(e_c,P)^2
+d_{\sqrt{\mathrm{JS}}}(e_c,P)^2
 =\log2\,[1-s(e_c,P)].
 \]
 بنابراین انتخاب کمترین فاصله نیز همین ترتیب را دارد.
@@ -3197,7 +3197,7 @@ $g'(p)=\log((1+p)/p)>0$.
 مقدار دقیق بیشینه عبارت است از:
 \begin{equation}\label{eq:app-ch3-js-max-distance-value}
 \boxed{
-\max_{Q\in\Delta_K}d_{\mathrm{JS}}(P,Q)^2
+\max_{Q\in\Delta_K}d_{\sqrt{\mathrm{JS}}}(P,Q)^2
 =\log2-\frac12\left[
 (1+p_*)\log(1+p_*)-p_*\log p_*
 \right].
@@ -3229,16 +3229,16 @@ Q=\left(0,\frac12,\frac12\right).
 یک طبقه واقعی $c$ با $\delta_c>0$ در رابطه~\eqref{cmp:eq:ch3-js-center-separation} را در نظر می‌گیریم. طبق نامساوی مثلثی، برای هر رقیب $r\ne c$:
 \[
 \begin{aligned}
-d_{\mathrm{JS}}(\mathscr Y_i,\mathcal V_r)
-&\ge d_{\mathrm{JS}}(\mathcal V_c,\mathcal V_r)
--d_{\mathrm{JS}}(\mathscr Y_i,\mathcal V_c)\\
-&\ge\delta_c-d_{\mathrm{JS}}(\mathscr Y_i,\mathcal V_c).
+d_{\sqrt{\mathrm{JS}}}(\mathscr Y_i,\mathcal V_r)
+&\ge d_{\sqrt{\mathrm{JS}}}(\mathcal V_c,\mathcal V_r)
+-d_{\sqrt{\mathrm{JS}}}(\mathscr Y_i,\mathcal V_c)\\
+&\ge\delta_c-d_{\sqrt{\mathrm{JS}}}(\mathscr Y_i,\mathcal V_c).
 \end{aligned}
 \]
-پس اگر $d_{\mathrm{JS}}(\mathscr Y_i,\mathcal V_c)<\delta_c/2$ باشد، فاصله نمونه از مرکز واقعی از فاصله تمام مراکز رقیب کمتر است و طبقه‌بندی درست خواهد بود. بنابراین برای شاخص خطا می‌توان نوشت:
+پس اگر $d_{\sqrt{\mathrm{JS}}}(\mathscr Y_i,\mathcal V_c)<\delta_c/2$ باشد، فاصله نمونه از مرکز واقعی از فاصله تمام مراکز رقیب کمتر است و طبقه‌بندی درست خواهد بود. بنابراین برای شاخص خطا می‌توان نوشت:
 \begin{equation}\label{eq:app-ch3-js-error-indicator}
 \mathbf1_{\{\widehat y_i\ne c\}}
-\le\mathbf1_{\{d_{\mathrm{JS}}(\mathscr Y_i,\mathcal V_c)\ge\delta_c/2\}}
+\le\mathbf1_{\{d_{\sqrt{\mathrm{JS}}}(\mathscr Y_i,\mathcal V_c)\ge\delta_c/2\}}
 \le\frac{4\,\operatorname{JSD}(\mathscr Y_i,\mathcal V_c)}
 {\delta_c^2}.
 \end{equation}

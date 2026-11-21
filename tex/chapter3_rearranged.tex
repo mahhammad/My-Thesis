@@ -1244,14 +1244,19 @@ $\mathcal V\in\mathbb R^{K\times K}$ قرار می‌دهیم.
 در زیربخش بعد انتخاب و توجیه می‌کنیم.
 
 \paragraph{ناهمانندی نمونه و مرکز.}
-برای مقایسهٔ دو توزیع احتمال از سنجهٔ ناهمانندی
-$d(P,Q)\in[0,+\infty]$ استفاده می‌کنیم که مقدار کوچک‌تر
-آن بیانگر سازگاری بیشتر است. لازم نیست این سنجه
-متقارن باشد یا نامساوی مثلثی را ارضا کند.
+برای مقایسهٔ دو توزیع احتمال، شناسهٔ سنجهٔ ناهمانندی را
+$\psi\in\{\mathrm{KL},\mathrm{JS},\sqrt{\mathrm{JS}}\}$
+و تابع انتخاب‌شده را $d_\psi(P,Q)\in[0,+\infty]$
+در نظر می‌گیریم؛ مقدار کوچک‌تر آن بیانگر سازگاری بیشتر است.
+در این قرارداد، $D$ نماد مجموعه‌داده و $d=|A_D|$ شمار ویژگی‌هاست،
+درحالی‌که $d_\psi$ تابع ناهمانندی است.
+لازم نیست همهٔ این سنجه‌ها متقارن باشند
+یا نامساوی مثلثی را ارضا کنند.
 در حالت بازنمایی مشترک، ناهمانندی نمونهٔ $X_i$
 با مرکز طبقهٔ نامزد $c$ را تعریف می‌کنیم:
 \begin{equation}\label{cmp:eq:ch3-general-center-dissimilarity}
-d_{i,c}:=d(\mathscr Y_i,\mathcal V_c).
+d_{i,c}^{(\psi)}:=d_\psi(\mathscr Y_i,\mathcal V_c),
+\qquad d_{i,c}:=d_{i,c}^{(\psi)}\quad(\psi\text{ ثابت}).
 \end{equation}
 در تمام نامزدها، همین سنجه و همین قرارداد محاسبه به کار می‌رود.
 
@@ -1275,7 +1280,7 @@ d_{i,c}:=d(\mathscr Y_i,\mathcal V_c).
 \boxed{
 \widehat y_i
 =\underset{c}{\arg\max}\;\widehat p_{i,c}
-=\underset{c}{\arg\min}\;d(\mathscr Y_i,\mathcal V_c).
+=\underset{c}{\arg\min}\;d_\psi(\mathscr Y_i,\mathcal V_c).
 }
 \end{equation}
 این قاعده به غالب‌بودن برچسب واقعی در همسایگی نمونه
@@ -1570,7 +1575,7 @@ $M=(P+Q)/2$ را در نظر می‌گیریم. واگرایی
 بنابراین فاصله موردنظر به‌صورت زیر تعریف می‌شود:
 \begin{equation}\label{cmp:eq:ch3-js-distance}
 \boxed{
-d_{\mathrm{JS}}(P,Q)
+d_{\sqrt{\mathrm{JS}}}(P,Q)
 =\|\Phi(P)-\Phi(Q)\|_{\mathcal H}
 =\sqrt{\operatorname{JSD}(P,Q)}.
 }
@@ -1643,7 +1648,7 @@ $s=1-\operatorname{JSD}/\log2$
 اثبات ویژگی‌های نگاشت، فرمول‌های انتگرالی،
 کرنل مثبت نیمه‌معین، تقعر و خاصیت یک‌داغ
 در پیوست~\ref{app:ch3-js-error-proof} آمده است.
-پس متریک $d_{\mathrm{JS}}$ و شباهت $s$
+پس متریک $d_{\sqrt{\mathrm{JS}}}$ و شباهت $s$
 هر دو از \emph{همان تصاویر هیلبرتی با نرم ثابت}
 به‌دست می‌آیند، اما نقش متفاوتی دارند:
 اولی فاصله و دومی شباهت مبتنی بر ضرب داخلی است؛
@@ -1659,9 +1664,9 @@ $s$ خود متریک فاصله نیست.
 \begin{equation}\label{cmp:eq:ch3-js-farthest-vertex}
 \boxed{
 \begin{aligned}
-\max_{Q\in\Delta_K}d_{\mathrm{JS}}(P,Q)
-&=\max_{1\le j\le K}d_{\mathrm{JS}}(P,e_j)\\
-&=d_{\mathrm{JS}}(P,e_{j_*}),
+\max_{Q\in\Delta_K}d_{\sqrt{\mathrm{JS}}}(P,Q)
+&=\max_{1\le j\le K}d_{\sqrt{\mathrm{JS}}}(P,e_j)\\
+&=d_{\sqrt{\mathrm{JS}}}(P,e_{j_*}),
 \qquad j_*\in\arg\min_j p_j.
 \end{aligned}}
 \end{equation}
@@ -1875,7 +1880,7 @@ $\omega_c$ و نمونه‌های هر طبقه به‌طور یکسان است.
 
 \paragraph{تعبیر هندسی و شباهتی دو معیار.}
 از برابری
-$d_{\mathrm{JS}}(P,Q)^2
+$d_{\sqrt{\mathrm{JS}}}(P,Q)^2
 =\operatorname{JSD}(P,Q)
 =\log2\,[1-s(P,Q)]$
 می‌توان دو معیار را، بدون تغییر تعریف
@@ -1893,12 +1898,12 @@ $d_{\mathrm{JS}}(P,Q)^2
 R_{\mathrm{JS}}
 &=\sum_c\frac{\omega_c}{|C_c|}
 \sum_{i\in C_c}
-d_{\mathrm{JS}}(\mathscr Y_i,\mathcal V_c)^2
+d_{\sqrt{\mathrm{JS}}}(\mathscr Y_i,\mathcal V_c)^2
 =\log2\,(1-\overline s_{\mathrm{in}}),\\
 R_{\sqrt{\mathrm{JS}}}
 &=\sum_c\frac{\omega_c}{|C_c|}
 \sum_{i\in C_c}
-d_{\mathrm{JS}}(\mathscr Y_i,\mathcal V_c)\\
+d_{\sqrt{\mathrm{JS}}}(\mathscr Y_i,\mathcal V_c)\\
 &=\sqrt{\log2}\,
 \sum_c\frac{\omega_c}{|C_c|}
 \sum_{i\in C_c}
@@ -2240,7 +2245,7 @@ D_{\mathrm{KL}}(\mathcal V_c\|\overline{\mathcal V})
 \boxed{
 W_c^{\mathrm{JS}}=R_{c,\mathrm{JS}}
 =\frac1{|C_c|}\sum_{i\in C_c}
-d_{\mathrm{JS}}(\mathscr Y_i,\mathcal V_c)^2.
+d_{\sqrt{\mathrm{JS}}}(\mathscr Y_i,\mathcal V_c)^2.
 }
 \end{equation}
 مقدار کوچک‌تر $W_c^{\mathrm{JS}}$ نشان می‌دهد بازنمایی‌های طبقه $c$ در اطراف مرکز تعریف‌شده آن فشرده‌ترند. توجه کنیم $\mathcal V_c$ از اصل درست‌نمایی و میانگین حسابی به‌دست آمده است؛ در اینجا ادعا نمی‌کنیم که لزوماً کمینه‌کننده مجموع فاصله‌های مربعی جنسن--شنون نیز هست.
@@ -2248,13 +2253,13 @@ d_{\mathrm{JS}}(\mathscr Y_i,\mathcal V_c)^2.
 ویژگی دوم، \textbf{جدایی مراکز} است. در طبقه‌بندی نزدیک‌ترین مرکز، فاصله از نزدیک‌ترین رقیب اهمیت دارد؛ ازاین‌رو برای هر طبقه تعریف می‌کنیم:
 \begin{equation}\label{cmp:eq:ch3-js-center-separation}
 \boxed{\delta_c
-=\min_{r\ne c}d_{\mathrm{JS}}(\mathcal V_c,\mathcal V_r),
+=\min_{r\ne c}d_{\sqrt{\mathrm{JS}}}(\mathcal V_c,\mathcal V_r),
 \qquad K\ge2.}
 \end{equation}
 بزرگ بودن $\delta_c$ به معنی دور بودن مرکز طبقه $c$ از همه مراکز رقیب است. درحالی‌که معیار اطلاعات متقابل $I$ میزان تمایز کلی مراکز را می‌سنجد، به‌تنهایی کوچک نبودن همه $\delta_c$ها را تضمین نمی‌کند؛ برای نمونه، با مثبت بودن وزن همه طبقات، ممکن است $\mathcal V_1=\mathcal V_2\ne\mathcal V_3$ و در نتیجه $I>0$ باشد، ولی $\delta_1=\delta_2=0$ بماند.
 
 این دو کمیت جنبه‌های متفاوت کیفیت را می‌سنجند و باید \emph{هم‌زمان} بررسی شوند: کوچک بودن $W_c^{\mathrm{JS}}$ بدون جدایی مراکز برای تصمیم کافی نیست، و بزرگ بودن $\delta_c$ نیز اگر نمونه‌های طبقه از مرکز خود دور باشند، تضمین‌کننده تشخیص درست نیست. در واقع از نامساوی مثلثی نتیجه می‌شود که هر نمونه از طبقه $c$ با شرط
-$d_{\mathrm{JS}}(\mathscr Y_i,\mathcal V_c)<\delta_c/2$
+$d_{\sqrt{\mathrm{JS}}}(\mathscr Y_i,\mathcal V_c)<\delta_c/2$
 به مرکز واقعی خود از همه مراکز رقیب نزدیک‌تر است. بنابراین اندازه پراکندگی در مقایسه با \emph{مجذور فاصله نزدیک‌ترین رقیب}، نه هر کدام به‌تنهایی، برای کنترل خطای تصمیم اهمیت دارد. صورت کمی کران تجربی خطا، که در آزمایش‌های این مرحله به کار نمی‌رود، در بخش~\ref{app:ch3-js-error-proof} از پیوست، ذیل اثبات کران هندسی خطای تصمیم، آمده است.
 
 این چارچوب همچنین جایگاه معیارهای پیشین را روشن می‌کند: $R$ هزینه تجمیع توزیع‌های نمونه‌ها را با زیان لگاریتمی می‌سنجد؛ $T$، $BT$، $TNL$ و $BTNL$ انطباق مراکز با الگوهای هدف مشخص را ارزیابی می‌کنند؛ و $I$ جدایی اطلاعاتی مراکز را بدون بررسی مستقیم پراکندگی تک‌تک نمونه‌ها اندازه می‌گیرد. هیچ‌یک از این کمیت‌ها به‌تنهایی هر دو شرط فشردگی و جدایی را در قاعده تصمیم نزدیک‌ترین مرکز کنترل نمی‌کنند.
@@ -2508,7 +2513,7 @@ $R_{\sqrt{\mathrm{JS}}}$ میانگین
 که وزن هر عضو طبقه $c$ در آن
 $\omega_c/|C_c|$ است،
 از ینسن و کرانداری
-$d_{\mathrm{JS}}\le\sqrt{\log2}$
+$d_{\sqrt{\mathrm{JS}}}\le\sqrt{\log2}$
 به‌دست می‌آید:
 \[
 \bigl(R_{\sqrt{\mathrm{JS}}}\bigr)^2
@@ -2787,18 +2792,18 @@ s(e_c,P)
 \qquad 0<p_c<1.
 \end{aligned}
 \end{equation}
-پس در مقایسه با بردارهای یک‌داغ، هر دو معیار فاصله و شباهت ترتیب احتمال‌های طبقه‌ها را حفظ می‌کنند. همچنین از رابطه $s(P,Q)=1-d_{\mathrm{JS}}(P,Q)^2/\log2$ نتیجه می‌شود قاعده‌های تصمیم زیر دقیقاً یکسان‌اند:
+پس در مقایسه با بردارهای یک‌داغ، هر دو معیار فاصله و شباهت ترتیب احتمال‌های طبقه‌ها را حفظ می‌کنند. همچنین از رابطه $s(P,Q)=1-d_{\sqrt{\mathrm{JS}}}(P,Q)^2/\log2$ نتیجه می‌شود قاعده‌های تصمیم زیر دقیقاً یکسان‌اند:
 \begin{equation}\label{cmp:eq:ch3-js-decision}
 \boxed{
 \widehat y_i
-=\arg\min_c d_{\mathrm{JS}}(\mathscr Y_i,\mathcal V_c)
+=\arg\min_c d_{\sqrt{\mathrm{JS}}}(\mathscr Y_i,\mathcal V_c)
 =\arg\max_c s(\mathscr Y_i,\mathcal V_c).
 }
 \end{equation}
 این قاعده به نرمال‌سازی با بیشینهٔ هموار یا نرمال‌سازی مجدد امتیازها نیاز ندارد. البته حفظ ترتیب در مقایسه با $e_c$ به معنای برابری شباهت با احتمال پسین واقعی نیست؛ در مدل، بازنمایی همسایگی $\mathscr Y_i$ با مراکز طبقه‌ها مقایسه می‌شود. جزئیات اثبات خواص نگاشت، محاسبه فاصله و شباهت و حفظ ترتیب در بخش~\ref{app:ch3-js-error-proof} از پیوست~\ref{app:ch3-proofs} ارائه شده‌اند.
 
 \paragraph{حاشیه و کران هندسی خطای طبقه‌بندی.}
-برای نمونه‌ای از طبقه واقعی $c$، حاشیه تصمیم $M_i^{\mathrm{JS}}$ را مطابق رابطه~\eqref{cmp:eq:ch3-js-margin-distance-difference} در نظر می‌گیریم. مثبت بودن آن به معنای پیشی‌گرفتن طبقه واقعی از تمام رقباست. برخلاف تفاوت‌های نامحدود KL، این حاشیه همواره در بازه $[-1,1]$ قرار دارد. فاصله نزدیک‌ترین مرکز رقیب $\delta_c$ و پراکندگی $W_c^{\mathrm{JS}}$ پیش‌تر در روابط~\eqref{cmp:eq:ch3-js-center-separation} و \eqref{cmp:eq:ch3-js-within-dispersion} معرفی شدند. با نامساوی مثلثی، اگر $d_{\mathrm{JS}}(\mathscr Y_i,\mathcal V_c)<\delta_c/2$ باشد، فاصله نمونه از مرکز واقعی اکیداً کمتر از تمام مراکز رقیب است و تصمیم حتماً درست خواهد بود. بنابراین برای $\delta_c>0$، با نمونه‌گیری یکنواخت از طبقه $c$ و کاربرد نامساوی مارکوف:
+برای نمونه‌ای از طبقه واقعی $c$، حاشیه تصمیم $M_i^{\mathrm{JS}}$ را مطابق رابطه~\eqref{cmp:eq:ch3-js-margin-distance-difference} در نظر می‌گیریم. مثبت بودن آن به معنای پیشی‌گرفتن طبقه واقعی از تمام رقباست. برخلاف تفاوت‌های نامحدود KL، این حاشیه همواره در بازه $[-1,1]$ قرار دارد. فاصله نزدیک‌ترین مرکز رقیب $\delta_c$ و پراکندگی $W_c^{\mathrm{JS}}$ پیش‌تر در روابط~\eqref{cmp:eq:ch3-js-center-separation} و \eqref{cmp:eq:ch3-js-within-dispersion} معرفی شدند. با نامساوی مثلثی، اگر $d_{\sqrt{\mathrm{JS}}}(\mathscr Y_i,\mathcal V_c)<\delta_c/2$ باشد، فاصله نمونه از مرکز واقعی اکیداً کمتر از تمام مراکز رقیب است و تصمیم حتماً درست خواهد بود. بنابراین برای $\delta_c>0$، با نمونه‌گیری یکنواخت از طبقه $c$ و کاربرد نامساوی مارکوف:
 \begin{equation}\label{cmp:eq:ch3-js-class-error-bound}
 \boxed{
 \begin{aligned}
@@ -2829,7 +2834,7 @@ s(e_c,P)
 فاصله آن از مراکز رقیب چگونه تغییر کرده است. این موضوع را
 می‌توان در حالت یک بازنمایی مشترک برای هر نمونه، با
 نگاشت هیلبرتی $\Phi$ متناظر با متریک
-$d_{\mathrm{JS}}=\sqrt{\operatorname{JSD}}$ صورت‌بندی کرد.
+$d_{\sqrt{\mathrm{JS}}}=\sqrt{\operatorname{JSD}}$ صورت‌بندی کرد.
 اگر $z=\Phi(\mathscr Y_i)$، $v_c=\Phi(\mathcal V_c)$ و
 $v_r=\Phi(\mathcal V_r)$ باشند، حاشیه نسبت به رقیب $r$
 برابر است با
@@ -3129,8 +3134,8 @@ m_{i,c,r}
 \begin{equation}\label{cmp:eq:ch3-metric-robust-margin}
 \boxed{
 \gamma_{i,c,r}
-=d_{\mathrm{JS}}(\mathscr Y_i,\mathcal V_r)
--d_{\mathrm{JS}}(\mathscr Y_i,\mathcal V_c),
+=d_{\sqrt{\mathrm{JS}}}(\mathscr Y_i,\mathcal V_r)
+-d_{\sqrt{\mathrm{JS}}}(\mathscr Y_i,\mathcal V_c),
 \qquad
 \gamma_i=\min_{r\ne y_i}\gamma_{i,y_i,r}.
 }
@@ -3142,8 +3147,8 @@ m_{i,c,r}
 به $\mathcal V_c'$ تغییر کنند و
 \[
 \begin{aligned}
-d_{\mathrm{JS}}(\mathscr Y_i,\mathscr Y_i')&\le\varepsilon_i,\\
-d_{\mathrm{JS}}(\mathcal V_c,\mathcal V_c')&\le\varepsilon_c,
+d_{\sqrt{\mathrm{JS}}}(\mathscr Y_i,\mathscr Y_i')&\le\varepsilon_i,\\
+d_{\sqrt{\mathrm{JS}}}(\mathcal V_c,\mathcal V_c')&\le\varepsilon_c,
 \end{aligned}
 \]
 آنگاه برای هر رقیب $r$، نامساوی مثلثی
@@ -3254,10 +3259,11 @@ p_i(c)=
 \end{equation}
 این برابری توضیح می‌دهد که چگونه نرمال‌سازی با بیشینهٔ هموار می‌تواند امتیازهای مبتنی بر KL را به احتمال تبدیل کند؛ اما در مسئله ما $p_i$ مجهول است و رابطه بالا به‌تنهایی روشی برای محاسبه آن فراهم نمی‌کند.
 
-در صورت مبتنی بر KL، سنجهٔ عمومی $d$ را با
-واگرایی $D_{\mathrm{KL}}$ جایگزین می‌کنیم:
+در صورت مبتنی بر KL، $\psi=\mathrm{KL}$ را انتخاب می‌کنیم و
+$d_{\mathrm{KL}}(P,Q):=D_{\mathrm{KL}}(P\|Q)$ می‌گذاریم:
 \begin{equation}\label{cmp:eq:ch3-NLL-distance}
-d_{i,c}=D_{\mathrm{KL}}(\mathscr Y_i\|\mathcal V_c).
+d_{i,c}^{(\mathrm{KL})}=d_{\mathrm{KL}}(\mathscr Y_i,\mathcal V_c)
+=D_{\mathrm{KL}}(\mathscr Y_i\|\mathcal V_c).
 \end{equation}
 با جایگذاری این انتخاب در نرمال‌سازی
 رابطه~\eqref{cmp:eq:ch3-NLL-softmax}،
@@ -3299,33 +3305,38 @@ KL ممکن است نامتناهی شود و متقارن نیست.
 استفاده کرد. برای هر نمونه و طبقه نامزد می‌نویسیم:
 \begin{equation}\label{cmp:eq:ch3-NLL-JS-distances}
 \begin{aligned}
-d^{\mathrm{JS}}_{i,c}
-&=\operatorname{JSD}(\mathscr Y_i,\mathcal V_c),\\
-d^{\sqrt{\mathrm{JS}}}_{i,c}
-&=\sqrt{\operatorname{JSD}(\mathscr Y_i,\mathcal V_c)}.
+d_{i,c}^{(\mathrm{JS})}
+&=d_{\mathrm{JS}}(\mathscr Y_i,\mathcal V_c)
+=\operatorname{JSD}(\mathscr Y_i,\mathcal V_c),\\
+d_{i,c}^{(\sqrt{\mathrm{JS}})}
+&=d_{\sqrt{\mathrm{JS}}}(\mathscr Y_i,\mathcal V_c)
+=\sqrt{\operatorname{JSD}(\mathscr Y_i,\mathcal V_c)}.
 \end{aligned}
 \end{equation}
-برای هر انتخاب $D\in\{\mathrm{KL},\mathrm{JS},
+در اینجا $d_{\mathrm{JS}}(P,Q):=\operatorname{JSD}(P,Q)$
+و $d_{\sqrt{\mathrm{JS}}}$ متریک هیلبرتیِ
+رابطه~\eqref{cmp:eq:ch3-js-distance} است.
+برای هر انتخاب $\psi\in\{\mathrm{KL},\mathrm{JS},
 \sqrt{\mathrm{JS}}\}$ و مقیاس مثبت
-$\tau_D$، خطای نرمال‌سازی با بیشینهٔ هموار مبتنی بر فاصله را به‌صورت
+$\tau_\psi$، خطای نرمال‌سازی با بیشینهٔ هموار مبتنی بر فاصله را به‌صورت
 \begin{equation}\label{cmp:eq:ch3-NLL-distance-family}
 \boxed{
 \begin{aligned}
-\ell_i^{D,\tau_D}
-&=-\log\frac{\exp[-d^D_{i,y_i}/\tau_D]}
-{\sum_{r=1}^{K}\exp[-d^D_{i,r}/\tau_D]},\\
-NLL^{D,\tau_D}_\Omega
+\ell_i^{(\psi,\tau_\psi)}
+&=-\log\frac{\exp[-d_{i,y_i}^{(\psi)}/\tau_\psi]}
+{\sum_{r=1}^{K}\exp[-d_{i,r}^{(\psi)}/\tau_\psi]},\\
+NLL^{(\psi,\tau_\psi)}_\Omega
 &=\sum_{c=1}^{K}\frac{\omega_c}{|C_c|}
-\sum_{i\in C_c}\ell_i^{D,\tau_D}.
+\sum_{i\in C_c}\ell_i^{(\psi,\tau_\psi)}.
 \end{aligned}}
 \end{equation}
 تعریف می‌کنیم. مدل پیشین KL متناظر با $\tau_{\mathrm{KL}}=1$
 است. برای JS، اگر $\tau_{\mathrm{JS}}=\log2$ قرار دهیم،
-نرمال‌سازی با بیشینهٔ هموار روی $-d^{\mathrm{JS}}/\log2$ به دلیل
+نرمال‌سازی با بیشینهٔ هموار روی $-d_{i,:}^{(\mathrm{JS})}/\log2$ به دلیل
 ناوردایی نسبت به افزودن ثابت دقیقاً برابر نرمال‌سازی با بیشینهٔ هموار
-روی شباهت $s=1-d^{\mathrm{JS}}/\log2$ است؛
+روی شباهت $s_{i,:}=1-d_{i,:}^{(\mathrm{JS})}/\log2$ است؛
 این همان تعریف \emph{NLL شباهت JS} خواهد بود.
-در مقابل، نرمال‌سازی با بیشینهٔ هموار روی $-d^{\mathrm{JS}}$
+در مقابل، نرمال‌سازی با بیشینهٔ هموار روی $-d_{i,:}^{(\mathrm{JS})}$
 به دمای $\tau_{\mathrm{JS}}=1$ مربوط است و
 لزوماً احتمال‌های یکسانی تولید نمی‌کند.
 برای جذر JS نیز باید $\tau_{\sqrt{\mathrm{JS}}}$
@@ -3600,8 +3611,8 @@ S(v+b\mathbf1)=S(v),
 \end{equation}
 ضریب $\gamma$ معادل معکوس دمای Softmax برای
 خانوادهٔ ناهمانندی مورد استفاده است؛
-با نماد مقیاس $\tau_D>0$ در بخش توابع زیان،
-$\gamma=1/\tau_D$ خواهد بود.
+با نماد مقیاس $\tau_\psi>0$ در بخش توابع زیان،
+$\gamma=1/\tau_\psi$ خواهد بود.
 این پارامتر با پهنای $\tau$ در زیان سیگموئیدی
 متفاوت است.
 برای تمام $\gamma>0$، طبقه نزدیک‌ترین مرکز تغییر نمی‌کند،
@@ -3716,17 +3727,17 @@ NLL_{\mathrm{norm},\Omega}
 می‌توان فاصله‌ها را به‌طور مستقل نرمال کرد:
 \begin{equation}\label{cmp:eq:ch3-normalized-distance-family}
 \boxed{
-z_{i,c}^{D}
-=\frac{\overline d_i^{D}-d_{i,c}^{D}}
-{\sigma_i^D},
+z_{i,c}^{(\psi)}
+=\frac{\overline d_i^{(\psi)}-d_{i,c}^{(\psi)}}
+{\sigma_i^{(\psi)}},
 \quad
-(\sigma_i^D)^2
-=\frac1K\sum_r(d_{i,r}^{D}-\overline d_i^D)^2,
+(\sigma_i^{(\psi)})^2
+=\frac1K\sum_r(d_{i,r}^{(\psi)}-\overline d_i^{(\psi)})^2,
 \quad
-\overline d_i^D=\frac1K\sum_r d_{i,r}^D.
+\overline d_i^{(\psi)}=\frac1K\sum_r d_{i,r}^{(\psi)}.
 }
 \end{equation}
-در این رابطه $\sigma_i^D>0$ فرض شده است.
+در این رابطه $\sigma_i^{(\psi)}>0$ فرض شده است.
 اگر فاصله‌ها برابر باشند، قرارداد امتیاز صفر
 اعمال می‌شود. نرمال‌سازی نسبت به تغییر مقیاس
 مشترک فاصله‌های همان نمونه ناوردا و تصمیم
@@ -4339,7 +4350,7 @@ $K=3$ و $\tau_{\mathrm{SP}}=0.005$ به‌کار رفته‌اند؛
 $D_{\mathrm{tr}},Y_{\mathrm{tr}},M_{\mathrm{tr}}$؛
 خانوادهٔ سیاست، $\theta^{(0)}$، $H,\beta,\lambda$،
 وزن‌های $\Omega$ و قرارداد $\mathsf{cfg}$
-شامل $D,\tau_D,\tau,\tau_{\mathrm{SP}}$،
+شامل $\psi,\tau_\psi,\tau,\tau_{\mathrm{SP}}$،
 روش نرمال‌سازی و پایداری و
 $\mathsf{loss}\in\{\mathrm{NLL},\mathrm{sig},
 \mathrm{SP\!-\!JS}\}$؛ بهینه‌ساز و شمار گام $T$
@@ -4365,7 +4376,7 @@ $\chi_{\mathrm{opt}}\gets\operatorname{InitOptimizer}(\theta)$
     \FORALL{$i\in\mathcal I_{\mathrm{tr}}$}
         \FOR{$c=1,\ldots,K$}
             \STATE $d_{i,c}\gets
-            D(\mathscr Y_i(\theta),\mathcal V_c(\theta))$
+            d_\psi(\mathscr Y_i(\theta),\mathcal V_c(\theta))$
         \ENDFOR
         \IF{$\mathsf{loss}=\mathrm{NLL}$}
             \STATE $s_{i,:}\gets
@@ -4418,12 +4429,12 @@ $\mathcal M_{\mathrm{tr}}$ و، در صورت نیاز، $\chi_{\mathrm{opt}}$
 در شاخهٔ NLL، نگاشت
 $\operatorname{Score}_{\mathsf{cfg}}$
 دقیقاً قرارداد انتخاب‌شدهٔ
-$-d/\tau_D$ یا نرمال‌سازی مجاز بخش
+$-d/\tau_\psi$ یا نرمال‌سازی مجاز بخش
 \ref{cmp:sec:ch3-score-normalization-analysis}
 را اعمال می‌کند؛ این انتخاب باید در همهٔ
 نامزدها یکسان و در بستهٔ مدل ذخیره شود.
 در شاخه‌های سیگموئید و Softplus--JS،
-$D=\operatorname{JSD}$ و امتیازها با
+$\psi=\mathrm{JS}$ و امتیازها با
 شباهت نرمال‌شدهٔ JS ساخته می‌شوند.
 نقاط تساوی رقبا در حاشیهٔ سخت ممکن است
 مشتق‌پذیر نباشند؛ تقریب هموار
@@ -4633,7 +4644,7 @@ $v_x\in\{0,1\}$ نشانگر پیش‌بینی معتبر است
 \IF{$\mathsf{loss}=\mathrm{NLL}$}
     \FOR{$c=1,\ldots,K$}
         \STATE $d_{x,c}\gets
-        D(\mathscr Y_x^{[c]},\mathcal V_c^{\mathrm{fit}})$
+        d_\psi(\mathscr Y_x^{[c]},\mathcal V_c^{\mathrm{fit}})$
     \ENDFOR
     \STATE $s_{x,:}\gets
     \operatorname{Score}_{\mathsf{cfg}}(d_{x,:})$
@@ -7493,7 +7504,7 @@ $\delta_{\mathrm{sep}}>0$،
 داده، گراف، گشت یا آموزش
 سیاست حذف نمی‌شود.
 متریک
-$d_{\mathrm{JS}}(P,Q)=\sqrt{\operatorname{JSD}(P,Q)}$
+$d_{\sqrt{\mathrm{JS}}}(P,Q)=\sqrt{\operatorname{JSD}(P,Q)}$
 و نگاشت یک‌به‌یک
 $\Phi:\Delta_K\to\mathcal H$
 در روابط~\eqref{cmp:eq:ch3-js-Hilbert-map} و
