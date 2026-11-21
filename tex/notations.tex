@@ -34,7 +34,7 @@
 \notationrow{\mu_a}{متریک ویژگی a}{cmp:eq:ch3-edge-weight}
 \notationrow{\kappa_a}{تابع تبدیل فاصله به وزن}{cmp:eq:ch3-edge-weight}
 \notationrow{w_a(X_i,X_j)}{وزن ارتباط دو نمونه از دید یک ویژگی}{cmp:eq:ch3-edge-weight}
-\notationrow{K}{تعداد کلاس‌های برچسب‌دار}{cmp:eq:ch3-Y-script}
+\notationrow{K}{تعداد طبقه‌های برچسب‌دار}{cmp:eq:ch3-Y-script}
 \notationrow{y_j}{برچسب واقعی نمونه j}{cmp:eq:ch3-Y-script-entry}
 \notationrow{Y}{ماتریس یک‌داغ برچسب‌ها}{cmp:eq:ch3-Y-script}
 \notationgroup{گشت تصادفی و بازنمایی همسایگی}
@@ -63,8 +63,8 @@
 \notationrow{\rho_{c}}{وزن عضو طبقهٔ $c$ در ترکیب سیاست‌ها}{cmp:eq:ch3-mean-policy-inference}
 \notationrow{\overline\pi_s}{سیاست میانگینِ احتمال‌های انتخاب ویژگی اعضای خانواده}{cmp:eq:ch3-mean-policy-inference}
 \notationrow{Z=(z_{ab})}{ماتریس ثابت امتیاز سیاست}{cmp:eq:ch3-fixed-policy-matrix}
-\notationrow{Z^{\mathrm{node}},\ Z^{\mathrm{node,class}}}{امتیازهای عددی آزاد گره‌ای و گره--کلاس}{cmp:eq:ch3-policy-family-shapes}
-\notationrow{A_{c,b},\ B_{c,j,a,b}}{امتیاز شروع مشترک به‌ازای فرض کلاس مبدأ و انتقال گره‌ای}{cmp:eq:ch3-class-tied-start}
+\notationrow{Z^{\mathrm{node}},\ Z^{\mathrm{node,class}}}{امتیازهای عددی آزاد گره‌ای و گره--طبقه}{cmp:eq:ch3-policy-family-shapes}
+\notationrow{A_{c,b},\ B_{c,j,a,b}}{امتیاز شروع مشترک به‌ازای فرض طبقه مبدأ و انتقال گره‌ای}{cmp:eq:ch3-class-tied-start}
 \notationrow{\pi_s^U}{سیاست یکنواخت انتخاب ویژگی}{cmp:eq:ch3-uniform-policy}
 \notationrow{P_s^U}{ماتریس گذار نمونه‌ای سیاست یکنواخت}{cmp:eq:ch3-uniform-T}
 \notationrow{\mathsf Q_{i,b}^{(s)}}{توزیع برچسب مقصد پس از انتخاب یک ویژگی}{cmp:eq:ch3-feature-one-step-Q}
@@ -105,7 +105,7 @@
 \notationrow{\mathsf P_{s,ij}}{بلوک انتقال کامل}{cmp:eq:ch3-block-Tij}
 \notationrow{F_s,\ \mathsf S_s}{عامل‌های افقی و عمودی تجزیه بلوکی}{cmp:eq:ch3-block-factorization}
 \notationrow{\mathsf P_s}{ماتریس انتقال حالت‌های نمونه–ویژگی}{cmp:eq:ch3-block-factorization}
-\notationrow{\rho_s}{توزیع حالت بعد از گام نخست؛ غیر از وزن کلاس}{cmp:eq:ch3-block-first-step}
+\notationrow{\rho_s}{توزیع حالت بعد از گام نخست؛ غیر از وزن طبقه}{cmp:eq:ch3-block-first-step}
 \notationrow{\mathsf M_s^{(X)},\ \mathsf M_s^{(Y)}}{ماتریس‌های تجمیع حالت به شناسه نمونه و برچسب}{cmp:eq:ch3-state-aggregation-matrices}
 \notationrow{H,\ L_H}{سقف عمق و طول گشت سقف‌دار}{cmp:eq:ch3-capped-alpha}
 \notationrow{p_\ell^{(H)}}{احتمال طول گشت سقف‌دار}{cmp:eq:ch3-capped-alpha}
@@ -125,7 +125,7 @@
 \notationrow{\mathcal J_{i,b}^{(s)},\ \bar q_b^{(s)}}{مقصدهای مجاز و هستهٔ انتقال منتخب در شبه‌کد؛ کامل یا تنک}{cmp:eq:ch3-sparse-vertical-transition}
 \notationgroup{مراکز و معیارهای اطلاعاتی}
 \notationrow{C_c,\ \mathcal V_c}{مجموعه اندیس‌های طبقه $c$ و مرکز توزیعی آن}{cmp:eq:ch3-class-center}
-\notationrow{\mathcal V}{ماتریس مراکز کلاس‌ها}{cmp:eq:ch3-class-centers-matrix}
+\notationrow{\mathcal V}{ماتریس مراکز طبقه‌ها}{cmp:eq:ch3-class-centers-matrix}
 \notationrow{D_{\mathrm{KL}}(P\|Q)}{واگرایی کولبک–لایبلر}{cmp:eq:ch3-KL-definition}
 \notationrow{\eta_r,\ \overline P}{وزن گروه و میانگین توزیع‌های مخلوط؛ g شمار گروه‌ها}{cmp:eq:ch3-mixture-log-likelihood}
 \notationrow{H(P)}{آنتروپی شانون؛ غیر از سقف عددی H}{cmp:eq:ch3-KL-definition}
@@ -166,22 +166,22 @@
 \notationrow{d_{i,c}^{(\mathrm{JS})},\ d_{i,c}^{(\sqrt{\mathrm{JS}})}}{مقادیر ناهمانندی JSD و جذر آن میان نمونه و مرکز طبقه}{cmp:eq:ch3-NLL-JS-distances}
 \notationrow{\ell_i^{(\psi,\tau_\psi)},\ NLL_\Omega^{(\psi,\tau_\psi)}}{زیان‌های نرمال‌سازی با بیشینهٔ هموار برای ناهمانندی منتخب و مقیاس $\tau_\psi>0$}{cmp:eq:ch3-NLL-distance-family}
 \notationrow{z_{i,c}^{(\psi)}}{امتیاز نرمال‌شدهٔ طبقهٔ $c$ برای ناهمانندی منتخب $\psi$}{cmp:eq:ch3-normalized-distance-family}
-\notationrow{\widehat p_{i,c}}{احتمال تخمینی با Softmax}{cmp:eq:ch3-NLL-softmax}
+\notationrow{\widehat p_{i,c}}{احتمال تخمینی با نرمال‌سازی با بیشینهٔ هموار}{cmp:eq:ch3-NLL-softmax}
 \notationrow{\widehat y_i}{برچسب پیش‌بینی‌شده بر اساس مقایسهٔ بازنمایی نمونه و مراکز طبقات}{cmp:eq:ch3-class-center-decision}
 \notationrow{\ell_i}{زیان لگاریتمی نمونه}{cmp:eq:ch3-NLL-sample}
-\notationrow{NLL_\Omega}{NLL وزن‌دار روی کلاس‌ها}{cmp:eq:ch3-NLL-balanced}
-\notationrow{\gamma}{ضریب مقیاس ورودی Softmax}{cmp:eq:ch3-NLL-scaled-softmax}
+\notationrow{NLL_\Omega}{NLL وزن‌دار روی طبقه‌ها}{cmp:eq:ch3-NLL-balanced}
+\notationrow{\gamma}{ضریب مقیاس ورودی نرمال‌سازی با بیشینهٔ هموار}{cmp:eq:ch3-NLL-scaled-softmax}
 \notationrow{\overline d_i,\ \sigma_i}{میانگین و انحراف معیار فاصله‌ها}{cmp:eq:ch3-distance-statistics}
-\notationrow{z_{i,c}}{امتیاز نرمال‌شده نمونه و کلاس}{cmp:eq:ch3-normalized-score}
+\notationrow{z_{i,c}}{امتیاز نرمال‌شده نمونه و طبقه}{cmp:eq:ch3-normalized-score}
 \notationrow{\ell_i^{\mathrm{norm}}}{زیان نمونه با امتیاز نرمال‌شده}{cmp:eq:ch3-normalized-NLL}
-\notationrow{p_K^\star}{سقف احتمال Softmax با امتیاز مرکز‌شده و نرم ثابت}{cmp:eq:ch3-normalized-softmax-pmax}
+\notationrow{p_K^\star}{سقف احتمال نرمال‌سازی با بیشینهٔ هموار با امتیاز مرکز‌شده و نرم ثابت}{cmp:eq:ch3-normalized-softmax-pmax}
 \notationrow{L_K}{کف مثبت NLL متناظر با سقف احتمال}{cmp:eq:ch3-normalized-NLL-positive-floor}
 \notationrow{\eta}{ضریب هموارسازی مشترک توزیع‌های نمونه و مراکز؛ متمایز از وزن گروه $\eta_r$}{cmp:eq:ch3-stable-smoothed-representations}
 \notationrow{\varepsilon}{پارامتر مثبت پایداری مخرج نرمال‌سازی امتیاز؛ متمایز از جرم حذف‌شده $\varepsilon_r$}{cmp:eq:ch3-stable-normalized-score}
-\notationrow{M_{c,r}(X_i)}{حاشیه جدایی کلاس c از رقیب r}{cmp:eq:ch3-margin-definition}
+\notationrow{M_{c,r}(X_i)}{حاشیه جدایی طبقه c از رقیب r}{cmp:eq:ch3-margin-definition}
 \notationrow{a_{c,r},\ \Sigma_c}{بردار ضرایب و کوواریانس حاشیه}{cmp:eq:ch3-margin-coeff-cov}
-\notationrow{\mu_{c,r}}{میانگین حاشیه کلاس c در برابر رقیب r}{cmp:eq:ch3-margin-mean}
-\notationrow{\nu_{c,r}}{واریانس حاشیه کلاس c در برابر رقیب r}{cmp:eq:ch3-margin-variance}
+\notationrow{\mu_{c,r}}{میانگین حاشیه طبقه c در برابر رقیب r}{cmp:eq:ch3-margin-mean}
+\notationrow{\nu_{c,r}}{واریانس حاشیه طبقه c در برابر رقیب r}{cmp:eq:ch3-margin-variance}
 \notationrow{G_{c,r}}{کران کانتلی برای احتمال حاشیهٔ نامثبت}{cmp:eq:ch3-margin-pairwise}
 \notationrow{G_{c,r}^{\mathrm{Ch}}}{کران نمایی چرنوف برای حاشیهٔ تجربی}{cmp:eq:ch3-margin-Chernoff}
 \notationrow{J_{\mathrm{margin}}}{معیار کل جدایی حاشیه‌ای}{cmp:eq:ch3-margin-criterion}
@@ -190,14 +190,14 @@
 \notationrow{E_{\mathrm{bal}}^{\,\le0}}{خطای متوازن محافظه‌کارانه با شمارش تساوی حاشیه به‌عنوان خطا}{cmp:eq:ch3-js-hard-margin-error}
 \notationrow{m_i}{حاشیهٔ عمومی تصمیم بر اساس اختلاف امتیاز طبقهٔ واقعی و قوی‌ترین رقیب}{cmp:eq:ch3-general-decision-margin}
 \notationrow{M_i^{\mathrm{JS}}}{حاشیه تصمیم مبتنی بر شباهت JS}{cmp:eq:ch3-js-margin-distance-difference}
-\notationrow{m_{i,c,r}}{حاشیه زوجی JS نمونه از کلاس c در برابر رقیب r، با مراکز ثابت}{cmp:eq:ch3-fixed-center-pairwise-js-margin}
+\notationrow{m_{i,c,r}}{حاشیه زوجی JS نمونه از طبقه c در برابر رقیب r، با مراکز ثابت}{cmp:eq:ch3-fixed-center-pairwise-js-margin}
 \notationrow{\delta_{c,r},\ e_{c,r},\ h_{i,c,r}}{فاصلهٔ هیلبرتی دو مرکز، جهت واحد اتصال و فاصلهٔ علامت‌دار نمونه تا صفحهٔ عمودمنصف}{cmp:eq:ch3-js-margin-separation-factorization}
 \notationrow{\gamma_{i,c,r},\ \gamma_i}{حاشیهٔ اختلاف فاصله‌های متریک در برابر رقیب و کمینهٔ آن میان رقبا}{cmp:eq:ch3-metric-robust-margin}
 \notationrow{\ell_\tau(m),\ \tau}{زیان سیگموئیدی و پهنای هموارسازی؛ $\tau$ در مخرج حاشیه است}{cmp:eq:ch3-js-sigmoid-loss}
 \notationrow{g_\tau(m)}{اندازه حساسیت نسبت به حاشیه با بیشینه یک؛ نه گرادیان سیاست}{cmp:eq:ch3-js-sigmoid-normalized-sensitivity}
 \notationrow{\mathcal L_{\mathrm{sig}}}{میانگین وزن‌دار زیان سیگموئیدی؛ در حالت $\omega_c=1/K$ متوازن است}{cmp:eq:ch3-js-sigmoid-balanced-objective}
 \notationrow{\ell_i^{\mathrm{SP}},\ \tau_{\mathrm{SP}}}{زیان Softplus مبتنی بر شباهت JS و پارامتر مقیاس آن}{cmp:eq:ch3-softplus-js-training-objective}
-\notationrow{S_{i,r},\ w_{i,r}^{\mathrm{SP}}}{امتیاز مقایسهٔ بازنمایی آموزشی با مرکز $r$ و وزن Softmax آن در گرادیان Softplus؛ نه احتمال انتخاب ویژگی}{cmp:eq:ch3-softplus-js-score-weights}
+\notationrow{S_{i,r},\ w_{i,r}^{\mathrm{SP}}}{امتیاز مقایسهٔ بازنمایی آموزشی با مرکز $r$ و وزن نرمال‌سازی با بیشینهٔ هموار آن در گرادیان Softplus؛ نه احتمال انتخاب ویژگی}{cmp:eq:ch3-softplus-js-score-weights}
 \notationrow{U_i,\ V_r}{بازنمایی یگانهٔ آموزشی و مرکز طبقهٔ $r$؛ هر دو وابسته به سیاست}{cmp:eq:ch3-softplus-js-score-chain}
 \notationrow{\mathcal L_{\mathrm{SP},\Omega}}{زیان Softplus--JS با وزن‌دهی طبقات؛ در حالت یکنواخت $\mathcal L_{\mathrm{SP},U}$}{cmp:eq:ch3-softplus-js-policy-gradient}
 \notationrow{g^{(t)},\ \eta_{\mathrm A}}{گرادیان زیان در گام آموزش و نرخ یادگیری Adam؛ متمایز از دمای Softplus}{cmp:eq:ch3-adam-logit-update}
@@ -232,7 +232,7 @@
 \notationrow{G^-_{s,u,t},\ G^+_{s,u,t}}{توابع ارزش کران‌ساز پایین و بالای بلمن}{cmp:eq:ch3-bellman-value-recursion}
 \notationrow{B_b(s,j)}{هستهٔ انتقال نخست از مبدأ با ویژگی انتخابی b}{cmp:eq:ch3-bellman-origin-bounds}
 \notationrow{\ell_{s,u},\ U_{s,u}}{کران پایین و بالای سهم برچسب مقصد از مبدأ}{cmp:eq:ch3-bellman-origin-bounds}
-\notationrow{L_{c,u},\ \overline U_{c,u}}{کران پایین و بالای ضروری مؤلفه مرکز کلاس}{cmp:eq:ch3-center-component-upper}
+\notationrow{L_{c,u},\ \overline U_{c,u}}{کران پایین و بالای ضروری مؤلفه مرکز طبقه}{cmp:eq:ch3-center-component-upper}
 \notationrow{u(z),\ J(z)}{بردار مؤلفه‌های مستقل مراکز و ژاکوبین}{cmp:eq:ch3-inverse-GN}
 \notationrow{r_C(z),\ \varepsilon_C}{باقی‌ماندهٔ واقعی قید مراکز و تلرانس عددی مثبت}{cmp:eq:ch3-fixed-center-residual}
 \notationrow{\Pi_J}{فرافکن متعامد روی فضای صفر ژاکوبین مراکز}{cmp:eq:ch3-fixed-center-projection}
@@ -240,26 +240,26 @@
 \notationrow{\delta,\ \mu}{اصلاح سیاست و ضریب میرایی حل معکوس}{cmp:eq:ch3-inverse-GN}
 \notationrow{b_{\mathrm{ls}}}{تعداد ارزیابی‌های جست‌وجوی خط}{cmp:eq:ch3-inverse-complexity}
 \notationgroup{نمونه‌های پرت و برآورد مقاوم مرکز}
-\notationrow{d_i^{(c)}}{واگرایی KL بازنمایی نمونه از مرکز ثابت کلاس واقعی}{cmp:eq:ch3-outlier-forward-kl}
+\notationrow{d_i^{(c)}}{واگرایی KL بازنمایی نمونه از مرکز ثابت طبقه واقعی}{cmp:eq:ch3-outlier-forward-kl}
 \notationrow{R_{c,\alpha},\ \widehat G_c(r)}{شعاع چندکی در سطح پوشش $\alpha$ و تابع پوشش تجربی حول مرکز ثابت}{cmp:eq:ch3-outlier-quantile-coverage}
 \notationrow{C_{c,\alpha}}{کمینه شعاع چندکی KL با مرکز آزاد؛ متفاوت از شعاع مرکز ثابت}{cmp:eq:ch3-outlier-optimized-quantile}
 \notationrow{x_i=\Phi(\mathscr Y_i)}{تصویر هیلبرتی بازنمایی نمونه، با قرارداد سیاست ثابت}{cmp:eq:ch3-js-Hilbert-map}
 \notationrow{S_c,\ \zeta_c(S_c)}{زیرمجموعه حاضر در محاسبه توپ طبقه و مرکز آزاد هیلبرتی آن}{cmp:eq:ch3-outlier-js-meb-primal}
 \notationrow{\mathscr S=(S_1,\ldots,S_K)}{بردار زیرمجموعه‌های منتخب برای محاسبه توپ‌های طبقات}{cmp:eq:ch3-outlier-js-ball-gap}
-\notationrow{\mathfrak r_c(S_c)}{شعاع توپ کمینه پوشاننده تصاویر نمونه‌های کلاس}{cmp:eq:ch3-outlier-js-meb-primal}
-\notationrow{\mathcal B_c(S_c)}{توپ بسته هیلبرتی با مرکز و شعاع کمینه برای کلاس}{cmp:eq:ch3-outlier-js-meb-primal}
+\notationrow{\mathfrak r_c(S_c)}{شعاع توپ کمینه پوشاننده تصاویر نمونه‌های طبقه}{cmp:eq:ch3-outlier-js-meb-primal}
+\notationrow{\mathcal B_c(S_c)}{توپ بسته هیلبرتی با مرکز و شعاع کمینه برای طبقه}{cmp:eq:ch3-outlier-js-meb-primal}
 \notationrow{w_i^*,\ \Delta(S_c)}{وزن دوگان بهینه و سیمپلکس وزن‌های مجموعه پوشش}{cmp:eq:ch3-outlier-js-meb-dual}
 \notationrow{\kappa_{\mathrm{JS}}(P,Q)}{کرنل هیلبرتیِ متناظر با واگرایی جنسن--شنون}{cmp:eq:ch3-outlier-js-svdd-kernel}
 \notationrow{C_{\mathrm{SVDD}}}{ضریب مثبت جریمهٔ متغیرهای شُل در مدل مرز نرم SVDD}{cmp:eq:ch3-outlier-js-svdd-soft-primal}
 \notationrow{\mathcal S_c(S_c)}{مجموعه نمونه‌های روی مرز توپ کمینه}{cmp:eq:ch3-outlier-js-meb-boundary}
-\notationrow{g_{cr}(\mathscr S)}{شکاف میان توپ‌های بسته دو کلاس در فضای هیلبرت}{cmp:eq:ch3-outlier-js-ball-gap}
-\notationrow{\delta_{\mathrm{sep}}}{شکاف مثبت هدف برای جداکردن توپ‌های کلاس‌ها}{cmp:eq:ch3-outlier-js-total-overlap}
-\notationrow{\Omega_{\delta_{\mathrm{sep}}}(\mathscr S)}{هزینه تجمعی هم‌پوشانی و کمبود شکاف توپ‌های کلاس‌ها}{cmp:eq:ch3-outlier-js-total-overlap}
+\notationrow{g_{cr}(\mathscr S)}{شکاف میان توپ‌های بسته دو طبقه در فضای هیلبرت}{cmp:eq:ch3-outlier-js-ball-gap}
+\notationrow{\delta_{\mathrm{sep}}}{شکاف مثبت هدف برای جداکردن توپ‌های طبقه‌ها}{cmp:eq:ch3-outlier-js-total-overlap}
+\notationrow{\Omega_{\delta_{\mathrm{sep}}}(\mathscr S)}{هزینه تجمعی هم‌پوشانی و کمبود شکاف توپ‌های طبقه‌ها}{cmp:eq:ch3-outlier-js-total-overlap}
 \notationrow{\mathcal A_\alpha}{مجموعهٔ بردارهای مجاز $\mathscr S$ با حداقل پوشش شمارشی برای هر طبقه}{cmp:eq:ch3-outlier-js-subset-problem}
 \notationrow{a_{i,c}(\mathscr S)}{فاصله علامت‌دار نمونه مرزی از نزدیک‌ترین توپ رقیب متداخل}{cmp:eq:ch3-outlier-js-rival-intrusion}
 \notationrow{\Delta_{c,i}(\mathscr S)}{کاهش هزینه تداخل سراسری پس از کنارگذاری آزمایشی نمونه از محاسبه توپ}{cmp:eq:ch3-outlier-js-greedy-gain}
-\notationrow{\mathcal O_{c,\alpha},\ \mathcal E_c}{مجموعه نامزدهای پرت و مجموعه نمونه‌های اشتباه طبقه‌بندی‌شده در کلاس $c$}{cmp:eq:ch3-outlier-error-sets}
-\notationrow{w_i,\ \widetilde{\mathcal V}_c}{وزن سهم نمونه در برآورد مرکز و مرکز کلاس وزن‌دار}{cmp:eq:ch3-outlier-weighted-center}
+\notationrow{\mathcal O_{c,\alpha},\ \mathcal E_c}{مجموعه نامزدهای پرت و مجموعه نمونه‌های اشتباه طبقه‌بندی‌شده در طبقه $c$}{cmp:eq:ch3-outlier-error-sets}
+\notationrow{w_i,\ \widetilde{\mathcal V}_c}{وزن سهم نمونه در برآورد مرکز و مرکز طبقه وزن‌دار}{cmp:eq:ch3-outlier-weighted-center}
 \notationrow{\widetilde{\mathcal V}_{c,\varepsilon}}{مرکز آمیخته برای حفظ تکیه‌گاه در KL پیشرو؛ $\varepsilon$ وزن اختلاط محلی}{cmp:eq:ch3-outlier-support-preserving-center}
 \end{longtable}
 \endgroup
