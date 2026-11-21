@@ -51,6 +51,7 @@
 \notationrow{\alpha_t(\beta,\lambda)}{وزن گام $t$ در بازنمایی گشت بدون سقف}{cmp:eq:ch3-h-alpha}
 \notationrow{\mathscr H,\ h_{ij}}{ماتریس همسایگی نمونه‌ها و درایه آن}{cmp:eq:ch3-H}
 \notationrow{\mathscr Y,\ \mathscr Y_i}{ماتریس بازنمایی برچسب و سطر نمونه i}{cmp:eq:ch3-Y-script}
+\notationrow{\mathscr Y_i^{[c]}}{بازنمایی نمونه زیر فرض طبقهٔ نامزد $c$ در شبه‌کد آموزش؛ برای سیاست مستقل از طبقه مشترک است}{cmp:subsec:ch3-policy-training-pseudocode}
 \notationrow{\xi}{اندیس تصادفی گام مشاهده‌شده؛ نه پارامتر هموارسازی}{cmp:eq:ch3-weighted-observation-position}
 \notationgroup{سیاست انتخاب ویژگی}
 \notationrow{s,\ c_s}{اندیس نمونه مبدأ و کلاس فرضی آن (نه لزوماً برچسب واقعی)}{cmp:eq:ch3-parametric-score-matrix}
@@ -166,11 +167,13 @@
 \notationrow{J_{\mathrm{margin}}}{معیار کل جدایی حاشیه‌ای}{cmp:eq:ch3-margin-criterion}
 \notationrow{E_{\mathrm{bal}}}{خطای تجربی متوازن}{cmp:eq:ch3-margin-error-bound}
 \notationrow{\widehat{\mathrm{BA}},\ \widehat E_{\mathrm{bal}}}{دقت متوازن دقیق تجربی و خطای صفر--یک متناظر}{cmp:eq:ch3-js-exact-balanced-accuracy}
+\notationrow{m_i}{حاشیهٔ عمومی تصمیم بر اساس اختلاف امتیاز طبقهٔ واقعی و قوی‌ترین رقیب}{cmp:eq:ch3-general-decision-margin}
 \notationrow{M_i^{\mathrm{JS}}}{حاشیه تصمیم مبتنی بر شباهت JS}{cmp:eq:ch3-js-margin-distance-difference}
 \notationrow{m_{i,c,r}}{حاشیه زوجی JS نمونه از کلاس c در برابر رقیب r، با مراکز ثابت}{cmp:eq:ch3-fixed-center-pairwise-js-margin}
 \notationrow{\ell_\tau(m),\ \tau}{زیان سیگموئیدی و پهنای هموارسازی؛ $\tau$ در مخرج حاشیه است}{cmp:eq:ch3-js-sigmoid-loss}
 \notationrow{g_\tau(m)}{اندازه حساسیت نسبت به حاشیه با بیشینه یک؛ نه گرادیان سیاست}{cmp:eq:ch3-js-sigmoid-normalized-sensitivity}
 \notationrow{\mathcal L_{\mathrm{sig}}}{میانگین متوازن زیان سیگموئیدی}{cmp:eq:ch3-js-sigmoid-balanced-objective}
+\notationrow{\theta^{(t)}}{پارامترهای سیاست در گام $t$ فرایند آموزش}{cmp:alg:ch3-learn-feature-policy}
 \notationgroup{مسئله معکوس سیاست}
 \notationrow{z=\operatorname{vec}(Z)}{بردار پارامترهای سیاست}{cmp:eq:ch3-center-forward-map}
 \notationrow{p}{تعداد پارامترهای سیاست ثابت}{cmp:eq:ch3-inverse-complexity}
