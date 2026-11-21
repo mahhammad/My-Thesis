@@ -4238,6 +4238,124 @@ JSD، دقت تقریب
 
 
 
+\subsection{مشتق زیان Softplus--JS و منشأ تغییر سیاست}
+\label{cmp:subsec:ch3-softplus-js-policy-gradient}
+در زیان Softplus--JS رابطه~\eqref{cmp:eq:ch3-softplus-js-training-objective}،
+امتیاز $S_{i,r}$ به \emph{طبقهٔ نامزد} $r$ تعلق دارد؛
+این امتیاز نباید با $z_{ab}$، یعنی logits انتخاب \emph{ویژگی}، اشتباه شود.
+برای هر نمونهٔ آموزشی $i$ و نامزد $r$، بازنمایی
+$U_{i,r}(z)=\mathscr Y_i^{[r]}(z)$ و مرکز
+$V_r(z)=|C_r|^{-1}\sum_{j\in C_r}U_{j,r}(z)$
+را در نظر می‌گیریم که در آن $z=\operatorname{vec}(Z)$
+برای خانواده‌های ماتریسی ثابت است.
+هم خودِ بازنمایی‌ها و هم مراکز فقط از گشت دقیق
+\emph{ماسک‌دار روی Train} حاصل می‌شوند؛ در محاسبهٔ مرکز،
+مبدأهای $j\in C_r$ با فرضیهٔ سازگار $r$ ارزیابی می‌شوند.
+اما برای امتیازِ نمونهٔ $i$، \emph{تمام} نامزدهای $r$
+بدون استفاده از $y_i$ برای انتخاب سیاست فرضیه محاسبه می‌شوند.
+
+با تعریف وزن‌های نرم \emph{روی امتیاز طبقه‌ها}
+و مشتق زیان نمونه نسبت به همان امتیازها، داریم:
+\begin{equation}\label{cmp:eq:ch3-softplus-js-score-weights}
+\boxed{
+w_{i,r}^{\mathrm{SP}}
+=\frac{\exp(S_{i,r}/\tau_{\mathrm{SP}})}
+{\sum_{q=1}^{K}\exp(S_{i,q}/\tau_{\mathrm{SP}})},
+\qquad
+\frac{\partial\ell_i^{\mathrm{SP}}}{\partial S_{i,r}}
+=w_{i,r}^{\mathrm{SP}}-\mathbf1\{r=y_i\}.
+}
+\end{equation}
+وزن $w_{i,r}^{\mathrm{SP}}$ احتمال انتخاب ویژگی نیست
+و با $p_0$ و $P$ در تحلیل نویز نیز تفاوت دارد.
+زیان متوازن برای وزن‌های طبقات $\Omega$،
+مطابق قرارداد آموزش، برابر است با
+$\mathcal L_{\mathrm{SP},\Omega}(z)
+=\sum_{c=1}^{K}\frac{\omega_c}{|C_c|}
+\sum_{i\in C_c}\ell_i^{\mathrm{SP}}(z)$.
+در صورت $\omega_c=1/K$، گرادیان آن برابر است با:
+\begin{equation}\label{cmp:eq:ch3-softplus-js-policy-gradient}
+\boxed{
+\nabla_z\mathcal L_{\mathrm{SP},U}
+=\frac1K\sum_{c=1}^{K}\frac1{|C_c|}
+\sum_{i\in C_c}\sum_{r=1}^{K}
+\bigl(w_{i,r}^{\mathrm{SP}}-\mathbf1\{r=c\}\bigr)
+\nabla_z S_{i,r}.
+}
+\end{equation}
+برای وزن‌های عمومی $\Omega$، تنها $1/K$ در جمع بیرونی
+با $\omega_c$ جایگزین می‌شود؛ مشتق نمونه تغییر نمی‌کند.
+
+در ناحیه‌ای که مؤلفه‌های لازم مثبت و نگاشت گشت
+با ماسک‌های ثابت مشتق‌پذیر است، با استفاده از
+رابطه~\eqref{cmp:eq:ch3-margin-JS-partials}،
+مشتق امتیاز هر نامزد از \emph{دو مسیر} به‌دست می‌آید:
+\begin{equation}\label{cmp:eq:ch3-softplus-js-score-chain}
+\boxed{
+\begin{aligned}
+\nabla_z S_{i,r}
+=-\frac1{2\log2}\sum_{u=1}^{K}\Bigg[
+&\log\frac{2U_{i,r}(u)}{U_{i,r}(u)+V_r(u)}
+\,\nabla_z U_{i,r}(u)\\
++&\log\frac{2V_r(u)}{U_{i,r}(u)+V_r(u)}
+\,\frac1{|C_r|}\sum_{j\in C_r}\nabla_z U_{j,r}(u)
+\Bigg].
+\end{aligned}}
+\end{equation}
+برای اعمال این فرمول به هموارسازی مثبت مشترکِ
+رابطه~\eqref{cmp:eq:ch3-stable-smoothed-representations}،
+باید $U_{i,r}$ و $V_r$ را با صورت‌های هموارشده
+جایگزین و ضرایب مشتق نگاشت هموارسازی را لحاظ کرد.
+حذف جملهٔ مشتق مرکز در آموزش آزاد مجاز نیست.
+در خانوادهٔ \lr{shared} مسیر بازنمایی نامزدها مشترک است،
+اما برای \lr{class} هر $U_{i,r}$ از سیاست فرضیهٔ $r$ می‌آید.
+
+\paragraph{تکیه‌گاه صفر و پیاده‌سازی واقعی.}
+رابطه~\eqref{cmp:eq:ch3-softplus-js-score-chain} فرمول
+داخلیِ مشتق‌پذیر است، نه مجوز جایگذاری لگاریتم صفر.
+در کد گشت دقیق، JSD با قرارداد $0\log0=0$،
+تابع $\operatorname{where}$، کف عددی در لگاریتم
+و $\operatorname{clamp}_{\min}(0)$ روی نتیجه اجرا می‌شود؛
+\emph{هموارسازی مثبت سراسری با $\eta>0$ در آن فعال نیست}.
+روی تکیه‌گاه‌های ساختاری ثابت، مؤلفه‌هایی که همواره صفرند
+مشتق صفر دارند و باید سهمشان جداگانه تفسیر شود.
+در مرز تغییر تکیه‌گاه، مقادیر بسیار کوچک، یا محل فعال‌شدن
+\lr{clamp}، مشتق صوری بالا لزوماً با مشتق انتخابی
+\lr{autograd} یکسان نیست؛ کنترل عددی این مرزها جداگانه لازم است.
+اثبات و حدود اعتبار در پیوست~\ref{app:ch3-softplus-logpolicy-proofs}
+آمده‌اند.
+
+\paragraph{از گرادیان تا تغییر واقعی logits.}
+اگر $g^{(t)}=\nabla_z\mathcal L_{\mathrm{SP},U}(z^{(t)})$
+باشد، این گرادیان \emph{خودِ آپدیت} نیست.
+برای Adam استاندارد، بدون کاهش وزن یا اصلاح اضافی، با
+نرخ یادگیری $\eta_{\mathrm A}$ و ممان‌های $m^{(t)},v^{(t)}$ داریم:
+\begin{equation}\label{cmp:eq:ch3-adam-logit-update}
+\boxed{
+\begin{aligned}
+m^{(t+1)}&=\beta_1m^{(t)}+(1-\beta_1)g^{(t)},\\
+v^{(t+1)}&=\beta_2v^{(t)}+(1-\beta_2)(g^{(t)})^{\odot2},\\
+\widehat m^{(t+1)}&=m^{(t+1)}/(1-\beta_1^{t+1}),\quad
+\widehat v^{(t+1)}=v^{(t+1)}/(1-\beta_2^{t+1}),\\
+\Delta z^{(t)}&=z^{(t+1)}-z^{(t)}
+=-\eta_{\mathrm A}
+\frac{\widehat m^{(t+1)}}{\sqrt{\widehat v^{(t+1)}}+
+\varepsilon_{\mathrm A}} .
+\end{aligned}}
+\end{equation}
+توان دوم، تقسیم و ریشه در این رابطه مؤلفه‌به‌مؤلفه‌اند؛
+$\beta_1,\beta_2$ ممان‌های Adam هستند و
+با $\beta$ توقف گشت تفاوت دارند.
+اگر logits خروجی تابع پارامتری $Z(\theta)$ باشند،
+تغییر واقعی از $Z(\theta^{(t+1)})-Z(\theta^{(t)})$
+به‌دست می‌آید، نه از جایگذاری مستقیم گرادیان $z$
+در فرمول مخصوص پارامتر مستقل.
+حتی در مدل‌های ماتریسی، $\Delta z^{(t)}$ را می‌توان
+مستقیماً از دو checkpoint پیاپی به‌دست آورد.
+نگاشت این تغییر به تغییر احتمال سیاست
+در بخش~\ref{cmp:subsec:ch3-noise-logpolicy-sensitivity}
+\emph{مستقل از زیان و بهینه‌ساز} بررسی می‌شود.
+
 \subsection{شبه‌کد یکپارچهٔ آموزش سیاست}
 \label{cmp:subsec:ch3-policy-training-pseudocode}
 سه زیرروال
@@ -4297,9 +4415,12 @@ $\mathscr Y_i^{[c]}$ بازنمایی این اجراست؛
 در پیاده‌سازی عددی از
 $\operatorname{LogSumExp}$ پایدار استفاده می‌شود.
 این رابطه \emph{تعریف تابع هدف} است؛
-مشتق کامل آن نسبت به سیاست و تحلیل حساسیت
-تغییر logits، موضوع تکمیل نظری مستقل‌اند
-و نباید به‌جای مشتق سیگموئید فرض شوند.
+مشتق کامل آن نسبت به سیاست در
+بخش~\ref{cmp:subsec:ch3-softplus-js-policy-gradient}
+و هویت‌های عمومیِ تغییر احتمالات سیاست در
+بخش~\ref{cmp:subsec:ch3-noise-logpolicy-sensitivity}
+به‌صورت مستقل آمده‌اند؛ این گرادیان نباید
+با مشتق زیان سیگموئیدی یکسان فرض شود.
 
 \begin{algorithm}[!htbp]
 \caption{آموزش سیاست انتخاب ویژگی با گشت دقیق و مراکز وابسته به سیاست}
@@ -5646,6 +5767,77 @@ $P\in\mathbb R^{d\times d}$ یک ماتریس گذار سطری،
 $c_s$ به‌صورت $p_0^{(c_s)},P^{(c_s)}$ جداگانه اعمال می‌شوند.
 
 
+
+\subsection{تحلیل حساسیت سیاست انتخاب ویژگی بدون ماسک}
+\label{cmp:subsec:ch3-noise-logpolicy-sensitivity}
+در این زیربخش، یک \emph{سطر ثابت} از سیاست کمکی
+رابطه~\eqref{cmp:eq:ch3-noise-policy-probabilities}
+را در نظر می‌گیریم: برای سطر آغاز، $p=p_0$ و
+$z_b=z_{\bot b}$؛ برای سطر پس از ویژگی $a$،
+$p_b=P_{ab}$ و $z_b=z_{ab}$ است.
+برای \lr{class} همین تحلیل جداگانه در هر فرضیهٔ
+طبقهٔ $c_s$ اعمال می‌شود.
+در هر سطر، مجموعهٔ مجاز دقیقاً $A_D=A_P\mathbin{\dot\cup}A_N$
+و \emph{ثابت} است و تمام logits آن متناهی‌اند؛
+ازاین‌رو $p_b>0$ برای هر $b\in A_D$.
+
+با مشتق‌گیری از
+$\log p_b=z_b-\log\sum_{u\in A_D}e^{z_u}$،
+هویت دیفرانسیلی عمومی زیر حاصل می‌شود:
+\begin{equation}\label{cmp:eq:ch3-noise-logpolicy-differential}
+\boxed{
+\mathrm d\log p_b=\mathrm dz_b-
+\sum_{u\in A_D}p_u\,\mathrm dz_u
+=\mathrm dz_b-\sum_{u\in A_P}p_u\,\mathrm dz_u
+-\sum_{u\in A_N}p_u\,\mathrm dz_u .
+}
+\end{equation}
+برای تغییر \emph{متناهی} دلخواه از $z^{(t)}$
+به $z^{(t+1)}$، با
+$\Delta z_u^{(t)}=z_u^{(t+1)}-z_u^{(t)}$،
+رابطهٔ \emph{دقیق} مستقل از تابع هدف و بهینه‌ساز برابر است با:
+\begin{equation}\label{cmp:eq:ch3-noise-logpolicy-finite}
+\boxed{
+\Delta\log p_b^{(t)}
+=\Delta z_b^{(t)}-
+\log\!\left(\sum_{u\in A_D}
+p_u^{(t)}e^{\Delta z_u^{(t)}}\right).
+}
+\end{equation}
+جایگزینی عبارت لگاریتمی با
+$\sum_u p_u^{(t)}\Delta z_u^{(t)}$
+فقط تقریب مرتبهٔ اول برای آپدیت کوچک است.
+برای دو ویژگی $a,b$ در \emph{همان سطر}،
+هویت نسبت حتی در آپدیت بزرگ نیز دقیق باقی می‌ماند:
+\begin{equation}\label{cmp:eq:ch3-noise-logpolicy-ratio}
+\boxed{
+\Delta\log\frac{p_a}{p_b}
+=\Delta z_a-\Delta z_b,\qquad a,b\in A_D .
+}
+\end{equation}
+بنابراین اگر صرفاً logits ستون‌های $A_N$ تغییر کنند
+و logits دو ویژگی اصلی $a,b\in A_P$ ثابت بمانند،
+\emph{نسبت} احتمال آن دو در این سطر ثابت است؛
+بااین‌حال احتمال \emph{مطلق} هر دو ممکن است به علت
+تغییر مخرج نرمال‌سازی جابه‌جا شود.
+همچنین افزایش جرم سیاست روی نویز به‌تنهایی
+کاهش نوسان یا گرادیان ویژگی‌های اصلی را اثبات نمی‌کند.
+
+این سه رابطه هویت‌های \emph{سیاست بدون ماسک} هستند؛
+مشتق موتور واقعیِ گشت ماسک‌دار، انتقال عمودی،
+ممنوعیت بازگشت به مبدأ یا توقف هندسی را محاسبه نمی‌کنند.
+در آموزش، گرادیان زیان مانند
+رابطه~\eqref{cmp:eq:ch3-softplus-js-policy-gradient}
+از تمام استفاده‌های logits مشترک در گشت و مراکز حاصل
+می‌شود؛ بهینه‌ساز طبق
+رابطه~\eqref{cmp:eq:ch3-adam-logit-update}
+یا قرارداد جایگزین، $\Delta z$ را تعیین می‌کند؛
+\emph{پس از آن} هویت‌های حاضر تغییر سیاست کمکی را بیان
+می‌کنند. این زنجیره لزوماً به معنای اثر علّی تثبیت‌کنندهٔ
+ستون‌های نویزی نیست. مقایسهٔ مدل‌های دارای تعداد متفاوت
+ستون نویز نیز تغییر بُعد $A_D$ است، نه آپدیت متناهی
+روی یک مجموعهٔ ثابت. اثبات و کنترل‌های جبری در
+پیوست~\ref{app:ch3-softplus-logpolicy-proofs} آمده‌اند.
 
 \subsection{شاخص‌های مواجهه سیاست با نویز و انتخاب ویژگی}
 
