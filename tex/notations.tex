@@ -39,7 +39,7 @@
 \notationrow{Y}{ماتریس یک‌داغ برچسب‌ها}{cmp:eq:ch3-Y-script}
 \notationgroup{گشت تصادفی و بازنمایی همسایگی}
 \notationrow{q_b^{(s)}(j\mid i)}{احتمال انتقال عمودی به نمونه j با ویژگی b}{cmp:eq:ch3-vertical-transition}
-\notationrow{\pi_s^{(c)}(b\mid i,a)}{احتمال انتخاب ویژگی $b$ پس از $a$ تحت سیاست طبقهٔ $c$}{cmp:eq:ch3-full-transition}
+\notationrow{\pi_s(b\mid i,a)}{سیاست انتخاب ویژگی برای مبدأ $s$؛ مستقل از برچسب نمونهٔ مقصد}{cmp:eq:ch3-full-transition}
 \notationrow{L,\ \beta}{طول گشت و احتمال توقف هندسی}{cmp:eq:ch3-geometric-length}
 \notationrow{\lambda}{ضریب کاهش وزن مشاهدات دیرتر}{cmp:eq:ch3-walk-weight-normalizer}
 \notationrow{\mathcal N_\ell(\lambda)}{عامل نرمال‌سازی گشت با طول مشخص}{cmp:eq:ch3-walk-weight-normalizer}
@@ -55,13 +55,12 @@
 \notationrow{\xi}{اندیس تصادفی گام مشاهده‌شده؛ نه پارامتر هموارسازی}{cmp:eq:ch3-weighted-observation-position}
 \notationgroup{سیاست انتخاب ویژگی}
 \notationrow{s}{اندیس نمونهٔ مبدأِ گشت}{cmp:eq:ch3-vertical-transition}
-\notationrow{c}{اندیس طبقهٔ سیاست مبدأ؛ در استنتاج شرطی، طبقهٔ نامزد}{cmp:eq:ch3-full-transition}
-\notationrow{\mathcal F_{c}(\Theta)}{ماتریس توابع امتیاز شرطی بر کلاس فرضی مبدأ}{cmp:eq:ch3-parametric-score-matrix}
+\notationrow{\mathcal F_{c}(\Theta)}{عضو طبقهٔ $c$ از خانوادهٔ توابع امتیاز}{cmp:eq:ch3-parametric-score-matrix}
 \notationrow{\Theta}{پارامترهای توابع تولید امتیاز}{cmp:eq:ch3-parametric-score-matrix}
-\notationrow{z_{c,a,b}(X_i;\Theta)}{امتیاز ویژگی b پس از a با فرض کلاس مبدأ $c$}{cmp:eq:ch3-parametric-feature-score}
+\notationrow{z_{c,a,b}(X_i;\Theta)}{امتیاز ویژگی $b$ پس از $a$ در عضو طبقهٔ $c$ از خانوادهٔ توابع}{cmp:eq:ch3-parametric-feature-score}
 \notationrow{A_{X_i}=B_s(X_i)}{ویژگی‌های موجود که به‌واسطه فرض پنجم تماماً مقصد مجاز دارند}{cmp:eq:ch3-feature-eligibility}
-\notationrow{\Pi_i^{(s,c)}}{سیاست افقی پس از ماسک، با مبدأ $s$ و فرض کلاس $c$}{cmp:eq:ch3-fixed-policy-softmax}
-\notationrow{\rho_{c}}{وزن ترکیب سیاست‌های شرطی فرض کلاس مبدأ}{cmp:eq:ch3-mean-policy-inference}
+\notationrow{\widetilde\Pi_i^{(s)}}{ماتریس کامل سیاست برگزیدهٔ مبدأ، شامل سطر آغاز $\bot$}{cmp:eq:ch3-fixed-policy-softmax}
+\notationrow{\rho_{c}}{وزن عضو طبقهٔ $c$ در ترکیب سیاست‌ها}{cmp:eq:ch3-mean-policy-inference}
 \notationrow{Z=(z_{ab})}{ماتریس ثابت امتیاز سیاست}{cmp:eq:ch3-fixed-policy-matrix}
 \notationrow{Z^{\mathrm{node}},\ Z^{\mathrm{node,class}}}{امتیازهای عددی آزاد گره‌ای و گره--کلاس}{cmp:eq:ch3-policy-family-shapes}
 \notationrow{A_{c,b},\ B_{c,j,a,b}}{امتیاز شروع مشترک به‌ازای فرض کلاس مبدأ و انتقال گره‌ای}{cmp:eq:ch3-class-tied-start}
@@ -96,7 +95,7 @@
 \notationgroup{ماتریس‌های انتقال و عمق}
 \notationrow{\mathcal S_s,\ m_s}{فضای حالت نمونه–ویژگی مجاز و اندازه آن}{cmp:eq:ch3-state-space}
 \notationrow{D_{ij}^{(s)}}{بلوک انتقال عمودی از نمونه i به j}{cmp:eq:ch3-block-diagonal-D}
-\notationrow{\Pi_i^{(s)}}{زیرماتریس $d\times d$ انتقال میانی (بدون سطر آغاز $\bot$)، با فرض ثابت $c$}{cmp:eq:ch3-intermediate-policy-matrix}
+\notationrow{\Pi_i^{(s)}}{ماتریس انتقال میانیِ سیاست برگزیدهٔ $\pi_s$، بدون سطر آغاز $\bot$}{cmp:eq:ch3-intermediate-policy-matrix}
 \notationrow{\mathsf P_{s,ij}}{بلوک انتقال کامل}{cmp:eq:ch3-block-Tij}
 \notationrow{F_s,\ S_s}{عامل‌های افقی و عمودی تجزیه بلوکی}{cmp:eq:ch3-block-factorization}
 \notationrow{\mathsf P_s}{ماتریس انتقال حالت‌های نمونه–ویژگی}{cmp:eq:ch3-block-factorization}
