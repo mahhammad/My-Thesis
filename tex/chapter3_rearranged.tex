@@ -70,7 +70,40 @@ a\in A_{X_i}\quad\Longleftrightarrow\quad X_i\in D_a.
 \end{equation}
 
 \begin{definition}[نمونه--ویژگی]
-هر زوج مرتب $(X_i,a)$، به شرط $X_i\in D$ و $a\in A_{X_i}$، یک \textbf{نمونه--ویژگی} نامیده می‌شود. مقدار آن با نماد $a(X_i)$ مشخص می‌شود.
+هر زوج مرتب $(X_i,a)$، به شرط $X_i\in D$ و $a\in A_{X_i}$،
+یک \textbf{نمونه--ویژگی} نامیده می‌شود. مقدار آن با نماد
+$a(X_i)$ مشخص می‌شود. مجموعهٔ تمام نمونه--ویژگی‌های
+مجموعه‌داده را با $\mathcal S$ نشان می‌دهیم:
+\begin{equation}\label{cmp:eq:ch3-sample-feature-set}
+\boxed{
+\mathcal S=\bigl\{(X_i,a)\mid X_i\in D,\ a\in A_{X_i}\bigr\}.
+}
+\end{equation}
+\end{definition}
+
+\begin{definition}[افرازهای نمونه--ویژگی]
+مجموعهٔ $\mathcal S$ را می‌توان از دو دیدگاه نمونه‌محور و
+ویژگی‌محور افراز کرد. برای هر نمونهٔ $X_i\in D$ و هر
+ویژگی $a\in A_D$، به‌ترتیب تعریف می‌کنیم:
+\begin{equation}\label{cmp:eq:ch3-sample-feature-partitions}
+\boxed{
+\begin{aligned}
+\mathcal S_{X_i}
+&=\bigl\{(X_i,b)\mid b\in A_{X_i}\bigr\},\\
+\mathcal S_a
+&=\bigl\{(X_j,a)\mid X_j\in D_a\bigr\}.
+\end{aligned}
+}
+\end{equation}
+هر یک از این دو خانواده، پس از کنارگذاشتن مجموعه‌های تهی،
+یک افراز از مجموعهٔ نمونه--ویژگی‌ها تشکیل می‌دهد:
+\begin{equation}\label{cmp:eq:ch3-sample-feature-disjoint-unions}
+\boxed{
+\mathcal S
+=\biguplus_{X_i\in D}\mathcal S_{X_i}
+=\biguplus_{a\in A_D}\mathcal S_a.
+}
+\end{equation}
 \end{definition}
 برای نمونه، اگر فردی به نام علی دارای ویژگی‌های قد، وزن و رنگ چشم باشد، سه نمونه--ویژگی متناظر با این سه ویژگی برای او تعریف می‌شود. در این نمایش، مجموعه‌داده دیگر صرفاً مجموعه‌ای از بردارهای ویژگی نیست؛ بلکه به مجموعه‌ای از واحدهای قابل ارتباط و مقایسه تبدیل می‌شود.
 
