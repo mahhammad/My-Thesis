@@ -40,7 +40,16 @@ h_s=\sum_{t=1}^{\infty}\alpha_t(\beta,\lambda)P_{X_s,t},
 \begin{equation}\label{eq:app-ch3-independent}
 \mathbb E[e_{J_t}\mid X_s,L=\ell]=P_{X_s,t},\qquad 1\le t\le\ell.
 \end{equation}
-اکنون با استفاده از قانون امید ریاضی کل و روابط \eqref{eq:app-ch3-cond} و \eqref{eq:app-ch3-independent} نتیجه می‌شود:
+با شرط‌کردن بر طول گشت و استفاده از قانون امید ریاضی کل داریم:
+\begin{equation}\label{eq:app-ch3-total-expectation}
+\begin{aligned}
+h_s
+&=\mathbb E[R(W)\mid X_s]\\[5pt]
+&=\sum_{\ell=1}^{\infty}p_\ell\,
+\mathbb E[R(W)\mid X_s,L=\ell].
+\end{aligned}
+\end{equation}
+در نتیجه، با جایگذاری روابط \eqref{eq:app-ch3-cond} و \eqref{eq:app-ch3-independent} در رابطهٔ بالا، داریم:
 \begin{equation}\label{eq:app-ch3-double-sum}
 \begin{aligned}
 h_s
