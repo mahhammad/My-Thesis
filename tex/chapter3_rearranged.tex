@@ -786,8 +786,8 @@ $\mathcal S_s$ وجود دارد. منظور از ثابت بودن،
 نمونه‌های جاری یا ویژگی‌های ورودی.
 
 در نمایش بلوکی با ترتیب نمونه‌ها، برای $i,j\ne s$ ماتریس قطری زیر را، با صفرگذاشتن درایه‌های مربوط به ویژگی‌های ناموجود، تعریف می‌کنیم:
-\begin{equation}\label{cmp:eq:ch3-block-diagonal-D}
-D_{ij}^{(s)}
+\begin{equation}\label{cmp:eq:ch3-block-diagonal-V}
+V_{ij}^{(s)}
 =\operatorname{diag}\!\left(q_b^{(s)}(j\mid i)\right)_{b\in A_D}
 \in\mathbb R^{d\times d}.
 \end{equation}
@@ -824,7 +824,7 @@ $\Pi_i^{(s)}$، $\mathsf P_s$ و بردار $\rho_s$
 رابطه~\eqref{cmp:eq:ch3-full-transition}
 اکنون به‌صورت بلوکی درمی‌آید:
 \begin{equation}\label{cmp:eq:ch3-block-Tij}
-\boxed{\mathsf P_{s,ij}=\Pi_i^{(s)}D_{ij}^{(s)},\qquad
+\boxed{\mathsf P_{s,ij}=\Pi_i^{(s)}V_{ij}^{(s)},\qquad
 [\mathsf P_{s,ij}]_{ab}
 =\pi_s(b\mid i,a)q_b^{(s)}(j\mid i).}
 \end{equation}
@@ -834,16 +834,16 @@ $A_D$ می‌سازیم و سپس سطرها و ستون‌ها را به حال
 این محدودسازی با ضرب عامل‌ها سازگار است؛ زیرا در
 تمام درایه‌های متناظر با ویژگی‌های ناموجود، انتقال
 صفر تعریف شده است.
-اگر $F_s=\operatorname{blockdiag}_{i\ne s}(\Pi_i^{(s)})$
+اگر $\mathsf F_s=\operatorname{blockdiag}_{i\ne s}(\Pi_i^{(s)})$
 عامل انتخاب افقی ویژگی و
-$\mathsf S_s=[D_{ij}^{(s)}]_{i,j\ne s}$
+$\mathsf V_s=[V_{ij}^{(s)}]_{i,j\ne s}$
 عامل انتقال عمودی باشد (هر دو پس از محدودسازی
 به $\mathcal S_s$)، آنگاه:
 \begin{equation}\label{cmp:eq:ch3-block-factorization}
-\boxed{\mathsf P_s=F_s\mathsf S_s,\qquad
+\boxed{\mathsf P_s=\mathsf F_s\mathsf V_s,\qquad
 \mathsf P_s\in\mathbb R^{m_s\times m_s}.}
 \end{equation}
-بنابراین $F_s$ در ترتیب نمونه‌ای بلوکی‌قطری است و بلوک‌های $\mathsf S_s$ قطری‌اند؛ با مرتب‌کردن حالت‌ها برحسب ویژگی، خود $\mathsf S_s$ بلوکی‌قطری می‌شود. هر سطر قابل دسترس $\mathsf P_s$ مجموع یک دارد؛
+بنابراین $\mathsf F_s$ در ترتیب نمونه‌ای بلوکی‌قطری است و بلوک‌های $\mathsf V_s$ قطری‌اند؛ با مرتب‌کردن حالت‌ها برحسب ویژگی، خود $\mathsf V_s$ بلوکی‌قطری می‌شود. هر سطر قابل دسترس $\mathsf P_s$ مجموع یک دارد؛
 زیرا برای وضعیت $(i,a)$:
 \[
 \sum_{(j,b)\in\mathcal S_s}[\mathsf P_s]_{(i,a),(j,b)}
@@ -1017,7 +1017,7 @@ e_h=\sum_{i=1}^{n}d_i^2.
 برای هر ویژگی $b$، احتمال‌ها روی حداکثر
 $|D_b|(|D_b|-1)$ انتقال عمودی پخش می‌شوند.
 ممنوعیت بازگشت به مبدأ فقط برخی یال‌ها را حذف می‌کند.
-بنابراین یک ضرب بردار حالت در $\mathsf P_s=F_s\mathsf S_s$
+بنابراین یک ضرب بردار حالت در $\mathsf P_s=\mathsf F_s\mathsf V_s$
 حداکثر $O(e_h+e_v)$ عملیات نیاز دارد؛ در نتیجه
 هزینه محاسبه دقیق بازنمایی یک مبدأ تا عمق $H$ برابر
 $O(H(e_h+e_v))$ و تقریب $r$گامی برابر $O(r(e_h+e_v))$ است، پس از ساخت وزن‌ها و ساختار گراف. برای تمام $n$ مبدأ و \emph{یک قرارداد سیاست ثابت}
@@ -1176,7 +1176,7 @@ $\mathcal J_{i,b}^{(s)}=\mathcal N_{i,b}^{(s)}$
 الگوریتم~\ref{cmp:alg:ch3-advance-walk-state}
 پیش‌برد یک‌گام توزیع حالت را به‌صورت دو مرحلهٔ
 افقی و عمودی اجرا می‌کند، بدون آنکه
-ماتریس انتقال یا حتی عامل‌های $F_s,\mathsf S_s$
+ماتریس انتقال یا حتی عامل‌های $\mathsf F_s,\mathsf V_s$
 به‌صورت ماتریس ساخته شوند. در این روال،
 $r_b$ جرم حاصل از انتخاب ویژگی $b$
 در نمونهٔ جاری است و سپس روی مقصدهای
