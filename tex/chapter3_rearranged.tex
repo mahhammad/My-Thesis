@@ -845,17 +845,26 @@ V_{ij}^{(s)}
 }
 \end{equation}
 این رابطه برای حالت‌های مجاز و $i,j\ne s$ برقرار است و تنها انتقال‌های میانی گشت را توصیف می‌کند؛ توزیع انتقال نخست از نمونهٔ مبدأ جداگانه تعریف می‌شود.
-اگر $\mathsf F_s=\operatorname{blockdiag}_{i\ne s}(\Pi_i^{(s)})$
-عامل انتخاب افقی ویژگی و
-$\mathsf V_s=[V_{ij}^{(s)}]_{i,j\ne s}$
-عامل انتقال عمودی باشد (هر دو پس از محدودسازی
-به $\mathcal S_s$)، آنگاه:
+بلوک $\mathsf P_{s,ij}$ تنها انتقال میان نمونه--ویژگی‌های
+$X_i$ و $X_j$ را توصیف می‌کند. با کنار هم قرار دادن
+این بلوک‌ها برای $i,j\ne s$ و نگه‌داشتن سطرها و
+ستون‌های متناظر با $\mathcal S_s$، ماتریس انتقال
+گام‌های میانی $\mathsf P_s$ به دست می‌آید.
+این ماتریس را می‌توان به‌صورت حاصل‌ضرب دو عامل
+افقی و عمودی نوشت:
 \begin{equation}\label{cmp:eq:ch3-block-factorization}
 \boxed{\mathsf P_s=\mathsf F_s\mathsf V_s,\qquad
 \mathsf P_s\in\mathbb R^{m_s\times m_s}.}
 \end{equation}
-بنابراین $\mathsf F_s$ در ترتیب نمونه‌ای بلوکی‌قطری است و بلوک‌های $\mathsf V_s$ قطری‌اند؛ با مرتب‌کردن حالت‌ها برحسب ویژگی، خود $\mathsf V_s$ بلوکی‌قطری می‌شود. هر سطر قابل دسترس $\mathsf P_s$ مجموع یک دارد؛
-زیرا برای وضعیت $(i,a)$:
+که در آن عامل‌های افقی و عمودی به‌ترتیب عبارت‌اند از:
+\[
+\begin{aligned}
+\mathsf F_s&=\operatorname{blockdiag}_{i\ne s}(\Pi_i^{(s)}),\\
+\mathsf V_s&=[V_{ij}^{(s)}]_{i,j\ne s}.
+\end{aligned}
+\]
+هر سطر $\mathsf P_s$ مجموع یک دارد؛ زیرا برای وضعیت $(i,a)$:
+
 \[
 \sum_{(j,b)\in\mathcal S_s}[\mathsf P_s]_{(i,a),(j,b)}
 =\sum_{b\in A_{X_i}}\pi_s(b\mid i,a)
