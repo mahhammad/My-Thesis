@@ -223,6 +223,207 @@ $O(H(e_h+e_v))$ و $O(nH(e_h+e_v))$
 و بهره‌گیری از تنکی ممکن است هزینه را کمتر کند.
 
 
+\section{وجود نقطهٔ ثابت برای سیاست ترکیبی با وزن‌دهی تطبیقی}
+\label{app:ch3-adaptive-policy-fixed-point}
+در سیاست‌های شرطی به طبقه، برای نمونهٔ جدید و بدون برچسب $X_\star$
+می‌توان سیاست‌های آموخته‌شده را در سطح \emph{احتمال انتخاب ویژگی}
+به‌صورت محدب ترکیب کرد و وزن این ترکیب را از توزیع برچسب همسایگی
+همان نمونه به‌روزرسانی کرد. در این بخش، وجود نقطهٔ ثابت برای نگاشت
+وزن‌دهی حاصل را با استفاده از نمایش ماتریسی گشت و قضیهٔ نقطهٔ ثابت
+بروئر اثبات می‌کنیم.
+
+فرض کنیم گراف مرجع $D$، وزن‌های ارتباط عمودی، مجموعهٔ ویژگی‌های موجود،
+برچسب‌های مرجع و سیاست‌های شرطی به طبقه پس از آموزش ثابت باشند.
+نمونهٔ $X_\star\notin D$ دست‌کم یک ویژگی موجود در $A_D$ دارد و برای
+هر فرضیهٔ طبقهٔ $c\in\{1,\ldots,K\}$، احتمال‌های آغاز گشت و انتقال‌های
+میانی روی تمام وضعیت‌های مجاز طبق قواعد بخش~\ref{cmp:sec:ch3-feature-selection-policy}
+تعریف شده‌اند. همهٔ سیاست‌ها برای هر وضعیت روی مجموعهٔ مجاز یکسانی
+از ویژگی‌ها توزیع احتمال می‌دهند؛ تنها مقدار احتمال‌ها ممکن است
+با طبقهٔ فرض‌شده متفاوت باشد. قواعد انتقال عمودی نیز به این فرضیه
+و به وزن‌های ترکیب وابسته نیستند.
+
+بردار \emph{وزن سیاست‌های طبقه‌محور} را با
+$\boldsymbol{\rho}=(\rho_1,\ldots,\rho_K)$ نشان می‌دهیم؛
+این نماد با بردار $\rho_s$ مربوط به حالت‌های پس از نخستین انتقال
+در بخش~\ref{cmp:subsec:ch3-block-matrix-transition} متفاوت است.
+دامنهٔ وزن‌ها سیمپلکس احتمال است:
+\begin{equation}\label{eq:app-ch3-adaptive-policy-simplex}
+\Delta^{K-1}
+=\left\{\boldsymbol{\rho}\in\mathbb R^K:
+\rho_c\ge0,\ \sum_{c=1}^{K}\rho_c=1\right\}.
+\end{equation}
+برای هر وضعیت مجاز $(i,a)$ و ویژگی مجاز $b$، سیاست ترکیبی را
+به‌صورت زیر تعریف می‌کنیم؛ همین تعریف برای سطر آغاز
+$a=\bot$ نیز برقرار است:
+\begin{equation}\label{eq:app-ch3-adaptive-policy-mixture}
+\boxed{
+\overline\pi_\star(b\mid i,a;\boldsymbol{\rho})
+=\sum_{c=1}^{K}\rho_c\,\pi_\star^{(c)}(b\mid i,a).
+}
+\end{equation}
+در اینجا $i=\star$ فقط برای آغاز گشت به کار می‌رود؛
+پس از نخستین انتقال، $X_i$ عضوی از مجموعهٔ مرجع است.
+وزن‌های $\boldsymbol{\rho}$ در طول \emph{هر گشت} ثابت می‌مانند
+و سیاست در هر وضعیت از ترکیب احتمال‌های همان وضعیت ساخته می‌شود.
+این تعریف به معنای انتخاب تصادفی یک سیاست طبقه‌محور در ابتدای گشت
+و اجرای انحصاری آن در همهٔ گام‌ها نیست.
+
+توزیع برچسب همسایگی حاصل از این سیاست را، مطابق قرارداد
+$\mathscr Y=\mathscr H Y$ در
+بخش~\ref{cmp:subsec:ch3-representations}،
+با $\mathscr Y_\star(\boldsymbol{\rho})$ نشان می‌دهیم.
+نگاشت به‌روزرسانی وزن طبقات را چنین تعریف می‌کنیم:
+\begin{equation}\label{eq:app-ch3-adaptive-policy-map}
+T(\boldsymbol{\rho})
+:=\mathscr Y_\star(\boldsymbol{\rho}).
+\end{equation}
+
+\begin{proposition}\label{prop:app-ch3-adaptive-policy-fixed-point}
+با فرض‌های فوق و قانون گشت فصل سوم، نگاشت
+$T:\Delta^{K-1}\longrightarrow\Delta^{K-1}$
+پیوسته است و دست‌کم یک بردار
+$\boldsymbol{\rho}^{\ast}\in\Delta^{K-1}$ وجود دارد که:
+\begin{equation}\label{eq:app-ch3-adaptive-policy-fixed-point}
+\boxed{
+\boldsymbol{\rho}^{\ast}
+=\mathscr Y_\star(\boldsymbol{\rho}^{\ast}).
+}
+\end{equation}
+این نتیجه هم برای گشت با افق محدود $H\ge1$
+و هم برای قانون طول هندسیِ افق نامحدود برقرار است.
+\end{proposition}
+
+\begin{proof}
+\textbf{گام اول: وابستگی ماتریس انتقال و توزیع آغاز به وزن‌ها.}
+فضای حالت پس از نخستین انتقال از $X_\star$ را
+$\mathcal S_\star=\{(i,a):X_i\in D,\ a\in A_{X_i}\}$
+در نظر می‌گیریم. چون مبدأ $X_\star$ در مجموعهٔ مرجع نیست،
+حذف بازگشت به مبدأ، هیچ نمونه‌ای را از $D$ حذف نمی‌کند.
+برای هر طبقهٔ $c$، ماتریس انتقال سطری روی این فضای حالت
+را با $\mathsf P_\star^{(c)}$ و توزیع حالت‌های پس از
+نخستین انتقال را با $\nu_{\star,1}^{(c)}$ نشان می‌دهیم.
+در این تعریف، احتمال انتقال عمودی همان رابطهٔ
+\eqref{cmp:eq:ch3-vertical-transition} با مبدأ خارج از $D$
+است؛ در هر گام، نمونهٔ جاری از مقصدهای همان ویژگی کنار گذاشته
+می‌شود. فرض حداقل پوشش ویژگی‌ها و مثبت‌بودن وزن‌های ارتباط،
+تعریف‌پذیری و نرمال‌بودن این انتقال‌ها را تضمین می‌کند.
+
+طبق رابطهٔ انتقال کامل \eqref{cmp:eq:ch3-full-transition}،
+هر درایهٔ ماتریس انتقال حاصل‌ضرب احتمال انتخاب ویژگی و
+احتمال انتقال عمودی است. با جایگذاری
+رابطهٔ \eqref{eq:app-ch3-adaptive-policy-mixture}
+و با توجه به استقلال عامل عمودی از $\boldsymbol{\rho}$،
+برای سیاست ترکیبی داریم:
+\begin{equation}\label{eq:app-ch3-adaptive-policy-matrix-affine}
+\boxed{
+\mathsf P_\star(\boldsymbol{\rho})
+=\sum_{c=1}^{K}\rho_c\,\mathsf P_\star^{(c)},
+\qquad
+\nu_{\star,1}(\boldsymbol{\rho})
+=\sum_{c=1}^{K}\rho_c\,\nu_{\star,1}^{(c)}.
+}
+\end{equation}
+تساوی دوم از اعمال همین ترکیب روی سطر آغاز $\bot$
+نتیجه می‌شود. بنابراین هر درایهٔ ماتریس انتقال و هر
+مؤلفهٔ توزیع نخستین گام، تابعی خطی از وزن‌هاست.
+همچنین هر $\mathsf P_\star(\boldsymbol{\rho})$
+سطری-تصادفی و هر $\nu_{\star,1}(\boldsymbol{\rho})$
+یک توزیع احتمال است.
+
+\textbf{گام دوم: پیوستگی در افق محدود.}
+ماتریس تجمیع برچسب حالت‌ها
+$\mathsf M_\star^{(Y)}$ را مطابق
+رابطهٔ \eqref{cmp:eq:ch3-state-aggregation-matrices}
+تشکیل می‌دهیم. این ماتریس و ضرایب
+$\alpha_t^{(H)}(\beta,\lambda)$
+در رابطهٔ \eqref{cmp:eq:ch3-capped-alpha}
+به $\boldsymbol{\rho}$ وابسته نیستند.
+از نمایش امید دقیق ماتریسی
+\eqref{cmp:eq:ch3-exact-matrix-neighborhood} داریم:
+\begin{equation}\label{eq:app-ch3-adaptive-policy-capped-output}
+\boxed{
+\mathscr Y_\star^{(H)}(\boldsymbol{\rho})
+=\nu_{\star,1}(\boldsymbol{\rho})
+\left(\sum_{t=1}^{H}\alpha_t^{(H)}
+\mathsf P_\star(\boldsymbol{\rho})^{t-1}\right)
+\mathsf M_\star^{(Y)}.
+}
+\end{equation}
+طبق گام نخست، هر مؤلفهٔ جملهٔ
+$\nu_{\star,1}(\boldsymbol{\rho})
+\mathsf P_\star(\boldsymbol{\rho})^{t-1}
+\mathsf M_\star^{(Y)}$
+چندجمله‌ای‌ای با درجهٔ حداکثر $t$ در مؤلفه‌های
+$\boldsymbol{\rho}$ است. جمع متناهی این جمله‌ها
+نیز پیوسته است؛ پس
+$\mathscr Y_\star^{(H)}(\boldsymbol{\rho})$
+روی تمام سیمپلکس پیوسته خواهد بود.
+
+\textbf{گام سوم: پیوستگی در افق نامحدود.}
+با استفاده از تجزیهٔ توزیع همسایگی در
+رابطهٔ \eqref{cmp:eq:ch3-h-alpha} و
+نمایش گام‌های انتقال در
+رابطهٔ \eqref{cmp:eq:ch3-block-t-step}، داریم:
+\begin{equation}\label{eq:app-ch3-adaptive-policy-infinite-output}
+\mathscr Y_\star(\boldsymbol{\rho})
+=\sum_{t=1}^{\infty}\alpha_t(\beta,\lambda)
+\nu_{\star,1}(\boldsymbol{\rho})
+\mathsf P_\star(\boldsymbol{\rho})^{t-1}
+\mathsf M_\star^{(Y)}.
+\end{equation}
+هر بردار داخل جمع، توزیع احتمال روی $K$ برچسب است؛
+پس هر مؤلفهٔ آن بین صفر و یک قرار می‌گیرد.
+از طرف دیگر، طبق گزارهٔ
+\ref{prop:app-ch3-alpha}،
+ضرایب $\alpha_t$ نامنفی‌اند و مجموعشان یک است.
+بنابراین، برای هر مؤلفهٔ $c$ و \emph{به‌طور یکنواخت}
+نسبت به $\boldsymbol{\rho}$، خطای قطع سری پس از
+$H$ جمله چنین کران می‌خورد:
+\begin{equation}\label{eq:app-ch3-adaptive-policy-uniform-tail}
+\boxed{
+\left|
+[\mathscr Y_\star(\boldsymbol{\rho})]_c-
+\sum_{t=1}^{H}\alpha_t
+\left[
+\nu_{\star,1}(\boldsymbol{\rho})
+\mathsf P_\star(\boldsymbol{\rho})^{t-1}
+\mathsf M_\star^{(Y)}
+\right]_c
+\right|
+\le\sum_{t=H+1}^{\infty}\alpha_t
+\xrightarrow[H\to\infty]{}0.
+}
+\end{equation}
+مجموع‌های جزئی پیوسته‌اند و با توجه به این کران،
+به‌طور یکنواخت به $\mathscr Y_\star$ همگرا می‌شوند؛
+در نتیجه، حد آن‌ها نیز پیوسته است.
+
+\textbf{گام چهارم: وجود نقطهٔ ثابت.}
+سیمپلکس $\Delta^{K-1}$ ناتهی، فشرده و محدب است.
+برای هر $\boldsymbol{\rho}$، قانون گشت
+یک توزیع احتمال روی نمونه‌های مرجع تولید می‌کند
+که با تجمیع برچسب‌ها، به توزیع احتمالی
+$\mathscr Y_\star(\boldsymbol{\rho})$
+روی $K$ طبقه تبدیل می‌شود. پس
+$T(\Delta^{K-1})\subseteq\Delta^{K-1}$.
+پیوستگی $T$ نیز در دو حالت افق محدود و نامحدود
+در گام‌های پیشین اثبات شد. بنابراین، بر اساس
+قضیهٔ نقطهٔ ثابت بروئر، دست‌کم یک
+$\boldsymbol{\rho}^{\ast}\in\Delta^{K-1}$
+وجود دارد که $T(\boldsymbol{\rho}^{\ast})
+=\boldsymbol{\rho}^{\ast}$، یعنی
+رابطهٔ \eqref{eq:app-ch3-adaptive-policy-fixed-point}
+برقرار است.
+\end{proof}
+
+این گزاره صرفاً برای نگاشت حاصل از ترکیب \emph{احتمال‌های}
+سیاست‌های ازپیش‌آموخته‌شده و به‌روزرسانی بر اساس
+\emph{توزیع برچسب همسایگی} اثبات شده است.
+اگر وزن‌های طبقات به‌جای این توزیع از خروجی یک قاعدهٔ
+پیش‌بینی ساخته شوند، برای استفاده از همین استدلال
+باید پیوستگی نگاشت جدید و احتمال‌بودن خروجی آن
+به‌صورت جداگانه برقرار باشد.
+
 \section{خواص مارکوفی و یکتایی بازنمایی برای سیاست ثابت}
 \label{app:ch3-policy-center-markov}
 
