@@ -866,26 +866,34 @@ $X_i$ و $X_j$ را توصیف می‌کند. با کنار هم قرار داد
 هر سطر $\mathsf P_s$ مجموع یک دارد؛ زیرا برای وضعیت $(i,a)$:
 
 \[
+\begin{aligned}
 \sum_{(X_j,b)\in\mathcal S_s}[\mathsf P_s]_{(i,a),(j,b)}
-=\sum_{b\in A_{X_i}}\pi_s(b\mid i,a)
-\underbrace{\sum_{j\ne i,s}q_b^{(s)}(j\mid i)}_{=1}
-=1.
+&=\sum_{b\in A_D}
+\sum_{X_j\in D_b\setminus\{X_s\}}
+[\mathsf P_s]_{(i,a),(j,b)}\\
+&=\sum_{b\in A_{X_i}}\pi_s(b\mid i,a)
+\underbrace{\sum_{X_j\in D_b\setminus\{X_i,X_s\}}
+q_b^{(s)}(j\mid i)}_{=1}\\
+&=\sum_{b\in A_{X_i}}\pi_s(b\mid i,a)=1.
+\end{aligned}
 \]
 \paragraph{تمایز گام نخست.}
 از نمونه مبدأ هنوز ویژگی قبلی نداریم و باید سطر آغاز $\bot$ را به کار ببریم. توزیع حالت‌های بلافاصله پس از نخستین انتقال را با بردار سطری $\rho_s\in\mathbb R^{1\times m_s}$ تعریف می‌کنیم:
 \begin{equation}\label{cmp:eq:ch3-block-first-step}
-\rho_s(j,b)=\pi_s(b\mid s,\bot)\,q_b^{(s)}(j\mid s),
-\qquad (j,b)\in\mathcal S_s.
+\rho_s(j,b)=\pi_s(b\mid s,\bot)\,q_b^{(s)}(j\mid s).
 \end{equation}
-این بردار یک توزیع احتمال است؛ چون طبق
-فرض پنجم برای هر ویژگی موجود در مبدأ،
-$\sum_{j\ne s}q_b^{(s)}(j\mid s)=1$ و از نرمال‌سازی
-سطر $\bot$ نیز داریم
+نرمال‌بودن این توزیع نیز به‌صورت زیر به دست می‌آید:
 \[
-\sum_{(j,b)\in\mathcal S_s}\rho_s(j,b)
-=\sum_{b\in A_{X_s}}\pi_s(b\mid s,\bot)
-\underbrace{\sum_{j\ne s}q_b^{(s)}(j\mid s)}_{=1}
-=1.
+\begin{aligned}
+\sum_{(X_j,b)\in\mathcal S_s}\rho_s(j,b)
+&=\sum_{b\in A_D}
+\sum_{X_j\in D_b\setminus\{X_s\}}
+\rho_s(j,b)\\
+&=\sum_{b\in A_{X_s}}\pi_s(b\mid s,\bot)
+\underbrace{\sum_{X_j\in D_b\setminus\{X_s\}}
+q_b^{(s)}(j\mid s)}_{=1}\\
+&=\sum_{b\in A_{X_s}}\pi_s(b\mid s,\bot)=1.
+\end{aligned}
 \]
 برای تبدیل توزیع حالت‌های $(j,b)$ به توزیع نمونه‌های
 مشاهده‌شده و سپس به توزیع برچسب‌ها، دو
