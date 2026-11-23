@@ -598,15 +598,15 @@ h_s^{U}=\sum_{t=1}^{\infty}
 \begin{equation}\label{cmp:eq:ch3-out-of-graph-class-policy-mixture}
 \boxed{
 \overline\pi_\star(b\mid i,a)
-=\sum_{c=1}^{K}\rho_c\,\pi_\star^{(c)}(b\mid i,a),
+=\sum_{c=1}^{K}\omega_c\,\pi_\star^{(c)}(b\mid i,a),
 \qquad
-\rho_c\ge0,\quad \sum_{c=1}^{K}\rho_c=1.
+\omega_c\ge0,\quad \sum_{c=1}^{K}\omega_c=1.
 }
 \end{equation}
-وزن‌های $\rho_c$ سهم هر سیاست شرطی به طبقه را مشخص می‌کنند.
-این وزن‌ها می‌توانند یکنواخت، یعنی $\rho_c=1/K$، یا متناسب
+وزن‌های $\omega_c$ سهم هر سیاست شرطی به طبقه را مشخص می‌کنند.
+این وزن‌ها می‌توانند یکنواخت، یعنی $\omega_c=1/K$، یا متناسب
 با فراوانی تجربی طبقات در مجموعهٔ آموزش، یعنی
-$\rho_c=|C_c|/|D|$، تعیین شوند. در این روش، ترکیب
+$\omega_c=|C_c|/|D|$، تعیین شوند. در این روش، ترکیب
 روی احتمال‌های انتخاب ویژگی در هر وضعیت انجام می‌شود و
 وزن‌های طبقات در طول هر گشت ثابت می‌مانند.
 
@@ -618,7 +618,7 @@ $\rho_c=|C_c|/|D|$، تعیین شوند. در این روش، ترکیب
 حاصل از تکرار پیشین قرار می‌گیرد:
 \begin{equation}\label{cmp:eq:ch3-out-of-graph-adaptive-class-weights}
 \boxed{
-\boldsymbol{\rho}^{(r+1)}
+\boldsymbol{\omega}^{(r+1)}
 =\mathscr Y_\star^{(r)}.
 }
 \end{equation}
@@ -626,7 +626,7 @@ $\rho_c=|C_c|/|D|$، تعیین شوند. در این روش، ترکیب
 به‌روزرسانی می‌شود:
 \begin{equation}\label{cmp:eq:ch3-out-of-graph-adaptive-class-policy}
 \overline\pi_\star^{(r+1)}(b\mid i,a)
-=\sum_{c=1}^{K}\rho_c^{(r+1)}
+=\sum_{c=1}^{K}\omega_c^{(r+1)}
 \pi_\star^{(c)}(b\mid i,a).
 \end{equation}
 سپس توزیع برچسب همسایگی تحت سیاست جدید دوباره محاسبه
