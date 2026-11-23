@@ -65,11 +65,8 @@
 \notationrow{z_{c,a,b}(X_i;\Theta)}{امتیاز ویژگی $b$ پس از $a$ در عضو طبقهٔ $c$ از خانوادهٔ توابع}{cmp:eq:ch3-parametric-feature-score}
 \notationrow{A_{X_i}=B_s(X_i)}{ویژگی‌های موجود که به‌واسطه فرض پنجم تماماً مقصد مجاز دارند}{cmp:eq:ch3-feature-eligibility}
 \notationrow{\widetilde\Pi_i^{(s)}}{ماتریس کامل سیاست برگزیدهٔ مبدأ، شامل سطر آغاز $\bot$}{cmp:eq:ch3-fixed-policy-softmax}
-\notationrow{\rho_{c}}{وزن عضو طبقهٔ $c$ در ترکیب سیاست‌ها}{cmp:eq:ch3-mean-policy-inference}
-\notationrow{\overline\pi_s}{سیاست میانگینِ احتمال‌های انتخاب ویژگی اعضای خانواده}{cmp:eq:ch3-mean-policy-inference}
 \notationrow{Z=(z_{ab})}{ماتریس ثابت امتیاز سیاست}{cmp:eq:ch3-fixed-policy-matrix}
 \notationrow{Z^{\mathrm{node}},\ Z^{\mathrm{node,class}}}{امتیازهای عددی آزاد گره‌ای و گره--طبقه}{cmp:eq:ch3-policy-family-shapes}
-\notationrow{\bar z_{\bot b}^{\mathrm{node}},\ \bar z_{\bot b}^{(c)}}{میانگین پساآموزش امتیاز آغاز برای خانوادهٔ گره‌محور و خانوادهٔ گره--طبقه}{cmp:eq:ch3-node-mean-start}
 \notationrow{A_{c,b},\ B_{c,j,a,b}}{امتیاز شروع مشترک به‌ازای فرض طبقه مبدأ و انتقال گره‌ای}{cmp:eq:ch3-class-tied-start}
 \notationrow{\pi_s^U}{سیاست یکنواخت انتخاب ویژگی}{cmp:eq:ch3-uniform-policy}
 \notationrow{P_s^U}{ماتریس گذار نمونه‌ای سیاست یکنواخت}{cmp:eq:ch3-uniform-T}
@@ -222,7 +219,6 @@
 \notationrowalg{\mathcal M_{\mathrm{tr}}}{بستهٔ مدل آموخته‌شده، شامل سیاست و مراکز، مرجع آموزش و قرارداد امتیاز}{cmp:alg:ch3-learn-feature-policy}
 \notationgroup{استنتاج برون‌نمونه‌ای و اعتبارسنجی}
 \notationrow{\mathscr Y_x^{[c]}}{بازنمایی پرس‌وجوی بدون برچسب $x$ با سیاست نامزد $c$؛ مراکز آموزش در آزمون ثابت‌اند}{cmp:eq:ch3-heldout-first-state}
-\notationrow{\widehat y_{\mathrm{self}}(x)}{قاعدهٔ کمترین ناهمانندی با مرکز خودی؛ مبنای مقایسه}{cmp:eq:ch3-class-hypothesis-self-distance}
 \notationrow{M_x^{[c]}}{حاشیهٔ فرضیهٔ طبقهٔ $c$ نسبت به نزدیک‌ترین مرکز رقیب در همان بازنمایی}{cmp:eq:ch3-class-hypothesis-margin}
 \notationrowalg{q_{x,c},\ \mathsf{decision}}{هزینهٔ تصمیم نامزد و انتخاب میان دو قاعدهٔ استنتاج}{cmp:alg:ch3-heldout-predict-one}
 \notationrow{D_b^{\mathrm{tr}},\ q_b^{(x)}(j\mid x)}{مجموعهٔ مقصدهای آموزشی دارای ویژگی $b$ و توزیع گام اول از پرس‌وجوی خارج از مرجع}{cmp:eq:ch3-heldout-initial-transition}
