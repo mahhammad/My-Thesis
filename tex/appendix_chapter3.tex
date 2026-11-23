@@ -318,27 +318,25 @@ $O(H(e_h+e_v))$ و $O(nH(e_h+e_v))$
 و به وزن‌های ترکیب وابسته نیستند.
 
 بردار \emph{وزن سیاست‌های طبقه‌محور} را با
-$\boldsymbol{\rho}=(\rho_1,\ldots,\rho_K)$ نشان می‌دهیم؛
-این نماد با بردار $\rho_s$ مربوط به حالت‌های پس از نخستین انتقال
-در بخش~\ref{cmp:subsec:ch3-block-matrix-transition} متفاوت است.
+$\boldsymbol{\omega}=(\rho_1,\ldots,\rho_K)$ نشان می‌دهیم؛
 دامنهٔ وزن‌ها سیمپلکس احتمال است:
 \begin{equation}\label{eq:app-ch3-adaptive-policy-simplex}
 \Delta^{K-1}
-=\left\{\boldsymbol{\rho}\in\mathbb R^K:
-\rho_c\ge0,\ \sum_{c=1}^{K}\rho_c=1\right\}.
+=\left\{\boldsymbol{\omega}\in\mathbb R^K:
+\omega_c\ge0,\ \sum_{c=1}^{K}\omega_c=1\right\}.
 \end{equation}
 برای هر وضعیت مجاز $(i,a)$ و ویژگی مجاز $b$، سیاست ترکیبی را
 به‌صورت زیر تعریف می‌کنیم؛ همین تعریف برای سطر آغاز
 $a=\bot$ نیز برقرار است:
 \begin{equation}\label{eq:app-ch3-adaptive-policy-mixture}
 \boxed{
-\overline\pi_\star(b\mid i,a;\boldsymbol{\rho})
-=\sum_{c=1}^{K}\rho_c\,\pi_\star^{(c)}(b\mid i,a).
+\overline\pi_\star(b\mid i,a;\boldsymbol{\omega})
+=\sum_{c=1}^{K}\omega_c\,\pi_\star^{(c)}(b\mid i,a).
 }
 \end{equation}
 در اینجا $i=\star$ فقط برای آغاز گشت به کار می‌رود؛
 پس از نخستین انتقال، $X_i$ عضوی از مجموعهٔ مرجع است.
-وزن‌های $\boldsymbol{\rho}$ در طول \emph{هر گشت} ثابت می‌مانند
+وزن‌های $\boldsymbol{\omega}$ در طول \emph{هر گشت} ثابت می‌مانند
 و سیاست در هر وضعیت از ترکیب احتمال‌های همان وضعیت ساخته می‌شود.
 این تعریف به معنای انتخاب تصادفی یک سیاست طبقه‌محور در ابتدای گشت
 و اجرای انحصاری آن در همهٔ گام‌ها نیست.
@@ -346,22 +344,22 @@ $a=\bot$ نیز برقرار است:
 توزیع برچسب همسایگی حاصل از این سیاست را، مطابق قرارداد
 $\mathscr Y=\mathscr H Y$ در
 بخش~\ref{cmp:subsec:ch3-representations}،
-با $\mathscr Y_\star(\boldsymbol{\rho})$ نشان می‌دهیم.
+با $\mathscr Y_\star(\boldsymbol{\omega})$ نشان می‌دهیم.
 نگاشت به‌روزرسانی وزن طبقات را چنین تعریف می‌کنیم:
 \begin{equation}\label{eq:app-ch3-adaptive-policy-map}
-T(\boldsymbol{\rho})
-:=\mathscr Y_\star(\boldsymbol{\rho}).
+T(\boldsymbol{\omega})
+:=\mathscr Y_\star(\boldsymbol{\omega}).
 \end{equation}
 
 \begin{proposition}\label{prop:app-ch3-adaptive-policy-fixed-point}
 با فرض‌های فوق و قانون گشت فصل سوم، نگاشت
 $T:\Delta^{K-1}\longrightarrow\Delta^{K-1}$
 پیوسته است و دست‌کم یک بردار
-$\boldsymbol{\rho}^{\ast}\in\Delta^{K-1}$ وجود دارد که:
+$\boldsymbol{\omega}^{\ast}\in\Delta^{K-1}$ وجود دارد که:
 \begin{equation}\label{eq:app-ch3-adaptive-policy-fixed-point}
 \boxed{
-\boldsymbol{\rho}^{\ast}
-=\mathscr Y_\star(\boldsymbol{\rho}^{\ast}).
+\boldsymbol{\omega}^{\ast}
+=\mathscr Y_\star(\boldsymbol{\omega}^{\ast}).
 }
 \end{equation}
 این نتیجه هم برای گشت با افق محدود $H\ge1$
@@ -389,22 +387,22 @@ $\boldsymbol{\rho}^{\ast}\in\Delta^{K-1}$ وجود دارد که:
 هر درایهٔ ماتریس انتقال حاصل‌ضرب احتمال انتخاب ویژگی و
 احتمال انتقال عمودی است. با جایگذاری
 رابطهٔ \eqref{eq:app-ch3-adaptive-policy-mixture}
-و با توجه به استقلال عامل عمودی از $\boldsymbol{\rho}$،
+و با توجه به استقلال عامل عمودی از $\boldsymbol{\omega}$،
 برای سیاست ترکیبی داریم:
 \begin{equation}\label{eq:app-ch3-adaptive-policy-matrix-affine}
 \boxed{
-\mathsf P_\star(\boldsymbol{\rho})
-=\sum_{c=1}^{K}\rho_c\,\mathsf P_\star^{(c)},
+\mathsf P_\star(\boldsymbol{\omega})
+=\sum_{c=1}^{K}\omega_c\,\mathsf P_\star^{(c)},
 \qquad
-\nu_{\star,1}(\boldsymbol{\rho})
-=\sum_{c=1}^{K}\rho_c\,\nu_{\star,1}^{(c)}.
+\nu_{\star,1}(\boldsymbol{\omega})
+=\sum_{c=1}^{K}\omega_c\,\nu_{\star,1}^{(c)}.
 }
 \end{equation}
 تساوی دوم از اعمال همین ترکیب روی سطر آغاز $\bot$
 نتیجه می‌شود. بنابراین هر درایهٔ ماتریس انتقال و هر
 مؤلفهٔ توزیع نخستین گام، تابعی خطی از وزن‌هاست.
-همچنین هر $\mathsf P_\star(\boldsymbol{\rho})$
-سطری-تصادفی و هر $\nu_{\star,1}(\boldsymbol{\rho})$
+همچنین هر $\mathsf P_\star(\boldsymbol{\omega})$
+سطری-تصادفی و هر $\nu_{\star,1}(\boldsymbol{\omega})$
 یک توزیع احتمال است.
 
 \textbf{گام دوم: پیوستگی در افق محدود.}
@@ -414,26 +412,26 @@ $\mathsf M_\star^{(Y)}$ را مطابق
 تشکیل می‌دهیم. این ماتریس و ضرایب
 $\alpha_t^{(H)}(\beta,\lambda)$
 در رابطهٔ \eqref{cmp:eq:ch3-capped-alpha}
-به $\boldsymbol{\rho}$ وابسته نیستند.
+به $\boldsymbol{\omega}$ وابسته نیستند.
 از نمایش امید دقیق ماتریسی
 \eqref{cmp:eq:ch3-exact-matrix-neighborhood} داریم:
 \begin{equation}\label{eq:app-ch3-adaptive-policy-capped-output}
 \boxed{
-\mathscr Y_\star^{(H)}(\boldsymbol{\rho})
-=\nu_{\star,1}(\boldsymbol{\rho})
+\mathscr Y_\star^{(H)}(\boldsymbol{\omega})
+=\nu_{\star,1}(\boldsymbol{\omega})
 \left(\sum_{t=1}^{H}\alpha_t^{(H)}
-\mathsf P_\star(\boldsymbol{\rho})^{t-1}\right)
+\mathsf P_\star(\boldsymbol{\omega})^{t-1}\right)
 \mathsf M_\star^{(Y)}.
 }
 \end{equation}
 طبق گام نخست، هر مؤلفهٔ جملهٔ
-$\nu_{\star,1}(\boldsymbol{\rho})
-\mathsf P_\star(\boldsymbol{\rho})^{t-1}
+$\nu_{\star,1}(\boldsymbol{\omega})
+\mathsf P_\star(\boldsymbol{\omega})^{t-1}
 \mathsf M_\star^{(Y)}$
 چندجمله‌ای‌ای با درجهٔ حداکثر $t$ در مؤلفه‌های
-$\boldsymbol{\rho}$ است. جمع متناهی این جمله‌ها
+$\boldsymbol{\omega}$ است. جمع متناهی این جمله‌ها
 نیز پیوسته است؛ پس
-$\mathscr Y_\star^{(H)}(\boldsymbol{\rho})$
+$\mathscr Y_\star^{(H)}(\boldsymbol{\omega})$
 روی تمام سیمپلکس پیوسته خواهد بود.
 
 \textbf{گام سوم: پیوستگی در افق نامحدود.}
@@ -442,10 +440,10 @@ $\mathscr Y_\star^{(H)}(\boldsymbol{\rho})$
 نمایش گام‌های انتقال در
 رابطهٔ \eqref{cmp:eq:ch3-block-t-step}، داریم:
 \begin{equation}\label{eq:app-ch3-adaptive-policy-infinite-output}
-\mathscr Y_\star(\boldsymbol{\rho})
+\mathscr Y_\star(\boldsymbol{\omega})
 =\sum_{t=1}^{\infty}\alpha_t(\beta,\lambda)
-\nu_{\star,1}(\boldsymbol{\rho})
-\mathsf P_\star(\boldsymbol{\rho})^{t-1}
+\nu_{\star,1}(\boldsymbol{\omega})
+\mathsf P_\star(\boldsymbol{\omega})^{t-1}
 \mathsf M_\star^{(Y)}.
 \end{equation}
 هر بردار داخل جمع، توزیع احتمال روی $K$ برچسب است؛
@@ -454,16 +452,16 @@ $\mathscr Y_\star^{(H)}(\boldsymbol{\rho})$
 \ref{prop:app-ch3-alpha}،
 ضرایب $\alpha_t$ نامنفی‌اند و مجموعشان یک است.
 بنابراین، برای هر مؤلفهٔ $c$ و \emph{به‌طور یکنواخت}
-نسبت به $\boldsymbol{\rho}$، خطای قطع سری پس از
+نسبت به $\boldsymbol{\omega}$، خطای قطع سری پس از
 $H$ جمله چنین کران می‌خورد:
 \begin{equation}\label{eq:app-ch3-adaptive-policy-uniform-tail}
 \boxed{
 \left|
-[\mathscr Y_\star(\boldsymbol{\rho})]_c-
+[\mathscr Y_\star(\boldsymbol{\omega})]_c-
 \sum_{t=1}^{H}\alpha_t
 \left[
-\nu_{\star,1}(\boldsymbol{\rho})
-\mathsf P_\star(\boldsymbol{\rho})^{t-1}
+\nu_{\star,1}(\boldsymbol{\omega})
+\mathsf P_\star(\boldsymbol{\omega})^{t-1}
 \mathsf M_\star^{(Y)}
 \right]_c
 \right|
@@ -477,18 +475,18 @@ $H$ جمله چنین کران می‌خورد:
 
 \textbf{گام چهارم: وجود نقطهٔ ثابت.}
 سیمپلکس $\Delta^{K-1}$ ناتهی، فشرده و محدب است.
-برای هر $\boldsymbol{\rho}$، قانون گشت
+برای هر $\boldsymbol{\omega}$، قانون گشت
 یک توزیع احتمال روی نمونه‌های مرجع تولید می‌کند
 که با تجمیع برچسب‌ها، به توزیع احتمالی
-$\mathscr Y_\star(\boldsymbol{\rho})$
+$\mathscr Y_\star(\boldsymbol{\omega})$
 روی $K$ طبقه تبدیل می‌شود. پس
 $T(\Delta^{K-1})\subseteq\Delta^{K-1}$.
 پیوستگی $T$ نیز در دو حالت افق محدود و نامحدود
 در گام‌های پیشین اثبات شد. بنابراین، بر اساس
 قضیهٔ نقطهٔ ثابت بروئر، دست‌کم یک
-$\boldsymbol{\rho}^{\ast}\in\Delta^{K-1}$
-وجود دارد که $T(\boldsymbol{\rho}^{\ast})
-=\boldsymbol{\rho}^{\ast}$، یعنی
+$\boldsymbol{\omega}^{\ast}\in\Delta^{K-1}$
+وجود دارد که $T(\boldsymbol{\omega}^{\ast})
+=\boldsymbol{\omega}^{\ast}$، یعنی
 رابطهٔ \eqref{eq:app-ch3-adaptive-policy-fixed-point}
 برقرار است.
 \end{proof}
