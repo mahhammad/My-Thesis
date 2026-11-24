@@ -1705,9 +1705,18 @@ $O\bigl(Hn^2(d^2+\Delta d)\bigr)$
 $\widetilde P_{\mathcal S}^{(c)}$
 به‌جای $P_{\mathcal S}^{(c)}$
 در رابطه~\eqref{cmp:eq:ch3-new-sample-precompute}،
-ماتریس مشترک تنک‌شدهٔ
-$\widetilde B^{(c,H)}$
-به دست می‌آید. طبق بازگشت
+ماتریس مشترک تنک‌شدهٔ زیر
+به دست می‌آید:
+\begin{equation}\label{cmp:eq:ch3-sparse-precompute-matrix}
+\boxed{
+\widetilde B^{(c,H)}
+=\sum_{t=1}^{H}\alpha_t^{(H)}
+(\widetilde P_{\mathcal S}^{(c)})^{t-1}
+\mathsf M^{(Y)}
+\in\mathbb R^{m\times K}.
+}
+\end{equation}
+طبق بازگشت
 رابطه~\eqref{cmp:eq:ch3-new-sample-backward}،
 هر گام شامل ضرب عملگر انتقال
 در یک ماتریس با $K$ ستون است؛
