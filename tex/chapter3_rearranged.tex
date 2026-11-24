@@ -2008,11 +2008,11 @@ $\Delta$ نیاز دارد؛ برچسب‌ها و
     \FORALL{$X_i\in D_b$}
         \STATE $N_b^{(\Delta)}(i)\gets
         \{X_j:\{i,j\}\in E_b^{(\Delta)}\}$
-        \STATE $Z_{i,b}\gets
+        \STATE $W_{i,b}\gets
         \sum_{X_j\in N_b^{(\Delta)}(i)}
         w_b(X_i,X_j)$
         \STATE $\widetilde q_b(j\mid i)\gets
-        w_b(X_i,X_j)/Z_{i,b}$
+        w_b(X_i,X_j)/W_{i,b}$
         برای $X_j\in N_b^{(\Delta)}(i)$؛
         در سایر مقصدها صفر
     \ENDFOR
@@ -2176,13 +2176,13 @@ $\mathcal S_s$ یا $\mathcal S$، یا وضعیت نامعتبر
     \STATE نرمال‌سازی $\pi_\star(b\mid\star,\bot)$ روی $B_\star$
     مطابق قرارداد آغاز
     \FORALL{$b\in B_\star$}
-        \STATE $Z_{\star,b}\gets
+        \STATE $W_{\star,b}\gets
         \sum_{X_j\in D_b}w_b(X_\star,X_j)$
         \FORALL{$X_j\in D_b$}
             \STATE $\nu_1(j,b)\gets
             \nu_1(j,b)+
             \pi_\star(b\mid\star,\bot)\,
-            w_b(X_\star,X_j)/Z_{\star,b}$
+            w_b(X_\star,X_j)/W_{\star,b}$
         \ENDFOR
     \ENDFOR
 \ENDIF
