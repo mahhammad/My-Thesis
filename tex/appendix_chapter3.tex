@@ -381,6 +381,110 @@ $O(\Delta d_\star K)$ حاصل می‌شود.
 پس از آماده‌سازی ورودی‌های لازم‌اند.
 
 
+\section{تعبیر احتمالاتی توزیع همسایگی و توزیع برچسب همسایگی}
+\label{app:ch3-neighborhood-probability-proof}
+در این بخش، روابط~\eqref{cmp:eq:ch3-weighted-observation-position}،
+\eqref{cmp:eq:ch3-neighborhood-probability} و
+\eqref{cmp:eq:ch3-label-neighborhood-probability} را اثبات می‌کنیم.
+
+\begin{proof}
+نمونهٔ مبدأ $X_s$، طبقهٔ مفروض مبدأ $c_s$ و سیاست برگزیدهٔ
+$\pi_s$ را ثابت در نظر می‌گیریم. تمام احتمال‌های زیر با همین
+قرارداد محاسبه می‌شوند؛ برای اختصار وابستگی به سیاست و
+طبقهٔ مفروض را در نماد احتمال تکرار نمی‌کنیم.
+مطابق رابطه~\eqref{cmp:eq:ch3-step-observation-distribution}،
+$J_t$ اندیس نمونهٔ مشاهده‌شده در گام $t$ام فرایند ادامه‌یافتهٔ گشت است.
+از روابط~\eqref{cmp:eq:ch3-multistep-state} و
+\eqref{cmp:eq:ch3-block-t-step}، برای هر $j=1,\ldots,n$ داریم:
+\begin{equation}\label{eq:app-ch3-observed-sample-marginal}
+\begin{aligned}
+P_{X_s,t}(j)
+&=\Pr(J_t=j\mid J_0=s)\\
+&=\bigl[\rho_s P_{\mathcal S_s}^{\,t-1}
+\mathsf M_s^{(X)}\bigr]_j.
+\end{aligned}
+\end{equation}
+برای $j\ne s$، تعریف ماتریس تجمیع در
+رابطه~\eqref{cmp:eq:ch3-state-aggregation-matrices} می‌دهد:
+\[
+P_{X_s,t}(j)=
+\sum_{b\in A_{X_j}}
+[\rho_sP_{\mathcal S_s}^{\,t-1}]_{(j,b)}.
+\]
+برای $j=s$، ستون $s$ ماتریس $\mathsf M_s^{(X)}$ صفر است؛
+پس $P_{X_s,t}(s)=0$.
+
+با طول سقف‌دار $L_H=\min(L,H)$ و توزیع احتمال طول
+$p_\ell^{(H)}$ مطابق رابطه~\eqref{cmp:eq:ch3-capped-alpha}،
+اندیس مشاهدهٔ $\xi$ را با استفاده از تصادفی‌سازی مستقل از مسیر
+گشت، مشروط به طول آن، انتخاب می‌کنیم:
+\begin{equation}\label{eq:app-ch3-conditional-observation-step}
+\Pr(\xi=t\mid L_H=\ell)
+=\frac{\lambda^{t-1}}{\mathcal N_\ell(\lambda)},
+\qquad 1\le t\le\ell\le H,\quad p_\ell^{(H)}>0.
+\end{equation}
+برای $t>\ell$ این احتمال صفر است. عامل نرمال‌سازی در
+رابطه~\eqref{cmp:eq:ch3-walk-weight-normalizer} تعریف شده است.
+چون طول گشت مستقل از مسیر ادامه‌یافته است و انتخاب $\xi$
+تنها به طول و وزن گام‌ها بستگی دارد، $\xi$ نیز از مسیر
+ادامه‌یافته مستقل است (با ثابت‌بودن مبدأ و سیاست).
+با قانون احتمال کل، برای $1\le t\le H$ داریم:
+\begin{equation}\label{eq:app-ch3-marginal-observation-step}
+\begin{aligned}
+\Pr(\xi=t)
+&=\sum_{\substack{t\le\ell\le H\\p_\ell^{(H)}>0}}
+\Pr(\xi=t\mid L_H=\ell)p_\ell^{(H)}\\
+&=\lambda^{t-1}\sum_{\ell=t}^{H}
+\frac{p_\ell^{(H)}}{\mathcal N_\ell(\lambda)}\\
+&=\alpha_t^{(H)}(\beta,\lambda).
+\end{aligned}
+\end{equation}
+تساوی آخر همان تعریف ضرایب سقف‌دار در
+رابطه~\eqref{cmp:eq:ch3-capped-alpha} است.
+
+اکنون با تفکیک رویداد مشاهدهٔ $X_j$ بر اساس مقدار $\xi$،
+و استفاده از استقلال یادشده و رابطه~\eqref{eq:app-ch3-observed-sample-marginal}،
+داریم:
+\begin{equation}\label{eq:app-ch3-observation-neighborhood}
+\begin{aligned}
+\Pr(J_\xi=j\mid J_0=s)
+&=\sum_{t=1}^{H}\Pr(\xi=t,J_t=j\mid J_0=s)\\
+&=\sum_{t=1}^{H}\alpha_t^{(H)}(\beta,\lambda)
+P_{X_s,t}(j)\\
+&=\sum_{t=1}^{H}\alpha_t^{(H)}(\beta,\lambda)
+[\rho_sP_{\mathcal S_s}^{\,t-1}\mathsf M_s^{(X)}]_j\\
+&=h_{sj}.
+\end{aligned}
+\end{equation}
+تساوی آخر از روابط~\eqref{cmp:eq:ch3-multistep-state} و
+\eqref{cmp:eq:ch3-matrix-forward-recursion} به دست می‌آید.
+این رابطه حتی در حالت‌هایی که برخی ضرایب صفرند معتبر است،
+زیرا در سطر اول از احتمال اشتراک استفاده شده و نیازی به
+شرط‌کردن روی رویداد با احتمال صفر نیست.
+برای $j=s$ نیز هر دو طرف صفرند.
+
+از تعریف ماتریس یک‌داغ برچسب‌ها $Y$ داریم
+$Y_{jc}=\mathbf1\{y_j=c\}$.
+پس با تجمیع احتمال‌های مشاهدهٔ نمونه‌ها بر اساس برچسب آن‌ها،
+و با استفاده از تعریف $\mathscr H$ در
+رابطه~\eqref{cmp:eq:ch3-H} و تعریف $\mathscr Y$ در
+رابطه~\eqref{cmp:eq:ch3-Y-script}، نتیجه می‌گیریم:
+\begin{equation}\label{eq:app-ch3-observation-label-neighborhood}
+\begin{aligned}
+\Pr(y_{J_\xi}=c\mid J_0=s)
+&=\sum_{j=1}^{n}\Pr(J_\xi=j\mid J_0=s)Y_{jc}\\
+&=\sum_{j=1}^{n}h_{sj}Y_{jc}\\
+&=[\mathscr H Y]_{sc}\\
+&=\mathscr Y_s(c).
+\end{aligned}
+\end{equation}
+بنابراین تعبیر احتمالاتی توزیع همسایگی و توزیع برچسب
+همسایگی ثابت شد. در خانوادهٔ سیاست‌های شرطی به طبقه،
+این نتیجه برای عضو ثابت خانواده، متناظر با طبقهٔ مفروض
+مبدأ، برقرار است و مستلزم استفاده از برچسب واقعی مبدأ
+در تجمیع مشاهدات نیست.
+\end{proof}
+
 \section{وجود نقطهٔ ثابت برای سیاست ترکیبی با وزن‌دهی تطبیقی}
 \label{app:ch3-adaptive-policy-fixed-point}
 در سیاست‌های شرطی به طبقه، برای نمونهٔ جدید و بدون برچسب $X_\star$
