@@ -87,63 +87,107 @@ h_s
 \section{نمایش بلوکی گشت، تقریب ماتریسی و کران آن}
 \label{app:ch3-matrix-walk-proofs}
 
-\paragraph{درستی ماتریس انتقال و اصلاح وابسته به مبدأ.}
-ابتدا یک سیاست ثابت (برای مثال، عضو طبقهٔ $c$)
-را در نظر می‌گیریم. بلوک‌های افقی $\Pi_i^{(c)}$
-و احتمال‌های عمودیِ بدون حذف مبدأ
-$q_b(j\mid i)$، طبق
-رابطه‌های~\eqref{cmp:eq:ch3-intermediate-policy-matrix}
-و~\eqref{cmp:eq:ch3-base-vertical-transition}،
-ماتریس پایهٔ $\mathsf P^{(c)}$ را مستقل از مبدأ
-تشکیل می‌دهند. تنها سطرهای مربوط به ویژگی‌های
-موجود در هر نمونه معتبرند؛ این سطرها مجموع یک
-و سطرهای ویژگی‌های ناموجود مجموع صفر دارند.
+\paragraph{نمایش بلوکی معادل ماتریس انتقال پایه.}
+برای بررسی ساختار ضربی گشت، می‌توان ماتریس انتقال
+را ابتدا روی فضای کاملِ $nd$بعدی با ترتیب
+نمونه--ویژگی‌ها نوشت و سپس به مجموعهٔ حالت‌های
+موجود $\mathcal S$ محدود کرد. در این نمایش،
+ویژگی‌های ناموجود به سطرها و ستون‌های صفر
+منجر می‌شوند. برای $d=|A_D|$، بلوک عمودی
+و بلوک انتخاب ویژگی در نمونهٔ $i$ به‌ترتیب
+چنین تعریف می‌شوند:
+\begin{equation}\label{cmp:eq:ch3-block-diagonal-V}
+V_{ij}
+=\operatorname{diag}_{b\in A_D}(q_b(j\mid i))
+\in\mathbb R^{d\times d}.
+\end{equation}
+\begin{equation}\label{cmp:eq:ch3-intermediate-policy-matrix}
+\Pi_i^{(c)}
+=\bigl[\pi^{(c)}(b\mid i,a)\bigr]_{a,b\in A_D}
+\in\mathbb R^{d\times d}.
+\end{equation}
+در $\Pi_i^{(c)}$ سطر آغاز $\bot$ وجود ندارد؛
+سطرها و ستون‌های ویژگی‌های ناموجود صفرند.
+بلوک یک گام کامل و عامل‌بندی سراسری برابرند با:
+\begin{equation}\label{cmp:eq:ch3-block-Tij}
+\boxed{
+P_{ij}^{(c)}
+=\Pi_i^{(c)}V_{ij},
+\qquad
+[P_{ij}^{(c)}]_{ab}
+=\pi^{(c)}(b\mid i,a)q_b(j\mid i).
+}
+\end{equation}
+\begin{equation}\label{cmp:eq:ch3-block-factorization}
+\boxed{
+\begin{aligned}
+\mathsf F^{(c)}
+&=\operatorname{blockdiag}_{i=1}^{n}(\Pi_i^{(c)}),\\
+\mathsf V&=[V_{ij}]_{i,j=1}^{n},\\
+\mathsf P^{(c)}
+&=\mathsf F^{(c)}\mathsf V
+=[P_{ij}^{(c)}]_{i,j=1}^{n}
+\in\mathbb R^{nd\times nd},\\
+P_{\mathcal S}^{(c)}
+&=[\mathsf P^{(c)}]_{\mathcal S}.
+\end{aligned}
+}
+\end{equation}
+در اینجا زیرنویس $\mathcal S$، مطابق
+قرارداد محدودسازی بخش~
+\ref{cmp:subsec:ch3-block-matrix-transition}،
+فقط سطرها و ستون‌های حالت‌های موجود
+را نگه می‌دارد. این عامل‌بندی، تفسیر
+دومرحله‌ای انتخاب ویژگی و انتقال عمودی
+را روشن می‌کند؛ اما به‌خودی‌خود یک
+تجزیهٔ کم‌رتبه یا کاهش بعد نیست.
 
-اکنون برای مبدأ $s$، طبق
-رابطه~\eqref{cmp:eq:ch3-origin-block-rescaling}
-برای هر ویژگی موجود در نمونهٔ $i$،
-$1-q_b(s\mid i)>0$ است. زیرا $|D_b|\ge3$
-و پس از حذف نمونهٔ جاری و نمونهٔ مبدأ،
-دست‌کم یک مقصد با وزن مثبت باقی می‌ماند.
-همچنین، چون $q_b(i\mid i)=0$،
+\paragraph{درستی ماتریس انتقال و اصلاح وابسته به مبدأ.}
+برای سیاست برگزیدهٔ مبدأ $X_s$،
+ماتریس پایهٔ $P_{\mathcal S}^{(c_s)}$
+در رابطه~\eqref{cmp:eq:ch3-base-valid-transition}
+مستقل از مبدأ ساخته می‌شود.
+پس از محدودسازی به $\mathcal S_s$،
+ماتریس ضرایب $\Lambda_s$ از
+رابطه~\eqref{cmp:eq:ch3-origin-correction-matrix}
+درایه‌های باقی‌مانده را اصلاح می‌کند.
+از فرض $|D_b|\ge3$ و مثبت‌بودن
+وزن‌ها نتیجه می‌شود که برای هر ویژگی
+موجود در نمونهٔ جاری و $i\ne s$،
+$1-q_b(s\mid i)>0$ است. همچنین:
 \[
 \sum_{j\ne s}
 \frac{q_b(j\mid i)}{1-q_b(s\mid i)}
 =1.
 \]
-در رابطه~\eqref{cmp:eq:ch3-origin-masked-transition}،
-ضرب $P_{ij}^{(c)}D_{si}$ هر ستون ویژگی
-$b$ در بلوکِ سطر نمونهٔ $i$ را
-در ضریب $(1-q_b(s\mid i))^{-1}$ ضرب می‌کند
-و ماسک $\mathsf M_s$ تمام ستون‌های مقصد
-$s$ را صفر می‌کند. ازاین‌رو برای هر حالت معتبر
-$(X_i,a)$ داریم:
+بنابراین، درایه‌های
+$P_{\mathcal S_s}
+=[P_{\mathcal S}^{(c_s)}]_{\mathcal S_s}
+\odot\Lambda_s$
+همان احتمال
+$\pi^{(c_s)}(b\mid i,a)q_b^{(s)}(j\mid i)$
+را تولید می‌کنند. ازاین‌رو، برای هر
+حالت $(X_i,a)\in\mathcal S_s$ داریم:
 \begin{equation}\label{eq:app-ch3-block-stochastic}
-\sum_{j=1}^{n}\sum_{b\in A_D}
-[\mathsf P_s]_{(i,a),(j,b)}
-=\sum_{b\in A_{X_i}}\pi_s(b\mid i,a)
+\sum_{(X_j,b)\in\mathcal S_s}
+[P_{\mathcal S_s}]_{(i,a),(j,b)}
+=\sum_{b\in A_{X_i}}\pi^{(c_s)}(b\mid i,a)
 \underbrace{\sum_{j\ne s}
 \frac{q_b(j\mid i)}{1-q_b(s\mid i)}}_{=1}
 =1.
 \end{equation}
-این رابطه برای حالت‌های معتبر نمونهٔ مبدأ نیز
-صادق است، ولی آن حالت‌ها پس از نخستین گام
-بازدید نمی‌شوند. سطرهای نامعتبر صفر می‌مانند
-و جرم احتمال از هیچ سطری به مقصد $s$
-منتقل نمی‌شود. پس نمایش کامل $nd$بعدی،
-روی حالت‌های قابل دسترس $\mathcal S_s$
-دقیقاً همان قانون انتقال
-$q_b^{(s)}$ را اجرا می‌کند.
-از آنجا که بردار آغاز $\rho_s$ طبق
-رابطه~\eqref{cmp:eq:ch3-block-first-step}
-روی حالت‌های معتبر غیرمبدأ توزیع احتمال است،
-استقرا روی گام‌ها نشان می‌دهد توزیع حالت
-در گام $t$ام برابر
-$\rho_s\mathsf P_s^{t-1}$ است.
-ضرب در ماتریس‌های تجمیع
-$\mathsf M_s^{(X)}$ و $\mathsf M_s^{(Y)}$
-مؤلفه‌های حالت را به‌ترتیب بر اساس
-نمونهٔ مقصد و برچسب آن جمع می‌کند.
+این تساوی، سطری--تصادفی بودن
+ماتریس اصلاح‌شده و ممنوعیت بازگشت
+به نمونهٔ آغازین را نتیجه می‌دهد.
+بردار آغاز $\rho_s$ نیز، طبق
+رابطه~\eqref{cmp:eq:ch3-block-first-step}،
+توزیع احتمال روی $\mathcal S_s$ است.
+در نتیجه، با استقرا روی گام‌ها،
+توزیع حالت در گام $t$ام برابر
+$\rho_sP_{\mathcal S_s}^{t-1}$ خواهد بود.
+ماتریس‌های تجمیع $\mathsf M_s^{(X)}$
+و $\mathsf M_s^{(Y)}$ فقط مؤلفه‌های
+حالت را برحسب نمونه یا برچسب جمع می‌کنند.
 
 \paragraph{فروکاست دقیق سیاست یکنواخت به زنجیره روی نمونه‌ها.}
 در سیاست یکنواخت و برای مبدأ ثابت $s$،
@@ -193,19 +237,19 @@ $\sum_{\ell=1}^{H}p_\ell^{(H)}=1$ تبدیل می‌شود. این محاسبه 
 \begin{equation}\label{eq:app-ch3-backward-recursion-proof}
 G_{s,t}
 =\sum_{u=t}^{H}\alpha_u^{(H)}
-\mathsf P_s^{\,u-t}\mathsf M_s^{(Y)},
+P_{\mathcal S_s}^{\,u-t}\mathsf M_s^{(Y)},
 \qquad 1\le t\le H.
 \end{equation}
 برای $t=H$، این برابری از $G_{s,H+1}=0$
 و رابطه بازگشتی به‌دست می‌آید.
 اگر در $t+1$ برقرار باشد، با جایگذاری
 $\alpha_t^{(H)}\mathsf M_s^{(Y)}
-+\mathsf P_sG_{s,t+1}$
++P_{\mathcal S_s}G_{s,t+1}$
 در آن، جمله $u=t$ به جمع اضافه می‌شود.
 بنابراین در $t=1$، حاصل
 $\rho_sG_{s,1}
 =\sum_{u=1}^{H}\alpha_u^{(H)}
-\rho_s\mathsf P_s^{u-1}\mathsf M_s^{(Y)}$
+\rho_sP_{\mathcal S_s}^{u-1}\mathsf M_s^{(Y)}$
 همان جمع پیش‌رونده
 رابطه~\eqref{cmp:eq:ch3-matrix-forward-recursion} است.
 
@@ -543,7 +587,7 @@ $\boldsymbol{\omega}^{\ast}\in\Delta^{K-1}$
 متفاوت از خود و
 از مبدأ داشته باشند.
 پس تمام سطرهای
-$\mathsf P_s$ جمع یک دارند.
+$P_{\mathcal S_s}$ جمع یک دارند.
 بااین‌حال حذف مبدأ
 لزوماً اتصال‌پذیری
 قوی مجموعه حالت
@@ -605,13 +649,13 @@ $(a_1,A),(a_2,A)$
 نامتقارن میان
 حالت‌های هر جفت،
 توان‌های
-$\rho_s\mathsf P_s^t$
+$\rho_sP_{\mathcal S_s}^t$
 در گام‌های زوج
 و فرد نوسان می‌کنند.
 در نتیجه،
 \emph{پنج فرض
 همگرایی توان‌های
-$\mathsf P_s$ را
+$P_{\mathcal S_s}$ را
 تضمین نمی‌کنند.}
 
 \paragraph{یگانگی و همگرایی محاسبه وزن‌دار.}
@@ -619,14 +663,14 @@ $\mathsf P_s$ را
 گراف مرجع و
 پارامترهای گشت
 مشخص، $\rho_s$،
-$\mathsf P_s$ و
+$P_{\mathcal S_s}$ و
 $\mathsf M_s^{(Y)}$
 مقادیر معین دارند.
 برای هر $t\ge1$،
 بردار
 \[
 v_{s,t}
-=\rho_s\mathsf P_s^{t-1}
+=\rho_sP_{\mathcal S_s}^{t-1}
 \mathsf M_s^{(Y)}
 \]
 یک توزیع احتمال
@@ -654,7 +698,7 @@ $\sum_{t\ge1}\alpha_t=1$،
 معین است؛ این
 نتیجه مستقل از
 همگرایی
-$\mathsf P_s^t$
+$P_{\mathcal S_s}^t$
 به توزیع ماناست.
 میانگین‌گیری
 توزیع‌های نمونه‌ها
@@ -691,7 +735,7 @@ $\rho_s$ است و
 با احتمال $\beta$
 به $o_s$ می‌رویم؛
 در غیر این صورت
-با $\mathsf P_s$
+با $P_{\mathcal S_s}$
 انتقال می‌یابیم.
 این تعریف به
 \eqref{cmp:eq:ch3-sequential-restart-matrix}
@@ -741,9 +785,9 @@ $o_s\to u\to o_s$
 احتمال مثبت دارد.
 از طرف دیگر، چون
 $1-\beta>0$ و
-$\mathsf P_s$ سطری--تصادفی است،
+$P_{\mathcal S_s}$ سطری--تصادفی است،
 دست‌کم یک حالت $v$
-با $\mathsf P_s(u,v)>0$
+با $P_{\mathcal S_s}(u,v)>0$
 وجود دارد. پس مسیر
 $o_s\to u\to v\to o_s$
 نیز با احتمال مثبت
@@ -786,26 +830,26 @@ $\pi=\pi\widetilde{\mathsf P}_s$
 \qquad
 \pi_{\mathrm{int}}
 =\pi_0\rho_s
-+(1-\beta)\pi_{\mathrm{int}}\mathsf P_s.
++(1-\beta)\pi_{\mathrm{int}}P_{\mathcal S_s}.
 \]
 چون
 $\pi_0+\pi_{\mathrm{int}}\mathbf1=1$،
 داریم
 $\pi_0=\beta/(1+\beta)$.
 از سطری--تصادفی
-بودن $\mathsf P_s$
+بودن $P_{\mathcal S_s}$
 نتیجه می‌شود که
 شعاع طیفی
-$(1-\beta)\mathsf P_s$
+$(1-\beta)P_{\mathcal S_s}$
 از یک کوچک‌تر است؛
 پس وارون
-$I-(1-\beta)\mathsf P_s$
+$I-(1-\beta)P_{\mathcal S_s}$
 وجود دارد و
 \[
 \pi_{\mathrm{int}}
 =\frac{\beta}{1+\beta}
 \rho_s\sum_{k\ge0}
-(1-\beta)^k\mathsf P_s^k.
+(1-\beta)^kP_{\mathcal S_s}^k.
 \]
 پس از تقسیم بر
 $1-\pi_0=1/(1+\beta)$،
@@ -893,10 +937,10 @@ $\frac1M\sum_{r=1}^MB_{s,r}$
 \frac{\lambda^{t-1}}
 {\mathcal N_L(\lambda)}
 \right]
-\rho_s\mathsf P_s^{t-1}\mathsf M_s^{(Y)}\\
+\rho_sP_{\mathcal S_s}^{t-1}\mathsf M_s^{(Y)}\\
 &=\sum_{t\ge1}
 \alpha_t(\beta,\lambda)
-\rho_s\mathsf P_s^{t-1}\mathsf M_s^{(Y)}
+\rho_sP_{\mathcal S_s}^{t-1}\mathsf M_s^{(Y)}
 \end{aligned}
 \]
 نوشت؛ این همان
@@ -983,11 +1027,11 @@ $0<\beta<1$ توجیه می‌کند،
 \label{app:ch3-inverse-policy-proof}
 
 \paragraph{مشتق ماتریسی.}
-در ناحیه‌ای که ویژگی‌های موجود و مقصدهای مجاز ثابت‌اند، احتمال‌های عمودی $q_b(j\mid i)$، ماسک $\mathsf M_s$ و ضرایب $D_{si}$ مستقل از امتیازهای سیاست هستند. در رابطه~\eqref{cmp:eq:ch3-origin-masked-transition}، وابستگی $\mathsf P_s$ به امتیازها از طریق بلوک‌های $\Pi_i^{(c)}$ و نرمال‌سازی با بیشینهٔ هموار است؛ بنابراین $\mathsf P_s$ نسبت به امتیازها مشتق‌پذیر است. برای یک تغییر کوچک در پارامترهای سیاست و با قرارداد $\mathsf P_s^0=I$، از قاعده ضرب ماتریس‌ها نتیجه می‌شود:
+در ناحیه‌ای که ویژگی‌های موجود و مقصدهای مجاز ثابت‌اند، احتمال‌های عمودی $q_b(j\mid i)$ و ضرایب $\Lambda_s$ مستقل از امتیازهای سیاست هستند. در رابطه~\eqref{cmp:eq:ch3-origin-masked-transition}، وابستگی $P_{\mathcal S_s}$ به امتیازها تنها از طریق درایه‌های $P_{\mathcal S}^{(c_s)}$ و نرمال‌سازی با بیشینهٔ هموار در سیاست است؛ بنابراین $P_{\mathcal S_s}$ نسبت به امتیازها مشتق‌پذیر است. برای یک تغییر کوچک در پارامترهای سیاست و با قرارداد $P_{\mathcal S_s}^0=I$، از قاعده ضرب ماتریس‌ها نتیجه می‌شود:
 \begin{equation}\label{eq:app-ch3-power-differential}
-\mathrm d(\mathsf P_s^q)
-=\sum_{j=0}^{q-1}\mathsf P_s^j
-(\mathrm d\mathsf P_s)\mathsf P_s^{q-1-j},
+\mathrm d(P_{\mathcal S_s}^q)
+=\sum_{j=0}^{q-1}P_{\mathcal S_s}^j
+(\mathrm dP_{\mathcal S_s})P_{\mathcal S_s}^{q-1-j},
 \qquad q\ge1.
 \end{equation}
 ازاین‌رو مشتق بازنمایی سقف‌دار:
@@ -996,11 +1040,11 @@ $0<\beta<1$ توجیه می‌کند،
 \mathrm d\mathscr Y_s
 ={}&(\mathrm d\rho_s)
 \sum_{t=1}^{H}\alpha_t^{(H)}
-\mathsf P_s^{t-1}\mathsf M_s^{(Y)}\\
+P_{\mathcal S_s}^{t-1}\mathsf M_s^{(Y)}\\
 &+\rho_s\sum_{t=2}^{H}\alpha_t^{(H)}
-\sum_{j=0}^{t-2}\mathsf P_s^j
-(\mathrm d\mathsf P_s)
-\mathsf P_s^{t-2-j}\mathsf M_s^{(Y)},\\
+\sum_{j=0}^{t-2}P_{\mathcal S_s}^j
+(\mathrm dP_{\mathcal S_s})
+P_{\mathcal S_s}^{t-2-j}\mathsf M_s^{(Y)},\\
 \mathrm d\mathcal V_c
 ={}&|C_c|^{-1}\sum_{s\in C_c}\mathrm d\mathscr Y_s.
 \end{aligned}
