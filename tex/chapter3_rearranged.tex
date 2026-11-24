@@ -2127,11 +2127,12 @@ $\operatorname{VerticalRow}$ به
 حالت حذف است؛ برای نمونهٔ جدید،
 $s=\varnothing$ می‌گذاریم.
 این روش بدون تشکیل صریح
-$P_{\mathcal S_s}$ یا
-$\widetilde P_{\mathcal S_s}$
-همان ضرب ماتریسی
-رابطه~\eqref{cmp:eq:ch3-sparse-origin-transition}
-را پیاده می‌کند.
+ماتریس انتقال، در حالت مبدأ آموزشی
+ضربِ رابطه~\eqref{cmp:eq:ch3-sparse-origin-transition}
+و در حالت برون‌نمونه‌ای
+ضرب در ماتریس پایهٔ
+رابطه~\eqref{cmp:eq:ch3-sparse-base-transition}
+را اجرا می‌کند.
 \begin{algorithm}[!htbp]
 \caption{زیرروال $\operatorname{Advance}$: انتشار یک گام کامل}
 \label{cmp:alg:ch3-advance-walk-state}
@@ -5692,11 +5693,19 @@ $\operatorname{ExactWalk}_{\mathrm{tr}}(i;\theta^{\mathrm{fit}})$
 |C_c|^{-1}\sum_{i\in C_c}
 \mathscr Y_i(\theta^{\mathrm{fit}})$
 برای تمام $c$
+\STATE در صورت درخواستِ پیش‌محاسبهٔ
+استنتاج، ساخت $\widetilde B^{(c,H)}$
+برای هر سیاست ثابتِ نهایی با
+$\operatorname{PrecomputeLabels}$
+در الگوریتم~\ref{cmp:alg:ch3-precompute-labels}
 \STATE $\mathcal M_{\mathrm{tr}}\gets
 (\theta^{\mathrm{fit}},\mathcal V^{\mathrm{fit}},
 D_{\mathrm{tr}},Y_{\mathrm{tr}},M_{\mathrm{tr}},
 \mathsf{cfg},H,\beta,\lambda,\Delta,
 N,\widetilde q,\text{کرنل و قرارداد سیاست})$
+\STATE در صورت انجام پیش‌محاسبه،
+ماتریس‌های $\widetilde B^{(c,H)}$
+نیز به بستهٔ $\mathcal M_{\mathrm{tr}}$ افزوده شوند
 \STATE \textbf{بازگردان}
 $\mathcal M_{\mathrm{tr}}$ و، در صورت نیاز، $\chi_{\mathrm{opt}}$
 \end{algorithmic}
