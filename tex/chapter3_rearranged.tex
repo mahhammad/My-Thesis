@@ -2167,7 +2167,13 @@ $\widetilde q_b=q_b$ خواهد بود.
 $s$ حذف و همان سطر مجدداً
 نرمال می‌شود؛ این دقیقاً
 رابطه~\eqref{cmp:eq:ch3-sparse-vertical-transition}
-را اجرا می‌کند.
+را اجرا می‌کند. سطرهای واقعاً اصلاح‌شده در حافظهٔ
+موقت همان مبدأ نگه داشته می‌شوند تا در گام‌های
+بعدی دوباره نرمال نشوند. این حافظه در آغاز
+روند آموزشی تهی است و پس از پایان آن آزاد می‌شود.
+مخرج نرمال‌سازی از جمع احتمال‌های باقی‌مانده
+به دست می‌آید تا تفریق دو عدد نزدیک به یک
+انجام نشود.
 
 \begin{algorithm}[!htbp]
 \caption{زیرروال $\operatorname{VerticalRow}$: حذف مبدأ و نرمال‌سازی سطر}
@@ -2175,7 +2181,8 @@ $s$ حذف و همان سطر مجدداً
 \begin{algorithmic}[1]
 \REQUIRE $X_i\in D_b$؛ ویژگی $b$؛
 $s\in\{1,\ldots,n\}\cup\{\varnothing\}$؛
-$N_b^{(\Delta)}(i)$ و $\widetilde q_b(\cdot\mid i)$
+$N_b^{(\Delta)}(i)$ و $\widetilde q_b(\cdot\mid i)$؛
+حافظهٔ موقت $\mathcal C_s$ برای مبدأ $s$
 \ENSURE مجموعهٔ $\mathcal J_{i,b}^{(s)}$
 و احتمال‌های $\bar q_b^{(s)}$
 \IF{$s=\varnothing$ یا $X_s\notin N_b^{(\Delta)}(i)$}
@@ -2183,13 +2190,16 @@ $N_b^{(\Delta)}(i)$ و $\widetilde q_b(\cdot\mid i)$
     $(N_b^{(\Delta)}(i),\widetilde q_b(\cdot\mid i))$
     بدون نرمال‌سازی مجدد
 \ENDIF
+\IF{$(i,b)$ در $\mathcal C_s$ موجود است}
+    \STATE \textbf{بازگردان} $\mathcal C_s[i,b]$
+\ENDIF
 \STATE $\mathcal J_{i,b}^{(s)}\gets N_b^{(\Delta)}(i)\setminus\{X_s\}$
 \STATE $\eta\gets\sum_{X_j\in\mathcal J_{i,b}^{(s)}}\widetilde q_b(j\mid i)$
 \FORALL{$X_j\in\mathcal J_{i,b}^{(s)}$}
     \STATE $\bar q_b^{(s)}(j\mid i)\gets\widetilde q_b(j\mid i)/\eta$
 \ENDFOR
-\STATE \textbf{بازگردان}
-$(\mathcal J_{i,b}^{(s)},\bar q_b^{(s)})$
+\STATE $\mathcal C_s[i,b]\gets(\mathcal J_{i,b}^{(s)},\bar q_b^{(s)})$
+\STATE \textbf{بازگردان} $\mathcal C_s[i,b]$
 \end{algorithmic}
 \end{algorithm}
 
@@ -2367,10 +2377,11 @@ $s=\varnothing$ می‌گذاریم.
 \caption{زیرروال $\operatorname{Advance}$: انتشار یک گام کامل}
 \label{cmp:alg:ch3-advance-walk-state}
 \begin{algorithmic}[1]
-\REQUIRE توزیع حالت $\nu$؛
+\REQUIRE توزیع حالت $\nu$ (مؤلفه‌های ذخیره‌نشده صفر)؛
 $s\in\{1,\ldots,n\}\cup\{\varnothing\}$؛
 سیاست ثابتِ برگزیده $\pi$؛
-$N_b^{(\Delta)}$ و $\widetilde q_b$
+$N_b^{(\Delta)}$ و $\widetilde q_b$؛
+حافظهٔ موقت $\mathcal C_s$، در صورت $s\ne\varnothing$
 \ENSURE توزیع $\nu^+$ روی فضای حالت مجاز
 \STATE اگر $s=\varnothing$، آنگاه
 $\mathcal T\gets\mathcal S$ و
@@ -2384,7 +2395,7 @@ $\mathcal I_s\gets\{1,\ldots,n\}\setminus\{s\}$
         \STATE $r_{i,b}\gets
         \sum_{a\in A_{X_i}}\nu(i,a)\pi(b\mid i,a)$
         \STATE $(\mathcal J,p)\gets
-        \operatorname{VerticalRow}(i,b,s;N,\widetilde q)$
+        \operatorname{VerticalRow}(i,b,s;N,\widetilde q,\mathcal C_s)$
         \FORALL{$X_j\in\mathcal J$}
             \STATE $\nu^+(j,b)\gets
             \nu^+(j,b)+r_{i,b}p(j)$
@@ -2422,6 +2433,7 @@ $c_s=y_s$ مطابق
 $N_b^{(\Delta)}$ و $\widetilde q_b$
 \ENSURE بازنمایی نمونه‌ای $h_s$
 و بازنمایی برچسبی $\mathscr Y_s$
+\STATE $\mathcal C_s\gets\varnothing$؛ حافظهٔ موقت سطرهای اصلاح‌شده
 \STATE $\nu\gets
 \operatorname{FirstState}(s;\pi_s,D,N,\widetilde q)$
 \STATE $h_s\gets0_{1\times n}$
@@ -2432,7 +2444,7 @@ $N_b^{(\Delta)}$ و $\widetilde q_b$
     \ENDFOR
     \IF{$t<H$}
         \STATE $\nu\gets
-        \operatorname{Advance}(\nu,s,\pi_s,N,\widetilde q)$
+        \operatorname{Advance}(\nu,s,\pi_s,N,\widetilde q,\mathcal C_s)$
     \ENDIF
 \ENDFOR
 \STATE $\mathscr Y_s\gets0_{1\times K}$
@@ -2548,7 +2560,7 @@ B_\star,\mathcal Q_\star)$
         \ENDFOR
         \IF{$t<H$}
             \STATE $\nu\gets\operatorname{Advance}
-            (\nu,\varnothing,\pi^{(c)},N,\widetilde q)$
+            (\nu,\varnothing,\pi^{(c)},N,\widetilde q,\varnothing)$
         \ENDIF
     \ENDFOR
 \ENDIF
@@ -6044,12 +6056,11 @@ $D_b^{\mathrm{tr}}=\{X_j\in D_{\mathrm{tr}}:
 b\in A_{X_j}\}$ مجموعهٔ مقصدهای آموزشیِ
 دارای آن ویژگی است. با همان وزن کرنل
 رابطه~\eqref{cmp:eq:ch3-edge-weight}،
-توزیع \emph{گام نخست} را به‌شکل زیر می‌سازیم:
+توزیع \emph{گام نخست} در نسخهٔ تنک، مطابق
+رابطه~\eqref{cmp:eq:ch3-query-sparse-vertical}، برابر است با:
 \begin{equation}\label{cmp:eq:ch3-heldout-initial-transition}
-q_b^{(x)}(j\mid x)=
-\frac{w_b(x,X_j)}
-{\sum_{X_k\in D_b^{\mathrm{tr}}}w_b(x,X_k)},
-\qquad X_j\in D_b^{\mathrm{tr}}.
+q_b^{(x)}(j\mid x)=\widetilde q_b(j\mid\star),
+\qquad X_\star=x.
 \end{equation}
 این رابطه فقط برای ویژگی دارای مقدار مشاهده‌شده
 در $x$ و مخرج مثبت به کار می‌رود؛ ویژگی‌های
@@ -6069,9 +6080,9 @@ q_b^{(x)}(j\mid x).
 \end{equation}
 از گام دوم به بعد، گشت فقط روی
 نمونه--ویژگی‌های مجموعهٔ آموزش ادامه
-می‌یابد؛ توزیع‌های عمودی از
-$D_b^{\mathrm{tr}}\setminus\{X_i\}$ برای
-گرهٔ جاری $X_i$ ساخته می‌شوند.
+می‌یابد؛ توزیع‌های عمودی پایهٔ ذخیره‌شده روی
+$N_b^{(\Delta)}(i)$ برای گرهٔ جاری $X_i$
+بازاستفاده می‌شوند.
 چون $x\notin D_{\mathrm{tr}}$ است،
 نیازی به حذف مبدأ پرس‌وجو از گره‌های
 آموزشی نیست. همین تفاوت، استفادهٔ
@@ -6159,8 +6170,9 @@ $v_x\in\{0,1\}$ نشانگر پیش‌بینی معتبر است
 \IF{خانوادهٔ گره‌محور است و قاعدهٔ آغاز برون‌گراف موجود نیست}
     \STATE \textbf{توقف: قرارداد استنتاج این خانواده تعریف نشده است}
 \ENDIF
+\STATE $X_\star\gets x$
 \STATE $(B_\star,\mathcal Q_\star)\gets
-\operatorname{QueryVertical}(x,\{D_b^{\mathrm{tr}}\},\{\mu_b,\kappa_b\},\Delta)$
+\operatorname{QueryVertical}(X_\star,\{D_b^{\mathrm{tr}}\},\{\mu_b,\kappa_b\},\Delta)$
 \IF{$B_\star=\varnothing$}
     \STATE \textbf{بازگردان} $(0,\bot,\bot,\bot)$
 \ENDIF
