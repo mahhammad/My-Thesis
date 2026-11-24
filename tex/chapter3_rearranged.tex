@@ -1855,41 +1855,177 @@ q_b(\cdot\mid i),
 تغییر خود گراف را
 محدود نمی‌کند.
 
-\paragraph{شبه‌کد محاسبهٔ امید گشت با افق محدود.}
-برای مشخص‌کردن تمام مراحل محاسبه، سه الگوریتم زیر
-را تعریف می‌کنیم: محاسبهٔ ضرایب وزن‌دار گشت،
-پیش‌برد یک‌گام توزیع حالت، و روال اصلی تجمیع امید.
-در هر سه الگوریتم، مبدأ $s$ و سیاست
-برگزیدهٔ $\pi_s$ در طول یک اجرا ثابت‌اند. برای یکسان‌کردن حالت
-کامل و تنک، مجموعهٔ مقصدهای مجاز را با
-$\mathcal J_{i,b}^{(s)}$ و احتمال انتقال
-عمودی متناظر را با $\bar q_b^{(s)}(j\mid i)$
-نشان می‌دهیم. در گراف کامل،
-$\mathcal J_{i,b}^{(s)}
-=D_b\setminus\{X_i,X_s\}$ و
-$\bar q_b^{(s)}=q_b^{(s)}$ است؛
-در گراف تنک، برای $i\ne s$،
-$\mathcal J_{i,b}^{(s)}
-=N_b^{(\Delta)}(i)\setminus\{X_s\}$
-و $\bar q_b^{(s)}=\widetilde q_b^{(s)}$
-مطابق رابطه~\eqref{cmp:eq:ch3-sparse-vertical-transition}
-خواهد بود؛ در نخستین گام از $i=s$،
-$\mathcal J_{s,b}^{(s)}=N_b^{(\Delta)}(s)$
-و $\bar q_b^{(s)}(j\mid s)=\widetilde q_b(j\mid s)$
-به کار می‌رود. در هر دو حالت، مجموعهٔ مقصدها
-ناتهی است و $\bar q_b^{(s)}$ روی همان
-مجموعه نرمال شده است.
+\paragraph{سازمان زیرروال‌ها و روندهای محاسباتی.}
+در این بخش، محاسبهٔ امید را به دو لایهٔ
+\emph{آماده‌سازی گراف} و \emph{انتشار با سیاست ثابت}
+تقسیم می‌کنیم. در لایهٔ نخست،
+زیرروال $\operatorname{BuildVertical}$ با ورودی
+$\Delta$، زیرگراف‌های عمودی و احتمال‌های
+پایه را یک‌بار از دادهٔ مرجع می‌سازد.
+زیرروال $\operatorname{VerticalRow}$ حذف
+مقصد مبدأ را در زمان استفاده اعمال
+می‌کند تا فهرست‌های مجزایی برای هر
+مبدأ ذخیره نشوند. در لایهٔ دوم،
+زیرروال‌های $\operatorname{CappedWeights}$،
+$\operatorname{FirstState}$ و
+$\operatorname{Advance}$ به‌ترتیب
+وزن گام‌ها، توزیع آغاز و انتشار یک گام
+را فراهم می‌کنند. روندهای
+$\operatorname{ExactWalk}$،
+$\operatorname{PrecomputeLabels}$ و
+$\operatorname{QueryExactWalk}$ این اجزا
+را برای آموزش و استنتاج ترکیب می‌کنند.
+شکل عملیاتی این تقسیم‌بندی با
+روابط~\eqref{cmp:eq:ch3-sparse-vertical-transition}،
+\eqref{cmp:eq:ch3-matrix-forward-recursion}
+و~\eqref{cmp:eq:ch3-sparse-precompute-matrix}
+سازگار است؛ هیچ ماتریس انتقال
+متراکمی در زیرروال‌ها ساخته نمی‌شود.
 
-الگوریتم~\ref{cmp:alg:ch3-capped-walk-weights}
-ضرایب رابطه~\eqref{cmp:eq:ch3-capped-alpha}
-را با جمع پس‌رونده و بدون محاسبهٔ
-جداگانهٔ مجموع‌های تودرتو می‌سازد.
-متغیر $r$ در این الگوریتم جرم طول گشت
-باقی‌مانده پیش از اعمال توقف است؛
-به همین دلیل حالت $H=1$ نیز مستقیماً
-پوشش داده می‌شود.
+\paragraph{زیرروال ساخت همسایگی و احتمال عمودی.}
+الگوریتم~\ref{cmp:alg:ch3-build-vertical}
+تنها به نمونه‌های مرجع، متریک‌ها،
+تابع‌های تبدیل وزن و سقف درجهٔ
+$\Delta$ نیاز دارد؛ برچسب‌ها و
+پارامترهای سیاست در ساخت آن
+دخالت ندارند. برای آنکه گراف‌های
+عمودی بدون جهت بمانند و در عین
+حال کران‌های درجهٔ
+رابطه~\eqref{cmp:eq:ch3-sparse-feature-graph}
+رعایت شوند، ابتدا یک چرخهٔ پوشا
+ساخته و سپس یال‌های باقیمانده را
+به‌ترتیب وزن می‌افزاییم؛ افزودن
+یال تنها هنگامی مجاز است که درجهٔ
+هر دو سر آن کمتر از $\Delta$ باشد.
+این یک ساخت مشخص و معتبر است،
+نه ادعایی دربارهٔ یافتن بهترین
+زیرگراف وزن‌دار. وقتی زیرگراف
+اصلی کوچک‌تر از سقف درجه است،
+تمام یال‌ها نگه داشته می‌شوند.
+در پایان، احتمال‌های
+رابطه~\eqref{cmp:eq:ch3-sparse-base-vertical-transition}
+روی همان همسایگان نرمال می‌شوند.
+
 \begin{algorithm}[!htbp]
-\caption{زیرروال $\operatorname{CappedWeights}$ برای محاسبهٔ ضرایب گشت}
+\caption{زیرروال $\operatorname{BuildVertical}$: ساخت گراف عمودی و احتمال‌های پایه}
+\label{cmp:alg:ch3-build-vertical}
+\begin{algorithmic}[1]
+\REQUIRE مجموعهٔ مرجع $D$ و مجموعه‌های $D_b$؛
+متریک‌های $\mu_b$ و توابع وزن $\kappa_b$؛
+سقف درجهٔ صحیح $\Delta>3$
+\ENSURE فهرست‌های $N_b^{(\Delta)}(i)$ و
+احتمال‌های پایهٔ $\widetilde q_b(j\mid i)$
+\FORALL{$b\in A_D$}
+    \STATE $n_b\gets |D_b|$؛
+    $\mathcal E_b\gets
+    \{\{i,j\}:X_i,X_j\in D_b,\ i<j\}$
+    \STATE $w_b(X_i,X_j)\gets
+    \kappa_b(\mu_b(b(X_i),b(X_j)))$
+    برای همهٔ $\{i,j\}\in\mathcal E_b$
+    \IF{$n_b-1\le\Delta$}
+        \STATE $E_b^{(\Delta)}\gets\mathcal E_b$
+    \ELSE
+        \STATE $(i_1,\ldots,i_{n_b})\gets$
+        ترتیب ثابتِ شناسه‌های $D_b$؛
+        $i_{n_b+1}\gets i_1$
+        \STATE $E_b^{(\Delta)}
+        \gets\{\{i_r,i_{r+1}\}:
+        r=1,\ldots,n_b\}$
+        \STATE $\mathcal C_b\gets
+        \mathcal E_b\setminus E_b^{(\Delta)}$
+        به‌ترتیب نزولی $w_b$؛
+        شکست تساوی با ترتیب ثابت شناسه‌ها
+        \FORALL{$\{i,j\}\in\mathcal C_b$ به‌ترتیب}
+            \IF{$\deg_{E_b^{(\Delta)}}(i)<\Delta$
+            و $\deg_{E_b^{(\Delta)}}(j)<\Delta$}
+                \STATE $E_b^{(\Delta)}
+                \gets E_b^{(\Delta)}\cup\{\{i,j\}\}$
+            \ENDIF
+        \ENDFOR
+    \ENDIF
+    \FORALL{$X_i\in D_b$}
+        \STATE $N_b^{(\Delta)}(i)\gets
+        \{X_j:\{i,j\}\in E_b^{(\Delta)}\}$
+        \STATE $Z_{i,b}\gets
+        \sum_{X_j\in N_b^{(\Delta)}(i)}
+        w_b(X_i,X_j)$
+        \STATE $\widetilde q_b(j\mid i)\gets
+        w_b(X_i,X_j)/Z_{i,b}$
+        برای $X_j\in N_b^{(\Delta)}(i)$؛
+        در سایر مقصدها صفر
+    \ENDFOR
+\ENDFOR
+\STATE \textbf{بازگردان}
+$\{N_b^{(\Delta)}(i),\widetilde q_b(\cdot\mid i)\}$
+\end{algorithmic}
+\end{algorithm}
+
+این زیرروال برای تمام ویژگی‌ها
+دست‌کم دو همسایهٔ عمودی و حداکثر
+$\Delta$ همسایه نگه می‌دارد؛
+بنابراین حذف یک مقصد به‌عنوان
+مبدأ، سطر انتقال را تهی نمی‌کند.
+مرتب‌سازی همهٔ یال‌های نامزد
+ممکن است هزینهٔ آماده‌سازی
+درجه‌دوم داشته باشد؛ این هزینه
+مربوط به \emph{ساخت اولیهٔ گراف}
+است و در کران خطی هر گامِ
+رابطه~\eqref{cmp:eq:ch3-sparse-linear-bound}
+وارد نشده است. در گرافی که
+نیازی به تنک‌سازی ندارد،
+$\widetilde q_b=q_b$ خواهد بود.
+
+\paragraph{زیرروال انتخاب سطر عمودی مجاز.}
+الگوریتم~\ref{cmp:alg:ch3-vertical-row}
+احتمال‌های پایهٔ ذخیره‌شده را
+برای یک سطر و مبدأ مشخص اصلاح
+می‌کند؛ $\varnothing$ به معنای
+\emph{نبود نمونهٔ مبدأ در گراف مرجع}
+است. در این حالت، هیچ رأسی از
+گراف مرجع حذف نمی‌شود. برای نخستین
+گام مبدأ آموزشی نیز، چون $i=s$
+است، توزیع پایه به کار می‌رود.
+در سایر گام‌های آموزشی، مقصد
+$s$ حذف و همان سطر مجدداً
+نرمال می‌شود؛ این دقیقاً
+رابطه~\eqref{cmp:eq:ch3-sparse-vertical-transition}
+را اجرا می‌کند.
+
+\begin{algorithm}[!htbp]
+\caption{زیرروال $\operatorname{VerticalRow}$: حذف مبدأ و نرمال‌سازی سطر}
+\label{cmp:alg:ch3-vertical-row}
+\begin{algorithmic}[1]
+\REQUIRE $X_i\in D_b$؛ ویژگی $b$؛
+$s\in\{1,\ldots,n\}\cup\{\varnothing\}$؛
+$N_b^{(\Delta)}(i)$ و $\widetilde q_b(\cdot\mid i)$
+\ENSURE مجموعهٔ $\mathcal J_{i,b}^{(s)}$
+و احتمال‌های $\bar q_b^{(s)}$
+\STATE $\mathcal J_{i,b}^{(s)}
+\gets N_b^{(\Delta)}(i)$؛ $Z\gets1$
+\IF{$s\ne\varnothing$ و $i\ne s$}
+    \STATE $\mathcal J_{i,b}^{(s)}
+    \gets\mathcal J_{i,b}^{(s)}\setminus\{X_s\}$
+    \STATE $Z\gets1-\widetilde q_b(s\mid i)$
+    با قرارداد صفر برای مقصد ناموجود
+\ENDIF
+\FORALL{$X_j\in\mathcal J_{i,b}^{(s)}$}
+    \STATE $\bar q_b^{(s)}(j\mid i)
+    \gets\widetilde q_b(j\mid i)/Z$
+\ENDFOR
+\STATE \textbf{بازگردان}
+$(\mathcal J_{i,b}^{(s)},\bar q_b^{(s)})$
+\end{algorithmic}
+\end{algorithm}
+
+\paragraph{زیرروال ضرایب طول گشت.}
+الگوریتم~\ref{cmp:alg:ch3-capped-walk-weights}
+ضرایب سقف‌دار
+رابطه~\eqref{cmp:eq:ch3-capped-alpha}
+را با یک جمع پس‌رونده محاسبه می‌کند؛
+نیازی نیست مجموع‌های تودرتو
+برای هر $t$ جداگانه محاسبه شوند.
+\begin{algorithm}[!htbp]
+\caption{زیرروال $\operatorname{CappedWeights}$ برای ضرایب گشت}
 \label{cmp:alg:ch3-capped-walk-weights}
 \begin{algorithmic}[1]
 \REQUIRE $H\ge1$، $0<\beta\le1$ و $0<\lambda\le1$
@@ -1913,29 +2049,112 @@ $\mathcal J_{s,b}^{(s)}=N_b^{(\Delta)}(s)$
 \end{algorithmic}
 \end{algorithm}
 
-الگوریتم~\ref{cmp:alg:ch3-advance-walk-state}
-پیش‌برد یک‌گام توزیع حالت را به‌صورت دو مرحلهٔ
-افقی و عمودی اجرا می‌کند، بدون آنکه
-ماتریس انتقال یا حتی عامل‌های افقی و عمودی آن
-به‌صورت ماتریس ساخته شوند. در این روال،
-$r_b$ جرم حاصل از انتخاب ویژگی $b$
-در نمونهٔ جاری است و سپس روی مقصدهای
-مجاز همان ویژگی پخش می‌شود.
+\paragraph{زیرروال ساخت توزیع نخستین گام.}
+برای گشت آموزشی، توزیع آغاز
+رابطه~\eqref{cmp:eq:ch3-block-first-step}
+از سطر $\bot$ سیاست و احتمال
+عمودی پایه ساخته می‌شود. برای
+پرس‌وجوی خارج از گراف، احتمال
+گام نخست همچنان از
+رابطه~\eqref{cmp:eq:ch3-heldout-initial-transition}
+به دست می‌آید؛ تنک‌سازی یال‌های
+\emph{داخلی} گراف مرجع، به‌خودی‌خود
+مقصدهای گام نخست پرس‌وجو را
+محدود نمی‌کند. الگوریتم
+\ref{cmp:alg:ch3-first-state}
+این دو حالت را با حفظ تمایز
+فضای حالت‌هایشان پوشش می‌دهد.
+سیاست آغاز $\pi_\circ$ در هر
+فراخوانی از پیش برگزیده و،
+برای پرس‌وجو، مطابق قرارداد
+برون‌گراف معتبر است.
+
 \begin{algorithm}[!htbp]
-\caption{پیش‌برد یک گام توزیع حالت $\operatorname{Advance}$}
+\caption{زیرروال $\operatorname{FirstState}$: توزیع نخستین گام}
+\label{cmp:alg:ch3-first-state}
+\begin{algorithmic}[1]
+\REQUIRE مبدأ $\circ=s\in D$ یا پرس‌وجوی
+$\circ=x\notin D$؛ سیاست آغاز $\pi_\circ$؛
+مرجع $D$، وزن‌های $w_b$؛
+$N_b^{(\Delta)}$، $\widetilde q_b$
+\ENSURE توزیع $\nu_1$ روی
+$\mathcal S_s$ یا $\mathcal S$، یا وضعیت نامعتبر
+\IF{$\circ=s\in D$}
+    \STATE $\nu_1(j,b)\gets0$
+    برای $(X_j,b)\in\mathcal S_s$
+    \FORALL{$b\in A_{X_s}$}
+        \STATE $(\mathcal J,p)
+        \gets\operatorname{VerticalRow}(s,b,s)$
+        \FORALL{$X_j\in\mathcal J$}
+            \STATE $\nu_1(j,b)\gets
+            \nu_1(j,b)+\pi_s(b\mid s,\bot)p(j)$
+        \ENDFOR
+    \ENDFOR
+\ELSE
+    \STATE $B_x\gets
+    \{b\in A_x\cap A_D:
+    \sum_{X_j\in D_b}w_b(x,X_j)>0\}$
+    \IF{$B_x=\varnothing$ یا سیاست آغازِ مجاز روی $B_x$ موجود نیست}
+        \STATE \textbf{بازگردان} وضعیت نامعتبر
+    \ENDIF
+    \STATE $\nu_1(j,b)\gets0$
+    برای $(X_j,b)\in\mathcal S$
+    \STATE نرمال‌سازی $\pi_x(b\mid x,\bot)$ روی $B_x$
+    مطابق قرارداد آغاز
+    \FORALL{$b\in B_x$}
+        \STATE $Z_{x,b}\gets
+        \sum_{X_j\in D_b}w_b(x,X_j)$
+        \FORALL{$X_j\in D_b$}
+            \STATE $\nu_1(j,b)\gets
+            \nu_1(j,b)+
+            \pi_x(b\mid x,\bot)\,
+            w_b(x,X_j)/Z_{x,b}$
+        \ENDFOR
+    \ENDFOR
+\ENDIF
+\STATE \textbf{بازگردان} $\nu_1$
+\end{algorithmic}
+\end{algorithm}
+
+\paragraph{زیرروال پیش‌برد یک گام.}
+الگوریتم~\ref{cmp:alg:ch3-advance-walk-state}
+ابتدا جرم هر نمونه را طبق سیاست
+میان ویژگی‌های موجود تقسیم می‌کند
+و سپس آن را با استفاده از
+$\operatorname{VerticalRow}$ به
+مقصدهای عمودی می‌فرستد. برای
+مبدأ آموزشی، $s$ از فضای
+حالت حذف است؛ برای نمونهٔ جدید،
+$s=\varnothing$ می‌گذاریم.
+این روش بدون تشکیل صریح
+$P_{\mathcal S_s}$ یا
+$\widetilde P_{\mathcal S_s}$
+همان ضرب ماتریسی
+رابطه~\eqref{cmp:eq:ch3-sparse-origin-transition}
+را پیاده می‌کند.
+\begin{algorithm}[!htbp]
+\caption{زیرروال $\operatorname{Advance}$: انتشار یک گام کامل}
 \label{cmp:alg:ch3-advance-walk-state}
 \begin{algorithmic}[1]
-\REQUIRE $\nu$ روی $\mathcal S_s$؛ $s$؛ سیاست برگزیدهٔ $\pi_s$؛ $\bar q,\mathcal J$
-\ENSURE $\nu^+$، توزیع حالت پس از یک گام با قانون $\bar q$
-\STATE $\nu^+(j,b)\gets0$ برای هر $(j,b)\in\mathcal S_s$
-\FORALL{$i\in\{1,\ldots,n\}\setminus\{s\}$}
+\REQUIRE توزیع حالت $\nu$؛
+$s\in\{1,\ldots,n\}\cup\{\varnothing\}$؛
+سیاست ثابتِ برگزیده $\pi$؛
+$N_b^{(\Delta)}$ و $\widetilde q_b$
+\ENSURE توزیع $\nu^+$ روی فضای حالت مجاز
+\STATE $\mathcal T\gets
+\mathcal S_s$ اگر $s\ne\varnothing$؛
+وگرنه $\mathcal T\gets\mathcal S$
+\STATE $\nu^+(j,b)\gets0$
+برای $(X_j,b)\in\mathcal T$
+\FORALL{$X_i\in D$ و $i\ne s$، اگر $s\ne\varnothing$}
     \FORALL{$b\in A_{X_i}$}
-        \STATE $r_b\gets0$
-        \FORALL{$a\in A_{X_i}$}
-            \STATE $r_b\gets r_b+\nu(i,a)\pi_s(b\mid i,a)$
-        \ENDFOR
-        \FORALL{$X_j\in\mathcal J_{i,b}^{(s)}$}
-            \STATE $\nu^+(j,b)\gets\nu^+(j,b)+r_b\bar q_b^{(s)}(j\mid i)$
+        \STATE $r_{i,b}\gets
+        \sum_{a\in A_{X_i}}\nu(i,a)\pi(b\mid i,a)$
+        \STATE $(\mathcal J,p)\gets
+        \operatorname{VerticalRow}(i,b,s)$
+        \FORALL{$X_j\in\mathcal J$}
+            \STATE $\nu^+(j,b)\gets
+            \nu^+(j,b)+r_{i,b}p(j)$
         \ENDFOR
     \ENDFOR
 \ENDFOR
@@ -1943,65 +2162,186 @@ $r_b$ جرم حاصل از انتخاب ویژگی $b$
 \end{algorithmic}
 \end{algorithm}
 
+\paragraph{روند محاسبهٔ امید آموزشی.}
 الگوریتم~\ref{cmp:alg:ch3-exact-walk-expectation}
-از دو زیرروال بالا استفاده می‌کند.
-توزیع اولیهٔ $\nu=\rho_s$ با سطر آغاز
-$\bot$ ساخته می‌شود؛ در گام‌های بعدی
-سطرهای انتقال میانی سیاست به کار می‌روند.
-تجمیع مستقیم در مؤلفهٔ نمونهٔ $j$ و
-برچسب $y_j$ دقیقاً معادل ضرب در
-$\mathsf M_s^{(X)}$ و $\mathsf M_s^{(Y)}$
-است، ولی نیازی به ذخیرهٔ این دو ماتریس ندارد.
+از سه زیرروال
+\ref{cmp:alg:ch3-capped-walk-weights}،
+\ref{cmp:alg:ch3-first-state} و
+\ref{cmp:alg:ch3-advance-walk-state}
+استفاده می‌کند. سیاست برگزیدهٔ
+مبدأ $X_s$ در طول این فراخوانی
+ثابت است؛ در آموزش طبقه‌محور
+$c_s=y_s$ مطابق
+زیربخش~\ref{cmp:subsec:ch3-block-matrix-transition}.
+تجمیع در مؤلفهٔ نمونه و
+برچسب معادل ضرب در ماتریس‌های
+رابطه~\eqref{cmp:eq:ch3-state-aggregation-matrices}
+است و ذخیرهٔ آن ماتریس‌ها
+ضروری نیست.
+
 \begin{algorithm}[!htbp]
-\caption{محاسبهٔ دقیق امید گشت روی گراف انتخاب‌شده}
+\caption{روند $\operatorname{ExactWalk}$: امید دقیق گشت آموزشی روی گراف انتخاب‌شده}
 \label{cmp:alg:ch3-exact-walk-expectation}
 \begin{algorithmic}[1]
-\REQUIRE $s,H,\beta,\lambda$؛ سیاست برگزیدهٔ $\pi_s$؛ $\bar q,\mathcal J$؛ برچسب‌های $Y$
-\ENSURE بازنمایی نمونه‌ای $h_s$ و بازنمایی برچسبی $\mathscr Y_s$
-\STATE $\alpha^{(H)}\gets\operatorname{CappedWeights}(H,\beta,\lambda)$
-\STATE $\mathcal S_s\gets\{(j,b)\mid j\ne s,\ b\in A_{X_j}\}$
-\STATE $\nu(j,b)\gets0$ برای هر $(j,b)\in\mathcal S_s$
-\FORALL{$b\in A_{X_s}$}
-    \FORALL{$X_j\in\mathcal J_{s,b}^{(s)}$}
-        \STATE $\nu(j,b)\gets\nu(j,b)+\pi_s(b\mid s,\bot)\bar q_b^{(s)}(j\mid s)$
-    \ENDFOR
-\ENDFOR
-\STATE $h_s\gets0_{1\times n}$؛ $\mathscr Y_s\gets0_{1\times K}$
+\REQUIRE مبدأ $s\in\{1,\ldots,n\}$؛
+$H,\beta,\lambda$؛ سیاست برگزیدهٔ $\pi_s$؛
+مرجع برچسب‌دار $D,Y$؛
+$N_b^{(\Delta)}$ و $\widetilde q_b$
+\ENSURE بازنمایی نمونه‌ای $h_s$
+و بازنمایی برچسبی $\mathscr Y_s$
+\STATE $\alpha^{(H)}
+\gets\operatorname{CappedWeights}(H,\beta,\lambda)$
+\STATE $\nu\gets
+\operatorname{FirstState}(s;\pi_s,D,N,\widetilde q)$
+\STATE $h_s\gets0_{1\times n}$؛
+$\mathscr Y_s\gets0_{1\times K}$
 \FOR{$t=1,\ldots,H$}
-    \FORALL{$(j,b)\in\mathcal S_s$}
-        \STATE $h_s[j]\gets h_s[j]+\alpha_t^{(H)}\nu(j,b)$
-        \STATE $\mathscr Y_s[y_j]\gets\mathscr Y_s[y_j]+\alpha_t^{(H)}\nu(j,b)$
+    \FORALL{$(X_j,b)\in\mathcal S_s$}
+        \STATE $h_s[j]\gets
+        h_s[j]+\alpha_t^{(H)}\nu(j,b)$
+        \STATE $\mathscr Y_s[y_j]\gets
+        \mathscr Y_s[y_j]+\alpha_t^{(H)}\nu(j,b)$
     \ENDFOR
     \IF{$t<H$}
-        \STATE $\nu\gets\operatorname{Advance}(\nu,s,\pi_s,\bar q,\mathcal J)$
+        \STATE $\nu\gets
+        \operatorname{Advance}(\nu,s,\pi_s,N,\widetilde q)$
     \ENDIF
 \ENDFOR
 \STATE \textbf{بازگردان} $(h_s,\mathscr Y_s)$
 \end{algorithmic}
 \end{algorithm}
 
-این سه الگوریتم برای افق سقف‌دار $H$ و
-قانون انتقال انتخاب‌شده، بدون خطای نمونه‌گیری
-مونت‌کارلو امید بازنمایی را محاسبه می‌کنند.
-در حالت تنک، دقت محاسبه نسبت به \emph{گراف
-تنک‌شده} است؛ خطای تغییر گراف از خطای
-محاسبهٔ امید متمایز می‌ماند.
-هزینهٔ محاسبهٔ ضرایب $O(H)$ است و
-هر فراخوانی $\operatorname{Advance}$،
-پس از آماده‌سازی وزن‌ها و همسایگان،
-در حالت کامل حداکثر $O(e_h+e_v)$ و
-در حالت تنک حداکثر
-$O(e_h+\Delta m)$ عملیات دارد؛
-کران دقیق‌ترِ وابسته به مبدأ در
-رابطه~\eqref{cmp:eq:ch3-sparse-step-cost}
-آمده است.
-برای مبدأهای مختلف، فضای حالت و بردارهای
-وابسته به هر مبدأ را می‌توان پس از اتمام
-همان اجرا آزاد کرد؛ در آزمونِ سیاست شرطی بدون میانگین‌گیری
-هر فرضیه با سیاست متناظر خود در اجرایی
-مستقل ارزیابی می‌شود؛ خود الگوریتم یک گشت
-نیازی به اندیس فرضیه ندارد.
+\paragraph{روند پیش‌محاسبهٔ مشترک برای نمونه‌های جدید.}
+در بازگشت پس‌روندهٔ
+رابطه~\eqref{cmp:eq:ch3-new-sample-backward}،
+به‌جای ساختن توان‌های ماتریس
+انتقال، می‌توان ضرب در
+$\widetilde P_{\mathcal S}^{(c)}$
+را روی هر ستون به دو مرحلهٔ
+عمودی و افقی تجزیه کرد.
+الگوریتم~\ref{cmp:alg:ch3-precompute-labels}
+دقیقاً ماتریس
+$\widetilde B^{(c,H)}$ در
+رابطه~\eqref{cmp:eq:ch3-sparse-precompute-matrix}
+را می‌سازد. بردارهای $U_{i,b,:}$
+صرفاً متغیرهای موقت محاسبه‌اند؛
+هیچ ماتریس انتقالی در حافظه
+تشکیل نمی‌شود.
 
+\begin{algorithm}[!htbp]
+\caption{روند $\operatorname{PrecomputeLabels}$: بازگشت پس‌روندهٔ مشترک}
+\label{cmp:alg:ch3-precompute-labels}
+\begin{algorithmic}[1]
+\REQUIRE مرجع $D,Y$؛ سیاست ثابت $\pi^{(c)}$؛
+$H,\beta,\lambda$؛ $N_b^{(\Delta)}$، $\widetilde q_b$
+\ENSURE $\widetilde B^{(c,H)}\in\mathbb R^{m\times K}$
+\STATE $\alpha^{(H)}
+\gets\operatorname{CappedWeights}(H,\beta,\lambda)$
+\STATE $G\gets0_{m\times K}$
+\FOR{$t=H,H-1,\ldots,1$}
+    \FORALL{$(X_i,b)\in\mathcal S$}
+        \STATE $U_{i,b,:}\gets0_{1\times K}$
+        \FORALL{$X_j\in N_b^{(\Delta)}(i)$}
+            \STATE $U_{i,b,:}\gets U_{i,b,:}
+            +\widetilde q_b(j\mid i)\,G_{(j,b),:}$
+        \ENDFOR
+    \ENDFOR
+    \FORALL{$(X_i,a)\in\mathcal S$}
+        \STATE $G^+_{(i,a),:}\gets
+        \alpha_t^{(H)}Y_{i,:}
+        +\sum_{b\in A_{X_i}}
+        \pi^{(c)}(b\mid i,a)\,U_{i,b,:}$
+    \ENDFOR
+    \STATE $G\gets G^+$
+\ENDFOR
+\STATE \textbf{بازگردان} $\widetilde B^{(c,H)}\gets G$
+\end{algorithmic}
+\end{algorithm}
+
+\paragraph{روند امید برون‌نمونه‌ای.}
+برای پرس‌وجوی خارج از گراف، مبدأ
+جزء مجموعهٔ $D$ نیست؛ بنابراین
+هیچ حالت مرجعی حذف نمی‌شود.
+روند $\operatorname{QueryExactWalk}$
+در الگوریتم~\ref{cmp:alg:ch3-query-exact-walk}
+همان توزیع آغازِ
+رابطه~\eqref{cmp:eq:ch3-heldout-first-state}
+را با $\operatorname{FirstState}$
+می‌سازد و در صورت موجودبودن
+ماتریس پیش‌محاسبه‌شده، تنها
+ضرب رابطه~\eqref{cmp:eq:ch3-new-sample-representation}
+را انجام می‌دهد. در غیر این
+صورت، بازگشت پیش‌رونده را با
+$s=\varnothing$ اجرا می‌کند.
+این روند تنها بازنمایی برچسبی
+را تولید می‌کند؛ تصمیم نهایی
+با مراکز همچنان بر عهدهٔ
+الگوریتم~\ref{cmp:alg:ch3-heldout-predict-one}
+است.
+
+\begin{algorithm}[!htbp]
+\caption{روند $\operatorname{QueryExactWalk}$: امید دقیق پرس‌وجوی برون‌نمونه‌ای}
+\label{cmp:alg:ch3-query-exact-walk}
+\begin{algorithmic}[1]
+\REQUIRE پرس‌وجو $x$، سیاست فرضیهٔ
+برگزیدهٔ $\pi^{(c)}$ و سطر آغاز مجاز
+$\pi_x^{(c)}$؛ مدل ثابت شامل
+$D,Y,H,\beta,\lambda,N_b^{(\Delta)},\widetilde q_b$؛
+$\widetilde B^{(c,H)}$ در صورت پیش‌محاسبه
+\ENSURE $\mathscr Y_x^{(c)}\in\Delta_K$
+یا وضعیت نامعتبر
+\STATE $\nu\gets\operatorname{FirstState}
+(x;\pi_x^{(c)},D,N,\widetilde q)$
+\IF{توزیع نخستین گام نامعتبر است}
+    \STATE \textbf{بازگردان} وضعیت نامعتبر
+\ENDIF
+\IF{$\widetilde B^{(c,H)}$ موجود است}
+    \STATE $\mathscr Y_x^{(c)}
+    \gets\nu\widetilde B^{(c,H)}$
+\ELSE
+    \STATE $\alpha^{(H)}
+    \gets\operatorname{CappedWeights}(H,\beta,\lambda)$
+    \STATE $\mathscr Y_x^{(c)}\gets0_{1\times K}$
+    \FOR{$t=1,\ldots,H$}
+        \FORALL{$(X_j,b)\in\mathcal S$}
+            \STATE $\mathscr Y_x^{(c)}[y_j]
+            \gets\mathscr Y_x^{(c)}[y_j]
+            +\alpha_t^{(H)}\nu(j,b)$
+        \ENDFOR
+        \IF{$t<H$}
+            \STATE $\nu\gets\operatorname{Advance}
+            (\nu,\varnothing,\pi^{(c)},N,\widetilde q)$
+        \ENDIF
+    \ENDFOR
+\ENDIF
+\STATE \textbf{بازگردان} $\mathscr Y_x^{(c)}$
+\end{algorithmic}
+\end{algorithm}
+
+در هر دو روند، امید گشت تا افق
+$H$ با ضرایب دقیق محاسبه می‌شود؛
+به این معنا که خطای نمونه‌گیری
+مسیر وجود ندارد. هنگام
+تنک‌سازی، این دقت مربوط به
+گراف تنک‌شده است و خطای تغییر
+گراف از خطای قطع عمقِ
+رابطه~\eqref{cmp:eq:ch3-matrix-truncation-bound}
+جدا می‌ماند. زیرروال ساخت
+همسایگی تنها یک‌بار برای گراف
+مرجع ثابت اجرا می‌شود و ضرایب
+$\alpha_t^{(H)}$ نیز تا هنگام
+تغییر $H,\beta,\lambda$ قابل
+بازاستفاده‌اند. در آموزش،
+پس از تغییر پارامترهای سیاست،
+احتمال‌های انتخاب ویژگی باید
+مجدد ارزیابی شوند، ولی
+$N_b^{(\Delta)}$ و
+$\widetilde q_b$ ثابت می‌مانند.
+ماتریس $\widetilde B^{(c,H)}$
+نیز پس از هر تغییر سیاست،
+نیازمند بازسازی است و صرفاً
+برای سیاست ثابتِ استنتاج
+قابل استفادهٔ مشترک خواهد بود.
 
 \paragraph{تجمیع محلی یک‌گامی برچسب‌ها.}
 برای نمونهٔ جاری $X_i$ با $i\ne s$،
