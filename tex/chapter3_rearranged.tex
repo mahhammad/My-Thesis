@@ -1427,7 +1427,7 @@ $\lambda$ وزن نسبی مشاهده‌ها در گام‌های
 دو شاخص مناسب عبارت‌اند از:
 \begin{equation}\label{cmp:eq:ch3-effective-depth}
 \boxed{
-d_{\mathrm{eff}}=\sum_{t=1}^{H}t\,\alpha_t^{(H)},
+H_{\mathrm{eff}}=\sum_{t=1}^{H}t\,\alpha_t^{(H)},
 \qquad
 r_\varepsilon=\min\left\{r:
 \sum_{t=1}^{r}\alpha_t^{(H)}
@@ -2145,13 +2145,15 @@ $(\mathcal J_{i,b}^{(s)},\bar q_b^{(s)})$
 \caption{زیرروال $\operatorname{FirstState}$: توزیع نخستین گام}
 \label{cmp:alg:ch3-first-state}
 \begin{algorithmic}[1]
-\REQUIRE مبدأ $\circ=s\in D$ یا پرس‌وجوی
-$\circ=x\notin D$؛ سیاست آغاز $\pi_\circ$؛
+\REQUIRE اندیس مبدأ $\circ\in\{s,\star\}$،
+که در آن $s\in\{1,\ldots,n\}$ برای $X_s\in D$
+و $\star$ برای نمونهٔ جدید $X_\star\notin D$ است؛
+سیاست آغاز $\pi_\circ$؛
 مرجع $D$، وزن‌های $w_b$؛
 $N_b^{(\Delta)}$، $\widetilde q_b$
 \ENSURE توزیع $\nu_1$ روی
 $\mathcal S_s$ یا $\mathcal S$، یا وضعیت نامعتبر
-\IF{$\circ=s\in D$}
+\IF{$\circ=s$}
     \STATE $\nu_1(j,b)\gets0$
     برای $(X_j,b)\in\mathcal S_s$
     \FORALL{$b\in A_{X_s}$}
@@ -2163,24 +2165,24 @@ $\mathcal S_s$ یا $\mathcal S$، یا وضعیت نامعتبر
         \ENDFOR
     \ENDFOR
 \ELSE
-    \STATE $B_x\gets
-    \{b\in A_x\cap A_D:
-    \sum_{X_j\in D_b}w_b(x,X_j)>0\}$
-    \IF{$B_x=\varnothing$ یا سیاست آغازِ مجاز روی $B_x$ موجود نیست}
+    \STATE $B_\star\gets
+    \{b\in A_{X_\star}\cap A_D:
+    \sum_{X_j\in D_b}w_b(X_\star,X_j)>0\}$
+    \IF{$B_\star=\varnothing$ یا سیاست آغازِ مجاز روی $B_\star$ موجود نیست}
         \STATE \textbf{بازگردان} وضعیت نامعتبر
     \ENDIF
     \STATE $\nu_1(j,b)\gets0$
     برای $(X_j,b)\in\mathcal S$
-    \STATE نرمال‌سازی $\pi_x(b\mid x,\bot)$ روی $B_x$
+    \STATE نرمال‌سازی $\pi_\star(b\mid\star,\bot)$ روی $B_\star$
     مطابق قرارداد آغاز
-    \FORALL{$b\in B_x$}
-        \STATE $Z_{x,b}\gets
-        \sum_{X_j\in D_b}w_b(x,X_j)$
+    \FORALL{$b\in B_\star$}
+        \STATE $Z_{\star,b}\gets
+        \sum_{X_j\in D_b}w_b(X_\star,X_j)$
         \FORALL{$X_j\in D_b$}
             \STATE $\nu_1(j,b)\gets
             \nu_1(j,b)+
-            \pi_x(b\mid x,\bot)\,
-            w_b(x,X_j)/Z_{x,b}$
+            \pi_\star(b\mid\star,\bot)\,
+            w_b(X_\star,X_j)/Z_{\star,b}$
         \ENDFOR
     \ENDFOR
 \ENDIF
@@ -2358,30 +2360,30 @@ $s=\varnothing$ اجرا می‌کند.
 \caption{روند $\operatorname{QueryExactWalk}$: امید دقیق پرس‌وجوی برون‌نمونه‌ای}
 \label{cmp:alg:ch3-query-exact-walk}
 \begin{algorithmic}[1]
-\REQUIRE پرس‌وجو $x$، سیاست فرضیهٔ
+\REQUIRE نمونهٔ جدید $X_\star$، سیاست فرضیهٔ
 برگزیدهٔ $\pi^{(c)}$ و سطر آغاز مجاز
-$\pi_x^{(c)}$؛ مدل ثابت شامل
+$\pi_\star^{(c)}$؛ مدل ثابت شامل
 $D,Y,H,\beta,\lambda,N_b^{(\Delta)},\widetilde q_b$
 و وزن‌های کرنلی $w_b$؛
 $\widetilde B^{(c,H)}$ در صورت پیش‌محاسبه
-\ENSURE $\mathscr Y_x^{(c)}\in\Delta_K$
+\ENSURE $\mathscr Y_\star^{(c)}\in\Delta_K$
 یا وضعیت نامعتبر
 \STATE $\nu\gets\operatorname{FirstState}
-(x;\pi_x^{(c)},D,w,N,\widetilde q)$
+(\star;\pi_\star^{(c)},D,w,N,\widetilde q)$
 \IF{توزیع نخستین گام نامعتبر است}
     \STATE \textbf{بازگردان} وضعیت نامعتبر
 \ENDIF
 \IF{$\widetilde B^{(c,H)}$ موجود است}
-    \STATE $\mathscr Y_x^{(c)}
+    \STATE $\mathscr Y_\star^{(c)}
     \gets\nu\widetilde B^{(c,H)}$
 \ELSE
     \STATE $\alpha^{(H)}
     \gets\operatorname{CappedWeights}(H,\beta,\lambda)$
-    \STATE $\mathscr Y_x^{(c)}\gets0_{1\times K}$
+    \STATE $\mathscr Y_\star^{(c)}\gets0_{1\times K}$
     \FOR{$t=1,\ldots,H$}
         \FORALL{$(X_j,b)\in\mathcal S$}
-            \STATE $\mathscr Y_x^{(c)}[y_j]
-            \gets\mathscr Y_x^{(c)}[y_j]
+            \STATE $\mathscr Y_\star^{(c)}[y_j]
+            \gets\mathscr Y_\star^{(c)}[y_j]
             +\alpha_t^{(H)}\nu(j,b)$
         \ENDFOR
         \IF{$t<H$}
@@ -2390,7 +2392,7 @@ $\widetilde B^{(c,H)}$ در صورت پیش‌محاسبه
         \ENDIF
     \ENDFOR
 \ENDIF
-\STATE \textbf{بازگردان} $\mathscr Y_x^{(c)}$
+\STATE \textbf{بازگردان} $\mathscr Y_\star^{(c)}$
 \end{algorithmic}
 \end{algorithm}
 
