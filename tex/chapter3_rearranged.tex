@@ -1041,8 +1041,8 @@ $P_{\mathcal S}^{(c)}$ است و برای
 ارزیابی می‌شوند ثابت می‌ماند.
 
 برای نمونهٔ جدید، احتمال انتقال عمودی
-به نمونهٔ مرجع را چنین تعریف می‌کنیم:
-\[
+به نمونهٔ مرجع در حالت کامل را چنین تعریف می‌کنیم:
+\begin{equation}\label{cmp:eq:ch3-query-base-vertical}
 q_b(j\mid\star)=
 \begin{cases}
 \displaystyle
@@ -1051,20 +1051,20 @@ q_b(j\mid\star)=
 &b\in A_{X_\star},\ X_j\in D_b,\\[6pt]
 0,&\text{در غیر این صورت}.
 \end{cases}
-\]
+\end{equation}
 ازاین‌رو توزیع نخستین گام تحت سیاست
 عضو $c$ برابر خواهد بود با
-\[
+\begin{equation}\label{cmp:eq:ch3-query-first-state}
 \boxed{
 \rho_\star^{(c)}(j,b)
 =\pi_\star^{(c)}(b\mid\star,\bot)\,
 q_b(j\mid\star),
 \qquad (X_j,b)\in\mathcal S.
 }
-\]
+\end{equation}
 احتمال انتخاب نخستین ویژگی از قرارداد
 سیاست و قاعدهٔ برون‌گراف آن در
-بخش~\ref{cmp:subsec:ch3-node-policy-families}
+بخش~\ref{cmp:subsec:ch3-out-of-graph-policy}
 به دست می‌آید. از آنجا که احتمال‌های
 انتخاب ویژگی و انتقال عمودی نرمال‌اند،
 $\rho_\star^{(c)}$ نیز یک توزیع احتمال
@@ -1845,6 +1845,68 @@ $O(\Delta m)$ ساختار عمودیِ مشترک
 به‌صورت متوالی محاسبه و مصرف شوند،
 نگهداری هم‌زمان همهٔ آن‌ها ضروری نیست.
 
+\paragraph{محدودسازی نخستین انتقال نمونهٔ جدید.}
+تنک‌سازی یال‌های داخلی گراف مرجع، به‌خودی‌خود
+مقصدهای نخستین انتقال نمونهٔ جدید را محدود نمی‌کند.
+برای محدودکردن هزینهٔ این انتقال نیز از همان سقف
+درجهٔ $\Delta$ استفاده می‌کنیم. برای هر
+$b\in A_{X_\star}\cap A_D$، مجموعهٔ
+$N_b^{(\Delta)}(\star)\subseteq D_b$ را از
+حداکثر $\Delta$ نمونهٔ نزدیک‌تر از دید متریک
+$\mu_b$ تشکیل می‌دهیم؛ اگر $|D_b|\le\Delta$،
+تمام اعضای $D_b$ نگه داشته می‌شوند. تساوی فاصله‌ها
+با ترتیبی ثابت شکسته می‌شود. وزن‌های ارتباط
+نمونهٔ جدید با مقصدهای برگزیده با همان تابع
+رابطه~\eqref{cmp:eq:ch3-edge-weight} محاسبه می‌شوند.
+در نتیجه، همتای تنک‌شدهٔ
+رابطه~\eqref{cmp:eq:ch3-query-base-vertical}
+عبارت است از:
+\begin{equation}\label{cmp:eq:ch3-query-sparse-vertical}
+\boxed{
+\widetilde q_b(j\mid\star)=
+\begin{cases}
+\displaystyle\frac{w_b(X_\star,X_j)}{W_{\star,b}},
+&X_j\in N_b^{(\Delta)}(\star),\\[5pt]
+0,&\text{در غیر این صورت},
+\end{cases}
+\qquad
+W_{\star,b}=\sum_{X_j\in N_b^{(\Delta)}(\star)}
+w_b(X_\star,X_j).
+}
+\end{equation}
+این رابطه برای ویژگی دارای مجموعهٔ مقصد ناتهی
+و وزن کل مثبت تعریف می‌شود. ازاین‌رو با
+$d_\star=|A_{X_\star}\cap A_D|$، شمار وزن‌های
+ارتباطی که پس از گزینش مقصدها محاسبه می‌شوند،
+از کران زیر تجاوز نمی‌کند:
+\begin{equation}\label{cmp:eq:ch3-query-weight-count}
+\boxed{
+\sum_{b\in A_{X_\star}\cap A_D}
+|N_b^{(\Delta)}(\star)|
+\le \Delta d_\star.
+}
+\end{equation}
+هزینهٔ یافتن همسایگان بر اساس متریک، از هزینهٔ
+ارزیابی تابع وزن و نرمال‌سازی جداست؛ جست‌وجوی
+مستقیم ممکن است به بررسی تمام اعضای $D_b$
+نیاز داشته باشد. استفاده از نمایهٔ جست‌وجوی
+همسایگان متناسب با متریک می‌تواند این هزینه را
+کاهش دهد؛ کران بالا تضمینی برای شمار ارزیابی‌های
+متریک در مرحلهٔ جست‌وجو نیست.
+
+این فهرست‌ها و احتمال‌های عمودی به نمونهٔ جدید
+و گراف مرجع وابسته‌اند، اما به سیاست و طبقهٔ مفروض
+وابسته نیستند؛ پس برای هر نمونهٔ جدید تنها یک‌بار
+ساخته می‌شوند. توزیع نخستین گام در نسخهٔ تنک
+از رابطه~\eqref{cmp:eq:ch3-query-first-state}
+با جایگزینی $\widetilde q_b(j\mid\star)$
+به‌جای $q_b(j\mid\star)$ به دست می‌آید.
+سقف $\Delta$ در اینجا فقط تعداد یال‌های خروجی
+نمونهٔ جدید را محدود می‌کند و هیچ یالی به گراف
+مرجع اضافه نمی‌شود. محاسبهٔ امید نسبت به قانون
+انتقال انتخاب‌شده دقیق است، نه الزاماً نسبت به
+گراف و انتقال نخستینِ کامل.
+
 \paragraph{قابلیت موازی‌سازی محاسبات.}
 روابط ماتریسی پیش‌رونده و
 پس‌روندهٔ
@@ -1939,7 +2001,11 @@ $\Delta$، زیرگراف‌های عمودی و احتمال‌های
 زیرروال $\operatorname{VerticalRow}$ حذف
 مقصد مبدأ را در زمان استفاده اعمال
 می‌کند تا فهرست‌های مجزایی برای هر
-مبدأ ذخیره نشوند. در لایهٔ دوم،
+مبدأ ذخیره نشوند. برای نمونهٔ جدید نیز زیرروال
+$\operatorname{QueryVertical}$ با همان سقف $\Delta$،
+فهرست مقصدها و احتمال‌های نخستین انتقال عمودی را
+مستقل از فرضیهٔ طبقه آماده می‌کند.
+در لایهٔ دوم،
 زیرروال‌های $\operatorname{CappedWeights}$،
 $\operatorname{FirstState}$ و
 $\operatorname{Advance}$ به‌ترتیب
@@ -2144,18 +2210,72 @@ $(\mathcal J_{i,b}^{(s)},\bar q_b^{(s)})$
 \end{algorithmic}
 \end{algorithm}
 
+\paragraph{زیرروال انتقال عمودی نمونهٔ جدید.}
+الگوریتم~\ref{cmp:alg:ch3-query-vertical}
+مقصدهای نخستین انتقال را برای هر ویژگی موجود
+نمونهٔ جدید تعیین می‌کند و مطابق
+رابطه~\eqref{cmp:eq:ch3-query-sparse-vertical}
+احتمال‌های عمودی را روی آن مقصدها نرمال می‌کند.
+این زیرروال به سیاست یا برچسب نمونهٔ جدید نیاز ندارد.
+خروجی آن برای تمام فرضیه‌های طبقهٔ همان نمونه
+مشترک است و پیش از ارزیابی آن فرضیه‌ها ساخته می‌شود.
+در این زیرروال، $\mathcal Q_\star$ مجموعهٔ
+فهرست‌های مقصد و احتمال‌های عمودی نمونهٔ جدید
+و $B_\star$ مجموعهٔ ویژگی‌های دارای مقصد معتبر است.
+
+\begin{algorithm}[!htbp]
+\caption{زیرروال $\operatorname{QueryVertical}$: انتقال عمودی نمونهٔ جدید}
+\label{cmp:alg:ch3-query-vertical}
+\begin{algorithmic}[1]
+\REQUIRE نمونهٔ جدید $X_\star$؛ مجموعه‌های $D_b$؛
+متریک‌های $\mu_b$ و توابع وزن $\kappa_b$؛
+سقف درجهٔ صحیح $\Delta>3$
+\ENSURE $B_\star$ و
+$\mathcal Q_\star=\{N_b^{(\Delta)}(\star),
+\widetilde q_b(\cdot\mid\star)\}_{b\in B_\star}$
+\STATE $B_\star\gets\varnothing$؛
+$\mathcal Q_\star\gets\varnothing$
+\FORALL{$b\in A_{X_\star}\cap A_D$}
+    \STATE $N_b^{(\Delta)}(\star)\gets$
+    $\min\{\Delta,|D_b|\}$ نمونهٔ نزدیک‌تر
+    از $D_b$ بر اساس $\mu_b$، با شکست تساوی ثابت
+    \FORALL{$X_j\in N_b^{(\Delta)}(\star)$}
+        \STATE $w_b(X_\star,X_j)\gets
+        \kappa_b(\mu_b(b(X_\star),b(X_j)))$
+        با بازاستفاده از فاصلهٔ به‌دست‌آمده در جست‌وجو
+    \ENDFOR
+    \STATE $W_{\star,b}\gets
+    \sum_{X_j\in N_b^{(\Delta)}(\star)}w_b(X_\star,X_j)$
+    \IF{$W_{\star,b}>0$}
+        \STATE $\widetilde q_b(j\mid\star)\gets
+        w_b(X_\star,X_j)/W_{\star,b}$
+        برای مقصدهای برگزیده؛ در سایر مقصدها صفر
+        \STATE $B_\star\gets B_\star\cup\{b\}$؛
+        افزودن فهرست و احتمال‌های ویژگی $b$ به $\mathcal Q_\star$
+    \ENDIF
+\ENDFOR
+\STATE \textbf{بازگردان} $(B_\star,\mathcal Q_\star)$
+\end{algorithmic}
+\end{algorithm}
+
+طبق رابطه~\eqref{cmp:eq:ch3-query-weight-count}،
+برای نمونه‌ای با ده ویژگی مشترک و $\Delta=200$،
+حداکثر ۲۰۰۰ وزن ارتباط محاسبه و نرمال می‌شود.
+این کران برای تمام فرضیه‌های طبقهٔ همان نمونه
+مشترک است و در تعداد طبقات ضرب نمی‌شود.
+
 \paragraph{زیرروال ساخت توزیع نخستین گام.}
 برای گشت آموزشی، توزیع آغاز
 رابطه~\eqref{cmp:eq:ch3-block-first-step}
 از سطر $\bot$ سیاست و احتمال
 عمودی پایه ساخته می‌شود. برای
-پرس‌وجوی خارج از گراف، احتمال
-گام نخست همچنان از
-رابطه~\eqref{cmp:eq:ch3-heldout-initial-transition}
-به دست می‌آید؛ تنک‌سازی یال‌های
-\emph{داخلی} گراف مرجع، به‌خودی‌خود
-مقصدهای گام نخست پرس‌وجو را
-محدود نمی‌کند. الگوریتم
+نمونهٔ جدید، فهرست‌ها و احتمال‌های عمودی
+از زیرروال $\operatorname{QueryVertical}$
+دریافت و مطابق
+رابطه~\eqref{cmp:eq:ch3-query-first-state}
+با سیاست آغاز ترکیب می‌شوند؛ در نسخهٔ تنک
+از احتمال‌های رابطه~\eqref{cmp:eq:ch3-query-sparse-vertical}
+استفاده می‌شود. الگوریتم
 \ref{cmp:alg:ch3-first-state}
 این دو حالت را با حفظ تمایز
 فضای حالت‌هایشان پوشش می‌دهد.
@@ -2172,8 +2292,9 @@ $(\mathcal J_{i,b}^{(s)},\bar q_b^{(s)})$
 که در آن $s\in\{1,\ldots,n\}$ برای $X_s\in D$
 و $\star$ برای نمونهٔ جدید $X_\star\notin D$ است؛
 سیاست آغاز $\pi_\circ$؛
-مرجع $D$، وزن‌های $w_b$؛
-$N_b^{(\Delta)}$، $\widetilde q_b$
+مرجع $D$ و $N_b^{(\Delta)}$، $\widetilde q_b$؛
+برای $\circ=\star$، خروجی $(B_\star,\mathcal Q_\star)$
+زیرروال $\operatorname{QueryVertical}$
 \ENSURE توزیع $\nu_1$ روی
 $\mathcal S_s$ یا $\mathcal S$، یا وضعیت نامعتبر
 \IF{$\circ=s$}
@@ -2188,24 +2309,23 @@ $\mathcal S_s$ یا $\mathcal S$، یا وضعیت نامعتبر
         \ENDFOR
     \ENDFOR
 \ELSE
-    \STATE $B_\star\gets
-    \{b\in A_{X_\star}\cap A_D:
-    \sum_{X_j\in D_b}w_b(X_\star,X_j)>0\}$
-    \IF{$B_\star=\varnothing$ یا سیاست آغازِ مجاز روی $B_\star$ موجود نیست}
+    \IF{$B_\star=\varnothing$ یا سیاست آغازِ مجاز موجود نیست}
         \STATE \textbf{بازگردان} وضعیت نامعتبر
     \ENDIF
     \STATE $\nu_1(j,b)\gets0$
     برای $(X_j,b)\in\mathcal S$
-    \STATE نرمال‌سازی $\pi_\star(b\mid\star,\bot)$ روی $B_\star$
-    مطابق قرارداد آغاز
-    \FORALL{$b\in B_\star$}
-        \STATE $W_{\star,b}\gets
-        \sum_{X_j\in D_b}w_b(X_\star,X_j)$
-        \FORALL{$X_j\in D_b$}
+    \STATE تعیین مجموعهٔ مجاز آغاز از $B_\star$
+    مطابق قرارداد سیاست در بخش~\ref{cmp:subsec:ch3-out-of-graph-policy}
+    و نرمال‌سازی $\pi_\star$ فقط روی همان مجموعه؛
+    احتمال ویژگی‌های خارج از آن صفر
+    \IF{مجموعهٔ مجاز آغاز تهی است}
+        \STATE \textbf{بازگردان} وضعیت نامعتبر
+    \ENDIF
+    \FORALL{$b\in B_\star$ با $\pi_\star(b\mid\star,\bot)>0$}
+        \FORALL{$X_j\in N_b^{(\Delta)}(\star)$}
             \STATE $\nu_1(j,b)\gets
-            \nu_1(j,b)+
-            \pi_\star(b\mid\star,\bot)\,
-            w_b(X_\star,X_j)/W_{\star,b}$
+            \nu_1(j,b)+\pi_\star(b\mid\star,\bot)
+            \widetilde q_b(j\mid\star)$
         \ENDFOR
     \ENDFOR
 \ENDIF
@@ -2285,14 +2405,14 @@ $c_s=y_s$ مطابق
 \begin{algorithmic}[1]
 \REQUIRE مبدأ $s\in\{1,\ldots,n\}$؛
 $H,\beta,\lambda$؛ سیاست برگزیدهٔ $\pi_s$؛
-مرجع برچسب‌دار $D,Y$ و وزن‌های $w_b$؛
+مرجع برچسب‌دار $D,Y$؛
 $N_b^{(\Delta)}$ و $\widetilde q_b$
 \ENSURE بازنمایی نمونه‌ای $h_s$
 و بازنمایی برچسبی $\mathscr Y_s$
 \STATE $\alpha^{(H)}
 \gets\operatorname{CappedWeights}(H,\beta,\lambda)$
 \STATE $\nu\gets
-\operatorname{FirstState}(s;\pi_s,D,w,N,\widetilde q)$
+\operatorname{FirstState}(s;\pi_s,D,N,\widetilde q)$
 \STATE $h_s\gets0_{1\times n}$؛
 $\mathscr Y_s\gets0_{1\times K}$
 \FOR{$t=1,\ldots,H$}
@@ -2364,10 +2484,13 @@ $H,\beta,\lambda$؛ $N_b^{(\Delta)}$، $\widetilde q_b$
 هیچ حالت مرجعی حذف نمی‌شود.
 روند $\operatorname{QueryExactWalk}$
 در الگوریتم~\ref{cmp:alg:ch3-query-exact-walk}
-همان توزیع آغازِ
-رابطه~\eqref{cmp:eq:ch3-heldout-first-state}
-را با $\operatorname{FirstState}$
-می‌سازد و در صورت موجودبودن
+توزیع آغازِ رابطه~\eqref{cmp:eq:ch3-query-first-state}
+را با $\operatorname{FirstState}$ و احتمال‌های
+عمودی از پیش آماده‌شدهٔ نمونهٔ جدید می‌سازد.
+زیرروال $\operatorname{QueryVertical}$ پیش از
+فراخوانی این روند برای فرضیه‌های طبقه، فقط
+یک‌بار برای نمونهٔ جدید اجرا می‌شود و خروجی
+آن در تمام فراخوانی‌ها مشترک است. در صورت موجودبودن
 ماتریس پیش‌محاسبه‌شده، تنها
 ضرب رابطه~\eqref{cmp:eq:ch3-new-sample-representation}
 را انجام می‌دهد. در غیر این
@@ -2387,12 +2510,14 @@ $s=\varnothing$ اجرا می‌کند.
 برگزیدهٔ $\pi^{(c)}$ و سطر آغاز مجاز
 $\pi_\star^{(c)}$؛ مدل ثابت شامل
 $D,Y,H,\beta,\lambda,N_b^{(\Delta)},\widetilde q_b$
-و وزن‌های کرنلی $w_b$؛
+؛ خروجی مشترک $(B_\star,\mathcal Q_\star)$
+زیرروال $\operatorname{QueryVertical}$؛
 $\widetilde B^{(c,H)}$ در صورت پیش‌محاسبه
 \ENSURE $\mathscr Y_\star^{(c)}\in\Delta_K$
 یا وضعیت نامعتبر
 \STATE $\nu\gets\operatorname{FirstState}
-(\star;\pi_\star^{(c)},D,w,N,\widetilde q)$
+(\star;\pi_\star^{(c)},D,N,\widetilde q,
+B_\star,\mathcal Q_\star)$
 \IF{توزیع نخستین گام نامعتبر است}
     \STATE \textbf{بازگردان} وضعیت نامعتبر
 \ENDIF
