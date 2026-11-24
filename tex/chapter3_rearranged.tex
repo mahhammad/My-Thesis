@@ -2910,7 +2910,8 @@ d_{\mathrm{KL}}(P,Q):=D_{\mathrm{KL}}(P\|Q)
 =\sum_{u=1}^{K}P(u)\log\frac{P(u)}{Q(u)}.
 \end{equation}
 این واگرایی نامنفی است و تنها برای $P=Q$ صفر می‌شود.
-عموماً نامتقارن است، نامساوی مثلثی را ارضا نمی‌کند
+نسبت به زوج توزیع‌ها محدب است، عموماً نامتقارن است،
+نامساوی مثلثی را ارضا نمی‌کند
 و کران بالای متناهی ندارد. جمله‌های دارای $P(u)=0$
 صفر در نظر گرفته می‌شوند و اگر برای مؤلفه‌ای $P(u)>0$
 و $Q(u)=0$ باشد، مقدار واگرایی $+\infty$ است.
@@ -2993,6 +2994,86 @@ s(P,Q)=1-\frac{\operatorname{JSD}(P,Q)}{\log2}.
 مستقل از واگرایی جنسن--شنون. این ویژگی امکان
 صورت‌بندی معیارها و تابع‌های امتیاز مبتنی بر شباهت
 را در همان چارچوب فراهم می‌کند.
+
+\paragraph{مقایسه با رأس‌های سیمپلکس و کران‌های وابسته به توزیع.}
+برای $P=(p_1,\ldots,p_K)\in\Delta_K$، با $p_{\min}=\min_j p_j$
+و $p_{\max}=\max_j p_j$، رفتار سنجه‌ها در مقایسه با
+بردارهای یک‌داغ $e_j$ را بررسی می‌کنیم.
+در واگرایی کولبک--لایبلر جهت مقایسه اهمیت دارد.
+مطابق رابطه~\eqref{eq:app-pd-kl-vertex-values} در پیوست،
+\begin{equation}\label{cmp:eq:ch3-kl-vertex-bounds}
+\begin{aligned}
+d_{\mathrm{KL}}(e_j,P)&=-\log p_j,\\
+-\log p_{\max}&\le d_{\mathrm{KL}}(e_j,P)
+\le-\log p_{\min},\\
+d_{\mathrm{KL}}(P,e_j)&=
+\begin{cases}
+0,&P=e_j,\\
++\infty,&P\ne e_j.
+\end{cases}
+\end{aligned}
+\end{equation}
+در اینجا $-\log0=+\infty$ است. در جهت نخست، نزدیک‌ترین
+و دورترین رأس‌ها به‌ترتیب با بزرگ‌ترین و کوچک‌ترین
+مؤلفهٔ $P$ متناظرند. در جهت دوم این ترتیب برقرار نیست.
+برای هر $Q\in\Delta_K$ نیز
+$0\le D_{\mathrm{KL}}(Q\|P)\le-\log p_{\min}$،
+و کران بالا تیز است؛ در جهت $D_{\mathrm{KL}}(P\|Q)$
+کران بالای متناهی وجود ندارد ($K\ge2$).
+
+برای خانوادهٔ جنسن--شنون، مطابق
+روابط~\eqref{eq:app-ch3-js-onehot-monotonic}
+و~\eqref{eq:app-ch3-js-farthest-vertex-formula} در پیوست،
+تابع کمکی
+\[
+g(p)=(1+p)\log(1+p)-p\log p,\qquad 0\le p\le1
+\]
+را با قرارداد $0\log0=0$ در نظر می‌گیریم.
+این تابع اکیداً صعودی است. در نتیجه:
+\begin{equation}\label{cmp:eq:ch3-js-family-vertex-values}
+\begin{aligned}
+d_{\mathrm{JS}}(P,e_j)&=\log2-\tfrac12 g(p_j),\\
+d_{\sqrt{\mathrm{JS}}}(P,e_j)&=\sqrt{\log2-\tfrac12 g(p_j)},\\
+s(P,e_j)&=\frac{g(p_j)}{2\log2}.
+\end{aligned}
+\end{equation}
+بنابراین کران‌های دقیق مقایسه با رأس‌ها عبارت‌اند از:
+\begin{equation}\label{cmp:eq:ch3-js-family-vertex-bounds}
+\begin{aligned}
+\log2-\tfrac12g(p_{\max})
+&\le d_{\mathrm{JS}}(P,e_j)
+\le\log2-\tfrac12g(p_{\min}),\\
+\sqrt{\log2-\tfrac12g(p_{\max})}
+&\le d_{\sqrt{\mathrm{JS}}}(P,e_j)
+\le\sqrt{\log2-\tfrac12g(p_{\min})},\\
+\frac{g(p_{\min})}{2\log2}
+&\le s(P,e_j)\le\frac{g(p_{\max})}{2\log2}.
+\end{aligned}
+\end{equation}
+نزدیک‌ترین رأس‌ها متناظر با بیشترین مؤلفه و دورترین
+رأس‌ها متناظر با کمترین مؤلفهٔ $P$ هستند.
+با استفاده از نتیجهٔ پیوست در
+روابط~\eqref{eq:app-ch3-js-max-distance-value}
+و~\eqref{eq:app-pd-all-maximizers}، کران‌های دقیق
+برای مقایسه با هر توزیع دلخواه $Q\in\Delta_K$ نیز
+به‌صورت زیر به دست می‌آیند:
+\begin{equation}\label{cmp:eq:ch3-js-family-fixed-distribution-bounds}
+\begin{aligned}
+0&\le d_{\mathrm{JS}}(P,Q)
+\le\log2-\tfrac12g(p_{\min}),\\
+0&\le d_{\sqrt{\mathrm{JS}}}(P,Q)
+\le\sqrt{\log2-\tfrac12g(p_{\min})},\\
+\frac{g(p_{\min})}{2\log2}&\le s(P,Q)\le1.
+\end{aligned}
+\end{equation}
+اگر همهٔ مؤلفه‌های $P$ مثبت باشند، دورترین توزیع‌ها
+دقیقاً رأس‌های متناظر با کمترین مؤلفه‌اند؛ در غیر این
+صورت، تمام توزیع‌های دارای تکیه‌گاه جدا از $P$ دورترین
+هستند و ممکن است رأس نباشند. جذر جنسن--شنون در فضای
+سیمپلکس عموماً محدب نیست، اما به‌دلیل صعودی‌بودن جذر،
+همان بیشینه‌سازهای واگرایی جنسن--شنون را دارد.
+جزئیات تحدب و اثبات این کران‌ها در
+پیوست~\ref{app:probability-dissimilarity} آمده‌اند.
 
 در مجموع، واگرایی کولبک--لایبلر تعبیر جهت‌دار
 درست‌نمایی، واگرایی جنسن--شنون مقایسهٔ اطلاعاتی
