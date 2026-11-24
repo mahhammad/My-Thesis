@@ -30,7 +30,8 @@
     % Providers of vertical probabilities.
     \draw[dep] (queryvertical.south) -- (first.north);
     \draw[dep] (build.south) -- (vertical.north);
-    \draw[dep] (build.west) -| ([xshift=9mm]first.north);
+    \draw[dep] ([xshift=-9mm]build.south) -- (3.4,-1)
+        -| ([xshift=9mm]first.north);
     \draw[dep] (vertical.south) -- (advance.north);
     \draw[dep] (build.east) -- (6.45,0) |- (precompute.west);
 
