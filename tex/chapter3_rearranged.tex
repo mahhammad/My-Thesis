@@ -2141,12 +2141,14 @@ $s\in\{1,\ldots,n\}\cup\{\varnothing\}$؛
 سیاست ثابتِ برگزیده $\pi$؛
 $N_b^{(\Delta)}$ و $\widetilde q_b$
 \ENSURE توزیع $\nu^+$ روی فضای حالت مجاز
-\STATE $\mathcal T\gets
-\mathcal S_s$ اگر $s\ne\varnothing$؛
-وگرنه $\mathcal T\gets\mathcal S$
+\STATE اگر $s=\varnothing$، آنگاه
+$\mathcal T\gets\mathcal S$ و
+$\mathcal I_s\gets\{1,\ldots,n\}$؛
+وگرنه $\mathcal T\gets\mathcal S_s$ و
+$\mathcal I_s\gets\{1,\ldots,n\}\setminus\{s\}$
 \STATE $\nu^+(j,b)\gets0$
 برای $(X_j,b)\in\mathcal T$
-\FORALL{$X_i\in D$ و $i\ne s$، اگر $s\ne\varnothing$}
+\FORALL{$i\in\mathcal I_s$}
     \FORALL{$b\in A_{X_i}$}
         \STATE $r_{i,b}\gets
         \sum_{a\in A_{X_i}}\nu(i,a)\pi(b\mid i,a)$
@@ -5555,15 +5557,20 @@ $I$ با \emph{سقف} NLL در حالت KL را نشان می‌دهد،
 
 \subsection{شبه‌کد یکپارچهٔ آموزش سیاست}
 \label{cmp:subsec:ch3-policy-training-pseudocode}
-سه زیرروال
-\ref{cmp:alg:ch3-capped-walk-weights}،
-\ref{cmp:alg:ch3-advance-walk-state} و
-\ref{cmp:alg:ch3-exact-walk-expectation}
-به‌ترتیب ضرایب گشت، توزیع حالت و امید دقیق
-بازنمایی را برای \emph{سیاست و گراف ثابت} محاسبه
-می‌کنند. الگوریتم حاضر این محاسبهٔ پیشرو را
-درون چرخهٔ یادگیری پارامترهای سیاست به کار می‌گیرد؛
-جزئیات گشت در اینجا تکرار نمی‌شوند.
+زیرروال‌های
+\ref{cmp:alg:ch3-build-vertical} و
+\ref{cmp:alg:ch3-vertical-row}
+به‌ترتیب ساخت احتمالات عمودی و اصلاح
+وابسته به مبدأ را انجام می‌دهند.
+الگوریتم‌های~\ref{cmp:alg:ch3-capped-walk-weights}،
+\ref{cmp:alg:ch3-first-state} و
+\ref{cmp:alg:ch3-advance-walk-state}
+ضرایب، توزیع نخستین گام و انتشار را می‌سازند
+و روند~\ref{cmp:alg:ch3-exact-walk-expectation}
+امید دقیق را برای \emph{سیاست و گراف ثابت}
+محاسبه می‌کند. الگوریتم حاضر این روند را
+درون چرخهٔ یادگیری پارامترهای سیاست فراخوانی
+می‌کند؛ جزئیات گشت در اینجا تکرار نمی‌شوند.
 $\mathcal I_{\mathrm{tr}}$ اندیس‌های مجموعهٔ آموزش و
 $C_c=\{i\in\mathcal I_{\mathrm{tr}}:y_i=c\}$ است؛
 تمام طبقاتِ مورد استفاده در آموزش باید $|C_c|>0$
@@ -5577,8 +5584,10 @@ $C_c=\{i\in\mathcal I_{\mathrm{tr}}:y_i=c\}$ است؛
 انتخاب سیاست مستقل از طبقه است.
 فراخوانی
 $\operatorname{ExactWalk}_{\mathrm{tr}}(i;\theta)$
+همان روند
 الگوریتم~\ref{cmp:alg:ch3-exact-walk-expectation}
-را با گراف، کرنل و ماسک مرجع آموزش،
+را با فهرست‌های $N$ و احتمال‌های
+$\widetilde q$ ساخته‌شده از مرجع آموزش،
 مبدأ $i$، سیاست برگزیدهٔ $\pi_i$
 و مقادیر ثابت $H,\beta,\lambda$
 اجرا می‌کند. این فراخوانی تنها یک
@@ -5610,7 +5619,7 @@ $K=3$ و $\tau_{\mathrm{SP}}=0.005$ به‌کار رفته‌اند؛
 \REQUIRE داده، برچسب و ماسک مجموعهٔ آموزش
 $D_{\mathrm{tr}},Y_{\mathrm{tr}},M_{\mathrm{tr}}$؛
 خانوادهٔ سیاست، $\theta^{(0)}$، $H,\beta,\lambda$،
-وزن‌های $\Omega$ و قرارداد $\mathsf{cfg}$
+سقف درجهٔ $\Delta>3$، وزن‌های $\Omega$ و قرارداد $\mathsf{cfg}$
 شامل $\psi,\tau_\psi,\tau,\tau_{\mathrm{SP}}$،
 روش نرمال‌سازی و پایداری،
 $\mathsf{decision}\in\{\mathrm{self},\mathrm{margin}\}$
@@ -5619,8 +5628,12 @@ $\mathsf{decision}\in\{\mathrm{self},\mathrm{margin}\}$
 \ENSURE مدل آموزش‌دیده
 $\mathcal M_{\mathrm{tr}}$ و در صورت درخواست،
 حالت بهینه‌ساز برای ادامهٔ آموزش
-\STATE ساخت گراف، کرنل‌ها، مجموعه‌های مجاز و
+\STATE ساخت $D_b$، ماسک‌های مجاز و
 $C_1,\ldots,C_K$ \textbf{فقط} از $D_{\mathrm{tr}}$
+\STATE $(N,\widetilde q)
+\gets\operatorname{BuildVertical}
+(D_{\mathrm{tr}},\{\mu_b,\kappa_b\}_{b\in A_D},\Delta)$
+طبق الگوریتم~\ref{cmp:alg:ch3-build-vertical}
 \STATE $\theta\gets\theta^{(0)}$؛
 $\chi_{\mathrm{opt}}\gets\operatorname{InitOptimizer}(\theta)$
 \FOR{$t=0,\ldots,N_{\mathrm{ep}}-1$}
@@ -5682,7 +5695,8 @@ $\operatorname{ExactWalk}_{\mathrm{tr}}(i;\theta^{\mathrm{fit}})$
 \STATE $\mathcal M_{\mathrm{tr}}\gets
 (\theta^{\mathrm{fit}},\mathcal V^{\mathrm{fit}},
 D_{\mathrm{tr}},Y_{\mathrm{tr}},M_{\mathrm{tr}},
-\mathsf{cfg},H,\beta,\lambda,\text{کرنل و قرارداد سیاست})$
+\mathsf{cfg},H,\beta,\lambda,\Delta,
+N,\widetilde q,\text{کرنل و قرارداد سیاست})$
 \STATE \textbf{بازگردان}
 $\mathcal M_{\mathrm{tr}}$ و، در صورت نیاز، $\chi_{\mathrm{opt}}$
 \end{algorithmic}
@@ -5823,18 +5837,22 @@ $D_b^{\mathrm{tr}}\setminus\{X_i\}$ برای
 جداگانه مشخص شود.
 $\operatorname{QueryExactWalk}(x,c;
 \mathcal M_{\mathrm{tr}},\mathfrak a)$
-به این قرارداد اشاره دارد: حالت اولیهٔ
-رابطه~\eqref{cmp:eq:ch3-heldout-first-state}،
-ادامهٔ گشت روی مرجع آموزش با سازوکار
-$\operatorname{Advance}$ در
-الگوریتم~\ref{cmp:alg:ch3-advance-walk-state}،
-ضرایب $\alpha_t^{(H)}$ از
-الگوریتم~\ref{cmp:alg:ch3-capped-walk-weights}
-و جمع وزن‌دار برچسب \emph{مقصدهای آموزش}
-مانند الگوریتم~\ref{cmp:alg:ch3-exact-walk-expectation}.
-این نام، یک \emph{فراخوانی برون‌نمونه‌ای}
-است، نه الگوریتم آموزشی چهارم یا روشی
-مبتنی بر مونت‌کارلو. برای هر فرضیهٔ $c$،
+همان روند مستقل
+الگوریتم~\ref{cmp:alg:ch3-query-exact-walk}
+است: حالت اولیهٔ
+رابطه~\eqref{cmp:eq:ch3-heldout-first-state}
+را می‌سازد و سپس، در صورت وجود،
+از ماتریس پیش‌محاسبه‌شدهٔ
+الگوریتم~\ref{cmp:alg:ch3-precompute-labels}
+استفاده می‌کند؛ در غیر این صورت
+بازگشت پیش‌رونده را با
+$\operatorname{Advance}$ و بدون
+حذف هیچ حالت مرجعی اجرا می‌کند.
+این روند، استنتاجی و بدون
+نمونه‌گیری مونت‌کارلو است؛
+در الگوریتم آموزش، به‌جای آن،
+$\operatorname{ExactWalk}_{\mathrm{tr}}$
+فراخوانی می‌شود. برای هر فرضیهٔ $c$،
 خروجی آن $\mathscr Y_x^{[c]}\in\Delta_K$
 است؛ شرط نرمال‌بودن فقط در صورت اعتبار
 همهٔ انتقال‌های لازم برقرار خواهد بود.
@@ -6043,11 +6061,12 @@ $(v,s,\widehat p,\widehat y,\mathcal R_{\mathrm{val}})$
 در حالت یک نمونهٔ بدون برچسب، همان زیرروال
 بدون فراخوانی الگوریتم سنجش مجموعه‌ای قابل‌استفاده است.
 این زیرروال تنها یک لایهٔ امتیازدهی و تصمیم
-بر فراخوانی محاسباتی
-$\operatorname{QueryExactWalk}$ است؛
-نسخهٔ تازه‌ای از موتور گشت، $\operatorname{ExactWalk}_{\mathrm{tr}}$
-یا الگوریتم~\ref{cmp:alg:ch3-exact-walk-expectation}
-تعریف نمی‌کند. ثبت شناسهٔ هر پرس‌وجو مانع
+بر روند محاسباتی
+$\operatorname{QueryExactWalk}$ در
+الگوریتم~\ref{cmp:alg:ch3-query-exact-walk}
+است و موتور گشت یا
+$\operatorname{ExactWalk}_{\mathrm{tr}}$
+را دوباره تعریف نمی‌کند. ثبت شناسهٔ هر پرس‌وجو مانع
 یکی‌گرفتن دو مشاهدهٔ هم‌مقدار در شمارش
 پوشش و ماتریس اغتشاش می‌شود.
 
