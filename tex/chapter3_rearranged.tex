@@ -2316,11 +2316,11 @@ $\mathcal S_s$ یا $\mathcal S$، یا وضعیت نامعتبر
     برای $(X_j,b)\in\mathcal S$
     \STATE تعیین مجموعهٔ مجاز آغاز از $B_\star$
     مطابق قرارداد سیاست در بخش~\ref{cmp:subsec:ch3-out-of-graph-policy}
-    و نرمال‌سازی $\pi_\star$ فقط روی همان مجموعه؛
-    احتمال ویژگی‌های خارج از آن صفر
     \IF{مجموعهٔ مجاز آغاز تهی است}
         \STATE \textbf{بازگردان} وضعیت نامعتبر
     \ENDIF
+    \STATE نرمال‌سازی $\pi_\star$ فقط روی همان مجموعه؛
+    احتمال ویژگی‌های خارج از آن صفر
     \FORALL{$b\in B_\star$ با $\pi_\star(b\mid\star,\bot)>0$}
         \FORALL{$X_j\in N_b^{(\Delta)}(\star)$}
             \STATE $\nu_1(j,b)\gets
@@ -2509,8 +2509,8 @@ $s=\varnothing$ اجرا می‌کند.
 \REQUIRE نمونهٔ جدید $X_\star$، سیاست فرضیهٔ
 برگزیدهٔ $\pi^{(c)}$ و سطر آغاز مجاز
 $\pi_\star^{(c)}$؛ مدل ثابت شامل
-$D,Y,H,\beta,\lambda,N_b^{(\Delta)},\widetilde q_b$
-؛ خروجی مشترک $(B_\star,\mathcal Q_\star)$
+$D,Y,H,\beta,\lambda,N_b^{(\Delta)},\widetilde q_b$؛
+خروجی مشترک $(B_\star,\mathcal Q_\star)$
 زیرروال $\operatorname{QueryVertical}$؛
 $\widetilde B^{(c,H)}$ در صورت پیش‌محاسبه
 \ENSURE $\mathscr Y_\star^{(c)}\in\Delta_K$
