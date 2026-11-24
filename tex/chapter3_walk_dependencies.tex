@@ -1,67 +1,57 @@
 % !TeX root=../main.tex
-% Insert with \input{./tex/chapter3_walk_dependencies} at the start of 3.3.4
-% after finalizing the computational procedures.
-% Requires only TikZ, graphicx, xcolor and XePersian (already loaded).
+% Insert with \input{./tex/chapter3_walk_dependencies} after final review.
 \begin{figure}[!htbp]
 \centering
 \begin{LTR}
 \centering
-\resizebox{0.94\linewidth}{!}{%
+\resizebox{0.96\linewidth}{!}{%
 \begin{tikzpicture}[
     x=1cm,y=1cm,
     helper/.style={draw=black!55,fill=black!4,rounded corners=3pt,
-        minimum width=3.05cm,minimum height=0.70cm,
+        minimum width=3.2cm,minimum height=0.8cm,
         inner sep=4pt,font=\small\ttfamily,align=center},
     procedure/.style={helper,draw=teal!75!black,fill=teal!7,
-        minimum width=3.25cm,minimum height=0.84cm},
-    dependency/.style={->,>=latex,draw=black!65,line width=0.65pt,
-        rounded corners=2pt},
+        minimum width=3.65cm,minimum height=1cm},
+    dep/.style={->,>=latex,draw=black!65,line width=0.65pt,rounded corners=2pt},
     wire/.style={draw=black!65,line width=0.65pt},
-    optional/.style={dependency,dashed,draw=teal!75!black},
-    junction/.style={circle,fill=black!65,inner sep=1.6pt}
+    opt/.style={dep,dashed,draw=teal!75!black},
+    joint/.style={circle,fill=black!65,inner sep=1.5pt}
 ]
-    % Preparation and reusable subroutines.
-    \node[helper] (build) at (2.0,0) {BuildVertical};
-    \node[helper] (weights) at (8.0,0) {CappedWeights};
-    \node[helper] (vertical) at (2.0,-1.55) {VerticalRow};
-    \node[helper] (first) at (2.0,-3.15) {FirstState};
-    \node[helper] (advance) at (5.4,-3.15) {Advance};
+    \node[helper] (queryvertical) at (0,0) {QueryVertical};
+    \node[helper] (build) at (4.3,0) {BuildVertical};
+    \node[helper] (weights) at (8.6,0) {CappedWeights};
+    \node[helper] (first) at (0,-2) {FirstState};
+    \node[helper] (vertical) at (4.3,-2) {VerticalRow};
+    \node[helper] (advance) at (4.3,-3.8) {Advance};
+    \node[procedure] (precompute) at (8.6,-3.8) {PrecomputeLabels};
+    \node[procedure] (exact) at (0,-6.7) {ExactWalk\\Expectation};
+    \node[procedure] (query) at (5.7,-6.7) {QueryExactWalk\\Expectation};
 
-    % Main procedures.
-    \node[procedure] (precompute) at (10.25,-3.15) {PrecomputeLabels};
-    \node[procedure] (exact) at (2.0,-6.1) {ExactWalk};
-    \node[procedure] (query) at (7.3,-6.1) {QueryExactWalk};
+    % Providers of vertical probabilities.
+    \draw[dep] (queryvertical.south) -- (first.north);
+    \draw[dep] (build.south) -- (vertical.north);
+    \draw[dep] (build.west) -| ([xshift=9mm]first.north);
+    \draw[dep] (vertical.south) -- (advance.north);
+    \draw[dep] (build.east) -- (6.45,0) |- (precompute.west);
 
-    % The arrow points from a provider to a consumer.
-    \draw[dependency] (build.south) -- (vertical.north);
-    \draw[dependency] (vertical.south) -- (first.north);
-    \draw[dependency] (vertical.east) -| (advance.north);
-    % PrecomputeLabels uses the base vertical rows directly,
-    % not the forward Advance routine.
-    \draw[dependency] (build.north) -- (2.0,0.82)
-        -- (12.25,0.82) |- (precompute.east);
-    \draw[dependency] (weights.east) -| (precompute.north);
-
-    % Shared dependencies of both forward-walk procedures:
-    % FirstState, Advance and CappedWeights.
-    \draw[wire] (first.south) -- (2.0,-4.75);
-    \draw[wire] (advance.south) -- (5.4,-4.75);
-    \draw[wire] (weights.south) -- (8.0,-4.75) -- (2.0,-4.75);
-    \node[junction] at (5.4,-4.75) {};
-    \node[junction] at (7.3,-4.75) {};
-    \node[junction] at (2.0,-4.75) {};
-    \draw[dependency] (2.0,-4.75) -- (exact.north);
-    \draw[dependency] (7.3,-4.75) -- (query.north);
-    % The shared precomputed matrix is optional for the query.
-    \draw[optional] (precompute.south) |- (query.east);
+    % Shared coefficients, prepared once.
+    \draw[dep] (weights.south) -- (precompute.north);
+    \draw[wire] (weights.east) -- (10.9,0) -- (10.9,-5.2)
+        -- (0,-5.2);
+    \draw[wire] (first.south) -- (0,-5.2);
+    \draw[wire] (advance.south) -- (4.3,-5.2);
+    \foreach \x in {0,4.3,5.7} {\node[joint] at (\x,-5.2) {};}
+    \draw[dep] (0,-5.2) -- (exact.north);
+    \draw[dep] (5.7,-5.2) -- (query.north);
+    \draw[opt] (precompute.south) -- (8.6,-6.7) -- (query.east);
 \end{tikzpicture}%
 }
 \end{LTR}
 \caption{ساختار وابستگی زیرروال‌ها و روندهای محاسبهٔ امید گشت.
-پیکان‌ها از زیرروال یا روند فراهم‌کنندهٔ اطلاعات به مصرف‌کنندهٔ آن
-رسم شده‌اند. خط‌چین نشان‌دهندهٔ استفادهٔ اختیاری از ماتریس
-پیش‌محاسبه‌شده در روند استنتاج است؛ در صورت استفاده از این ماتریس،
-انتشار پیش‌رونده و محاسبهٔ دوبارهٔ ضرایب گشت برای نمونهٔ جدید
-ضروری نیست.}
+پیکان‌ها از فراهم‌کنندهٔ اطلاعات به مصرف‌کننده رسم شده‌اند.
+ضرایب گشت و احتمال‌های عمودی پایه بازاستفاده می‌شوند و
+احتمال‌های عمودی نمونهٔ جدید بین فرضیه‌های طبقه مشترک‌اند.
+خط‌چین نشان‌دهندهٔ استفادهٔ اختیاری از ماتریس پیش‌محاسبه‌شده است؛
+در این حالت انتشار پیش‌رونده برای نمونهٔ جدید انجام نمی‌شود.}
 \label{cmp:fig:ch3-walk-procedure-dependencies}
 \end{figure}
