@@ -2760,7 +2760,10 @@ $Q\in\Delta_K$ مدل کنیم. اگر $\overline P=\sum_r\eta_rP_r$،
 &=-H(\overline P)-D_{\mathrm{KL}}(\overline P\|Q).
 \end{aligned}
 \end{equation}
-در این رابطه $H(P)$ آنتروپی شانون است. از نامنفی‌بودن KL و
+در این رابطه، $H(\cdot)$ تابع آنتروپی شانون است
+و $H(\overline P)$ مقدار آن برای توزیع $\overline P$ است.
+نماد این تابع را نباید با سقف عددی گشت $H$ اشتباه گرفت.
+از نامنفی‌بودن KL و
 شرط تساوی آن نتیجه می‌شود:
 \begin{equation}\label{cmp:eq:ch3-mixture-likelihood-optimum}
 \underset{Q\in\Delta_K}{\arg\max}\;\mathcal L(Q)
@@ -2900,8 +2903,8 @@ $\psi\in\{\mathrm{KL},\mathrm{JS},\sqrt{\mathrm{JS}}\}$
 پیوست~\ref{app:probability-dissimilarity} آمده‌اند.
 
 \paragraph{واگرایی کولبک--لایبلر.}
-برای $P,Q\in\Delta_K$ و با لگاریتم طبیعی، آنتروپی شانون و
-واگرایی کولبک--لایبلر به‌ترتیب عبارت‌اند از
+برای $P,Q\in\Delta_K$ و با لگاریتم طبیعی، تابع آنتروپی شانون
+$H(\cdot)$ و واگرایی کولبک--لایبلر به‌ترتیب به‌صورت زیر تعریف می‌شوند
 \cite{CoverThomas2006}:
 \begin{equation}\label{cmp:eq:ch3-KL-definition}
 \begin{aligned}
