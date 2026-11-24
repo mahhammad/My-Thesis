@@ -21,17 +21,17 @@
 H(P)=-\sum_{j=1}^Kp_j\log p_j,\qquad
 D_{\mathrm{KL}}(P\|Q)=\sum_{j=1}^Kp_j\log\frac{p_j}{q_j}.
 \end{equation}
-در اینجا به‌جای لگاریتم مبنای دو از لگاریتم طبیعی استفاده می‌کنیم؛ تغییر مبنا فقط عامل مقیاس مثبت را تغییر می‌دهد. قرارداد $0\log0=0$ و $0\log(0/q)=0$ برای $q\ge0$ برقرار است؛ برای $p>0$ و $q=0$، جملهٔ $p\log(p/q)$ برابر $+\infty$ است. پس KL دقیقاً هنگامی متناهی است که $\operatorname{supp}(P)\subseteq\operatorname{supp}(Q)$.
+در اینجا $p_j=P(j)$ و $q_j=Q(j)$ است. به‌جای لگاریتم مبنای دو از لگاریتم طبیعی استفاده می‌کنیم؛ تغییر مبنا فقط عامل مقیاس مثبت را تغییر می‌دهد. قرارداد $0\log0=0$ و $0\log(0/q)=0$ برای $q\ge0$ برقرار است؛ برای $p>0$ و $q=0$، جملهٔ $p\log(p/q)$ برابر $+\infty$ است. پس KL دقیقاً هنگامی متناهی است که $\operatorname{supp}(P)\subseteq\operatorname{supp}(Q)$.
 
 \paragraph{نامنفی‌بودن و حالت تساوی.}
 نامساوی اطلاعات در بخش ۲.۶ همان کتاب \cite{CoverThomas2006} بیان شده است. برای کامل‌بودن استدلال، در حالت متناهی از $\log x\le x-1$ برای $x>0$ استفاده می‌کنیم:
-\[
+\begin{equation}\label{eq:app-pd-kl-nonnegative}
 \begin{aligned}
 D_{\mathrm{KL}}(P\|Q)
 &=-\sum_{j:p_j>0}p_j\log(q_j/p_j)\\
 &\ge 1-\sum_{j:p_j>0}q_j\ge0.
 \end{aligned}
-\]
+\end{equation}
 تساوی در نامساوی نخست تنها وقتی رخ می‌دهد که $q_j=p_j$ روی تکیه‌گاه $P$؛ از مجموع یک نتیجه می‌شود $Q$ خارج از آن تکیه‌گاه جرم ندارد. بنابراین تساوی دقیقاً معادل $P=Q$ است. حالت نامتناهی نیز نامنفی است و تساوی ندارد.
 
 \paragraph{تعبیر درست‌نمایی و هزینهٔ مدل‌سازی نادرست.}
@@ -49,7 +49,7 @@ D_{\mathrm{KL}}(P\|Q)
 H(P,Q):=\mathbb E_{U\sim P}[-\log Q(U)]
 =-\sum_{j=1}^{K}p_j\log q_j.
 \end{equation}
-این کمیت آنتروپی متقاطع نام دارد. اگر مدل مورد استفاده خود توزیع واقعی $P$ باشد، این هزینه به $H(P)$ کاهش می‌یابد. با افزودن و کاستن $\sum_jp_j\log p_j$ داریم:
+این کمیت آنتروپی متقاطع نام دارد؛ نماد دوآرگومانی $H(P,Q)$ با آنتروپی شانون $H(P)$ و آنتروپی مشترک دو متغیر تصادفی متفاوت است. اگر مدل مورد استفاده خود توزیع واقعی $P$ باشد، این هزینه به $H(P)$ کاهش می‌یابد. با افزودن و کاستن $\sum_jp_j\log p_j$ داریم:
 \begin{equation}\label{eq:app-pd-kl-excess-nll}
 \boxed{
 \begin{aligned}
@@ -96,18 +96,18 @@ D_{\mathrm{KL}}(P\|Q).
 
 \paragraph{نامتقارنی و نقض نامساوی مثلثی.}
 برای $P=(1,0)$ و $Q=(1/2,1/2)$، واگرایی $D_{\mathrm{KL}}(P\|Q)=\log2$ ولی $D_{\mathrm{KL}}(Q\|P)=+\infty$ است. حتی درون سیمپلکس، نامساوی مثلثی الزاماً برقرار نیست: برای $P=(3/4,1/4)$، $Q=(1/2,1/2)$ و $R=(1/4,3/4)$،
-\[
+\begin{equation}\label{eq:app-pd-kl-not-metric}
 D_{\mathrm{KL}}(P\|R)=\tfrac12\log3,\qquad
 D_{\mathrm{KL}}(P\|Q)+D_{\mathrm{KL}}(Q\|R)=\tfrac14\log3.
-\]
+\end{equation}
 پس KL متریک نیست.
 
 \paragraph{تحدب مشترک واگرایی کولبک--لایبلر.}
 برای $x,y>0$، تابع $f(x,y)=x\log(x/y)$ دارای هسین
-\[
+\begin{equation}\label{eq:app-pd-kl-joint-convexity}
 \nabla^2 f(x,y)=
 \begin{pmatrix}1/x&-1/y\\-1/y&x/y^2\end{pmatrix}
-\]
+\end{equation}
 است که فرم درجه‌دوم آن برای $u,v\in\mathbb R$
 برابر $(u/\sqrt{x}-\sqrt{x}\,v/y)^2\ge0$ است.
 پس مجموع این جمله‌ها نسبت به زوج توزیع‌ها محدب است.
@@ -159,18 +159,24 @@ D_{\mathrm{KL}}(P\|e_j)=
 \paragraph{تعبیر اطلاعاتی و کران‌ها.}
 اگر $B$ متغیر دودویی با احتمال‌های برابر باشد و $U$ به شرط $B=0$ از $P$ و به شرط $B=1$ از $Q$ پیروی کند، توزیع حاشیه‌ای $U$ همان $M$ است. بنابراین اطلاعات متقابل $I(B;U)=H(U)-H(U\mid B)$ برابر JSD است. این مقدار اطلاعاتی را می‌سنجد که مشاهدهٔ $U$ دربارهٔ منشأ توزیع فراهم می‌کند.
 تقارن مستقیماً از تعریف و نامنفی‌بودن از نامساوی اطلاعات نتیجه می‌شود:
-\[
+\begin{equation}\label{eq:app-pd-js-range-zero}
 0\le\operatorname{JSD}(P,Q)\le\log2,\qquad
 \operatorname{JSD}(P,Q)=0\Longleftrightarrow P=Q.
-\]
+\end{equation}
 برای تساوی در کران بالا، هر دو KL باید برابر $\log2$ باشند. برای هر $j$ با $p_j>0$، جملهٔ $p_j\log(p_j/m_j)$ تنها وقتی به کران $p_j\log2$ می‌رسد که $q_j=0$؛ حکم متناظر برای جمع دوم نیز برقرار است. پس
 \begin{equation}\label{eq:app-pd-js-max}
 \operatorname{JSD}(P,Q)=\log2\Longleftrightarrow
 \operatorname{supp}(P)\cap\operatorname{supp}(Q)=\varnothing.
 \end{equation}
 خود JSD متریک نیست: اگر $P=e_1$، $R=e_2$ و $Q=(e_1+e_2)/2$، آنگاه
-$\operatorname{JSD}(P,R)=\log2$، ولی
-$\operatorname{JSD}(P,Q)+\operatorname{JSD}(Q,R)=\tfrac32\log(4/3)<\log2$؛ بنابراین نامساوی مثلثی نقض می‌شود.
+\begin{equation}\label{eq:app-pd-js-not-metric}
+\begin{aligned}
+\operatorname{JSD}(P,R)&=\log2,\\
+\operatorname{JSD}(P,Q)+\operatorname{JSD}(Q,R)
+&=\tfrac32\log(4/3)<\log2.
+\end{aligned}
+\end{equation}
+بنابراین نامساوی مثلثی نقض می‌شود.
 
 \section{نمایش هیلبرتی و اثبات متریک‌بودن جذر جنسن--شنون}
 \label{app:probability-dissimilarity-proofs}
@@ -185,7 +191,7 @@ $\mathcal H=L^2((0,\infty);\mathbb R^K)$
 \]
 در نظر می‌گیریم و نگاشت
 $\Phi:\Delta_K\longrightarrow\mathcal H$ را مستقیماً به‌صورت زیر تعریف می‌کنیم:
-\begin{equation}\label{eq:app-ch3-js-map-definition}\label{cmp:eq:ch3-js-Hilbert-map}
+\begin{equation}\label{cmp:eq:ch3-js-Hilbert-map}
 \boxed{
 \Phi(P)(t)=
 \left(\frac{1-e^{-p_1t}}{2t},\ldots,
@@ -275,7 +281,7 @@ $\sqrt{\log2/2}$ در $\mathcal H$ قرار می‌گیرند.
 
 \paragraph{فاصله دو تصویر و رابطه آن با جذر JSD.}
 با بسط مربع فاصله و جایگذاری رابطه ضرب داخلی:
-\begin{equation}\label{eq:app-ch3-js-Hilbert-distance}\label{cmp:eq:ch3-js-Hilbert-metric}
+\begin{equation}\label{cmp:eq:ch3-js-Hilbert-metric}
 \begin{aligned}
 \|\Phi(P)-\Phi(Q)\|_{\mathcal H}^2
 &=\|\Phi(P)\|^2+\|\Phi(Q)\|^2
@@ -315,7 +321,7 @@ $0\le\operatorname{JSD}(P,Q)\le\log2$؛
 \operatorname{JSD}(P,Q)=\log2-2\langle\Phi(P),\Phi(Q)\rangle_{\mathcal H}.
 \end{equation}
 پس با تعریف شباهت کسینوسی دو تصویر:
-\begin{equation}\label{eq:app-ch3-js-cosine}\label{cmp:eq:ch3-js-similarity}
+\begin{equation}\label{cmp:eq:ch3-js-similarity}
 \begin{gathered}
 \frac{\langle\Phi(P),\Phi(Q)\rangle_{\mathcal H}}
 {\|\Phi(P)\|_{\mathcal H}\|\Phi(Q)\|_{\mathcal H}}\\
@@ -333,16 +339,16 @@ $s$ نیز شباهت کسینوسی همان تصاویر را نشان می‌
 و مثبت بودن اکید آن برای $a>0$ نتیجه می‌شود
 که $s(P,Q)=0$ دقیقاً در صورت جدا بودن
 تکیه‌گاه‌های $P$ و $Q$ رخ می‌دهد.
-افزون بر این، $s$ یک کرنل مثبت نیمه‌معین است.
+افزون بر این، $s$ یک هستهٔ مثبت نیمه‌معین است.
 برای ضرایب حقیقی $\alpha_1,\ldots,\alpha_n$ داریم:
-\[
+\begin{equation}\label{eq:app-pd-similarity-psd}
 \begin{aligned}
 \sum_{i,j=1}^{n}\alpha_i\alpha_j s(P_i,P_j)
 &=\frac{2}{\log2}
 \left\|\sum_{i=1}^{n}\alpha_i\Phi(P_i)\right\|_{\mathcal H}^2\\
 &\ge0.
 \end{aligned}
-\]
+\end{equation}
 در مقابل، $s$ خود متریک فاصله نیست؛ دو معیار از ساختار هندسی یکسانی به‌دست می‌آیند، اما نقش‌های متفاوتی دارند.
 
 \paragraph{محدودبودن تصویر به ناحیه مجاز کره.}
@@ -414,8 +420,8 @@ d_{\sqrt{\mathrm{JS}}}(e_c,P)^2
 برای مقایسه با توزیع‌های دلخواه، چنین رابطه‌ای میان ترتیب مؤلفه‌ها و ترتیب شباهت‌ها لزوماً برقرار نیست.
 
 \section{تحدب و تعیین توزیع‌های دورترین}
-\paragraph{تقعر شباهت نسبت به توزیع‌ها.}
-محاسبه مشتق دوم از فرمول JSD به‌دست‌آمده از فاصله نشان می‌دهد که با ثابت گرفتن $Q$ و برای $p_c>0$:
+\paragraph{تحدب مشترک واگرایی و تقعر مشترک شباهت.}
+با مشتق‌گیری از صورت جمع مؤلفه‌ای رابطهٔ JSD، با ثابت گرفتن $Q$ و برای $p_c>0$، داریم:
 \[
 \frac{\partial^2\operatorname{JSD}(P,Q)}{\partial p_c^2}
 =\frac{q_c}{2p_c(p_c+q_c)}\ge0,
@@ -430,42 +436,69 @@ d_{\sqrt{\mathrm{JS}}}(e_c,P)^2
 f(p,q)=\tfrac12[p\log p+q\log q-(p+q)\log((p+q)/2)]
 \]
 را در نظر بگیرید که $\operatorname{JSD}(P,Q)=\sum_jf(p_j,q_j)$ است. برای $p,q>0$، هسین آن برابر است با
-\[
+\begin{equation}\label{eq:app-pd-js-joint-convexity}
 \nabla^2 f(p,q)=\frac{1}{2(p+q)}
 \begin{pmatrix}
 q/p&-1\\
 -1&p/q
 \end{pmatrix}.
-\]
+\end{equation}
 برای هر $u,v\in\mathbb R$، فرم درجه‌دوم این ماتریس برابر
 $(\sqrt{q/p}\,u-\sqrt{p/q}\,v)^2/[2(p+q)]\ge0$
-است. پس JSD نسبت به زوج $(P,Q)$ نیز محدب است؛ نتیجه با پیوستگی به مرز تعمیم می‌یابد. ازاین‌رو شباهت $s$ نسبت به زوج توزیع‌ها مقعر است.
+است. پس JSD نسبت به زوج $(P,Q)$ نیز محدب است؛ نتیجه با پیوستگی به مرز تعمیم می‌یابد. ازاین‌رو، طبق رابطه~\eqref{cmp:eq:ch3-js-similarity}، شباهت $s$ نسبت به زوج توزیع‌ها مقعر است.
 
 \paragraph{شبه‌تحدب جذر جنسن--شنون.}
 با وجود تحدب مشترک JSD، جذر آن در مختصات سیمپلکس
 عموماً محدب نیست. برای $K=2$، $P=Q_1=(1,0)$
 و $Q_2=(0,1)$، داریم:
-\[
+\begin{equation}\label{eq:app-pd-sqrt-js-nonconvex}
 d_{\sqrt{\mathrm{JS}}}(P,(Q_1+Q_2)/2)
 =\sqrt{\tfrac34\log(4/3)}
 >\tfrac12\sqrt{\log2}
 =\tfrac12\bigl[d_{\sqrt{\mathrm{JS}}}(P,Q_1)
 +d_{\sqrt{\mathrm{JS}}}(P,Q_2)\bigr].
-\]
+\end{equation}
 نامساوی اکید از $(4/3)^3>2$ حاصل می‌شود.
 بااین‌حال، جذر JSD شبه‌محدب مشترک است، زیرا برای هر
-$a\ge0$ مجموعهٔ زیرتراز آن همان مجموعهٔ زیرتراز
-$\operatorname{JSD}(P,Q)\le a^2$ است که محدب است.
+$a\ge0$ داریم:
+\begin{equation}\label{eq:app-pd-sqrt-js-quasiconvex}
+\begin{aligned}
+&\{(P,Q)\in\Delta_K^2:d_{\sqrt{\mathrm{JS}}}(P,Q)\le a\}\\
+&=\{(P,Q)\in\Delta_K^2:\operatorname{JSD}(P,Q)\le a^2\}.
+\end{aligned}
+\end{equation}
+مجموعهٔ سمت راست به‌دلیل تحدب مشترک JSD محدب است؛
+برای $a<0$ مجموعهٔ زیرتراز تهی است.
 از اکیداً صعودی‌بودن جذر نیز نتیجه می‌شود مجموعهٔ
 بیشینه‌سازها و کمینه‌سازهای آن با JSD یکسان است.
+برای هر $P,Q,R\in\Delta_K$، به‌ویژه،
+\begin{equation}\label{eq:app-pd-js-order-equivalence}
+\begin{aligned}
+\operatorname{JSD}(P,Q)&\le\operatorname{JSD}(P,R)\\
+\Longleftrightarrow\quad
+d_{\sqrt{\mathrm{JS}}}(P,Q)&\le d_{\sqrt{\mathrm{JS}}}(P,R)\\
+\Longleftrightarrow\quad s(P,Q)&\ge s(P,R).
+\end{aligned}
+\end{equation}
+این هم‌ارزی به مقایسهٔ مقادیر منفرد مربوط است، نه
+به میانگین‌ها یا تفاضل فاصله‌ها. برای مثال، اگر
+$z_1,\ldots,z_m$ مقادیر JSD باشند، تقعر جذر می‌دهد:
+\begin{equation}\label{eq:app-pd-js-mean-sqrt}
+\frac1m\sum_{i=1}^{m}\sqrt{z_i}
+\le\sqrt{\frac1m\sum_{i=1}^{m}z_i},
+\end{equation}
+که در صورت نابرابری مقادیر، اکید است. برای دو مقدار
+$a>b\ge0$ نیز $\sqrt a-\sqrt b=(a-b)/(\sqrt a+\sqrt b)$؛
+پس اندازهٔ حاشیه با تبدیل جذر تغییر می‌کند و
+ترتیب تفاضل‌ها نیز لزوماً حفظ نمی‌شود.
 
-\paragraph{بیشینه فاصله JS از یک توزیع ثابت.}
+\paragraph{بیشینهٔ ناهمانندی جنسن--شنون از یک توزیع ثابت.}
 می‌خواهیم نشان دهیم برای هر
 $P=(p_1,\ldots,p_K)\in\Delta_K$،
 بیشینه فاصله تا $Q\in\Delta_K$
 در دست‌کم یکی از رأس‌های $e_j$
 سیمپلکس به‌دست می‌آید.
-از رابطه مشتق دوم بالا و تقارن JSD،
+از تحدب مشترک اثبات‌شده در رابطه~\eqref{eq:app-pd-js-joint-convexity}،
 $Q\mapsto\operatorname{JSD}(P,Q)$
 روی درون سیمپلکس محدب است
 و این خاصیت با پیوستگی
@@ -524,8 +557,8 @@ $g'(p)=\log((1+p)/p)>0$.
 اگر دست‌کم یک مؤلفه صفر باشد،
 بیشترین فاصله برابر
 $\sqrt{\log2}$ خواهد بود.
-در حالت اخیر، بیشینه‌سازهای غیررأسی نیز
-ممکن‌اند. هر $Q$ با تکیه‌گاه محدود به
+در حالت اخیر، اگر دست‌کم دو مؤلفهٔ $P$ صفر باشند،
+بیشینه‌سازهای غیررأسی نیز وجود دارند. هر $Q$ با تکیه‌گاه محدود به
 مؤلفه‌های صفر $P$، تکیه‌گاهی جدا از $P$
 و فاصلهٔ بیشینه دارد.
 برای نمونه، در $K=3$ داریم:
@@ -549,7 +582,7 @@ j_*\in\arg\min_jp_j.
 \{Q\in\Delta_K:\operatorname{supp}(Q)\subseteq\{j:p_j=0\}\},&p_*=0.
 \end{cases}
 \end{equation}
-بنابراین وجود یک رأس دورترین همواره تضمین شده است، اما در حالت دوم ممکن است بیشینه‌سازهای غیررأسی نیز وجود داشته باشند.
+بنابراین وجود یک رأس دورترین همواره تضمین شده است؛ بیشینه‌ساز غیررأسی دقیقاً هنگامی وجود دارد که دست‌کم دو مؤلفهٔ $P$ صفر باشند.
 
 \paragraph{خلاصهٔ روابط رأسی و کران‌های تیز.}
 با استفاده از نتایج پیشین، برای توزیع ثابت
@@ -558,16 +591,8 @@ $p_{\min}=\min_jp_j$ و $p_{\max}=\max_jp_j$.
 در واگرایی کولبک--لایبلر، رابطه~\eqref{eq:app-pd-kl-vertex-values}
 نتیجه می‌دهد:
 \begin{equation}\label{cmp:eq:ch3-kl-vertex-bounds}
-\begin{aligned}
-D_{\mathrm{KL}}(e_j\|P)&=-\log p_j,\\
--\log p_{\max}&\le D_{\mathrm{KL}}(e_j\|P)
-\le-\log p_{\min},\\
-D_{\mathrm{KL}}(P\|e_j)&=
-\begin{cases}
-0,&P=e_j,\\
-+\infty,&P\ne e_j.
-\end{cases}
-\end{aligned}
+-\log p_{\max}\le D_{\mathrm{KL}}(e_j\|P)
+\le-\log p_{\min}.
 \end{equation}
 با قرارداد $-\log0=+\infty$، هر دو کران رأسی تیزند.
 برای هر $Q\in\Delta_K$ نیز از
