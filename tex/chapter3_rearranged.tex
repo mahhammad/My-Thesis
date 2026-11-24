@@ -1818,7 +1818,14 @@ T_{\mathrm{precompute,total}}
 $\mathscr Y_\star^{(c)}
 =\rho_\star^{(c)}\widetilde B^{(c,H)}$
 به دست می‌آید و ضرب نهایی
-حداکثر $O(mK)$ عملیات دارد.
+با توزیع آغاز تنک، حداکثر
+$O(\Delta d_\star K)$ عملیات دارد، که در آن
+$d_\star=|A_{X_\star}\cap A_D|$ است.
+برای خانوادهٔ طبقه‌محور و ارزیابی همهٔ $K$
+فرضیه، هزینهٔ کل این ضرب‌ها
+$O(\Delta d_\star K^2)$ است؛ در خانوادهٔ مشترک
+تنها یک ضرب لازم است. این کران‌ها مربوط به
+ترکیب سطرهای ماتریس پیش‌محاسبه‌شده‌اند.
 مطابق قرارداد نخستین گام در
 زیربخش~\ref{cmp:subsec:ch3-block-matrix-transition}،
 نمونهٔ جدید رأس گراف مرجع
@@ -2007,9 +2014,9 @@ $\operatorname{FirstState}$ و
 $\operatorname{Advance}$ به‌ترتیب
 وزن گام‌ها، توزیع آغاز و انتشار یک گام
 را فراهم می‌کنند. روندهای
-$\operatorname{ExactWalk}$،
+$\operatorname{ExactWalkExpectation}$،
 $\operatorname{PrecomputeLabels}$ و
-$\operatorname{QueryExactWalk}$ این اجزا
+$\operatorname{QueryExactWalkExpectation}$ این اجزا
 را برای آموزش و استنتاج ترکیب می‌کنند.
 شکل عملیاتی این تقسیم‌بندی با
 روابط~\eqref{cmp:eq:ch3-sparse-vertical-transition}،
@@ -2017,6 +2024,17 @@ $\operatorname{QueryExactWalk}$ این اجزا
 و~\eqref{cmp:eq:ch3-sparse-precompute-matrix}
 سازگار است؛ هیچ ماتریس انتقال
 متراکمی در زیرروال‌ها ساخته نمی‌شود.
+در فراخوانی‌ها، $N$ و $\widetilde q$ به‌ترتیب
+مجموعهٔ فهرست‌های همسایگی و احتمال‌های عمودی پایه‌اند.
+بردار $\boldsymbol\alpha^{(H)}=(\alpha_1^{(H)},\ldots,\alpha_H^{(H)})$
+برای هر انتخاب ثابت $H,\beta,\lambda$ تنها یک‌بار
+با زیرروال $\operatorname{CappedWeights}$ ساخته
+و به روندهای محاسبهٔ امید داده می‌شود.
+احتمال‌های سیاست در گراف مرجع برای هر عضو خانواده
+و هر مقدار ثابت پارامترها یک‌بار ارزیابی و میان
+مبدأها و گام‌ها بازاستفاده می‌شوند؛ در آموزش پس از
+تغییر پارامترها دوباره ارزیابی می‌شوند، با حفظ
+وابستگی مشتق‌پذیر آن‌ها به پارامترهای سیاست.
 
 \paragraph{زیرروال ساخت همسایگی و احتمال عمودی.}
 الگوریتم~\ref{cmp:alg:ch3-build-vertical}
@@ -2090,6 +2108,9 @@ $\Delta$ نیاز دارد؛ برچسب‌ها و
             \ENDIF
         \ENDFOR
     \ENDIF
+    \STATE نگهداری وزن خام هر یال برگزیده
+    فقط یک‌بار، با بازاستفاده از وزن نامزدهای موجود
+    و استفاده از تقارن $w_b(X_i,X_j)=w_b(X_j,X_i)$
     \FORALL{$X_i\in D_b$}
         \STATE $N_b^{(\Delta)}(i)\gets
         \{X_j:\{i,j\}\in E_b^{(\Delta)}\}$
@@ -2157,17 +2178,15 @@ $s\in\{1,\ldots,n\}\cup\{\varnothing\}$؛
 $N_b^{(\Delta)}(i)$ و $\widetilde q_b(\cdot\mid i)$
 \ENSURE مجموعهٔ $\mathcal J_{i,b}^{(s)}$
 و احتمال‌های $\bar q_b^{(s)}$
-\STATE $\mathcal J_{i,b}^{(s)}
-\gets N_b^{(\Delta)}(i)$؛ $Z\gets1$
-\IF{$s\ne\varnothing$ و $i\ne s$}
-    \STATE $\mathcal J_{i,b}^{(s)}
-    \gets\mathcal J_{i,b}^{(s)}\setminus\{X_s\}$
-    \STATE $Z\gets1-\widetilde q_b(s\mid i)$
-    با قرارداد صفر برای مقصد ناموجود
+\IF{$s=\varnothing$ یا $X_s\notin N_b^{(\Delta)}(i)$}
+    \STATE \textbf{بازگردان}
+    $(N_b^{(\Delta)}(i),\widetilde q_b(\cdot\mid i))$
+    بدون نرمال‌سازی مجدد
 \ENDIF
+\STATE $\mathcal J_{i,b}^{(s)}\gets N_b^{(\Delta)}(i)\setminus\{X_s\}$
+\STATE $\eta\gets\sum_{X_j\in\mathcal J_{i,b}^{(s)}}\widetilde q_b(j\mid i)$
 \FORALL{$X_j\in\mathcal J_{i,b}^{(s)}$}
-    \STATE $\bar q_b^{(s)}(j\mid i)
-    \gets\widetilde q_b(j\mid i)/Z$
+    \STATE $\bar q_b^{(s)}(j\mid i)\gets\widetilde q_b(j\mid i)/\eta$
 \ENDFOR
 \STATE \textbf{بازگردان}
 $(\mathcal J_{i,b}^{(s)},\bar q_b^{(s)})$
@@ -2187,20 +2206,21 @@ $(\mathcal J_{i,b}^{(s)},\bar q_b^{(s)})$
 \begin{algorithmic}[1]
 \REQUIRE $H\ge1$، $0<\beta\le1$ و $0<\lambda\le1$
 \ENSURE $\alpha_1^{(H)},\ldots,\alpha_H^{(H)}$
-\STATE $r\gets1$؛ $\mathcal N_0\gets0$
+\STATE $r\gets1$؛ $\mathcal N_0\gets0$؛ $u_1\gets1$
 \FOR{$\ell=1,\ldots,H$}
     \STATE $\mathcal N_\ell\gets1+\lambda\mathcal N_{\ell-1}$
     \IF{$\ell<H$}
+        \STATE $u_{\ell+1}\gets\lambda u_\ell$
         \STATE $p_\ell^{(H)}\gets\beta r$
         \STATE $r\gets(1-\beta)r$
     \ELSE
         \STATE $p_H^{(H)}\gets r$
     \ENDIF
 \ENDFOR
-\STATE $z\gets0$
+\STATE $v\gets0$
 \FOR{$t=H,H-1,\ldots,1$}
-    \STATE $z\gets z+p_t^{(H)}/\mathcal N_t$
-    \STATE $\alpha_t^{(H)}\gets\lambda^{t-1}z$
+    \STATE $v\gets v+p_t^{(H)}/\mathcal N_t$
+    \STATE $\alpha_t^{(H)}\gets u_t v$
 \ENDFOR
 \STATE \textbf{بازگردان} $(\alpha_1^{(H)},\ldots,\alpha_H^{(H)})$
 \end{algorithmic}
@@ -2291,36 +2311,33 @@ $\mathcal Q_\star\gets\varnothing$
 مرجع $D$ و $N_b^{(\Delta)}$، $\widetilde q_b$؛
 برای $\circ=\star$، خروجی $(B_\star,\mathcal Q_\star)$
 زیرروال $\operatorname{QueryVertical}$
-\ENSURE توزیع $\nu_1$ روی
-$\mathcal S_s$ یا $\mathcal S$، یا وضعیت نامعتبر
+\ENSURE توزیع تنک $\nu_1$ روی
+$\mathcal S_s$ یا $\mathcal S$، یا وضعیت نامعتبر؛
+مؤلفه‌های ذخیره‌نشده صفرند
+\STATE $\nu_1\gets$ نگاشت تنک تهی
 \IF{$\circ=s$}
-    \STATE $\nu_1(j,b)\gets0$
-    برای $(X_j,b)\in\mathcal S_s$
     \FORALL{$b\in A_{X_s}$}
-        \STATE $(\mathcal J,p)
-        \gets\operatorname{VerticalRow}(s,b,s;N,\widetilde q)$
-        \FORALL{$X_j\in\mathcal J$}
+        \FORALL{$X_j\in N_b^{(\Delta)}(s)$}
             \STATE $\nu_1(j,b)\gets
-            \nu_1(j,b)+\pi_s(b\mid s,\bot)p(j)$
+            \pi_s(b\mid s,\bot)\widetilde q_b(j\mid s)$
         \ENDFOR
     \ENDFOR
 \ELSE
     \IF{$B_\star=\varnothing$ یا سیاست آغازِ مجاز موجود نیست}
         \STATE \textbf{بازگردان} وضعیت نامعتبر
     \ENDIF
-    \STATE $\nu_1(j,b)\gets0$
-    برای $(X_j,b)\in\mathcal S$
     \STATE تعیین مجموعهٔ مجاز آغاز از $B_\star$
     مطابق قرارداد سیاست در بخش~\ref{cmp:subsec:ch3-out-of-graph-policy}
     \IF{مجموعهٔ مجاز آغاز تهی است}
         \STATE \textbf{بازگردان} وضعیت نامعتبر
     \ENDIF
-    \STATE نرمال‌سازی $\pi_\star$ فقط روی همان مجموعه؛
-    احتمال ویژگی‌های خارج از آن صفر
+    \STATE محدودسازی و نرمال‌سازی سیاست آغاز
+    فقط روی همان مجموعه؛ در صورت صفر بودن
+    جرم مجاز، بازگردان وضعیت نامعتبر
     \FORALL{$b\in B_\star$ با $\pi_\star(b\mid\star,\bot)>0$}
         \FORALL{$X_j\in N_b^{(\Delta)}(\star)$}
             \STATE $\nu_1(j,b)\gets
-            \nu_1(j,b)+\pi_\star(b\mid\star,\bot)
+            \pi_\star(b\mid\star,\bot)
             \widetilde q_b(j\mid\star)$
         \ENDFOR
     \ENDFOR
@@ -2396,32 +2413,31 @@ $c_s=y_s$ مطابق
 ضروری نیست.
 
 \begin{algorithm}[!htbp]
-\caption{روند $\operatorname{ExactWalk}$: امید دقیق گشت آموزشی روی گراف انتخاب‌شده}
+\caption{روند $\operatorname{ExactWalkExpectation}$: امید دقیق گشت آموزشی روی گراف انتخاب‌شده}
 \label{cmp:alg:ch3-exact-walk-expectation}
 \begin{algorithmic}[1]
 \REQUIRE مبدأ $s\in\{1,\ldots,n\}$؛
-$H,\beta,\lambda$؛ سیاست برگزیدهٔ $\pi_s$؛
+بردار آمادهٔ $\boldsymbol\alpha^{(H)}$؛ سیاست برگزیدهٔ $\pi_s$؛
 مرجع برچسب‌دار $D,Y$؛
 $N_b^{(\Delta)}$ و $\widetilde q_b$
 \ENSURE بازنمایی نمونه‌ای $h_s$
 و بازنمایی برچسبی $\mathscr Y_s$
-\STATE $\alpha^{(H)}
-\gets\operatorname{CappedWeights}(H,\beta,\lambda)$
 \STATE $\nu\gets
 \operatorname{FirstState}(s;\pi_s,D,N,\widetilde q)$
-\STATE $h_s\gets0_{1\times n}$؛
-$\mathscr Y_s\gets0_{1\times K}$
+\STATE $h_s\gets0_{1\times n}$
 \FOR{$t=1,\ldots,H$}
     \FORALL{$(X_j,b)\in\mathcal S_s$}
         \STATE $h_s[j]\gets
         h_s[j]+\alpha_t^{(H)}\nu(j,b)$
-        \STATE $\mathscr Y_s[y_j]\gets
-        \mathscr Y_s[y_j]+\alpha_t^{(H)}\nu(j,b)$
     \ENDFOR
     \IF{$t<H$}
         \STATE $\nu\gets
         \operatorname{Advance}(\nu,s,\pi_s,N,\widetilde q)$
     \ENDIF
+\ENDFOR
+\STATE $\mathscr Y_s\gets0_{1\times K}$
+\FOR{$j=1,\ldots,n$}
+    \STATE $\mathscr Y_s[y_j]\gets\mathscr Y_s[y_j]+h_s[j]$
 \ENDFOR
 \STATE \textbf{بازگردان} $(h_s,\mathscr Y_s)$
 \end{algorithmic}
@@ -2449,12 +2465,12 @@ $\widetilde B^{(c,H)}$ در
 \label{cmp:alg:ch3-precompute-labels}
 \begin{algorithmic}[1]
 \REQUIRE مرجع $D,Y$؛ سیاست ثابت $\pi^{(c)}$؛
-$H,\beta,\lambda$؛ $N_b^{(\Delta)}$، $\widetilde q_b$
+بردار آمادهٔ $\boldsymbol\alpha^{(H)}$؛ $N_b^{(\Delta)}$، $\widetilde q_b$
 \ENSURE $\widetilde B^{(c,H)}\in\mathbb R^{m\times K}$
-\STATE $\alpha^{(H)}
-\gets\operatorname{CappedWeights}(H,\beta,\lambda)$
-\STATE $G\gets0_{m\times K}$
-\FOR{$t=H,H-1,\ldots,1$}
+\FORALL{$(X_i,a)\in\mathcal S$}
+    \STATE $G_{(i,a),:}\gets\alpha_H^{(H)}Y_{i,:}$
+\ENDFOR
+\FOR{$t=H-1,\ldots,1$}
     \FORALL{$(X_i,b)\in\mathcal S$}
         \STATE $U_{i,b,:}\gets0_{1\times K}$
         \FORALL{$X_j\in N_b^{(\Delta)}(i)$}
@@ -2478,7 +2494,7 @@ $H,\beta,\lambda$؛ $N_b^{(\Delta)}$، $\widetilde q_b$
 برای پرس‌وجوی خارج از گراف، مبدأ
 جزء مجموعهٔ $D$ نیست؛ بنابراین
 هیچ حالت مرجعی حذف نمی‌شود.
-روند $\operatorname{QueryExactWalk}$
+روند $\operatorname{QueryExactWalkExpectation}$
 در الگوریتم~\ref{cmp:alg:ch3-query-exact-walk}
 توزیع آغازِ رابطه~\eqref{cmp:eq:ch3-query-first-state}
 را با $\operatorname{FirstState}$ و احتمال‌های
@@ -2499,13 +2515,13 @@ $s=\varnothing$ اجرا می‌کند.
 است.
 
 \begin{algorithm}[!htbp]
-\caption{روند $\operatorname{QueryExactWalk}$: امید دقیق پرس‌وجوی برون‌نمونه‌ای}
+\caption{روند $\operatorname{QueryExactWalkExpectation}$: امید دقیق پرس‌وجوی برون‌نمونه‌ای}
 \label{cmp:alg:ch3-query-exact-walk}
 \begin{algorithmic}[1]
 \REQUIRE نمونهٔ جدید $X_\star$، سیاست فرضیهٔ
 برگزیدهٔ $\pi^{(c)}$ و سطر آغاز مجاز
 $\pi_\star^{(c)}$؛ مدل ثابت شامل
-$D,Y,H,\beta,\lambda,N_b^{(\Delta)},\widetilde q_b$؛
+$D,Y,\boldsymbol\alpha^{(H)},N_b^{(\Delta)},\widetilde q_b$؛
 خروجی مشترک $(B_\star,\mathcal Q_\star)$
 زیرروال $\operatorname{QueryVertical}$؛
 $\widetilde B^{(c,H)}$ در صورت پیش‌محاسبه
@@ -2517,12 +2533,12 @@ B_\star,\mathcal Q_\star)$
 \IF{توزیع نخستین گام نامعتبر است}
     \STATE \textbf{بازگردان} وضعیت نامعتبر
 \ENDIF
-\IF{$\widetilde B^{(c,H)}$ موجود است}
-    \STATE $\mathscr Y_\star^{(c)}
-    \gets\nu\widetilde B^{(c,H)}$
+\IF{ماتریس $\widetilde B^{(c,H)}$ متناظر با گراف، برچسب‌ها،
+سیاست و ضرایب جاری موجود است}
+    \STATE $\mathscr Y_\star^{(c)}\gets
+    \sum_{(X_j,b)\in\operatorname{supp}(\nu)}
+    \nu(j,b)\widetilde B_{(j,b),:}^{(c,H)}$
 \ELSE
-    \STATE $\alpha^{(H)}
-    \gets\operatorname{CappedWeights}(H,\beta,\lambda)$
     \STATE $\mathscr Y_\star^{(c)}\gets0_{1\times K}$
     \FOR{$t=1,\ldots,H$}
         \FORALL{$(X_j,b)\in\mathcal S$}
@@ -5803,13 +5819,13 @@ $C_c=\{i\in\mathcal I_{\mathrm{tr}}:y_i=c\}$ است؛
 در خانواده‌های \lr{shared} و \lr{node}
 انتخاب سیاست مستقل از طبقه است.
 فراخوانی
-$\operatorname{ExactWalk}_{\mathrm{tr}}(i;\theta)$
+$\operatorname{ExactWalkExpectation}_{\mathrm{tr}}(i;\theta)$
 همان روند
 الگوریتم~\ref{cmp:alg:ch3-exact-walk-expectation}
 را با فهرست‌های $N$ و احتمال‌های
 $\widetilde q$ ساخته‌شده از مرجع آموزش،
 مبدأ $i$، سیاست برگزیدهٔ $\pi_i$
-و مقادیر ثابت $H,\beta,\lambda$
+و بردار آمادهٔ $\boldsymbol\alpha^{(H)}$
 اجرا می‌کند. این فراخوانی تنها یک
 بازنمایی $\mathscr Y_i(\theta)$
 برای هر نمونهٔ آموزشی تولید می‌کند.
@@ -5854,15 +5870,19 @@ $C_1,\ldots,C_K$ \textbf{فقط} از $D_{\mathrm{tr}}$
 \gets\operatorname{BuildVertical}
 (D_{\mathrm{tr}},\{\mu_b,\kappa_b\}_{b\in A_D},\Delta)$
 طبق الگوریتم~\ref{cmp:alg:ch3-build-vertical}
+\STATE $\boldsymbol\alpha^{(H)}\gets
+\operatorname{CappedWeights}(H,\beta,\lambda)$
 \STATE $\theta\gets\theta^{(0)}$؛
 $\chi_{\mathrm{opt}}\gets\operatorname{InitOptimizer}(\theta)$
 \FOR{$t=0,\ldots,N_{\mathrm{ep}}-1$}
+    \STATE ارزیابی احتمال‌های سیاست برای پارامتر جاری،
+    یک‌بار برای هر عضو خانواده
     \FORALL{$i\in\mathcal I_{\mathrm{tr}}$}
         \STATE انتخاب $\pi_i$ با برچسب معلوم $y_i$
         در خانوادهٔ طبقه‌محور؛ سیاست مستقل از طبقه
         در خانواده‌های دیگر
         \STATE $\mathscr Y_i(\theta)\gets
-        \operatorname{ExactWalk}_{\mathrm{tr}}(i;\theta)$
+        \operatorname{ExactWalkExpectation}_{\mathrm{tr}}(i;\theta)$
     \ENDFOR
     \FOR{$c=1,\ldots,K$}
         \STATE $\mathcal V_c(\theta)\gets
@@ -5904,10 +5924,11 @@ $\chi_{\mathrm{opt}}\gets\operatorname{InitOptimizer}(\theta)$
     \operatorname{OptimizerStep}(\theta,g,\chi_{\mathrm{opt}})$
 \ENDFOR
 \STATE $\theta^{\mathrm{fit}}\gets\theta$
+\STATE ارزیابی احتمال‌های سیاست نهایی برای بازاستفاده
 \STATE محاسبهٔ مجدد
 $\mathscr Y_i(\theta^{\mathrm{fit}})$
 فقط یک بار برای هر مبدأ آموزشی با
-$\operatorname{ExactWalk}_{\mathrm{tr}}(i;\theta^{\mathrm{fit}})$
+$\operatorname{ExactWalkExpectation}_{\mathrm{tr}}(i;\theta^{\mathrm{fit}})$
 \STATE $\mathcal V_c^{\mathrm{fit}}\gets
 |C_c|^{-1}\sum_{i\in C_c}
 \mathscr Y_i(\theta^{\mathrm{fit}})$
@@ -5921,7 +5942,7 @@ $\operatorname{PrecomputeLabels}$
 (\theta^{\mathrm{fit}},\mathcal V^{\mathrm{fit}},
 D_{\mathrm{tr}},Y_{\mathrm{tr}},M_{\mathrm{tr}},
 \mathsf{cfg},H,\beta,\lambda,\Delta,
-N,\widetilde q,\text{کرنل و قرارداد سیاست})$
+\boldsymbol\alpha^{(H)},N,\widetilde q,\text{کرنل و قرارداد سیاست})$
 \STATE در صورت انجام پیش‌محاسبه،
 ماتریس‌های $\widetilde B^{(c,H)}$
 نیز به بستهٔ $\mathcal M_{\mathrm{tr}}$ افزوده شوند
@@ -6063,8 +6084,8 @@ $D_b^{\mathrm{tr}}\setminus\{X_i\}$ برای
 از سطر آغاز سیاست آموزش‌دیده به‌دست می‌آید،
 اما در خانواده‌های گره‌محور آزاد باید
 جداگانه مشخص شود.
-$\operatorname{QueryExactWalk}(x,c;
-\mathcal M_{\mathrm{tr}},\mathfrak a)$
+$\operatorname{QueryExactWalkExpectation}(x,c;
+\mathcal M_{\mathrm{tr}},\mathfrak a,B_\star,\mathcal Q_\star)$
 همان روند مستقل
 الگوریتم~\ref{cmp:alg:ch3-query-exact-walk}
 است: حالت اولیهٔ
@@ -6079,7 +6100,7 @@ $\operatorname{Advance}$ و بدون
 این روند، استنتاجی و بدون
 نمونه‌گیری مونت‌کارلو است؛
 در الگوریتم آموزش، به‌جای آن،
-$\operatorname{ExactWalk}_{\mathrm{tr}}$
+$\operatorname{ExactWalkExpectation}_{\mathrm{tr}}$
 فراخوانی می‌شود. برای هر فرضیهٔ $c$،
 خروجی آن $\mathscr Y_x^{[c]}\in\Delta_K$
 است؛ شرط نرمال‌بودن فقط در صورت اعتبار
@@ -6138,25 +6159,22 @@ $v_x\in\{0,1\}$ نشانگر پیش‌بینی معتبر است
 \IF{خانوادهٔ گره‌محور است و قاعدهٔ آغاز برون‌گراف موجود نیست}
     \STATE \textbf{توقف: قرارداد استنتاج این خانواده تعریف نشده است}
 \ENDIF
-\STATE $B_x\gets\{b\in A_x:
-\sum_{X_j\in D_b^{\mathrm{tr}}}w_b(x,X_j)>0\}$
-\IF{$B_x=\varnothing$}
+\STATE $(B_\star,\mathcal Q_\star)\gets
+\operatorname{QueryVertical}(x,\{D_b^{\mathrm{tr}}\},\{\mu_b,\kappa_b\},\Delta)$
+\IF{$B_\star=\varnothing$}
     \STATE \textbf{بازگردان} $(0,\bot,\bot,\bot)$
 \ENDIF
-\STATE ساخت انتقال آغازین روی $B_x$ از
-رابطه~\eqref{cmp:eq:ch3-heldout-initial-transition}
-و نرمال‌سازی سیاست آغاز فقط روی گزینه‌های مجاز
 \IF{سیاست مستقل از فرضیهٔ طبقهٔ مبدأ است}
     \STATE $\mathscr Y_x^{[\cdot]}\gets
-    \operatorname{QueryExactWalk}(x,\cdot;
-    \mathcal M_{\mathrm{tr}},\mathfrak a)$
+    \operatorname{QueryExactWalkExpectation}(x,\cdot;
+    \mathcal M_{\mathrm{tr}},\mathfrak a,B_\star,\mathcal Q_\star)$
     \STATE $\mathscr Y_x^{[c]}\gets\mathscr Y_x^{[\cdot]}$
     برای همهٔ $c=1,\ldots,K$
 \ELSE
     \FOR{$c=1,\ldots,K$}
         \STATE $\mathscr Y_x^{[c]}\gets
-        \operatorname{QueryExactWalk}(x,c;
-        \mathcal M_{\mathrm{tr}},\mathfrak a)$
+        \operatorname{QueryExactWalkExpectation}(x,c;
+        \mathcal M_{\mathrm{tr}},\mathfrak a,B_\star,\mathcal Q_\star)$
     \ENDFOR
 \ENDIF
 \IF{یکی از بازنمایی‌های لازم نامعتبر یا نانرمال است}
@@ -6290,10 +6308,10 @@ $(v,s,\widehat p,\widehat y,\mathcal R_{\mathrm{val}})$
 بدون فراخوانی الگوریتم سنجش مجموعه‌ای قابل‌استفاده است.
 این زیرروال تنها یک لایهٔ امتیازدهی و تصمیم
 بر روند محاسباتی
-$\operatorname{QueryExactWalk}$ در
+$\operatorname{QueryExactWalkExpectation}$ در
 الگوریتم~\ref{cmp:alg:ch3-query-exact-walk}
 است و موتور گشت یا
-$\operatorname{ExactWalk}_{\mathrm{tr}}$
+$\operatorname{ExactWalkExpectation}_{\mathrm{tr}}$
 را دوباره تعریف نمی‌کند. ثبت شناسهٔ هر پرس‌وجو مانع
 یکی‌گرفتن دو مشاهدهٔ هم‌مقدار در شمارش
 پوشش و ماتریس اغتشاش می‌شود.
