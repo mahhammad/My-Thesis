@@ -551,3 +551,73 @@ j_*\in\arg\min_jp_j.
 \end{equation}
 بنابراین وجود یک رأس دورترین همواره تضمین شده است، اما در حالت دوم ممکن است بیشینه‌سازهای غیررأسی نیز وجود داشته باشند.
 
+\paragraph{خلاصهٔ روابط رأسی و کران‌های تیز.}
+با استفاده از نتایج پیشین، برای توزیع ثابت
+$P=(p_1,\ldots,p_K)$، می‌نویسیم
+$p_{\min}=\min_jp_j$ و $p_{\max}=\max_jp_j$.
+در واگرایی کولبک--لایبلر، رابطه~\eqref{eq:app-pd-kl-vertex-values}
+نتیجه می‌دهد:
+\begin{equation}\label{cmp:eq:ch3-kl-vertex-bounds}
+\begin{aligned}
+D_{\mathrm{KL}}(e_j\|P)&=-\log p_j,\\
+-\log p_{\max}&\le D_{\mathrm{KL}}(e_j\|P)
+\le-\log p_{\min},\\
+D_{\mathrm{KL}}(P\|e_j)&=
+\begin{cases}
+0,&P=e_j,\\
++\infty,&P\ne e_j.
+\end{cases}
+\end{aligned}
+\end{equation}
+با قرارداد $-\log0=+\infty$، هر دو کران رأسی تیزند.
+برای هر $Q\in\Delta_K$ نیز از
+رابطه~\eqref{eq:app-pd-kl-fixed-distribution-bound}
+و حالت مرزی بررسی‌شده در ادامهٔ آن، داریم
+$0\le D_{\mathrm{KL}}(Q\|P)\le-\log p_{\min}$.
+در جهت معکوس کران بالای متناهی وجود ندارد.
+
+برای خانوادهٔ جنسن--شنون، با همان تابع کمکی
+$g(p)=(1+p)\log(1+p)-p\log p$ از بحث پیشین،
+روابط~\eqref{eq:app-ch3-js-onehot-monotonic}
+و~\eqref{eq:app-ch3-js-farthest-vertex-formula}
+به صورت زیر خلاصه می‌شوند:
+\begin{equation}\label{cmp:eq:ch3-js-family-vertex-values}
+\begin{aligned}
+\operatorname{JSD}(P,e_j)&=\log2-\tfrac12 g(p_j),\\
+d_{\sqrt{\mathrm{JS}}}(P,e_j)&=\sqrt{\log2-\tfrac12 g(p_j)},\\
+s(P,e_j)&=\frac{g(p_j)}{2\log2}.
+\end{aligned}
+\end{equation}
+از اکیداً صعودی‌بودن $g$، کران‌های تیز زیر برای
+مقایسه با رأس‌ها به دست می‌آیند:
+\begin{equation}\label{cmp:eq:ch3-js-family-vertex-bounds}
+\begin{aligned}
+\log2-\tfrac12g(p_{\max})
+&\le\operatorname{JSD}(P,e_j)
+\le\log2-\tfrac12g(p_{\min}),\\
+\sqrt{\log2-\tfrac12g(p_{\max})}
+&\le d_{\sqrt{\mathrm{JS}}}(P,e_j)
+\le\sqrt{\log2-\tfrac12g(p_{\min})},\\
+\frac{g(p_{\min})}{2\log2}
+&\le s(P,e_j)\le\frac{g(p_{\max})}{2\log2}.
+\end{aligned}
+\end{equation}
+از روابط~\eqref{eq:app-ch3-js-max-distance-value}
+و~\eqref{eq:app-pd-all-maximizers}، برای هر
+$Q\in\Delta_K$ نیز کران‌های تیز زیر برقرارند:
+\begin{equation}\label{cmp:eq:ch3-js-family-fixed-distribution-bounds}
+\begin{aligned}
+0&\le\operatorname{JSD}(P,Q)
+\le\log2-\tfrac12g(p_{\min}),\\
+0&\le d_{\sqrt{\mathrm{JS}}}(P,Q)
+\le\sqrt{\log2-\tfrac12g(p_{\min})},\\
+\frac{g(p_{\min})}{2\log2}&\le s(P,Q)\le1.
+\end{aligned}
+\end{equation}
+کران‌های متناظر با بیشترین نزدیکی در $Q=P$ و
+کران‌های متناظر با بیشترین ناهمانندی در توزیع‌های
+مشخص‌شده در رابطه~\eqref{eq:app-pd-all-maximizers}
+محقق می‌شوند. در صورت تکیه‌گاه کامل $P$، بیشترین
+ناهمانندی به کران عمومی $\log2$ یا $\sqrt{\log2}$
+نمی‌رسد؛ و کمترین شباهت نیز اکیداً مثبت است.
+
