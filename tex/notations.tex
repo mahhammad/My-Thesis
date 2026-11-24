@@ -62,15 +62,24 @@
 \notationrow{\mathcal F_{c}(\Theta)}{عضو طبقهٔ $c$ از خانوادهٔ توابع امتیاز}{cmp:eq:ch3-parametric-score-matrix}
 \notationrow{\Theta}{پارامترهای توابع تولید امتیاز}{cmp:eq:ch3-parametric-score-matrix}
 \notationrow{\pi^{(c)}}{سیاست عضو طبقهٔ $c$ از خانوادهٔ سیاست‌های طبقه‌محور}{cmp:eq:ch3-fixed-policy-softmax}
+\notationrowpage{c_s}{طبقهٔ مفروض مبدأ؛ در آموزش $c_s=y_s$}{cmp:subsec:ch3-out-of-graph-policy}
+\notationrow{\bot}{شناسهٔ سطر آغاز، پیش از انتخاب نخستین ویژگی}{cmp:eq:ch3-parametric-score-matrix}
+\notationrow{Z_c(X_i;\Theta)}{ماتریس عددی موضعی امتیازها برای نمونهٔ جاری و عضو طبقهٔ $c$}{cmp:eq:ch3-parametric-feature-score}
+\notationrow{F_{c,a,b},\ F_{c,b}}{توابع امتیاز انتقال میانی و آغاز}{cmp:eq:ch3-parametric-score-matrix}
 \notationrow{z_{c,a,b}(X_i;\Theta)}{امتیاز ویژگی $b$ پس از $a$ در عضو طبقهٔ $c$ از خانوادهٔ توابع}{cmp:eq:ch3-parametric-feature-score}
 \notationrow{A_{X_i}=B_s(X_i)}{ویژگی‌های موجود که به‌واسطه فرض پنجم تماماً مقصد مجاز دارند}{cmp:eq:ch3-feature-eligibility}
 \notationrow{\widetilde\Pi_i^{(s)}}{ماتریس کامل سیاست برگزیدهٔ مبدأ، شامل سطر آغاز $\bot$}{cmp:eq:ch3-fixed-policy-softmax}
-\notationrow{Z=(z_{ab})}{ماتریس ثابت امتیاز سیاست}{cmp:eq:ch3-fixed-policy-matrix}
+\notationrow{Z=(z_{ab}),\ Z^{(c)}}{ماتریس ثابت امتیاز سیاست مشترک و عضو طبقهٔ $c$}{cmp:eq:ch3-fixed-policy-matrix}
 \notationrow{Z^{\mathrm{node}},\ Z^{\mathrm{node,class}}}{امتیازهای عددی آزاد گره‌ای و گره--طبقه}{cmp:eq:ch3-policy-family-shapes}
-\notationrow{A_{c,b},\ B_{c,j,a,b}}{امتیاز شروع مشترک به‌ازای فرض طبقه مبدأ و انتقال گره‌ای}{cmp:eq:ch3-class-tied-start}
 \notationrow{\pi_s^U}{سیاست یکنواخت انتخاب ویژگی}{cmp:eq:ch3-uniform-policy}
-\notationrow{P_s^U}{ماتریس گذار نمونه‌ای سیاست یکنواخت}{cmp:eq:ch3-uniform-T}
-\notationrow{\mathsf Q_{i,b}^{(s)}}{توزیع برچسب مقصد پس از انتخاب یک ویژگی}{cmp:eq:ch3-feature-one-step-Q}
+\notationrow{P_s^U,\ h_s^U}{ماتریس گذار نمونه‌ای و امید همسایگی تحت سیاست یکنواخت}{cmp:eq:ch3-uniform-h}
+\notationrow{z_{c,\bot,b}(X_\star;\Theta)}{امتیاز پارامتری آغاز برای نمونهٔ جدید}{cmp:eq:ch3-out-of-graph-parametric-score}
+\notationrow{\bar z_{c,i,\bot,b}}{امتیاز آغاز مرکززدایی‌شدهٔ نمونهٔ مرجع}{cmp:eq:ch3-out-of-graph-centered-start}
+\notationrow{\widehat z_{c,\bot,b}(X_\star)}{امتیاز درون‌یابی‌شدهٔ آغاز نمونهٔ جدید}{cmp:eq:ch3-out-of-graph-interpolated-start}
+\notationrow{\omega_i^{(b)}(X_\star)}{وزن نرمال‌شدهٔ درون‌یابی امتیاز آغاز از نمونهٔ مرجع $i$ در ویژگی $b$}{cmp:eq:ch3-out-of-graph-interpolation-weights}
+\notationrow{D_\star}{نمونه‌های مرجع دارای دست‌کم یک ویژگی مشترک با نمونهٔ جدید}{cmp:eq:ch3-out-of-graph-overlap-set}
+\notationrow{\pi_{c,i}^\star(b\mid\bot)}{توزیع آغاز نمونهٔ مرجع محدود به ویژگی‌های مشترک با نمونهٔ جدید}{cmp:eq:ch3-out-of-graph-start-probability}
+\notationrow{\overline\pi_{c,\star}(b\mid\bot)}{سیاست آغاز نمونهٔ جدید حاصل از میانگین‌گیری احتمال‌ها}{cmp:eq:ch3-out-of-graph-mean-start-probability}
 \notationgroup{گونه‌های نویز، افزونگی و فقدان ویژگی}
 \notationrow{X^{(a)},\ X^{(A_0)}}{متغیر تصادفیِ متناظر با ستون $a$ و بردار ستون‌های مجموعهٔ شرطی $A_0$}{cmp:eq:ch3-feature-conditional-information}
 \notationrow{I(C;X^{(a)}\mid X^{(A_0)})}{اطلاعات شرطیِ افزودهٔ ستون $a$ دربارهٔ برچسب در حضور سایر ویژگی‌ها}{cmp:eq:ch3-feature-conditional-information}
@@ -111,8 +120,12 @@
 \notationrow{P_{\mathcal S}^{(c)}}{ماتریس انتقال پایه روی حالت‌های معتبر برای سیاست عضو طبقهٔ $c$}{cmp:eq:ch3-base-valid-transition}
 \notationrow{\Lambda_s}{ماتریس اصلاح درایه‌ای انتقال‌ها پس از محدودسازی به مبدأ $s$}{cmp:eq:ch3-origin-correction-matrix}
 \notationrow{P_{\mathcal S_s}}{ماتریس انتقال میانیِ گشت با مبدأ $X_s$ و سیاست برگزیدهٔ $c_s$}{cmp:eq:ch3-origin-masked-transition}
-\notationrow{[A]_{\mathcal T}}{زیرماتریس اصلی حاصل از نگه‌داشتن سطرها و ستون‌های مجموعهٔ $\mathcal T$}{cmp:subsec:ch3-block-matrix-transition}
+\notationrowpage{[A]_{\mathcal T}}{زیرماتریس اصلی حاصل از نگه‌داشتن سطرها و ستون‌های مجموعهٔ $\mathcal T$}{cmp:subsec:ch3-block-matrix-transition}
 \notationrow{\rho_s}{توزیع حالت بلافاصله پس از نخستین گام}{cmp:eq:ch3-block-first-step}
+\notationrow{\mathcal S_\star}{فضای حالت گشت نمونهٔ جدید، برابر با فضای حالت مرجع}{cmp:eq:ch3-out-of-graph-state-space}
+\notationrow{q_b(j\mid\star)}{احتمال عمودی پایهٔ نخستین انتقال نمونهٔ جدید در گراف کامل}{cmp:eq:ch3-query-base-vertical}
+\notationrow{\pi_\star^{(c)}(b\mid\star,\bot),\ \rho_\star^{(c)}}{سیاست آغاز و توزیع نخستین گام نمونهٔ جدید تحت فرضیهٔ طبقهٔ $c$}{cmp:eq:ch3-query-first-state}
+\notationrow{\mathscr Y_\star^{(c)}}{بازنمایی برچسبی نمونهٔ جدید تحت فرضیهٔ طبقهٔ $c$}{cmp:eq:ch3-new-sample-representation}
 \notationrow{\mathsf M^{(X)},\ \mathsf M^{(Y)}}{ماتریس‌های تجمیع مشترکِ گراف مرجع به نمونه و برچسب}{cmp:eq:ch3-state-aggregation-matrices}
 \notationrow{\mathsf M_s^{(X)},\ \mathsf M_s^{(Y)}}{ماتریس‌های تجمیع حالت‌ها به نمونه و برچسب}{cmp:eq:ch3-state-aggregation-matrices}
 \notationrow{V_{ij},\ \Pi_i^{(c)},\ P_{ij}^{(c)}}{بلوک‌های انتقال عمودی، انتخاب ویژگی و انتقال کامل در نمایش کمکی}{cmp:eq:ch3-block-Tij}
@@ -138,7 +151,8 @@
 \notationrow{\widetilde P_{\mathcal S_s},\ \widetilde\Lambda_s}{ماتریس انتقال میانی و عامل اصلاح وابسته به مبدأ در گراف تنک‌شده}{cmp:eq:ch3-sparse-origin-transition}
 \notationrow{\widetilde B^{(c,H)}}{ماتریس مشترک پیش‌محاسبهٔ بازنمایی برچسبی روی گراف عمودی تنک‌شده}{cmp:eq:ch3-sparse-precompute-matrix}
 \notationrow{\delta_{i,b}}{جرم احتمال مقصدهای حذف‌شده از توزیع عمودی پایه}{cmp:eq:ch3-sparse-removed-mass}
-\notationrow{\mathcal J_{i,b}^{(s)},\ \bar q_b^{(s)}}{مجموعهٔ مقصدهای مجاز و توزیع عمودی منتخب در شبه‌کد؛ گراف کامل یا تنک}{cmp:eq:ch3-sparse-vertical-transition}
+\notationrowalg{\mathcal J_{i,b}^{(s)},\ \bar q_b^{(s)}}{مجموعهٔ مقصدهای مجاز و توزیع عمودی منتخب در شبه‌کد؛ گراف کامل یا تنک}{cmp:alg:ch3-vertical-row}
+\notationrowalg{\mathcal C_s}{حافظهٔ موقت سطرهای عمودی اصلاح‌شدهٔ مبدأ در طول محاسبهٔ امید}{cmp:alg:ch3-vertical-row}
 \notationrowalg{X_\star,\ B_\star,\ \mathcal Q_\star}{نمونهٔ جدید، ویژگی‌های دارای مقصد عمودی معتبر و بستهٔ فهرست‌ها و احتمال‌های عمودی آن}{cmp:alg:ch3-query-vertical}
 \notationrow{d_\star}{شمار ویژگی‌های مشترک نمونهٔ جدید با فضای ویژگی مرجع}{cmp:eq:ch3-query-weight-count}
 \notationrow{N_b^{(\Delta)}(\star),\ \widetilde q_b(j\mid\star)}{مقصدهای برگزیده و احتمال عمودی تنک‌شدهٔ نخستین انتقال نمونهٔ جدید}{cmp:eq:ch3-query-sparse-vertical}
