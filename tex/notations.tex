@@ -245,16 +245,17 @@
 \notationrow{E_{\mathrm{bal}}}{خطای متوازن تجربیِ صفر--یک با شمارش پیش‌بینی‌های نادرست}{cmp:eq:ch3-js-exact-balanced-accuracy}
 \notationrow{\widehat{\mathrm{BA}}}{دقت متوازن تجربی دقیق}{cmp:eq:ch3-js-exact-balanced-accuracy}
 \notationrow{E_{\mathrm{bal}}^{\,\le0}}{خطای متوازن محافظه‌کارانه با شمارش تساوی حاشیه به‌عنوان خطا}{cmp:eq:ch3-js-hard-margin-error}
-\notationrow{m_i}{حاشیهٔ عمومی تصمیم بر اساس اختلاف امتیاز طبقهٔ واقعی و قوی‌ترین رقیب}{cmp:eq:ch3-training-score-margin}
-\notationrow{M_i^{\mathrm{JS}}}{حاشیه تصمیم مبتنی بر شباهت JS}{cmp:eq:ch3-training-sigmoid-js-margin}
+\notationrow{m_i}{نماد قدیمی حاشیهٔ عمومی تصمیم در تحلیل‌های بعدی؛ در صورت‌بندی بخش زیان‌ها از $\gamma_{i,y_i}^{(\psi)}$ استفاده می‌شود}{cmp:eq:ch3-general-decision-margin}
+\notationrow{M_i^{\mathrm{JS}}}{نماد حاشیهٔ تصمیم مبتنی بر شباهت جنسن--شنون در تحلیل‌های بعدی}{cmp:eq:ch3-js-margin-distance-difference}
 \notationrow{m_{i,c,r}}{حاشیه زوجی JS نمونه از طبقه c در برابر رقیب r، با مراکز ثابت}{cmp:eq:ch3-fixed-center-pairwise-js-margin}
 \notationrow{\delta_{c,r},\ e_{c,r},\ h_{i,c,r}}{فاصلهٔ هیلبرتی دو مرکز، جهت واحد اتصال و فاصلهٔ علامت‌دار نمونه تا صفحهٔ عمودمنصف}{cmp:eq:ch3-js-margin-separation-factorization}
 \notationrow{\gamma_{i,c,r},\ \gamma_i}{حاشیهٔ اختلاف فاصله‌های متریک در برابر رقیب و کمینهٔ آن میان رقبا}{cmp:eq:ch3-metric-robust-margin}
-\notationrow{\ell_\tau(m),\ \tau}{زیان سیگموئیدی و پهنای هموارسازی؛ $\tau$ در مخرج حاشیه است}{cmp:eq:ch3-training-sigmoid-sample}
-\notationrow{g_\tau(m)}{اندازه حساسیت نسبت به حاشیه با بیشینه یک؛ نه گرادیان سیاست}{cmp:eq:ch3-training-sigmoid-sensitivity}
+\notationrow{\tau}{پهنای گذار زیان سیگموئیدی}{cmp:eq:ch3-training-sigmoid-sample}
+\notationrow{\ell_\tau(m)}{نماد تابع سیگموئیدی در تحلیل‌های بعدی؛ $m$ آرگومان حاشیه است}{cmp:eq:ch3-js-sigmoid-loss}
+\notationrow{g_\tau(\gamma_{i,y_i}^{(\psi)})}{حساسیت نرمال‌شدهٔ زیان سیگموئیدی نسبت به حاشیه با بیشینهٔ یک؛ نه گرادیان سیاست}{cmp:eq:ch3-training-sigmoid-sensitivity}
 \notationrow{\mathcal L_{\mathrm{sig}}}{میانگین وزن‌دار زیان سیگموئیدی؛ در حالت $\omega_c=1/K$ متوازن است}{cmp:eq:ch3-js-sigmoid-balanced-objective}
-\notationrow{\ell_i^{\mathrm{SP}},\ \tau_{\mathrm{SP}}}{زیان سافت‌پلاس مبتنی بر شباهت JS و پارامتر مقیاس آن}{cmp:eq:ch3-training-softplus-sample}
-\notationrow{S_{i,r},\ w_{i,r}^{\mathrm{SP}}}{امتیاز تعلق بازنمایی آموزشی به طبقهٔ $r$ و وزن نرمال‌سازی با بیشینهٔ هموار آن در مشتق سافت‌پلاس؛ نه احتمال انتخاب ویژگی}{cmp:eq:ch3-training-softplus-derivative}
+\notationrow{\ell_i^{\mathrm{SP}},\ \tau_{\mathrm{SP}}}{زیان سافت‌پلاس مبتنی بر حاشیه‌های دوتایی و پارامتر مقیاس آن}{cmp:eq:ch3-training-softplus-sample}
+\notationrow{S_{i,r},\ w_{i,r}^{\mathrm{SP}}}{امتیاز تعلق به طبقه و وزن متناظر در تحلیل بعدی گرادیان سافت‌پلاس--JS؛ نه احتمال انتخاب ویژگی}{cmp:eq:ch3-softplus-js-score-weights}
 \notationrow{U_i,\ V_r}{بازنمایی یگانهٔ آموزشی و مرکز طبقهٔ $r$؛ هر دو وابسته به سیاست}{cmp:eq:ch3-softplus-js-score-chain}
 \notationrow{\mathcal L_{\mathrm{SP},\Omega}}{زیان سافت‌پلاس--JS با وزن‌دهی طبقات؛ در حالت یکنواخت $\mathcal L_{\mathrm{SP},U}$}{cmp:eq:ch3-softplus-js-policy-gradient}
 \notationrow{g^{(t)},\ \eta_{\mathrm A}}{گرادیان زیان در گام آموزش و نرخ یادگیری Adam؛ متمایز از دمای سافت‌پلاس}{cmp:eq:ch3-adam-logit-update}
