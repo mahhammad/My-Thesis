@@ -3370,9 +3370,9 @@ $M_i^{(\psi)}=\arg\max_c\gamma_{i,c}^{(\psi)}$،
 یکنواخت در نظر گرفته می‌شود. با اعمال نرمال‌سازی
 با بیشینهٔ هموار بر این امتیازها داریم:
 \begin{equation}\label{cmp:eq:ch3-norm-margin-softmax}
-\widehat p_{i,c}^{(\psi,\tau_\psi,\mathrm{norm})}
+\widehat p_{i,c}^{(\psi,\tau_\psi,q)}
 =\frac{\exp(\widetilde\gamma_{i,c}^{(\psi,q)}/\tau_\psi)}
-{\sum_r\exp(z_{i,r}^{(\psi)}/\tau_\psi)}.
+{\sum_r\exp(\widetilde\gamma_{i,r}^{(\psi,q)}/\tau_\psi)}.
 \end{equation}
 این صورت‌بندی نسبت به انتقال مشترک و تغییر مقیاس
 مثبت بردار حاشیه‌ها ناورداست، اما اندازهٔ مطلق
@@ -3387,7 +3387,7 @@ $\boldsymbol v_i=(a,-a)$ با $a\ne0$ است. در نتیجه:
 \widetilde{\boldsymbol\gamma}_i=\frac{\operatorname{sgn}(a)}{2^{1/q}}(1,-1).
 \end{equation}
 بنابراین برای یک نرم و دمای ثابت، دو نمونهٔ
-دارای طبقهٔ بیشینه‌ساز یکسان، حتی با حاشیه‌های
+دارای بیشینه‌ساز یکتای یکسان، حتی با حاشیه‌های
 بسیار متفاوت، بردار احتمال یکسانی خواهند داشت؛
 تغییر یک دمای مشترک نیز اطلاعات حذف‌شده را بازیابی
 نمی‌کند. همچنین تثبیت نرم امتیازها اختلاف آن‌ها
@@ -3463,12 +3463,12 @@ JSD به جذر آن غیرخطی است و یک ضریب دمای مشترک
 \caption{زیرروال $\operatorname{BuildCenters}$: تشکیل مراکز طبقه‌ها}
 \label{cmp:alg:ch3-build-centers}
 \begin{algorithmic}[1]
-\REQUIRE ماتریس بازنمایی‌ها $\mathscr Y\in\mathbb R^{n\times K}$؛
+\REQUIRE ماتریس بازنمایی‌ها $\mathscr Y\in\mathbb R^{n\times K}$ با سطرهای متعلق به $\Delta_K$؛
 ماتریس یک‌داغ برچسب‌ها $Y$ (یا بردار برچسب‌ها $y$)؛ هر طبقه ناتهی
 \ENSURE ماتریس مراکز $\mathcal V\in\mathbb R^{K\times K}$
 \STATE $\mathcal V\gets0_{K\times K}$؛ $n_c\gets0$ برای تمام $c$
 \FOR{$i=1,\ldots,n$}
-    \STATE $c\gets y_i$؛ برچسب متناظر با سطر $Y_{i,:}$
+    \STATE $c\gets y_i$؛ برچسب ورودی یا برچسب استخراج‌شده از سطر $Y_{i,:}$
     \STATE $\mathcal V_c\gets\mathcal V_c+\mathscr Y_i$
     \STATE $n_c\gets n_c+1$
 \ENDFOR
@@ -3502,7 +3502,7 @@ JSD به جذر آن غیرخطی است و یک ضریب دمای مشترک
 \caption{زیرروال $\operatorname{ClassMargins}$: محاسبهٔ حاشیهٔ تعلق}
 \label{cmp:alg:ch3-class-margins}
 \begin{algorithmic}[1]
-\REQUIRE بازنمایی $P\in\Delta_K$؛ مراکز $\mathcal V$؛
+\REQUIRE بازنمایی $P\in\Delta_K$؛ مراکز $\mathcal V$ با سطرهای متعلق به $\Delta_K$؛
 شناسهٔ سنجه $\psi$ (یا $s$)؛ مجموعهٔ ناتهی طبقه‌های درخواستی $\mathcal C$
 \ENSURE حاشیه‌های $(\gamma_c)_{c\in\mathcal C}$ یا وضعیت نامعتبر
 \FOR{$r=1,\ldots,K$}

@@ -125,7 +125,7 @@
 \notationrow{\mathcal S_\star}{فضای حالت گشت نمونهٔ جدید، برابر با فضای حالت مرجع}{cmp:eq:ch3-out-of-graph-state-space}
 \notationrow{q_b(j\mid\star)}{احتمال عمودی پایهٔ نخستین انتقال نمونهٔ جدید در گراف کامل}{cmp:eq:ch3-query-base-vertical}
 \notationrow{\pi_\star^{(c)}(b\mid\star,\bot),\ \rho_\star^{(c)}}{سیاست آغاز و توزیع نخستین گام نمونهٔ جدید تحت فرضیهٔ طبقهٔ $c$}{cmp:eq:ch3-query-first-state}
-\notationrow{\mathscr Y_\star^{(c)}}{بازنمایی برچسبی نمونهٔ جدید تحت فرضیهٔ طبقهٔ $c$}{cmp:eq:ch3-new-sample-representation}
+\notationrow{\mathscr Y_\star,\ \mathscr Y_\star^{(c)}}{بازنمایی برچسبی مشترک نمونهٔ جدید یا بازنمایی آن تحت فرض تعلق به طبقهٔ $c$}{cmp:eq:ch3-new-sample-representation}
 \notationrow{\mathsf M^{(X)},\ \mathsf M^{(Y)}}{ماتریس‌های تجمیع مشترکِ گراف مرجع به نمونه و برچسب}{cmp:eq:ch3-state-aggregation-matrices}
 \notationrow{\mathsf M_s^{(X)},\ \mathsf M_s^{(Y)}}{ماتریس‌های تجمیع حالت‌ها به نمونه و برچسب}{cmp:eq:ch3-state-aggregation-matrices}
 \notationrow{V_{ij},\ \Pi_i^{(c)},\ P_{ij}^{(c)}}{بلوک‌های انتقال عمودی، انتخاب ویژگی و انتقال کامل در نمایش کمکی}{cmp:eq:ch3-block-Tij}
@@ -213,13 +213,14 @@
 \notationrow{\overline\gamma_i^{(\psi)},\ \boldsymbol v_i^{(\psi)}}{میانگین حاشیه‌ها و بردار حاشیه‌های مرکز‌شده}{cmp:eq:ch3-centered-margin-vector}
 \notationrow{\widetilde{\boldsymbol\gamma}_i^{(\psi,q)}}{بردار حاشیه‌های مرکز‌شده با نرم $q\in\{1,2\}$ ثابت؛ بردار صفر در حالت حاشیه‌های برابر}{cmp:eq:ch3-margin-norm-scaling}
 \notationrow{M_i^{(\psi)}}{مجموعهٔ طبقه‌های دارای بیشترین حاشیهٔ نمونه}{cmp:eq:ch3-margin-temperature-limits}
-\notationrow{\widehat p_{i,c}^{(\psi,\tau_\psi,\mathrm{norm})}}{احتمال تخمینی حاصل از نرمال‌سازی نرم حاشیه‌ها و دمای مثبت}{cmp:eq:ch3-norm-margin-softmax}
-\notationrowalg{\mathcal C,\ u_r,\ c_0,\ u_*,\ u_{**}}{طبقه‌های درخواستی، امتیاز نزدیکی مرکز، یک بیشینه‌ساز و دو امتیاز برتر در زیرروال حاشیه}{cmp:alg:ch3-class-margins}
+\notationrow{\widehat p_{i,c}^{(\psi,\tau_\psi,q)}}{احتمال تخمینی حاصل از تثبیت نرم $q$ حاشیه‌ها و دمای مثبت}{cmp:eq:ch3-norm-margin-softmax}
+\notationrowalg{\mathcal C}{مجموعهٔ ناتهی طبقه‌های درخواستی در زیرروال محاسبهٔ حاشیه}{cmp:alg:ch3-class-margins}
 \notationrowalg{q\in\{\bot,1,2\}}{انتخاب اختیاری تثبیت نرم یک یا دو امتیازها؛ $\bot$ به معنی عدم تثبیت نرم}{cmp:alg:ch3-margin-probabilities}
 \notationrow{\tau_\psi}{دمای مثبت نرمال‌سازی امتیازهای حاصل از سنجهٔ $\psi$}{cmp:eq:ch3-margin-softmax}
 \notationrow{\widehat p_{i,c}^{(\psi,\tau_\psi)},\ \widehat{\boldsymbol p}_i^{(\psi,\tau_\psi)}}{احتمال تخمینی طبقه و بردار احتمال تخمینی مبتنی بر حاشیه برای نمونهٔ آموزشی یا جدید؛ در حالت دوم $i=\star$}{cmp:eq:ch3-margin-softmax}
 \notationrow{\widehat p_{i,c},\ \widehat p_{i,c}^{\,\mathrm{dist}}}{احتمال تخمینی در صورت مقایسه‌ای مبتنی بر منفی ناهمانندی}{cmp:eq:ch3-NLL-softmax}
-\notationrow{\widehat y_i,\ \widehat y_i^{\mathrm{nbr}}}{برچسب پیش‌بینی‌شده بر اساس بیشترین حاشیه و برچسب حاصل از قاعدهٔ سادهٔ بیشترین مؤلفهٔ همسایگی؛ برای نمونهٔ جدید $i=\star$}{cmp:eq:ch3-class-hypothesis-inference}
+\notationrow{\widehat y_i}{برچسب پیش‌بینی‌شده بر اساس بیشترین حاشیه؛ برای نمونهٔ جدید $i=\star$}{cmp:eq:ch3-class-hypothesis-inference}
+\notationrow{\widehat y_s^{\mathrm{nbr}}}{برچسب حاصل از قاعدهٔ سادهٔ بیشترین مؤلفهٔ توزیع برچسب همسایگی مبدأ $s$}{cmp:eq:ch3-simple-label-decision}
 \notationrow{\ell_i}{زیان لگاریتمی نمونه}{cmp:eq:ch3-NLL-sample}
 \notationrow{NLL_\Omega}{NLL وزن‌دار روی طبقه‌ها}{cmp:eq:ch3-NLL-balanced}
 \notationrow{\gamma}{ضریب مقیاس ورودی نرمال‌سازی با بیشینهٔ هموار}{cmp:eq:ch3-NLL-scaled-softmax}
