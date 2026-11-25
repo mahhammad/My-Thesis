@@ -1,0 +1,924 @@
+\chapter{هندسهٔ مدل}
+\label{app:model-geometry}
+
+این پیوست به خواص هندسی و اطلاعاتی بازنمایی‌های حاصل از گشت، مراکز طبقه‌ها و معیارهای ارزیابی کیفیت آن‌ها اختصاص دارد. تعریف بازنمایی‌ها، مراکز و سنجه‌های ناهمانندی در متن اصلی فصل سوم آمده است و خواص عمومی سنجه‌های توزیع‌های احتمال در پیوست~\ref{app:probability-dissimilarity} بررسی شده‌اند. در اینجا روابط تکمیلی معیارهای تراکم درون‌طبقه‌ای، تمایز مراکز و ارتباط این دو با هندسهٔ تصمیم را گردآوری می‌کنیم.
+
+\section{خواص نظری و روابط تکمیلی معیارهای تراکم و جدایی}
+\label{cmp:sec:ch3-quality-criteria-theory}
+این بخش هویت‌های آنتروپی، کران‌ها، روابط مقایسه‌ای و شرایط برابری معیارهای معرفی‌شده در بخش~\ref{cmp:sec:ch3-quality-criteria} را گردآوری می‌کند. اثبات‌های تفصیلی در بخش‌های بعدی همین پیوست ارائه شده‌اند.
+
+\subsection{هویت‌ها و کران‌های معیارهای تراکم}
+\paragraph{تعبیر آنتروپی هزینه تجمیع.}
+طبق رابطه~\eqref{cmp:eq:ch3-R-entropy}، هزینه هر طبقه از اختلاف آنتروپی مرکز و میانگین آنتروپی نمونه‌های همان طبقه به‌دست می‌آید. با وزن‌دهی به طبقات بر اساس $\Omega$، رابطه مشابه زیر برای $R$ حاصل می‌شود:
+\begin{equation}\label{cmp:eq:ch3-R-average-entropy}
+\boxed{R=\sum_{c=1}^{K}\omega_c H(\mathcal V_c)
+-\sum_{c=1}^{K}\frac{\omega_c}{|C_c|}
+\sum_{i\in C_c}H(\mathscr Y_i).}
+\end{equation}
+این رابطه نشان می‌دهد پراکندگی درون‌طبقه‌ای را نمی‌توان صرفاً از آنتروپی مرکز تعیین کرد؛ تفاوت آن با میانگین آنتروپی نمونه‌ها اهمیت دارد. همچنین چون $\mathcal V_c$ میانگین توزیع‌های طبقه است، تقعر آنتروپی نامنفی بودن $R_c$ را نیز نتیجه می‌دهد. اثبات هویت آنتروپی مخلوط که مبنای
+این رابطه است، در بخش~\ref{app:ch3-entropy-mixture}
+از پیوست~\ref{app:model-geometry} آمده است.
+
+\paragraph{کران‌های تراکم KL و شرایط برابری.}
+از رابطه~\eqref{cmp:eq:ch3-R-class} و نامنفی بودن
+واگرایی KL، بی‌درنگ $R_c\ge0$ نتیجه می‌شود.
+همچنین از تعبیر آنتروپی
+رابطه~\eqref{cmp:eq:ch3-R-entropy}، با توجه به
+$0\le H(P)\le\log K$ برای هر $P\in\Delta_K$، داریم:
+\begin{equation}\label{cmp:eq:ch3-R-KL-bounds}
+\boxed{
+0\le R_c
+=H(\mathcal V_c)
+-\frac1{|C_c|}\sum_{i\in C_c}H(\mathscr Y_i)
+\le H(\mathcal V_c)\le\log K.
+}
+\end{equation}
+در این پایان‌نامه لگاریتم طبیعی به کار می‌رود؛
+ازاین‌رو کران بالای دقیقِ حاصل از آنتروپی
+$\log K$ است، نه $\sqrt K$.
+کران پایین زمانی به‌دست می‌آید که همه
+توزیع‌های برچسب همسایگی اعضای طبقه یکسان باشند.
+برای دستیابی به کران بالای $\log K$،
+لازم است همه این توزیع‌ها یک‌داغ باشند
+(آنتروپی صفر) و در عین حال مرکز آن‌ها
+یکنواخت روی $K$ برچسب باشد
+(آنتروپی بیشینه).
+به عبارت دیگر، برچسب‌های یک‌داغ باید
+به نسبت برابر در میان اعضای آن طبقه دیده شوند؛
+با وزن یکسان نمونه‌ها، این تساوی دقیق تنها
+وقتی تعداد نمونه‌ها امکان چنین تقسیم برابری را
+فراهم کند، قابل‌دستیابی است.
+از آنجا که $R=\sum_c\omega_cR_c$
+با وزن‌های نامنفی و مجموع یک است،
+\begin{equation}\label{cmp:eq:ch3-R-weighted-bounds}
+\boxed{0\le R\le\log K.}
+\end{equation}
+در صورت مثبت‌بودن همه وزن‌های طبقات،
+تساوی در کران بالای $R$ مستلزم آن است
+که هر طبقه دارای همان ساختار یک‌داغ
+و مرکز یکنواخت باشد. این نتیجه از
+ویژگی کلی میانگین وزن‌دار ناشی می‌شود
+و وابستگی تازه‌ای به سیاست گشت ندارد.
+به‌خصوص هرچند KL برای دو توزیع دلخواه
+ممکن است نامتناهی باشد، در تعریف $R_c$،
+مرکز $\mathcal V_c$ میانگین خود
+$\mathscr Y_i$هاست؛ بنابراین
+$D_{\mathrm{KL}}(\mathscr Y_i\|\mathcal V_c)$
+برای هر عضو طبقه متناهی خواهد بود.
+استدلال شرایط برابری و این نکته در
+پیوست~\ref{app:ch3-compactness-entropy-relations} آمده است.
+
+
+\paragraph{رابطه آنتروپی تراکم جنسن--شنون با هزینه تجمیع.}
+برای نشان‌دادن ارتباط دقیق این معیار با
+$R_c$، در هر طبقه $c$ از توزیع‌های
+برچسب همسایگی و مرکز همان طبقه،
+توزیع‌های \emph{میانگین جفتی} می‌سازیم:
+\begin{equation}\label{cmp:eq:ch3-R-JS-midpoint-distributions}
+\boxed{
+\mathscr B_{c,i}
+=\frac{\mathscr Y_i+\mathcal V_c}{2},
+\quad i\in C_c,
+\qquad
+\overline{\mathscr B}_c
+=\frac1{|C_c|}\sum_{i\in C_c}\mathscr B_{c,i}
+=\mathcal V_c.
+}
+\end{equation}
+در اینجا $\mathscr B_{c,i}$ یک توزیع احتمال
+مصنوعی برای \emph{تحلیل همین معیار} است؛
+منظور افزودن نمونه به داده‌ها یا اجرای
+گشت جدید نیست. هزینه تجمیع KL این
+مجموعه جدید را دقیقاً مشابه $R_c$ تعریف می‌کنیم:
+\begin{equation}\label{cmp:eq:ch3-R-midpoint-KL}
+\boxed{
+\begin{aligned}
+R_{B,c}
+&:=\frac1{|C_c|}\sum_{i\in C_c}
+D_{\mathrm{KL}}(\mathscr B_{c,i}\|\mathcal V_c)\\
+&=H(\mathcal V_c)
+-\frac1{|C_c|}\sum_{i\in C_c}H(\mathscr B_{c,i}).
+\end{aligned}}
+\end{equation}
+اکنون از هویت آنتروپی جنسن--شنون
+در رابطه~\eqref{cmp:eq:ch3-JSD-entropy}
+و میانگین‌بودن $\mathcal V_c$ نتیجه می‌شود:
+\begin{equation}\label{cmp:eq:ch3-R-JS-KL-midpoint-identity}
+\boxed{
+R_{c,\mathrm{JS}}
+=\frac12R_c-R_{B,c},
+\qquad
+R_{\mathrm{JS}}
+=\frac12R-\sum_{c=1}^{K}\omega_cR_{B,c}.
+}
+\end{equation}
+ضریب $\frac12$ ضروری است:
+در تعریف JSD، آنتروپی هر یک از
+دو توزیع با وزن نصف وارد می‌شود.
+بنابراین برای \emph{تعریف نمونه--مرکز}
+رابطه $R_{c,\mathrm{JS}}=R_c-R_{B,c}$
+برقرار نیست؛ رابطه بدون ضریب نصف
+به \emph{تعریف زوجی نمونه--نمونه} در ادامه مربوط است.
+از نامنفی‌بودن $R_{B,c}$
+و $R_{c,\mathrm{JS}}$، به‌ویژه داریم:
+\[
+0\le R_{c,\mathrm{JS}}\le\tfrac12R_c,
+\qquad
+0\le R_{\mathrm{JS}}\le\tfrac12R.
+\]
+پس JS بخشی از هزینه پراکندگی KL را می‌سنجد
+که پس از تشکیل میانگین جفتی با مرکز،
+از اختلاف آنتروپی‌ها باقی می‌ماند.
+این رابطه نشان‌دهنده ارتباط ریاضی
+دو معیار است، اما یکسانی مقدار
+یا جهت گرادیان‌هایشان را تضمین نمی‌کند.
+محاسبات سطر‌به‌سطر و قرارداد مؤلفه‌های صفر
+در پیوست~\ref{app:ch3-compactness-entropy-relations}
+اثبات می‌شوند.
+
+\paragraph{تعبیر زوجی تراکم جنسن--شنون.}
+تا اینجا در تعریف $R_{c,\mathrm{JS}}$
+\emph{هر نمونه با مرکز همان طبقه} مقایسه شد.
+تعریف دیگری نیز وجود دارد که
+\emph{هر دو نمونه از یک طبقه} را با یکدیگر
+مقایسه می‌کند. برای شفاف‌بودن تفاوت،
+این معیار را با بالانویس $\mathrm{pair}$
+مشخص می‌کنیم و تمام زوج‌های مرتب
+$i,j\in C_c$، شامل $i=j$، را با
+وزن برابر در نظر می‌گیریم:
+\begin{equation}\label{cmp:eq:ch3-R-JS-pairwise-distributions}
+\boxed{
+\mathscr B_{c,ij}^{\mathrm{pair}}
+=\frac{\mathscr Y_i+\mathscr Y_j}{2},
+\qquad
+\frac1{|C_c|^2}\sum_{i,j\in C_c}
+\mathscr B_{c,ij}^{\mathrm{pair}}
+=\mathcal V_c.
+}
+\end{equation}
+هزینه تجمیع KL مجموعه جدید
+و میانگین واگرایی جنسن--شنون تمام زوج‌ها را
+به‌ترتیب چنین تعریف می‌کنیم:
+\begin{equation}\label{cmp:eq:ch3-R-JS-pairwise-definitions}
+\boxed{
+\begin{aligned}
+R_{B,c}^{\mathrm{pair}}
+&=\frac1{|C_c|^2}\sum_{i,j\in C_c}
+D_{\mathrm{KL}}\!
+\left(\mathscr B_{c,ij}^{\mathrm{pair}}\middle\|
+\mathcal V_c\right),\\
+R_{c,\mathrm{JS}}^{\mathrm{pair}}
+&=\frac1{|C_c|^2}\sum_{i,j\in C_c}
+\operatorname{JSD}(\mathscr Y_i,\mathscr Y_j).
+\end{aligned}}
+\end{equation}
+چون مرکز مجموعه زوجی نیز
+همان $\mathcal V_c$ است،
+با استفاده از هویت آنتروپی مخلوط
+و تعریف JSD، رابطه \emph{دقیق}
+زیر حاصل می‌شود:
+\begin{equation}\label{cmp:eq:ch3-R-JS-pairwise-entropy-identity}
+\boxed{
+R_{c,\mathrm{JS}}^{\mathrm{pair}}
+=R_c-R_{B,c}^{\mathrm{pair}}.
+}
+\end{equation}
+در این رابطه، برخلاف تعریف نمونه--مرکز،
+\emph{ضریب $\frac12$ در برابر $R_c$
+وجود ندارد}، زیرا در میانگین روی
+همه زوج‌های مرتب، هر نمونه یک‌بار
+در نقش مؤلفه نخست و یک‌بار در نقش
+مؤلفه دوم ظاهر می‌شود و مجموع دو
+وزن $\frac12$ به یک می‌رسد.
+برابری بالا نشان می‌دهد پراکندگی
+زوجی JS همان بخشی از هزینه KL
+اولیه است که پس از تجمیع میانگین‌های
+جفتی باقی نمی‌ماند.
+در نتیجه
+$0\le R_{c,\mathrm{JS}}^{\mathrm{pair}}\le R_c$.
+این معیار را نباید با
+$R_{c,\mathrm{JS}}$ که فاصله از مرکز
+را می‌سنجد، یکسان دانست؛
+هر دو مفهوم معتبرند، اما
+ممکن است مقادیر و گرادیان‌های
+متفاوتی تولید کنند.
+اثبات کامل و توضیح درباره حذف
+زوج‌های خودی $i=j$ در
+پیوست~\ref{app:ch3-compactness-entropy-relations}
+آمده است.
+
+\paragraph{تعبیر و مقایسه معیارهای تراکم.}
+$R_{\mathrm{KL}}$ هزینه اضافی مدل مشترک
+برای توزیع‌های یک طبقه را می‌سنجد؛
+هرچند KL به‌طور کلی جهت‌دار و بالقوه نامتناهی است،
+$R_c$ در این مسئله به‌دلیل انتخاب مرکز حسابی
+همواره متناهی و طبق
+رابطه~\eqref{cmp:eq:ch3-R-KL-bounds}
+کراندار است. تعبیر آن از هویت
+آنتروپی مخلوط حاصل می‌شود؛
+رابطه~\eqref{cmp:eq:ch3-R-JS-KL-midpoint-identity}
+نیز نشان می‌دهد معیار JS تعبیر
+آنتروپی مرتبط ولی متفاوتی دارد.
+در مقابل، $R_{\mathrm{JS}}$ میانگین
+\emph{مربع فاصله متریک} و
+$R_{\sqrt{\mathrm{JS}}}$ میانگین
+\emph{خود فاصله متریک} نمونه‌ها
+از مراکز طبقات است. بنابراین اولی
+انحراف‌های دورتر را به‌صورت مربعی
+و دومی فاصله‌ها را به‌صورت خطی
+در میانگین وارد می‌کند.
+با درنظرگرفتن توزیع وزنی نمونه‌ها
+که وزن هر عضو طبقه $c$ در آن
+$\omega_c/|C_c|$ است،
+از ینسن و کرانداری
+$d_{\sqrt{\mathrm{JS}}}\le\sqrt{\log2}$
+به‌دست می‌آید:
+\[
+\bigl(R_{\sqrt{\mathrm{JS}}}\bigr)^2
+\le R_{\mathrm{JS}}
+\le \sqrt{\log2}\,R_{\sqrt{\mathrm{JS}}}.
+\]
+نامساوی نخست از
+$(\mathbb E[d])^2\le\mathbb E[d^2]$
+و دومی از $d^2\le\sqrt{\log2}\,d$
+نتیجه می‌شود.
+این پیوند به معنای
+یکسان‌بودن معیارها یا اثرشان
+در بهینه‌سازی نیست.
+همچنین میانگین حسابی طبقه،
+اگرچه برای $R_{\mathrm{KL}}$ بهینه است،
+لزوماً کمینه‌کننده
+$R_{\mathrm{JS}}$ یا
+$R_{\sqrt{\mathrm{JS}}}$ نیست.
+پس مقدارهای این سه معیار
+هم‌واحد نیستند و مقایسه عددی‌شان
+بدون توجه به تعبیر و مقیاس
+موجه نخواهد بود.
+
+
+\subsection{خواص نظری و روابط معیارهای جدایی}
+\paragraph{مقایسه چهار معیار.}
+اگر هدف معیارهای خطی را بیشینه و هدف معیارهای لگاریتمی را کمینه در نظر بگیریم، روابط زیر همواره برقرارند:
+\begin{equation}\label{cmp:eq:ch3-four-criteria-comparison}
+\boxed{
+\begin{gathered}
+T(\mathcal V)\le BT(\mathcal V),\qquad
+BTNL(\mathcal V)\le TNL(\mathcal V),\\
+TNL(\mathcal V)\ge-\log T(\mathcal V),\qquad
+BTNL(\mathcal V)\ge-\log BT(\mathcal V).
+\end{gathered}}
+\end{equation}
+دو نامساوی نخست حاصل مجاز بودن جایگشت همانی در مسئله انتساب و دو نامساوی بعدی حاصل تقعر لگاریتم هستند. شرط مثبت بودن وزن طبقات تضمین می‌کند که $T=1$ و $TNL=0$ فقط در ماتریس همانی، و $BT=1$ و $BTNL=0$ فقط در ماتریس‌های جایگشتی رخ دهند. بااین‌حال، یکسان بودن جواب‌های ایده‌آل به معنای یکسان بودن رتبه‌بندی حالت‌های میانی نیست: معیار لگاریتمی در برابر یک احتمال کوچک حساس‌تر است و بهترین جایگشت در $BT$ لزوماً با بهترین جایگشت در $BTNL$ یکسان نیست. اثبات دقیق نامساوی‌ها و شرایط تساوی در بخش~\ref{app:ch3-four-criteria-comparison} از پیوست~\ref{app:model-geometry} آمده است.
+
+\paragraph{تجزیه بر حسب آنتروپی مراکز.}
+اگر $H(U)=-\sum_{d=1}^{K}U(d)\log U(d)$ آنتروپی توزیع احتمال $U$ باشد، هویت آنتروپی مخلوط که پیش‌تر برای تعبیر $R$ به کار رفت، اکنون با انتخاب توزیع‌های $\mathcal V_c$ و وزن‌های $\omega_c$ نتیجه می‌دهد:
+\begin{equation}\label{cmp:eq:ch3-I-entropy}
+\boxed{I(\mathcal V)=H(\overline{\mathcal V})
+-\sum_{c=1}^{K}\omega_c H(\mathcal V_c).}
+\end{equation}
+اثبات این هویت مشترک در بخش~\ref{app:ch3-entropy-mixture} از پیوست~\ref{app:model-geometry} آمده است.
+در این رابطه، افزایش آنتروپی میانگین مراکز و کاهش میانگین آنتروپی خود مراکز هر دو می‌توانند مقدار $I$ را افزایش دهند. بااین‌حال، این دو جمله مستقل از یکدیگر نیستند؛ زیرا میانگین مراکز از خود آن‌ها ساخته شده است.
+
+\paragraph{حد پایین و بالای $I$.}
+از تعریف اطلاعات متقابل، می‌توان عدم‌قطعیت باقی‌مانده درباره طبقه آغازین پس از مشاهده برچسب همسایگی را به‌صورت زیر بیان کرد:
+\begin{equation}\label{cmp:eq:ch3-I-conditional}
+\boxed{I(\mathcal V)=H(C_0)-H(C_0\mid C_\xi)
+=H(\Omega)-H(C_0\mid C_\xi).}
+\end{equation}
+برای روشن شدن منشأ این هویت، توجه می‌کنیم که طبق رابطه~\eqref{cmp:eq:ch3-I-joint-distribution}، در هر برچسب مشاهده‌شده $d$ با احتمال مثبت، احتمال شرطی طبقه آغازین برابر
+$\mathrm P(C_0=c\mid C_\xi=d)=\omega_c\mathcal V_{cd}/\overline{\mathcal V}(d)$ است. با جایگذاری این احتمال در تعریف آنتروپی شرطی و باز کردن لگاریتم کسر، یک جمله برابر $H(\Omega)$ و جمله دیگر برابر منفی اطلاعات متقابل در رابطه~\eqref{cmp:eq:ch3-I-mutual-info} می‌شود. محاسبه جبری این تساوی در بخش~\ref{app:ch3-I-bounds-proof} از پیوست~\ref{app:model-geometry} نیز آمده است.
+
+از نامنفی بودن اطلاعات متقابل و آنتروپی شرطی در رابطه~\eqref{cmp:eq:ch3-I-conditional}، و نیز از بیشینه بودن آنتروپی توزیع یکنواخت بر روی $K$ طبقه، نتیجه می‌شود:
+\begin{equation}\label{cmp:eq:ch3-I-bounds}
+\boxed{0\le I(\mathcal V)\le H(\Omega)\le\log K.}
+\end{equation}
+حد پایین زمانی به‌دست می‌آید که همه مراکز $\mathcal V_c$ برای طبقات دارای وزن مثبت یکسان باشند؛ زیرا در این صورت برچسب مشاهده‌شده هیچ اطلاعاتی درباره طبقه آغازین فراهم نمی‌کند.
+
+اگر همه وزن‌ها مثبت باشند، رسیدن به کران بالای $H(\Omega)$ به این معناست که با دانستن برچسب مشاهده‌شده، طبقه آغازین بدون ابهام مشخص شود. چون تعداد برچسب‌های آغازین و مقصد هر دو $K$ است، این وضعیت دقیقاً برای ماتریس‌های جایگشتی رخ می‌دهد. بنابراین در فضای تمام ماتریس‌های احتمالی سطری، $I$ و $BT$ نقاط بهینه جهانی یکسانی دارند؛ هرچند شکل تابع هدف و رفتار آن‌ها در وضعیت‌های غیرایده‌آل متفاوت است. اثبات دقیق کران‌ها و شرایط تساوی در بخش~\ref{app:ch3-I-bounds-proof} از پیوست~\ref{app:model-geometry} آمده است. البته ممکن است همه این ماتریس‌های بهینه با سیاست انتخاب ویژگیِ قابل یادگیری روی گراف موجود دست‌یافتنی نباشند.
+
+\paragraph{تمایز از معیار پراکندگی $R$.}
+قضیه تجزیه KL در بخش~\ref{cmp:subsec:ch3-mean-center-justification} نشان می‌دهد که میانگین وزن‌دار واگرایی توزیع نمونه‌ها از مرکز مشترک $\overline{\mathcal V}$ به دو جزء تجزیه می‌شود:
+\begin{equation}\label{cmp:eq:ch3-R-I-decomposition}
+\boxed{
+\sum_{c=1}^{K}\frac{\omega_c}{|C_c|}
+\sum_{i\in C_c}
+D_{\mathrm{KL}}\bigl(\mathscr Y_i\|\overline{\mathcal V}\bigr)
+=R+I(\mathcal V).
+}
+\end{equation}
+این رابطه تمایز میان دو مفهوم را روشن می‌کند: $R$ میزان پراکندگی توزیع‌های نمونه‌ها حول \emph{مرکز طبقه خودشان} و $I$ میزان جدایی \emph{مراکز طبقات} از میانگین مشترک را اندازه می‌گیرد. کمینه شدن $R$ به‌تنهایی مانع یکسان شدن همه مراکز نمی‌شود؛ در مقابل، مثبت بودن $I$ مستلزم وجود تفاوت میان دست‌کم دو مرکز دارای وزن مثبت است.
+
+\paragraph{ارتباط معیار اطلاعات متقابل با $T$ و $BT$.}
+معیار اطلاعات متقابل $I$، تفاوت میان توزیع مشترک طبقه آغازین و برچسب مشاهده‌شده، یعنی $\mathrm P(C_0,C_\xi)$، و توزیع حاصل از فرض استقلال آن‌ها را اندازه می‌گیرد. برای مقایسه این معیار با $T$، لازم نیست تمام زوج‌های ممکن برچسب‌ها را جداگانه بررسی کنیم. کافی است تنها رویداد \emph{برابر بودن دو برچسب} را در نظر بگیریم و سایر حالت‌ها را در یک گروه قرار دهیم. نامساوی پردازش داده‌ها می‌گوید که چنین خلاصه‌سازی‌ای نمی‌تواند واگرایی KL دو توزیع را افزایش دهد؛ بنابراین واگرایی حاصل ازاین‌رویداد ساده، کران پایینی برای $I$ خواهد بود.
+
+متغیر دودویی $B_{\mathrm{eq}}$ را برابر یک می‌گیریم اگر $C_0=C_\xi$ باشد و در غیر این صورت برابر صفر. طبق تعریف~\eqref{cmp:eq:ch3-T-on-V}، احتمال $B_{\mathrm{eq}}=1$ در توزیع مشترک واقعی برابر $T(\mathcal V)$ است. در توزیع فرض استقلال، همین احتمال برابر $q=\sum_{c=1}^{K}\omega_c\overline{\mathcal V}(c)$ خواهد بود. با تبدیل هر دو توزیع به توزیع‌های برنولی متناظر، نتیجه می‌شود:
+\begin{equation}\label{cmp:eq:ch3-I-vs-T}
+\boxed{
+I(\mathcal V)\ge
+D_{\mathrm{KL}}\!\left(
+\operatorname{Bern}\bigl(T(\mathcal V)\bigr)
+\middle\|
+\operatorname{Bern}(q)
+\right),\qquad
+q=\sum_{c=1}^{K}\omega_c\overline{\mathcal V}(c).
+}
+\end{equation}
+در اینجا $\operatorname{Bern}(p)$ توزیع برنولی با احتمال موفقیت $p$ است و $q$، احتمال هم‌برچسب بودن \emph{در فرض استقلال} را نشان می‌دهد؛ نه احتمال واقعی آن را. به‌ویژه، اگر وزن طبقات یکنواخت باشد، از مجموع یک بودن مؤلفه‌های $\overline{\mathcal V}$ داریم $q=1/K$.
+
+معیار $T$ تنها برابر بودن برچسب‌ها را بررسی می‌کند؛ اما در معیار جایگشتی $BT$، برچسب مشاهده‌شده لازم نیست با برچسب طبقه آغازین یکسان باشد. برای هر جایگشت $\sigma$، به‌جای رویداد قبلی، رویداد $B_\sigma=1$ را معادل $C_\xi=\sigma(C_0)$ تعریف می‌کنیم. احتمال این رویداد در توزیع واقعی و در فرض استقلال به‌ترتیب برابر است با:
+\begin{equation}\label{cmp:eq:ch3-I-BT-event-probs}
+t_\sigma=\sum_{c=1}^{K}\omega_c\mathcal V_{c,\sigma(c)},
+\qquad
+q_\sigma=\sum_{c=1}^{K}\omega_c\overline{\mathcal V}\bigl(\sigma(c)\bigr).
+\end{equation}
+همان استدلال پردازش داده‌ها برای هر جایگشت برقرار است و $I(\mathcal V)\ge D_{\mathrm{KL}}(\operatorname{Bern}(t_\sigma)\|\operatorname{Bern}(q_\sigma))$ را نتیجه می‌دهد. در حالت وزن‌های یکنواخت $\omega_c=1/K$، چون $\sigma$ یک جایگشت است، جمع احتمال‌های مقصد در $q_\sigma$ برابر یک می‌شود و \emph{برای هر جایگشت} داریم $q_\sigma=1/K$. اگر $\sigma^\star$ جایگشتی باشد که امتیاز $BT$ را بیشینه می‌کند، آنگاه $t_{\sigma^\star}=BT(\mathcal V)$ و در نتیجه:
+\begin{equation}\label{cmp:eq:ch3-I-vs-BT}
+\boxed{
+I(\mathcal V)\ge
+D_{\mathrm{KL}}\!\left(
+\operatorname{Bern}\bigl(BT(\mathcal V)\bigr)
+\middle\|
+\operatorname{Bern}(1/K)
+\right),\qquad \omega_c=\frac{1}{K}.
+}
+\end{equation}
+این کران ارتباط مشخصی میان دو معیار فراهم می‌کند. در بخش~\ref{cmp:subsubsec:ch3-BT} ثابت کردیم $1/K\le BT(\mathcal V)\le1$. از سوی دیگر، تابع $D_{\mathrm{KL}}(\operatorname{Bern}(x)\|\operatorname{Bern}(1/K))$ روی بازه $[1/K,1]$ اکیداً صعودی است. بنابراین، \textbf{با افزایش $BT$، کران پایین تضمین‌شده برای $I$ نیز افزایش می‌یابد}؛ هرچند از این نتیجه نمی‌توان نتیجه گرفت که مقدار واقعی $I$ در هر مرحله بهینه‌سازی الزاماً افزایش پیدا می‌کند.
+
+در نقطه ایده‌آل $BT(\mathcal V)=1$، سمت راست رابطه~\eqref{cmp:eq:ch3-I-vs-BT} به $\log K$ می‌رسد. چون برای وزن‌های یکنواخت $I(\mathcal V)\le\log K$ است، در این حالت الزاماً $I(\mathcal V)=\log K$ خواهد بود. بدین‌ترتیب، هر دو معیار بر روی مجموعه ماتریس‌های احتمالی سطری، در ماتریس‌های جایگشتی به پاسخ ایده‌آل یکسانی می‌رسند؛ ولی شکل تابع هدف و مسیر بهینه‌سازی آن‌ها می‌تواند متفاوت باشد. اثبات تفصیلی کران‌ها و صعودی بودن آن‌ها در بخش~\ref{app:ch3-I-bounds-proof} از پیوست~\ref{app:model-geometry} آمده است. برای وزن‌های غیریکنواخت نیز کران برنولی با پارامتر $q_\sigma$ برقرار می‌ماند، اما این پارامتر دیگر لزوماً برابر $1/K$ نیست.
+
+\paragraph{ارتباط اطلاعات متقابل با خطای تشخیص.}
+یکی از مزایای تعبیر اطلاعاتی معیار $I$ آن است که می‌توان از نتایج شناخته‌شده نظریه اطلاعات، از جمله نامساوی فانو، استفاده کرد. اگر هدف، تشخیص طبقه آغازین $C_0$ تنها با مشاهده برچسب همسایگی $C_\xi$ باشد و $P_e=\mathrm P(\widehat C_0\ne C_0)$ احتمال خطای یک تصمیم‌گیرنده مبتنی بر $C_\xi$ باشد، از هویت~\eqref{cmp:eq:ch3-I-conditional} و نامساوی فانو داریم \cite{CoverThomas2006}:
+\begin{equation}\label{cmp:eq:ch3-I-Fano}
+\boxed{H(\Omega)-I(\mathcal V)
+=H(C_0\mid C_\xi)
+\le h_2(P_e)+P_e\log(K-1),}
+\end{equation}
+که در آن $K\ge2$ و $h_2(p)=-p\log p-(1-p)\log(1-p)$ آنتروپی دودویی است. این نامساوی محدودیتی اطلاعاتی بر خطای تشخیص قرار می‌دهد؛ به‌ویژه، اگر اطلاعات متقابل کوچک باشد، خطای تشخیص نمی‌تواند به‌دلخواه کوچک شود. بااین‌حال، \textbf{فانو کران پایین خطا را فراهم می‌کند، نه کران بالای خطای یک طبقه‌بند معین}. افزون بر این، مشاهده تصادفی $C_\xi$ با در اختیار داشتن کل بردار $\mathscr Y_i$ یکسان نیست. ازاین‌رو این نامساوی را نباید بدون فرض‌های اضافی با کران بالای درست‌نمایی لگاریتمی منفی برای مدل پیش‌بینی مبتنی بر $\mathscr Y_i$ یکی دانست.
+
+در نتیجه، $I$ علاوه بر بیان تمایز میان مراکز، با میزان اطلاعات
+قابل استفاده برای تشخیص طبقه نیز ارتباط نظری دارد؛
+اما این رابطه به‌تنهایی کیفیت تصمیم‌گیری از روی
+تمام بردار بازنمایی و حاشیه تک‌تک نمونه‌ها را تعیین نمی‌کند.
+
+در مجموع، معیار اطلاعات متقابل $I$ بدون تحمیل هم‌برچسب بودن یا انتخاب یک جایگشت خاص، تمایز توزیع‌های نماینده طبقات را اندازه می‌گیرد و مانند چهار معیار پیشین، صرفاً بر اساس $\mathcal V$ قابل محاسبه است. تعبیر اطلاعات متقابل و ارتباط آن با عدم‌قطعیت طبقه آغازین، انگیزه نظری مناسبی برای استفاده از $I$ در ارزیابی و بهبود سیاست انتخاب ویژگی فراهم می‌کند.
+
+
+
+\section{بهینگی درست‌نماییِ نماینده مشترک توزیع‌های مخلوط}
+\label{app:ch3-mixture-likelihood}
+
+این اثبات، صورت عمومی استدلال درست‌نماییِ مطرح‌شده در رابطه~\eqref{cmp:eq:ch3-mixture-likelihood-optimum} را ارائه می‌کند و به تعریف شعاع درون‌طبقه‌ای وابسته نیست. فرض کنیم مشاهدات در $g$ گروه تولید شده‌اند؛ در گروه $r$، تعداد $n_r$ مشاهده مستقل و هم‌توزیع $Z_{r,1},\ldots,Z_{r,n_r}$ از توزیع احتمال $P_r$ روی یک فضای متناهی داریم. اگر $n=\sum_r n_r$ و در حد $n\to\infty$ نسبت $n_r/n$ به وزن $\eta_r$ میل کند، فرض می‌کنیم $\eta_r\ge0$ و $\sum_r\eta_r=1$؛ گروه‌های با وزن صفر در محاسبات حدی سهمی ندارند.
+
+اگر بدانیم هر مشاهده از کدام توزیع تولید شده، درست‌نمایی مدل آگاه از مبدأ برابر است با
+\[
+L_n^{\star}=\prod_{r=1}^{g}\prod_{t=1}^{n_r}P_r(Z_{r,t}).
+\]
+اما اگر لازم باشد همه مشاهدات با یک توزیع مشترک $Q$ توضیح داده شوند، درست‌نمایی آن‌ها برابر است با:
+\[
+L_n(Q)=\prod_{r=1}^{g}\prod_{t=1}^{n_r}Q(Z_{r,t}).
+\]
+در حالتی که $Q$ روی تکیه‌گاه همهٔ توزیع‌های گروه‌های مشاهده‌شده، از جمله گروه‌های با وزن حدی صفر، مقدار مثبت داشته باشد، از قانون اعداد بزرگ برای هر گروه نتیجه می‌شود:
+\begin{equation}\label{eq:app-ch3-mixture-log-likelihood-ratio}
+\begin{aligned}
+\lim_{n\to\infty}\frac1n\log\frac{L_n^{\star}}{L_n(Q)}
+&=\sum_{r=1}^{g}\eta_r
+\sum_{d=1}^{K}P_r(d)\log\frac{P_r(d)}{Q(d)}\\
+&=\sum_{r=1}^{g}\eta_rD_{\mathrm{KL}}(P_r\|Q).
+\end{aligned}
+\end{equation}
+این همان تفاوت متوسط لگاریتم درست‌نمایی مدل آگاه از مبدأ و مدل مشترک است. چنانچه $Q$ در مؤلفه‌ای که توزیع مخلوط به آن احتمال مثبت می‌دهد، صفر باشد، مدل مشترک برای مشاهده آن مؤلفه درست‌نمایی صفر خواهد داشت و زیان لگاریتمی آن نامتناهی می‌شود.
+
+اکنون میانگین توزیع‌ها را با $\overline P=\sum_r\eta_rP_r$ تعریف می‌کنیم.
+
+هویت تجزیه میانگین KL که در صورت درون‌طبقه‌ای متن اصلی به کار می‌رود، برای هر توزیع مشترک $Q$ چنین است؛ گروه‌های با وزن صفر از جمع‌ها حذف می‌شوند:
+\begin{equation}\label{eq:app-ch3-mixture-KL-general}
+\boxed{
+\begin{aligned}
+\sum_{r=1}^{g}\eta_rD_{\mathrm{KL}}(P_r\|Q)
+&=\sum_{r=1}^{g}\eta_rD_{\mathrm{KL}}(P_r\|\overline P)\\
+&\quad+D_{\mathrm{KL}}(\overline P\|Q).
+\end{aligned}}
+\end{equation}
+ با افزودن و کاستن $\log\overline P(d)$ در عبارت آخر و جابه‌جا کردن جمع‌ها داریم:
+\begin{equation}\label{eq:app-ch3-mixture-KL-decomposition-proof}
+\begin{aligned}
+\sum_r\eta_rD_{\mathrm{KL}}(P_r\|Q)
+&=\sum_r\eta_r\sum_dP_r(d)
+\log\frac{P_r(d)}{\overline P(d)}
++\sum_r\eta_r\sum_dP_r(d)
+\log\frac{\overline P(d)}{Q(d)}\\
+&=\sum_r\eta_rD_{\mathrm{KL}}(P_r\|\overline P)
++\sum_d\overline P(d)\log\frac{\overline P(d)}{Q(d)}\\
+&=\sum_r\eta_rD_{\mathrm{KL}}(P_r\|\overline P)
++D_{\mathrm{KL}}(\overline P\|Q).
+\end{aligned}
+\end{equation}
+در مؤلفه‌های صفر از قراردادهای متداول KL استفاده می‌کنیم. این محاسبه در حالت متناهی انجام شده است. اگر $Q$ روی تکیه‌گاه $\overline P$ صفر باشد، هر دو طرف هویت نامتناهی‌اند؛ جملهٔ نخست سمت راست همیشه متناهی است. این هویت همان رابطه~\eqref{cmp:eq:ch3-center-excess-average-kl} را برای وزن‌های برابر نتیجه می‌دهد. عبارت نخست مستقل از $Q$ و عبارت دوم نامنفی است؛ بنابراین کمترین زیان درست‌نماییِ حاصل از استفاده از یک توزیع مشترک، دقیقاً در $Q=\overline P$ به‌دست می‌آید. برابری فقط در همین حالت رخ می‌دهد.
+
+همچنین می‌توان مستقیماً متوسط لگاریتم درست‌نمایی مدل مشترک را محاسبه کرد:
+\begin{equation}\label{eq:app-ch3-mixture-MLE-proof}
+\begin{aligned}
+\mathcal L(Q)
+&=\sum_r\eta_r\sum_dP_r(d)\log Q(d)\\
+&=\sum_d\overline P(d)\log Q(d)\\
+&=-H(\overline P)-D_{\mathrm{KL}}(\overline P\|Q).
+\end{aligned}
+\end{equation}
+بنابراین بیشینه‌کننده $\mathcal L(Q)$ همان $\overline P$ است. این گزاره مبنای \emph{درست‌نمایی} انتخاب میانگین است؛ تجزیه KL فقط راه اثبات آن را فراهم می‌کند.
+
+برای طبقه $c$ در روش پیشنهادی، با قرار دادن $P_r=\mathscr Y_i$ برای $i\in C_c$ و وزن‌های $\eta_r=1/|C_c|$، نتیجه می‌شود که بهترین توزیع مشترک برای مدل‌کردن مشاهدات برچسب همسایگی نمونه‌های این طبقه، همان $\mathcal V_c$ است. این نتیجه نه به تعریف $R_c$ وابسته است و نه لزوماً به معنای کمینه‌کننده بودن همین نماینده برای هر فاصله یا متریک دیگری مانند جذر واگرایی جنسن--شنون است.
+
+\paragraph{مقدار بهینه منفی لگاریتم درست‌نمایی و تفسیر هزینه تجمیع.}
+برای توزیع مشترک $Q$، منفی لگاریتم درست‌نمایی مورد انتظار برابر $-\mathcal L(Q)$ است؛ بنابراین با استفاده از رابطه~\eqref{eq:app-ch3-mixture-MLE-proof}، کمترین مقدار آن در $Q=\overline P$ برابر $H(\overline P)$ خواهد بود. اگر به‌جای یک مدل مشترک، مدل جداگانه $Q_r$ برای مشاهده‌های گروه $r$ در اختیار داشته باشیم، هزینه هر گروه از رابطه
+\[
+-\sum_d P_r(d)\log Q_r(d)
+=H(P_r)+D_{\mathrm{KL}}(P_r\|Q_r)
+\]
+به‌دست می‌آید. این هزینه برای $Q_r=P_r$ کمینه می‌شود؛ ازاین‌رو کمترین هزینه میانگین مدل‌های اختصاصی $\sum_r\eta_rH(P_r)$ است. در نتیجه اختلاف دو مقدار بهینه برابر است با:
+\begin{equation}\label{eq:app-ch3-NLL-compression-gap}
+\begin{aligned}
+\operatorname{NLL}_{\min}^{\mathrm{shared}}
+-\operatorname{NLL}_{\min}^{\mathrm{individual}}
+&=H(\overline P)-\sum_r\eta_rH(P_r)\\
+&=\sum_r\eta_rD_{\mathrm{KL}}(P_r\|\overline P)
+\ge0.
+\end{aligned}
+\end{equation}
+تساوی دوم، نمونه‌ای از \emph{هویت عمومی آنتروپی مخلوط}
+است که در بخش~\ref{app:ch3-entropy-mixture} به‌صورت
+یک گزاره مستقل اثبات می‌کنیم؛ در اینجا تنها
+کاربرد آن برای تفسیر تفاوتِ بهینه دو مدل
+درست‌نمایی موردنظر است. اگر همه وزن‌های مورد بحث
+مثبت باشند، اختلاف هزینه دقیقاً زمانی صفر است
+که تمام $P_r$ها برابر باشند. این هزینه تنها
+درباره پیش‌بینی \emph{مشاهداتِ مولد از توزیع‌های $P_r$}
+است؛ بنابراین نباید با منفی لگاریتم درست‌نمایی
+برچسب واقعی نمونه آغازین در مسئله طبقه‌بندی
+یکی گرفته شود.
+
+\paragraph{صورت دقیق تجزیه برای یک طبقه.}
+برای طبقه $c$، در رابطه~\eqref{eq:app-ch3-mixture-KL-general} به‌ترتیب $P_r=\mathscr Y_i$، $\eta_r=1/|C_c|$، $\overline P=\mathcal V_c$ و $Q=U$ قرار می‌دهیم. در این صورت برای هر $U$ با واگرایی‌های متناهی:
+\begin{equation}\label{eq:ch3-KL-proof}
+\begin{aligned}
+\frac1{|C_c|}\sum_{i\in C_c}
+D_{\mathrm{KL}}(\mathscr Y_i\|U)
+&=\frac1{|C_c|}\sum_{i\in C_c}
+D_{\mathrm{KL}}(\mathscr Y_i\|\mathcal V_c)\\
+&\quad+\sum_d
+\left(\frac1{|C_c|}\sum_{i\in C_c}\mathscr Y_i(d)\right)
+\log\frac{\mathcal V_c(d)}{U(d)}\\
+&=R_c+D_{\mathrm{KL}}(\mathcal V_c\|U).
+\end{aligned}
+\end{equation}
+این همان قضیه~\ref{cmp:thm:ch3-KL-decomposition} است. چون برای هر مؤلفه $d$، برابری $\mathcal V_c(d)=0$ همراه با نامنفی‌بودن $\mathscr Y_i(d)$ها مستلزم $\mathscr Y_i(d)=0$ برای همه اعضای طبقه است، جمله‌های دارای مؤلفه صفر را می‌توان با قرارداد معمول KL محاسبه کرد. اگر در مؤلفه‌ای $\mathcal V_c(d)>0$ اما $U(d)=0$ باشد، هر دو طرفِ عبارت مربوط به مدل $U$ نامتناهی‌اند و تفسیر مستقیم لگاریتم درست‌نمایی برقرار نیست؛ به همین دلیل قضیه در متن اصلی با شرط متناهی‌بودن واگرایی‌ها بیان شده است. نامنفی‌بودن $D_{\mathrm{KL}}(\mathcal V_c\|U)$ ثابت می‌کند که نماینده بهینه دقیقاً $\mathcal V_c$ است. همچنین در این صورت، هویت~\eqref{cmp:eq:ch3-R-entropy} تفسیرِ هزینه تجمیع را در قالب آنتروپی و میانگین KL ارائه می‌کند.
+
+\section{هویت آنتروپی مخلوط و تعبیر معیارهای R و I}
+\label{app:ch3-entropy-mixture}
+هویت زیر مبنای مشترک تفسیر آنتروپی
+$R_{\mathrm{KL}}$ و $I$ و نیز اختلاف هزینه
+درست‌نماییِ مدل مشترک و مدل اختصاصی در
+رابطه~\eqref{eq:app-ch3-NLL-compression-gap} است.
+برای جلوگیری از تلقی این کاربردها به‌عنوان
+چند فرض مستقل، ابتدا هویت را در حالت عمومی
+اثبات و سپس دو جایگذاری مربوط به معیارها را
+مشخص می‌کنیم.
+
+\begin{proposition}\label{prop:app-ch3-entropy-mixture}
+فرض کنیم $P_1,\ldots,P_m$ بردارهای توزیع احتمال روی یک فضای متناهی و $a_1,\ldots,a_m$ وزن‌های نامنفی با مجموع یک باشند. اگر $\overline P=\sum_{r=1}^{m}a_rP_r$ و $H(P)=-\sum_dP(d)\log P(d)$، آنگاه:
+\begin{equation}\label{eq:app-ch3-mixture-entropy}
+\sum_{r=1}^{m}a_rD_{\mathrm{KL}}(P_r\|\overline P)
+=H(\overline P)-\sum_{r=1}^{m}a_rH(P_r).
+\end{equation}
+\end{proposition}
+\begin{proof}
+با بسط تعریف واگرایی KL و قرارداد $0\log0=0$ داریم:
+\begin{equation}\label{eq:app-ch3-mixture-entropy-proof}
+\begin{aligned}
+\sum_r a_rD_{\mathrm{KL}}(P_r\|\overline P)
+&=\sum_r a_r\sum_dP_r(d)\log P_r(d)
+-\sum_d\left(\sum_r a_rP_r(d)\right)\log\overline P(d)\\
+&=-\sum_r a_rH(P_r)-\sum_d\overline P(d)\log\overline P(d)\\
+&=H(\overline P)-\sum_r a_rH(P_r).
+\end{aligned}
+\end{equation}
+اگر $\overline P(d)=0$، با نامنفی بودن وزن‌ها و توزیع‌ها، تمام $P_r(d)$هایی که وزن مثبت دارند نیز صفر هستند؛ بنابراین همان قرارداد معمول واگرایی در آن مؤلفه برقرار است.
+\end{proof}
+
+برای معیار شعاع درون‌طبقه‌ای $R_c$، با انتخاب $P_r=\mathscr Y_i$ برای $i\in C_c$ و وزن $1/|C_c|$، مستقیماً رابطه~\eqref{cmp:eq:ch3-R-entropy} به‌دست می‌آید. در گام بعد، با میانگین‌گیری روی طبقه‌ها طبق وزن‌های $\Omega$، تعبیر آنتروپی میانگین $R$ در رابطه~\eqref{cmp:eq:ch3-R-average-entropy} حاصل می‌شود. همچنین با انتخاب $P_r=\mathcal V_c$ و $a_r=\omega_c$، همین گزاره رابطه~\eqref{cmp:eq:ch3-I-entropy} را نتیجه می‌دهد. به این ترتیب، تعبیر آنتروپی $R$ و $I$ دو کاربرد از یک هویت واحدند.
+
+\subsection{کران تیز هزینه تجمیع و رابطه آن با تراکم جنسن--شنون}
+\label{app:ch3-compactness-entropy-relations}
+این قسمت دو نتیجه‌ای را که در
+بخش~\ref{cmp:subsec:ch3-within-class-compactness}
+بیان شدند، از هویت عمومی
+\eqref{eq:app-ch3-mixture-entropy}
+استخراج می‌کند: کران تراکم KL
+و رابطه دقیق میان تراکم KL و جنسن--شنون.
+
+\paragraph{کران $R_c$ و حالت‌های تساوی.}
+چون $\mathcal V_c$ میانگین توزیع‌های
+$\mathscr Y_i$ برای $i\in C_c$ است،
+با جایگذاری در هویت آنتروپی مخلوط داریم:
+\begin{equation}\label{eq:app-ch3-R-entropy-bound-proof}
+\begin{aligned}
+R_c
+&=\frac1{|C_c|}\sum_{i\in C_c}
+D_{\mathrm{KL}}(\mathscr Y_i\|\mathcal V_c)
+\ge0,\\
+R_c
+&=H(\mathcal V_c)-\frac1{|C_c|}
+\sum_{i\in C_c}H(\mathscr Y_i)\\
+&\le H(\mathcal V_c)\le\log K.
+\end{aligned}
+\end{equation}
+برابری $R_c=0$، به دلیل برابربودن
+وزن‌های همه اعضای طبقه و شرط تساوی KL،
+دقیقاً معادل برابر بودن تمام
+$\mathscr Y_i$ها با $\mathcal V_c$ است.
+برای تساوی $R_c=\log K$ باید هم
+$H(\mathcal V_c)=\log K$ و هم
+$H(\mathscr Y_i)=0$ برای تک‌تک اعضا
+برقرار باشد. شرط اول دقیقاً به معنای
+یکنواخت‌بودن مرکز روی همه $K$ برچسب است
+و شرط دوم به معنای یک‌داغ بودن تمام
+توزیع‌های عضو. بنابراین فراوانی
+بردارهای یک‌داغِ متناظر با هر برچسب
+باید برابر باشد؛ اگر اعضا وزن یکسان
+داشته باشند، برای تساوی دقیق
+$|C_c|$ باید مضربی از $K$ باشد.
+پس $\log K$ کرانی تیز در حالت کلی است،
+ولی برای هر اندازه نمونه دلخواه لزوماً
+به‌دست نمی‌آید.
+
+از سوی دیگر، برای هر مؤلفه با
+$\mathscr Y_i(u)>0$ داریم
+$\mathcal V_c(u)\ge
+\mathscr Y_i(u)/|C_c|$.
+پس $\mathscr Y_i(u)/\mathcal V_c(u)
+\le |C_c|$ و در نتیجه
+\[
+D_{\mathrm{KL}}(\mathscr Y_i\|\mathcal V_c)
+\le\log|C_c|.
+\]
+بنابراین در اندازه نمونه ثابت، کران
+دقیق‌تر زیر نیز برقرار است:
+\begin{equation}\label{eq:app-ch3-R-sample-bound}
+\boxed{
+0\le R_c\le\log\min\{K,|C_c|\}.
+}
+\end{equation}
+این برآورد نشان می‌دهد که
+کران‌داری $R_c$ با کران‌داری
+KL برای دو توزیع \emph{دلخواه} یکسان نیست:
+در اینجا توزیع مرجع، میانگین خود اعضاست.
+برای $R=\sum_c\omega_cR_c$، به شرط
+$\omega_c\ge0$ و $\sum_c\omega_c=1$،
+میانگین‌گیری از کران‌ها نتیجه می‌دهد:
+\[
+0\le R\le
+\sum_{c=1}^{K}\omega_c\log\min\{K,|C_c|\}
+\le\log K.
+\]
+اگر همه وزن‌ها مثبت باشند،
+$R=\log K$ تنها در صورتی رخ می‌دهد
+که برای همه طبقات دارای وزن مثبت،
+شرط تساوی تک‌طبقه‌ای برقرار باشد.
+
+\paragraph{میانگین‌های جفتی و هویت تراکم JS.}
+برای هر عضو طبقه $c$، تعریف
+\eqref{cmp:eq:ch3-R-JS-midpoint-distributions}
+را بازنویسی می‌کنیم:
+$\mathscr B_{c,i}
+=(\mathscr Y_i+\mathcal V_c)/2$.
+با توجه به
+$\frac1{|C_c|}\sum_i\mathscr Y_i=\mathcal V_c$،
+داریم
+\[
+\frac1{|C_c|}\sum_{i\in C_c}\mathscr B_{c,i}
+=\frac12\left(\mathcal V_c+
+\frac1{|C_c|}\sum_{i\in C_c}\mathscr Y_i\right)
+=\mathcal V_c.
+\]
+پس اعمال همان هویت آنتروپی مخلوط
+به توزیع‌های $\mathscr B_{c,i}$،
+\[
+R_{B,c}
+=H(\mathcal V_c)
+-\frac1{|C_c|}\sum_{i\in C_c}H(\mathscr B_{c,i})
+\]
+را نتیجه می‌دهد.
+از سوی دیگر، هویت آنتروپی
+\eqref{cmp:eq:ch3-JSD-entropy}
+با قرار دادن $P=\mathscr Y_i$ و
+$Q=\mathcal V_c$ می‌دهد:
+\[
+\operatorname{JSD}(\mathscr Y_i,\mathcal V_c)
+=H(\mathscr B_{c,i})
+-\frac12H(\mathscr Y_i)
+-\frac12H(\mathcal V_c).
+\]
+اکنون میانگین‌گیری از دو سوی
+رابطه آخر روی اعضای همان طبقه
+و جایگذاری هویت‌های $R_c$ و $R_{B,c}$،
+بدون فرض اضافی به نتیجه زیر می‌رسد:
+\begin{equation}\label{eq:app-ch3-R-JS-midpoint-proof}
+\begin{aligned}
+R_{c,\mathrm{JS}}
+&=\frac1{|C_c|}\sum_{i\in C_c}H(\mathscr B_{c,i})
+-\frac1{2|C_c|}\sum_{i\in C_c}H(\mathscr Y_i)
+-\frac12H(\mathcal V_c)\\
+&=\bigl(H(\mathcal V_c)-R_{B,c}\bigr)
+-\frac12\bigl(H(\mathcal V_c)-R_c\bigr)
+-\frac12H(\mathcal V_c)\\
+&=\frac12R_c-R_{B,c}.
+\end{aligned}
+\end{equation}
+این محاسبه منشأ ضریب $1/2$ را آشکار
+می‌کند. با میانگین‌گیری وزن‌دار از
+هویت بالا، رابطه
+$R_{\mathrm{JS}}
+=\frac12R-\sum_c\omega_cR_{B,c}$
+حاصل می‌شود. چون هر دو
+$R_{c,\mathrm{JS}}$ و $R_{B,c}$
+به‌عنوان میانگین واگرایی نامنفی‌اند،
+\[
+0\le R_{B,c}\le\frac12R_c,\qquad
+0\le R_{c,\mathrm{JS}}\le\frac12R_c
+\]
+برقرار است. این کران را می‌توان
+مستقیماً نیز از محدب‌بودن KL
+نسبت به ورودی اول اثبات کرد:
+\[
+D_{\mathrm{KL}}\!\left(
+\frac{\mathscr Y_i+\mathcal V_c}{2}
+\,\middle\|\,\mathcal V_c\right)
+\le\frac12
+D_{\mathrm{KL}}(\mathscr Y_i\|\mathcal V_c).
+\]
+تمام این روابط با قراردادهای حدی
+آنتروپی و KL در مؤلفه‌های صفر
+هم معتبرند؛ زیرا تکیه‌گاه هر
+$\mathscr B_{c,i}$ و $\mathscr Y_i$
+زیرمجموعه تکیه‌گاه $\mathcal V_c$
+است.
+
+
+\paragraph{هویت زوجی JS و هزینه تجمیع میانگین‌های همه زوج‌ها.}
+در تعریف نمونه--مرکز، برای هر $i$
+مخلوطی از $\mathscr Y_i$ و مرکز
+$\mathcal V_c$ تشکیل می‌شد.
+اکنون همه زوج‌های مرتب
+$i,j\in C_c$ را، با احتساب
+زوج‌های $i=j$، در نظر می‌گیریم.
+اگر $n_c=|C_c|$، طبق
+تعریف~\eqref{cmp:eq:ch3-R-JS-pairwise-distributions}،
+مرکز مجموعه $n_c^2$ توزیع
+$\mathscr B_{c,ij}^{\mathrm{pair}}$
+دوباره $\mathcal V_c$ است:
+\[
+\frac1{n_c^2}\sum_{i,j\in C_c}
+\frac{\mathscr Y_i+\mathscr Y_j}{2}
+=\frac1{n_c}\sum_{i\in C_c}\mathscr Y_i
+=\mathcal V_c.
+\]
+پس با اعمال هویت آنتروپی مخلوط
+\eqref{eq:app-ch3-mixture-entropy}:
+\begin{equation}\label{eq:app-ch3-RB-pairwise-entropy}
+R_{B,c}^{\mathrm{pair}}
+=H(\mathcal V_c)
+-\frac1{n_c^2}\sum_{i,j\in C_c}
+H(\mathscr B_{c,ij}^{\mathrm{pair}}).
+\end{equation}
+از طرف دیگر، تعریف دوتوزیعی JSD
+می‌دهد:
+\[
+\operatorname{JSD}(\mathscr Y_i,\mathscr Y_j)
+=H(\mathscr B_{c,ij}^{\mathrm{pair}})
+-\frac12H(\mathscr Y_i)
+-\frac12H(\mathscr Y_j).
+\]
+در نتیجه:
+\begin{equation}\label{eq:app-ch3-R-JS-pairwise-proof}
+\begin{aligned}
+R_{c,\mathrm{JS}}^{\mathrm{pair}}
+&=\frac1{n_c^2}\sum_{i,j\in C_c}
+H(\mathscr B_{c,ij}^{\mathrm{pair}})
+-\frac1{2n_c^2}\sum_{i,j\in C_c}
+\bigl(H(\mathscr Y_i)+H(\mathscr Y_j)\bigr)\\
+&=\bigl(H(\mathcal V_c)-R_{B,c}^{\mathrm{pair}}\bigr)
+-\frac1{n_c}\sum_{i\in C_c}H(\mathscr Y_i)\\
+&=R_c-R_{B,c}^{\mathrm{pair}}.
+\end{aligned}
+\end{equation}
+در تساوی دوم استفاده شده که
+$\sum_{i,j}H(\mathscr Y_i)
+=n_c\sum_iH(\mathscr Y_i)$
+و برای جمع با اندیس $j$
+همین رابطه برقرار است.
+\emph{همین تقارن دو اندیس و حضور
+همه زوج‌ها علت حذف ضریب نصف است.}
+از نامنفی بودن دو میانگین واگرایی
+نیز $0\le R_{c,\mathrm{JS}}^{\mathrm{pair}}
+\le R_c$ نتیجه می‌شود.
+
+توجه کنیم تعریف بالا بر اساس
+$1/n_c^2$ و \emph{تمام زوج‌های مرتب}
+است. اگر برای $n_c>1$ صرفاً زوج‌های
+\emph{بدون تکرار و با اندیس‌های متمایز}
+$i<j$ را با وزن برابر میانگین بگیریم،
+به دلیل $\operatorname{JSD}(P,P)=0$،
+به‌جای آن مقدار
+\[
+\frac{1}{\binom{n_c}{2}}
+\sum_{\substack{i,j\in C_c\\i<j}}
+\operatorname{JSD}(\mathscr Y_i,\mathscr Y_j)
+=\frac{n_c}{n_c-1}
+R_{c,\mathrm{JS}}^{\mathrm{pair}}
+\]
+به‌دست می‌آید. بنابراین در
+به‌کارگیری هویت~\eqref{cmp:eq:ch3-R-JS-pairwise-entropy-identity}
+باید قرارداد وزن‌دهی زوج‌ها
+حفظ شود. هیچ‌یک از این تعریف‌ها
+خودبه‌خود با سنجه \emph{نمونه--مرکز}
+$R_{c,\mathrm{JS}}$
+یکسان نیست.
+
+
+\section{حد پایین معیار جایگشتی و خواص چهار معیار}
+\label{app:ch3-assignment-comparisons}
+
+\subsection{اثبات کران پایین معیار BT}
+\label{app:ch3-BT-bound-proof}
+مجموعه جایگشت‌های $K$ طبقه را با $\mathfrak{S}_K$ نشان می‌دهیم و برای هر $\sigma\in \mathfrak{S}_K$ می‌نویسیم:
+\begin{equation}\label{eq:app-ch3-BT-score}
+F_\sigma=\sum_{c=1}^{K}\omega_c\mathcal V_{c,\sigma(c)}.
+\end{equation}
+برای یک سطر ثابت $c$، هر ستون $d$ دقیقاً در $(K-1)!$ جایگشت در جایگاه $\sigma(c)$ قرار می‌گیرد. ازآنجاکه $\sum_d\mathcal V_{cd}=1$، میانگین امتیاز روی تمام جایگشت‌ها برابر است با:
+\begin{equation}\label{eq:app-ch3-BT-average}
+\begin{aligned}
+\frac{1}{K!}\sum_{\sigma\in \mathfrak{S}_K}F_\sigma
+&=\frac{1}{K!}\sum_{c=1}^{K}\omega_c
+\sum_{\sigma\in \mathfrak{S}_K}\mathcal V_{c,\sigma(c)}\\
+&=\frac{(K-1)!}{K!}\sum_{c=1}^{K}\omega_c
+\sum_{d=1}^{K}\mathcal V_{cd}\\
+&=\frac{1}{K}\sum_{c=1}^{K}\omega_c=\frac{1}{K}.
+\end{aligned}
+\end{equation}
+پس بیشینه اعداد $F_\sigma$ کمتر از میانگین آن‌ها نیست و نتیجه می‌شود:
+\begin{equation}\label{eq:app-ch3-BT-lower}
+BT(\mathcal V)=\max_{\sigma}F_\sigma\ge\frac1K.
+\end{equation}
+این کران برای وزن‌های برابر $\omega_c=1/K$ و نیز برای وزن‌های نامساوی، به شرط نامنفی و نرمال‌شده بودن وزن‌ها، برقرار است. از سوی دیگر، چون $\mathcal V_{cd}\le1$، هر $F_\sigma\le1$ و بنابراین $BT\le1$.
+
+اگر همه وزن‌ها مثبت باشند و $BT=1$، باید برای یک جایگشت $\sigma$ تمام درایه‌های انتخاب‌شده $\mathcal V_{c,\sigma(c)}=1$ باشند. مجموع هر سطر یک است، پس سایر درایه‌های هر سطر صفر خواهند بود و شرط یک‌به‌یک بودن $\sigma$ نیز نشان می‌دهد $\mathcal V$ یک ماتریس جایگشتی است. عکس این گزاره بدیهی است: برای ماتریس جایگشتی می‌توان جایگشت متناظر را انتخاب کرد و به $BT=1$ رسید.
+
+\subsection{مقایسه دقیق معیارهای خطی و لگاریتمی}
+\label{app:ch3-four-criteria-comparison}
+برای هر جایگشت $\sigma$، دو کمیت زیر را تعریف می‌کنیم:
+\begin{equation}\label{eq:app-ch3-compare-score}
+A_\sigma=\sum_{c=1}^{K}\omega_c\mathcal V_{c,\sigma(c)},
+\qquad
+L_\sigma=-\sum_{c=1}^{K}\omega_c\log\mathcal V_{c,\sigma(c)}.
+\end{equation}
+با فرض $\omega_c>0$ و قرارداد $-\log0=+\infty$، از تقعر لگاریتم و نامساوی ینسن نتیجه می‌شود:
+\begin{equation}\label{eq:app-ch3-Jensen-sigma}
+L_\sigma\ge-\log A_\sigma.
+\end{equation}
+برای جایگشت همانی، این رابطه به $TNL(\mathcal V)\ge-\log T(\mathcal V)$ تبدیل می‌شود. در حالت جایگشتی، کمینه‌گیری از دو سوی نامساوی و نزولی بودن $-\log$ نشان می‌دهد:
+\begin{equation}\label{eq:app-ch3-Jensen-BTNL}
+\begin{aligned}
+BTNL(\mathcal V)
+&=\min_\sigma L_\sigma\\
+&\ge\min_\sigma[-\log A_\sigma]
+=-\log\max_\sigma A_\sigma\\
+&=-\log BT(\mathcal V).
+\end{aligned}
+\end{equation}
+از آنجا که جایگشت همانی عضوی از $\mathfrak{S}_K$ است، به‌طور مستقل داریم:
+\begin{equation}\label{eq:app-ch3-identity-compare}
+BT(\mathcal V)\ge T(\mathcal V),
+\qquad
+BTNL(\mathcal V)\le TNL(\mathcal V).
+\end{equation}
+جهت این دو مقایسه متفاوت است، زیرا معیارهای خطی باید بیشینه و معیارهای لگاریتمی باید کمینه شوند. رابطه‌های \eqref{eq:app-ch3-Jensen-sigma} و \eqref{eq:app-ch3-Jensen-BTNL} مقایسه \emph{مقادیر و کران‌ها} را ممکن می‌سازند، اما معادل بودن ترتیب کیفیت همه ماتریس‌ها یا یکسان بودن جایگشت‌های بهینه دو معیار را تضمین نمی‌کنند.
+
+با شرط مثبت بودن همه وزن‌ها، $T=1$ و $TNL=0$ هر دو دقیقاً در $\mathcal V=I_K$ محقق می‌شوند. همچنین $BT=1$ و $BTNL=0$ هر دو دقیقاً برای ماتریس‌های جایگشتی رخ می‌دهند. برای اثبات گزاره آخر، اگر $BTNL=0$ باشد باید در یک جایگشت $\sigma$ تمام عبارت‌های نامنفی $-\omega_c\log\mathcal V_{c,\sigma(c)}$ صفر شوند؛ پس هر درایه انتخاب‌شده یک است و با نرمال بودن سطرها، $\mathcal V$ ماتریس جایگشتی خواهد بود. نتیجه معکوس نیز از تعریف معیار به‌دست می‌آید.
+
+\section{کران‌ها و حالت‌های تساوی معیار اطلاعات متقابل}
+\label{app:ch3-I-bounds-proof}
+فرض کنیم $C_0$ طبقه آغازین با توزیع $\Omega$ و $C_\xi$ برچسب مشاهده‌شده با توزیع شرطی $\mathcal V$ باشد. برای اثبات هویت~\eqref{cmp:eq:ch3-I-conditional} از توزیع مشترک در رابطه~\eqref{cmp:eq:ch3-I-joint-distribution} استفاده می‌کنیم. برای هر $d$ با $\overline{\mathcal V}(d)>0$، از قاعده احتمال شرطی داریم:
+\[
+\mathrm P(C_0=c\mid C_\xi=d)
+=\frac{\omega_c\mathcal V_{cd}}{\overline{\mathcal V}(d)}.
+\]
+با جایگذاری در تعریف آنتروپی شرطی و باز کردن لگاریتم، نتیجه می‌شود:
+\begin{equation}\label{eq:app-ch3-I-conditional-proof}
+\begin{aligned}
+H(C_0\mid C_\xi)
+&=-\sum_{c=1}^{K}\sum_{d=1}^{K}
+\omega_c\mathcal V_{cd}
+\log\frac{\omega_c\mathcal V_{cd}}{\overline{\mathcal V}(d)}\\
+&=-\sum_{c=1}^{K}\omega_c\log\omega_c
+-\sum_{c=1}^{K}\sum_{d=1}^{K}
+\omega_c\mathcal V_{cd}
+\log\frac{\mathcal V_{cd}}{\overline{\mathcal V}(d)}\\
+&=H(\Omega)-I(\mathcal V).
+\end{aligned}
+\end{equation}
+در تساوی دوم از $\sum_{d=1}^{K}\mathcal V_{cd}=1$ استفاده کرده‌ایم و درایه‌های با احتمال صفر طبق قرارداد رایج در آنتروپی و واگرایی KL سهمی در جمع ندارند. با جابه‌جا کردن دو طرف، دقیقاً رابطه~\eqref{cmp:eq:ch3-I-conditional} به‌دست می‌آید.
+
+از نامنفی بودن آنتروپی شرطی و اطلاعات متقابل، به‌ترتیب $I(\mathcal V)\le H(\Omega)$ و $I(\mathcal V)\ge0$ نتیجه می‌شود. همچنین آنتروپی توزیع احتمال روی $K$ طبقه از $\log K$ بیشتر نیست؛ بنابراین کران‌های رابطه~\eqref{cmp:eq:ch3-I-bounds} اثبات می‌شوند.
+تساوی $I=0$ دقیقاً زمانی رخ می‌دهد که $C_0$ و $C_\xi$ مستقل باشند؛ با فرض مثبت بودن وزن‌های طبقه‌ها، این شرط معادل یکسان بودن تمام سطرهای $\mathcal V$ با توزیع حاشیه‌ای $\overline{\mathcal V}$ است.
+
+برابری $I=H(\Omega)$ نیز معادل $H(C_0\mid C_\xi)=0$ است؛ یعنی هر برچسب مشاهده‌شده با احتمال مثبت، طبقه آغازین را به‌طور یکتا مشخص کند. در نتیجه، تکیه‌گاه سطرهای دارای وزن مثبت ماتریس $\mathcal V$ باید دوبه‌دو مجزا باشند. اگر همه $K$ وزن طبقه مثبت باشند و فضای برچسب مشاهده‌شده نیز دقیقاً $K$ عضو داشته باشد، هر یک از $K$ سطر باید دست‌کم یک مؤلفه مثبت داشته باشد؛ مجزا بودن تکیه‌گاه‌ها با وجود تنها $K$ ستون، هر سطر را به یک بردار یکه روی ستونی متمایز مجبور می‌کند. بنابراین $\mathcal V$ باید ماتریس جایگشتی باشد. عکس آن نیز از تعیین‌پذیری طبقه مبدأ با دانستن برچسب مشاهده‌شده نتیجه می‌شود.
+
+\paragraph{اثبات رابطه معیار اطلاعات متقابل با $T$ و $BT$.}
+توزیع مشترک طبقه آغازین و برچسب مشاهده‌شده را با
+$p(c,d)=\omega_c\mathcal V_{cd}$ و حاصل‌ضرب حاشیه‌های آن‌ها را با
+$q(c,d)=\omega_c\overline{\mathcal V}(d)$ نشان می‌دهیم. طبق تعریف اطلاعات متقابل در رابطه~\eqref{cmp:eq:ch3-I-mutual-info}، داریم $D_{\mathrm{KL}}(p\|q)=I(\mathcal V)$. برای هر جایگشت $\sigma\in \mathfrak{S}_K$، نگاشت دودویی
+$z_\sigma(c,d)=\mathbf 1_{\{d=\sigma(c)\}}$ را در نظر می‌گیریم. با اعمال این نگاشت به هر دو توزیع، احتمال رخداد مقدار یک به‌ترتیب برابر می‌شود با:
+\begin{equation}\label{eq:app-ch3-I-BT-Bernoulli-params}
+\begin{aligned}
+\mathrm P_p(z_\sigma=1)
+&=\sum_{c=1}^{K}p(c,\sigma(c))
+=\sum_{c=1}^{K}\omega_c\mathcal V_{c,\sigma(c)}
+=t_\sigma,\\
+\mathrm P_q(z_\sigma=1)
+&=\sum_{c=1}^{K}q(c,\sigma(c))
+=\sum_{c=1}^{K}\omega_c\overline{\mathcal V}(\sigma(c))
+=q_\sigma.
+\end{aligned}
+\end{equation}
+نامساوی پردازش داده‌ها برای واگرایی KL می‌گوید که واگرایی دو توزیع پس از اعمال نگاشت یکسان نمی‌تواند از مقدار اولیه بیشتر باشد. در نتیجه، برای \emph{هر} جایگشت $\sigma$:
+\begin{equation}\label{eq:app-ch3-I-BT-data-processing}
+I(\mathcal V)=D_{\mathrm{KL}}(p\|q)
+\ge D_{\mathrm{KL}}\!\left(
+\operatorname{Bern}(t_\sigma)\middle\|
+\operatorname{Bern}(q_\sigma)\right).
+\end{equation}
+با انتخاب جایگشت همانی، $t_\sigma=T(\mathcal V)$ و
+$q_\sigma=\sum_c\omega_c\overline{\mathcal V}(c)$ می‌شود. بنابراین رابطه~\eqref{cmp:eq:ch3-I-vs-T} به‌دست می‌آید.
+
+حال فرض کنیم وزن طبقه‌ها برابر و $\omega_c=1/K$ باشد. برای هر جایگشت $\sigma$ داریم:
+\begin{equation}\label{eq:app-ch3-I-BT-uniform}
+q_\sigma=\frac1K\sum_{c=1}^{K}\overline{\mathcal V}(\sigma(c))
+=\frac1K\sum_{d=1}^{K}\overline{\mathcal V}(d)
+=\frac1K.
+\end{equation}
+چون تعداد جایگشت‌ها محدود است، جایگشت $\sigma^\star$ وجود دارد که
+$t_{\sigma^\star}=\max_\sigma t_\sigma=BT(\mathcal V)$ باشد.
+قرار دادن $\sigma^\star$ در رابطه~\eqref{eq:app-ch3-I-BT-data-processing}، با توجه به رابطه~\eqref{eq:app-ch3-I-BT-uniform}، کران~\eqref{cmp:eq:ch3-I-vs-BT} را اثبات می‌کند.
+
+برای بررسی وابستگی این کران به مقدار $BT$، تابع زیر را برای $K\ge2$ تعریف می‌کنیم:
+\begin{equation}\label{eq:app-ch3-I-BT-monotonicity}
+\begin{aligned}
+\phi_K(x)
+&=D_{\mathrm{KL}}\!\left(
+\operatorname{Bern}(x)\middle\|
+\operatorname{Bern}(1/K)\right)\\
+&=x\log(Kx)
++(1-x)\log\frac{K(1-x)}{K-1},\\
+\phi_K'(x)
+&=\log\frac{(K-1)x}{1-x},
+\qquad \frac1K<x<1.
+\end{aligned}
+\end{equation}
+برای $1/K<x<1$، عبارت داخل لگاریتم بزرگ‌تر از یک است؛ پس $\phi_K'(x)>0$. با پیوستگی تابع در نقاط انتهایی، $\phi_K$ روی $[1/K,1]$ اکیداً صعودی است. همچنین $\phi_K(1/K)=0$ و $\phi_K(1)=\log K$. بنابراین هر افزایش در مقدار $BT$، کران پایین عددیِ $\phi_K(BT)$ برای $I$ را افزایش می‌دهد، اما لزوماً افزایش خود $I$ را تضمین نمی‌کند.
+
+برای وزن‌های غیریکنواخت، رابطه~\eqref{eq:app-ch3-I-BT-data-processing} همچنان معتبر است؛ بااین‌حال، $q_\sigma$ عموماً به $\sigma$ و $\mathcal V$ وابسته می‌ماند و نتیجه صعودیِ بالا بر اساس مقدار $BT$ به‌تنهایی به همان صورت برقرار نیست.
+
+
+\section{اثبات کران هندسی خطای تصمیم}
+\label{app:ch3-js-error-proof}
+خواص متریک جذر جنسن--شنون و نمایش هیلبرتی آن در پیوست~\ref{app:probability-dissimilarity} اثبات شده‌اند. در این بخش از خاصیت متریک‌بودن برای اثبات کران خطای قاعدهٔ نزدیک‌ترین مرکز استفاده می‌کنیم.
+
+یک طبقه واقعی $c$ با $\delta_c>0$ در رابطه~\eqref{cmp:eq:ch3-js-center-separation} را در نظر می‌گیریم. طبق نامساوی مثلثی، برای هر رقیب $r\ne c$:
+\[
+\begin{aligned}
+d_{\sqrt{\mathrm{JS}}}(\mathscr Y_i,\mathcal V_r)
+&\ge d_{\sqrt{\mathrm{JS}}}(\mathcal V_c,\mathcal V_r)
+-d_{\sqrt{\mathrm{JS}}}(\mathscr Y_i,\mathcal V_c)\\
+&\ge\delta_c-d_{\sqrt{\mathrm{JS}}}(\mathscr Y_i,\mathcal V_c).
+\end{aligned}
+\]
+پس اگر $d_{\sqrt{\mathrm{JS}}}(\mathscr Y_i,\mathcal V_c)<\delta_c/2$ باشد، فاصله نمونه از مرکز واقعی از فاصله تمام مراکز رقیب کمتر است و طبقه‌بندی درست خواهد بود. بنابراین برای شاخص خطا می‌توان نوشت:
+\begin{equation}\label{eq:app-ch3-js-error-indicator}
+\mathbf1_{\{\widehat y_i\ne c\}}
+\le\mathbf1_{\{d_{\sqrt{\mathrm{JS}}}(\mathscr Y_i,\mathcal V_c)\ge\delta_c/2\}}
+\le\frac{4\,\operatorname{JSD}(\mathscr Y_i,\mathcal V_c)}
+{\delta_c^2}.
+\end{equation}
+میانگین‌گیری روی نمونه‌های طبقه $c$ و استفاده از کران بدیهی یک، نامساوی اول رابطه~\eqref{cmp:eq:ch3-js-class-error-bound} را نتیجه می‌دهد. همچنین از تعریف شباهت:
+\[
+\operatorname{JSD}(\mathscr Y_i,\mathcal V_c)
+=\log2\,[1-s(\mathscr Y_i,\mathcal V_c)]
+\]
+و
+\[
+\delta_c^2
+=\min_{r\ne c}\operatorname{JSD}(\mathcal V_c,\mathcal V_r)
+=\log2\,[1-\max_{r\ne c}s(\mathcal V_c,\mathcal V_r)].
+\]
+با ساده‌سازی عامل $\log2$، صورت دوم همان کران حاصل می‌شود. این استدلال کاملاً به قاعده نزدیک‌ترین مرکز و متریک‌بودن جذر JSD مربوط است؛ هیچ استفاده‌ای از NLL یا نرمال‌سازی با بیشینهٔ هموار ندارد. این کران برای توزیع تجربی نمونه‌های طبقه معتبر است و تضمین تعمیم‌پذیری روی نمونه‌های جدید نیست.
+
+
