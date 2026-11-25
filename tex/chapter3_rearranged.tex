@@ -4679,73 +4679,116 @@ $O(K)$ دارد؛ بنابراین هزینهٔ انتقال مشتق از
 
 برای هر مبدأ $X_s$، از محاسبهٔ پیش‌رونده در
 رابطه~\eqref{cmp:eq:ch3-matrix-forward-recursion}
-استفاده می‌کنیم. در ادامه ضرایب
-$\alpha_t^{(H)}$، ماتریس تجمیع
-$\mathsf M_s^{(Y)}$ و وزن‌های عمودی ثابت‌اند.
-با استفاده از گرادیان بازنمایی در
-رابطه~\eqref{cmp:eq:ch3-gradient-representation-total}
-بردار ستونی مشتق نسبت به توزیع حالت‌های گام
-$t$ را با $\mathbf b_{s,t}\in\mathbb R^{m_s}$
-نشان می‌دهیم. بازگشت پس‌روندهٔ مشتق برابر است با:
+استفاده می‌کنیم. در ادامه داده، برچسب‌ها،
+ماسک‌ها، وزن‌ها و احتمال‌های عمودی و پارامترهای
+$\beta,\lambda,H$ ثابت‌اند؛ در نتیجه ضرایب
+$\alpha_t^{(H)}$ و ماتریس تجمیع
+$\mathsf M_s^{(Y)}$ نیز ثابت‌اند.
+با استفاده از گرادیان کل بازنمایی در
+رابطه~\eqref{cmp:eq:ch3-gradient-representation-total}،
+بردار ستونی حساسیت نسبت به توزیع حالت‌های گام
+$t$ را با $\mathbf g_{s,t}^{(\nu)}$ نشان می‌دهیم:
 \begin{equation}\label{cmp:eq:ch3-gradient-walk-adjoint}
 \boxed{\begin{aligned}
-\mathbf b_{s,H+1}&=0,\\
-\mathbf b_{s,t}
+\mathbf g_{s,t}^{(\nu)}
+&:=\nabla_{\nu_{s,t}}\mathcal L_{\mathrm{tr}}
+\in\mathbb R^{m_s\times1},\quad 1\le t\le H,\\
+\mathbf g_{s,H+1}^{(\nu)}&=0_{m_s\times1},\\
+\mathbf g_{s,t}^{(\nu)}
 &=\alpha_t^{(H)}\mathsf M_s^{(Y)}\mathbf g_s
-+P_{\mathcal S_s}\mathbf b_{s,t+1},
++P_{\mathcal S_s}\mathbf g_{s,t+1}^{(\nu)},
 \qquad t=H,\ldots,1.
 \end{aligned}}
 \end{equation}
-این رابطه از قاعدهٔ زنجیره‌ای برای انتقال
-$\nu_{s,t+1}=\nu_{s,t}P_{\mathcal S_s}$ و
-جمع وزن‌دار بازنمایی‌ها به دست می‌آید.
+در این تعریف، مشتق شامل تمام سهم‌های گام $t$
+و گام‌های پس از آن در بازنمایی مبدأ $s$ است؛
+سهم‌های وابسته به مراکز قبلاً در $\mathbf g_s$
+تجمیع شده‌اند. از مقایسه با بازگشت پس‌روندهٔ
+محاسبهٔ بازنمایی در
+رابطه~\eqref{cmp:eq:ch3-matrix-backward-recursion}
+نتیجه می‌شود:
+\begin{equation}\label{cmp:eq:ch3-gradient-walk-backward-equivalence}
+\boxed{\mathbf g_{s,t}^{(\nu)}=G_{s,t}\mathbf g_s.}
+\end{equation}
+بنابراین برای انتشار مشتق کافی است یک بردار
+ستونی با $m_s$ مؤلفه را به‌جای ماتریسی با
+$m_s$ سطر و $K$ ستون محاسبه کنیم.
+
 سهم گشت مبدأ $s$ در مشتق نسبت به توزیع نخستین
 گام و درایه‌های ماتریس انتقال میانی چنین است:
 \begin{equation}\label{cmp:eq:ch3-gradient-walk-transition}
 \boxed{\begin{aligned}
 \frac{\partial\mathcal L_{\mathrm{tr}}}{\partial\rho_s(v)}
-&=\mathbf b_{s,1}(v),\\
+&=\mathbf g_{s,1}^{(\nu)}(v),\\
 \frac{\partial\mathcal L_{\mathrm{tr}}}
 {\partial[P_{\mathcal S_s}]_{u,v}}
-&=\sum_{t=1}^{H-1}\nu_{s,t}(u)\mathbf b_{s,t+1}(v).
+&=\sum_{t=1}^{H-1}\nu_{s,t}(u)
+\mathbf g_{s,t+1}^{(\nu)}(v).
 \end{aligned}}
 \end{equation}
 در این روابط $u,v$ اندیس حالت‌های فضای
-$\mathcal S_s$ هستند و مشتق‌ها در سطح نسخهٔ
-مختص مبدأ از ماتریس انتقال محاسبه می‌شوند.
-برای $H=1$ جمع مربوط به انتقال‌های میانی
-تهی و برابر صفر است.
+$\mathcal S_s$ هستند. مشتق‌ها نسبت به نسخهٔ
+محلی و مختص مبدأ از توزیع آغاز و ماتریس انتقال،
+با ثابت فرض کردن نسخه‌های سایر مبدأها، محاسبه
+می‌شوند؛ هنوز قیود نرمال‌سازی یا اشتراک
+پارامترهای سیاست اعمال نشده‌اند.
+برای $H=1$ جمع انتقال‌های میانی تهی و صفر است
+و $\mathbf g_{s,1}^{(\nu)}
+=\mathsf M_s^{(Y)}\mathbf g_s$ خواهد بود.
 
 مطابق روابط~\eqref{cmp:eq:ch3-origin-transition-entry}
 و~\eqref{cmp:eq:ch3-block-first-step}، احتمال انتقال
 حاصل ضرب احتمال انتخاب ویژگی در احتمال انتقال
-عمودی است. بنابراین با ثابت‌بودن انتقال عمودی،
-مشتق موضعی نسبت به احتمال انتخاب ویژگی در گشت
-مبدأ $s$ را با $h_{s;i,a,b}$ نشان می‌دهیم:
+عمودی است. برای $(X_i,a)\in\mathcal S_s$ و
+$b\in A_{X_i}$، حساسیت نسبت به کاربرد محلی
+احتمال انتخاب ویژگی در گشت مبدأ $s$ چنین است:
 \begin{equation}\label{cmp:eq:ch3-gradient-local-policy-middle}
-\boxed{
-h_{s;i,a,b}=
-\sum_{t=1}^{H-1}\nu_{s,t}(i,a)
+\boxed{\begin{aligned}
+g_{s;i,a,b}^{(\pi)}
+&:=\frac{\partial\mathcal L_{\mathrm{tr}}}
+{\partial\pi_s(b\mid i,a)}\\
+&=\sum_{t=1}^{H-1}\nu_{s,t}(i,a)
 \sum_{j:(X_j,b)\in\mathcal S_s}
-q_b^{(s)}(j\mid i)\mathbf b_{s,t+1}(j,b),
-\quad i\ne s.
-}
+q_b^{(s)}(j\mid i)\mathbf g_{s,t+1}^{(\nu)}(j,b).
+\end{aligned}}
 \end{equation}
-برای نخستین انتخاب، رابطهٔ متناظر چنین است:
+برای نخستین انتخاب، با $b\in A_{X_s}$ داریم:
 \begin{equation}\label{cmp:eq:ch3-gradient-local-policy-start}
-\boxed{
-h_{s;s,\bot,b}=
-\sum_{j:(X_j,b)\in\mathcal S_s}
-q_b(j\mid s)\mathbf b_{s,1}(j,b).
-}
+\boxed{\begin{aligned}
+g_{s;s,\bot,b}^{(\pi)}
+&:=\frac{\partial\mathcal L_{\mathrm{tr}}}
+{\partial\pi_s(b\mid s,\bot)}\\
+&=\sum_{j:(X_j,b)\in\mathcal S_s}
+q_b(j\mid s)\mathbf g_{s,1}^{(\nu)}(j,b).
+\end{aligned}}
 \end{equation}
-این کمیت‌ها مشتق نسبت به احتمال‌های محلی
-$\pi_s(b\mid i,a)$ هستند، پیش از اعمال قید
-نرمال‌سازی و اشتراک پارامترها.
-به این ترتیب تشکیل یا ذخیرهٔ ژاکوبین کامل
-بازنمایی نسبت به تمام احتمال‌ها ضروری نیست.
-برای گراف تنک نیز همین روابط با احتمال‌های
-عمودی همان گراف و مجموعهٔ یال‌های مجاز برقرارند.
+این حساسیت‌ها پیش از اعمال قید نرمال‌سازی
+سطر سیاست و اشتراک پارامترها محاسبه می‌شوند.
+به این ترتیب نه تشکیل ژاکوبین کامل بازنمایی
+نسبت به احتمال‌ها و نه ذخیرهٔ ماتریس کامل مشتق
+نسبت به درایه‌های انتقال ضروری است.
+
+برای گراف تنک، همین روابط با جایگزینی
+$\widetilde P_{\mathcal S_s}$،
+$\widetilde q_b^{(s)}(j\mid i)$ و
+$\widetilde q_b(j\mid s)$ به‌ترتیب به جای
+ماتریس انتقال، احتمال عمودی میانی و احتمال
+عمودی نخستین گراف کامل برقرارند؛ مطابق
+روابط~\eqref{cmp:eq:ch3-sparse-origin-transition}
+و~\eqref{cmp:eq:ch3-sparse-vertical-transition}.
+در پیاده‌سازی هر دو گراف، مجموعهٔ مقصدهای مجاز
+و احتمال‌های عمودی از همان زیرروال
+\ref{cmp:alg:ch3-vertical-row} به دست می‌آیند.
+در هر گام پس‌رونده، جمع عمودی برای یک زوج
+$(i,b)$ مستقل از ویژگی ورودی $a$ است و می‌توان
+آن را یک‌بار محاسبه و در انتخاب‌های افقی و
+تجمیع حساسیت‌های محلی بازاستفاده کرد.
+بنابراین با حفظ ساختار بخش~\ref{cmp:subsec:ch3-computational-procedures}،
+مرتبهٔ هزینهٔ یک گام پس‌رونده و تجمیع مشتق
+همان مرتبهٔ هزینهٔ یک گام پیش‌رونده است.
+اثبات روابط، شرایط اعتبار و جزئیات ساختاری
+محاسبات در بخش~\ref{app:ch3-gradient-walk}
+از پیوست محاسبات گرادیان آمده‌اند.
 
 \subsection{مشتق احتمال انتخاب ویژگی نسبت به پارامترهای سیاست}
 \label{cmp:subsec:ch3-gradient-policy-parameters}
@@ -4770,8 +4813,8 @@ $\pi_s(b\mid i,a)$ هستند، پیش از اعمال قید
 \boxed{\begin{aligned}
 \frac{\partial\mathcal L_{\mathrm{tr}}}{\partial z_{s;i,a,u}}
 =\pi_s(u\mid i,a)\Bigl(
-h_{s;i,a,u}
--\sum_{b\in A_{X_i}}\pi_s(b\mid i,a)h_{s;i,a,b}
+g_{s;i,a,u}^{(\pi)}
+-\sum_{b\in A_{X_i}}\pi_s(b\mid i,a)g_{s;i,a,b}^{(\pi)}
 \Bigr).
 \end{aligned}}
 \end{equation}

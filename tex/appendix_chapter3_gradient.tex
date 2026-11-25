@@ -655,3 +655,263 @@ $V_r=\mathcal V_r$ و $S_{i,r}=s(U_i,V_r)$،
 مشتق نگاشت هموارسازی مطابق بخش پیشین
 لحاظ شود. این رابطه در هر دو خانوادهٔ سیاست
 مشترک و شرطی به طبقه معتبر است.
+
+\section{مشتق‌گیری از گشت دقیق}
+\label{app:ch3-gradient-walk}
+
+در این بخش روابط
+زیربخش~\ref{cmp:subsec:ch3-gradient-exact-walk}
+را اثبات می‌کنیم. داده، برچسب‌ها، فضای حالت،
+ماسک‌ها، وزن‌های عمودی و پارامترهای
+$\beta,\lambda,H$ ثابت‌اند. در نتیجه احتمال‌های
+عمودی، ضرایب اصلاح وابسته به مبدأ،
+ضرایب $\alpha_t^{(H)}$ و ماتریس تجمیع برچسب
+به پارامترهای قابل‌آموزش سیاست وابسته نیستند.
+مشتق‌ها در نقاطی که زنجیرهٔ تابع هدف مشتق‌پذیر
+است محاسبه می‌شوند؛ در نقاط تساوی رقبا با
+قرارداد مشتق‌گیری بخش‌های پیشین، همان روابط
+انتشار حساسیت منتخب را انجام می‌دهند.
+
+\subsection{دیفرانسیل توان ماتریس و بازنمایی سقف‌دار}
+\label{app:ch3-gradient-walk-differential}
+
+برای ماتریس مربعی $P_{\mathcal S_s}$،
+از قاعدهٔ ضرب ماتریس‌ها و با قرارداد
+$P_{\mathcal S_s}^0=I$ داریم:
+\begin{equation}\label{eq:app-ch3-power-differential}
+\mathrm d(P_{\mathcal S_s}^q)
+=\sum_{j=0}^{q-1}P_{\mathcal S_s}^j
+(\mathrm dP_{\mathcal S_s})P_{\mathcal S_s}^{q-1-j},
+\qquad q\ge1.
+\end{equation}
+برای $q=1$ رابطه بدیهی است. اگر برای $q$
+برقرار باشد، مشتق حاصل‌ضرب
+$P_{\mathcal S_s}^qP_{\mathcal S_s}$،
+با ضرب جمله‌های جمع در $P_{\mathcal S_s}$
+و افزودن $P_{\mathcal S_s}^q\mathrm dP_{\mathcal S_s}$،
+همین رابطه را برای $q+1$ نتیجه می‌دهد.
+برای $q=0$ مشتق صفر است.
+با جایگذاری
+$\nu_{s,t}=\rho_sP_{\mathcal S_s}^{t-1}$
+در رابطه~\eqref{cmp:eq:ch3-matrix-forward-recursion}،
+و با استفاده از مشتق میانگین مراکز در
+بخش~\ref{app:ch3-gradient-center-map}، به دست می‌آید:
+\begin{equation}\label{eq:app-ch3-center-differential}
+\begin{aligned}
+\mathrm d\mathscr Y_s
+={}&(\mathrm d\rho_s)
+\sum_{t=1}^{H}\alpha_t^{(H)}
+P_{\mathcal S_s}^{t-1}\mathsf M_s^{(Y)}\\
+&+\rho_s\sum_{t=2}^{H}\alpha_t^{(H)}
+\sum_{j=0}^{t-2}P_{\mathcal S_s}^j
+(\mathrm dP_{\mathcal S_s})
+P_{\mathcal S_s}^{t-2-j}\mathsf M_s^{(Y)},\\
+\mathrm d\mathcal V_c
+={}&|C_c|^{-1}\sum_{s\in C_c}\mathrm d\mathscr Y_s.
+\end{aligned}
+\end{equation}
+این صورت علاوه بر انتشار گرادیان برای محاسبهٔ
+ژاکوبین بازنمایی‌ها و مراکز نیز کاربرد دارد.
+اگر $\beta$ یا $\lambda$ به‌عنوان پارامتر
+قابل‌آموزش انتخاب شوند، باید جمله‌های حاصل
+از دیفرانسیل $\alpha_t^{(H)}$ نیز افزوده شوند؛
+این حالت جزو قرارداد فعلی آموزش نیست.
+
+\subsection{استخراج بازگشت پس‌روندهٔ حساسیت}
+\label{app:ch3-gradient-walk-adjoint}
+
+از بخش~\ref{app:ch3-gradient-representation-total}
+می‌دانیم دیفرانسیل تابع هدف برابر مجموع
+$(\mathrm d\mathscr Y_s)\mathbf g_s$
+روی همهٔ مبدأهاست. برای مبدأ ثابت $s$،
+دیفرانسیل بازنمایی پیش‌رونده برابر
+\[
+\mathrm d\mathscr Y_s
+=\sum_{t=1}^{H}\alpha_t^{(H)}
+(\mathrm d\nu_{s,t})\mathsf M_s^{(Y)}
+\]
+است و دیفرانسیل انتقال از رابطهٔ
+\[
+\mathrm d\nu_{s,t+1}
+=(\mathrm d\nu_{s,t})P_{\mathcal S_s}
++\nu_{s,t}\mathrm dP_{\mathcal S_s},
+\qquad
+\mathrm d\nu_{s,1}=\mathrm d\rho_s
+\]
+پیروی می‌کند. در گام آخر، سهم دیفرانسیل
+$\nu_{s,H}$ در تابع هدف برابر
+$(\mathrm d\nu_{s,H})\alpha_H^{(H)}
+\mathsf M_s^{(Y)}\mathbf g_s$ است.
+اگر حساسیت کل گام بعد
+$\mathbf g_{s,t+1}^{(\nu)}$ باشد، تغییر
+$\nu_{s,t}$ علاوه بر سهم مستقیم گام $t$،
+از طریق انتقال بعدی سهم
+$(\mathrm d\nu_{s,t})P_{\mathcal S_s}
+\mathbf g_{s,t+1}^{(\nu)}$ را نیز ایجاد
+می‌کند. جمع دو سهم، با استقرا از انتهای افق،
+رابطه~\eqref{cmp:eq:ch3-gradient-walk-adjoint}
+را نتیجه می‌دهد.
+از آنجا که $\nu_{s,t}$ سطری است و حساسیت
+ستونی، در ضرب پس‌رونده خود $P_{\mathcal S_s}$
+به کار می‌رود، نه ترانهادهٔ آن.
+
+\subsection{ارتباط با بازگشت محاسبهٔ بازنمایی}
+\label{app:ch3-gradient-walk-equivalence}
+
+با ضرب بازگشت
+رابطه~\eqref{cmp:eq:ch3-matrix-backward-recursion}
+از راست در $\mathbf g_s$ داریم:
+\[
+G_{s,t}\mathbf g_s
+=\alpha_t^{(H)}\mathsf M_s^{(Y)}\mathbf g_s
++P_{\mathcal S_s}(G_{s,t+1}\mathbf g_s).
+\]
+از شرط انتهایی یکسان
+$G_{s,H+1}\mathbf g_s=0_{m_s\times1}$،
+به استقرای معکوس
+رابطه~\eqref{cmp:eq:ch3-gradient-walk-backward-equivalence}
+حاصل می‌شود. به‌طور معادل:
+\[
+\mathbf g_{s,t}^{(\nu)}
+=\sum_{u=t}^{H}\alpha_u^{(H)}
+P_{\mathcal S_s}^{u-t}\mathsf M_s^{(Y)}\mathbf g_s.
+\]
+در این محاسبه $\mathbf g_s$ حساسیت ارزیابی‌شده
+در نقطهٔ پیش‌رونده است؛ مشتق دوبارهٔ خود آن
+برای انتشار مشتق مرتبهٔ اول لازم نیست.
+
+\subsection{مشتق نسبت به توزیع آغاز و ماتریس انتقال}
+\label{app:ch3-gradient-walk-transition}
+
+از بازگشت حساسیت داریم:
+\[
+\begin{aligned}
+\alpha_t^{(H)}(\mathrm d\nu_{s,t})
+\mathsf M_s^{(Y)}\mathbf g_s
+={}&(\mathrm d\nu_{s,t})\mathbf g_{s,t}^{(\nu)}\\
+&-(\mathrm d\nu_{s,t})P_{\mathcal S_s}
+\mathbf g_{s,t+1}^{(\nu)} .
+\end{aligned}
+\]
+با جایگذاری دیفرانسیل انتقال و جمع روی
+$t$، جمله‌های میانی حذف می‌شوند و به دلیل
+شرط انتهایی صفر، سهم مبدأ $s$ در دیفرانسیل
+تابع هدف برابر است با:
+\begin{equation}\label{eq:app-ch3-gradient-walk-loss-differential}
+\boxed{
+(\mathrm d\mathscr Y_s)\mathbf g_s
+=(\mathrm d\rho_s)\mathbf g_{s,1}^{(\nu)}
++\sum_{t=1}^{H-1}\nu_{s,t}
+(\mathrm dP_{\mathcal S_s})\mathbf g_{s,t+1}^{(\nu)}.
+}
+\end{equation}
+با استخراج ضریب هر درایهٔ $\mathrm d\rho_s$
+و $\mathrm dP_{\mathcal S_s}$،
+رابطه~\eqref{cmp:eq:ch3-gradient-walk-transition}
+به دست می‌آید. سهم گام‌های متعدد جمع می‌شود
+زیرا یک ماتریس انتقال در همهٔ گام‌ها مشترک
+است. این مشتق هنوز نسبت به نسخهٔ مختص مبدأ
+ماتریس است و اشتراک پارامترها میان مبدأها
+در مرحلهٔ بعد لحاظ می‌شود.
+صورت ماتریسی مشتق انتقال برابر است با
+\[
+\nabla_{P_{\mathcal S_s}}\mathcal L_{\mathrm{tr}}
+=\sum_{t=1}^{H-1}\nu_{s,t}^{\mathsf T}
+(\mathbf g_{s,t+1}^{(\nu)})^{\mathsf T}.
+\]
+این صورت برای اثبات مفید است، اما در محاسبهٔ
+حساسیت سیاست نیازی به تشکیل یا ذخیرهٔ آن نیست.
+
+\subsection{انتقال مشتق به احتمال انتخاب ویژگی}
+\label{app:ch3-gradient-walk-local-policy}
+
+از رابطه~\eqref{cmp:eq:ch3-origin-transition-entry}،
+با ثابت‌بودن احتمال عمودی و برای یک کاربرد
+محلی انتخاب ویژگی داریم:
+\[
+\mathrm d[P_{\mathcal S_s}]_{(i,a),(j,b)}
+=q_b^{(s)}(j\mid i)\,\mathrm d\pi_s(b\mid i,a).
+\]
+با جایگذاری در دیفرانسیل
+رابطه~\eqref{eq:app-ch3-gradient-walk-loss-differential}
+و استخراج ضریب $\mathrm d\pi_s(b\mid i,a)$،
+حساسیت
+\[
+g_{s;i,a,b}^{(\pi)}
+=\sum_{t=1}^{H-1}\nu_{s,t}(i,a)
+\sum_{j:(X_j,b)\in\mathcal S_s}
+q_b^{(s)}(j\mid i)\mathbf g_{s,t+1}^{(\nu)}(j,b)
+\]
+به دست می‌آید. برای نخستین انتخاب، از
+رابطه~\eqref{cmp:eq:ch3-block-first-step}
+داریم
+$\mathrm d\rho_s(j,b)=q_b(j\mid s)
+\,\mathrm d\pi_s(b\mid s,\bot)$.
+بنابراین ضریب این تغییر در جملهٔ نخست
+دیفرانسیل، برابر
+\[
+g_{s;s,\bot,b}^{(\pi)}
+=\sum_{j:(X_j,b)\in\mathcal S_s}
+q_b(j\mid s)\mathbf g_{s,1}^{(\nu)}(j,b)
+\]
+است. بدین ترتیب هر دو رابطهٔ
+\eqref{cmp:eq:ch3-gradient-local-policy-middle}
+و~\eqref{cmp:eq:ch3-gradient-local-policy-start}
+اثبات می‌شوند. این مشتق‌ها مختص کاربرد
+محلی احتمال هستند، حتی اگر چند کاربرد از
+پارامتر مشترک به دست آمده باشند.
+
+\subsection{گراف تنک، شرایط مرزی و ساختار محاسبات}
+\label{app:ch3-gradient-walk-sparse}
+
+با ثابت بودن ساختار گراف تنک و مقصدهای مجاز،
+احتمال‌های عمودی تنک‌شده مستقل از پارامترهای
+سیاست‌اند. در نتیجه دیفرانسیل انتقال در
+گراف تنک نیز همان حاصل‌ضرب احتمال عمودی ثابت
+در دیفرانسیل احتمال انتخاب ویژگی است.
+برای گام آغاز، احتمال پایهٔ تنک‌شده و برای
+گام‌های میانی احتمال اصلاح‌شده پس از حذف
+مبدأ به کار می‌رود. با این جایگزینی، تمامی
+استدلال‌های پیشین برقرارند. محاسبات مشتق نسبت
+به قانون انتقال انتخاب‌شده دقیق‌اند، نه
+لزوماً نسبت به گراف کامل پیش از تنک‌سازی.
+
+برای $H=1$، از
+$\alpha_1^{(1)}=1$ و شرط انتهایی صفر داریم
+$\mathbf g_{s,1}^{(\nu)}
+=\mathsf M_s^{(Y)}\mathbf g_s$؛
+جمع انتقال‌های میانی تهی است و تنها حساسیت
+نخستین انتخاب باقی می‌ماند. در گام‌های
+میانی، حساسیت‌های سطرهای بازدیدنشده سهم
+صفر دارند، زیرا $\nu_{s,t}(i,a)=0$ است.
+
+برای اجرای ساختاری ضرب پس‌رونده و محاسبهٔ
+حساسیت‌ها، در هر گام ابتدا برای هر زوج
+$(i,b)$ جمع عمودی
+\[
+\sum_{X_j\in\mathcal J_{i,b}^{(s)}}
+\bar q_b^{(s)}(j\mid i)
+\mathbf g_{s,t+1}^{(\nu)}(j,b)
+\]
+را با زیرروال
+\ref{cmp:alg:ch3-vertical-row}
+محاسبه می‌کنیم. این جمع مستقل از $a$ است.
+ضرب در $\pi_s(b\mid i,a)$ و جمع روی
+$b\in A_{X_i}$ بخش انتقالی بازگشت حساسیت
+را می‌سازد؛ ضرب همان جمع در
+$\nu_{s,t}(i,a)$ سهم گام $t$ در
+$g_{s;i,a,b}^{(\pi)}$ را می‌سازد.
+بنابراین پیمایش عمودی یک‌بار برای هر
+$(i,b)$ و پیمایش افقی روی زوج‌های ویژگی
+مجاز کافی است. با فرض دسترسی به سطرهای
+عمودی و احتمال‌های سیاست، شمار عملیات
+در هر گام هم‌مرتبه با محاسبهٔ پیش‌رونده است؛
+در نسخهٔ تنک از کران
+رابطه~\eqref{cmp:eq:ch3-sparse-linear-bound}
+پیروی می‌کند. برای محاسبهٔ مشتق‌های محلی
+می‌توان توزیع‌های پیش‌رونده را ذخیره یا
+دوباره محاسبه کرد. در روش ذخیرهٔ همهٔ گام‌ها،
+حافظهٔ این توزیع‌ها $O(Hm_s)$ است، اما
+بردار حساسیت جاری و بعدی تنها $O(m_s)$
+حافظه می‌خواهند؛ جدا از ساختار گراف،
+پارامترها و حساسیت‌های محلی انباشته.

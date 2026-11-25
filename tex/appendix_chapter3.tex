@@ -1156,31 +1156,20 @@ $0<\beta<1$ توجیه می‌کند،
 \label{app:ch3-inverse-policy-proof}
 
 \paragraph{مشتق ماتریسی.}
-در ناحیه‌ای که ویژگی‌های موجود و مقصدهای مجاز ثابت‌اند، احتمال‌های عمودی $q_b(j\mid i)$ و ضرایب $\Lambda_s$ مستقل از امتیازهای سیاست هستند. در رابطه~\eqref{cmp:eq:ch3-origin-masked-transition}، وابستگی $P_{\mathcal S_s}$ به امتیازها تنها از طریق درایه‌های $P_{\mathcal S}^{(c_s)}$ و نرمال‌سازی با بیشینهٔ هموار در سیاست است؛ بنابراین $P_{\mathcal S_s}$ نسبت به امتیازها مشتق‌پذیر است. برای یک تغییر کوچک در پارامترهای سیاست و با قرارداد $P_{\mathcal S_s}^0=I$، از قاعده ضرب ماتریس‌ها نتیجه می‌شود:
-\begin{equation}\label{eq:app-ch3-power-differential}
-\mathrm d(P_{\mathcal S_s}^q)
-=\sum_{j=0}^{q-1}P_{\mathcal S_s}^j
-(\mathrm dP_{\mathcal S_s})P_{\mathcal S_s}^{q-1-j},
-\qquad q\ge1.
-\end{equation}
-ازاین‌رو مشتق بازنمایی سقف‌دار:
-\begin{equation}\label{eq:app-ch3-center-differential}
-\begin{aligned}
-\mathrm d\mathscr Y_s
-={}&(\mathrm d\rho_s)
-\sum_{t=1}^{H}\alpha_t^{(H)}
-P_{\mathcal S_s}^{t-1}\mathsf M_s^{(Y)}\\
-&+\rho_s\sum_{t=2}^{H}\alpha_t^{(H)}
-\sum_{j=0}^{t-2}P_{\mathcal S_s}^j
-(\mathrm dP_{\mathcal S_s})
-P_{\mathcal S_s}^{t-2-j}\mathsf M_s^{(Y)},\\
-\mathrm d\mathcal V_c
-={}&|C_c|^{-1}\sum_{s\in C_c}\mathrm d\mathscr Y_s.
-\end{aligned}
-\end{equation}
-در این مشتق، $\alpha_t^{(H)}$ و ماتریس برچسب $\mathsf M_s^{(Y)}$ برای $\beta,\lambda$ و داده ثابت‌اند؛ برای مشتق‌گیری نسبت به خود $\beta$ یا $\lambda$ باید تغییر ضرایب $\alpha_t^{(H)}$ نیز لحاظ شود. مشتق نگاشت میانگین مراکز در بخش~\ref{app:ch3-gradient-center-map} از پیوست محاسبات گرادیان اثبات شده است. رابطه فوق هم مبنای مشتق‌گیری خودکار و هم روشی برای محاسبه حساسیت مراکز بدون مونت‌کارلو است. اگر $J$ ژاکوبین مؤلفه‌های مستقل مراکز باشد، کمینه‌ساز مسئله خطی‌شده منظم‌شده از شرط بهینگی
+دیفرانسیل توان ماتریس انتقال، بازنمایی سقف‌دار
+و مراکز در روابط
+\eqref{eq:app-ch3-power-differential}
+و~\eqref{eq:app-ch3-center-differential}
+از پیوست محاسبات گرادیان اثبات شده‌اند.
+با ثابت‌بودن داده و پارامترهای طول گشت،
+این روابط مبنای محاسبهٔ ژاکوبین مراکز
+بدون مونت‌کارلو هستند.
+اگر $J$ ژاکوبین مؤلفه‌های مستقل مراکز باشد،
+کمینه‌ساز مسئلهٔ خطی‌شدهٔ منظم‌شده از شرط بهینگی
 $(J^\top J+\mu I_p)\delta=J^\top(u^\star-u)$
-به‌دست می‌آید؛ با هویت ماتریسی و $\mu>0$، این حل با صورت کم‌بعد رابطه~\eqref{cmp:eq:ch3-inverse-GN} برابر است.
+به دست می‌آید؛ با هویت ماتریسی و $\mu>0$،
+این حل با صورت کم‌بعد
+رابطه~\eqref{cmp:eq:ch3-inverse-GN} برابر است.
 
 \paragraph{قضیهٔ کران‌های دوطرفهٔ بلمن با هستهٔ مبدأحذف.}
 دادهٔ مرجع $D$، برچسب‌های آموزشی و وزن‌های مثبت گراف را ثابت می‌گیریم.
