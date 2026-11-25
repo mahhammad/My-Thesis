@@ -2617,7 +2617,9 @@ $\widetilde q_b$ ثابت می‌مانند.
 برای ارائهٔ یک تعبیر احتمالاتی از این توزیع، گشت با طول سقف‌دار
 $L_H=\min(L,H)$ را در نظر می‌گیریم و فرض می‌کنیم پس از تولید
 هر گشت، یکی از گام‌های آن را متناسب با وزن همان گام در آن گشت
-انتخاب کنیم. اندیس گام انتخاب‌شده را با متغیر تصادفی $\xi$ نشان می‌دهیم.
+انتخاب کنیم. تصادفی‌سازی این انتخاب، به شرط طول گشت،
+مستقل از مسیر است. در این تعبیر، مبدأ، طبقهٔ مفروض و سیاست
+برگزیده ثابت‌اند. اندیس گام انتخاب‌شده را با متغیر تصادفی $\xi$ نشان می‌دهیم.
 مطابق تعریف ضرایب مشاهدهٔ گام‌ها در رابطه~\eqref{cmp:eq:ch3-capped-alpha}، داریم:
 \begin{equation}\label{cmp:eq:ch3-weighted-observation-position}
 \Pr(\xi=t)=\alpha_t^{(H)}(\beta,\lambda),
@@ -2656,7 +2658,7 @@ h_{sj}=\Pr(J_\xi=j\mid J_0=s).
 انتخاب طبقه‌ای است که بیشترین سهم را در توزیع برچسب همسایگی دارد:
 \begin{equation}\label{cmp:eq:ch3-simple-label-decision}
 \widehat y_s^{\mathrm{nbr}}
-=\underset{c\in\{1,\ldots,K\}}{\arg\max}\;\mathscr Y_s(c).
+\in\underset{c\in\{1,\ldots,K\}}{\arg\max}\;\mathscr Y_s(c).
 \end{equation}
 در صورت تساوی، یکی از طبقه‌های بیشینه‌ساز مطابق قرارداد رفع
 تساوی انتخاب می‌شود. اما دلیلی وجود ندارد که مؤلفهٔ متناظر
@@ -2686,9 +2688,11 @@ h_{sj}=\Pr(J_\xi=j\mid J_0=s).
 تعریف می‌کنیم. نمایندهٔ طبقهٔ $c$ را با $\mathcal V_c\in\Delta_K$
 و تابع عمومی مقایسهٔ دو توزیع را با
 \[
-d_\psi:\Delta_K\times\Delta_K\to\mathbb R
+d_\psi:\Delta_K\times\Delta_K\to[0,+\infty]
 \]
 نشان می‌دهیم که در آن $\psi$ شناسهٔ سنجهٔ انتخاب‌شده است.
+مقدار $+\infty$ در هم‌دامنه برای پوشش حالت‌های
+نامتناهی واگرایی کولبک--لایبلر در نظر گرفته شده است.
 قراردادهای مربوط به هر سنجه در
 زیربخش~\ref{cmp:subsec:ch3-decision-dissimilarities} مشخص می‌شوند.
 
@@ -2712,7 +2716,7 @@ d_\psi:\Delta_K\times\Delta_K\to\mathbb R
 دلایل آماری و محاسباتی انتخاب میانگین حسابی را بیان می‌کنیم.
 
 مجموعهٔ اندیس نمونه‌های آموزشی متعلق به طبقهٔ $c$ را با
-$C_c=\{i\mid y_i=c\}$ نشان می‌دهیم. مطابق فرض‌های بخش‌های پیشین،
+$C_c=\{i\in\{1,\ldots,n\}\mid y_i=c\}$ نشان می‌دهیم. مطابق فرض‌های بخش‌های پیشین،
 $|C_c|>0$ است.
 برای هر نمونهٔ آموزشی، بازنمایی $\mathscr Y_i$
 با قرارداد آموزش معرفی‌شده در بخش‌های پیشین به دست می‌آید؛
@@ -2739,7 +2743,7 @@ $|C_c|>0$ است.
 رابطه~\eqref{cmp:eq:ch3-weighted-observation-position} داریم:
 \begin{equation}\label{cmp:eq:ch3-class-center-prob}
 \boxed{\mathcal V_c(u)=
-\mathrm P(y_{J_\xi}=u\mid y_{J_0}=c)
+\Pr(y_{J_\xi}=u\mid y_{J_0}=c)
 =\frac{1}{|C_c|}\sum_{i\in C_c}\mathscr Y_i(u).}
 \end{equation}
 بنابراین مرکز طبقه، توزیع برچسب مشاهده‌شده در همسایگی
@@ -2750,8 +2754,8 @@ $|C_c|>0$ است.
 فرض کنیم چند توزیع $P_1,\ldots,P_g\in\Delta_K$ با وزن‌های
 $\eta_r\ge0$ و $\sum_r\eta_r=1$ را با یک نمایندهٔ مشترک
 $Q\in\Delta_K$ مدل کنیم. اگر $\overline P=\sum_r\eta_rP_r$،
-آنگاه با استفاده از تعبیر درست‌نمایی واگرایی کولبک--لایبلر
-در پیوست~\ref{app:probability-dissimilarity}، میانگین لگاریتم
+آنگاه با استفاده از رابطه~\eqref{eq:app-ch3-mixture-MLE-proof}
+در پیوست~\ref{app:ch3-mixture-likelihood}، میانگین لگاریتم
 درست‌نمایی مورد انتظار عبارت است از:
 \begin{equation}\label{cmp:eq:ch3-mixture-log-likelihood}
 \begin{aligned}
@@ -2760,6 +2764,8 @@ $Q\in\Delta_K$ مدل کنیم. اگر $\overline P=\sum_r\eta_rP_r$،
 &=-H(\overline P)-D_{\mathrm{KL}}(\overline P\|Q).
 \end{aligned}
 \end{equation}
+در تمام جمع‌های وزن‌دار این بحث، گروه‌های با وزن صفر
+حذف می‌شوند تا ضرب صفر در مقدار نامتناهی پیش نیاید.
 در این رابطه، $H(\cdot)$ تابع آنتروپی شانون است
 و $H(\overline P)$ مقدار آن برای توزیع $\overline P$ است.
 نماد این تابع را نباید با سقف عددی گشت $H$ اشتباه گرفت.
@@ -2793,7 +2799,8 @@ $D_{\mathrm{KL}}(\overline P\|Q)$ افزایش می‌یابد.
 
 در حالت خاص اعضای طبقهٔ $c$ با وزن‌های برابر، با جایگذاری
 $\overline P=\mathcal V_c$ در رابطهٔ بالا و استفاده از
-تعریف واگرایی کولبک--لایبلر، به صورت معادل داریم:
+هویت تجزیهٔ KL در رابطه~\eqref{eq:app-ch3-mixture-KL-general}
+از پیوست، به صورت معادل داریم:
 \begin{equation}\label{cmp:eq:ch3-center-excess-average-kl}
 \boxed{
 \begin{aligned}
@@ -3168,8 +3175,10 @@ $\mathscr Y_\star$ به دست می‌آید و حاشیهٔ تعلق آن به
 قرارداد ثابت رفع تساوی انتخاب می‌شود.
 
 برای جنسن--شنون، جذر آن و شباهت متناظر، حاشیه‌ها
-همواره متناهی‌اند. در KL ممکن است هر دو جملهٔ تفاضل
-ناهمانندی نامتناهی باشند و حاشیه تعریف نشود.
+همواره متناهی‌اند. در KL، در صورت نامتناهی‌بودن یکی از
+دو جمله، حاشیه ممکن است نامتناهی باشد و اگر هر دو جمله
+نامتناهی باشند، تفاضل تعریف نمی‌شود. در روندهای این بخش
+تنها امتیازهای متناهی پذیرفته می‌شوند.
 رسیدگی به ناسازگاری تکیه‌گاه به قراردادی جداگانه
 نیاز دارد؛ یک صورت هموارشده در
 زیربخش~\ref{cmp:subsec:ch3-stable-KL-normalization}
@@ -3348,21 +3357,21 @@ $M_i^{(\psi)}=\arg\max_c\gamma_{i,c}^{(\psi)}$،
 \begin{equation}\label{cmp:eq:ch3-centered-margin-vector}
 \overline\gamma_i^{(\psi)}=\frac1K\sum_c\gamma_{i,c}^{(\psi)},
 \qquad
-v_i^{(\psi)}=\boldsymbol\gamma_i^{(\psi)}
+\boldsymbol v_i^{(\psi)}=\boldsymbol\gamma_i^{(\psi)}
 -\overline\gamma_i^{(\psi)}\mathbf1.
 \end{equation}
-برای $v_i^{(\psi)}\ne0$ و نرم $q\in\{1,2\}$، تعریف می‌کنیم:
+برای $\boldsymbol v_i^{(\psi)}\ne0$ و نرم $q\in\{1,2\}$، تعریف می‌کنیم:
 \begin{equation}\label{cmp:eq:ch3-margin-norm-scaling}
-\boxed{z_i^{(\psi)}=\frac{v_i^{(\psi)}}{\|v_i^{(\psi)}\|_q},
-\qquad \|z_i^{(\psi)}\|_q=1.}
+\boxed{\widetilde{\boldsymbol\gamma}_i^{(\psi,q)}=\frac{\boldsymbol v_i^{(\psi)}}{\|\boldsymbol v_i^{(\psi)}\|_q},
+\qquad \|\widetilde{\boldsymbol\gamma}_i^{(\psi,q)}\|_q=1.}
 \end{equation}
-مجموع مؤلفه‌های $z_i^{(\psi)}$ صفر است. اگر همهٔ
-حاشیه‌ها برابر باشند، $z_i^{(\psi)}=0$ و خروجی
+مجموع مؤلفه‌های $\widetilde{\boldsymbol\gamma}_i^{(\psi,q)}$ صفر است. اگر همهٔ
+حاشیه‌ها برابر باشند، $\widetilde{\boldsymbol\gamma}_i^{(\psi,q)}=0$ و خروجی
 یکنواخت در نظر گرفته می‌شود. با اعمال نرمال‌سازی
 با بیشینهٔ هموار بر این امتیازها داریم:
 \begin{equation}\label{cmp:eq:ch3-norm-margin-softmax}
 \widehat p_{i,c}^{(\psi,\tau_\psi,\mathrm{norm})}
-=\frac{\exp(z_{i,c}^{(\psi)}/\tau_\psi)}
+=\frac{\exp(\widetilde\gamma_{i,c}^{(\psi,q)}/\tau_\psi)}
 {\sum_r\exp(z_{i,r}^{(\psi)}/\tau_\psi)}.
 \end{equation}
 این صورت‌بندی نسبت به انتقال مشترک و تغییر مقیاس
@@ -3371,10 +3380,11 @@ v_i^{(\psi)}=\boldsymbol\gamma_i^{(\psi)}
 (رابطه~\eqref{eq:app-ch3-margin-norm-invariance} در پیوست).
 
 این محدودیت به‌ویژه در مسئلهٔ دودویی اهمیت دارد.
+در رابطهٔ زیر، بالانویس‌های سنجه و نرم برای اختصار حذف شده‌اند.
 برای $K=2$، هر بردار مرکز‌شدهٔ غیرصفر به‌صورت
-$v_i=(a,-a)$ با $a\ne0$ است. در نتیجه:
+$\boldsymbol v_i=(a,-a)$ با $a\ne0$ است. در نتیجه:
 \begin{equation}\label{cmp:eq:ch3-binary-margin-norm}
-z_i=\frac{\operatorname{sgn}(a)}{2^{1/q}}(1,-1).
+\widetilde{\boldsymbol\gamma}_i=\frac{\operatorname{sgn}(a)}{2^{1/q}}(1,-1).
 \end{equation}
 بنابراین برای یک نرم و دمای ثابت، دو نمونهٔ
 دارای طبقهٔ بیشینه‌ساز یکسان، حتی با حاشیه‌های
@@ -3454,7 +3464,7 @@ JSD به جذر آن غیرخطی است و یک ضریب دمای مشترک
 \label{cmp:alg:ch3-build-centers}
 \begin{algorithmic}[1]
 \REQUIRE ماتریس بازنمایی‌ها $\mathscr Y\in\mathbb R^{n\times K}$؛
-ماتریس یک‌داغ برچسب‌ها $Y$؛ هر طبقه ناتهی
+ماتریس یک‌داغ برچسب‌ها $Y$ (یا بردار برچسب‌ها $y$)؛ هر طبقه ناتهی
 \ENSURE ماتریس مراکز $\mathcal V\in\mathbb R^{K\times K}$
 \STATE $\mathcal V\gets0_{K\times K}$؛ $n_c\gets0$ برای تمام $c$
 \FOR{$i=1,\ldots,n$}
@@ -3493,7 +3503,7 @@ JSD به جذر آن غیرخطی است و یک ضریب دمای مشترک
 \label{cmp:alg:ch3-class-margins}
 \begin{algorithmic}[1]
 \REQUIRE بازنمایی $P\in\Delta_K$؛ مراکز $\mathcal V$؛
-شناسهٔ سنجه $\psi$ (یا $s$)؛ طبقه‌های درخواستی $\mathcal C$
+شناسهٔ سنجه $\psi$ (یا $s$)؛ مجموعهٔ ناتهی طبقه‌های درخواستی $\mathcal C$
 \ENSURE حاشیه‌های $(\gamma_c)_{c\in\mathcal C}$ یا وضعیت نامعتبر
 \FOR{$r=1,\ldots,K$}
     \IF{سنجه از نوع شباهت است}
@@ -3576,13 +3586,15 @@ $\mathcal V$، پارامترهای گشت و فهرست‌های عمودی
 پیشین است. ماتریس‌های پیش‌محاسبه‌شدهٔ متناظر با
 سیاست‌ها، در صورت وجود، نیز جزو این ورودی‌اند.
 برای اختصار، $\mathcal M_{\mathrm{tr}}$ بستهٔ
-همین ورودی‌های ثابت است. داده‌های عمودی نخستین
+همین ورودی‌های ثابت است؛ مراکز آن همان مراکز
+$\mathcal V^{\mathrm{fit}}$ حاصل از سیاست نهایی‌اند. داده‌های عمودی نخستین
 انتقال، مطابق الگوریتم~\ref{cmp:alg:ch3-query-vertical}،
 تنها یک‌بار محاسبه و برای همهٔ فرض‌های تعلق
 بازاستفاده می‌شوند. روند
 $\operatorname{QueryExactWalkExpectation}$
 (الگوریتم~\ref{cmp:alg:ch3-query-exact-walk})
-با دریافت سیاست برگزیده و سطر آغاز معتبر،
+با دریافت سیاست برگزیده و سطر آغاز معتبر (طبق قرارداد
+بخش~\ref{cmp:sec:ch3-feature-selection-policy})،
 بازنمایی را محاسبه می‌کند. در سیاست مشترک یک
 بازنمایی برای همهٔ طبقه‌ها کافی است؛ در سیاست
 شرطی به طبقه، برای هر طبقه فقط حاشیهٔ متناظر
@@ -3621,11 +3633,12 @@ $\operatorname{QueryExactWalkExpectation}$
         \IF{$\mathscr Y_\star^{(c)}$ نامعتبر است}
             \STATE \textbf{بازگردان} $\bot$
         \ENDIF
-        \STATE $(\gamma_{\star,c})\gets
+        \STATE $g\gets
         \operatorname{ClassMargins}(\mathscr Y_\star^{(c)},\mathcal V,\psi,\{c\})$
-        \IF{خروجی حاشیه نامعتبر است}
+        \IF{$g=\bot$}
             \STATE \textbf{بازگردان} $\bot$
         \ENDIF
+        \STATE $\gamma_{\star,c}\gets g_c$
     \ENDFOR
 \ENDIF
 \STATE $\widehat y_\star\gets\min(\arg\max_c\gamma_{\star,c})$
