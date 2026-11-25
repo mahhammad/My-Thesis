@@ -270,7 +270,11 @@
 \notationrow{m^{(t)},\ v^{(t)},\ \beta_1,\ \beta_2,\ \varepsilon_{\mathrm A}}{ممان‌های مرتبهٔ اول/دوم Adam، ضرایب ممان و ثابت عددی مخرج}{cmp:eq:ch3-adam-logit-update}
 \notationrowsec{\mathcal I_{\mathrm{tr}}}{مجموعهٔ اندیس نمونه‌های آموزش در شبه‌کد یادگیری}{cmp:subsec:ch3-policy-training-pseudocode}
 \notationrowalg{N_{\mathrm{ep}}}{شمار اپوک‌های آموزش تمام‌دسته‌ای؛ در هر اپوک تمام نمونه‌ها پردازش و سیاست یک‌بار به‌روزرسانی می‌شود}{cmp:alg:ch3-learn-feature-policy}
-\notationrowsec{\theta}{مجموعهٔ پارامترهای قابل‌آموزش سیاست انتخاب ویژگی، در صورت پارامتری یا ناپارامتری}{cmp:subsec:ch3-training-loss-contract}
+\notationrowsec{\theta}{پارامترهای قابل‌آموزش سیاست انتخاب ویژگی، در صورت پارامتری یا ناپارامتری؛ با بردارسازی در $\mathbb R^p$}{cmp:subsec:ch3-training-loss-contract}
+\notationrow{p}{شمار مؤلفه‌های اسکالر قابل‌آموزش سیاست پس از بردارسازی؛ نه لزوماً شمار درجات آزادی مؤثر}{cmp:eq:ch3-trainable-parameter-count}
+\notationrowsec{\mathrm{PC}}{ظرفیت پردازش موازی؛ در تقسیم مبدأها شمار واحدهای پردازشی هم‌زمان}{cmp:subsec:ch3-gradient-complexity}
+\notationrowsec{W,\ T_{\mathrm{PC}}}{شمار کل عملیات و زمان محاسبات با ظرفیت پردازش موازی مشخص، در محاسبهٔ یک گرادیان تمام‌دسته‌ای}{cmp:subsec:ch3-gradient-complexity}
+\notationrowsec{M_{\mathrm{mem}},\ C_{\mathrm{comm}}}{حجم حافظهٔ موردنیاز و حجم ارتباطات اجرای موازی یا توزیع‌شده}{cmp:subsec:ch3-gradient-complexity}
 \notationrow{\mathcal L_{\mathrm{tr}}(\theta)}{تابع زیان وزن‌دار کل آموزش؛ با وزن یکسان طبقه‌ها متوازن است}{cmp:eq:ch3-training-weighted-loss}
 \notationrowalg{\theta^{(t)}}{پارامترهای سیاست در گام $t$ فرایند آموزش}{cmp:alg:ch3-learn-feature-policy}
 \notationrowalg{\mathsf{cfg},\ \mathsf{loss}}{قرارداد امتیازدهی و نوع تابع هدف آموزش}{cmp:alg:ch3-learn-feature-policy}
@@ -287,7 +291,6 @@
 \notationrowalg{\mathsf{Conf}^{\mathrm{val}},\ \mathcal R_{\mathrm{val}}}{ماتریس اغتشاش و گزارش معیارهای اعتبارسنجی با مدل ثابت}{cmp:alg:ch3-heldout-validation}
 \notationgroup{مسئله معکوس سیاست}
 \notationrow{z=\operatorname{vec}(Z)}{بردار پارامترهای سیاست}{cmp:eq:ch3-center-forward-map}
-\notationrow{p}{تعداد پارامترهای سیاست ثابت}{cmp:eq:ch3-inverse-complexity}
 \notationrow{\mathcal F_{\beta,\lambda,H}}{نگاشت سیاست به مراکز}{cmp:eq:ch3-center-forward-map}
 \notationrow{\mathcal V^\star}{مراکز هدف}{cmp:eq:ch3-center-inverse-loss}
 \notationrow{\mathcal L_{\mathrm{inv}}}{تابع هدف بازیابی سیاست}{cmp:eq:ch3-center-inverse-loss}
