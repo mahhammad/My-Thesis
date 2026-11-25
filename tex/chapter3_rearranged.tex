@@ -2429,7 +2429,11 @@ $s=\varnothing$ می‌گذاریم.
 و در حالت برون‌نمونه‌ای
 ضرب در ماتریس پایهٔ
 رابطه~\eqref{cmp:eq:ch3-sparse-base-transition}
-را اجرا می‌کند.
+را اجرا می‌کند. از آنجا که سهم حالت‌های
+با جرم صفر در هر دو مرحله صفر است، می‌توان
+ورودی و خروجی را به‌صورت نگاشت تنک نگه داشت
+و فقط حالت‌های فعال را پیمایش کرد، بدون
+تغییر قانون انتقال یا حذف جرم مثبت.
 \begin{algorithm}[!htbp]
 \caption{زیرروال $\operatorname{Advance}$: انتشار یک گام کامل}
 \label{cmp:alg:ch3-advance-walk-state}
@@ -2441,23 +2445,21 @@ $N_b^{(\Delta)}$ و $\widetilde q_b$؛
 حافظهٔ موقت $\mathcal C_s$، در صورت $s\ne\varnothing$
 (قابل به‌روزرسانی درجا)
 \ENSURE توزیع $\nu^+$ روی فضای حالت مجاز
-\STATE اگر $s=\varnothing$، آنگاه
-$\mathcal T\gets\mathcal S$ و
-$\mathcal I_s\gets\{1,\ldots,n\}$؛
-وگرنه $\mathcal T\gets\mathcal S_s$ و
-$\mathcal I_s\gets\{1,\ldots,n\}\setminus\{s\}$
-\STATE $\nu^+(j,b)\gets0$
-برای $(X_j,b)\in\mathcal T$
-\FORALL{$i\in\mathcal I_s$}
+\STATE $\nu^+\gets$ نگاشت تنک تهی با مقدار پیش‌فرض صفر
+\STATE گروه‌بندی حالت‌های $\operatorname{supp}(\nu)$ برحسب اندیس نمونه
+\FORALL{$i$ دارای حالت فعال در $\operatorname{supp}(\nu)$}
     \FORALL{$b\in A_{X_i}$}
         \STATE $r_{i,b}\gets
-        \sum_{a\in A_{X_i}}\nu(i,a)\pi(b\mid i,a)$
-        \STATE $(\mathcal J,p)\gets
-        \operatorname{VerticalRow}(i,b,s;N,\widetilde q,\mathcal C_s)$
-        \FORALL{$X_j\in\mathcal J$}
-            \STATE $\nu^+(j,b)\gets
-            \nu^+(j,b)+r_{i,b}p(j)$
-        \ENDFOR
+        \sum_{a:(X_i,a)\in\operatorname{supp}(\nu)}
+        \nu(i,a)\pi(b\mid i,a)$
+        \IF{$r_{i,b}>0$}
+            \STATE $(\mathcal J,p)\gets
+            \operatorname{VerticalRow}(i,b,s;N,\widetilde q,\mathcal C_s)$
+            \FORALL{$X_j\in\mathcal J$ با $p(j)>0$}
+                \STATE $\nu^+(j,b)\gets
+                \nu^+(j,b)+r_{i,b}p(j)$
+            \ENDFOR
+        \ENDIF
     \ENDFOR
 \ENDFOR
 \STATE \textbf{بازگردان} $\nu^+$
@@ -5051,9 +5053,14 @@ $\boldsymbol\alpha^{(H)},N,\widetilde q$
 مقدار زیان و حساسیت‌های وزن‌دار آن را
 برای یک نمونه محاسبه می‌کند. برای یکسان‌سازی
 دو قرارداد ناهمانندی و شباهت، در این
-زیرروال $d_{i,c}$ در حالت شباهت برابر
-منفی شباهت است. حساسیت خروجی در این حالت
-نسبت به منفی شباهت است، نه خود شباهت؛
+زیربخش به‌طور محلی $d(P,Q)=d_\psi(P,Q)$
+برای ناهمانندی و $d(P,Q)=-s(P,Q)$ برای
+شباهت در نظر گرفته می‌شود و
+$d_{i,c}=d(\mathscr Y_i,\mathcal V_c)$ است.
+صورت کوتاه $g_{i,c}$ در شبه‌کدها حساسیت
+نسبت به همین کمیت ورودی است؛ در حالت
+ناهمانندی همان $g_{i,c}^{(\psi)}$ و در
+حالت شباهت برابر $-g_{i,c}^{(s)}$ است.
 در زیرروال بعدی نیز مشتق همان کمیت به کار
 می‌رود. برای زیان لگاریتمی از احتمال تخمینی
 مبتنی بر حاشیه بدون تثبیت نرم استفاده
@@ -5068,7 +5075,7 @@ $\boldsymbol\alpha^{(H)},N,\widetilde q$
 \begin{algorithmic}[1]
 \REQUIRE $(d_{i,c})_{c=1}^{K}$؛ $y_i,\Omega,(|C_c|)_{c=1}^{K}$؛
 نوع زیان و پارامتر مقیاس متناظر
-\ENSURE $\ell_i$ و $(g_{i,c}^{(\psi)})_{c=1}^{K}$ نسبت به کمیت ورودی یا $\bot$
+\ENSURE $\ell_i$ و $(g_{i,c})_{c=1}^{K}$ نسبت به کمیت ورودی یا $\bot$
 \IF{یکی از ناهمانندی‌ها نامتناهی یا نامعتبر است}
     \STATE \textbf{بازگردان} $\bot$
 \ENDIF
@@ -5091,7 +5098,7 @@ $\boldsymbol\alpha^{(H)},N,\widetilde q$
 \ENDIF
 \STATE اعمال وزن $\omega_{y_i}/|C_{y_i}|$ به مشتق‌ها طبق
 رابطه~\eqref{cmp:eq:ch3-gradient-loss-distance-coefficient}
-\STATE \textbf{بازگردان} $(\ell_i,(g_{i,c}^{(\psi)})_{c=1}^{K})$
+\STATE \textbf{بازگردان} $(\ell_i,(g_{i,c})_{c=1}^{K})$
 \end{algorithmic}
 \end{algorithm}
 
@@ -5118,7 +5125,7 @@ $\boldsymbol\alpha^{(H)},N,\widetilde q$
 مرکز طبقهٔ واقعی هر نمونه به گرادیان
 مستقیم آن افزوده می‌شود.
 
-در صورت انتخاب هموارسازی، سنجه و مشتق
+در صورت انتخاب هموارسازی، کمیت $d$ و مشتق
 آن به‌عنوان تابع مرکب از نگاشت
 رابطه~\eqref{cmp:eq:ch3-stable-smoothed-representations}
 و سنجهٔ منتخب محاسبه می‌شوند؛ بنابراین
@@ -5145,8 +5152,8 @@ $\nabla_{\mathcal V_c}\mathcal L_{\mathrm{tr}}\gets0_{K\times1}$
 برای همهٔ $c$
 \FOR{$i=1,\ldots,n$}
     \STATE محاسبهٔ $(d_{i,c})_{c=1}^{K}$ با سنجهٔ منتخب
-    \STATE $(\ell_i,(g_{i,c}^{(\psi)})_c)\gets
-    \operatorname{LossSensitivity}((d_{i,c})_c,y_i,\Omega,(|C_c|)_c;\text{نوع زیان})$
+    \STATE $(\ell_i,(g_{i,c})_c)\gets
+    \operatorname{LossSensitivity}((d_{i,c})_c,y_i,\Omega,(|C_c|)_c;\text{نوع زیان و مقیاس})$
     \IF{خروجی نامعتبر است}
         \STATE \textbf{بازگردان} $\bot$
     \ENDIF
@@ -5154,15 +5161,15 @@ $\nabla_{\mathcal V_c}\mathcal L_{\mathrm{tr}}\gets0_{K\times1}$
     \mathcal L_{\mathrm{tr}}+\omega_{y_i}\ell_i/|C_{y_i}|$
     \STATE $\mathbf g_i\gets0_{K\times1}$
     \FOR{$c=1,\ldots,K$}
-        \STATE محاسبهٔ مشتق‌های $\nabla_Pd_\psi,\nabla_Qd_\psi$
+        \STATE محاسبهٔ مشتق‌های $\nabla_Pd,\nabla_Qd$
         در $(\mathscr Y_i,\mathcal V_c)$ طبق قرارداد سنجه
         \IF{مشتق موردنیاز نامعتبر است}
             \STATE \textbf{بازگردان} $\bot$
         \ENDIF
-        \STATE $\mathbf g_i\gets\mathbf g_i+g_{i,c}^{(\psi)}\nabla_Pd_\psi$
+        \STATE $\mathbf g_i\gets\mathbf g_i+g_{i,c}\nabla_Pd$
         \STATE $\nabla_{\mathcal V_c}\mathcal L_{\mathrm{tr}}\gets
         \nabla_{\mathcal V_c}\mathcal L_{\mathrm{tr}}
-        +g_{i,c}^{(\psi)}\nabla_Qd_\psi$
+        +g_{i,c}\nabla_Qd$
     \ENDFOR
 \ENDFOR
 \FOR{$i=1,\ldots,n$}
@@ -5246,6 +5253,9 @@ $Y,\boldsymbol\alpha^{(H)},N,\widetilde q$
 سپس سهم هر کاربرد را مطابق
 رابطه~\eqref{cmp:eq:ch3-gradient-parameter-chain}
 به پارامترهای مربوط می‌افزاید.
+در شبه‌کدها $g^{(\pi)}$ صورت کوتاه
+مجموعهٔ حساسیت‌های موضعی مربوط به مبدأ
+جاری است و درایه‌های ذخیره‌نشده صفرند.
 در خانواده‌های امتیاز آزاد، این کار
 افزودن به درایهٔ متناظر پارامتر است؛
 در خانوادهٔ توابع پارامتری، انتشار
@@ -5310,6 +5320,7 @@ $Y,\boldsymbol\alpha^{(H)},N,\widetilde q$
     \STATE $(\mathscr Y_s,(\nu_{s,t})_{t=1}^{H})\gets
     \operatorname{ForwardTrace}(s;\pi_s,D,Y,\boldsymbol\alpha^{(H)},N,\widetilde q)$
     \STATE در صورت خروجی نامعتبر، بازگردان $\bot$
+    \STATE نگهداری تاریخچه یا آزادسازی آن برای محاسبهٔ دوباره
 \ENDFOR
 \STATE $\mathcal V\gets\operatorname{BuildCenters}(\mathscr Y,Y)$
 \STATE $(\mathcal L_{\mathrm{tr}},(\mathbf g_s)_s)\gets
@@ -5317,6 +5328,7 @@ $Y,\boldsymbol\alpha^{(H)},N,\widetilde q$
 \STATE در صورت خروجی نامعتبر، بازگردان $\bot$
 \STATE $\nabla_\theta\mathcal L_{\mathrm{tr}}\gets0$ با ابعاد پارامترهای سیاست
 \FOR{$s=1,\ldots,n$}
+    \STATE تعیین مجدد همان سیاست $\pi_s$ از $\theta$ و $c_s=y_s$
     \STATE دریافت تاریخچهٔ ذخیره‌شده یا محاسبهٔ دوباره با $\operatorname{ForwardTrace}$
     \STATE $g^{(\pi)}\gets
     \operatorname{WalkBackward}(s,\pi_s,\mathbf g_s,(\nu_{s,t})_t;
