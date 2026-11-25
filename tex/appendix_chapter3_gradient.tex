@@ -438,3 +438,220 @@ $Q^{(\eta)}=(1-\eta)Q+\eta U$ را در
 جذر، چون
 $P^{(\eta)}=Q^{(\eta)}$ اگر و تنها اگر $P=Q$،
 مسئلهٔ مشتق در برابری دو توزیع باقی می‌ماند.
+
+\section{انتقال مشتق به بازنمایی‌ها و مراکز طبقه‌ها}
+\label{app:ch3-gradient-centers-representations}
+
+در این بخش روابط
+زیربخش~\ref{cmp:subsec:ch3-gradient-centers-representations}
+را از تعریف مراکز، حساسیت‌های تابع هدف و
+قاعدهٔ زنجیره‌ای استخراج می‌کنیم. داده، برچسب‌ها،
+مجموعهٔ اعضای هر طبقه و وزن طبقه‌ها ثابت‌اند
+و شرایط مشتق‌پذیری سنجه‌ها مطابق
+بخش~\ref{app:ch3-gradient-measures} است.
+
+\subsection{مشتق نگاشت تشکیل مراکز}
+\label{app:ch3-gradient-center-map}
+
+طبق رابطه~\eqref{cmp:eq:ch3-class-center}،
+مرکز طبقهٔ $c$ میانگین حسابی بازنمایی‌های
+اعضای آن است. برای دو اندیس مؤلفهٔ
+$u,v\in\{1,\ldots,K\}$ داریم:
+\[
+\frac{\partial\mathcal V_c(u)}
+{\partial\mathscr Y_s(v)}
+=\frac{\mathbf1\{y_s=c\}}{|C_c|}
+\mathbf1\{u=v\}.
+\]
+بنابراین ژاکوبین نگاشت مرکز نسبت به
+مختصات بازنمایی نمونه برابر است با:
+\begin{equation}\label{eq:app-ch3-gradient-center-jacobian}
+\boxed{
+\frac{\partial\mathcal V_c}{\partial\mathscr Y_s}
+=\frac{\mathbf1\{y_s=c\}}{|C_c|}I_K.
+}
+\end{equation}
+در اینجا $I_K$ ماتریس همانی مرتبهٔ $K$ است.
+رابطه در فضای مختصات محیطی نوشته شده است
+و روی تغییرات مجاز سیمپلکس نیز معتبر است.
+با مشتق‌گیری از میانگین متناهی نسبت به
+پارامترهای سیاست، برای هر مؤلفهٔ مرکز داریم:
+\begin{equation}\label{cmp:eq:ch3-margin-center-policy-derivative}
+\boxed{
+\nabla_\theta\mathcal V_c(u)
+=\frac1{|C_c|}\sum_{j\in C_c}
+\nabla_\theta\mathscr Y_j(u).
+}
+\end{equation}
+به‌طور معادل، ژاکوبین مرکز نسبت به پارامترها
+میانگین ژاکوبین‌های بازنمایی اعضای آن است.
+این نتیجه به نوع سنجه یا تابع زیان وابسته نیست.
+
+\subsection{مشتق جزئی تابع هدف نسبت به مراکز}
+\label{app:ch3-gradient-center-accumulation}
+
+ابتدا تابع هدف آموزش را به‌صورت تابعی از
+بازنمایی‌ها و مراکز مستقل در نظر می‌گیریم.
+در این قرارداد، تغییر مرکز $\mathcal V_c$
+تنها ناهمانندی‌های $d_{i,c}^{(\psi)}$ را برای
+$i=1,\ldots,n$ تغییر می‌دهد؛ تمام بازنمایی‌ها
+و سایر مراکز ثابت‌اند. با استفاده از تعریف
+حساسیت در
+رابطه~\eqref{cmp:eq:ch3-gradient-loss-distance-coefficient}
+و قاعدهٔ زنجیره‌ای داریم:
+\[
+\begin{aligned}
+\nabla_{\mathcal V_c}\mathcal L_{\mathrm{tr}}
+&=\sum_{i=1}^{n}
+\frac{\partial\mathcal L_{\mathrm{tr}}}
+{\partial d_{i,c}^{(\psi)}}
+\nabla_Q d_\psi(\mathscr Y_i,\mathcal V_c)\\
+&=\sum_{i=1}^{n}g_{i,c}^{(\psi)}
+\nabla_Q d_\psi(\mathscr Y_i,\mathcal V_c).
+\end{aligned}
+\]
+این همان رابطه~\eqref{cmp:eq:ch3-gradient-center-accumulation}
+است. وزن هر نمونه قبلاً در $g_{i,c}^{(\psi)}$
+لحاظ شده است و نباید هنگام تجمیع دوباره
+اعمال شود.
+
+\subsection{گرادیان کل نسبت به بازنمایی}
+\label{app:ch3-gradient-representation-total}
+
+با ثابت فرض کردن مراکز، تنها ناهمانندی‌های
+نمونهٔ $s$ نسبت به تمام مراکز به بازنمایی
+$\mathscr Y_s$ وابسته‌اند. بنابراین سهم مستقیم
+گرادیان برابر است با
+\[
+\sum_{c=1}^{K}g_{s,c}^{(\psi)}
+\nabla_P d_\psi(\mathscr Y_s,\mathcal V_c).
+\]
+اکنون مراکز را تابع بازنمایی‌ها قرار می‌دهیم.
+مطابق قاعدهٔ زنجیره‌ای و
+رابطه~\eqref{eq:app-ch3-gradient-center-jacobian}،
+سهم غیرمستقیم برابر است با
+\[
+\begin{aligned}
+\sum_{c=1}^{K}
+\left(\frac{\partial\mathcal V_c}
+{\partial\mathscr Y_s}\right)^{\mathsf T}
+\nabla_{\mathcal V_c}\mathcal L_{\mathrm{tr}}
+&=\sum_{c=1}^{K}
+\frac{\mathbf1\{y_s=c\}}{|C_c|}
+\nabla_{\mathcal V_c}\mathcal L_{\mathrm{tr}}\\
+&=\frac1{|C_{y_s}|}
+\nabla_{\mathcal V_{y_s}}\mathcal L_{\mathrm{tr}}.
+\end{aligned}
+\]
+جمع این دو سهم،
+رابطه~\eqref{cmp:eq:ch3-gradient-representation-total}
+را نتیجه می‌دهد. در این رابطه سهم مرکز شامل
+زیان خود نمونه نیز هست؛ دو سهم، دو مسیر
+متفاوت وابستگی همان تابع هدف‌اند، نه دو
+تابع هدف جداگانه.
+
+از آنجا که بازنمایی در محاسبات پیش‌رونده
+گشت به‌صورت بردار سطری نوشته می‌شود، در این
+قرارداد گرادیان $\mathbf g_s$ ستونی است؛
+در نتیجه دیفرانسیل تابع هدف را می‌توان به
+صورت زیر نوشت:
+\[
+\mathrm d\mathcal L_{\mathrm{tr}}
+=\sum_{s=1}^{n}(\mathrm d\mathscr Y_s)\mathbf g_s.
+\]
+برای شباهت، همین استخراج با جایگزینی
+$d_\psi$ و $g_{i,c}^{(\psi)}$ به‌ترتیب با
+$s$ و $g_{i,c}^{(s)}$ برقرار است.
+
+\subsection{سازگاری با هموارسازی}
+\label{app:ch3-gradient-centers-smoothing}
+
+اگر از نگاشت هموارسازی
+رابطه~\eqref{cmp:eq:ch3-stable-smoothed-representations}
+استفاده کنیم، میانگین بازنمایی‌های هموارشده
+دقیقاً مرکز هموارشده است. مطابق
+بخش~\ref{app:ch3-gradient-measures-smoothing}،
+دیفرانسیل هر ورودی هموارشده برابر
+$(1-\eta)$ برابر دیفرانسیل ورودی خام است.
+می‌توان ابتدا گرادیان را نسبت به بازنمایی‌های
+هموارشده، شامل هر دو مسیر وابستگی، محاسبه کرد
+و سپس حاصل را در $(1-\eta)$ ضرب کرد:
+\[
+\begin{aligned}
+\mathbf g_s
+=(1-\eta)\Bigg[
+&\sum_{c=1}^{K}g_{s,c}^{(\psi)}
+\nabla_P d_\psi(\mathscr Y_s^{(\eta)},\mathcal V_c^{(\eta)})\\
+&+\frac1{|C_{y_s}|}\sum_{i=1}^{n}
+g_{i,y_s}^{(\psi)}
+\nabla_Q d_\psi(\mathscr Y_i^{(\eta)},\mathcal V_{y_s}^{(\eta)})
+\Bigg].
+\end{aligned}
+\]
+در این فرمول حساسیت‌ها نیز در ناهمانندی‌های
+هموارشده ارزیابی می‌شوند و $\mathbf g_s$
+گرادیان نسبت به بازنمایی خام است. به‌طور
+معادل، می‌توان سنجهٔ مرکب با نگاشت هموارسازی
+را مستقیماً نسبت به ورودی خام مشتق گرفت؛
+در آن صورت عامل $(1-\eta)$ در خود مشتق
+سنجه وجود دارد و نباید دوباره ضرب شود.
+این استدلال برای شباهت نیز برقرار است.
+
+\subsection{صورت خاص مشتق امتیاز مبتنی بر جنسن--شنون}
+\label{app:ch3-gradient-centers-js-special}
+
+برای تطبیق با تحلیل‌های بعدی زیان سیگموئیدی،
+$P_i=\mathscr Y_i^{(\eta)}$،
+$V_c=\mathcal V_c^{(\eta)}$ و
+$s_{i,c}=s(P_i,V_c)$ را در نظر می‌گیریم.
+در ناحیهٔ مثبت، از
+رابطه~\eqref{cmp:eq:ch3-gradient-js-similarity-partials}
+داریم:
+\begin{equation}\label{cmp:eq:ch3-margin-JS-partials}
+\begin{aligned}
+\frac{\partial s(P_i,V_c)}{\partial P_i(u)}
+&=-\frac1{2\log2}\log\frac{2P_i(u)}{P_i(u)+V_c(u)},\\
+\frac{\partial s(P_i,V_c)}{\partial V_c(u)}
+&=-\frac1{2\log2}\log\frac{2V_c(u)}{P_i(u)+V_c(u)}.
+\end{aligned}
+\end{equation}
+با قاعدهٔ زنجیره‌ای به دست می‌آید:
+\begin{equation}\label{cmp:eq:ch3-margin-score-policy-gradient}
+\begin{aligned}
+\nabla_\theta s_{i,c}
+=-\frac1{2\log2}\sum_{u=1}^{K}\Bigg[
+&\log\frac{2P_i(u)}{P_i(u)+V_c(u)}\nabla_\theta P_i(u)\\
++&\log\frac{2V_c(u)}{P_i(u)+V_c(u)}\nabla_\theta V_c(u)
+\Bigg].
+\end{aligned}
+\end{equation}
+در اینجا مشتق‌های ورودی‌های هموارشده طبق
+بخش~\ref{app:ch3-gradient-centers-smoothing}
+محاسبه می‌شوند.
+
+برای صورت سافت‌پلاس مبتنی بر شباهت جنسن--شنون
+در تحلیل‌های بعدی، با نمادگذاری همان تحلیل
+$z=\operatorname{vec}(Z)$،
+$U_i=\mathscr Y_i$،
+$V_r=\mathcal V_r$ و $S_{i,r}=s(U_i,V_r)$،
+از مشتق امتیاز بالا و
+رابطه~\eqref{cmp:eq:ch3-margin-center-policy-derivative}
+نتیجه می‌شود:
+\begin{equation}\label{cmp:eq:ch3-softplus-js-score-chain}
+\begin{aligned}
+\nabla_z S_{i,r}
+=-\frac1{2\log2}\sum_{u=1}^{K}\Bigg[
+&\log\frac{2U_i(u)}{U_i(u)+V_r(u)}\,\nabla_z U_i(u)\\
++&\log\frac{2V_r(u)}{U_i(u)+V_r(u)}
+\,\frac1{|C_r|}\sum_{j\in C_r}\nabla_z U_j(u)
+\Bigg].
+\end{aligned}
+\end{equation}
+این صورت ویژهٔ همان دو مسیر وابستگی است و
+برای مؤلفه‌های مثبت نوشته شده است؛ در
+تکیه‌گاه ثابت، حذف مؤلفه‌های ساختاری صفر
+مطابق بخش~\ref{app:ch3-gradient-measures-boundary}
+انجام می‌شود. در صورت هموارسازی باید عامل
+مشتق نگاشت هموارسازی مطابق بخش پیشین
+لحاظ شود. این رابطه در هر دو خانوادهٔ سیاست
+مشترک و شرطی به طبقه معتبر است.
