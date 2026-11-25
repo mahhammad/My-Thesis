@@ -3048,26 +3048,53 @@ $P\ne e_j$ نامتناهی است
 نزدیکی یک بازنمایی به مرکز یک طبقه، به‌تنهایی برای
 سنجش میزان تعلق آن به آن طبقه کافی نیست؛ زیرا در
 حضور سایر طبقه‌ها، دوربودن بازنمایی از مراکز آن‌ها
-نیز اهمیت دارد. ازاین‌رو، میزان تعلق را بر اساس
-اختلاف ناهمانندی با نزدیک‌ترین مرکز رقیب و ناهمانندی
-با مرکز طبقهٔ مورد نظر تعریف می‌کنیم.
+نیز اهمیت دارد. ازاین‌رو، ابتدا تعلق بازنمایی به یک طبقه را در برابر
+هر طبقهٔ رقیب به‌طور جداگانه اندازه می‌گیریم و سپس
+کمترین مقدار این حاشیه‌ها را به‌عنوان حاشیهٔ تعلق
+به طبقهٔ مورد نظر در نظر می‌گیریم.
 
-\paragraph{حاشیهٔ تعلق به طبقه.}
+\paragraph{حاشیهٔ دوتایی تعلق.}
 برای یک بازنمایی ثابت $P\in\Delta_K$، ناهمانندی آن
 با مرکز طبقهٔ $c$ را با
 \begin{equation}\label{cmp:eq:ch3-fixed-representation-dissimilarity}
 d_c^{(\psi)}(P):=d_\psi(P,\mathcal V_c)
 \end{equation}
-نشان می‌دهیم. حاشیهٔ تعلق این بازنمایی به طبقهٔ $c$
-را به‌صورت زیر تعریف می‌کنیم:
+نشان می‌دهیم. با فرض متناهی‌بودن ناهمانندی‌ها،
+برای دو طبقهٔ متمایز $c,r\in\{1,\ldots,K\}$،
+حاشیهٔ دوتایی تعلق بازنمایی $P$ به طبقهٔ $c$
+در برابر طبقهٔ رقیب $r$ را تعریف می‌کنیم:
+\begin{equation}\label{cmp:eq:ch3-pairwise-margin}
+\boxed{\begin{aligned}
+m_{c,r}^{(\psi)}(P)
+&:=d_r^{(\psi)}(P)-d_c^{(\psi)}(P)\\
+&=d_\psi(P,\mathcal V_r)-d_\psi(P,\mathcal V_c),
+\qquad r\ne c.
+\end{aligned}}
+\end{equation}
+مقدار مثبت، صفر یا منفی این حاشیه، به‌ترتیب بیانگر
+نزدیکی بیشتر به مرکز طبقهٔ $c$، تساوی ناهمانندی‌ها
+یا نزدیکی بیشتر به مرکز طبقهٔ $r$ است.
+در صورت استفاده از شباهت، با توجه به اینکه مقدار
+بزرگ‌تر شباهت بیانگر نزدیکی بیشتر است، تعریف می‌کنیم:
+\begin{equation}\label{cmp:eq:ch3-pairwise-similarity-margin}
+\boxed{
+m_{c,r}^{(s)}(P):=s(P,\mathcal V_c)-s(P,\mathcal V_r)
+=\frac{m_{c,r}^{(\mathrm{JS})}(P)}{\log2}.
+}
+\end{equation}
+تساوی آخر از تعریف شباهت در
+رابطه~\eqref{cmp:eq:ch3-decision-js-similarity} حاصل می‌شود.
+
+\paragraph{حاشیهٔ تعلق به طبقه.}
+حاشیهٔ تعلق بازنمایی $P$ به طبقهٔ $c$ را کمترین
+حاشیهٔ دوتایی آن در برابر تمام طبقه‌های رقیب تعریف می‌کنیم:
 \begin{equation}\label{cmp:eq:ch3-fixed-representation-margin}
 \boxed{\begin{aligned}
 \gamma_c^{(\psi)}(P)
-&:=\min_{r\ne c}\left[d_r^{(\psi)}(P)-d_c^{(\psi)}(P)\right]\\
+&:=\min_{r\ne c}m_{c,r}^{(\psi)}(P)\\
 &=\min_{r\ne c}d_\psi(P,\mathcal V_r)-d_\psi(P,\mathcal V_c).
 \end{aligned}}
 \end{equation}
-در این تعریف فرض می‌کنیم ناهمانندی‌ها متناهی‌اند.
 حاشیهٔ مثبت نشان می‌دهد بازنمایی به مرکز طبقهٔ مورد
 نظر نزدیک‌تر از تمام مراکز رقیب است. حاشیهٔ صفر
 بیانگر تساوی ناهمانندی با مرکز طبقهٔ مورد نظر و
@@ -3079,11 +3106,15 @@ d_c^{(\psi)}(P):=d_\psi(P,\mathcal V_c)
 در صورت استفاده از سنجهٔ شباهت، حاشیهٔ تعلق به‌صورت
 زیر تعریف می‌شود:
 \begin{equation}\label{cmp:eq:ch3-fixed-representation-similarity-margin}
-\gamma_c^{(s)}(P):=s(P,\mathcal V_c)-\max_{r\ne c}s(P,\mathcal V_r)
+\begin{aligned}
+\gamma_c^{(s)}(P)
+&:=\min_{r\ne c}m_{c,r}^{(s)}(P)\\
+&=s(P,\mathcal V_c)-\max_{r\ne c}s(P,\mathcal V_r)
 =\frac{\gamma_c^{(\mathrm{JS})}(P)}{\log2}.
+\end{aligned}
 \end{equation}
-تساوی آخر برای شباهت متناظر با جنسن--شنون از
-رابطه~\eqref{cmp:eq:ch3-decision-js-similarity} به دست می‌آید.
+تساوی آخر از رابطه~\eqref{cmp:eq:ch3-pairwise-similarity-margin}
+و مثبت‌بودن $\log2$ به دست می‌آید.
 
 \paragraph{هم‌ارزی بیشترین حاشیه و نزدیک‌ترین مرکز.}
 برای یک بازنمایی ثابت $P$ و ناهمانندی‌های متناهی،
@@ -3126,12 +3157,42 @@ $\mathscr Y_i$ برای نمونه به دست می‌آید.
 d_{i,c}^{(\psi)}:=d_\psi(\mathscr Y_i,\mathcal V_c),
 \qquad d_{i,c}:=d_{i,c}^{(\psi)}\quad(\psi\text{ ثابت}).
 \end{equation}
-حاشیهٔ تعلق این بازنمایی به طبقهٔ واقعی نمونه برابر است با:
-\begin{equation}\label{cmp:eq:ch3-training-true-class-margin}
-\gamma_{y_i}^{(\psi)}(\mathscr Y_i)
-=\min_{r\ne y_i}d_\psi(\mathscr Y_i,\mathcal V_r)
--d_\psi(\mathscr Y_i,\mathcal V_{y_i}).
+با قرار دادن $P=\mathscr Y_i$ و $c=y_i$ در
+رابطه~\eqref{cmp:eq:ch3-pairwise-margin}، حاشیهٔ دوتایی
+نمونهٔ آموزشی در برابر هر طبقهٔ رقیب را به‌صورت
+\begin{equation}\label{cmp:eq:ch3-training-pairwise-margin}
+\boxed{
+m_{i,r}^{(\psi)}
+:=m_{y_i,r}^{(\psi)}(\mathscr Y_i)
+=d_{i,r}^{(\psi)}-d_{i,y_i}^{(\psi)},
+\qquad r\ne y_i
+}
 \end{equation}
+و بردار همهٔ این حاشیه‌ها را، با ترتیب صعودی
+اندیس طبقه‌های رقیب، به‌صورت
+\begin{equation}\label{cmp:eq:ch3-training-pairwise-margin-vector}
+\boldsymbol m_i^{(\psi)}
+:=\bigl(m_{i,r}^{(\psi)}\bigr)_{r\in\{1,\ldots,K\}\setminus\{y_i\}}
+\in\mathbb R^{K-1}
+\end{equation}
+تعریف می‌کنیم. همین قرارداد برای سنجهٔ شباهت نیز با
+جایگزینی شناسهٔ $\psi$ با $s$ و استفاده از
+رابطه~\eqref{cmp:eq:ch3-pairwise-similarity-margin}
+برقرار است.
+در نتیجه، مطابق رابطه~\eqref{cmp:eq:ch3-fixed-representation-margin}،
+حاشیهٔ تعلق بازنمایی آموزشی به طبقهٔ واقعی نمونه برابر است با:
+\begin{equation}\label{cmp:eq:ch3-training-true-class-margin}
+\boxed{\begin{aligned}
+\gamma_{i,y_i}^{(\psi)}
+&:=\gamma_{y_i}^{(\psi)}(\mathscr Y_i)
+=\min_{r\ne y_i}m_{i,r}^{(\psi)}\\
+&=\min_{r\ne y_i}d_\psi(\mathscr Y_i,\mathcal V_r)
+-d_\psi(\mathscr Y_i,\mathcal V_{y_i}).
+\end{aligned}}
+\end{equation}
+بردار حاشیه‌های دوتایی، مقایسه با هر یک از رقبا
+را جداگانه حفظ می‌کند، درحالی‌که حاشیهٔ تعلق به
+طبقهٔ واقعی تنها کمترین مقدار آن‌ها را بیان می‌کند.
 تضمینی وجود ندارد که نزدیک‌ترین مرکز به بازنمایی
 حاصل، مرکز طبقهٔ واقعی نمونه باشد. از آنجا که
 بازنمایی‌ها و مراکز طبقه‌ها به سیاست انتخاب ویژگی
