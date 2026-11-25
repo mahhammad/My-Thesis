@@ -4275,17 +4275,99 @@ $\tau_\psi=2\tau_{\mathrm{SP}}$، زیان سافت‌پلاس
 \section{محاسبهٔ گرادیان تابع هدف}
 \label{cmp:sec:ch3-gradient-calculation}
 
-در بخش~\ref{cmp:sec:ch3-training-losses} تابع هدف
-آموزش سیاست و مشتق زیان‌های تک‌نمونه‌ای نسبت به
-ورودی‌های مستقیم آن‌ها معرفی شدند. اکنون برای
-محاسبهٔ گرادیان نسبت به پارامترهای سیاست، باید
-مشتق‌ها را از حاشیه‌ها به بازنمایی‌ها و مراکز،
-از بازنمایی‌ها به احتمال‌های انتخاب ویژگی و از
-این احتمال‌ها به پارامترهای قابل‌آموزش منتقل کنیم.
-این محاسبات بر گراف مرجع ثابت، با وزن‌های عمودی،
-ماسک‌ها، برچسب‌ها، وزن طبقه‌ها و پارامترهای طول
-گشت ثابت انجام می‌شوند. در ادامه صورت سقف‌دار
-گشت با افق $H$ را در نظر می‌گیریم.
+در بخش~\ref{cmp:sec:ch3-training-losses}، تابع هدف
+آموزش سیاست و مشتق توابع زیان تک‌نمونه‌ای نسبت به
+ورودی‌های مستقیم آن‌ها معرفی شدند. در این بخش،
+با استفاده از قاعدهٔ زنجیره‌ای مشتق‌گیری، گرادیان
+تابع هدف نسبت به پارامترهای قابل‌آموزش سیاست
+انتخاب ویژگی را محاسبه می‌کنیم.
+
+از آنجا که بازنمایی نمونه‌ها و مراکز طبقه‌ها
+(بخش~\ref{cmp:sec:ch3-neighborhood-to-label-prediction})
+هر دو به سیاست انتخاب ویژگی وابسته‌اند،
+محاسبهٔ گرادیان تنها به اثر مستقیم تغییر
+بازنمایی هر نمونه بر زیان آن محدود نمی‌شود؛
+بلکه اثر غیرمستقیم این تغییر از مسیر مراکز
+طبقه‌ها نیز باید در نظر گرفته شود.
+شکل~\ref{cmp:fig:ch3-gradient-flow} نمایی کلی
+از مسیر انتشار مشتق‌ها را نشان می‌دهد.
+
+ابتدا مشتق تابع هدف نسبت به ناهمانندی‌ها یا
+منفی شباهت‌های میان بازنمایی‌ها و مراکز
+محاسبه می‌شود. سپس مشتق‌ها به مراکز و
+بازنمایی‌ها منتقل می‌شوند و از آنجا، با تکیه
+بر روابط محاسبهٔ دقیق امید گشت تصادفی
+(بخش~\ref{cmp:sec:ch3-exact-walk-calculation})،
+به توزیع آغاز گشت و احتمال‌های انتقال، و
+در نهایت به احتمال‌های انتخاب ویژگی و
+پارامترهای سیاست
+(بخش~\ref{cmp:sec:ch3-feature-selection-policy})
+انتشار می‌یابند.
+
+در این محاسبات، گراف مرجع، وزن‌های انتقال
+عمودی، ماسک‌ها، برچسب‌ها، وزن طبقه‌ها و
+پارامترهای تعیین‌کنندهٔ طول گشت ثابت در نظر
+گرفته می‌شوند. در ادامه صورت سقف‌دار گشت
+با افق $H$ را در نظر می‌گیریم.
+
+\begin{figure}[!htbp]
+\centering
+\begin{LTR}
+\centering
+\resizebox{0.84\linewidth}{!}{%
+\begin{tikzpicture}[
+    x=1cm,y=1cm,
+    stage/.style={draw=black!55,fill=black!4,rounded corners=3pt,
+        minimum width=4.8cm,minimum height=0.95cm,
+        inner sep=4pt,font=\small,align=center},
+    mainstage/.style={stage,draw=teal!75!black,fill=teal!7},
+    dep/.style={->,>=latex,draw=black!65,line width=0.7pt},
+    centerdep/.style={dep,dashed,draw=teal!75!black}
+]
+    \node[mainstage] (loss) at (0,0)
+        {\rl{تابع هدف آموزش}\\$\mathcal L_{\mathrm{tr}}$};
+    \node[stage] (margin) at (0,-1.55)
+        {\rl{حاشیه‌ها و احتمال تخمینی برچسب}};
+    \node[stage] (dist) at (0,-3.05)
+        {\rl{سنجه‌های مقایسه}\\$d_{i,c}^{(\psi)}$};
+    \node[stage] (center) at (5.3,-4.55)
+        {\rl{مراکز طبقه‌ها}\\$\mathcal V_c$};
+    \node[mainstage] (repr) at (0,-6.05)
+        {\rl{بازنمایی نمونه‌ها}\\$\mathscr Y_s$};
+    \node[stage] (walk) at (0,-7.6)
+        {\rl{توزیع آغاز و ماتریس انتقال}\\$\rho_s,\ P_{\mathcal S_s}$};
+    \node[stage] (policy) at (0,-9.15)
+        {\rl{احتمال‌های انتخاب ویژگی}\\$\pi_s(b\mid i,a)$};
+    \node[mainstage] (theta) at (0,-10.7)
+        {\rl{پارامترهای سیاست}\\$\theta$};
+
+    \draw[dep] (loss) -- (margin);
+    \draw[dep] (margin) -- (dist);
+    \draw[dep] (dist) -- node[left,font=\footnotesize]
+        {\rl{مسیر مستقیم}} (repr);
+    \draw[centerdep] (dist.east) -| (center.north);
+    \draw[centerdep] (center.south) |- node[pos=0.75,above,font=\footnotesize]
+        {\rl{مسیر وابسته به مرکز}} (repr.east);
+    \draw[dep] (repr) -- (walk);
+    \draw[dep] (walk) -- (policy);
+    \draw[dep] (policy) -- (theta);
+\end{tikzpicture}%
+}
+\end{LTR}
+\caption{نمای کلی انتشار مشتق تابع هدف نسبت به پارامترهای
+سیاست انتخاب ویژگی. پیکان‌ها جهت انتشار مشتق‌ها را نشان
+می‌دهند. مسیر پیوستهٔ میان سنجه‌ها و بازنمایی‌ها اثر مستقیم
+و مسیر خط‌چین اثر غیرمستقیم از طریق مراکز طبقه‌ها را
+نشان می‌دهد؛ سهم هر دو مسیر در بازنمایی‌ها تجمیع می‌شود.}
+\label{cmp:fig:ch3-gradient-flow}
+\end{figure}
+
+خواننده‌ای که تنها به نمای کلی فرایند محاسبهٔ
+گرادیان علاقه‌مند است، می‌تواند با مطالعهٔ
+شکل~\ref{cmp:fig:ch3-gradient-flow} و روند
+ارائه‌شده در زیربخش~\ref{cmp:subsec:ch3-gradient-procedure}،
+از جزئیات فنی مشتق‌گیری در زیربخش‌های میانی
+عبور کند.
 
 \subsection{مشتق زیان نسبت به ناهمانندی‌ها}
 \label{cmp:subsec:ch3-gradient-loss-dissimilarities}
