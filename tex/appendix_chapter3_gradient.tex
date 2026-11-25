@@ -931,3 +931,281 @@ $\alpha_t^{(H)}$ و جمع با سهم انتقالی در هر
 بردار حساسیت جاری و بعدی تنها $O(m_s)$
 حافظه می‌خواهند؛ جدا از ساختار گراف،
 پارامترها و حساسیت‌های محلی انباشته.
+
+\section{انتقال مشتق به پارامترهای سیاست}
+\label{app:ch3-gradient-policy-parameters}
+
+در این بخش روابط
+زیربخش~\ref{cmp:subsec:ch3-gradient-policy-parameters}
+را اثبات می‌کنیم. ماسک‌ها ثابت و ناتهی‌اند،
+امتیازهای خام مجاز متناهی‌اند و شرایط اعتبار
+مشتق‌های مراحل پیشین برقرارند.
+
+\subsection{دیفرانسیل لگاریتم احتمال انتخاب ویژگی}
+\label{app:ch3-gradient-log-policy}
+
+برای اختصار، یک سطر موضعی سیاست را با
+مجموعهٔ مجاز ثابت $A$، امتیازهای خام
+$z=(z_b)_{b\in A}$ و احتمال‌های
+$p_b=\exp(z_b)/\sum_{u\in A}\exp(z_u)$
+در نظر می‌گیریم. چون $p_b>0$ برای
+$b\in A$، داریم:
+\[
+\log p_b=z_b-\log\sum_{u\in A}\exp(z_u).
+\]
+با مشتق‌گیری نتیجه می‌شود:
+\begin{equation}\label{eq:app-ch3-gradient-log-policy-differential}
+\boxed{
+\mathrm d\log p_b
+=\mathrm dz_b-\sum_{u\in A}p_u\,\mathrm dz_u.
+}
+\end{equation}
+این هویت برای هر ماسک ثابت برقرار است.
+در حالت بدون ماسک $A=A_D$ قرار می‌گیرد.
+لگاریتم احتمال برای ویژگی نامجاز با
+احتمال صفر در این رابطه به کار نمی‌رود.
+
+\subsection{ژاکوبین نرمال‌سازی با بیشینهٔ هموار ماسک‌دار}
+\label{app:ch3-gradient-masked-jacobian}
+
+از $\mathrm dp_b=p_b\,\mathrm d\log p_b$
+و رابطهٔ پیشین داریم:
+\[
+\mathrm dp_b=p_b\left(\mathrm dz_b
+-\sum_{u\in A}p_u\,\mathrm dz_u\right).
+\]
+با استخراج ضریب $\mathrm dz_u$ نتیجه می‌شود:
+\[
+\frac{\partial p_b}{\partial z_u}
+=p_b(\mathbf1\{b=u\}-p_u).
+\]
+با جایگذاری $A=A_{X_i}$ و احتمال‌های
+موضعی $\pi_s$، رابطه
+\eqref{cmp:eq:ch3-gradient-masked-softmax}
+به دست می‌آید. در فضای کامل ویژگی‌ها،
+درایه‌های ژاکوبین مربوط به سطر یا ستون
+نامجاز صفرند، زیرا احتمال آن ویژگی به
+صورت ثابت صفر تعریف می‌شود و امتیازهای
+نامجاز نیز در مخرج نرمال‌سازی وارد نمی‌شوند.
+
+\subsection{انتقال مشتق به امتیازهای خام}
+\label{app:ch3-gradient-raw-scores}
+
+برای یک تابع اسکالر مشتق‌پذیر از احتمال‌های
+همان سطر، با نماد محلی $F(p)$، از قاعدهٔ
+زنجیره‌ای و ژاکوبین بالا داریم:
+\[
+\begin{aligned}
+\frac{\partial F}{\partial z_u}
+&=\sum_{b\in A}\frac{\partial F}{\partial p_b}
+p_b(\mathbf1\{b=u\}-p_u)\\
+&=p_u\left[
+\frac{\partial F}{\partial p_u}
+-\sum_{b\in A}p_b\frac{\partial F}{\partial p_b}
+\right].
+\end{aligned}
+\]
+در کاربرد موضعی مورد نظر، حساسیت
+$\partial F/\partial p_b$ همان
+$g_{s;i,a,b}^{(\pi)}$ است؛ بنابراین
+رابطه~\eqref{cmp:eq:ch3-gradient-local-score}
+حاصل می‌شود. برای سطر آغاز، $i=s$ و
+$a=\bot$ قرار می‌گیرد.
+برای محاسبهٔ مشتق تمام امتیازهای یک سطر،
+جمع وزن‌دار داخل کروشه یک‌بار محاسبه و
+برای همهٔ مؤلفه‌ها بازاستفاده می‌شود.
+ازاین‌رو با فرض دسترسی به احتمال‌ها و
+حساسیت‌های محلی، هزینهٔ محاسبه $O(|A|)$
+است و تشکیل ژاکوبین کامل لازم نیست.
+
+\subsection{خواص گرادیان و جهت‌های بی‌اثر}
+\label{app:ch3-gradient-score-invariance}
+
+با جمع کردن مشتق امتیازها روی $u\in A$
+و استفاده از $\sum_{u\in A}p_u=1$ داریم:
+\[
+\begin{aligned}
+\sum_{u\in A}\frac{\partial F}{\partial z_u}
+&=\sum_{u\in A}p_u\frac{\partial F}{\partial p_u}
+-\left(\sum_{u\in A}p_u\right)
+\sum_{b\in A}p_b\frac{\partial F}{\partial p_b}\\
+&=0.
+\end{aligned}
+\]
+این نتیجه رابطه
+\eqref{cmp:eq:ch3-gradient-local-score-zero-sum}
+را اثبات می‌کند. افزودن ثابت مشترک به همهٔ
+امتیازهای مجاز سطر، احتمال‌های آن را تغییر
+نمی‌دهد؛ بنابراین مشتق جهت انتقال مشترک
+صفر است. اگر $|A|=1$ باشد، احتمال تنها
+ویژگی مجاز برابر یک و تمام مشتق‌های سطر
+صفرند. در آرایه‌های امتیاز آزاد، جمع سهم‌های
+محلی یک سطر مشترک نیز مجموع مؤلفهٔ صفر
+دارد، زیرا مؤلفه‌های نامجاز در هر کاربرد
+سهم صفر دارند. این ویژگی برای گرادیان
+خام است و لزوماً به تغییر واقعی پارامترها
+پس از اعمال بهینه‌سازهایی مانند Adam
+منتقل نمی‌شود.
+
+\subsection{تجمیع گرادیان در خانواده‌های امتیاز آزاد}
+\label{app:ch3-gradient-free-score-families}
+
+ابتدا همهٔ کاربردهای موضعی امتیازها را
+مستقل در نظر می‌گیریم. با جایگذاری
+$z_{s;i,a,b}=z_{s;i,a,b}(\theta)$ و
+قاعدهٔ زنجیره‌ای، دیفرانسیل تابع هدف
+برابر مجموع
+$g_{s;i,a,b}^{(z)}\,\mathrm dz_{s;i,a,b}$
+روی تمام کاربردهای مجاز است. نخستین
+کاربرد در هر گشت از سطر $\bot$ و
+نمونهٔ مبدأ، و کاربردهای میانی از حالت‌های
+$\mathcal S_s$ به دست می‌آیند. با
+جایگذاری دیفرانسیل امتیازها نسبت به
+$\theta$، رابطه
+\eqref{cmp:eq:ch3-gradient-parameter-chain}
+حاصل می‌شود. در امتیازهای آزاد، مشتق
+هر کاربرد نسبت به پارامتر مربوط به خود
+یک و نسبت به پارامترهای مستقل دیگر صفر
+است. در نتیجه کافی است حساسیت کاربردهای
+یک پارامتر را جمع کنیم.
+
+در روابط زیر، برای سطرهای میانی
+$a,b\in A_D$ و برای سطر آغاز $b\in A_D$
+است؛ جمع تهی برابر صفر است. برای
+خانواده‌های شرطی به طبقه، قرارداد
+$c_s=y_s$ برقرار است.
+
+\paragraph{سیاست ثابت مشترک.}
+مطابق رابطه~\eqref{cmp:eq:ch3-fixed-policy-matrix}،
+$z_{s;i,a,b}=z_{ab}$ و
+$z_{s;s,\bot,b}=z_{\bot b}$ است. بنابراین:
+\begin{equation}\label{eq:app-ch3-gradient-shared-scores}
+\begin{aligned}
+\frac{\partial\mathcal L_{\mathrm{tr}}}{\partial z_{ab}}
+&=\sum_{s=1}^n
+\sum_{\substack{i\ne s\\a,b\in A_{X_i}}}
+g_{s;i,a,b}^{(z)},\\
+\frac{\partial\mathcal L_{\mathrm{tr}}}{\partial z_{\bot b}}
+&=\sum_{\substack{1\le s\le n\\b\in A_{X_s}}}
+g_{s;s,\bot,b}^{(z)}.
+\end{aligned}
+\end{equation}
+
+\paragraph{سیاست ثابت شرطی به طبقه.}
+در این خانواده، امتیاز هر کاربرد از
+$Z^{(y_s)}$ انتخاب می‌شود. ازاین‌رو:
+\begin{equation}\label{eq:app-ch3-gradient-class-scores}
+\begin{aligned}
+\frac{\partial\mathcal L_{\mathrm{tr}}}{\partial z^{(c)}_{ab}}
+&=\sum_{s\in C_c}
+\sum_{\substack{i\ne s\\a,b\in A_{X_i}}}
+g_{s;i,a,b}^{(z)},\\
+\frac{\partial\mathcal L_{\mathrm{tr}}}{\partial z^{(c)}_{\bot b}}
+&=\sum_{\substack{s\in C_c\\b\in A_{X_s}}}
+g_{s;s,\bot,b}^{(z)}.
+\end{aligned}
+\end{equation}
+
+\paragraph{سیاست گره‌محور.}
+مطابق رابطه~\eqref{cmp:eq:ch3-policy-family-shapes}،
+امتیاز میانی در آرایهٔ $Z^{\mathrm{node}}$
+با گره جاری $i$ مشخص می‌شود، نه مبدأ.
+برای $a,b\in A_{X_i}$ و به‌ترتیب
+$b\in A_{X_i}$ در سطر آغاز داریم:
+\begin{equation}\label{eq:app-ch3-gradient-node-scores}
+\begin{aligned}
+\frac{\partial\mathcal L_{\mathrm{tr}}}
+{\partial Z^{\mathrm{node}}_{i,a,b}}
+&=\sum_{s\ne i}g_{s;i,a,b}^{(z)},\\
+\frac{\partial\mathcal L_{\mathrm{tr}}}
+{\partial Z^{\mathrm{node}}_{i,\bot,b}}
+&=g_{i;i,\bot,b}^{(z)}.
+\end{aligned}
+\end{equation}
+مشتق درایه‌های نامجاز در هر دو سطر صفر است.
+
+\paragraph{سیاست گره--طبقه.}
+برای آرایهٔ $Z^{\mathrm{node,class}}$،
+گره جاری و طبقهٔ مبدأ هر دو امتیاز
+موضعی را تعیین می‌کنند. برای ویژگی‌های
+مجاز همان گره داریم:
+\begin{equation}\label{eq:app-ch3-gradient-node-class-scores}
+\begin{aligned}
+\frac{\partial\mathcal L_{\mathrm{tr}}}
+{\partial Z^{\mathrm{node,class}}_{c,i,a,b}}
+&=\sum_{\substack{s\in C_c\\s\ne i}}
+g_{s;i,a,b}^{(z)},\\
+\frac{\partial\mathcal L_{\mathrm{tr}}}
+{\partial Z^{\mathrm{node,class}}_{c,i,\bot,b}}
+&=\begin{cases}
+g_{i;i,\bot,b}^{(z)},&y_i=c,\\
+0,&y_i\ne c.
+\end{cases}
+\end{aligned}
+\end{equation}
+در آموزش، تنها سطر آغاز مربوط به طبقهٔ
+واقعی هر گره به کار می‌رود؛ درایه‌های
+آغاز مربوط به دیگر طبقه‌ها و نیز درایه‌های
+نامجاز، از تابع هدف فعلی سهم مشتق ندارند.
+این امر دربارهٔ سطرهای میانی صدق نمی‌کند؛
+زیرا گشت مبدأهای هر طبقه می‌تواند از
+گره‌های متعلق به سایر طبقه‌ها عبور کند.
+
+\paragraph{اشتراک مستقل پارامترهای سطر آغاز.}
+می‌توان امتیازهای میانی را گره‌محور یا
+گره--طبقه نگه داشت، ولی سطر آغاز را به‌صورت
+ثابت مشترک یا ثابت شرطی به طبقه تعریف کرد.
+در این حالت از رابطهٔ میانی خانوادهٔ
+گره‌محور متناظر و از رابطهٔ آغاز
+\eqref{eq:app-ch3-gradient-shared-scores}
+یا~\eqref{eq:app-ch3-gradient-class-scores}
+استفاده می‌شود. شمار جایگاه‌های خام سطر
+آغاز مشترک به‌جای $nd$ برابر $d$ و در
+حالت شرطی به طبقه به‌جای $Knd$ برابر
+$Kd$ است؛ شمار جایگاه‌های میانی تغییر
+نمی‌کند. این اعداد شمار درایه‌های خام
+آرایه‌اند، نه لزوماً شمار درجات آزادی مؤثر؛
+ماسک‌ها و ناوردایی انتقال مشترک نیز بر
+درجات آزادی اثر دارند. در نمونهٔ جدید،
+همان امتیازهای ثابت آغاز روی ماسک ویژگی‌های
+موجود نرمال می‌شوند و درون‌یابی لازم نیست.
+
+\subsection{انتقال مشتق به پارامترهای ماتریس توابع}
+\label{app:ch3-gradient-parametric-functions}
+
+برای خانوادهٔ توابع پارامتری در
+روابط~\eqref{cmp:eq:ch3-parametric-feature-score}
+و~\eqref{cmp:eq:ch3-parametric-start-score}،
+با ثابت‌بودن مقادیر ویژگی‌های ورودی، مشتق
+امتیاز خام همان مشتق تابع تولیدکنندهٔ
+امتیاز نسبت به مؤلفه‌های قابل‌آموزش
+$\Theta$ است. برای یک مؤلفهٔ دلخواه
+$\theta_j$ از $\theta$ داریم:
+\[
+\begin{aligned}
+\frac{\partial\mathcal L_{\mathrm{tr}}}{\partial\theta_j}
+=\sum_{s=1}^{n}\Bigg[
+&\sum_{b\in A_{X_s}}g_{s;s,\bot,b}^{(z)}
+\frac{\partial F_{c_s,b}
+(b(X_s);\Theta)}{\partial\theta_j}\\
+&+\sum_{i\ne s}\sum_{a,b\in A_{X_i}}
+g_{s;i,a,b}^{(z)}
+\frac{\partial F_{c_s,a,b}
+(a(X_i),b(X_i);\Theta)}{\partial\theta_j}
+\Bigg].
+\end{aligned}
+\]
+اگر مؤلفهٔ $\theta_j$ در چند تابع مشترک
+باشد، سهم تمام آن توابع جمع می‌شود؛ اگر
+در تابعی حضور نداشته باشد، سهم مشتق آن
+تابع صفر است. بنابراین روش به ساختار
+داخلی توابع تولیدکنندهٔ امتیاز وابسته نیست
+و حساسیت‌های خروجی آن‌ها را می‌توان
+به روش مشتق‌گیری مناسب همان ساختار
+به پارامترهایشان منتقل کرد. این صورت،
+توابع خطی، غیرخطی و شبکه‌های عصبی را
+در نقاط دارای مشتق معتبر پوشش می‌دهد.
+برای سیاست مستقل از طبقه، اندیس طبقهٔ
+مبدأ در انتخاب تابع نقشی ندارد. سیاست
+یکنواخت ثابت نیز فاقد پارامتر قابل‌آموزش
+است.
