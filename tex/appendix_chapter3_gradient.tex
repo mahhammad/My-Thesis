@@ -1,2 +1,212 @@
 % !TeX root=../main.tex
-% پیوست مستقل محاسبهٔ گرادیان فصل سوم؛ مطالب پس از ممیزی منتقل می‌شوند.
+\chapter{اثبات‌ها و محاسبات تکمیلی گرادیان}
+\label{app:ch3-gradient-derivations}
+
+در این پیوست، محاسبات تکمیلی و اثبات روابط
+بخش~\ref{cmp:sec:ch3-gradient-calculation} ارائه
+می‌شوند. فرض‌ها و نمادگذاری مطابق متن اصلی‌اند،
+مگر آنکه خلاف آن تصریح شود.
+
+\section{مشتق تابع زیان نسبت به ناهمانندی‌ها}
+\label{app:ch3-gradient-loss-dissimilarities}
+
+در این بخش، ناهمانندی‌های نمونهٔ آموزشی تا مراکز
+طبقه‌ها را مطابق
+رابطه~\eqref{cmp:eq:ch3-general-center-dissimilarity}
+و برای سنجهٔ ثابت $\psi$ با $d_{i,c}$ نشان می‌دهیم.
+در مشتق‌گیری این مرحله، این کمیت‌ها مستقل فرض
+می‌شوند و وزن طبقه‌ها، برچسب‌ها و پارامترهای مقیاس
+توابع زیان ثابت‌اند.
+
+\subsection{مشتق تابع هدف وزن‌دار و حاشیه‌ها}
+\label{app:ch3-gradient-loss-margin-chain}
+
+در تابع هدف
+رابطه~\eqref{cmp:eq:ch3-training-weighted-loss}،
+زیان نمونهٔ $j$ به ناهمانندی‌های همان نمونه وابسته
+است؛ ازاین‌رو، برای $j\ne i$،
+$\partial\ell_j/\partial d_{i,c}=0$.
+در نتیجه
+\[
+\begin{aligned}
+\frac{\partial\mathcal L_{\mathrm{tr}}}{\partial d_{i,c}}
+&=\sum_{k=1}^{K}\frac{\omega_k}{|C_k|}
+\sum_{j\in C_k}\frac{\partial\ell_j}{\partial d_{i,c}}\\
+&=\frac{\omega_{y_i}}{|C_{y_i}|}
+\frac{\partial\ell_i}{\partial d_{i,c}},
+\end{aligned}
+\]
+که رابطه~\eqref{cmp:eq:ch3-gradient-loss-distance-coefficient}
+را ثابت می‌کند. استقلال در این مرحله صرفاً
+قرارداد مشتق جزئی است، نه استقلال ناهمانندی‌ها
+نسبت به پارامترهای سیاست. برای شباهت نیز
+جایگذاری $d_{i,c}=-s(\mathscr Y_i,\mathcal V_c)$
+و قاعدهٔ زنجیره‌ای
+رابطه~\eqref{cmp:eq:ch3-gradient-loss-similarity-coefficient}
+را نتیجه می‌دهد.
+
+حاشیهٔ تعلق به طبقهٔ $c$ طبق
+رابطه~\eqref{cmp:eq:ch3-fixed-representation-margin}
+برابر است با
+\[
+\gamma_{i,c}^{(\psi)}
+=\min_{u\ne c}d_{i,u}-d_{i,c}.
+\]
+اگر نزدیک‌ترین رقیب $r_i(c)$ طبق
+رابطه~\eqref{cmp:eq:ch3-gradient-nearest-rival}
+یکتا باشد، به دلیل متناهی‌بودن شمار طبقه‌ها و
+شکاف مثبت با دیگر رقبا، شاخهٔ کمینه در یک
+همسایگی از بردار ناهمانندی‌ها ثابت می‌ماند.
+برای هر $r=1,\ldots,K$ داریم:
+\begin{equation}\label{eq:app-ch3-gradient-margin-distance}
+\frac{\partial\gamma_{i,c}^{(\psi)}}{\partial d_{i,r}}
+=\mathbf1\{r=r_i(c)\}-\mathbf1\{r=c\}.
+\end{equation}
+همچنین از تعریف حاشیهٔ دوتایی در
+رابطه~\eqref{cmp:eq:ch3-training-pairwise-margin}،
+برای $u\ne y_i$ نتیجه می‌شود:
+\begin{equation}\label{eq:app-ch3-gradient-pairwise-distance}
+\frac{\partial m_{i,u}^{(\psi)}}{\partial d_{i,r}}
+=\mathbf1\{r=u\}-\mathbf1\{r=y_i\}.
+\end{equation}
+رابطهٔ اخیر به یکتایی هیچ رقیبی نیاز ندارد.
+
+\subsection{استخراج مشتق سه تابع زیان}
+\label{app:ch3-gradient-loss-three-derivatives}
+
+\paragraph{زیان لگاریتمی.}
+در حالت یکتایی نزدیک‌ترین رقیب برای همهٔ
+طبقه‌ها، قاعدهٔ زنجیره‌ای و
+روابط~\eqref{cmp:eq:ch3-training-margin-nll-derivative}
+و~\eqref{eq:app-ch3-gradient-margin-distance}
+نتیجه می‌دهند:
+\[
+\begin{aligned}
+\frac{\partial\ell_i}{\partial d_{i,r}}
+&=\sum_{c=1}^{K}
+\frac{\partial\ell_i}{\partial\gamma_{i,c}^{(\psi)}}
+\frac{\partial\gamma_{i,c}^{(\psi)}}{\partial d_{i,r}}\\
+&=\sum_{c=1}^{K}
+\frac{\widehat p_{i,c}^{(\psi,\tau_\psi)}-Y_{ic}}{\tau_\psi}
+\bigl(\mathbf1\{r=r_i(c)\}-\mathbf1\{r=c\}\bigr).
+\end{aligned}
+\]
+بنابراین رابطه~\eqref{cmp:eq:ch3-gradient-nll-distance}
+برقرار است.
+
+\paragraph{زیان سیگموئیدی.}
+در حالت یکتایی نزدیک‌ترین رقیب طبقهٔ واقعی، از
+روابط~\eqref{cmp:eq:ch3-training-sigmoid-derivative}
+و~\eqref{eq:app-ch3-gradient-margin-distance}
+به دست می‌آید:
+\[
+\begin{aligned}
+\frac{\partial\ell_i}{\partial d_{i,r}}
+&=\frac{\partial\ell_i}{\partial\gamma_{i,y_i}^{(\psi)}}
+\frac{\partial\gamma_{i,y_i}^{(\psi)}}{\partial d_{i,r}}\\
+&=-\frac{\ell_i(1-\ell_i)}{\tau}
+\bigl(\mathbf1\{r=r_i(y_i)\}-\mathbf1\{r=y_i\}\bigr).
+\end{aligned}
+\]
+این همان رابطه~\eqref{cmp:eq:ch3-gradient-sigmoid-distance}
+است.
+
+\paragraph{زیان سافت‌پلاس.}
+از قاعدهٔ زنجیره‌ای روی همهٔ حاشیه‌های دوتایی
+و رابطه~\eqref{eq:app-ch3-gradient-pairwise-distance}
+داریم:
+\[
+\frac{\partial\ell_i}{\partial d_{i,r}}
+=\sum_{u\ne y_i}
+\frac{\partial\ell_i}{\partial m_{i,u}^{(\psi)}}
+\bigl(\mathbf1\{r=u\}-\mathbf1\{r=y_i\}\bigr).
+\]
+برای $r\ne y_i$ فقط جملهٔ $u=r$ باقی
+می‌ماند و برای $r=y_i$ همهٔ جمله‌ها با علامت
+منفی جمع می‌شوند؛ بنابراین
+رابطه~\eqref{cmp:eq:ch3-gradient-softplus-distance}
+حاصل می‌شود. مشتق هر جمله نسبت به حاشیه
+در رابطه~\eqref{cmp:eq:ch3-training-softplus-derivative}
+محاسبه شده است و به انتخاب نزدیک‌ترین رقیب
+وابسته نیست.
+
+\subsection{تساوی نزدیک‌ترین رقبا و مشتق جهت‌دار}
+\label{app:ch3-gradient-loss-ties}
+
+اگر نزدیک‌ترین رقیب یکتا نباشد، مجموعهٔ اندیس
+رقبای فعال را در این زیربخش با
+\[
+\mathcal R_i(c)=
+\{u\ne c:\ d_{i,u}=\min_{r\ne c}d_{i,r}\}
+\]
+نشان می‌دهیم. برای جهت تغییر
+$\boldsymbol v=(v_1,\ldots,v_K)$ در فضای
+ناهمانندی‌ها، مشتق جهت‌دار یک‌طرفهٔ حاشیه
+برابر است با
+\begin{equation}\label{eq:app-ch3-gradient-margin-directional}
+\lim_{\varepsilon\downarrow0}
+\frac{\min_{u\ne c}(d_{i,u}+\varepsilon v_u)
+-(d_{i,c}+\varepsilon v_c)-\gamma_{i,c}^{(\psi)}}
+{\varepsilon}
+=\min_{u\in\mathcal R_i(c)}v_u-v_c.
+\end{equation}
+زیرا برای $\varepsilon$ مثبت و به‌اندازهٔ کافی
+کوچک، هیچ رقیب غیرفعالی به دلیل شکاف مثبت
+نمی‌تواند به کمینه برسد. اگر همهٔ رقبا فعال
+باشند، رابطه مستقیماً از تعریف کمینه به دست
+می‌آید.
+
+در حالت تساوی چند رقیب، عبارت سمت راست
+به‌طور کلی تابعی خطی از جهت نیست و حاشیه
+مشتق معمول ندارد. مشتق جهت‌دار زیان لگاریتمی
+از جمع مشتق‌های جهت‌دار حاشیه‌ها با ضرایب
+رابطه~\eqref{cmp:eq:ch3-training-margin-nll-derivative}
+و مشتق جهت‌دار زیان سیگموئیدی از ضرب مشتق
+جهت‌دار حاشیهٔ طبقهٔ واقعی در
+رابطه~\eqref{cmp:eq:ch3-training-sigmoid-derivative}
+حاصل می‌شود. ممکن است ترکیب این مشتق‌ها در
+موارد خاص خطی شود؛ بنابراین عدم مشتق‌پذیری
+حاشیه لزوماً به عدم مشتق‌پذیری زیان نمی‌انجامد.
+
+برای محاسبهٔ عددی می‌توان یک عضو فعال را
+با قراردادی ثابت، مانند کوچک‌ترین اندیس فعال،
+انتخاب کرد و در روابط متن به جای رقیب یکتا
+قرار داد. همچنین در سطح هر حاشیه، می‌توان
+بردارهای مشتق شاخه‌های فعال را با وزن‌های
+نامنفی و مجموع یک ترکیب کرد؛ در این صورت
+$\mathbf1\{r=r_i(c)\}$ با وزن مربوط به
+رقیب $r$ جایگزین می‌شود (وزن رقبا خارج از
+مجموعهٔ فعال صفر است).
+این‌ها قراردادهای انتشار مشتق در نقطهٔ تساوی‌اند؛
+نباید آن‌ها را با مشتق معمول یا مشتق جهت‌دار
+در تمام جهت‌ها یکی دانست. همچنین در زیان
+لگاریتمی، انتخاب‌های مستقل شاخه‌ها برای حاشیه‌های
+مختلف لزوماً از یک همسایگی مشتق‌پذیر مشترک
+ناشی نمی‌شوند.
+
+\subsection{ناوردایی انتقال مشترک و خاصیت مجموع صفر}
+\label{app:ch3-gradient-loss-zero-sum}
+
+اگر به تمام ناهمانندی‌های نمونهٔ $i$ مقدار
+ثابت $t$ افزوده شود، تمام حاشیه‌های دوتایی
+و حاشیه‌های تعلق بدون تغییر می‌مانند، زیرا
+اختلاف ناهمانندی‌ها ثابت می‌ماند. در نتیجه
+بردار احتمال تخمینی برچسب و هر سه زیان نیز
+ثابت می‌مانند. در نقاط مشتق‌پذیر، مشتق این
+همانی نسبت به $t$ در $t=0$ برابر است با
+\[
+0=\left.\frac{\mathrm d}{\mathrm dt}
+\ell_i(d_{i,1}+t,\ldots,d_{i,K}+t)\right|_{t=0}
+=\sum_{r=1}^{K}\frac{\partial\ell_i}{\partial d_{i,r}}.
+\]
+در قرارداد انتخاب شاخهٔ فعال نیز مجموع
+مؤلفه‌های بردار
+$\mathbf1\{r=r_i(c)\}-\mathbf1\{r=c\}$
+صفر است؛ همین ویژگی برای ترکیب وزن‌دار
+شاخه‌ها برقرار می‌ماند. برای سافت‌پلاس، صفر
+بودن مجموع مستقیماً از
+رابطه~\eqref{cmp:eq:ch3-gradient-softplus-distance}
+نتیجه می‌شود. در نهایت با ضرب در وزن ثابت
+$\omega_{y_i}/|C_{y_i}|$،
+رابطه~\eqref{cmp:eq:ch3-gradient-loss-zero-sum}
+به دست می‌آید.

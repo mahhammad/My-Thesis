@@ -4373,36 +4373,56 @@ $\tau_\psi=2\tau_{\mathrm{SP}}$، زیان سافت‌پلاس
 \label{cmp:subsec:ch3-gradient-loss-dissimilarities}
 
 برای نمونهٔ آموزشی $X_i$ و هر مرکز طبقهٔ $c$،
-از ناهمانندی $d_{i,c}^{(\psi)}$ در
+ناهمانندی $d_{i,c}^{(\psi)}$ مطابق
 رابطه~\eqref{cmp:eq:ch3-general-center-dissimilarity}
-استفاده می‌کنیم. برای کوتاهی، شناسهٔ سنجه را در
-محاسبات این زیربخش حذف می‌کنیم. در صورت استفاده
-از شباهت، تمام روابط این زیربخش با جایگزینی
-ناهمانندی با منفی شباهت برقرارند.
-برای انتقال مشتق به مرحلهٔ بعد تعریف می‌کنیم:
+تعریف شده است. برای سنجهٔ ثابت $\psi$، از صورت
+کوتاه $d_{i,c}$ استفاده می‌کنیم. با توجه به
+تابع هدف وزن‌دار آموزش در
+رابطه~\eqref{cmp:eq:ch3-training-weighted-loss}،
+حساسیت آن نسبت به این ناهمانندی را تعریف می‌کنیم:
 \begin{equation}\label{cmp:eq:ch3-gradient-loss-distance-coefficient}
-a_{i,c}:=\frac{\partial\mathcal L_{\mathrm{tr}}}{\partial d_{i,c}}
+\boxed{
+g_{i,c}^{(\psi)}
+:=\frac{\partial\mathcal L_{\mathrm{tr}}}
+{\partial d_{i,c}^{(\psi)}}
 =\frac{\omega_{y_i}}{|C_{y_i}|}
-\frac{\partial\ell_i}{\partial d_{i,c}}.
+\frac{\partial\ell_i}{\partial d_{i,c}^{(\psi)}}.
+}
 \end{equation}
-در این رابطه مشتق نسبت به ناهمانندی‌ها به‌عنوان
-ورودی‌های مستقل تابع زیان محاسبه می‌شود.
+در این مرحله ناهمانندی‌ها به‌عنوان ورودی‌های
+مستقل تابع زیان در نظر گرفته می‌شوند؛ وابستگی
+آن‌ها به بازنمایی‌ها و مراکز در مراحل بعدی
+مشتق‌گیری لحاظ می‌شود. در صورت استفاده از شباهت،
+روابط زیر با قرار دادن $d_{i,c}=-s(\mathscr Y_i,\mathcal V_c)$
+برقرارند و حساسیت نسبت به خود شباهت با تغییر علامت
+مشتق نسبت به منفی شباهت به دست می‌آید:
+\begin{equation}\label{cmp:eq:ch3-gradient-loss-similarity-coefficient}
+g_{i,c}^{(s)}
+:=\frac{\partial\mathcal L_{\mathrm{tr}}}
+{\partial s(\mathscr Y_i,\mathcal V_c)}
+=-\left.
+\frac{\partial\mathcal L_{\mathrm{tr}}}{\partial d_{i,c}}
+\right|_{d_{i,u}=-s(\mathscr Y_i,\mathcal V_u),\ u=1,\ldots,K}.
+\end{equation}
+
+برای زیان‌های مبتنی بر حاشیهٔ تعلق، هرگاه
+نزدیک‌ترین مرکز رقیب طبقهٔ $c$ یکتا باشد، اندیس
+آن را با
+\begin{equation}\label{cmp:eq:ch3-gradient-nearest-rival}
+r_i(c):=\arg\min_{r\ne c}d_{i,r}
+\end{equation}
+نشان می‌دهیم. استخراج روابط این زیربخش و
+بررسی حالت تساوی رقبا در
+پیوست~\ref{app:ch3-gradient-derivations}،
+بخش~\ref{app:ch3-gradient-loss-dissimilarities}
+ارائه شده است.
 
 \paragraph{زیان لگاریتمی.}
-طبق رابطه~\eqref{cmp:eq:ch3-all-class-margin-vector}،
-زیان لگاریتمی از حاشیهٔ تعلق به همهٔ طبقه‌ها
-استفاده می‌کند. اگر برای طبقهٔ $c$ نزدیک‌ترین
-رقیب یکتا باشد، آن را با
-$r_i(c)=\arg\min_{r\ne c}d_{i,r}$ نشان می‌دهیم.
-از رابطه~\eqref{cmp:eq:ch3-fixed-representation-margin}
-به دست می‌آید:
-\[
-\frac{\partial\gamma_{i,c}^{(\psi)}}{\partial d_{i,r}}
-=\mathbf1\{r=r_i(c)\}-\mathbf1\{r=c\}.
-\]
-با استفاده از مشتق
-رابطه~\eqref{cmp:eq:ch3-training-margin-nll-derivative}
-داریم:
+با استفاده از بردار حاشیه‌های تعلق در
+رابطه~\eqref{cmp:eq:ch3-all-class-margin-vector}
+و مشتق زیان نسبت به حاشیه‌ها در
+رابطه~\eqref{cmp:eq:ch3-training-margin-nll-derivative}،
+در حالت یکتایی نزدیک‌ترین رقیب برای همهٔ طبقه‌ها داریم:
 \begin{equation}\label{cmp:eq:ch3-gradient-nll-distance}
 \boxed{
 \frac{\partial\ell_i}{\partial d_{i,r}}
@@ -4413,11 +4433,11 @@ $r_i(c)=\arg\min_{r\ne c}d_{i,r}$ نشان می‌دهیم.
 \end{equation}
 
 \paragraph{زیان سیگموئیدی.}
-در این زیان فقط نزدیک‌ترین رقیب طبقهٔ واقعی
-در تعیین حاشیه دخالت دارد. با استفاده از
-روابط~\eqref{cmp:eq:ch3-training-true-class-margin}
-و~\eqref{cmp:eq:ch3-training-sigmoid-derivative}
-در حالت رقیب یکتا داریم:
+با استفاده از حاشیهٔ تعلق به طبقهٔ واقعی در
+رابطه~\eqref{cmp:eq:ch3-training-true-class-margin}
+و مشتق زیان در
+رابطه~\eqref{cmp:eq:ch3-training-sigmoid-derivative}،
+در حالت یکتایی نزدیک‌ترین رقیب طبقهٔ واقعی داریم:
 \begin{equation}\label{cmp:eq:ch3-gradient-sigmoid-distance}
 \boxed{
 \frac{\partial\ell_i}{\partial d_{i,r}}
@@ -4425,17 +4445,24 @@ $r_i(c)=\arg\min_{r\ne c}d_{i,r}$ نشان می‌دهیم.
 \bigl(\mathbf1\{r=r_i(y_i)\}-\mathbf1\{r=y_i\}\bigr).
 }
 \end{equation}
-در تساوی نزدیک‌ترین رقبا، مشتق معمول حاشیه ممکن
-است وجود نداشته باشد. انتخاب یکی از شاخه‌های
-فعال کمینه یا ترکیب آن‌ها، قرارداد مشتق‌گیری
-در نقطهٔ تساوی است و لزوماً مشتق معمول نیست.
+در این زیان، مشتق موضعی نسبت به ناهمانندی
+تمام مراکز، به‌جز مرکز طبقهٔ واقعی و نزدیک‌ترین
+مرکز رقیب، صفر است.
+
+در دو زیان پیشین، در نقطهٔ تساوی نزدیک‌ترین
+رقبا ممکن است مشتق معمول وجود نداشته باشد.
+برای محاسبهٔ عددی می‌توان از قرارداد ثابتی برای
+انتخاب یکی از شاخه‌های فعال کمینه استفاده کرد؛
+این مقدار لزوماً مشتق معمول تابع نیست.
+جزئیات در بخش~\ref{app:ch3-gradient-loss-ties}
+پیوست آمده است.
 
 \paragraph{زیان سافت‌پلاس.}
-در اینجا از تعریف حاشیهٔ دوتایی
+با استفاده از حاشیهٔ دوتایی در
 رابطه~\eqref{cmp:eq:ch3-training-pairwise-margin}
 و مشتق زیان در
 رابطه~\eqref{cmp:eq:ch3-training-softplus-derivative}
-استفاده می‌کنیم. برای $r\ne y_i$ داریم:
+داریم:
 \begin{equation}\label{cmp:eq:ch3-gradient-softplus-distance}
 \boxed{
 \begin{aligned}
@@ -4447,11 +4474,26 @@ $r_i(c)=\arg\min_{r\ne c}d_{i,r}$ نشان می‌دهیم.
 \frac{\partial\ell_i}{\partial m_{i,r}^{(\psi)}}.
 \end{aligned}}
 \end{equation}
-این روابط به انتخاب رقیب یکتا نیاز ندارند.
-برای هر سه زیان، مجموع مشتق‌ها نسبت به
-ناهمانندی‌های یک نمونه صفر است، زیرا افزودن
-مقدار ثابت به تمام ناهمانندی‌ها حاشیه‌ها و
-در نتیجه زیان را تغییر نمی‌دهد.
+در این زیان همهٔ طبقه‌های رقیب در محاسبهٔ
+مشتق دخالت دارند و یکتایی نزدیک‌ترین رقیب
+لازم نیست.
+
+\paragraph{خاصیت مشترک مشتق‌ها.}
+هر سه زیان نسبت به افزودن مقداری ثابت به همهٔ
+ناهمانندی‌های یک نمونه ناوردا هستند. در نتیجه،
+در نقاط مشتق‌پذیر، و نیز برای قرارداد انتخاب
+شاخهٔ فعال بیان‌شده در بالا، داریم:
+\begin{equation}\label{cmp:eq:ch3-gradient-loss-zero-sum}
+\boxed{
+\sum_{c=1}^{K}\frac{\partial\ell_i}{\partial d_{i,c}}=0,
+\qquad
+\sum_{c=1}^{K}g_{i,c}^{(\psi)}=0.
+}
+\end{equation}
+این رابطه می‌تواند برای بررسی صحت محاسبات
+عددی مشتق‌ها نیز به کار رود. اثبات آن در
+بخش~\ref{app:ch3-gradient-loss-zero-sum} پیوست
+ارائه شده است.
 
 \subsection{مشتق سنجه‌های ناهمانندی و شباهت}
 \label{cmp:subsec:ch3-gradient-measures}
@@ -4525,7 +4567,7 @@ $r_i(c)=\arg\min_{r\ne c}d_{i,r}$ نشان می‌دهیم.
 نیز اثر می‌گذارد. برای مرکز طبقهٔ $c$ داریم:
 \begin{equation}\label{cmp:eq:ch3-gradient-center-accumulation}
 \nabla_{\mathcal V_c}\mathcal L_{\mathrm{tr}}
-=\sum_{i=1}^{n}a_{i,c}
+=\sum_{i=1}^{n}g_{i,c}^{(\psi)}
 \nabla_Q d_\psi(\mathscr Y_i,\mathcal V_c).
 \end{equation}
 در اینجا $\nabla_P$ و $\nabla_Q$ به‌ترتیب مشتق
@@ -4536,14 +4578,18 @@ $r_i(c)=\arg\min_{r\ne c}d_{i,r}$ نشان می‌دهیم.
 \boxed{\begin{aligned}
 \mathbf g_s
 :=\nabla_{\mathscr Y_s}\mathcal L_{\mathrm{tr}}
-&=\sum_{c=1}^{K}a_{s,c}
+&=\sum_{c=1}^{K}g_{s,c}^{(\psi)}
 \nabla_P d_\psi(\mathscr Y_s,\mathcal V_c)\\
 &\quad+\frac1{|C_{y_s}|}
 \nabla_{\mathcal V_{y_s}}\mathcal L_{\mathrm{tr}}.
 \end{aligned}}
 \end{equation}
-در استفاده از شباهت، در این روابط به جای
-$d_\psi$ از منفی شباهت استفاده می‌شود.
+در استفاده از شباهت، می‌توان به جای $d_\psi$
+و $g_{i,c}^{(\psi)}$ به‌ترتیب از خود شباهت و
+حساسیت $g_{i,c}^{(s)}$ در
+رابطه~\eqref{cmp:eq:ch3-gradient-loss-similarity-coefficient}
+استفاده کرد؛ یا به‌طور معادل، منفی شباهت و
+حساسیت نسبت به آن را به کار برد.
 جملهٔ نخست مسیر مستقیم و جملهٔ دوم مسیر
 وابسته به مرکز است. این رابطه برای سیاست مشترک
 و سیاست شرطی به طبقه یکسان است؛ تفاوت آن‌ها
