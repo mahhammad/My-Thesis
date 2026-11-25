@@ -225,7 +225,7 @@
 \notationrow{\widehat p_{i,c},\ \widehat p_{i,c}^{\,\mathrm{dist}}}{احتمال تخمینی در صورت مقایسه‌ای مبتنی بر منفی ناهمانندی}{cmp:eq:ch3-NLL-softmax}
 \notationrow{\widehat y_i}{برچسب پیش‌بینی‌شده بر اساس بیشترین حاشیه؛ برای نمونهٔ جدید $i=\star$}{cmp:eq:ch3-class-hypothesis-inference}
 \notationrow{\widehat y_s^{\mathrm{nbr}}}{برچسب حاصل از قاعدهٔ سادهٔ بیشترین مؤلفهٔ توزیع برچسب همسایگی مبدأ $s$}{cmp:eq:ch3-simple-label-decision}
-\notationrow{\ell_i}{زیان نمونهٔ آموزشی؛ با انتخاب تابع هدف مشخص می‌شود}{cmp:eq:ch3-training-weighted-loss}
+\notationrow{\ell_i}{زیان نمونهٔ آموزشی؛ نوع زیان در صورت نیاز با بالانویس مشخص می‌شود}{cmp:eq:ch3-training-weighted-loss}
 \notationrow{NLL_\Omega}{NLL وزن‌دار روی طبقه‌ها}{cmp:eq:ch3-NLL-balanced}
 \notationrow{\gamma}{ضریب مقیاس ورودی نرمال‌سازی با بیشینهٔ هموار}{cmp:eq:ch3-NLL-scaled-softmax}
 \notationrow{\overline d_i,\ \sigma_i}{میانگین و انحراف معیار فاصله‌ها}{cmp:eq:ch3-distance-statistics}
@@ -253,11 +253,12 @@
 \notationrow{\tau}{پهنای گذار زیان سیگموئیدی}{cmp:eq:ch3-training-sigmoid-sample}
 \notationrow{\ell_\tau(m)}{نماد تابع سیگموئیدی در تحلیل‌های بعدی؛ $m$ آرگومان حاشیه است}{cmp:eq:ch3-js-sigmoid-loss}
 \notationrow{g_\tau(\gamma_{i,y_i}^{(\psi)})}{حساسیت نرمال‌شدهٔ زیان سیگموئیدی نسبت به حاشیه با بیشینهٔ یک؛ نه گرادیان سیاست}{cmp:eq:ch3-training-sigmoid-sensitivity}
-\notationrow{\mathcal L_{\mathrm{sig}}}{تابع هدف سیگموئیدی؛ با انتخاب زیان سیگموئیدی در تابع هدف عمومی به دست می‌آید}{cmp:eq:ch3-training-sigmoid-sample}
-\notationrow{\ell_i^{\mathrm{SP}},\ \tau_{\mathrm{SP}}}{زیان سافت‌پلاس مبتنی بر حاشیه‌های دوتایی و پارامتر مقیاس آن}{cmp:eq:ch3-training-softplus-sample}
+\notationrow{\mathcal L_{\mathrm{sig}}}{تابع هدف سیگموئیدی در تحلیل‌های بعدی}{cmp:eq:ch3-js-sigmoid-balanced-objective}
+\notationrow{\tau_{\mathrm{SP}}}{پارامتر مثبت مقیاس زیان سافت‌پلاس}{cmp:eq:ch3-training-softplus-sample}
+\notationrowsec{\ell_i^{\mathrm{SP}},\ \ell_i^{\mathrm{NLL}}}{زیان سافت‌پلاس و زیان لگاریتمی مبتنی بر حاشیه‌های تعلق، هنگام مقایسهٔ دو صورت}{cmp:subsec:ch3-training-softplus-loss}
 \notationrow{S_{i,r},\ w_{i,r}^{\mathrm{SP}}}{امتیاز تعلق به طبقه و وزن متناظر در تحلیل بعدی گرادیان سافت‌پلاس--JS؛ نه احتمال انتخاب ویژگی}{cmp:eq:ch3-softplus-js-score-weights}
 \notationrow{U_i,\ V_r}{بازنمایی یگانهٔ آموزشی و مرکز طبقهٔ $r$؛ هر دو وابسته به سیاست}{cmp:eq:ch3-softplus-js-score-chain}
-\notationrow{\mathcal L_{\mathrm{SP},\Omega}}{تابع هدف سافت‌پلاس با وزن‌دهی طبقه‌ها؛ در حالت وزن‌های یکسان با $\mathcal L_{\mathrm{SP},U}$ نشان داده می‌شود}{cmp:eq:ch3-training-softplus-sample}
+\notationrow{\mathcal L_{\mathrm{SP},\Omega}}{نماد تابع هدف سافت‌پلاس با وزن‌دهی طبقه‌ها در تحلیل‌های بعدی؛ در حالت وزن‌های یکسان با $\mathcal L_{\mathrm{SP},U}$ نشان داده می‌شود}{cmp:eq:ch3-softplus-js-policy-gradient}
 \notationrow{g^{(t)},\ \eta_{\mathrm A}}{گرادیان زیان در گام آموزش و نرخ یادگیری Adam؛ متمایز از دمای سافت‌پلاس}{cmp:eq:ch3-adam-logit-update}
 \notationrow{m^{(t)},\ v^{(t)},\ \beta_1,\ \beta_2,\ \varepsilon_{\mathrm A}}{ممان‌های مرتبهٔ اول/دوم Adam، ضرایب ممان و ثابت عددی مخرج}{cmp:eq:ch3-adam-logit-update}
 \notationrowsec{\mathcal I_{\mathrm{tr}}}{مجموعهٔ اندیس نمونه‌های آموزش در شبه‌کد یادگیری}{cmp:subsec:ch3-policy-training-pseudocode}
