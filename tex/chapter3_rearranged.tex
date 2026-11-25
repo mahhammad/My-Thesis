@@ -5843,6 +5843,94 @@ $|\theta|$ رشدکننده تعمیم خودکار ندارد.
 همان میانگین‌های حسابی پیشین‌اند؛
 فقط سنجه اختلاف عوض می‌شود.
 
+چهار شیوهٔ سنجش تراکم و گستردگی بازنمایی‌های یک طبقه
+به‌صورت شماتیک در شکل~\ref{cmp:fig:ch3-compactness-four-views}
+مقایسه شده‌اند.
+
+\begin{figure}[!htbp]
+\centering
+\begin{LTR}
+\centering
+\resizebox{0.92\linewidth}{!}{%
+\begin{tikzpicture}[
+    x=1cm,y=1cm,
+    sample/.style={fill=black!70,draw=white,line width=0.25pt},
+    outside/.style={fill=orange!85!black,draw=white,line width=0.25pt},
+    meanmark/.style={draw=teal!80!black,fill=teal!80!black,line width=0.5pt},
+    freemark/.style={draw=blue!70!black,fill=white,line width=0.9pt},
+    panel/.style={draw=black!25,rounded corners=2pt},
+    link/.style={draw=teal!75!black,line width=0.45pt},
+    paneltitle/.style={font=\small,align=center},
+    panelsub/.style={font=\footnotesize,align=center}
+]
+% نقاط مشترک هر چهار قاب؛ میانگین حسابی در این مثال دوبعدی
+% برابر (-0.2125,0.025) است و توپ کمینه مرکز (0,0) و شعاع 1.4 دارد.
+\def\geompoints{1/-1.4/0,2/1.4/0,3/-0.8/0.4,4/-0.6/-0.5,5/-0.4/0.55,6/0.1/-0.45,7/0.2/0.35,8/-0.2/-0.15}
+\pgfmathsetmacro{\geomquantile}{sqrt(0.5875^2+0.375^2)}
+\foreach \px/\py/\panelid in {0/0/1,4.6/0/2,0/-4.05/3,4.6/-4.05/4}{
+    \begin{scope}[shift={(\px,\py)}]
+      \draw[panel] (-2.15,-1.94) rectangle (2.15,1.94);
+      \foreach \k/\xx/\yy in \geompoints {
+          \coordinate (gp\k) at (\xx,\yy);
+      }
+      \coordinate (gc) at (-0.2125,0.025);
+      \ifnum\panelid=1\relax
+          \node[paneltitle] at (0,1.72) {\rl{(الف) تراکم مرکزی}};
+          \foreach \k in {1,...,8}{
+              \draw[link,dashed] (gc) -- (gp\k);
+          }
+          \foreach \k in {1,...,8}{\filldraw[sample] (gp\k) circle (2pt);}
+          \filldraw[meanmark] (gc) ++(0,0.08) -- ++(0.08,-0.08)
+              -- ++(-0.08,-0.08) -- ++(-0.08,0.08) -- cycle;
+          \node[panelsub] at (0,-1.72) {$\mathcal V_c$};
+      \fi
+      \ifnum\panelid=2\relax
+          \node[paneltitle] at (0,1.72) {\rl{(ب) تراکم زوجی}};
+          \foreach \k in {1,...,8}{
+              \foreach \j in {1,...,8}{
+                  \ifnum\k<\j\relax
+                      \draw[link,opacity=0.45] (gp\k) -- (gp\j);
+                  \fi
+              }
+          }
+          \foreach \k in {1,...,8}{\filldraw[sample] (gp\k) circle (2pt);}
+          \node[panelsub] at (0,-1.72) {\rl{مقایسهٔ مستقیم اعضا}};
+      \fi
+      \ifnum\panelid=3\relax
+          \node[paneltitle] at (0,1.72) {\rl{(پ) پوشش چندکی}};
+          \draw[teal!75!black,dashed,fill=teal!5] (gc) circle (\geomquantile cm);
+          \draw[link] (gc) -- ++(-0.5875,0.375);
+          \foreach \k in {3,...,8}{\filldraw[sample] (gp\k) circle (2pt);}
+          \foreach \k in {1,2}{\filldraw[outside] (gp\k) circle (2pt);}
+          \filldraw[meanmark] (gc) ++(0,0.08) -- ++(0.08,-0.08)
+              -- ++(-0.08,-0.08) -- ++(-0.08,0.08) -- cycle;
+          \node[panelsub] at (0,-1.72) {$\alpha=3/4$};
+      \fi
+      \ifnum\panelid=4\relax
+          \node[paneltitle] at (0,1.72) {\rl{(ت) توپ کمینهٔ پوشاننده}};
+          \draw[blue!65!black,fill=blue!4] (0,0) circle (1.4cm);
+          \draw[link] (0,0) -- (gp2);
+          \foreach \k in {1,...,8}{\filldraw[sample] (gp\k) circle (2pt);}
+          \filldraw[freemark] (-0.07,-0.07) rectangle (0.07,0.07);
+          \node[panelsub,above] at (0.72,0.06) {$\mathfrak r_c(C_c)$};
+          \node[panelsub] at (0,-1.72) {\rl{مرکز آزاد توپ}};
+      \fi
+    \end{scope}
+}
+\end{tikzpicture}%
+}
+\end{LTR}
+\caption{مقایسهٔ شماتیک چهار شیوهٔ سنجش تراکم و گستردگی درون‌طبقه‌ای
+با هشت بازنمایی یکسان در هر قاب: (الف) مقایسهٔ نمونه‌ها با مرکز
+حسابی؛ (ب) مقایسهٔ زوجی نمونه‌ها؛ (پ) پوشش چندکی حول مرکز
+ثابت، با پوشش شش نمونه از هشت نمونه در این مثال؛ (ت) کوچک‌ترین
+توپ پوشاننده با مرکز آزاد. لوزی، مرکز حسابی و مربع، مرکز توپ
+کمینه را نشان می‌دهد. این شکل یک مثال اقلیدسی دوبعدی برای
+توضیح تفاوت معیارهاست، نه نگاشت دقیق جنسن--شنون یا نمایش
+ناحیهٔ پوشش KL؛ ناحیهٔ ناهمانندی KL الزاماً توپ متریک نیست.}
+\label{cmp:fig:ch3-compactness-four-views}
+\end{figure}
+
 \paragraph{هزینه مدل‌کردن یک طبقه با توزیع مشترک.}
 با استفاده از مرکز حسابی تعریف‌شده در رابطه~\eqref{cmp:eq:ch3-class-center} و توجیه درست‌نمایی آن در بخش~\ref{cmp:subsec:ch3-mean-center-justification}، برای طبقهٔ $c$، با وزن‌های یکسان $1/|C_c|$، \emph{کمترین میانگین منفی لگاریتم درست‌نمایی مورد انتظار} برای مدل مشترک به‌دست می‌آید:
 \begin{equation}\label{cmp:eq:ch3-class-shared-NLL}
