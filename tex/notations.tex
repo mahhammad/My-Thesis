@@ -264,15 +264,11 @@
 \notationrowalg{\theta^{\mathrm{fit}},\ \mathcal V^{\mathrm{fit}}}{پارامتر و مراکز بازبرآوردشده پس از پایان آموزش؛ متمایز از مراکز هدف معکوس $\mathcal V^\star$}{cmp:alg:ch3-learn-feature-policy}
 \notationrowalg{\mathcal M_{\mathrm{tr}}}{بستهٔ مدل آموخته‌شده، شامل سیاست و مراکز، مرجع آموزش و قرارداد امتیاز}{cmp:alg:ch3-learn-feature-policy}
 \notationgroup{استنتاج برون‌نمونه‌ای و اعتبارسنجی}
-\notationrow{\mathscr Y_x^{[c]}}{بازنمایی پرس‌وجوی بدون برچسب $x$ با سیاست نامزد $c$؛ مراکز آموزش در آزمون ثابت‌اند}{cmp:eq:ch3-heldout-first-state}
+\notationrow{\mathscr Y_x^{[c]}}{بازنمایی پرس‌وجوی بدون برچسب $x$ با سیاست نامزد $c$؛ مراکز آموزش در آزمون ثابت‌اند}{cmp:eq:ch3-new-sample-representation}
 \notationrow{M_x^{[c]}}{حاشیهٔ فرضیهٔ طبقهٔ $c$ نسبت به نزدیک‌ترین مرکز رقیب در همان بازنمایی}{cmp:eq:ch3-class-hypothesis-margin}
-\notationrowalg{q_{x,c},\ \mathsf{decision}}{هزینهٔ تصمیم نامزد و انتخاب میان دو قاعدهٔ استنتاج}{cmp:alg:ch3-heldout-predict-one}
-\notationrow{D_b^{\mathrm{tr}},\ q_b^{(x)}(j\mid x)}{مجموعهٔ مقصدهای آموزشی دارای ویژگی $b$ و توزیع گام اول از پرس‌وجوی خارج از مرجع}{cmp:eq:ch3-heldout-initial-transition}
-\notationrow{\mathfrak a,\ \pi_\star^{[c]}}{قرارداد آغاز پرس‌وجو و سیاست آغاز تحت فرضیهٔ طبقهٔ نامزد}{cmp:eq:ch3-heldout-first-state}
-\notationrow{\nu_{x,1}^{[c]}}{توزیع حالت گشت برون‌نمونه‌ای بلافاصله پس از گام اول}{cmp:eq:ch3-heldout-first-state}
 \notationrowalg{\mathcal Q_{\mathrm{ok}}}{شناسه‌های پرس‌وجوهایی که پیش‌بینی معتبر دارند}{cmp:alg:ch3-heldout-validation}
-\notationrowalg{B_x}{مجموعه ویژگی‌های مشاهده‌شدهٔ پرس‌وجو با مقصد عمودی معتبر در آموزش}{cmp:alg:ch3-heldout-predict-one}
-\notationrowalg{v_x}{نشانگر معتبر بودن پیش‌بینی یک پرس‌وجو؛ از این نماد در سنجش معیارها استفاده نمی‌شود مگر با مقدار یک}{cmp:alg:ch3-heldout-predict-one}
+\notationrowalg{R_x}{خروجی روند پیش‌بینی نمونهٔ $x$ شامل بردار حاشیه‌ها، احتمال تخمینی و برچسب، یا وضعیت نامعتبر $\bot$}{cmp:alg:ch3-heldout-validation}
+\notationrowalg{v_x}{نشانگر معتبر بودن پیش‌بینی یک پرس‌وجو؛ از این نماد در سنجش معیارها استفاده نمی‌شود مگر با مقدار یک}{cmp:alg:ch3-heldout-validation}
 \notationrowalg{\mathcal Q_{\mathrm{bad}}}{شناسه‌های پرس‌وجوهای فاقد پیش‌بینی معتبر}{cmp:alg:ch3-heldout-validation}
 \notationrowalg{\mathsf{Conf}^{\mathrm{val}},\ \mathcal R_{\mathrm{val}}}{ماتریس اغتشاش و گزارش معیارهای اعتبارسنجی با مدل ثابت}{cmp:alg:ch3-heldout-validation}
 \notationgroup{مسئله معکوس سیاست}
