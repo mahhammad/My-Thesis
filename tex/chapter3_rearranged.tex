@@ -3430,6 +3430,241 @@ JSD به جذر آن غیرخطی است و یک ضریب دمای مشترک
 بستگی دارد. تأثیر این انتخاب‌ها بر توابع زیان
 و یادگیری سیاست در بخش‌های بعدی بررسی خواهد شد.
 
+\subsection{زیرروال‌ها و روند پیش‌بینی برچسب نمونه}
+\label{cmp:subsec:ch3-prediction-procedures}
+در ادامهٔ روندهای محاسباتی
+زیربخش~\ref{cmp:subsec:ch3-computational-procedures}،
+زیرروال‌های تشکیل مراکز، محاسبهٔ حاشیه و تشکیل بردار
+احتمال تخمینی را معرفی می‌کنیم. این زیرروال‌ها از
+روش تولید بازنمایی مستقل‌اند و در آموزش و استنتاج
+قابل بازاستفاده هستند. روند پیش‌بینی نمونهٔ جدید
+نیز از آن‌ها و روند محاسبهٔ امید گشت برون‌نمونه‌ای
+استفاده می‌کند، بدون آنکه محاسبات گشت تکرار شوند.
+
+\paragraph{تشکیل مراکز طبقه‌ها.}
+الگوریتم~\ref{cmp:alg:ch3-build-centers} رابطهٔ
+\eqref{cmp:eq:ch3-class-center} را با یک پیمایش
+بازنمایی‌های آموزشی محاسبه می‌کند. در هر پیمایش،
+فقط سطر مرکز متناظر با برچسب نمونه به‌روزرسانی
+می‌شود و پس از پایان پیمایش، مجموع هر طبقه بر
+شمار اعضای آن تقسیم می‌شود.
+
+\begin{algorithm}[!htbp]
+\caption{زیرروال $\operatorname{BuildCenters}$: تشکیل مراکز طبقه‌ها}
+\label{cmp:alg:ch3-build-centers}
+\begin{algorithmic}[1]
+\REQUIRE ماتریس بازنمایی‌ها $\mathscr Y\in\mathbb R^{n\times K}$؛
+ماتریس یک‌داغ برچسب‌ها $Y$؛ هر طبقه ناتهی
+\ENSURE ماتریس مراکز $\mathcal V\in\mathbb R^{K\times K}$
+\STATE $\mathcal V\gets0_{K\times K}$؛ $n_c\gets0$ برای تمام $c$
+\FOR{$i=1,\ldots,n$}
+    \STATE $c\gets y_i$؛ برچسب متناظر با سطر $Y_{i,:}$
+    \STATE $\mathcal V_c\gets\mathcal V_c+\mathscr Y_i$
+    \STATE $n_c\gets n_c+1$
+\ENDFOR
+\FOR{$c=1,\ldots,K$}
+    \STATE $\mathcal V_c\gets\mathcal V_c/n_c$
+\ENDFOR
+\STATE \textbf{بازگردان} $\mathcal V$
+\end{algorithmic}
+\end{algorithm}
+
+\paragraph{محاسبهٔ حاشیهٔ تعلق.}
+برای محاسبهٔ حاشیهٔ یک بازنمایی ثابت $P$، ابتدا
+امتیاز نزدیکی هر مرکز را به‌صورت $u_r=-d_\psi(P,\mathcal V_r)$
+و در صورت انتخاب شباهت، $u_r=s(P,\mathcal V_r)$
+تعریف می‌کنیم. به این ترتیب، در هر دو حالت مقدار
+بزرگ‌تر امتیاز بیانگر نزدیکی بیشتر است و مطابق
+روابط~\eqref{cmp:eq:ch3-fixed-representation-margin}
+و~\eqref{cmp:eq:ch3-fixed-representation-similarity-margin}،
+حاشیهٔ تعلق برابر $u_c-\max_{r\ne c}u_r$ است.
+الگوریتم~\ref{cmp:alg:ch3-class-margins} با دریافت
+مجموعهٔ ناتهی $\mathcal C\subseteq\{1,\ldots,K\}$
+حاشیهٔ طبقه‌های درخواستی را بازمی‌گرداند.
+برای یک طبقهٔ مشخص، $\mathcal C=\{c\}$ و برای
+همهٔ طبقه‌ها، $\mathcal C=\{1,\ldots,K\}$ است.
+با تعیین یک بیشینه‌ساز $c_0$ و بیشترین امتیاز
+در میان سایر طبقه‌ها، محاسبهٔ حاشیه‌ها به جست‌وجوی
+تکراری نزدیک‌ترین رقیب نیاز ندارد؛ این قرارداد
+در صورت تساوی بیشینه‌ها نیز معتبر است.
+
+\begin{algorithm}[!htbp]
+\caption{زیرروال $\operatorname{ClassMargins}$: محاسبهٔ حاشیهٔ تعلق}
+\label{cmp:alg:ch3-class-margins}
+\begin{algorithmic}[1]
+\REQUIRE بازنمایی $P\in\Delta_K$؛ مراکز $\mathcal V$؛
+شناسهٔ سنجه $\psi$ (یا $s$)؛ طبقه‌های درخواستی $\mathcal C$
+\ENSURE حاشیه‌های $(\gamma_c)_{c\in\mathcal C}$ یا وضعیت نامعتبر
+\FOR{$r=1,\ldots,K$}
+    \IF{سنجه از نوع شباهت است}
+        \STATE $u_r\gets s(P,\mathcal V_r)$
+    \ELSE
+        \STATE $u_r\gets-d_\psi(P,\mathcal V_r)$
+    \ENDIF
+\ENDFOR
+\IF{یکی از امتیازها نامتناهی یا نامعتبر است}
+    \STATE \textbf{بازگردان} $\bot$
+\ENDIF
+\STATE $c_0\gets\min(\arg\max_r u_r)$
+\STATE $u_*\gets u_{c_0}$؛ $u_{**}\gets\max_{r\ne c_0}u_r$
+\FORALL{$c\in\mathcal C$}
+    \IF{$c=c_0$}
+        \STATE $\gamma_c\gets u_c-u_{**}$
+    \ELSE
+        \STATE $\gamma_c\gets u_c-u_*$ 
+    \ENDIF
+\ENDFOR
+\STATE \textbf{بازگردان} $(\gamma_c)_{c\in\mathcal C}$
+\end{algorithmic}
+\end{algorithm}
+
+\paragraph{تشکیل بردار احتمال تخمینی.}
+الگوریتم~\ref{cmp:alg:ch3-margin-probabilities} روابط
+\eqref{cmp:eq:ch3-margin-softmax} و
+\eqref{cmp:eq:ch3-norm-margin-softmax} را پیاده می‌کند.
+انتخاب $q=\bot$ به معنی عدم تثبیت نرم امتیازهاست؛
+در این حالت با $\tau_\psi=1$، تعریف اولیهٔ
+رابطه~\eqref{cmp:eq:ch3-margin-softmax-unit} حاصل می‌شود.
+برای $q\in\{1,2\}$ ابتدا بردار مطابق روابط
+\eqref{cmp:eq:ch3-centered-margin-vector}
+و~\eqref{cmp:eq:ch3-margin-norm-scaling} نرمال می‌شود.
+کاستن بیشترین امتیاز پیش از محاسبهٔ تابع نمایی،
+مطابق ناوردایی انتقال در
+رابطه~\eqref{eq:app-ch3-softmax-translation}،
+توزیع خروجی را تغییر نمی‌دهد و از سرریز تابع نمایی
+جلوگیری می‌کند.
+
+\begin{algorithm}[!htbp]
+\caption{زیرروال $\operatorname{MarginProbabilities}$: بردار احتمال تخمینی}
+\label{cmp:alg:ch3-margin-probabilities}
+\begin{algorithmic}[1]
+\REQUIRE بردار حاشیه‌های متناهی $\boldsymbol\gamma\in\mathbb R^K$؛
+دمای $\tau_\psi>0$؛ انتخاب اختیاری $q\in\{\bot,1,2\}$
+\ENSURE $\widehat{\boldsymbol p}\in\Delta_K$
+\STATE $z\gets\boldsymbol\gamma$
+\IF{$q\ne\bot$}
+    \STATE $v\gets z-K^{-1}(\sum_c z_c)\mathbf1$
+    \IF{$\|v\|_q>0$}
+        \STATE $z\gets v/\|v\|_q$
+    \ELSE
+        \STATE $z\gets0_{1\times K}$
+    \ENDIF
+\ENDIF
+\STATE $z_{\max}\gets\max_c z_c$
+\FOR{$c=1,\ldots,K$}
+    \STATE $\widehat p_c\gets\exp((z_c-z_{\max})/\tau_\psi)$
+\ENDFOR
+\STATE $\widehat{\boldsymbol p}\gets
+\widehat{\boldsymbol p}/\sum_c\widehat p_c$
+\STATE \textbf{بازگردان} $\widehat{\boldsymbol p}$
+\end{algorithmic}
+\end{algorithm}
+
+برای نمونهٔ آموزشی، فراخوانی
+$\operatorname{ClassMargins}(\mathscr Y_i,\mathcal V,\psi,\{1,\ldots,K\})$
+تمام حاشیه‌ها را بر اساس همان بازنمایی آموزشی به دست
+می‌دهد؛ سپس زیرروال $\operatorname{MarginProbabilities}$
+بردار احتمال تخمینی را تشکیل می‌دهد. حاشیهٔ طبقهٔ
+واقعی نیز مؤلفهٔ $y_i$ از همان بردار حاشیه‌هاست و
+نیازی به محاسبهٔ دوبارهٔ آن نیست.
+
+\paragraph{پیش‌بینی برچسب نمونهٔ جدید.}
+در الگوریتم~\ref{cmp:alg:ch3-predict-label}، ورودی
+مدل ثابت شامل مرجع $D,Y$، سیاست یا خانوادهٔ
+سیاست‌ها و قاعدهٔ معتبر آغاز برون‌گراف، مراکز
+$\mathcal V$، پارامترهای گشت و فهرست‌های عمودی
+پیشین است. ماتریس‌های پیش‌محاسبه‌شدهٔ متناظر با
+سیاست‌ها، در صورت وجود، نیز جزو این ورودی‌اند.
+برای اختصار، $\mathcal M_{\mathrm{tr}}$ بستهٔ
+همین ورودی‌های ثابت است. داده‌های عمودی نخستین
+انتقال، مطابق الگوریتم~\ref{cmp:alg:ch3-query-vertical}،
+تنها یک‌بار محاسبه و برای همهٔ فرض‌های تعلق
+بازاستفاده می‌شوند. روند
+$\operatorname{QueryExactWalkExpectation}$
+(الگوریتم~\ref{cmp:alg:ch3-query-exact-walk})
+با دریافت سیاست برگزیده و سطر آغاز معتبر،
+بازنمایی را محاسبه می‌کند. در سیاست مشترک یک
+بازنمایی برای همهٔ طبقه‌ها کافی است؛ در سیاست
+شرطی به طبقه، برای هر طبقه فقط حاشیهٔ متناظر
+با همان فرض تعلق لازم است.
+
+\begin{algorithm}[!htbp]
+\caption{روند $\operatorname{PredictLabel}$: پیش‌بینی برچسب نمونهٔ جدید}
+\label{cmp:alg:ch3-predict-label}
+\begin{algorithmic}[1]
+\REQUIRE نمونهٔ جدید $X_\star$؛ مدل ثابت $\mathcal M_{\mathrm{tr}}$؛
+سنجه $\psi$ (یا $s$)؛ $\tau_\psi>0$؛ $q\in\{\bot,1,2\}$
+\ENSURE $(\boldsymbol\gamma_\star,\widehat{\boldsymbol p}_\star,
+\widehat y_\star)$ یا وضعیت نامعتبر $\bot$
+\STATE $(B_\star,\mathcal Q_\star)\gets
+\operatorname{QueryVertical}(X_\star,\{D_b\},\{\mu_b,\kappa_b\},\Delta)$
+\IF{$B_\star=\varnothing$ یا قرارداد آغاز لازم معتبر نیست}
+    \STATE \textbf{بازگردان} $\bot$
+\ENDIF
+\IF{سیاست مستقل از فرض تعلق است}
+    \STATE $\mathscr Y_\star\gets
+    \operatorname{QueryExactWalkExpectation}
+    (X_\star;\pi,\pi_\star,\mathcal M_{\mathrm{tr}},B_\star,\mathcal Q_\star)$
+    \IF{$\mathscr Y_\star$ نامعتبر است}
+        \STATE \textbf{بازگردان} $\bot$
+    \ENDIF
+    \STATE $\boldsymbol\gamma_\star\gets
+    \operatorname{ClassMargins}(\mathscr Y_\star,\mathcal V,\psi,\{1,\ldots,K\})$
+    \IF{$\boldsymbol\gamma_\star=\bot$}
+        \STATE \textbf{بازگردان} $\bot$
+    \ENDIF
+\ELSE
+    \FOR{$c=1,\ldots,K$}
+        \STATE $\mathscr Y_\star^{(c)}\gets
+        \operatorname{QueryExactWalkExpectation}
+        (X_\star;\pi^{(c)},\pi_\star^{(c)},\mathcal M_{\mathrm{tr}},B_\star,\mathcal Q_\star)$
+        \IF{$\mathscr Y_\star^{(c)}$ نامعتبر است}
+            \STATE \textbf{بازگردان} $\bot$
+        \ENDIF
+        \STATE $(\gamma_{\star,c})\gets
+        \operatorname{ClassMargins}(\mathscr Y_\star^{(c)},\mathcal V,\psi,\{c\})$
+        \IF{خروجی حاشیه نامعتبر است}
+            \STATE \textbf{بازگردان} $\bot$
+        \ENDIF
+    \ENDFOR
+\ENDIF
+\STATE $\widehat y_\star\gets\min(\arg\max_c\gamma_{\star,c})$
+\STATE $\widehat{\boldsymbol p}_\star\gets
+\operatorname{MarginProbabilities}(\boldsymbol\gamma_\star,\tau_\psi,q)$
+\STATE \textbf{بازگردان}
+$(\boldsymbol\gamma_\star,\widehat{\boldsymbol p}_\star,\widehat y_\star)$
+\end{algorithmic}
+\end{algorithm}
+
+این روند مطابق قاعدهٔ
+\eqref{cmp:eq:ch3-class-hypothesis-inference} برچسب را
+مستقیماً از حاشیه‌ها تعیین می‌کند. انتخاب دمای مثبت
+یا تثبیت نرم، مجموعهٔ بیشینه‌سازها را تغییر نمی‌دهد.
+نماد $\bot$ در خروجی نشان‌دهندهٔ نبود خروجی معتبر
+است؛ از جمله در صورت نبود انتقال آغاز معتبر، نقض
+شرط توزیع احتمال بازنمایی یا نامتناهی‌بودن امتیازها.
+این صورت از روند، سنجهٔ KL را فقط در حالت امتیازهای
+متناهی می‌پذیرد؛ هموارسازی، در صورت انتخاب، باید
+به‌عنوان قرارداد جداگانهٔ محاسبهٔ سنجه اعمال شود.
+برچسب واقعی نمونهٔ جدید، ساخت مراکز جدید یا
+به‌روزرسانی سیاست در این روند دخالتی ندارد.
+
+با فرض هزینهٔ $O(K)$ برای محاسبهٔ هر سنجهٔ
+ناهمانندی یا شباهت، تشکیل مراکز با هزینهٔ
+$O(nK+K^2)$ و حافظهٔ اضافی $O(K^2)$ انجام می‌شود.
+محاسبهٔ حاشیه‌ها برای یک بازنمایی به $K$ ارزیابی
+سنجه و یک پیمایش خطی امتیازها نیاز دارد؛ بنابراین
+هزینهٔ آن $O(K^2)$ است، خواه یک حاشیه درخواست
+شود و خواه همهٔ حاشیه‌ها. تشکیل بردار احتمال و
+تعیین بیشینه نیز هزینهٔ $O(K)$ دارند. در پیش‌بینی
+با سیاست مشترک، هزینهٔ امتیازدهی $O(K^2)$ و در
+سیاست شرطی به طبقه $O(K^3)$ است؛ هزینهٔ محاسبهٔ
+بازنمایی‌ها جداگانه مطابق بخش
+\ref{cmp:subsec:ch3-computational-procedures} تعیین
+می‌شود. در حالت شرطی نیازی به نگهداری هم‌زمان
+تمام بازنمایی‌های فرضی نیست و می‌توان پس از
+محاسبهٔ هر حاشیه، بازنمایی متناظر را آزاد کرد.
+
 \section{معیارهای تراکم بازنمایی‌ها و جدایی مراکز}
 \label{cmp:sec:ch3-quality-criteria}
 
