@@ -3178,24 +3178,51 @@ $\mathscr Y_\star$ به دست می‌آید و حاشیهٔ تعلق آن به
 
 \subsection{بردار احتمال تخمینی برچسب و مقیاس امتیازها}
 \label{cmp:subsec:ch3-label-probability-vector}
-قاعدهٔ پیشین برچسب را تعیین می‌کند، اما می‌توان
-حاشیه‌های تعلق به تمام طبقه‌ها را نیز به برداری از
-احتمال‌های تخمینی تبدیل کرد. برای بردار حاشیه‌های متناهی
-$\boldsymbol\gamma_\star^{(\psi)}
-=(\gamma_{\star,1}^{(\psi)},\ldots,\gamma_{\star,K}^{(\psi)})$
-و دمای $\tau_\psi>0$، با نرمال‌سازی با بیشینهٔ هموار
-تعریف می‌کنیم:
-\begin{equation}\label{cmp:eq:ch3-margin-softmax}
-\boxed{\widehat p_{\star,c}^{(\psi,\tau_\psi)}
-=\frac{\exp(\gamma_{\star,c}^{(\psi)}/\tau_\psi)}
-{\sum_{r=1}^{K}\exp(\gamma_{\star,r}^{(\psi)}/\tau_\psi)}.}
+حاشیه‌های تعلق معرفی‌شده در زیربخش پیشین، افزون بر
+تعیین برچسب، امکان تشکیل برداری از احتمال‌های تخمینی
+را برای هر نمونه، اعم از آموزشی یا جدید، فراهم می‌کنند.
+در این زیربخش، اندیس $i$ را برای هر نمونه به کار
+می‌بریم؛ برای نمونهٔ جدید، $i=\star$ قرار می‌دهیم.
+برای نمونهٔ آموزشی، مطابق قرارداد بازنمایی در مرحلهٔ
+آموزش، حاشیهٔ تعلق به هر طبقه از همان بازنمایی
+$\mathscr Y_i$ به دست می‌آید:
+\begin{equation}\label{cmp:eq:ch3-training-all-class-margins}
+\gamma_{i,c}^{(\psi)}:=\gamma_c^{(\psi)}(\mathscr Y_i),
+\qquad c=1,\ldots,K.
 \end{equation}
-بردار $\widehat{\boldsymbol p}_\star^{(\psi,\tau_\psi)}
-=(\widehat p_{\star,1}^{(\psi,\tau_\psi)},\ldots,
-\widehat p_{\star,K}^{(\psi,\tau_\psi)})$ عضوی از
+این تعریف برای هر دو خانوادهٔ سیاست برقرار است؛
+در سیاست شرطی به طبقه، بازنمایی آموزشی با استفاده
+از طبقهٔ واقعی مبدأ تشکیل شده است. برای نمونهٔ جدید،
+حاشیه‌های $\gamma_{\star,c}^{(\psi)}$ مطابق روابط
+\eqref{cmp:eq:ch3-shared-inference-margin}
+و~\eqref{cmp:eq:ch3-class-hypothesis-margin} محاسبه می‌شوند.
+بنابراین، در هر دو مرحله بردار حاشیه‌های نمونه برابر است با:
+\begin{equation}\label{cmp:eq:ch3-all-class-margin-vector}
+\boldsymbol\gamma_i^{(\psi)}
+=(\gamma_{i,1}^{(\psi)},\ldots,\gamma_{i,K}^{(\psi)}).
+\end{equation}
+همین قرارداد برای حاشیهٔ شباهت نیز برقرار است؛
+در روابط این زیربخش می‌توان شناسهٔ سنجه را $s$ نیز
+در نظر گرفت.
+برای بردار حاشیه‌های متناهی و دمای $\tau_\psi>0$،
+با نرمال‌سازی با بیشینهٔ هموار تعریف می‌کنیم:
+\begin{equation}\label{cmp:eq:ch3-margin-softmax}
+\boxed{\widehat p_{i,c}^{(\psi,\tau_\psi)}
+=\frac{\exp(\gamma_{i,c}^{(\psi)}/\tau_\psi)}
+{\sum_{r=1}^{K}\exp(\gamma_{i,r}^{(\psi)}/\tau_\psi)}.}
+\end{equation}
+بردار $\widehat{\boldsymbol p}_i^{(\psi,\tau_\psi)}
+=(\widehat p_{i,1}^{(\psi,\tau_\psi)},\ldots,
+\widehat p_{i,K}^{(\psi,\tau_\psi)})$ عضوی از
 $\Delta_K$ است؛ مؤلفه‌های آن مثبت‌اند و مجموعشان یک است.
 این بردار یک توزیع احتمال تخمینی مدل روی برچسب‌هاست،
 نه لزوماً احتمال پسین واقعی برچسب نمونه.
+برای نمونه‌های آموزشی، این بردار امکان ارزیابی امتیاز
+طبقهٔ واقعی در کنار امتیاز سایر طبقه‌ها و تعریف
+معیارهای زیان را فراهم می‌کند؛ در سیاست شرطی به طبقه،
+این ارزیابی مشروط به قرارداد آموزشیِ استفاده از برچسب
+مبدأ است و با پیش‌بینی بدون اطلاع از برچسب یکسان نیست.
+کاربرد این بردار در تعریف زیان در بخش‌های بعدی بررسی می‌شود.
 
 \paragraph{خواص نرمال‌سازی با بیشینهٔ هموار.}
 مطابق پیوست~\ref{app:ch3-softmax-properties}، افزودن
@@ -3205,11 +3232,11 @@ $\Delta_K$ است؛ مؤلفه‌های آن مثبت‌اند و مجموعشا
 به‌ویژه، برای هر دمای مثبت،
 \begin{equation}\label{cmp:eq:ch3-margin-softmax-order}
 \begin{aligned}
-\arg\max_c\widehat p_{\star,c}^{(\psi,\tau_\psi)}
-&=\arg\max_c\gamma_{\star,c}^{(\psi)},\\
-\log\frac{\widehat p_{\star,c}^{(\psi,\tau_\psi)}}
-{\widehat p_{\star,r}^{(\psi,\tau_\psi)}}
-&=\frac{\gamma_{\star,c}^{(\psi)}-\gamma_{\star,r}^{(\psi)}}
+\arg\max_c\widehat p_{i,c}^{(\psi,\tau_\psi)}
+&=\arg\max_c\gamma_{i,c}^{(\psi)},\\
+\log\frac{\widehat p_{i,c}^{(\psi,\tau_\psi)}}
+{\widehat p_{i,r}^{(\psi,\tau_\psi)}}
+&=\frac{\gamma_{i,c}^{(\psi)}-\gamma_{i,r}^{(\psi)}}
 {\tau_\psi}.
 \end{aligned}
 \end{equation}
@@ -3223,7 +3250,7 @@ $\Delta_K$ است؛ مؤلفه‌های آن مثبت‌اند و مجموعشا
 است؛ برای KL کران عمومی متناهی وجود ندارد.
 اگر $B$ کران قدر مطلق حاشیه باشد، داریم:
 \begin{equation}\label{cmp:eq:ch3-margin-softmax-ceiling}
-\widehat p_{\star,c}^{(\psi,\tau_\psi)}
+\widehat p_{i,c}^{(\psi,\tau_\psi)}
 \le\frac{1}{1+(K-1)\exp(-2B/\tau_\psi)}.
 \end{equation}
 این کران با مقایسهٔ هر اختلاف حاشیه با $2B$ به
@@ -3233,14 +3260,15 @@ $\Delta_K$ است؛ مؤلفه‌های آن مثبت‌اند و مجموعشا
 قابل مقایسه منجر نمی‌شود. برای سنجه‌های کراندار
 می‌توان دما را متناسب با کران سنجه در نظر گرفت،
 اما این تنها یک قرارداد مقیاس است. به‌طور خاص،
-از رابطه~\eqref{cmp:eq:ch3-class-hypothesis-similarity-margin}
+از روابط~\eqref{cmp:eq:ch3-fixed-representation-similarity-margin}
+و~\eqref{cmp:eq:ch3-class-hypothesis-similarity-margin}
 نتیجه می‌شود با انتخاب $\tau_s=\tau_{\mathrm{JS}}/\log2$
 بردارهای حاصل از شباهت و JSD یکسان خواهند بود.
 
 \paragraph{نرمال‌سازی اندازهٔ بردار امتیازها.}
 راه دیگر، کنترل اندازهٔ بردار حاشیه‌ها پیش از
 نرمال‌سازی با بیشینهٔ هموار است. برای اختصار
-$\boldsymbol\gamma=\boldsymbol\gamma_\star^{(\psi)}$
+$\boldsymbol\gamma=\boldsymbol\gamma_i^{(\psi)}$
 و $\overline\gamma=K^{-1}\sum_c\gamma_c$ را در نظر
 می‌گیریم. با انتخاب نرم $q\in\{1,2\}$ می‌توان نوشت:
 \begin{equation}\label{cmp:eq:ch3-margin-norm-scaling}
@@ -3258,7 +3286,7 @@ z=\frac{\boldsymbol\gamma-\overline\gamma\mathbf1}
 خود موجب کرانداری اختلاف امتیازها می‌شود و نیاز
 به تعیین مقیاس یا دما را از میان نمی‌برد.
 انتخاب نرم یک برای امتیازها با شرط
-$\|\widehat{\boldsymbol p}_\star\|_1=1$ برای توزیع
+$\|\widehat{\boldsymbol p}_i\|_1=1$ برای توزیع
 خروجی دو موضوع متفاوت است. این صورت‌بندی صرفاً
 یک گزینهٔ کنترل مقیاس است، نه قرارداد اجباری مدل.
 
