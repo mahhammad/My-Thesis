@@ -4971,41 +4971,379 @@ g_{s;i,a,b}^{(z)}\nabla_\theta z_{s;i,a,b}
 در بخش~\ref{app:ch3-gradient-policy-parameters}
 از پیوست محاسبات گرادیان ارائه شده‌اند.
 
-\subsection{روند محاسبهٔ گرادیان}
+\subsection{زیرروال‌ها و روند محاسبهٔ گرادیان}
 \label{cmp:subsec:ch3-gradient-procedure}
 
-ترتیب محاسبهٔ گرادیان برای یک مقدار ثابت از
-پارامترهای سیاست به‌صورت زیر است:
-\begin{enumerate}
-\item محاسبهٔ بازنمایی‌های تمام نمونه‌های آموزشی
-با روند بخش~\ref{cmp:subsec:ch3-computational-procedures}
-و تشکیل مراکز طبقه‌ها.
-\item محاسبهٔ ناهمانندی‌ها، حاشیه‌های مورد نیاز
-تابع زیان، مقدار تابع هدف و مشتق آن نسبت به
-ناهمانندی‌ها.
-\item انتقال مشتق‌ها به مراکز و بازنمایی‌ها با
-روابط~\eqref{cmp:eq:ch3-gradient-center-accumulation}
-و~\eqref{cmp:eq:ch3-gradient-representation-total}.
-\item برای هر مبدأ آموزشی، محاسبهٔ توزیع حالت‌های
-گام‌ها، بازگشت پس‌روندهٔ مشتق و مشتق‌های موضعی
-احتمال انتخاب ویژگی.
-\item انتقال مشتق به امتیازهای خام و جمع سهم
-پارامترهای مشترک با
-رابطه~\eqref{cmp:eq:ch3-gradient-parameter-chain}.
-\end{enumerate}
+برای محاسبهٔ یک گرادیان تمام‌دسته‌ای، پارامترهای
+سیاست در تمام مراحل ثابت نگه داشته می‌شوند.
+گراف و ضرایب گشت از زیرروال‌های
+بخش~\ref{cmp:subsec:ch3-computational-procedures}
+و مراکز از زیرروال
+\ref{cmp:alg:ch3-build-centers} به دست می‌آیند.
+در اینجا فقط زیرروال‌های لازم برای انتشار
+مشتق و اتصال آن‌ها به محاسبات پیش‌رونده را
+معرفی می‌کنیم. هر محاسبهٔ مربوط به یک مبدأ
+با عضو برگزیدهٔ خانوادهٔ سیاست مطابق
+$c_s=y_s$ در آموزش انجام می‌شود؛ در خانوادهٔ
+مستقل از طبقه همان سیاست مشترک به کار می‌رود.
 
-در این روند، تمام سهم‌های مستقیم و سهم‌های
-وابسته به مراکز پیش از انتشار مشتق در گشت
-تجمیع می‌شوند. محاسبهٔ گرادیان هر مبدأ پس از
-تعیین $\mathbf g_s$ مستقل از سایر مبدأهاست و
-می‌تواند به‌صورت موازی انجام شود؛ در پایان سهم
-پارامترهای مشترک جمع می‌شود. نگه‌داشتن توزیع
-تمام گام‌ها هزینهٔ حافظه دارد و می‌توان به جای
-آن بخشی از محاسبات پیش‌رونده را دوباره انجام
-داد. جزئیات زیرروال‌های محاسباتی و هزینهٔ
-پیاده‌سازی در تکمیل این بخش بررسی می‌شوند.
-گرادیان به‌دست‌آمده ورودی روند به‌روزرسانی
+\paragraph{محاسبهٔ پیش‌رونده و تاریخچهٔ گشت.}
+برای انتشار مشتق، به توزیع‌های گام‌های گشت
+نیاز داریم. زیرروال
+\ref{cmp:alg:ch3-gradient-forward-trace}
+از همان زیرروال‌های تشکیل توزیع آغاز و
+انتشار یک گام در بخش
+~\ref{cmp:subsec:ch3-computational-procedures}
+استفاده می‌کند. برخلاف روند
+\ref{cmp:alg:ch3-exact-walk-expectation}،
+در اینجا فقط بازنمایی برچسبی لازم است؛
+ازاین‌رو مستقیماً از ماتریس تجمیع برچسب
+در رابطه~\eqref{cmp:eq:ch3-state-aggregation-matrices}
+استفاده می‌کنیم و بردار نمونه‌ای $h_s$ را
+نمی‌سازیم. تاریخچه را می‌توان در مرحلهٔ
+پیش‌رونده نگه داشت یا پیش از انتشار مشتق
+با همان سیاست ثابت دوباره محاسبه کرد.
+
+\begin{algorithm}[!htbp]
+\caption{زیرروال $\operatorname{ForwardTrace}$: بازنمایی برچسبی و توزیع‌های گام‌ها}
+\label{cmp:alg:ch3-gradient-forward-trace}
+\begin{algorithmic}[1]
+\REQUIRE مبدأ $s$؛ سیاست برگزیدهٔ $\pi_s$؛ مرجع $D,Y$؛
+$\boldsymbol\alpha^{(H)},N,\widetilde q$
+\ENSURE $\mathscr Y_s$ و $(\nu_{s,t})_{t=1}^{H}$ یا وضعیت نامعتبر
+\STATE $\mathcal C_s\gets\varnothing$
+\STATE $\nu_{s,1}\gets\operatorname{FirstState}(s;\pi_s,D,N,\widetilde q)$
+\IF{توزیع آغاز نامعتبر است}
+    \STATE \textbf{بازگردان} $\bot$
+\ENDIF
+\STATE $\mathscr Y_s\gets0_{1\times K}$
+\FOR{$t=1,\ldots,H$}
+    \FORALL{$(X_j,b)\in\operatorname{supp}(\nu_{s,t})$}
+        \STATE $\mathscr Y_s[y_j]\gets\mathscr Y_s[y_j]
+        +\alpha_t^{(H)}\nu_{s,t}(j,b)$
+    \ENDFOR
+    \IF{$t<H$}
+        \STATE $\nu_{s,t+1}\gets
+        \operatorname{Advance}(\nu_{s,t},s,\pi_s,N,\widetilde q,\mathcal C_s)$
+        با اجرای تنک
+    \ENDIF
+\ENDFOR
+\STATE \textbf{بازگردان} $(\mathscr Y_s,(\nu_{s,t})_{t=1}^{H})$
+\end{algorithmic}
+\end{algorithm}
+
+در اجرای تنک زیرروال
+\ref{cmp:alg:ch3-advance-walk-state}،
+توزیع خروجی به‌صورت نگاشت تهی با مقدار
+پیش‌فرض صفر مقداردهی می‌شود و تنها گره‌هایی
+پیمایش می‌شوند که دست‌کم یک حالت دارای
+جرم مثبت در توزیع ورودی دارند. در جمع
+افقی فقط حالت‌های دارای جرم مثبت همان
+گره مشارکت می‌کنند و انتشار عمودی فقط
+برای سهم‌های مثبت انجام می‌شود.
+این تغییر، حذف جمله‌های صفر از همان
+روابط است و قانون انتقال را تغییر نمی‌دهد.
+در ادامه، تکیه‌گاه‌ها به معنای تکیه‌گاه
+ریاضی‌اند و حذف جرم کوچکِ مثبت مجاز نیست.
+
+\paragraph{زیان و حساسیت ناهمانندی‌ها.}
+زیرروال~\ref{cmp:alg:ch3-gradient-loss-sensitivity}
+مقدار زیان و حساسیت‌های وزن‌دار آن را
+برای یک نمونه محاسبه می‌کند. برای یکسان‌سازی
+دو قرارداد ناهمانندی و شباهت، در این
+زیرروال $d_{i,c}$ در حالت شباهت برابر
+منفی شباهت است. حساسیت خروجی در این حالت
+نسبت به منفی شباهت است، نه خود شباهت؛
+در زیرروال بعدی نیز مشتق همان کمیت به کار
+می‌رود. برای زیان لگاریتمی از احتمال تخمینی
+مبتنی بر حاشیه بدون تثبیت نرم استفاده
+می‌کنیم. در زیان‌های دارای کمینه، کوچک‌ترین
+اندیس رقیب فعال به‌عنوان قرارداد ثابت
+انتخاب شاخه به کار می‌رود؛ مطابق
+بخش~\ref{app:ch3-gradient-loss-ties}.
+
+\begin{algorithm}[!htbp]
+\caption{زیرروال $\operatorname{LossSensitivity}$: زیان و مشتق نسبت به ناهمانندی‌ها}
+\label{cmp:alg:ch3-gradient-loss-sensitivity}
+\begin{algorithmic}[1]
+\REQUIRE $(d_{i,c})_{c=1}^{K}$؛ $y_i,\Omega,(|C_c|)_{c=1}^{K}$؛
+نوع زیان و پارامتر مقیاس متناظر
+\ENSURE $\ell_i$ و $(g_{i,c}^{(\psi)})_{c=1}^{K}$ نسبت به کمیت ورودی یا $\bot$
+\IF{یکی از ناهمانندی‌ها نامتناهی یا نامعتبر است}
+    \STATE \textbf{بازگردان} $\bot$
+\ENDIF
+\IF{زیان لگاریتمی}
+    \STATE محاسبهٔ $r_i(c)$ و $\gamma_{i,c}^{(\psi)}$ برای همهٔ $c$
+    \STATE $\widehat{\boldsymbol p}_i\gets
+    \operatorname{MarginProbabilities}(\boldsymbol\gamma_i,\tau_\psi,\bot)$
+    \STATE محاسبهٔ $\ell_i$ از رابطه~\eqref{cmp:eq:ch3-training-margin-nll}
+    \STATE محاسبهٔ مشتق‌ها از رابطه~\eqref{cmp:eq:ch3-gradient-nll-distance}
+\ELSIF{زیان سیگموئیدی}
+    \STATE محاسبهٔ $r_i(y_i)$ و $\gamma_{i,y_i}^{(\psi)}$
+    \STATE محاسبهٔ $\ell_i$ و مشتق‌ها از روابط
+    ~\eqref{cmp:eq:ch3-training-sigmoid-sample}
+    و~\eqref{cmp:eq:ch3-gradient-sigmoid-distance}
+\ELSE
+    \STATE محاسبهٔ $m_{i,r}^{(\psi)}$ برای $r\ne y_i$
+    \STATE محاسبهٔ $\ell_i$ و مشتق‌ها از روابط
+    ~\eqref{cmp:eq:ch3-training-softplus-sample}
+    و~\eqref{cmp:eq:ch3-gradient-softplus-distance}
+\ENDIF
+\STATE اعمال وزن $\omega_{y_i}/|C_{y_i}|$ به مشتق‌ها طبق
+رابطه~\eqref{cmp:eq:ch3-gradient-loss-distance-coefficient}
+\STATE \textbf{بازگردان} $(\ell_i,(g_{i,c}^{(\psi)})_{c=1}^{K})$
+\end{algorithmic}
+\end{algorithm}
+
+محاسبهٔ کمینه‌ها و اندیس رقبا در زیان
+لگاریتمی با یافتن دو اندیس متمایز دارای
+کمترین ناهمانندی، با ترتیب ثابت در تساوی،
+در یک پیمایش ممکن است. سهم هر حاشیه نیز
+تنها به دو مؤلفهٔ بردار مشتق افزوده می‌شود؛
+نیازی به تشکیل ژاکوبین حاشیه‌ها نیست.
+در محاسبهٔ زیان لگاریتمی و سافت‌پلاس
+از صورت پایدار لگاریتم مجموع نمایی
+استفاده می‌شود و زیان لگاریتمی از لگاریتم
+احتمالِ گرد‌شده به صفر محاسبه نمی‌شود.
+
+\paragraph{انتقال مشتق از سنجه‌ها به بازنمایی‌ها.}
+زیرروال~\ref{cmp:alg:ch3-gradient-representations}
+از روابط زیربخش‌های
+~\ref{cmp:subsec:ch3-gradient-loss-dissimilarities}
+تا~\ref{cmp:subsec:ch3-gradient-centers-representations}
+استفاده می‌کند. برای هر زوج نمونه و مرکز،
+هر دو مشتق سنجه در یک پیمایش محاسبه
+می‌شوند. ابتدا سهم‌های مستقیم بازنمایی‌ها
+و سهم مراکز تجمیع می‌شوند و سپس سهم
+مرکز طبقهٔ واقعی هر نمونه به گرادیان
+مستقیم آن افزوده می‌شود.
+
+در صورت انتخاب هموارسازی، سنجه و مشتق
+آن به‌عنوان تابع مرکب از نگاشت
+رابطه~\eqref{cmp:eq:ch3-stable-smoothed-representations}
+و سنجهٔ منتخب محاسبه می‌شوند؛ بنابراین
+عامل $(1-\eta)$ در مشتق‌های نسبت به ورودی
+خام منظور شده است و در تجمیع مراکز
+دوباره اعمال نمی‌شود. برای تکیه‌گاه ثابت،
+مؤلفه‌های ساختاری صفر از مشتق‌گیری حذف
+می‌شوند. اگر مشتق معتبر در قرارداد انتخابی
+در دسترس نباشد، از جمله برای جذر JSD
+در نقطهٔ برابری بدون قرارداد مشتق جداگانه،
+روند وضعیت نامعتبر بازمی‌گرداند؛ این
+قرارداد محافظه‌کارانه به معنای ادعای
+نامشتق‌پذیری هر تابع مرکب در آن نقطه نیست.
+
+\begin{algorithm}[!htbp]
+\caption{زیرروال $\operatorname{RepresentationGradient}$: انتشار مشتق سنجه‌ها}
+\label{cmp:alg:ch3-gradient-representations}
+\begin{algorithmic}[1]
+\REQUIRE $\mathscr Y,\mathcal V,Y,\Omega$؛ سنجه و قرارداد هموارسازی؛
+نوع زیان و پارامتر مقیاس
+\ENSURE $\mathcal L_{\mathrm{tr}},(\mathbf g_s)_{s=1}^{n}$ یا $\bot$
+\STATE $\mathcal L_{\mathrm{tr}}\gets0$؛
+$\nabla_{\mathcal V_c}\mathcal L_{\mathrm{tr}}\gets0_{K\times1}$
+برای همهٔ $c$
+\FOR{$i=1,\ldots,n$}
+    \STATE محاسبهٔ $(d_{i,c})_{c=1}^{K}$ با سنجهٔ منتخب
+    \STATE $(\ell_i,(g_{i,c}^{(\psi)})_c)\gets
+    \operatorname{LossSensitivity}((d_{i,c})_c,y_i,\Omega,(|C_c|)_c;\text{نوع زیان})$
+    \IF{خروجی نامعتبر است}
+        \STATE \textbf{بازگردان} $\bot$
+    \ENDIF
+    \STATE $\mathcal L_{\mathrm{tr}}\gets
+    \mathcal L_{\mathrm{tr}}+\omega_{y_i}\ell_i/|C_{y_i}|$
+    \STATE $\mathbf g_i\gets0_{K\times1}$
+    \FOR{$c=1,\ldots,K$}
+        \STATE محاسبهٔ مشتق‌های $\nabla_Pd_\psi,\nabla_Qd_\psi$
+        در $(\mathscr Y_i,\mathcal V_c)$ طبق قرارداد سنجه
+        \IF{مشتق موردنیاز نامعتبر است}
+            \STATE \textbf{بازگردان} $\bot$
+        \ENDIF
+        \STATE $\mathbf g_i\gets\mathbf g_i+g_{i,c}^{(\psi)}\nabla_Pd_\psi$
+        \STATE $\nabla_{\mathcal V_c}\mathcal L_{\mathrm{tr}}\gets
+        \nabla_{\mathcal V_c}\mathcal L_{\mathrm{tr}}
+        +g_{i,c}^{(\psi)}\nabla_Qd_\psi$
+    \ENDFOR
+\ENDFOR
+\FOR{$i=1,\ldots,n$}
+    \STATE $\mathbf g_i\gets\mathbf g_i+
+    |C_{y_i}|^{-1}\nabla_{\mathcal V_{y_i}}\mathcal L_{\mathrm{tr}}$
+\ENDFOR
+\STATE \textbf{بازگردان} $(\mathcal L_{\mathrm{tr}},(\mathbf g_i)_{i=1}^{n})$
+\end{algorithmic}
+\end{algorithm}
+
+\paragraph{انتشار پس‌رونده در گشت.}
+در زیرروال~\ref{cmp:alg:ch3-gradient-walk-backward}
+تنها حالت‌های دارای جرم مثبت در هر گام
+نگهداری می‌شوند. در گام آخر حساسیت از
+سهم مستقیم بازنمایی به دست می‌آید.
+برای گام‌های دیگر، جمع عمودی یک‌بار
+برای هر زوج $(i,b)$ محاسبه می‌شود و
+هم در بازگشت حساسیت و هم در تجمیع
+حساسیت احتمال انتخاب ویژگی استفاده
+می‌شود؛ مطابق
+بخش~\ref{app:ch3-gradient-walk-sparse}.
+نماد $v_b$ در شبه‌کد تنها مقدار موقت
+جمع عمودی برای گره جاری است.
+با فرض امتیازهای متناهی، هر مقصد
+عمودی با وزن مثبت از حالت فعال،
+در تکیه‌گاه گام بعد قرار دارد؛ بنابراین
+این محدودسازی برای مشتق سیاست نیز دقیق
+است. حساسیت‌های موضعی انباشته‌نشده
+مقدار صفر دارند.
+
+\begin{algorithm}[!htbp]
+\caption{زیرروال $\operatorname{WalkBackward}$: حساسیت احتمال‌های انتخاب ویژگی}
+\label{cmp:alg:ch3-gradient-walk-backward}
+\begin{algorithmic}[1]
+\REQUIRE $s,\pi_s,\mathbf g_s,(\nu_{s,t})_{t=1}^{H}$؛
+$Y,\boldsymbol\alpha^{(H)},N,\widetilde q$
+\ENSURE حساسیت‌های تنک $g_{s;i,a,b}^{(\pi)}$ و $g_{s;s,\bot,b}^{(\pi)}$
+\STATE $\mathcal C_s\gets\varnothing$؛ حساسیت‌های موضعی $\gets$ نگاشت تهی
+\FORALL{$(X_i,a)\in\operatorname{supp}(\nu_{s,H})$}
+    \STATE $\mathbf g_{s,H}^{(\nu)}(i,a)\gets\alpha_H^{(H)}\mathbf g_s[y_i]$
+\ENDFOR
+\FOR{$t=H-1,\ldots,1$}
+    \FORALL{$i$ دارای حالت فعال در $\operatorname{supp}(\nu_{s,t})$}
+        \FORALL{$b\in A_{X_i}$}
+            \STATE $(\mathcal J,p)\gets
+            \operatorname{VerticalRow}(i,b,s;N,\widetilde q,\mathcal C_s)$
+            \STATE $v_b\gets\sum_{X_j\in\mathcal J}p(j)
+            \mathbf g_{s,t+1}^{(\nu)}(j,b)$
+        \ENDFOR
+        \FORALL{$a$ با $(X_i,a)\in\operatorname{supp}(\nu_{s,t})$}
+            \STATE $\mathbf g_{s,t}^{(\nu)}(i,a)\gets
+            \alpha_t^{(H)}\mathbf g_s[y_i]+\sum_{b\in A_{X_i}}\pi_s(b\mid i,a)v_b$
+            \FORALL{$b\in A_{X_i}$}
+                \STATE $g_{s;i,a,b}^{(\pi)}\gets
+                g_{s;i,a,b}^{(\pi)}+\nu_{s,t}(i,a)v_b$
+            \ENDFOR
+        \ENDFOR
+    \ENDFOR
+\ENDFOR
+\FORALL{$b\in A_{X_s}$}
+    \STATE $g_{s;s,\bot,b}^{(\pi)}\gets
+    \sum_{X_j\in N_b^{(\Delta)}(s)}\widetilde q_b(j\mid s)
+    \mathbf g_{s,1}^{(\nu)}(j,b)$
+\ENDFOR
+\STATE \textbf{بازگردان} حساسیت‌های موضعی
+\end{algorithmic}
+\end{algorithm}
+
+در این زیرروال جمله‌های مربوط به احتمال
+عمودی صفر در جمع‌ها حذف می‌شوند؛ تنها
+حساسیت جاری و بعدی باید در حافظه باقی
+بمانند. اگر $H=1$ باشد، حلقهٔ انتقال‌های
+میانی اجرا نمی‌شود و فقط سهم نخستین
+انتخاب محاسبه می‌شود.
+
+\paragraph{تجمیع حساسیت پارامترهای سیاست.}
+زیرروال~\ref{cmp:alg:ch3-gradient-policy-pullback}
+حساسیت هر سطر احتمال را مطابق
+رابطه~\eqref{cmp:eq:ch3-gradient-local-score}
+به حساسیت امتیاز خام تبدیل می‌کند.
+سپس سهم هر کاربرد را مطابق
+رابطه~\eqref{cmp:eq:ch3-gradient-parameter-chain}
+به پارامترهای مربوط می‌افزاید.
+در خانواده‌های امتیاز آزاد، این کار
+افزودن به درایهٔ متناظر پارامتر است؛
+در خانوادهٔ توابع پارامتری، انتشار
+مشتق خروجی توابع با ضرایب حساسیت
+امتیازها انجام می‌شود. در هر دو حالت
+قاعدهٔ اشتراک پارامترها مطابق
+بخش~\ref{app:ch3-gradient-policy-parameters}
+است. خروجی را می‌توان مستقیماً در
+گرادیان مشترک یا در انبارهٔ محلی
+سهم‌ها تجمیع کرد؛ در اجرای ترتیبی
+بردار کامل گرادیان برای هر مبدأ
+دوباره مقداردهی اولیه نمی‌شود.
+
+\begin{algorithm}[!htbp]
+\caption{زیرروال $\operatorname{PolicyPullback}$: انباشت مشتق پارامترهای سیاست}
+\label{cmp:alg:ch3-gradient-policy-pullback}
+\begin{algorithmic}[1]
+\REQUIRE $s,\theta,\pi_s$؛ حساسیت‌های موضعی $g^{(\pi)}$؛
+انبارهٔ گرادیان پارامترها (قابل به‌روزرسانی)
+\ENSURE انبارهٔ به‌روزشده یا $\bot$
+\FORALL{سطرهای آغاز و میانی دارای حساسیت موضعی ذخیره‌شده}
+    \STATE برای سطر آغاز $i=s,a=\bot$؛ وگرنه اندیس همان سطر
+    \STATE $v\gets\sum_{b\in A_{X_i}}\pi_s(b\mid i,a)g_{s;i,a,b}^{(\pi)}$
+    \FORALL{$u\in A_{X_i}$}
+        \STATE $g_{s;i,a,u}^{(z)}\gets
+        \pi_s(u\mid i,a)(g_{s;i,a,u}^{(\pi)}-v)$
+        \IF{$g_{s;i,a,u}^{(z)}\ne0$}
+            \STATE افزودن سهم $g_{s;i,a,u}^{(z)}\nabla_\theta z_{s;i,a,u}$
+            به انباره طبق ساختار پارامترها
+        \ENDIF
+    \ENDFOR
+\ENDFOR
+\STATE در صورت نامعتبر بودن مشتق موردنیاز، بازگردان $\bot$
+\STATE \textbf{بازگردان} انباره
+\end{algorithmic}
+\end{algorithm}
+
+\paragraph{روند یکپارچهٔ محاسبهٔ گرادیان.}
+روند~\ref{cmp:alg:ch3-gradient-full-batch}
+تمام مراحل را برای پارامتر ثابت $\theta$
+ترکیب می‌کند. ورودی‌های ثابت شامل داده،
+برچسب‌ها، گراف آماده، ضرایب طول گشت،
+قرارداد سنجه و هموارسازی و تابع زیان‌اند.
+مراکز و تمام حساسیت‌ها از همان مقدار
+پارامترها محاسبه می‌شوند. در اجرای
+توزیع‌شده، انباره‌های محلی پارامترها
+در پایان جمع می‌شوند؛ هیچ واحدی پیش
+از تکمیل گرادیان تمام‌دسته‌ای سیاست را
+به‌روزرسانی نمی‌کند.
+
+\begin{algorithm}[!htbp]
+\caption{روند $\operatorname{FullBatchGradient}$: محاسبهٔ گرادیان تمام‌دسته‌ای}
+\label{cmp:alg:ch3-gradient-full-batch}
+\begin{algorithmic}[1]
+\REQUIRE $\theta$ و خانوادهٔ سیاست؛ $D,Y,\Omega$؛
+گراف آماده $N,\widetilde q$؛ $\boldsymbol\alpha^{(H)}$؛
+سنجه، قرارداد هموارسازی، زیان و پارامتر مقیاس
+\ENSURE $\mathcal L_{\mathrm{tr}},\mathscr Y,\mathcal V,
+\nabla_\theta\mathcal L_{\mathrm{tr}}$ یا $\bot$
+\FOR{$s=1,\ldots,n$}
+    \STATE تعیین عضو برگزیدهٔ سیاست $\pi_s$ از $\theta$ با $c_s=y_s$
+    \STATE $(\mathscr Y_s,(\nu_{s,t})_{t=1}^{H})\gets
+    \operatorname{ForwardTrace}(s;\pi_s,D,Y,\boldsymbol\alpha^{(H)},N,\widetilde q)$
+    \STATE در صورت خروجی نامعتبر، بازگردان $\bot$
+\ENDFOR
+\STATE $\mathcal V\gets\operatorname{BuildCenters}(\mathscr Y,Y)$
+\STATE $(\mathcal L_{\mathrm{tr}},(\mathbf g_s)_s)\gets
+\operatorname{RepresentationGradient}(\mathscr Y,\mathcal V,Y,\Omega;\text{قرارداد زیان و سنجه})$
+\STATE در صورت خروجی نامعتبر، بازگردان $\bot$
+\STATE $\nabla_\theta\mathcal L_{\mathrm{tr}}\gets0$ با ابعاد پارامترهای سیاست
+\FOR{$s=1,\ldots,n$}
+    \STATE دریافت تاریخچهٔ ذخیره‌شده یا محاسبهٔ دوباره با $\operatorname{ForwardTrace}$
+    \STATE $g^{(\pi)}\gets
+    \operatorname{WalkBackward}(s,\pi_s,\mathbf g_s,(\nu_{s,t})_t;
+    Y,\boldsymbol\alpha^{(H)},N,\widetilde q)$
+    \STATE $\nabla_\theta\mathcal L_{\mathrm{tr}}\gets
+    \operatorname{PolicyPullback}(s,\theta,\pi_s,g^{(\pi)};
+    \nabla_\theta\mathcal L_{\mathrm{tr}})$
+    \STATE در صورت خروجی نامعتبر، بازگردان $\bot$
+\ENDFOR
+\STATE \textbf{بازگردان} $(\mathcal L_{\mathrm{tr}},\mathscr Y,\mathcal V,
+\nabla_\theta\mathcal L_{\mathrm{tr}})$
+\end{algorithmic}
+\end{algorithm}
+
+روند بالا برای گراف تنک نوشته شده است؛
+با جایگزینی فهرست‌ها و احتمال‌های عمودی
+گراف کامل، همان محاسبات برقرارند.
+تعیین سیاست برگزیده به معنای انتخاب
+عضو خانواده و دسترسی به سطرهای آن
+است و مستلزم تشکیل دوبارهٔ همهٔ
+سطرهای سیاست برای هر مبدأ نیست.
+گرادیان خروجی ورودی روند به‌روزرسانی
 پارامترهاست، نه خود تغییر پارامترها.
+جزئیات هزینهٔ این روند و امکان اجرای
+موازی و توزیع‌شده در
+زیربخش~\ref{cmp:subsec:ch3-gradient-complexity}
+جمع‌بندی می‌شوند.
 
 \subsection{جمع‌بندی هزینهٔ محاسباتی و اجرای موازی و توزیع‌شده}
 \label{cmp:subsec:ch3-gradient-complexity}
