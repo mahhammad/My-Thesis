@@ -2576,34 +2576,120 @@ $\log(1+e^{2})=\log(1+e^{-2})+2$ می‌شود. با میانگین‌گیری �
 
 \section{خواص نرمال‌سازی با بیشینهٔ هموار و نرمال‌سازی بردار امتیازها}
 \label{app:ch3-softmax-properties}
-برای بردار امتیاز $v\in\mathbb R^K$،
-تابع بیشینهٔ هموار را با
-$S(v)_c=e^{v_c}/\sum_re^{v_r}$ تعریف می‌کنیم.
-برای هر ثابت $b\in\mathbb R$ داریم:
+برای $K\ge2$ و بردار امتیاز متناهی $v\in\mathbb R^K$،
+نگاشت $S(v)_c=e^{v_c}/\sum_re^{v_r}$ را در نظر می‌گیریم.
+همهٔ مؤلفه‌ها مثبت‌اند و مجموعشان یک است. از مثبت‌بودن
+مخرج و صعودی‌بودن تابع نمایی نتیجه می‌شود:
+\begin{equation}\label{eq:app-ch3-softmax-order}
+\begin{aligned}
+\log\frac{S(v)_c}{S(v)_r}&=v_c-v_r,\\
+v_c>v_r&\iff S(v)_c>S(v)_r,\\
+\arg\max_c S(av)_c&=\arg\max_c v_c\quad(a>0).
+\end{aligned}
+\end{equation}
+تساوی مؤلفه‌ها نیز حفظ می‌شود. برای هر $b\in\mathbb R$:
 \begin{equation}\label{eq:app-ch3-softmax-translation}
 S(v+b\mathbf1)_c
 =\frac{e^{v_c+b}}{\sum_re^{v_r+b}}
-=\frac{e^{v_c}}{\sum_re^{v_r}}
-=S(v)_c.
+=\frac{e^{v_c}}{\sum_re^{v_r}}=S(v)_c.
 \end{equation}
-پس انتقال یکسان همه امتیازها،
-توزیع خروجی را تغییر نمی‌دهد.
-اما برای $a>0$، صعودی بودن تابع نمایی
-فقط ترتیب مؤلفه‌ها و در نتیجه
-برندهٔ تصمیم را حفظ می‌کند:
-\[
-\arg\max_c S(av)_c=\arg\max_c v_c.
-\]
-در حالت کلی $S(av)\ne S(v)$ است؛
-زیرا نسبت احتمال دو طبقه برابر است با
-\[
-\frac{S(av)_c}{S(av)_r}
-=\exp\bigl[a(v_c-v_r)\bigr].
-\]
-بنابراین مقیاس امتیازها
-بر میزان قطعیت خروجی اثر می‌گذارد.
-افزودن یک بردار دلخواه $w$ به $v$ نیز
-به‌طور عمومی هیچ‌یک از این ناوردایی‌ها را تضمین نمی‌کند.
+اگر $S(v)=S(w)$، برابری نسبت احتمال‌های هر دو مؤلفه
+در رابطه~\eqref{eq:app-ch3-softmax-order} نتیجه می‌دهد
+$v_c-v_r=w_c-w_r$ برای تمام $c,r$. با ثابت‌گرفتن
+$r$، اختلاف $v_c-w_c$ مستقل از $c$ است. عکس گزاره
+از ناوردایی انتقال به دست می‌آید:
+\begin{equation}\label{eq:app-ch3-softmax-equality}
+S(v)=S(w)\iff\exists b\in\mathbb R:\ v-w=b\mathbf1.
+\end{equation}
+با جایگذاری $w=av$ برای $a>0$:
+\begin{equation}\label{eq:app-ch3-softmax-scale-equality}
+S(av)=S(v)\iff (a=1)\ \lor\
+(v\in\operatorname{span}\{\mathbf1\}).
+\end{equation}
+زیرا برای $a\ne1$، شرط $(a-1)v=b\mathbf1$ دقیقاً
+معادل ثابت‌بودن مؤلفه‌هاست. بردار ثابت به توزیع
+یکنواخت نگاشته می‌شود. بنابراین تغییر مثبت مقیاس
+در سایر حالت‌ها همواره توزیع را تغییر می‌دهد.
+افزودن یک بردار دلخواه نیز فقط هنگامی توزیع را
+حفظ می‌کند که آن بردار ثابت باشد.
+
+\paragraph{کران احتمال و رفتار حدی دما.}
+اگر $|v_c|\le B$ برای تمام $c$، با $B\ge0$ و
+$\tau>0$ داریم:
+\begin{equation}\label{eq:app-ch3-margin-softmax-box-bound}
+S(v/\tau)_c
+=\frac{1}{1+\sum_{r\ne c}e^{(v_r-v_c)/\tau}}
+\le\frac{1}{1+(K-1)e^{-2B/\tau}}.
+\end{equation}
+نامساوی از $v_r-v_c\ge-2B$ حاصل می‌شود.
+برای $B>0$ تساوی دقیقاً در $v_c=B$ و
+$v_r=-B$ برای تمام $r\ne c$ رخ می‌دهد؛ برای $B=0$
+تنها بردار مجاز صفر است و تساوی برقرار است.
+این کران در مکعب امتیازها تیز است و دست‌یافتنی
+بودن آن برای بازنمایی‌های مدل را تضمین نمی‌کند.
+برای حد دمای صفر، $m=\max_r v_r$ و
+$M=\arg\max_r v_r$ را در نظر می‌گیریم و با ناوردایی
+انتقال، $S(v/\tau)_c=e^{(v_c-m)/\tau}/\sum_r
+e^{(v_r-m)/\tau}$ می‌نویسیم. هنگام $\tau\downarrow0$
+جمله‌های متناظر با $M$ یک و سایر جمله‌ها به صفر
+میل می‌کنند. برای $\tau\to\infty$ همهٔ جمله‌های
+نمایی به یک میل می‌کنند. بنابراین:
+\begin{equation}\label{eq:app-ch3-softmax-temperature-limits}
+\begin{aligned}
+\lim_{\tau\to\infty}S(v/\tau)_c&=1/K,\\
+\lim_{\tau\downarrow0}S(v/\tau)_c
+&=\begin{cases}1/|M|,&c\in M,\\0,&c\notin M.\end{cases}
+\end{aligned}
+\end{equation}
+برای دو بردار متناهی $v,w$ و دماهای مثبت $\tau,\tau'$،
+با استفاده از رابطه~\eqref{eq:app-ch3-softmax-equality}:
+\begin{equation}\label{eq:app-ch3-softmax-affine-temperature}
+S(w/\tau')=S(v/\tau)
+\iff \exists b\in\mathbb R:\ w=(\tau'/\tau)v+b\mathbf1.
+\end{equation}
+پس دما تنها اختلاف مقیاس مثبت مشترک را، به‌علاوهٔ
+انتقال مشترکی که خود نگاشت حذف می‌کند، جبران می‌کند.
+برای یک جفت بردار، شرط بالا لازم و کافی است؛ برای
+تمام نمونه‌ها با دو دمای ثابت، ضریب $\tau'/\tau$
+باید در همهٔ نمونه‌ها یکسان باشد.
+
+\paragraph{نرمال‌سازی نرم بردار حاشیه‌ها.}
+برای بردار متناهی $g$، مرکزکردن را با
+$v=g-\overline g\mathbf1$ و
+$\overline g=K^{-1}\sum_cg_c$ تعریف می‌کنیم.
+اگر $g'=ag+b\mathbf1$ با $a>0$، داریم
+$\overline g'=a\overline g+b$ و $v'=av$.
+از همگنی نرم برای $v\ne0$ نتیجه می‌شود:
+\begin{equation}\label{eq:app-ch3-margin-norm-invariance}
+\frac{v'}{\|v'\|_q}=\frac{av}{a\|v\|_q}
+=\frac{v}{\|v\|_q}.
+\end{equation}
+در حالت $v=0$، هر دو بردار مرکز‌شده صفرند و
+قرارداد امتیاز صفر اعمال می‌شود. برای $K=2$،
+$v=(a,-a)$ و $a\ne0$ است، بنابراین
+$\|v\|_q=2^{1/q}|a|$ و
+\begin{equation}\label{eq:app-ch3-binary-margin-norm}
+\frac{v}{\|v\|_q}=
+\frac{\operatorname{sgn}(a)}{2^{1/q}}(1,-1).
+\end{equation}
+پس مقدار $|a|$ به‌طور کامل حذف می‌شود و در هر ناحیه
+با علامت ثابت $a$، نگاشت نرمال‌شده ثابت است.
+
+برای $z=v/\|v\|_q$ و $q=1$، داریم
+$|z_c-z_r|\le |z_c|+|z_r|\le1$ برای $c\ne r$.
+برای $q=2$، از نامساوی کوشی--شوارتس داریم
+$|z_c-z_r|\le\sqrt2\|z\|_2=\sqrt2$.
+با تعریف $C_1=1$ و $C_2=\sqrt2$، برای هر دو نرم
+و هر $\tau>0$ نتیجه می‌شود:
+\begin{equation}\label{eq:app-ch3-margin-norm-bound}
+|z_c-z_r|\le C_q,\qquad
+S(z/\tau)_c\le\frac{1}{1+(K-1)e^{-C_q/\tau}}.
+\end{equation}
+این کران احتمال از محدودیت اختلاف امتیازها حاصل
+می‌شود و ادعای تیزبودن آن برای همهٔ $K$ و هر دو
+نرم را نداریم. در حالت امتیاز صفر نیز برقرار است.
+بنابراین تثبیت نرم خود موجب محدودیت دامنهٔ احتمال
+می‌شود و انتخاب دما همچنان اهمیت دارد.
 
 \paragraph{ناوردایی نسبت احتمال در نرمال‌سازی با بیشینهٔ هموار ماسک‌دار.}
 فرض کنیم $z=(z_v)_{v\in A_D}$ بردار ثابتی از امتیازهای متناهی
