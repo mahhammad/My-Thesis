@@ -6030,6 +6030,146 @@ $R_{\mathrm{KL}}$ یکی گرفت. این تفاوت در
 تفسیر خروجی‌های ذخیره‌شدهٔ فصل~\ref{chap:results}
 اهمیت دارد، نه در درستی هویت‌های دقیقِ KL.
 
+\paragraph{تراکم زوجی و محدودیت جهت معکوس KL.}
+برای مقایسهٔ مستقیم بازنمایی‌های اعضای طبقه، میانگین
+واگرایی همهٔ زوج‌های مرتب، شامل زوج‌های خودی، را در نظر
+می‌گیریم:
+\begin{equation}\label{cmp:eq:ch3-KL-pair}
+R_{c,\mathrm{KL}}^{\mathrm{pair}}
+=\frac{1}{|C_c|^2}\sum_{i,j\in C_c}
+D_{\mathrm{KL}}(\mathscr Y_i\|\mathscr Y_j).
+\end{equation}
+با استفاده از تجزیهٔ هزینهٔ مدل‌سازی مشترک
+(رابطه~\eqref{cmp:eq:ch3-KL-decomposition})، این معیار
+به مجموع دو صورت مرکزی با جهت مستقیم و معکوس تجزیه
+می‌شود:
+\begin{equation}\label{cmp:eq:ch3-KL-reverse}
+R_c^{\mathrm{rev}}
+=\frac{1}{|C_c|}\sum_{i\in C_c}
+D_{\mathrm{KL}}(\mathcal V_c\|\mathscr Y_i),
+\end{equation}
+\begin{equation}\label{cmp:eq:ch3-KL-pair-decomposition}
+\boxed{R_{c,\mathrm{KL}}^{\mathrm{pair}}=R_c+R_c^{\mathrm{rev}}.}
+\end{equation}
+صورت مستقیم همواره متناهی است، اما صورت معکوس و در
+نتیجه معیار زوجی، در صورت ناهمسانی تکیه‌گاه بازنمایی‌های
+اعضای طبقه نامتناهی می‌شوند. این امر به معنای نامعتبر
+بودن تعریف نیست؛ بااین‌حال، اگر مقدار معیار برای
+سیاست‌های مورد مقایسه نامتناهی باشد، امکان مشاهدهٔ
+تفاوت شدت پراکندگی با آن وجود ندارد.
+
+\paragraph{صورت اصلاح‌شدهٔ تراکم معکوس و زوجی.}
+برای حفظ اطلاعات قابل مشاهدهٔ صورت معکوس، تکیه‌گاه
+بازنمایی نمونه و مکمل آن در فضای برچسب‌ها را به‌ترتیب
+با نمادهای زیر مشخص می‌کنیم:
+\begin{equation}\label{cmp:eq:ch3-KL-mask-support}
+\mathcal U_i=\{u\in\{1,\ldots,K\}:\mathscr Y_i(u)>0\},
+\qquad
+\mathcal U_i^{\complement}=\{1,\ldots,K\}\setminus\mathcal U_i.
+\end{equation}
+جرم مرکز طبقهٔ $c$ خارج از تکیه‌گاه نمونه را با
+\begin{equation}\label{cmp:eq:ch3-KL-mask-mass}
+p_{c,i}^{\mathrm{out}}=\sum_{u\in\mathcal U_i^{\complement}}\mathcal V_c(u),
+\qquad i\in C_c
+\end{equation}
+نشان می‌دهیم. این نماد با احتمال پسین برچسب نمونه
+متفاوت است. چون مرکز میانگین حسابی اعضای طبقه است،
+$0\le p_{c,i}^{\mathrm{out}}<1$.
+توزیع‌های شرطی مرکز روی دو بخش فضای برچسب‌ها عبارت‌اند از:
+\begin{equation}\label{cmp:eq:ch3-KL-mask-conditional}
+\begin{aligned}
+\mathcal V_{c\mid\mathcal U_i}(u)
+&=\frac{\mathcal V_c(u)\mathbf1_{\{u\in\mathcal U_i\}}}
+{1-p_{c,i}^{\mathrm{out}}},\\
+\mathcal V_{c\mid\mathcal U_i^{\complement}}(u)
+&=\frac{\mathcal V_c(u)\mathbf1_{\{u\in\mathcal U_i^{\complement}\}}}
+{p_{c,i}^{\mathrm{out}}}
+\qquad (p_{c,i}^{\mathrm{out}}>0).
+\end{aligned}
+\end{equation}
+بنابراین مرکز را می‌توان به مخلوط دو توزیع با
+تکیه‌گاه‌های مجزا تجزیه کرد:
+\begin{equation}\label{cmp:eq:ch3-KL-mask-mixture}
+\mathcal V_c=(1-p_{c,i}^{\mathrm{out}})\mathcal V_{c\mid\mathcal U_i}
++p_{c,i}^{\mathrm{out}}\mathcal V_{c\mid\mathcal U_i^{\complement}}.
+\end{equation}
+برای اختصار در روابط بعدی، $p=p_{c,i}^{\mathrm{out}}$ و
+$h_{\mathrm b}(p)=-p\log p-(1-p)\log(1-p)$
+آنتروپی دودویی است. با فرض $0<p<1$، تجزیهٔ دقیق
+واگرایی معکوس عبارت است از:
+\begin{equation}\label{cmp:eq:ch3-KL-mask-reverse-decomposition}
+\begin{aligned}
+D_{\mathrm{KL}}(\mathcal V_c\|\mathscr Y_i)
+={}&(1-p)D_{\mathrm{KL}}(\mathcal V_{c\mid\mathcal U_i}\|\mathscr Y_i)\\
+&+pD_{\mathrm{KL}}(\mathcal V_{c\mid\mathcal U_i^{\complement}}\|\mathscr Y_i)
+-h_{\mathrm b}(p).
+\end{aligned}
+\end{equation}
+جملهٔ نخست متناهی است، اما جملهٔ دوم به سبب مجزا بودن
+تکیه‌گاه‌ها نامتناهی است. برای ساخت یک معیار اصلاح‌شده،
+جملهٔ نامتناهی را با سهم آنتروپی مرکز که پس از
+محدودسازی آن به تکیه‌گاه نمونه باقی نمی‌ماند،
+جایگزین می‌کنیم:
+\begin{equation}\label{cmp:eq:ch3-KL-mask-entropy-replacement}
+\begin{aligned}
+H(\mathcal V_c)-(1-p)H(\mathcal V_{c\mid\mathcal U_i})
+&=pH(\mathcal V_{c\mid\mathcal U_i^{\complement}})
++h_{\mathrm b}(p).
+\end{aligned}
+\end{equation}
+در این جایگزینی، آنتروپی دودویی با جملهٔ منفی متناظر
+در رابطه~\eqref{cmp:eq:ch3-KL-mask-reverse-decomposition}
+حذف می‌شود. در نتیجه صورت اصلاح‌شدهٔ ناهمانندی معکوس
+را به‌صورت زیر \emph{تعریف} می‌کنیم:
+\begin{equation}\label{cmp:eq:ch3-KL-mask-corrected-dissimilarity}
+\boxed{\begin{aligned}
+\widetilde D_{\mathrm{KL}}(\mathcal V_c\|\mathscr Y_i)
+={}&(1-p)D_{\mathrm{KL}}(\mathcal V_{c\mid\mathcal U_i}\|\mathscr Y_i)\\
+&+pH(\mathcal V_{c\mid\mathcal U_i^{\complement}}).
+\end{aligned}}
+\end{equation}
+برای $p=0$، جملهٔ وابسته به مکمل را صفر در نظر
+می‌گیریم؛ توزیع شرطی روی بخش با جرم صفر لازم نیست
+تعریف شود. جایگزینی انجام‌شده یک قرارداد طراحی معیار
+است، نه تساوی با واگرایی نامتناهی اولیه.
+
+جملهٔ نخست میزان ناهمانندی معکوس روی تکیه‌گاه نمونه و
+جملهٔ دوم عدم قطعیت وزن‌دار در بخش حذف‌شده را اندازه
+می‌گیرد. اگر جرم مثبت مرکز خارج از تکیه‌گاه تنها روی
+یک مؤلفه متمرکز باشد، جملهٔ دوم صفر است. اگر علاوه
+بر آن، توزیع شرطی مرکز روی تکیه‌گاه با بازنمایی نمونه
+یکسان باشد، کل صورت اصلاح‌شده صفر می‌شود؛ حتی اگر
+جرمی از مرکز حذف شده باشد. هنگامی که جرم حذف‌شده بین
+چند مؤلفهٔ مثبت توزیع شده باشد، جملهٔ آنتروپی این
+پراکندگی را ثبت می‌کند. به‌ویژه برای بازنمایی قطعی
+$\mathscr Y_i=e_j$، جملهٔ نخست صفر و مقدار معیار
+برابر آنتروپی شرطی مرکز روی برچسب‌های غیر از $j$،
+وزن‌دار با جرم آن بخش، خواهد بود.
+
+در سطح طبقه، معیار معکوس اصلاح‌شده و صورت جایگزین
+معیار زوجی را به‌ترتیب تعریف می‌کنیم:
+\begin{equation}\label{cmp:eq:ch3-KL-mask-corrected-reverse}
+\widetilde R_c^{\mathrm{rev}}
+=\frac{1}{|C_c|}\sum_{i\in C_c}
+\widetilde D_{\mathrm{KL}}(\mathcal V_c\|\mathscr Y_i),
+\end{equation}
+\begin{equation}\label{cmp:eq:ch3-KL-mask-corrected-pair}
+\boxed{\widetilde R_{c,\mathrm{KL}}^{\mathrm{pair}}
+=R_c+\widetilde R_c^{\mathrm{rev}}.}
+\end{equation}
+این صورت جایگزین همواره نامنفی و متناهی است، فقط در
+صورت یکسان بودن همهٔ بازنمایی‌های طبقه صفر می‌شود و
+در صورت یکسان بودن تکیه‌گاه‌ها به معیار زوجی دقیق
+KL بازمی‌گردد. جملهٔ مستقیم $R_c$ اختلاف جرم خارج
+از تکیه‌گاه را که ممکن است صورت معکوس اصلاح‌شده
+ثبت نکند، همچنان لحاظ می‌کند. این معیار پیشنهادی
+دیگر میانگین دقیق واگرایی‌های زوجی نیست و در اینجا
+صرفاً به‌عنوان یک ابزار تحلیلی با خواص نظری مشخص
+معرفی می‌شود. اثبات روابط و بررسی حالت‌های مرزی در
+بخش~\ref{app:geometry-KL-pair-mask} از پیوست
+هندسهٔ مدل آمده است.
+
+
 \paragraph{معیارهای مبتنی بر جنسن--شنون.}
 
 به‌جای سنجیدن اختلاف با KL،
