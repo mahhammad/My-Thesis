@@ -6601,6 +6601,52 @@ $C_{c,\alpha}=C_{c,\alpha}^{(\mathrm{KL})}$ را
 زیربخش~\ref{cmp:subsec:ch3-outlier-quantile-radius}
 بیان شده است.
 
+\subsection{توپ کمینهٔ پوشاننده}
+\label{cmp:subsec:ch3-minimum-enclosing-ball}
+
+در زیربخش~\ref{cmp:subsec:ch3-quantile-coverage}،
+شعاع پوشش را نسبت به مرکز حسابی و مراکز
+بازبرآوردشده بررسی کردیم. اکنون با آزادگذاشتن
+مکان مرکز در فضای هیلبرت، کوچک‌ترین توپ
+پوشانندهٔ مجموعه‌ای از بازنمایی‌ها را تعریف
+می‌کنیم.
+
+مطابق نگاشت هیلبرتی معرفی‌شده در
+رابطه~\eqref{cmp:eq:ch3-js-Hilbert-map}،
+$x_i=\Phi(\mathscr Y_i)\in\mathcal H$ است.
+برای هر زیرمجموعهٔ ناتهی $S_c\subseteq C_c$،
+مرکز و شعاع توپ کمینهٔ پوشاننده به‌ترتیب با
+مسئلهٔ زیر تعیین می‌شوند:
+\begin{equation}\label{cmp:eq:ch3-outlier-js-meb-primal}
+\boxed{
+\begin{aligned}
+\mathfrak r_c(S_c)^2
+&=\min_{\zeta\in\mathcal H}
+\max_{i\in S_c}\|x_i-\zeta\|_{\mathcal H}^2,\\
+\zeta_c(S_c)
+&\in\operatorname*{arg\,min}_{\zeta\in\mathcal H}
+\max_{i\in S_c}\|x_i-\zeta\|_{\mathcal H}^2.
+\end{aligned}}
+\end{equation}
+توپ بستهٔ متناظر عبارت است از:
+\begin{equation}\label{cmp:eq:ch3-meb-ball}
+\mathcal B_c(S_c)=
+\{z\in\mathcal H:
+\|z-\zeta_c(S_c)\|_{\mathcal H}
+\le\mathfrak r_c(S_c)\}.
+\end{equation}
+برای مجموعه‌ای متناهی و ناتهی، مرکز این توپ
+وجود دارد و یکتاست (پیوست~\ref{app:ch3-js-enclosing-balls}).
+با قرار دادن $S_c=C_c$، کوچک‌ترین توپ پوشانندهٔ
+تمام بازنمایی‌های اعضای طبقه به دست می‌آید.
+مرکز توپ در فضای هیلبرت آزاد است و لزوماً
+نگاشت هیچ توزیع احتمالی در $\Delta_K$ نیست؛
+بنابراین نباید آن را با نگاشت مرکز حسابی
+$\Phi(\mathcal V_c)$ یکی دانست.
+شعاع این توپ، کمترین شعاع لازم برای پوشش
+تمام بازنمایی‌های مجموعهٔ منتخب با مرکز آزاد
+در فضای هیلبرت است.
+
 \section{واگرایی و تمایز مراکز طبقه‌ها}
 \label{cmp:sec:ch3-center-separation}
 
@@ -11477,35 +11523,14 @@ $x_i=\Phi(\mathscr Y_i)\in\mathcal H$
 با یک قرارداد مشخص و سازگار تشکیل شود؛
 جدایی توپ‌های این بازنمایی‌های آموزشی
 به‌تنهایی کرانی برای قاعده استنتاج
-شرطی نمونه جدید نیست. برای هر مجموعه ناتهی
-$S_c\subseteq C_c$، مرکز توپ هیلبرتی
-$\zeta_c(S_c)$ و شعاع آن
-$\mathfrak r_c(S_c)$ را با مسئله
-\begin{equation}\label{cmp:eq:ch3-outlier-js-meb-primal}
-\boxed{
-\begin{aligned}
-\mathfrak r_c(S_c)^2
-&=\min_{\zeta\in\mathcal H}
-\max_{i\in S_c}\|x_i-\zeta\|_{\mathcal H}^2,\\
-\zeta_c(S_c)
-&\in\operatorname*{arg\,min}_{\zeta\in\mathcal H}
-\max_{i\in S_c}\|x_i-\zeta\|_{\mathcal H}^2.
-\end{aligned}}
-\end{equation}
-تعریف می‌کنیم و توپ متناظر را
-$\mathcal B_c(S_c)=
-\{z\in\mathcal H:
-\|z-\zeta_c(S_c)\|_{\mathcal H}
-\le\mathfrak r_c(S_c)\}$
-می‌نامیم. برای مجموعه متناهی،
-جواب وجود دارد و مرکز توپ یکتاست.
-مرکز این توپ \emph{آزاد در فضای هیلبرت}
-است و لزوماً به‌صورت
-$\Phi(v)$ برای هیچ
-$v\in\Delta_K$ به دست نمی‌آید؛
-ازاین‌رو نباید آن را با
-$\Phi(\mathcal V_c)$ یا مرکز
-میانگین KL یکی گرفت.
+شرطی نمونه جدید نیست.  برای مجموعهٔ ناتهی
+$S_c\subseteq C_c$، مرکز $\zeta_c(S_c)$،
+شعاع $\mathfrak r_c(S_c)$ و توپ
+$\mathcal B_c(S_c)$ مطابق
+روابط~\eqref{cmp:eq:ch3-outlier-js-meb-primal}
+و~\eqref{cmp:eq:ch3-meb-ball} در
+زیربخش~\ref{cmp:subsec:ch3-minimum-enclosing-ball}
+تعریف شده‌اند.
 
 مزیت این نگاشت آن است که شعاع
 را می‌توان صرفاً با
