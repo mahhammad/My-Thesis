@@ -470,7 +470,73 @@ D_{\mathrm{KL}}(\mathscr Y_i\|\mathcal V_c)\\
 &=R_c+D_{\mathrm{KL}}(\mathcal V_c\|U).
 \end{aligned}
 \end{equation}
-این همان قضیه~\ref{cmp:thm:ch3-KL-decomposition} است. چون برای هر مؤلفه $d$، برابری $\mathcal V_c(d)=0$ همراه با نامنفی‌بودن $\mathscr Y_i(d)$ها مستلزم $\mathscr Y_i(d)=0$ برای همه اعضای طبقه است، جمله‌های دارای مؤلفه صفر را می‌توان با قرارداد معمول KL محاسبه کرد. اگر در مؤلفه‌ای $\mathcal V_c(d)>0$ اما $U(d)=0$ باشد، هر دو طرفِ عبارت مربوط به مدل $U$ نامتناهی‌اند و تفسیر مستقیم لگاریتم درست‌نمایی برقرار نیست؛ به همین دلیل قضیه در متن اصلی با شرط متناهی‌بودن واگرایی‌ها بیان شده است. نامنفی‌بودن $D_{\mathrm{KL}}(\mathcal V_c\|U)$ ثابت می‌کند که نماینده بهینه دقیقاً $\mathcal V_c$ است. همچنین در این صورت، هویت~\eqref{cmp:eq:ch3-R-entropy} تفسیرِ هزینه تجمیع را در قالب آنتروپی و میانگین KL ارائه می‌کند.
+این همان قضیه~\ref{cmp:thm:ch3-KL-decomposition} است. چون برای هر مؤلفه $d$، برابری $\mathcal V_c(d)=0$ همراه با نامنفی‌بودن $\mathscr Y_i(d)$ها مستلزم $\mathscr Y_i(d)=0$ برای همه اعضای طبقه است، جمله‌های دارای مؤلفه صفر را می‌توان با قرارداد معمول KL محاسبه کرد. اگر در مؤلفه‌ای $\mathcal V_c(d)>0$ اما $U(d)=0$ باشد، هر دو طرفِ عبارت مربوط به مدل $U$ نامتناهی‌اند و تفسیر مستقیم لگاریتم درست‌نمایی برقرار نیست؛ به همین دلیل قضیه با شرط متناهی‌بودن واگرایی‌ها بیان شده است. نامنفی‌بودن $D_{\mathrm{KL}}(\mathcal V_c\|U)$ ثابت می‌کند که نماینده بهینه دقیقاً $\mathcal V_c$ است. همچنین در این صورت، هویت~\eqref{cmp:eq:ch3-R-entropy} تفسیرِ هزینه تجمیع را در قالب آنتروپی و میانگین KL ارائه می‌کند.
+
+\paragraph{هزینه مدل‌کردن یک طبقه با توزیع مشترک.}
+با استفاده از مرکز حسابی تعریف‌شده در رابطه~\eqref{cmp:eq:ch3-class-center} و توجیه درست‌نمایی آن در بخش~\ref{cmp:subsec:ch3-mean-center-justification}، برای طبقهٔ $c$، با وزن‌های یکسان $1/|C_c|$، \emph{کمترین میانگین منفی لگاریتم درست‌نمایی مورد انتظار} برای مدل مشترک به‌دست می‌آید:
+\begin{equation}\label{cmp:eq:ch3-class-shared-NLL}
+\boxed{\operatorname{NLL}^{\mathrm{shared}}_{c,\min}
+=H(\mathcal V_c).}
+\end{equation}
+برای مقایسه، اگر توزیع مولد اختصاصی هر مشاهده معلوم باشد و مشاهدات متناظر با $\mathscr Y_i$ را با خود همان توزیع مدل کنیم، کمترین هزینه مورد انتظار برابر است با:
+\begin{equation}\label{cmp:eq:ch3-class-individual-NLL}
+\boxed{\operatorname{NLL}^{\mathrm{individual}}_{c,\min}
+=\frac{1}{|C_c|}\sum_{i\in C_c}H(\mathscr Y_i).}
+\end{equation}
+اختلاف این دو مقدار، هزینه اضافی \emph{تجمیع} توزیع‌های نمونه‌های طبقه در یک نماینده مشترک را می‌سنجد. این اختلاف را با $R_c$ نشان می‌دهیم:
+\begin{equation}
+\boxed{
+\begin{aligned}
+R_c
+&=\operatorname{NLL}^{\mathrm{shared}}_{c,\min}
+-\operatorname{NLL}^{\mathrm{individual}}_{c,\min}\\
+&=H(\mathcal V_c)
+-\frac1{|C_c|}\sum_{i\in C_c}H(\mathscr Y_i)\\
+&=\frac1{|C_c|}\sum_{i\in C_c}
+D_{\mathrm{KL}}(\mathscr Y_i\|\mathcal V_c).
+\end{aligned}}
+\end{equation}
+برابری آخر از تعریف آنتروپی و میانگین‌بودن $\mathcal V_c$ حاصل می‌شود. بنابراین $R_c\ge0$؛ اگر توزیع همسایگی همه نمونه‌های طبقه یکسان باشد، این هزینه صفر است. برای مثال، دو توزیع $(1,0)$ و $(0,1)$ و نیز دو توزیع یکسان $(1/2,1/2)$ هر دو مرکز $(1/2,1/2)$ دارند؛ اما هزینه تجمیع در حالت اول $\log2$ و در حالت دوم صفر است. پس آنتروپی مرکز به‌تنهایی پراکندگی توزیع‌های اعضای طبقه را مشخص نمی‌کند.
+
+\paragraph{اثر انتخاب نماینده‌ای غیر از میانگین.}
+هویت زیر نشان می‌دهد در صورت انتخاب یک توزیع مشترک دیگر مانند $U$، علاوه بر هزینه اجتناب‌ناپذیر تجمیع، هزینه‌ای اضافی نیز پرداخت می‌شود:
+\begin{theorem}[تجزیه هزینه مدل‌سازی مشترک]\label{cmp:thm:ch3-KL-decomposition}
+برای هر طبقه $c$ و هر توزیع احتمال $U$ که واگرایی‌های مربوط به آن متناهی باشند، داریم:
+\begin{equation}\label{cmp:eq:ch3-KL-decomposition}
+\boxed{
+\frac{1}{|C_c|}\sum_{i\in C_c}
+D_{\mathrm{KL}}(\mathscr Y_i\|U)
+=R_c+D_{\mathrm{KL}}(\mathcal V_c\|U).}
+\end{equation}
+\end{theorem}
+در نتیجه، جمله $R_c$ هزینه ناشی از خلاصه‌کردن توزیع‌های متفاوت با \emph{یک} نماینده است و جمله $D_{\mathrm{KL}}(\mathcal V_c\|U)$ زیان اضافیِ برگزیدن نماینده‌ای غیر از میانگین بهینه را نشان می‌دهد. به‌ویژه:
+\begin{equation}\label{cmp:eq:ch3-KL-opt-center}
+\boxed{\mathcal V_c=
+\underset{U}{\arg\min}\;
+\frac{1}{|C_c|}\sum_{i\in C_c}
+D_{\mathrm{KL}}(\mathscr Y_i\|U).}
+\end{equation}
+تجزیهٔ عمومی و اثبات صورت درون‌طبقه‌ای این رابطه در همین بخش ارائه شدند.
+
+این تفسیر روشن می‌کند چرا $R_c$ را در ارزیابی بازنمایی اندازه می‌گیریم: این معیار هزینه فشرده‌سازی الگوهای همسایگی هر طبقه در یک توزیع مشترک است. البته این هزینه، \emph{منفی لگاریتم درست‌نماییِ برچسب واقعی نمونه} یا خطای تصمیم طبقه‌بند نیست. ممکن است $R_c$ برای همه طبقه‌ها صفر باشد ولی مراکز آن‌ها نیز با یکدیگر برابر باشند و امکان تفکیک وجود نداشته باشد. بنابراین، بهینگی نمایندگی درون هر طبقه را باید از کیفیت \emph{تمایز میان طبقه‌ها} جدا کرد؛ معیارهای این دو جنبه در ادامه بررسی می‌شوند.
+
+\paragraph{قرارداد تکیه‌گاه KL در برابر هموارسازی عددی.}
+\phantomsection\label{cmp:par:ch3-KL-legacy-clip}
+در تعریف دقیق از قرارداد $0\log(0/q)=0$ برای $q\ge0$
+استفاده می‌شود و هرگاه $p_u>0$ ولی $q_u=0$ باشد،
+$D_{\mathrm{KL}}(P\|Q)=+\infty$ است.
+برای $R_{\mathrm{KL}}$ که مرکز همان میانگین حسابی
+نمونه‌های هر طبقه است، چنین ناسازگاریِ تکیه‌گاه
+در جهت $\mathscr Y_i\|\mathcal V_c$ رخ نمی‌دهد
+و مقدار معیار متناهی است؛ اما در فاصله نمونه به
+\emph{مرکز طبقه رقیب} یا هدف خارجی این تضمین وجود ندارد.
+جایگزینی صفرها با کران پایین مثبت در محاسبهٔ
+\lr{clip} یک قرارداد عددیِ متفاوت می‌سازد:
+$R_{\mathrm{KL}}^{\mathrm{legacy,clip}}$
+را نباید بدون باز‌محاسبه با تعریف دقیق
+$R_{\mathrm{KL}}$ یکی گرفت. این تفاوت در
+تفسیر خروجی‌های ذخیره‌شدهٔ فصل~\ref{chap:results}
+اهمیت دارد، نه در درستی هویت‌های دقیقِ KL.
 
 \section{هویت آنتروپی مخلوط و تعبیر معیارهای R و I}
 \label{app:ch3-entropy-mixture}
@@ -772,6 +838,38 @@ $\operatorname{supp}(\mathcal V_c)
 تمام بازنمایی‌های طبقه است.
 
 \subsection{تجزیهٔ واگرایی و آنتروپی روی تکیه‌گاه}
+بنابراین مرکز را می‌توان به مخلوط دو توزیع با
+تکیه‌گاه‌های مجزا تجزیه کرد:
+\begin{equation}\label{cmp:eq:ch3-KL-mask-mixture}
+\mathcal V_c=(1-p_{c,i}^{\mathrm{out}})\mathcal V_{c\mid\mathcal U_i}
++p_{c,i}^{\mathrm{out}}\mathcal V_{c\mid\mathcal U_i^{\complement}}.
+\end{equation}
+برای اختصار در روابط بعدی، $p=p_{c,i}^{\mathrm{out}}$ و
+$h_{\mathrm b}(p)=-p\log p-(1-p)\log(1-p)$
+آنتروپی دودویی است. با فرض $0<p<1$، تجزیهٔ دقیق
+واگرایی معکوس عبارت است از:
+\begin{equation}\label{cmp:eq:ch3-KL-mask-reverse-decomposition}
+\begin{aligned}
+D_{\mathrm{KL}}(\mathcal V_c\|\mathscr Y_i)
+={}&(1-p)D_{\mathrm{KL}}(\mathcal V_{c\mid\mathcal U_i}\|\mathscr Y_i)\\
+&+pD_{\mathrm{KL}}(\mathcal V_{c\mid\mathcal U_i^{\complement}}\|\mathscr Y_i)
+-h_{\mathrm b}(p).
+\end{aligned}
+\end{equation}
+جملهٔ نخست متناهی است، اما جملهٔ دوم به سبب مجزا بودن
+تکیه‌گاه‌ها نامتناهی است. برای ساخت یک معیار اصلاح‌شده،
+جملهٔ نامتناهی را با سهم آنتروپی مرکز که پس از
+محدودسازی آن به تکیه‌گاه نمونه باقی نمی‌ماند،
+جایگزین می‌کنیم:
+\begin{equation}\label{cmp:eq:ch3-KL-mask-entropy-replacement}
+\begin{aligned}
+H(\mathcal V_c)-(1-p)H(\mathcal V_{c\mid\mathcal U_i})
+&=pH(\mathcal V_{c\mid\mathcal U_i^{\complement}})
++h_{\mathrm b}(p).
+\end{aligned}
+\end{equation}
+
+
 با قراردادهای روابط~\eqref{cmp:eq:ch3-KL-mask-support}
 تا~\eqref{cmp:eq:ch3-KL-mask-mixture} و اختصار
 $p=p_{c,i}^{\mathrm{out}}$، از
