@@ -6401,11 +6401,13 @@ i & \operatorname{JSD}(\mathscr Y_i,\mathcal V_c)
 \paragraph{پوشش چندکی با مرکز ثابت.}
 برای سطح پوشش $0<\alpha\le1$ و آستانهٔ ناهمانندی
 $\rho\ge0$، شعاع چندکی با مرکز ثابت و تابع پوشش
-تجربی به‌ترتیب عبارت‌اند از:
+تجربی به‌ترتیب عبارت‌اند از (وابستگی $r_\alpha$
+به طبقهٔ $c$ به‌صورت ضمنی در نظر گرفته می‌شود):
 \begin{equation}\label{cmp:eq:ch3-outlier-quantile-coverage}
 \boxed{\begin{aligned}
+r_\alpha&=\lceil\alpha|C_c|\rceil,\\
 R_{c,\alpha}^{(\psi)}
-&=d_{c,(\lceil\alpha |C_c|\rceil)}^{(\psi)},\\
+&=d_{c,(r_\alpha)}^{(\psi)},\\
 \widehat G_{c,\psi}(\rho)
 &=\frac1{|C_c|}\sum_{i\in C_c}
 \mathbf1\{d_\psi(\mathscr Y_i,\mathcal V_c)\le \rho\}.
@@ -6449,34 +6451,34 @@ R_{c,\alpha}^{(\mathrm{JS})}
 \paragraph{شعاع پوشش چندکی با بازبرآورد مرکز.}
 با استفاده از ترتیب سلسله‌مراتبی
 رابطه~\eqref{cmp:eq:ch3-recursive-order}، برای سطح
-پوشش $0<\alpha\le1$، تعداد اعضای مورد نظر را
-$r=\lceil\alpha|C_c|\rceil$ قرار می‌دهیم.
-مرکز حسابی نخستین $r$ عضو این ترتیب و شعاع
+پوشش $0<\alpha\le1$، تعداد اعضای مورد نظر همان $r_\alpha$ در
+رابطه~\eqref{cmp:eq:ch3-outlier-quantile-coverage} است.
+مرکز حسابی نخستین $r_\alpha$ عضو این ترتیب و شعاع
 پوشانندهٔ آن‌ها برابرند با:
 \begin{equation}\label{cmp:eq:ch3-recursive-quantile-coverage}
 \boxed{\begin{aligned}
-\mathcal V_{c,r}^{(\psi,\mathrm{rec})}
-&=\frac{1}{r}\sum_{\ell=1}^{r}
+\mathcal V_{c,r_\alpha}^{(\psi,\mathrm{rec})}
+&=\frac{1}{r_\alpha}\sum_{\ell=1}^{r_\alpha}
 \mathscr Y_{i_{c,\ell}^{(\psi,\mathrm{rec})}},\\
 R_{c,\alpha}^{(\psi,\mathrm{rec})}
-&=\max_{1\le\ell\le r}
+&=\max_{1\le\ell\le r_\alpha}
 d_\psi\left(
 \mathscr Y_{i_{c,\ell}^{(\psi,\mathrm{rec})}},
-\mathcal V_{c,r}^{(\psi,\mathrm{rec})}
+\mathcal V_{c,r_\alpha}^{(\psi,\mathrm{rec})}
 \right).
 \end{aligned}}
 \end{equation}
 در این قرارداد، شعاع نسبت به مرکز بازبرآوردشده
-محاسبه می‌شود و دست‌کم $r$ عضو از طبقه را پوشش
+محاسبه می‌شود و دست‌کم $r_\alpha$ عضو از طبقه را پوشش
 می‌دهد. این شعاع با ناهمانندی عضو دارای رتبهٔ
-$r$ در رابطه~\eqref{cmp:eq:ch3-recursive-order-distance}
+$r_\alpha$ در رابطه~\eqref{cmp:eq:ch3-recursive-order-distance}
 متفاوت است؛ در آن رابطه، خود عضو در تشکیل مرکز
 مشارکت ندارد. به‌دلیل تغییر مرکز، شعاع پوشش
 سلسله‌مراتبی لزوماً نسبت به $\alpha$ غیرنزولی
 نیست و کمینهٔ شعاع پوشش میان تمام زیرمجموعه‌ها
 و مراکز ممکن را نیز تضمین نمی‌کند. در $\alpha=1$،
 مرکز و شعاع حاصل با صورت مرکز ثابت یکسان‌اند،
-و برای $r=1$ شعاع برابر صفر است.
+و برای $r_\alpha=1$ شعاع برابر صفر است.
 
 \paragraph{وزن‌دهی بر اساس پوشش چندکی.}
 با استفاده از شعاع چندکی نسبت به مرکز اصلی،
@@ -6670,11 +6672,12 @@ $\Phi(\mathcal V_c)$ یکی دانست.
 توپ را بر اساس پوشش چندکی زیربخش
 \ref{cmp:subsec:ch3-quantile-coverage}
 محاسبه کرد. برای سطح پوشش $0<\alpha\le1$،
-با قرار دادن $r=\lceil\alpha|C_c|\rceil$،
-مجموعهٔ $S_c$ را از نخستین $r$ عضو در یکی از
+با استفاده از $r_\alpha$ تعریف‌شده در
+رابطه~\eqref{cmp:eq:ch3-outlier-quantile-coverage}،
+مجموعهٔ $S_c$ را از نخستین $r_\alpha$ عضو در یکی از
 دو ترتیب مرکز ثابت یا سلسله‌مراتبی، با متریک
 جذر جنسن--شنون، انتخاب می‌کنیم. در قرارداد
-سلسله‌مراتبی، این مجموعه همان $S_{c,r}$ در
+سلسله‌مراتبی، این مجموعه همان $S_{c,r_\alpha}$ در
 رابطه~\eqref{cmp:eq:ch3-recursive-order} است.
 توپ $\mathcal B_c(S_c)$ دست‌کم سهم $\alpha$
 از اعضای طبقه را پوشش می‌دهد و شعاع آن از
@@ -6688,7 +6691,7 @@ $\Phi(\mathcal V_c)$ یکی دانست.
 توپ پوشانندهٔ تمام اعضای طبقه به دست می‌آید.
 این صورت چندکی، توپ کمینهٔ پوشانندهٔ اعضای
 منتخب در ترتیب مورد نظر است و لزوماً کوچک‌ترین
-توپ در میان تمام زیرمجموعه‌های دارای $r$ عضو
+توپ در میان تمام زیرمجموعه‌های دارای $r_\alpha$ عضو
 نیست.
 
 \section{واگرایی و تمایز مراکز طبقه‌ها}
