@@ -207,6 +207,55 @@ $R_{c,\mathrm{JS}}$ که فاصله از مرکز
 پیوست~\ref{app:ch3-compactness-entropy-relations}
 آمده است.
 
+\paragraph{تجزیهٔ هیلبرتی تراکم مرکزی و زوجی.}
+\phantomsection\label{app:geometry-js-hilbert-dispersion}
+برای طبقهٔ غیرتهی $C_c$، با استفاده از نمایش هیلبرتی
+متریک جذر جنسن--شنون، $x_i=\Phi(\mathscr Y_i)$ و
+\begin{equation}\label{cmp:eq:ch3-js-hilbert-mean}
+\overline x_c=\frac1{|C_c|}\sum_{i\in C_c}x_i
+\end{equation}
+را در نظر می‌گیریم. برای هر $z\in\mathcal H$، با بسط
+مربع هنجار و استفاده از
+$\sum_{i\in C_c}(x_i-\overline x_c)=0$ داریم:
+\[
+\frac1{|C_c|}\sum_{i\in C_c}\|x_i-z\|_{\mathcal H}^{2}
+=\frac1{|C_c|}\sum_{i\in C_c}\|x_i-\overline x_c\|_{\mathcal H}^{2}
++\|\overline x_c-z\|_{\mathcal H}^{2}.
+\]
+به همین ترتیب، با بسط مربع فاصلهٔ زوج‌ها حول
+$\overline x_c$ و حذف جمله‌های متقاطع داریم:
+\[
+R_{c,\mathrm{JS}}^{\mathrm{pair}}
+=\frac1{|C_c|^2}\sum_{i,j\in C_c}\|x_i-x_j\|_{\mathcal H}^{2}
+=\frac2{|C_c|}\sum_{i\in C_c}\|x_i-\overline x_c\|_{\mathcal H}^{2}.
+\]
+با قرار دادن $z=\Phi(\mathcal V_c)$ در هویت نخست
+و جایگذاری هویت دوم، نتیجه می‌شود:
+\begin{equation}\label{cmp:eq:ch3-js-hilbert-dispersion-decomposition}
+R_{c,\mathrm{JS}}=\frac12R_{c,\mathrm{JS}}^{\mathrm{pair}}
++\|\Phi(\mathcal V_c)-\overline x_c\|_{\mathcal H}^{2}.
+\end{equation}
+جملهٔ دوم، مربع فاصلهٔ میانگین حسابی نگاشت توزیع‌ها
+از نگاشت میانگین حسابی توزیع‌ها در فضای هیلبرت است.
+$\overline x_c$ کمینه‌کنندهٔ یکتای میانگین مربع
+فاصله در کل فضای هیلبرت است، اما لزوماً در تصویر
+سیمپلکس تحت $\Phi$ قرار ندارد.
+
+نامنفی بودن جملهٔ دوم نشان می‌دهد
+$R_{c,\mathrm{JS}}^{\mathrm{pair}}\le 2R_{c,\mathrm{JS}}$؛
+تساوی دقیقاً هنگامی برقرار است که
+$\Phi(\mathcal V_c)=\overline x_c$.
+از رابطه~\eqref{cmp:eq:ch3-R-JS-KL-midpoint-identity}
+و نامنفی بودن $R_{B,c}$ نیز نتیجه می‌شود
+$2R_{c,\mathrm{JS}}=R_c-2R_{B,c}\le R_c$.
+تساوی در کران دوم دقیقاً هنگامی برقرار است که
+$R_{B,c}=0$، یعنی برای همهٔ اعضای طبقه
+$\mathscr B_{c,i}=\mathcal V_c$ و در نتیجه
+$\mathscr Y_i=\mathcal V_c$.
+با توجه به $R_c=R_{c,\mathrm{KL}}$،
+زنجیرهٔ رابطه~\eqref{cmp:eq:ch3-js-compactness-chain}
+ثابت می‌شود.
+
 \paragraph{تعبیر و مقایسه معیارهای تراکم.}
 $R_{\mathrm{KL}}$ هزینه اضافی مدل مشترک
 برای توزیع‌های یک طبقه را می‌سنجد؛
