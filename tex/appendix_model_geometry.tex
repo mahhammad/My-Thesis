@@ -8,204 +8,13 @@
 این بخش هویت‌های آنتروپی، کران‌ها، روابط مقایسه‌ای و شرایط برابری معیارهای معرفی‌شده در بخش~\ref{cmp:sec:ch3-quality-criteria} را گردآوری می‌کند. اثبات‌های تفصیلی در بخش‌های بعدی همین پیوست ارائه شده‌اند.
 
 \subsection{هویت‌ها و کران‌های معیارهای تراکم}
-\paragraph{تعبیر آنتروپی هزینه تجمیع.}
-طبق رابطه~\eqref{cmp:eq:ch3-R-entropy}، هزینه هر طبقه از اختلاف آنتروپی مرکز و میانگین آنتروپی نمونه‌های همان طبقه به‌دست می‌آید. با وزن‌دهی به طبقات بر اساس $\Omega$، رابطه مشابه زیر برای $R$ حاصل می‌شود:
-\begin{equation}\label{cmp:eq:ch3-R-average-entropy}
-\boxed{R=\sum_{c=1}^{K}\omega_c H(\mathcal V_c)
--\sum_{c=1}^{K}\frac{\omega_c}{|C_c|}
-\sum_{i\in C_c}H(\mathscr Y_i).}
-\end{equation}
-این رابطه نشان می‌دهد پراکندگی درون‌طبقه‌ای را نمی‌توان صرفاً از آنتروپی مرکز تعیین کرد؛ تفاوت آن با میانگین آنتروپی نمونه‌ها اهمیت دارد. همچنین چون $\mathcal V_c$ میانگین توزیع‌های طبقه است، تقعر آنتروپی نامنفی بودن $R_c$ را نیز نتیجه می‌دهد. اثبات هویت آنتروپی مخلوط که مبنای
-این رابطه است، در بخش~\ref{app:ch3-entropy-mixture}
-از پیوست~\ref{app:model-geometry} آمده است.
-
-\paragraph{کران‌های تراکم KL و شرایط برابری.}
-از رابطه~\eqref{cmp:eq:ch3-R-class} و نامنفی بودن
-واگرایی KL، بی‌درنگ $R_c\ge0$ نتیجه می‌شود.
-همچنین از تعبیر آنتروپی
-رابطه~\eqref{cmp:eq:ch3-R-entropy}، با توجه به
-$0\le H(P)\le\log K$ برای هر $P\in\Delta_K$، داریم:
-\begin{equation}\label{cmp:eq:ch3-R-KL-bounds}
-\boxed{
-0\le R_c
-=H(\mathcal V_c)
--\frac1{|C_c|}\sum_{i\in C_c}H(\mathscr Y_i)
-\le H(\mathcal V_c)\le\log K.
-}
-\end{equation}
-در این پایان‌نامه لگاریتم طبیعی به کار می‌رود؛
-ازاین‌رو کران بالای دقیقِ حاصل از آنتروپی
-$\log K$ است، نه $\sqrt K$.
-کران پایین زمانی به‌دست می‌آید که همه
-توزیع‌های برچسب همسایگی اعضای طبقه یکسان باشند.
-برای دستیابی به کران بالای $\log K$،
-لازم است همه این توزیع‌ها یک‌داغ باشند
-(آنتروپی صفر) و در عین حال مرکز آن‌ها
-یکنواخت روی $K$ برچسب باشد
-(آنتروپی بیشینه).
-به عبارت دیگر، برچسب‌های یک‌داغ باید
-به نسبت برابر در میان اعضای آن طبقه دیده شوند؛
-با وزن یکسان نمونه‌ها، این تساوی دقیق تنها
-وقتی تعداد نمونه‌ها امکان چنین تقسیم برابری را
-فراهم کند، قابل‌دستیابی است.
-از آنجا که $R=\sum_c\omega_cR_c$
-با وزن‌های نامنفی و مجموع یک است،
-\begin{equation}\label{cmp:eq:ch3-R-weighted-bounds}
-\boxed{0\le R\le\log K.}
-\end{equation}
-در صورت مثبت‌بودن همه وزن‌های طبقات،
-تساوی در کران بالای $R$ مستلزم آن است
-که هر طبقه دارای همان ساختار یک‌داغ
-و مرکز یکنواخت باشد. این نتیجه از
-ویژگی کلی میانگین وزن‌دار ناشی می‌شود
-و وابستگی تازه‌ای به سیاست گشت ندارد.
-به‌خصوص هرچند KL برای دو توزیع دلخواه
-ممکن است نامتناهی باشد، در تعریف $R_c$،
-مرکز $\mathcal V_c$ میانگین خود
-$\mathscr Y_i$هاست؛ بنابراین
-$D_{\mathrm{KL}}(\mathscr Y_i\|\mathcal V_c)$
-برای هر عضو طبقه متناهی خواهد بود.
-استدلال شرایط برابری و این نکته در
-پیوست~\ref{app:ch3-compactness-entropy-relations} آمده است.
-
-
-\paragraph{رابطه آنتروپی تراکم جنسن--شنون با هزینه تجمیع.}
-برای نشان‌دادن ارتباط دقیق این معیار با
-$R_c$، در هر طبقه $c$ از توزیع‌های
-برچسب همسایگی و مرکز همان طبقه،
-توزیع‌های \emph{میانگین جفتی} می‌سازیم:
-\begin{equation}\label{cmp:eq:ch3-R-JS-midpoint-distributions}
-\boxed{
-\mathscr B_{c,i}
-=\frac{\mathscr Y_i+\mathcal V_c}{2},
-\quad i\in C_c,
-\qquad
-\overline{\mathscr B}_c
-=\frac1{|C_c|}\sum_{i\in C_c}\mathscr B_{c,i}
-=\mathcal V_c.
-}
-\end{equation}
-در اینجا $\mathscr B_{c,i}$ یک توزیع احتمال
-مصنوعی برای \emph{تحلیل همین معیار} است؛
-منظور افزودن نمونه به داده‌ها یا اجرای
-گشت جدید نیست. هزینه تجمیع KL این
-مجموعه جدید را دقیقاً مشابه $R_c$ تعریف می‌کنیم:
-\begin{equation}\label{cmp:eq:ch3-R-midpoint-KL}
-\boxed{
-\begin{aligned}
-R_{B,c}
-&:=\frac1{|C_c|}\sum_{i\in C_c}
-D_{\mathrm{KL}}(\mathscr B_{c,i}\|\mathcal V_c)\\
-&=H(\mathcal V_c)
--\frac1{|C_c|}\sum_{i\in C_c}H(\mathscr B_{c,i}).
-\end{aligned}}
-\end{equation}
-اکنون از هویت آنتروپی جنسن--شنون
-در رابطه~\eqref{cmp:eq:ch3-JSD-entropy}
-و میانگین‌بودن $\mathcal V_c$ نتیجه می‌شود:
-\begin{equation}\label{cmp:eq:ch3-R-JS-KL-midpoint-identity}
-\boxed{
-R_{c,\mathrm{JS}}
-=\frac12R_c-R_{B,c},
-\qquad
-R_{\mathrm{JS}}
-=\frac12R-\sum_{c=1}^{K}\omega_cR_{B,c}.
-}
-\end{equation}
-ضریب $\frac12$ ضروری است:
-در تعریف JSD، آنتروپی هر یک از
-دو توزیع با وزن نصف وارد می‌شود.
-بنابراین برای \emph{تعریف نمونه--مرکز}
-رابطه $R_{c,\mathrm{JS}}=R_c-R_{B,c}$
-برقرار نیست؛ رابطه بدون ضریب نصف
-به \emph{تعریف زوجی نمونه--نمونه} در ادامه مربوط است.
-از نامنفی‌بودن $R_{B,c}$
-و $R_{c,\mathrm{JS}}$، به‌ویژه داریم:
-\[
-0\le R_{c,\mathrm{JS}}\le\tfrac12R_c,
-\qquad
-0\le R_{\mathrm{JS}}\le\tfrac12R.
-\]
-پس JS بخشی از هزینه پراکندگی KL را می‌سنجد
-که پس از تشکیل میانگین جفتی با مرکز،
-از اختلاف آنتروپی‌ها باقی می‌ماند.
-این رابطه نشان‌دهنده ارتباط ریاضی
-دو معیار است، اما یکسانی مقدار
-یا جهت گرادیان‌هایشان را تضمین نمی‌کند.
-محاسبات سطر‌به‌سطر و قرارداد مؤلفه‌های صفر
-در پیوست~\ref{app:ch3-compactness-entropy-relations}
-اثبات می‌شوند.
-
-\paragraph{تعبیر زوجی تراکم جنسن--شنون.}
-تا اینجا در تعریف $R_{c,\mathrm{JS}}$
-\emph{هر نمونه با مرکز همان طبقه} مقایسه شد.
-تعریف دیگری نیز وجود دارد که
-\emph{هر دو نمونه از یک طبقه} را با یکدیگر
-مقایسه می‌کند. برای شفاف‌بودن تفاوت،
-این معیار را با بالانویس $\mathrm{pair}$
-مشخص می‌کنیم و تمام زوج‌های مرتب
-$i,j\in C_c$، شامل $i=j$، را با
-وزن برابر در نظر می‌گیریم:
-\begin{equation}\label{cmp:eq:ch3-R-JS-pairwise-distributions}
-\boxed{
-\mathscr B_{c,ij}^{\mathrm{pair}}
-=\frac{\mathscr Y_i+\mathscr Y_j}{2},
-\qquad
-\frac1{|C_c|^2}\sum_{i,j\in C_c}
-\mathscr B_{c,ij}^{\mathrm{pair}}
-=\mathcal V_c.
-}
-\end{equation}
-هزینه تجمیع KL مجموعه جدید
-و میانگین واگرایی جنسن--شنون تمام زوج‌ها را
-به‌ترتیب چنین تعریف می‌کنیم:
-\begin{equation}\label{cmp:eq:ch3-R-JS-pairwise-definitions}
-\boxed{
-\begin{aligned}
-R_{B,c}^{\mathrm{pair}}
-&=\frac1{|C_c|^2}\sum_{i,j\in C_c}
-D_{\mathrm{KL}}\!
-\left(\mathscr B_{c,ij}^{\mathrm{pair}}\middle\|
-\mathcal V_c\right),\\
-R_{c,\mathrm{JS}}^{\mathrm{pair}}
-&=\frac1{|C_c|^2}\sum_{i,j\in C_c}
-\operatorname{JSD}(\mathscr Y_i,\mathscr Y_j).
-\end{aligned}}
-\end{equation}
-چون مرکز مجموعه زوجی نیز
-همان $\mathcal V_c$ است،
-با استفاده از هویت آنتروپی مخلوط
-و تعریف JSD، رابطه \emph{دقیق}
-زیر حاصل می‌شود:
-\begin{equation}\label{cmp:eq:ch3-R-JS-pairwise-entropy-identity}
-\boxed{
-R_{c,\mathrm{JS}}^{\mathrm{pair}}
-=R_c-R_{B,c}^{\mathrm{pair}}.
-}
-\end{equation}
-در این رابطه، برخلاف تعریف نمونه--مرکز،
-\emph{ضریب $\frac12$ در برابر $R_c$
-وجود ندارد}، زیرا در میانگین روی
-همه زوج‌های مرتب، هر نمونه یک‌بار
-در نقش مؤلفه نخست و یک‌بار در نقش
-مؤلفه دوم ظاهر می‌شود و مجموع دو
-وزن $\frac12$ به یک می‌رسد.
-برابری بالا نشان می‌دهد پراکندگی
-زوجی JS همان بخشی از هزینه KL
-اولیه است که پس از تجمیع میانگین‌های
-جفتی باقی نمی‌ماند.
-در نتیجه
-$0\le R_{c,\mathrm{JS}}^{\mathrm{pair}}\le R_c$.
-این معیار را نباید با
-$R_{c,\mathrm{JS}}$ که فاصله از مرکز
-را می‌سنجد، یکسان دانست؛
-هر دو مفهوم معتبرند، اما
-ممکن است مقادیر و گرادیان‌های
-متفاوتی تولید کنند.
-اثبات کامل و توضیح درباره حذف
-زوج‌های خودی $i=j$ در
-پیوست~\ref{app:ch3-compactness-entropy-relations}
-آمده است.
+هویت عمومی آنتروپی مخلوط، تعبیر هزینهٔ تجمیع و
+کران‌های تراکم KL در بخش‌های~\ref{app:ch3-entropy-mixture}
+و~\ref{app:ch3-compactness-entropy-relations} اثبات
+می‌شوند. در همان بخش، رابطهٔ تراکم مرکزی و زوجی
+جنسن--شنون با هزینهٔ تجمیع از طریق میانگین‌های جفتی
+استخراج می‌شود. در ادامه، خواص هندسی و متریکی
+تکمیلی این معیارها را بررسی می‌کنیم.
 
 \paragraph{تجزیهٔ هیلبرتی تراکم مرکزی و زوجی.}
 \phantomsection\label{app:geometry-js-hilbert-dispersion}
@@ -234,7 +43,7 @@ R_{c,\mathrm{JS}}=\frac12R_{c,\mathrm{JS}}^{\mathrm{pair}}
 +\|\Phi(\mathcal V_c)-\overline{\Phi}_c\|_{\mathcal H}^{2},
 \]
 که همان رابطه~\eqref{cmp:eq:ch3-js-hilbert-dispersion-decomposition} است.
-جملهٔ دوم، مربع فاصلهٔ میانگین حسابی نگاشت توزیع‌ها
+در رابطهٔ اخیر، جملهٔ دوم مربع فاصلهٔ میانگین حسابی نگاشت توزیع‌ها
 از نگاشت میانگین حسابی توزیع‌ها در فضای هیلبرت است.
 $\overline{\Phi}_c$ کمینه‌کنندهٔ یکتای میانگین مربع
 فاصله در کل فضای هیلبرت است، اما لزوماً در تصویر
@@ -805,7 +614,13 @@ $R_{\mathrm{KL}}$ و $I$ و نیز اختلاف هزینه
 اگر $\overline P(d)=0$، با نامنفی بودن وزن‌ها و توزیع‌ها، تمام $P_r(d)$هایی که وزن مثبت دارند نیز صفر هستند؛ بنابراین همان قرارداد معمول واگرایی در آن مؤلفه برقرار است.
 \end{proof}
 
-برای معیار شعاع درون‌طبقه‌ای $R_c$، با انتخاب $P_r=\mathscr Y_i$ برای $i\in C_c$ و وزن $1/|C_c|$، مستقیماً رابطه~\eqref{cmp:eq:ch3-R-entropy} به‌دست می‌آید. در گام بعد، با میانگین‌گیری روی طبقه‌ها طبق وزن‌های $\Omega$، تعبیر آنتروپی میانگین $R$ در رابطه~\eqref{cmp:eq:ch3-R-average-entropy} حاصل می‌شود. همچنین با انتخاب $P_r=\mathcal V_c$ و $a_r=\omega_c$، همین گزاره رابطه~\eqref{cmp:eq:ch3-I-entropy} را نتیجه می‌دهد. به این ترتیب، تعبیر آنتروپی $R$ و $I$ دو کاربرد از یک هویت واحدند.
+برای معیار شعاع درون‌طبقه‌ای $R_c$، با انتخاب $P_r=\mathscr Y_i$ برای $i\in C_c$ و وزن $1/|C_c|$، مستقیماً رابطه~\eqref{cmp:eq:ch3-R-entropy} به‌دست می‌آید. در گام بعد، با میانگین‌گیری روی طبقه‌ها طبق وزن‌های $\Omega$، تعبیر آنتروپی میانگین $R$ در رابطه~\eqref{cmp:eq:ch3-R-average-entropy} حاصل می‌شود. همچنین با انتخاب $P_r=\mathcal V_c$ و $a_r=\omega_c$، همین گزاره رابطه~\eqref{cmp:eq:ch3-I-entropy} را نتیجه می‌دهد. به این ترتیب، تعبیر آنتروپی $R$ و $I$ دو کاربرد از یک هویت واحدند. صورت تجمیع‌شدهٔ هزینهٔ درون‌طبقه‌ای عبارت است از:
+\begin{equation}\label{cmp:eq:ch3-R-average-entropy}
+\boxed{R=\sum_{c=1}^{K}\omega_c H(\mathcal V_c)
+-\sum_{c=1}^{K}\frac{\omega_c}{|C_c|}
+\sum_{i\in C_c}H(\mathscr Y_i).}
+\end{equation}
+آنتروپی مرکز به‌تنهایی پراکندگی اعضای طبقه را تعیین نمی‌کند؛ اختلاف آن با میانگین آنتروپی بازنمایی‌ها اهمیت دارد.
 
 \subsection{کران تیز هزینه تجمیع و رابطه آن با تراکم جنسن--شنون}
 \label{app:ch3-compactness-entropy-relations}
@@ -831,6 +646,15 @@ R_c
 \sum_{i\in C_c}H(\mathscr Y_i)\\
 &\le H(\mathcal V_c)\le\log K.
 \end{aligned}
+\end{equation}
+صورت خلاصهٔ این کران عبارت است از:
+\begin{equation}\label{cmp:eq:ch3-R-KL-bounds}
+\boxed{
+0\le R_c
+=H(\mathcal V_c)
+-\frac1{|C_c|}\sum_{i\in C_c}H(\mathscr Y_i)
+\le H(\mathcal V_c)\le\log K.
+}
 \end{equation}
 برابری $R_c=0$، به دلیل برابربودن
 وزن‌های همه اعضای طبقه و شرط تساوی KL،
@@ -880,34 +704,43 @@ $\omega_c\ge0$ و $\sum_c\omega_c=1$،
 \sum_{c=1}^{K}\omega_c\log\min\{K,|C_c|\}
 \le\log K.
 \]
+\begin{equation}\label{cmp:eq:ch3-R-weighted-bounds}
+\boxed{0\le R\le\log K.}
+\end{equation}
 اگر همه وزن‌ها مثبت باشند،
 $R=\log K$ تنها در صورتی رخ می‌دهد
 که برای همه طبقات دارای وزن مثبت،
 شرط تساوی تک‌طبقه‌ای برقرار باشد.
 
 \paragraph{میانگین‌های جفتی و هویت تراکم JS.}
-برای هر عضو طبقه $c$، تعریف
-\eqref{cmp:eq:ch3-R-JS-midpoint-distributions}
-را بازنویسی می‌کنیم:
-$\mathscr B_{c,i}
-=(\mathscr Y_i+\mathcal V_c)/2$.
-با توجه به
-$\frac1{|C_c|}\sum_i\mathscr Y_i=\mathcal V_c$،
-داریم
-\[
-\frac1{|C_c|}\sum_{i\in C_c}\mathscr B_{c,i}
-=\frac12\left(\mathcal V_c+
-\frac1{|C_c|}\sum_{i\in C_c}\mathscr Y_i\right)
+برای هر عضو طبقه، میانگین جفتی بازنمایی و مرکز را تعریف می‌کنیم:
+\begin{equation}\label{cmp:eq:ch3-R-JS-midpoint-distributions}
+\boxed{
+\mathscr B_{c,i}
+=\frac{\mathscr Y_i+\mathcal V_c}{2},
+\quad i\in C_c,
+\qquad
+\overline{\mathscr B}_c
+=\frac1{|C_c|}\sum_{i\in C_c}\mathscr B_{c,i}
 =\mathcal V_c.
-\]
-پس اعمال همان هویت آنتروپی مخلوط
-به توزیع‌های $\mathscr B_{c,i}$،
-\[
+}
+\end{equation}
+برابری میانگین این توزیع‌ها با مرکز از خطی‌بودن
+میانگین حاصل می‌شود. این توزیع‌های مصنوعی تنها
+برای تحلیل معیار به کار می‌روند و به معنای
+افزودن نمونه یا اجرای گشت تازه نیستند.
+هویت آنتروپی مخلوط، هزینهٔ تجمیع آن‌ها را
+به صورت زیر می‌دهد:
+\begin{equation}\label{cmp:eq:ch3-R-midpoint-KL}
+\boxed{
+\begin{aligned}
 R_{B,c}
-=H(\mathcal V_c)
--\frac1{|C_c|}\sum_{i\in C_c}H(\mathscr B_{c,i})
-\]
-را نتیجه می‌دهد.
+&:=\frac1{|C_c|}\sum_{i\in C_c}
+D_{\mathrm{KL}}(\mathscr B_{c,i}\|\mathcal V_c)\\
+&=H(\mathcal V_c)
+-\frac1{|C_c|}\sum_{i\in C_c}H(\mathscr B_{c,i}).
+\end{aligned}}
+\end{equation}
 از سوی دیگر، هویت آنتروپی
 \eqref{cmp:eq:ch3-JSD-entropy}
 با قرار دادن $P=\mathscr Y_i$ و
@@ -935,11 +768,16 @@ R_{c,\mathrm{JS}}
 \end{aligned}
 \end{equation}
 این محاسبه منشأ ضریب $1/2$ را آشکار
-می‌کند. با میانگین‌گیری وزن‌دار از
-هویت بالا، رابطه
-$R_{\mathrm{JS}}
-=\frac12R-\sum_c\omega_cR_{B,c}$
-حاصل می‌شود. چون هر دو
+می‌کند. با میانگین‌گیری وزن‌دار از هویت بالا، نتیجه در دو سطح عبارت است از:
+\begin{equation}\label{cmp:eq:ch3-R-JS-KL-midpoint-identity}
+\boxed{
+R_{c,\mathrm{JS}}
+=\frac12R_c-R_{B,c},
+\qquad
+R_{\mathrm{JS}}
+=\frac12R-\sum_{c=1}^{K}\omega_cR_{B,c}.
+}
+\end{equation} چون هر دو
 $R_{c,\mathrm{JS}}$ و $R_{B,c}$
 به‌عنوان میانگین واگرایی نامنفی‌اند،
 \[
@@ -965,23 +803,34 @@ $\mathscr B_{c,i}$ و $\mathscr Y_i$
 
 
 \paragraph{هویت زوجی JS و هزینه تجمیع میانگین‌های همه زوج‌ها.}
-در تعریف نمونه--مرکز، برای هر $i$
-مخلوطی از $\mathscr Y_i$ و مرکز
-$\mathcal V_c$ تشکیل می‌شد.
-اکنون همه زوج‌های مرتب
-$i,j\in C_c$ را، با احتساب
-زوج‌های $i=j$، در نظر می‌گیریم.
-اگر $n_c=|C_c|$، طبق
-تعریف~\eqref{cmp:eq:ch3-R-JS-pairwise-distributions}،
-مرکز مجموعه $n_c^2$ توزیع
-$\mathscr B_{c,ij}^{\mathrm{pair}}$
-دوباره $\mathcal V_c$ است:
-\[
-\frac1{n_c^2}\sum_{i,j\in C_c}
-\frac{\mathscr Y_i+\mathscr Y_j}{2}
-=\frac1{n_c}\sum_{i\in C_c}\mathscr Y_i
+با $n_c=|C_c|$، همهٔ زوج‌های مرتب، شامل زوج‌های
+خودی، را در نظر می‌گیریم:
+\begin{equation}\label{cmp:eq:ch3-R-JS-pairwise-distributions}
+\boxed{
+\mathscr B_{c,ij}^{\mathrm{pair}}
+=\frac{\mathscr Y_i+\mathscr Y_j}{2},
+\qquad
+\frac1{|C_c|^2}\sum_{i,j\in C_c}
+\mathscr B_{c,ij}^{\mathrm{pair}}
 =\mathcal V_c.
-\]
+}
+\end{equation}
+برابری میانگین از تکرار هر عضو به تعداد $n_c$
+در هر جایگاه زوج حاصل می‌شود. هزینهٔ تجمیع
+میانگین‌های زوجی و صورت زوجی JS عبارت‌اند از:
+\begin{equation}\label{cmp:eq:ch3-R-JS-pairwise-definitions}
+\boxed{
+\begin{aligned}
+R_{B,c}^{\mathrm{pair}}
+&=\frac1{|C_c|^2}\sum_{i,j\in C_c}
+D_{\mathrm{KL}}\!
+\left(\mathscr B_{c,ij}^{\mathrm{pair}}\middle\|
+\mathcal V_c\right),\\
+R_{c,\mathrm{JS}}^{\mathrm{pair}}
+&=\frac1{|C_c|^2}\sum_{i,j\in C_c}
+\operatorname{JSD}(\mathscr Y_i,\mathscr Y_j).
+\end{aligned}}
+\end{equation}
 پس با اعمال هویت آنتروپی مخلوط
 \eqref{eq:app-ch3-mixture-entropy}:
 \begin{equation}\label{eq:app-ch3-RB-pairwise-entropy}
@@ -1018,6 +867,15 @@ $\sum_{i,j}H(\mathscr Y_i)
 همین رابطه برقرار است.
 \emph{همین تقارن دو اندیس و حضور
 همه زوج‌ها علت حذف ضریب نصف است.}
+\begin{equation}\label{cmp:eq:ch3-R-JS-pairwise-entropy-identity}
+\boxed{
+R_{c,\mathrm{JS}}^{\mathrm{pair}}
+=R_c-R_{B,c}^{\mathrm{pair}}.
+}
+\end{equation}
+این هویت و رابطه~\eqref{cmp:eq:ch3-R-JS-KL-midpoint-identity}
+با وجود ارتباط ریاضی، یکسانی مقادیر یا گرادیان‌های
+معیارهای مرکزی و زوجی را تضمین نمی‌کنند.
 از نامنفی بودن دو میانگین واگرایی
 نیز $0\le R_{c,\mathrm{JS}}^{\mathrm{pair}}
 \le R_c$ نتیجه می‌شود.
@@ -1208,6 +1066,54 @@ $\widetilde R_c^{\mathrm{rev}}=R_c^{\mathrm{rev}}$؛
 معیار زوجی اصلاح‌شده دقیقاً به معیار زوجی اصلی
 بازمی‌گردد. این خواص نظری به‌خودی‌خود دلالتی بر
 برتری تجربی معیار اصلاح‌شده ندارند.
+
+\paragraph{نبود کران بالای یکنواخت و ناپیوستگی در تغییر تکیه‌گاه.}
+متناهی‌بودن معیار اصلاح‌شده برای هر مجموعهٔ ثابت
+از بازنمایی‌ها، به معنای کران‌داری یکنواخت آن بر
+فضای بازنمایی‌های ممکن نیست. برای اثبات، دو عضو
+یک طبقه در حالت $K=2$ را به صورت
+\[
+P_\varepsilon=(1-\varepsilon,\varepsilon),
+\quad Q=(0,1),
+\qquad 0\le\varepsilon<1
+\]
+در نظر می‌گیریم. مرکز حسابی آن‌ها برابر است با
+\[
+\mathcal V_c(\varepsilon)=
+\left(\frac{1-\varepsilon}{2},\frac{1+\varepsilon}{2}\right).
+\]
+برای $0<\varepsilon<1$، تکیه‌گاه $P_\varepsilon$
+کامل است؛ بنابراین مطابق
+رابطه~\eqref{cmp:eq:ch3-KL-mask-corrected-dissimilarity}،
+\[
+\begin{aligned}
+\widetilde D_{\mathrm{KL}}(\mathcal V_c(\varepsilon)\|P_\varepsilon)
+&=D_{\mathrm{KL}}(\mathcal V_c(\varepsilon)\|P_\varepsilon)\\
+&=\frac{1-\varepsilon}{2}\log\frac12
++\frac{1+\varepsilon}{2}\log\frac{1+\varepsilon}{2\varepsilon}
+\xrightarrow[\varepsilon\to0^+]{}+\infty.
+\end{aligned}
+\]
+اما در $\varepsilon=0$، هر دو توزیع شرطی مرکز
+نسبت به تکیه‌گاه و مکمل $P_0$ یک‌داغ‌اند و
+\[
+\widetilde D_{\mathrm{KL}}\bigl((1/2,1/2)\|(1,0)\bigr)=0.
+\]
+برای عضو دوم $Q$ نیز معیار معکوس اصلاح‌شده در تمام
+این مثال صفر است، زیرا $Q$ یک‌داغ و فضای برچسب‌ها
+دودویی است. پس $\widetilde R_c^{\mathrm{rev}}$
+برای $\varepsilon\to0^+$ به بی‌نهایت میل می‌کند،
+ولی در $\varepsilon=0$ صفر است. از پیوستگی
+$R_c$ (به‌واسطهٔ هویت آنتروپی
+\eqref{cmp:eq:ch3-R-entropy}) و رابطه~
+\eqref{cmp:eq:ch3-KL-mask-corrected-pair} نتیجه می‌شود
+که معیار زوجی اصلاح‌شده نیز در این حد به
+بی‌نهایت میل می‌کند، درحالی‌که مقدار آن در نقطهٔ
+مرزی $\log2$ است. بنابراین هر دو معیار فاقد
+کران بالای یکنواخت‌اند و در مرز تغییر تکیه‌گاه
+لزوماً پیوسته نیستند. این محدودیت باید در تفسیر
+مقادیر و در کاربرد احتمالی آن‌ها به‌عنوان تابع هدف
+به‌ویژه نزدیک مؤلفه‌های صفر لحاظ شود.
 
 
 \section{ناحیهٔ کمینهٔ پوشانندهٔ KL و شعاع اطلاعاتی}
