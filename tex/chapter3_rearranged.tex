@@ -6092,79 +6092,119 @@ p_{c,i}^{\mathrm{out}}=\sum_{u\in\mathcal U_i^{\complement}}
 \subsection{تراکم مبتنی بر جنسن--شنون}
 \label{cmp:subsec:ch3-compactness-JS}
 
+در زیربخش~\ref{cmp:subsec:ch3-decision-dissimilarities}،
+فاصلهٔ متریک جذر جنسن--شنون و تابع شباهت متقارن
+متناظر با آن معرفی شدند. مطابق
+روابط~\eqref{cmp:eq:ch3-decision-js-metric}
+و~\eqref{cmp:eq:ch3-decision-js-similarity}، میان فاصله
+و شباهت دو توزیع رابطهٔ زیر برقرار است:
+\begin{equation}\label{cmp:eq:ch3-js-compactness-distance-similarity}
+d_{\sqrt{\mathrm{JS}}}(P,Q)^2
+=\operatorname{JSD}(P,Q)=\log 2\,[1-s(P,Q)].
+\end{equation}
+بنابراین، واگرایی جنسن--شنون علاوه بر سنجش
+ناهمانندی اطلاعاتی دو توزیع، دارای تعبیر هندسی
+به‌عنوان مربع فاصلهٔ متریک آن‌ها نیز هست.
+از این ویژگی برای بررسی پراکندگی بازنمایی‌های
+اعضای طبقه استفاده می‌کنیم.
+
 \paragraph{تراکم مرکزی.}
-با انتخاب واگرایی جنسن--شنون و متریک جذر آن در
-رابطه~\eqref{cmp:eq:ch3-compactness-general}، دو صورت
-معیار تراکم مرکزی به دست می‌آیند:
+با انتخاب فاصلهٔ جنسن--شنون و مربع آن در تعریف عمومی
+معیارهای تراکم، رابطه~\eqref{cmp:eq:ch3-compactness-general}،
+داریم:
 \begin{equation}\label{cmp:eq:ch3-R-JS-central}
 \begin{aligned}
-R_{c,\mathrm{JS}}&=\frac1{|C_c|}\sum_{i\in C_c}
-\operatorname{JSD}(\mathscr Y_i,\mathcal V_c),\\
-R_{c,\sqrt{\mathrm{JS}}}&=\frac1{|C_c|}\sum_{i\in C_c}
-d_{\sqrt{\mathrm{JS}}}(\mathscr Y_i,\mathcal V_c).
+R_{c,\sqrt{\mathrm{JS}}}
+&=\frac1{|C_c|}\sum_{i\in C_c}
+d_{\sqrt{\mathrm{JS}}}(\mathscr Y_i,\mathcal V_c),\\
+R_{c,\mathrm{JS}}
+&=\frac1{|C_c|}\sum_{i\in C_c}
+d_{\sqrt{\mathrm{JS}}}(\mathscr Y_i,\mathcal V_c)^2.
 \end{aligned}
 \end{equation}
-با قرارداد وزن‌دهی پیشین، معیارهای تجمیع‌شده عبارت‌اند از:
-\begin{equation}\label{cmp:eq:ch3-R-JS-forms}
-\begin{aligned}
-R_{\mathrm{JS}}&=\sum_{c=1}^K\omega_c R_{c,\mathrm{JS}},\\
-R_{\sqrt{\mathrm{JS}}}&=\sum_{c=1}^K\omega_c R_{c,\sqrt{\mathrm{JS}}}.
-\end{aligned}
+معیار نخست، میانگین فاصلهٔ بازنمایی‌های اعضای طبقه
+از مرکز آن و معیار دوم، میانگین مربع این فاصله‌هاست.
+در معیار دوم، فاصله‌های بزرگ‌تر سهم نسبی بیشتری
+در اندازه‌گیری پراکندگی دارند.
+
+در اختیار داشتن هر دو معیار، امکان اندازه‌گیری
+واریانس فاصله‌های اعضای طبقه از مرکز را نیز فراهم
+می‌کند:
+\begin{equation}\label{cmp:eq:ch3-js-central-distance-variance}
+\boxed{
+\operatorname{Var}_{i\in C_c}
+[d_{\sqrt{\mathrm{JS}}}(\mathscr Y_i,\mathcal V_c)]
+=R_{c,\mathrm{JS}}-R_{c,\sqrt{\mathrm{JS}}}^{2}.
+}
 \end{equation}
+بنابراین، علاوه بر اندازه‌گیری گستردگی متوسط
+بازنمایی‌ها پیرامون مرکز، می‌توان میزان همگنی
+فاصلهٔ اعضای طبقه از مرکز را نیز ارزیابی کرد.
+در این رابطه و روابط بعدی، واریانس با وزن برابر
+تمام اعضا یا زوج‌های مرتب مورد بررسی محاسبه می‌شود.
 
 \paragraph{تراکم زوجی.}
-به همین ترتیب، برای مقایسهٔ مستقیم بازنمایی‌های اعضای
-طبقه، دو معیار زوجی را تعریف می‌کنیم:
+برای بررسی پراکندگی بازنمایی‌های اعضای طبقه مستقل
+از انتخاب مرکز، دو معیار زوجی زیر را در نظر می‌گیریم:
 \begin{equation}\label{cmp:eq:ch3-R-JS-pair-general}
 \begin{aligned}
-R_{c,\mathrm{JS}}^{\mathrm{pair}}
-&=\frac1{|C_c|^2}\sum_{i,j\in C_c}
-\operatorname{JSD}(\mathscr Y_i,\mathscr Y_j),\\
 R_{c,\sqrt{\mathrm{JS}}}^{\mathrm{pair}}
 &=\frac1{|C_c|^2}\sum_{i,j\in C_c}
-d_{\sqrt{\mathrm{JS}}}(\mathscr Y_i,\mathscr Y_j).
+d_{\sqrt{\mathrm{JS}}}(\mathscr Y_i,\mathscr Y_j),\\
+R_{c,\mathrm{JS}}^{\mathrm{pair}}
+&=\frac1{|C_c|^2}\sum_{i,j\in C_c}
+d_{\sqrt{\mathrm{JS}}}(\mathscr Y_i,\mathscr Y_j)^2.
 \end{aligned}
 \end{equation}
-تجمیع این دو معیار روی طبقه‌ها نیز مطابق
+این دو معیار به‌ترتیب میانگین فاصله و میانگین مربع
+فاصلهٔ بازنمایی‌های اعضای طبقه از یکدیگر را اندازه
+می‌گیرند. واریانس فاصله‌های زوجی نیز برابر است با:
+\begin{equation}\label{cmp:eq:ch3-js-pair-distance-variance}
+\boxed{\begin{aligned}
+&\operatorname{Var}_{i,j\in C_c}
+[d_{\sqrt{\mathrm{JS}}}(\mathscr Y_i,\mathscr Y_j)]\\
+&\qquad=R_{c,\mathrm{JS}}^{\mathrm{pair}}
+-\bigl(R_{c,\sqrt{\mathrm{JS}}}^{\mathrm{pair}}\bigr)^2.
+\end{aligned}}
+\end{equation}
+برخلاف معیارهای مرکزی، مقادیر این معیارها تنها به
+بازنمایی‌های اعضای طبقه وابسته‌اند و با ثابت ماندن
+بازنمایی‌ها و تغییر نمایندهٔ طبقه تغییر نمی‌کنند.
+هر چهار معیار جنسن--شنون حتی برای بازنمایی‌هایی با
+تکیه‌گاه‌های متفاوت متناهی‌اند.
+
+تجمیع هر چهار معیار روی طبقه‌ها مطابق قرارداد وزن‌دهی
 رابطه~\eqref{cmp:eq:ch3-compactness-general-weighted}
-انجام می‌شود. برخلاف KL زوجی، هر چهار معیار جنسن--شنون
-در صورت ناهمسانی تکیه‌گاه‌ها نیز متناهی‌اند.
+انجام می‌شود. برای صورت‌های مرکزی به‌ویژه داریم:
+\begin{equation}\label{cmp:eq:ch3-R-JS-forms}
+R_{\mathrm{JS}}=\sum_{c=1}^K\omega_c R_{c,\mathrm{JS}},
+\qquad
+R_{\sqrt{\mathrm{JS}}}=\sum_{c=1}^K\omega_c R_{c,\sqrt{\mathrm{JS}}}.
+\end{equation}
 
-\paragraph{تعبیر هندسی و شباهتی.}
-نگاشت $\Phi$ از فضای توزیع‌های احتمال به فضای
-هیلبرت $\mathcal H$ در
+\paragraph{ارتباط هندسی معیارهای مرکزی و زوجی.}
+مطابق نگاشت هیلبرتی $\Phi$ معرفی‌شده در
 رابطه~\eqref{cmp:eq:ch3-js-Hilbert-map} از
-پیوست~\ref{app:probability-dissimilarity} معرفی شد.
-در نتیجه، $\Phi(\mathcal V_c)$ تصویر مرکز حسابی
-طبقه در فضای هیلبرت است. معیارهای مبتنی بر JSD
-میانگین مربع فاصله و معیارهای مبتنی بر جذر JSD
-میانگین خود فاصله را اندازه می‌گیرند. در صورت مرکزی،
-فاصله‌ها نسبت به $\Phi(\mathcal V_c)$ و در صورت زوجی،
-میان نگاشت بازنمایی‌های اعضای طبقه محاسبه می‌شوند.
-صورت مربعی نسبت به فاصله‌های بزرگ‌تر حساسیت نسبی
-بیشتری دارد.
-
-میانگین حسابی نگاشت بازنمایی‌های اعضای طبقه را نیز
-در فضای هیلبرت به‌صورت زیر تعریف می‌کنیم:
+پیوست~\ref{app:probability-dissimilarity}،
+$\Phi(\mathcal V_c)$ نگاشت مرکز حسابی طبقه در فضای
+هیلبرت است. میانگین حسابی نگاشت بازنمایی‌های اعضای
+طبقه در این فضا برابر است با:
 \begin{equation}\label{cmp:eq:ch3-js-hilbert-mean}
 \overline{\Phi}_c=\frac1{|C_c|}\sum_{i\in C_c}
 \Phi(\mathscr Y_i).
 \end{equation}
-به‌طور کلی، میانگین نگاشت‌ها $\overline{\Phi}_c$
-با نگاشت میانگین $\Phi(\mathcal V_c)$ لزوماً برابر نیست.
-رابطهٔ میان تراکم مرکزی و زوجی JSD به‌صورت زیر است:
+این دو نقطه لزوماً یکسان نیستند. ارتباط میان تراکم
+مرکزی و زوجی مبتنی بر مربع فاصله عبارت است از:
 \begin{equation}\label{cmp:eq:ch3-js-hilbert-dispersion-decomposition}
 \boxed{R_{c,\mathrm{JS}}=\frac12R_{c,\mathrm{JS}}^{\mathrm{pair}}
 +\|\Phi(\mathcal V_c)-\overline{\Phi}_c\|_{\mathcal H}^{2}.}
 \end{equation}
-جملهٔ دوم، میزان اختلاف هندسی نگاشت مرکز حسابی
-توزیع‌ها و میانگین حسابی نگاشت آن‌ها را اندازه می‌گیرد.
-بنابراین، برخلاف KL مستقیم، کمینه‌بودن میانگین فاصله
-یا مربع فاصلهٔ جنسن--شنون برای مرکز حسابی توزیع‌ها
-تضمین نمی‌شود.
+این رابطه، پراکندگی ذاتی بازنمایی‌های اعضای طبقه را
+از اختلاف هندسی میان مرکز حسابی نگاشت‌ها و نگاشت
+مرکز حسابی توزیع‌ها تفکیک می‌کند.
 
-با توجه به این رابطه و ارتباط آنتروپی تراکم مرکزی
-JSD با تراکم KL، داریم:
+همچنین با توجه به ارتباط اطلاعاتی واگرایی‌های
+کولبک--لایبلر و جنسن--شنون، داریم:
 \begin{equation}\label{cmp:eq:ch3-js-compactness-chain}
 \boxed{
 R_{c,\mathrm{JS}}^{\mathrm{pair}}
@@ -6172,40 +6212,32 @@ R_{c,\mathrm{JS}}^{\mathrm{pair}}
 \le R_{c,\mathrm{KL}}.
 }
 \end{equation}
-بنابراین تراکم زوجی JSD از دو برابر تراکم مرکزی
-JSD بیشتر نیست و هر دو مقدار در این نامساوی از
-تراکم مرکزی KL بیشتر نیستند.
-اثبات این روابط در بخش~\ref{app:geometry-js-hilbert-dispersion}
-از پیوست هندسهٔ مدل آمده است.
-
-با استفاده از تعریف شباهت
-$s(P,Q)=1-\operatorname{JSD}(P,Q)/\log2$ و میانگین
-وزن‌دار شباهت درون‌طبقه‌ای
-\[
-\overline s_{\mathrm{in}}=
-\sum_{c=1}^K\frac{\omega_c}{|C_c|}
-\sum_{i\in C_c}s(\mathscr Y_i,\mathcal V_c),
-\]
-داریم:
-\begin{equation}\label{cmp:eq:ch3-R-JS-similarity-interpretation}
-\begin{aligned}
-R_{\mathrm{JS}}&=\log2\,(1-\overline s_{\mathrm{in}}),\\
-R_{\sqrt{\mathrm{JS}}}&=\sqrt{\log2}
-\sum_{c=1}^K\frac{\omega_c}{|C_c|}
-\sum_{i\in C_c}\sqrt{1-s(\mathscr Y_i,\mathcal V_c)}.
-\end{aligned}
+برای معیارهای مبتنی بر خود فاصلهٔ متریک نیز، با توجه
+به نامساوی مثلثی، رابطهٔ زیر برقرار است:
+\begin{equation}\label{cmp:eq:ch3-js-root-pair-inequality}
+\boxed{R_{c,\sqrt{\mathrm{JS}}}^{\mathrm{pair}}
+\le 2R_{c,\sqrt{\mathrm{JS}}}.}
 \end{equation}
-بنابراین کاهش $R_{\mathrm{JS}}$ دقیقاً معادل افزایش
-میانگین شباهت به مراکز طبقه‌هاست. تعبیر متناظر برای
-صورت زوجی JSD نیز با میانگین شباهت همهٔ زوج‌های مرتب
-برقرار است. میانگین جذر JSD را نباید با جذر میانگین
-JSD یکسان دانست.
+اثبات این روابط در بخش~\ref{app:geometry-js-hilbert-dispersion}
+از پیوست هندسهٔ مدل ارائه شده است.
 
-هویت‌های آنتروپی، ارتباط این معیارها با تراکم KL،
-نامساوی‌ها و شرایط تساوی در
-بخش~\ref{cmp:sec:ch3-quality-criteria-theory}
-و بخش~\ref{app:ch3-compactness-entropy-relations}
-از پیوست هندسهٔ مدل ارائه شده‌اند.
+\paragraph{تعبیر شباهتی.}
+با توجه به رابطه~\eqref{cmp:eq:ch3-js-compactness-distance-similarity}،
+میانگین شباهت بازنمایی‌های اعضای طبقه به مرکز آن
+برابر است با:
+\begin{equation}\label{cmp:eq:ch3-js-central-similarity}
+\frac1{|C_c|}\sum_{i\in C_c}s(\mathscr Y_i,\mathcal V_c)
+=1-\frac{R_{c,\mathrm{JS}}}{\log2}.
+\end{equation}
+به همین ترتیب، میانگین شباهت زوجی اعضای طبقه
+برابر است با:
+\begin{equation}\label{cmp:eq:ch3-js-pair-similarity}
+\frac1{|C_c|^2}\sum_{i,j\in C_c}s(\mathscr Y_i,\mathscr Y_j)
+=1-\frac{R_{c,\mathrm{JS}}^{\mathrm{pair}}}{\log2}.
+\end{equation}
+بنابراین، معیارهای مبتنی بر واگرایی جنسن--شنون علاوه
+بر تعبیر هندسی، مستقیماً بیانگر میزان شباهت متوسط
+بازنمایی‌ها نیز هستند.
 
 \section{واگرایی و تمایز مراکز طبقه‌ها}
 \label{cmp:sec:ch3-center-separation}
