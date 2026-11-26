@@ -6092,154 +6092,88 @@ p_{c,i}^{\mathrm{out}}=\sum_{u\in\mathcal U_i^{\complement}}
 \subsection{تراکم مبتنی بر جنسن--شنون}
 \label{cmp:subsec:ch3-compactness-JS}
 
-به‌جای سنجیدن اختلاف با KL،
-می‌توان آن را با واگرایی جنسن--شنون
-و با خود متریک جذر آن اندازه گرفت.
-با حفظ \emph{همان مراکز حسابی} و وزن طبقات،
-دو معیار دیگر را تعریف می‌کنیم:
-\begin{equation}\label{cmp:eq:ch3-R-JS-forms}
-\boxed{
+\paragraph{تراکم مرکزی.}
+با انتخاب واگرایی جنسن--شنون و متریک جذر آن در
+رابطه~\eqref{cmp:eq:ch3-compactness-general}، دو صورت
+معیار تراکم مرکزی به دست می‌آیند:
+\begin{equation}\label{cmp:eq:ch3-R-JS-central}
 \begin{aligned}
-R_{\mathrm{JS}}
-&=\sum_{c=1}^{K}\frac{\omega_c}{|C_c|}
-\sum_{i\in C_c}\operatorname{JSD}(\mathscr Y_i,\mathcal V_c),\\
-R_{\sqrt{\mathrm{JS}}}
-&=\sum_{c=1}^{K}\frac{\omega_c}{|C_c|}
-\sum_{i\in C_c}\sqrt{\operatorname{JSD}(\mathscr Y_i,\mathcal V_c)}.
+R_{c,\mathrm{JS}}&=\frac1{|C_c|}\sum_{i\in C_c}
+\operatorname{JSD}(\mathscr Y_i,\mathcal V_c),\\
+R_{c,\sqrt{\mathrm{JS}}}&=\frac1{|C_c|}\sum_{i\in C_c}
+d_{\sqrt{\mathrm{JS}}}(\mathscr Y_i,\mathcal V_c).
 \end{aligned}
-}
 \end{equation}
-در تحلیل طبقه $c$ نیز نمادهای $R_{c,\mathrm{JS}}$
-و $R_{c,\sqrt{\mathrm{JS}}}$ را برای میانگین‌های
-درون همان طبقه به کار می‌بریم. در این سه تعریف،
-فقط تابع سنجش فاصله متفاوت است؛ تعریف
-$\mathcal V_c$ و وزن‌های $\Omega$ تغییر نمی‌کنند.
-با لگاریتم طبیعی، همواره
-$0\le R_{\mathrm{JS}}\le\log2$ و
-$0\le R_{\sqrt{\mathrm{JS}}}\le\sqrt{\log2}$ است.
+با قرارداد وزن‌دهی پیشین، معیارهای تجمیع‌شده عبارت‌اند از:
+\begin{equation}\label{cmp:eq:ch3-R-JS-forms}
+\begin{aligned}
+R_{\mathrm{JS}}&=\sum_{c=1}^K\omega_c R_{c,\mathrm{JS}},\\
+R_{\sqrt{\mathrm{JS}}}&=\sum_{c=1}^K\omega_c R_{c,\sqrt{\mathrm{JS}}}.
+\end{aligned}
+\end{equation}
 
-\paragraph{دلیل انتخاب خانوادهٔ KL و JS.}
-انتخاب این سنجه‌ها صرفاً بر پایهٔ
-متقارن‌بودن یا کرانداری نیست:
-برای نمونه، \emph{فاصلهٔ تغییرات کل}
-نیز یک متریک متقارن و کراندار
-روی توزیع‌های احتمال است
-و می‌تواند انتخاب دیگری باشد.
-در این پژوهش، KL به تعبیر
-درست‌نمایی و هزینهٔ تجمیعِ
-مرکز حسابی متصل است؛
-JSD پیوند مشخصی با KL
-و آنتروپی مخلوط دارد؛
-و جذر JSD یک \emph{متریک}
-با نمایش هیلبرتی است که
-به شباهت نرمال‌شدهٔ
-معرفی‌شده در
-بخش~\ref{cmp:subsec:ch3-probability-distance-similarity}
-متصل می‌شود. این پیوندها اجازه
-می‌دهند تراکم، جدایی و هندسهٔ
-تصمیم را در یک چارچوب
-اطلاعاتیِ سازگار بررسی کنیم،
-بدون آنکه واگرایی و متریک
-را یکسان فرض کنیم.
-این \emph{توجیه انتخاب روش}
-است، نه ادعای برتری تجربی
-یا نظریِ عمومی بر سایر
-فاصله‌ها، از جمله تغییرات کل.
+\paragraph{تراکم زوجی.}
+به همین ترتیب، برای مقایسهٔ مستقیم بازنمایی‌های اعضای
+طبقه، دو معیار زوجی را تعریف می‌کنیم:
+\begin{equation}\label{cmp:eq:ch3-R-JS-pair-general}
+\begin{aligned}
+R_{c,\mathrm{JS}}^{\mathrm{pair}}
+&=\frac1{|C_c|^2}\sum_{i,j\in C_c}
+\operatorname{JSD}(\mathscr Y_i,\mathscr Y_j),\\
+R_{c,\sqrt{\mathrm{JS}}}^{\mathrm{pair}}
+&=\frac1{|C_c|^2}\sum_{i,j\in C_c}
+d_{\sqrt{\mathrm{JS}}}(\mathscr Y_i,\mathscr Y_j).
+\end{aligned}
+\end{equation}
+تجمیع این دو معیار روی طبقه‌ها نیز مطابق
+رابطه~\eqref{cmp:eq:ch3-compactness-general-weighted}
+انجام می‌شود. برخلاف KL زوجی، هر چهار معیار جنسن--شنون
+در صورت ناهمسانی تکیه‌گاه‌ها نیز متناهی‌اند.
 
-به دلیل تقعر تابع ریشه دوم،
-این دو روش تجمیع به‌طور کلی برابر نیستند:
+\paragraph{تعبیر هندسی و شباهتی.}
+با توجه به نمایش هیلبرتی معرفی‌شده در
+پیوست~\ref{app:probability-dissimilarity}، معیارهای مبتنی
+بر JSD میانگین مربع فاصله و معیارهای مبتنی بر جذر JSD
+میانگین خود فاصله را اندازه می‌گیرند. در صورت مرکزی
+این فاصله‌ها نسبت به $\Phi(\mathcal V_c)$ و در صورت
+زوجی میان تصاویر بازنمایی‌های اعضای طبقه محاسبه
+می‌شوند. در نتیجه، صورت مربعی نسبت به فاصله‌های بزرگ‌تر
+حساسیت نسبی بیشتری دارد.
+
+در تمام معیارهای مرکزی، $\mathcal V_c$ همان مرکز حسابی
+است. برخلاف KL مستقیم، بهینگی این مرکز از نظر میانگین
+فاصله یا مربع فاصلهٔ جنسن--شنون تضمین نمی‌شود؛
+تصویر آن نیز لزوماً میانگین تصاویر هیلبرتی اعضای طبقه
+نیست.
+
+با استفاده از تعریف شباهت
+$s(P,Q)=1-\operatorname{JSD}(P,Q)/\log2$ و میانگین
+وزن‌دار شباهت درون‌طبقه‌ای
 \[
-R_{\sqrt{\mathrm{JS}}}
-=\mathbb E_{\Omega,C}\!\left[\sqrt{\operatorname{JSD}
-(\mathscr Y_i,\mathcal V_c)}\right]
-\le\sqrt{\mathbb E_{\Omega,C}\!\left[
-\operatorname{JSD}(\mathscr Y_i,\mathcal V_c)\right]}
-=\sqrt{R_{\mathrm{JS}}}.
-\]
-امید در اینجا دقیقاً به معنای وزن‌دهی طبقات با
-$\omega_c$ و نمونه‌های هر طبقه به‌طور یکسان است.
-تساوی تنها در حالت ثابت‌بودن تقریباً همهٔ
-مقادیر JSD دارای وزن مثبت برقرار می‌شود؛
-بنابراین ریشه‌گرفتن از یک ستون میانگین
-جایگزین محاسبهٔ فاصلهٔ تک‌نمونه‌ای نیست.
-
-\paragraph{تعبیر هندسی و شباهتی دو معیار.}
-از برابری
-$d_{\sqrt{\mathrm{JS}}}(P,Q)^2
-=\operatorname{JSD}(P,Q)
-=\log2\,[1-s(P,Q)]$
-می‌توان دو معیار را، بدون تغییر تعریف
-مراکز، مستقیماً در قالب فاصله و شباهت نوشت.
-با تعریف میانگین وزن‌دار شباهت به مرکز
-\[
-\overline s_{\mathrm{in}}
-:=\sum_{c=1}^{K}\frac{\omega_c}{|C_c|}
+\overline s_{\mathrm{in}}=
+\sum_{c=1}^K\frac{\omega_c}{|C_c|}
 \sum_{i\in C_c}s(\mathscr Y_i,\mathcal V_c),
 \]
 داریم:
 \begin{equation}\label{cmp:eq:ch3-R-JS-similarity-interpretation}
-\boxed{
 \begin{aligned}
-R_{\mathrm{JS}}
-&=\sum_c\frac{\omega_c}{|C_c|}
-\sum_{i\in C_c}
-d_{\sqrt{\mathrm{JS}}}(\mathscr Y_i,\mathcal V_c)^2
-=\log2\,(1-\overline s_{\mathrm{in}}),\\
-R_{\sqrt{\mathrm{JS}}}
-&=\sum_c\frac{\omega_c}{|C_c|}
-\sum_{i\in C_c}
-d_{\sqrt{\mathrm{JS}}}(\mathscr Y_i,\mathcal V_c)\\
-&=\sqrt{\log2}\,
-\sum_c\frac{\omega_c}{|C_c|}
-\sum_{i\in C_c}
-\sqrt{1-s(\mathscr Y_i,\mathcal V_c)}.
-\end{aligned}}
+R_{\mathrm{JS}}&=\log2\,(1-\overline s_{\mathrm{in}}),\\
+R_{\sqrt{\mathrm{JS}}}&=\sqrt{\log2}
+\sum_{c=1}^K\frac{\omega_c}{|C_c|}
+\sum_{i\in C_c}\sqrt{1-s(\mathscr Y_i,\mathcal V_c)}.
+\end{aligned}
 \end{equation}
-پس کمینه‌کردن $R_{\mathrm{JS}}$
-\emph{دقیقاً معادل} بیشینه‌کردن
-میانگین شباهت نرمال‌شده نمونه‌ها
-به مراکز طبقات است.
-اما $R_{\sqrt{\mathrm{JS}}}$
-میانگین \emph{جذرِ یک منهای شباهت}
-را می‌سنجد، نه «یک منهای
-میانگین جذر شباهت»؛
-جابه‌جایی عمل جذر و میانگین
-در حالت کلی مجاز نیست.
-در هندسه هیلبرتی،
-هر دو به فاصله از تصویر
-$\Phi(\mathcal V_c)$ مربوط‌اند.
-بااین‌حال، چون نگاشت $\Phi$
-خطی نیست، این تصویر لزوماً
-\emph{میانگین هیلبرتی}
-$\Phi(\mathscr Y_i)$های همان طبقه
-نیست؛ ازاین‌رو نباید
-$R_{\mathrm{JS}}$ را بدون توضیح
-«واریانس حول میانگین هیلبرتی»
-تعبیر کرد.
+بنابراین کاهش $R_{\mathrm{JS}}$ دقیقاً معادل افزایش
+میانگین شباهت به مراکز طبقه‌هاست. تعبیر متناظر برای
+صورت زوجی JSD نیز با میانگین شباهت همهٔ زوج‌های مرتب
+برقرار است. میانگین جذر JSD را نباید با جذر میانگین
+JSD یکسان دانست.
 
-
-\noindent
-در جمع‌بندی تعریف‌ها، $R_{\mathrm{KL}}$ میانگین
-هزینهٔ KL نمونه‌ها نسبت به مرکز حسابی طبقه است؛
-$R_{\mathrm{JS}}$ میانگین \emph{مربع فاصلهٔ متریک}
-جنسن--شنون و $R_{\sqrt{\mathrm{JS}}}$ میانگین
-\emph{خود این فاصله} تا همان مراکز را می‌سنجد.
-این سه مقدار مقیاس و تعبیر یکسانی ندارند.
-هویت‌های آنتروپی، کران‌ها و روابط دقیق میان
-این معیارها در بخش~\ref{cmp:sec:ch3-quality-criteria-theory}
-بررسی می‌شوند.
-
-\paragraph{چرا کمینه‌سازی $R$ به‌تنهایی کافی نیست؟}
-هر سه معیار تراکم بالا فقط نزدیک‌شدن توزیع‌ها \emph{درون هر طبقه} را می‌سنجند و هیچ شرط مستقیمی بر تمایز مراکز طبقات مختلف تحمیل نمی‌کند. برای مثال، فرض کنیم سیاستی موجب شود همه نمونه‌ها، بدون توجه به برچسب آغازین، توزیع همسایگی یکسانی مانند $q$ داشته باشند:
-\begin{equation}\label{cmp:eq:ch3-R-collapse}
-\mathscr Y_i=q\quad(\forall i)
-\quad\Longrightarrow\quad
-\mathcal V_1=\cdots=\mathcal V_K=q
-\quad\Longrightarrow\quad
-R_{\mathrm{KL}}=R_{\mathrm{JS}}=R_{\sqrt{\mathrm{JS}}}=0.
-\end{equation}
-در این وضعیت، هر سه معیار تراکم به کمترین مقدار ممکن رسیده‌اند، اما هیچ اطلاعاتی برای تشخیص طبقه نمونه آغازین از روی توزیع همسایگی آن باقی نمی‌ماند. بنابراین \emph{فشردگی درون‌طبقه‌ای} باید در کنار \emph{جدایی مراکز طبقات} بررسی شود. در ادامه، ابتدا معیارهای ساده مبتنی بر انتساب برچسب‌های مشاهده‌شده به طبقات آغازین را معرفی می‌کنیم و سپس معیاری را بررسی خواهیم کرد که جدایی توزیع‌های نماینده را به‌طور مستقیم اندازه می‌گیرد.
-
+هویت‌های آنتروپی، ارتباط این معیارها با تراکم KL،
+کران‌ها و شرایط تساوی در
+بخش~\ref{cmp:sec:ch3-quality-criteria-theory}
+و بخش~\ref{app:ch3-compactness-entropy-relations}
+از پیوست هندسهٔ مدل ارائه شده‌اند.
 
 \section{واگرایی و تمایز مراکز طبقه‌ها}
 \label{cmp:sec:ch3-center-separation}
