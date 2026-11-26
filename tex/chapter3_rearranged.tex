@@ -5835,14 +5835,39 @@ $|\theta|$ رشدکننده تعمیم خودکار ندارد.
 روابط نظری تکمیلی و اثبات‌ها در پیوست~\ref{app:model-geometry}
 ارائه شده‌اند.
 
-\subsection{معیارهای تراکم درون‌طبقه‌ای}
+\subsection{تعریف عمومی معیارهای تراکم}
 \label{cmp:subsec:ch3-within-class-compactness}
-پس از معرفی سنجه‌های اختلاف توزیع‌ها،
-تراکم را بر اساس فاصله توزیع برچسب همسایگی
-هر نمونه از مرکز طبقه خودش می‌سنجیم.
-در تمام معیارهای زیر مراکز $\mathcal V_c$
-همان میانگین‌های حسابی پیشین‌اند؛
-فقط سنجه اختلاف عوض می‌شود.
+تراکم درون‌طبقه‌ای بیانگر میزان نزدیکی بازنمایی‌های
+اعضای یک طبقه به یکدیگر است. با استفاده از سنجهٔ
+ناهمانندی $d_\psi$ معرفی‌شده در
+بخش~\ref{cmp:subsec:ch3-decision-dissimilarities}،
+دو معیار عمومی زیر را تعریف می‌کنیم:
+\begin{equation}\label{cmp:eq:ch3-compactness-general}
+\begin{aligned}
+R_{c,\psi}&=\frac1{|C_c|}\sum_{i\in C_c}
+d_\psi(\mathscr Y_i,\mathcal V_c),\\
+R_{c,\psi}^{\mathrm{pair}}&=\frac1{|C_c|^2}
+\sum_{i,j\in C_c}d_\psi(\mathscr Y_i,\mathscr Y_j).
+\end{aligned}
+\end{equation}
+معیار نخست، پراکندگی مرکزی نسبت به همان مرکز حسابی
+تعریف‌شده در رابطه~\eqref{cmp:eq:ch3-class-center} است.
+معیار دوم، پراکندگی زوجی میان همهٔ زوج‌های مرتب
+بازنمایی‌ها، شامل زوج‌های خودی، است و به انتخاب
+مرکز وابسته نیست. متناهی بودن این معیارها به
+سنجهٔ انتخاب‌شده بستگی دارد.
+
+با قرارداد وزن‌دهی طبقه‌ها در
+رابطه~\eqref{cmp:eq:ch3-training-weighted-loss}،
+معیارهای تجمیع‌شده عبارت‌اند از:
+\begin{equation}\label{cmp:eq:ch3-compactness-general-weighted}
+R_\psi=\sum_{c:\omega_c>0}\omega_cR_{c,\psi},
+\qquad
+R_\psi^{\mathrm{pair}}=\sum_{c:\omega_c>0}\omega_cR_{c,\psi}^{\mathrm{pair}}.
+\end{equation}
+طبقه‌های با وزن صفر در تجمیع سهمی ندارند.
+مقادیر کوچک‌تر این معیارها نشان‌دهندهٔ پراکندگی
+کمتر و در نتیجه تراکم بیشتر در معنای سنجهٔ منتخب‌اند.
 
 چهار شیوهٔ سنجش تراکم و گستردگی بازنمایی‌های یک طبقه
 به‌صورت شماتیک در شکل~\ref{cmp:fig:ch3-compactness-four-views}
@@ -5932,195 +5957,87 @@ $|\theta|$ رشدکننده تعمیم خودکار ندارد.
 \label{cmp:fig:ch3-compactness-four-views}
 \end{figure}
 
-\paragraph{هزینه مدل‌کردن یک طبقه با توزیع مشترک.}
-با استفاده از مرکز حسابی تعریف‌شده در رابطه~\eqref{cmp:eq:ch3-class-center} و توجیه درست‌نمایی آن در بخش~\ref{cmp:subsec:ch3-mean-center-justification}، برای طبقهٔ $c$، با وزن‌های یکسان $1/|C_c|$، \emph{کمترین میانگین منفی لگاریتم درست‌نمایی مورد انتظار} برای مدل مشترک به‌دست می‌آید:
-\begin{equation}\label{cmp:eq:ch3-class-shared-NLL}
-\boxed{\operatorname{NLL}^{\mathrm{shared}}_{c,\min}
-=H(\mathcal V_c).}
-\end{equation}
-برای مقایسه، اگر توزیع مولد اختصاصی هر مشاهده معلوم باشد و مشاهدات متناظر با $\mathscr Y_i$ را با خود همان توزیع مدل کنیم، کمترین هزینه مورد انتظار برابر است با:
-\begin{equation}\label{cmp:eq:ch3-class-individual-NLL}
-\boxed{\operatorname{NLL}^{\mathrm{individual}}_{c,\min}
-=\frac{1}{|C_c|}\sum_{i\in C_c}H(\mathscr Y_i).}
-\end{equation}
-اختلاف این دو مقدار، هزینه اضافی \emph{تجمیع} توزیع‌های نمونه‌های طبقه در یک نماینده مشترک را می‌سنجد. این اختلاف را با $R_c$ نشان می‌دهیم:
-\begin{equation}\label{cmp:eq:ch3-R-entropy}
-\boxed{
-\begin{aligned}
-R_c
-&=\operatorname{NLL}^{\mathrm{shared}}_{c,\min}
--\operatorname{NLL}^{\mathrm{individual}}_{c,\min}\\
-&=H(\mathcal V_c)
--\frac1{|C_c|}\sum_{i\in C_c}H(\mathscr Y_i)\\
-&=\frac1{|C_c|}\sum_{i\in C_c}
-D_{\mathrm{KL}}(\mathscr Y_i\|\mathcal V_c).
-\end{aligned}}
-\end{equation}
-برابری آخر از تعریف آنتروپی و میانگین‌بودن $\mathcal V_c$ حاصل می‌شود. بنابراین $R_c\ge0$؛ اگر توزیع همسایگی همه نمونه‌های طبقه یکسان باشد، این هزینه صفر است. برای مثال، دو توزیع $(1,0)$ و $(0,1)$ و نیز دو توزیع یکسان $(1/2,1/2)$ هر دو مرکز $(1/2,1/2)$ دارند؛ اما هزینه تجمیع در حالت اول $\log2$ و در حالت دوم صفر است. پس آنتروپی مرکز به‌تنهایی پراکندگی توزیع‌های اعضای طبقه را مشخص نمی‌کند.
+\subsection{تراکم مبتنی بر واگرایی کولبک--لایبلر}
+\label{cmp:subsec:ch3-compactness-KL}
 
-\paragraph{اثر انتخاب نماینده‌ای غیر از میانگین.}
-هویت زیر نشان می‌دهد در صورت انتخاب یک توزیع مشترک دیگر مانند $U$، علاوه بر هزینه اجتناب‌ناپذیر تجمیع، هزینه‌ای اضافی نیز پرداخت می‌شود:
-\begin{theorem}[تجزیه هزینه مدل‌سازی مشترک]\label{cmp:thm:ch3-KL-decomposition}
-برای هر طبقه $c$ و هر توزیع احتمال $U$ که واگرایی‌های مربوط به آن متناهی باشند، داریم:
-\begin{equation}\label{cmp:eq:ch3-KL-decomposition}
-\boxed{
-\frac{1}{|C_c|}\sum_{i\in C_c}
-D_{\mathrm{KL}}(\mathscr Y_i\|U)
-=R_c+D_{\mathrm{KL}}(\mathcal V_c\|U).}
-\end{equation}
-\end{theorem}
-در نتیجه، جمله $R_c$ هزینه ناشی از خلاصه‌کردن توزیع‌های متفاوت با \emph{یک} نماینده است و جمله $D_{\mathrm{KL}}(\mathcal V_c\|U)$ زیان اضافیِ برگزیدن نماینده‌ای غیر از میانگین بهینه را نشان می‌دهد. به‌ویژه:
-\begin{equation}\label{cmp:eq:ch3-KL-opt-center}
-\boxed{\mathcal V_c=
-\underset{U}{\arg\min}\;
-\frac{1}{|C_c|}\sum_{i\in C_c}
-D_{\mathrm{KL}}(\mathscr Y_i\|U).}
-\end{equation}
-تجزیه عمومی این رابطه و اثبات کامل صورت درون‌طبقه‌ای آن در بخش~\ref{app:ch3-mixture-likelihood} از پیوست آمده‌اند.
-
-این تفسیر روشن می‌کند چرا $R_c$ را در ارزیابی بازنمایی اندازه می‌گیریم: این معیار هزینه فشرده‌سازی الگوهای همسایگی هر طبقه در یک توزیع مشترک است. البته این هزینه، \emph{منفی لگاریتم درست‌نماییِ برچسب واقعی نمونه} یا خطای تصمیم طبقه‌بند نیست. ممکن است $R_c$ برای همه طبقه‌ها صفر باشد ولی مراکز آن‌ها نیز با یکدیگر برابر باشند و امکان تفکیک وجود نداشته باشد. بنابراین، بهینگی نمایندگی درون هر طبقه را باید از کیفیت \emph{تمایز میان طبقه‌ها} جدا کرد؛ معیارهای این دو جنبه در ادامه بررسی می‌شوند.
-
-\paragraph{معیار مبتنی بر KL.}
-
-در رابطه~\eqref{cmp:eq:ch3-R-entropy}،
-$R_c$ به‌عنوان هزینهٔ اضافی مدل‌کردن توزیع‌های اعضای طبقه
-با مرکز مشترک معرفی شد.
-اکنون همان رابطه را \emph{با تعبیر تراکم}
-دوباره می‌نویسیم:
+\paragraph{تراکم مرکزی.}
+با انتخاب KL در تعریف عمومی
+رابطه~\eqref{cmp:eq:ch3-compactness-general}، داریم:
 \begin{equation}\label{cmp:eq:ch3-R-class}
-R_c=\frac{1}{|C_c|}\sum_{i\in C_c}
-D_{\mathrm{KL}}\bigl(\mathscr Y_i\|\mathcal V_c\bigr).
+R_c=R_{c,\mathrm{KL}}
+=\frac1{|C_c|}\sum_{i\in C_c}
+D_{\mathrm{KL}}(\mathscr Y_i\|\mathcal V_c).
 \end{equation}
-در این رابطه $R_c$ یک معیار \emph{در سطح طبقه} است؛ برای ارزیابی کل مجموعه‌داده، میانگین وزن‌دار پراکندگی طبقات را به کار می‌بریم. اگر بردار وزن طبقات را با $\Omega=(\omega_1,\ldots,\omega_K)$ نشان دهیم، به‌طوری که $\omega_c\ge0$ و $\sum_c\omega_c=1$، معیار میانگین پراکندگی برابر است با:
+صورت تجمیع‌شده نیز مطابق
+رابطه~\eqref{cmp:eq:ch3-compactness-general-weighted}
+برابر است با:
 \begin{equation}\label{cmp:eq:ch3-R-average}
-\boxed{R=\sum_{c=1}^{K}\omega_c R_c
-=\sum_{c=1}^{K}\frac{\omega_c}{|C_c|}
-\sum_{i\in C_c}D_{\mathrm{KL}}\bigl(\mathscr Y_i\|\mathcal V_c\bigr).}
+R=R_{\mathrm{KL}}=\sum_{c=1}^K\omega_c R_c.
 \end{equation}
-برای وزن‌دهی یکسان به طبقات،
-$\omega_c=1/K$ انتخاب می‌شود؛
-نمایش وزن‌دار امکان اولویت‌دهی
-به طبقات مختلف را نیز فراهم می‌کند.
-از نامنفی بودن KL، $R\ge0$ نتیجه می‌شود.
-کاهش این مقدار، نزدیک‌تر شدن توزیع‌های
-برچسب همسایگی اعضای هر طبقه به
-مرکز آن را \emph{در معنای KL} بیان می‌کند.
-پس در اینجا تعریف مستقلی ساخته نشده است،
-بلکه همان هزینه تجمیع پیشین را
-به‌عنوان معیار تراکم تعبیر می‌کنیم:
-$R_{c,\mathrm{KL}}:=R_c$ و
-$R_{\mathrm{KL}}:=R$.
+این معیار، هزینهٔ اضافی مورد انتظار مدل‌کردن
+مشاهدات برچسب همسایگی اعضای طبقه با یک توزیع
+مشترک به‌جای توزیع‌های اختصاصی آن‌هاست:
+\begin{equation}\label{cmp:eq:ch3-R-entropy}
+R_c=H(\mathcal V_c)-\frac1{|C_c|}\sum_{i\in C_c}H(\mathscr Y_i).
+\end{equation}
+این هزینه با زیان پیش‌بینی برچسب واقعی نمونه
+یکسان نیست. KL مرکزی به دلیل میانگین حسابی بودن
+مرکز همواره متناهی است و فقط در صورت یکسان بودن
+همهٔ بازنمایی‌های طبقه صفر می‌شود. توجیه آماری،
+خواص و قرارداد محاسبهٔ عددی آن در
+بخش~\ref{app:ch3-mixture-likelihood} از پیوست
+هندسهٔ مدل آمده است.
 
-
-\paragraph{قرارداد تکیه‌گاه KL در برابر هموارسازی عددی.}
-\phantomsection\label{cmp:par:ch3-KL-legacy-clip}
-در تعریف دقیق از قرارداد $0\log(0/q)=0$ برای $q\ge0$
-استفاده می‌شود و هرگاه $p_u>0$ ولی $q_u=0$ باشد،
-$D_{\mathrm{KL}}(P\|Q)=+\infty$ است.
-برای $R_{\mathrm{KL}}$ که مرکز همان میانگین حسابی
-نمونه‌های هر طبقه است، چنین ناسازگاریِ تکیه‌گاه
-در جهت $\mathscr Y_i\|\mathcal V_c$ رخ نمی‌دهد
-و مقدار معیار متناهی است؛ اما در فاصله نمونه به
-\emph{مرکز طبقه رقیب} یا هدف خارجی این تضمین وجود ندارد.
-جایگزینی صفرها با کران پایین مثبت در محاسبهٔ
-\lr{clip} یک قرارداد عددیِ متفاوت می‌سازد:
-$R_{\mathrm{KL}}^{\mathrm{legacy,clip}}$
-را نباید بدون باز‌محاسبه با تعریف دقیق
-$R_{\mathrm{KL}}$ یکی گرفت. این تفاوت در
-تفسیر خروجی‌های ذخیره‌شدهٔ فصل~\ref{chap:results}
-اهمیت دارد، نه در درستی هویت‌های دقیقِ KL.
-
-\paragraph{تراکم زوجی و محدودیت جهت معکوس KL.}
-برای مقایسهٔ مستقیم بازنمایی‌های اعضای طبقه، میانگین
-واگرایی همهٔ زوج‌های مرتب، شامل زوج‌های خودی، را در نظر
-می‌گیریم:
+\paragraph{تراکم زوجی.}
+با انتخاب KL در صورت زوجی تعریف عمومی داریم:
 \begin{equation}\label{cmp:eq:ch3-KL-pair}
 R_{c,\mathrm{KL}}^{\mathrm{pair}}
-=\frac{1}{|C_c|^2}\sum_{i,j\in C_c}
+=\frac1{|C_c|^2}\sum_{i,j\in C_c}
 D_{\mathrm{KL}}(\mathscr Y_i\|\mathscr Y_j).
 \end{equation}
-با استفاده از تجزیهٔ هزینهٔ مدل‌سازی مشترک
-(رابطه~\eqref{cmp:eq:ch3-KL-decomposition})، این معیار
-به مجموع دو صورت مرکزی با جهت مستقیم و معکوس تجزیه
-می‌شود:
+این معیار به مجموع صورت مرکزی مستقیم و معکوس
+تجزیه می‌شود:
 \begin{equation}\label{cmp:eq:ch3-KL-reverse}
-R_c^{\mathrm{rev}}
-=\frac{1}{|C_c|}\sum_{i\in C_c}
+R_c^{\mathrm{rev}}=\frac1{|C_c|}\sum_{i\in C_c}
 D_{\mathrm{KL}}(\mathcal V_c\|\mathscr Y_i),
 \end{equation}
 \begin{equation}\label{cmp:eq:ch3-KL-pair-decomposition}
-\boxed{R_{c,\mathrm{KL}}^{\mathrm{pair}}=R_c+R_c^{\mathrm{rev}}.}
+R_{c,\mathrm{KL}}^{\mathrm{pair}}=R_c+R_c^{\mathrm{rev}}.
 \end{equation}
-صورت مستقیم همواره متناهی است، اما صورت معکوس و در
-نتیجه معیار زوجی، در صورت ناهمسانی تکیه‌گاه بازنمایی‌های
-اعضای طبقه نامتناهی می‌شوند. این امر به معنای نامعتبر
-بودن تعریف نیست؛ بااین‌حال، اگر مقدار معیار برای
-سیاست‌های مورد مقایسه نامتناهی باشد، امکان مشاهدهٔ
-تفاوت شدت پراکندگی با آن وجود ندارد.
+صورت معکوس و در نتیجه صورت زوجی در صورت ناهمسانی
+تکیه‌گاه بازنمایی‌های طبقه نامتناهی می‌شوند. تعریف
+معیار همچنان معتبر است، اما در این وضعیت امکان
+مشاهدهٔ تفاوت شدت پراکندگی میان سیاست‌هایی که
+مقدار معیار برای آن‌ها نامتناهی است وجود ندارد.
 
 \paragraph{صورت اصلاح‌شدهٔ تراکم معکوس و زوجی.}
-برای حفظ اطلاعات قابل مشاهدهٔ صورت معکوس، تکیه‌گاه
-بازنمایی نمونه و مکمل آن در فضای برچسب‌ها را به‌ترتیب
-با نمادهای زیر مشخص می‌کنیم:
+برای حفظ بخش قابل مشاهدهٔ صورت معکوس، تکیه‌گاه
+بازنمایی نمونه و مکمل آن را به‌ترتیب با
 \begin{equation}\label{cmp:eq:ch3-KL-mask-support}
-\mathcal U_i=\{u\in\{1,\ldots,K\}:\mathscr Y_i(u)>0\},
-\qquad
-\mathcal U_i^{\complement}=\{1,\ldots,K\}\setminus\mathcal U_i.
+\begin{aligned}
+\mathcal U_i&=\{u\in\{1,\ldots,K\}:\mathscr Y_i(u)>0\},\\
+\mathcal U_i^{\complement}&=\{1,\ldots,K\}\setminus\mathcal U_i
+\end{aligned}
 \end{equation}
-جرم مرکز طبقهٔ $c$ خارج از تکیه‌گاه نمونه را با
+نشان می‌دهیم. جرم مرکز خارج از تکیه‌گاه نمونه
+عبارت است از:
 \begin{equation}\label{cmp:eq:ch3-KL-mask-mass}
-p_{c,i}^{\mathrm{out}}=\sum_{u\in\mathcal U_i^{\complement}}\mathcal V_c(u),
-\qquad i\in C_c
+p_{c,i}^{\mathrm{out}}=\sum_{u\in\mathcal U_i^{\complement}}
+\mathcal V_c(u),\qquad i\in C_c.
 \end{equation}
-نشان می‌دهیم. این نماد با احتمال پسین برچسب نمونه
-متفاوت است. چون مرکز میانگین حسابی اعضای طبقه است،
-$0\le p_{c,i}^{\mathrm{out}}<1$.
-توزیع‌های شرطی مرکز روی دو بخش فضای برچسب‌ها عبارت‌اند از:
+با اختصار $p=p_{c,i}^{\mathrm{out}}$، که $0\le p<1$،
+توزیع‌های شرطی مرکز را تعریف می‌کنیم:
 \begin{equation}\label{cmp:eq:ch3-KL-mask-conditional}
 \begin{aligned}
 \mathcal V_{c\mid\mathcal U_i}(u)
-&=\frac{\mathcal V_c(u)\mathbf1_{\{u\in\mathcal U_i\}}}
-{1-p_{c,i}^{\mathrm{out}}},\\
+&=\frac{\mathcal V_c(u)\mathbf1_{\{u\in\mathcal U_i\}}}{1-p},\\
 \mathcal V_{c\mid\mathcal U_i^{\complement}}(u)
-&=\frac{\mathcal V_c(u)\mathbf1_{\{u\in\mathcal U_i^{\complement}\}}}
-{p_{c,i}^{\mathrm{out}}}
-\qquad (p_{c,i}^{\mathrm{out}}>0).
+&=\frac{\mathcal V_c(u)\mathbf1_{\{u\in\mathcal U_i^{\complement}\}}}{p}
+\quad(p>0).
 \end{aligned}
 \end{equation}
-بنابراین مرکز را می‌توان به مخلوط دو توزیع با
-تکیه‌گاه‌های مجزا تجزیه کرد:
-\begin{equation}\label{cmp:eq:ch3-KL-mask-mixture}
-\mathcal V_c=(1-p_{c,i}^{\mathrm{out}})\mathcal V_{c\mid\mathcal U_i}
-+p_{c,i}^{\mathrm{out}}\mathcal V_{c\mid\mathcal U_i^{\complement}}.
-\end{equation}
-برای اختصار در روابط بعدی، $p=p_{c,i}^{\mathrm{out}}$ و
-$h_{\mathrm b}(p)=-p\log p-(1-p)\log(1-p)$
-آنتروپی دودویی است. با فرض $0<p<1$، تجزیهٔ دقیق
-واگرایی معکوس عبارت است از:
-\begin{equation}\label{cmp:eq:ch3-KL-mask-reverse-decomposition}
-\begin{aligned}
-D_{\mathrm{KL}}(\mathcal V_c\|\mathscr Y_i)
-={}&(1-p)D_{\mathrm{KL}}(\mathcal V_{c\mid\mathcal U_i}\|\mathscr Y_i)\\
-&+pD_{\mathrm{KL}}(\mathcal V_{c\mid\mathcal U_i^{\complement}}\|\mathscr Y_i)
--h_{\mathrm b}(p).
-\end{aligned}
-\end{equation}
-جملهٔ نخست متناهی است، اما جملهٔ دوم به سبب مجزا بودن
-تکیه‌گاه‌ها نامتناهی است. برای ساخت یک معیار اصلاح‌شده،
-جملهٔ نامتناهی را با سهم آنتروپی مرکز که پس از
-محدودسازی آن به تکیه‌گاه نمونه باقی نمی‌ماند،
-جایگزین می‌کنیم:
-\begin{equation}\label{cmp:eq:ch3-KL-mask-entropy-replacement}
-\begin{aligned}
-H(\mathcal V_c)-(1-p)H(\mathcal V_{c\mid\mathcal U_i})
-&=pH(\mathcal V_{c\mid\mathcal U_i^{\complement}})
-+h_{\mathrm b}(p).
-\end{aligned}
-\end{equation}
-در این جایگزینی، آنتروپی دودویی با جملهٔ منفی متناظر
-در رابطه~\eqref{cmp:eq:ch3-KL-mask-reverse-decomposition}
-حذف می‌شود. در نتیجه صورت اصلاح‌شدهٔ ناهمانندی معکوس
-را به‌صورت زیر \emph{تعریف} می‌کنیم:
+صورت اصلاح‌شدهٔ ناهمانندی معکوس به شکل زیر تعریف
+می‌شود:
 \begin{equation}\label{cmp:eq:ch3-KL-mask-corrected-dissimilarity}
 \boxed{\begin{aligned}
 \widetilde D_{\mathrm{KL}}(\mathcal V_c\|\mathscr Y_i)
@@ -6128,49 +6045,31 @@ H(\mathcal V_c)-(1-p)H(\mathcal V_{c\mid\mathcal U_i})
 &+pH(\mathcal V_{c\mid\mathcal U_i^{\complement}}).
 \end{aligned}}
 \end{equation}
-برای $p=0$، جملهٔ وابسته به مکمل را صفر در نظر
-می‌گیریم؛ توزیع شرطی روی بخش با جرم صفر لازم نیست
-تعریف شود. جایگزینی انجام‌شده یک قرارداد طراحی معیار
-است، نه تساوی با واگرایی نامتناهی اولیه.
-
-جملهٔ نخست میزان ناهمانندی معکوس روی تکیه‌گاه نمونه و
-جملهٔ دوم عدم قطعیت وزن‌دار در بخش حذف‌شده را اندازه
-می‌گیرد. اگر جرم مثبت مرکز خارج از تکیه‌گاه تنها روی
-یک مؤلفه متمرکز باشد، جملهٔ دوم صفر است. اگر علاوه
-بر آن، توزیع شرطی مرکز روی تکیه‌گاه با بازنمایی نمونه
-یکسان باشد، کل صورت اصلاح‌شده صفر می‌شود؛ حتی اگر
-جرمی از مرکز حذف شده باشد. هنگامی که جرم حذف‌شده بین
-چند مؤلفهٔ مثبت توزیع شده باشد، جملهٔ آنتروپی این
-پراکندگی را ثبت می‌کند. به‌ویژه برای بازنمایی قطعی
-$\mathscr Y_i=e_j$، جملهٔ نخست صفر و مقدار معیار
-برابر آنتروپی شرطی مرکز روی برچسب‌های غیر از $j$،
-وزن‌دار با جرم آن بخش، خواهد بود.
-
-در سطح طبقه، معیار معکوس اصلاح‌شده و صورت جایگزین
-معیار زوجی را به‌ترتیب تعریف می‌کنیم:
+برای $p=0$ جملهٔ دوم را صفر در نظر می‌گیریم.
+جملهٔ نخست ناهمانندی معکوس روی تکیه‌گاه نمونه و
+جملهٔ دوم عدم قطعیت وزن‌دار در بخش حذف‌شده را
+می‌سنجد. در سطح طبقه، معیارهای اصلاح‌شده عبارت‌اند از:
 \begin{equation}\label{cmp:eq:ch3-KL-mask-corrected-reverse}
-\widetilde R_c^{\mathrm{rev}}
-=\frac{1}{|C_c|}\sum_{i\in C_c}
+\widetilde R_c^{\mathrm{rev}}=\frac1{|C_c|}\sum_{i\in C_c}
 \widetilde D_{\mathrm{KL}}(\mathcal V_c\|\mathscr Y_i),
 \end{equation}
 \begin{equation}\label{cmp:eq:ch3-KL-mask-corrected-pair}
 \boxed{\widetilde R_{c,\mathrm{KL}}^{\mathrm{pair}}
 =R_c+\widetilde R_c^{\mathrm{rev}}.}
 \end{equation}
-این صورت جایگزین همواره نامنفی و متناهی است، فقط در
-صورت یکسان بودن همهٔ بازنمایی‌های طبقه صفر می‌شود و
-در صورت یکسان بودن تکیه‌گاه‌ها به معیار زوجی دقیق
-KL بازمی‌گردد. جملهٔ مستقیم $R_c$ اختلاف جرم خارج
-از تکیه‌گاه را که ممکن است صورت معکوس اصلاح‌شده
-ثبت نکند، همچنان لحاظ می‌کند. این معیار پیشنهادی
-دیگر میانگین دقیق واگرایی‌های زوجی نیست و در اینجا
-صرفاً به‌عنوان یک ابزار تحلیلی با خواص نظری مشخص
-معرفی می‌شود. اثبات روابط و بررسی حالت‌های مرزی در
-بخش~\ref{app:geometry-KL-pair-mask} از پیوست
-هندسهٔ مدل آمده است.
+صورت معکوس اصلاح‌شده ممکن است برای دو توزیع متفاوت
+صفر باشد؛ اما صورت زوجی اصلاح‌شده همواره نامنفی و
+متناهی است و تنها برای بازنمایی‌های یکسان در طبقه
+صفر می‌شود. با یکسان بودن تکیه‌گاه‌ها، صورت زوجی
+اصلاح‌شده به KL زوجی دقیق بازمی‌گردد. این صورت یک
+معیار تحلیلی پیشنهادی است، نه میانگین دقیق
+واگرایی‌های زوجی یا معیاری با اعتبار تجربی اثبات‌شده.
+مسیر استخراج، توجیه جایگزینی جملهٔ نامتناهی و
+بررسی حالت‌های مرزی در بخش~\ref{app:geometry-KL-pair-mask}
+از پیوست هندسهٔ مدل آمده‌اند.
 
-
-\paragraph{معیارهای مبتنی بر جنسن--شنون.}
+\subsection{تراکم مبتنی بر جنسن--شنون}
+\label{cmp:subsec:ch3-compactness-JS}
 
 به‌جای سنجیدن اختلاف با KL،
 می‌توان آن را با واگرایی جنسن--شنون
