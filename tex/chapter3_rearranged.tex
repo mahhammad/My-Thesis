@@ -6354,6 +6354,76 @@ w_i=\mathbf1\{d_\psi(\mathscr Y_i,\mathcal V_c)
 زیربخش~\ref{cmp:subsec:ch3-outlier-robust-centers}
 بررسی می‌شود.
 
+شکل~\ref{cmp:fig:ch3-quantile-weighted-centers}
+اثر کاهش وزن بازنمایی‌های دورافتاده بر مکان مرکز
+را در یک مثال هندسی نشان می‌دهد.
+
+\begin{figure}[!htbp]
+\centering
+\begin{LTR}
+\centering
+\resizebox{0.95\linewidth}{!}{%
+\begin{tikzpicture}[
+    x=1cm,y=1cm,
+    panel/.style={draw=black!25,rounded corners=2pt},
+    sample/.style={fill=teal!75!black,draw=white,line width=0.25pt},
+    meanmark/.style={fill=black!85,draw=white,line width=0.35pt},
+    paneltitle/.style={font=\small,align=center},
+    panelsub/.style={font=\footnotesize,align=center}
+]
+% هر سه قاب دارای هفت نقطه با وزن واحد و دو نقطهٔ دورافتاده‌اند.
+% مرکزها از میانگین وزن‌دار همین مختصات محاسبه شده‌اند.
+\def\weightedpoints{1/-1.20000/0.66667,2/-0.96667/-0.16667,3/-0.43333/1.06667,4/-0.36667/0.33333,5/-0.70000/-0.60000,6/-0.10000/-0.26667,7/-0.03333/0.66667,8/1.50000/1.26667,9/1.33333/-1.26667}
+\foreach \px/\panelid/\cx/\cy in {0/1/-0.10741/0.18889,4.1/2/-0.34188/0.21795,8.2/3/-0.54286/0.24286}{
+  \begin{scope}[shift={(\px,0)}]
+    \draw[panel] (-1.92,-1.98) rectangle (1.92,1.98);
+    \foreach \k/\xx/\yy in \weightedpoints {
+      \ifnum\k<8\relax
+        \filldraw[sample] (\xx,\yy) circle (2.1pt);
+      \else
+        \ifnum\panelid=1\relax
+          \filldraw[fill=orange!85!black,draw=orange!85!black]
+            (\xx,\yy) circle (2.1pt);
+        \fi
+        \ifnum\panelid=2\relax
+          \filldraw[fill=orange!30,draw=orange!85!black]
+            (\xx,\yy) circle (2.1pt);
+        \fi
+        \ifnum\panelid=3\relax
+          \draw[orange!85!black,dashed,line width=0.65pt]
+            (\xx,\yy) circle (2.1pt);
+        \fi
+      \fi
+    }
+    \filldraw[meanmark] (\cx,\cy) ++(0,0.11)
+      -- ++(0.11,-0.11) -- ++(-0.11,-0.11)
+      -- ++(-0.11,0.11) -- cycle;
+    \ifnum\panelid=1\relax
+      \node[paneltitle] at (0,1.72) {\rl{مرکز اصلی}};
+      \node[panelsub] at (0,-1.72) {$w_i=1$};
+    \fi
+    \ifnum\panelid=2\relax
+      \node[paneltitle] at (0,1.72) {\rl{تعدیل وزن}};
+      \node[panelsub] at (0,-1.72) {$0<w_i<1$};
+    \fi
+    \ifnum\panelid=3\relax
+      \node[paneltitle] at (0,1.72) {\rl{صفرکردن وزن}};
+      \node[panelsub] at (0,-1.72) {$w_i=0$};
+    \fi
+  \end{scope}
+}
+\end{tikzpicture}%
+}
+\end{LTR}
+\caption{نمایش شماتیک اثر کاهش سهم نقاط دورافتاده بر مکان مرکز
+طبقه. در هر سه قاب، مکان تمام نقاط ثابت است و تنها وزن دو
+نقطهٔ نارنجی به‌ترتیب از یک به $0.4$ و سپس صفر تغییر می‌کند.
+وزن سایر نقاط یک است و لوزی مکان مرکز وزن‌دار را نشان می‌دهد.
+دایره‌های توخالی نشان‌دهندهٔ وزن صفر هستند، نه حذف نمونه‌ها.
+شکل یک مثال اقلیدسی دوبعدی برای توضیح میانگین وزن‌دار است.}
+\label{cmp:fig:ch3-quantile-weighted-centers}
+\end{figure}
+
 \paragraph{پوشش چندکی با مرکز آزاد.}
 اگر علاوه بر شعاع، انتخاب توزیع مرکزی نیز آزاد
 باشد، کمیت زیر را تعریف می‌کنیم:
