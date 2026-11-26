@@ -255,6 +255,57 @@ $\mathscr Y_i=\mathcal V_c$.
 زنجیرهٔ رابطه~\eqref{cmp:eq:ch3-js-compactness-chain}
 ثابت می‌شود.
 
+\paragraph{واریانس فاصله‌ها و رابطهٔ صورت‌های مبتنی بر متریک.}
+در روابط~\eqref{cmp:eq:ch3-js-central-distance-variance}
+و~\eqref{cmp:eq:ch3-js-pair-distance-variance}، واریانس
+تجربی با وزن‌های یکسان (نه برآورد اصلاح‌شدهٔ نمونه‌ای)
+به کار می‌رود. هویت $\operatorname{Var}(D)=
+\mathbb E[D^2]-(\mathbb E[D])^2$ با انتخاب $D$ به‌عنوان
+فاصلهٔ متریک نمونه تا مرکز یا فاصلهٔ یک زوج مرتب
+از اعضای طبقه، به‌ترتیب دو رابطهٔ یادشده را نتیجه
+می‌دهد. در صورت زوجی، زوج‌های خودی نیز با وزن
+$1/|C_c|^2$ لحاظ می‌شوند. واریانس فاصله تا مرکز
+میزان ناهمگنی شعاع‌ها را اندازه می‌گیرد، نه پراکندگی
+جهت‌های بازنمایی‌ها در فضای هیلبرت.
+
+از نامساوی مثلثی متریک جذر جنسن--شنون برای هر
+$i,j\in C_c$ داریم:
+\[
+d_{\sqrt{\mathrm{JS}}}(\mathscr Y_i,\mathscr Y_j)
+\le d_{\sqrt{\mathrm{JS}}}(\mathscr Y_i,\mathcal V_c)
++d_{\sqrt{\mathrm{JS}}}(\mathscr Y_j,\mathcal V_c).
+\]
+با میانگین‌گیری روی همهٔ زوج‌های مرتب، هر یک از دو
+جملهٔ سمت راست به $R_{c,\sqrt{\mathrm{JS}}}$ تبدیل
+می‌شود و رابطه~\eqref{cmp:eq:ch3-js-root-pair-inequality}
+به دست می‌آید.
+
+\paragraph{تعبیر شباهتی معیارهای تجمیع‌شده.}
+با میانگین‌گیری از
+رابطه~\eqref{cmp:eq:ch3-js-compactness-distance-similarity}
+روی اعضای یک طبقه یا همهٔ زوج‌های مرتب، به‌ترتیب
+روابط~\eqref{cmp:eq:ch3-js-central-similarity}
+و~\eqref{cmp:eq:ch3-js-pair-similarity} به دست می‌آیند.
+با تعریف میانگین وزن‌دار شباهت درون‌طبقه‌ای
+\[
+\overline s_{\mathrm{in}}=
+\sum_{c=1}^K\frac{\omega_c}{|C_c|}
+\sum_{i\in C_c}s(\mathscr Y_i,\mathcal V_c),
+\]
+داریم:
+\begin{equation}\label{cmp:eq:ch3-R-JS-similarity-interpretation}
+\begin{aligned}
+R_{\mathrm{JS}}&=\log2\,(1-\overline s_{\mathrm{in}}),\\
+R_{\sqrt{\mathrm{JS}}}&=\sqrt{\log2}
+\sum_{c=1}^K\frac{\omega_c}{|C_c|}
+\sum_{i\in C_c}\sqrt{1-s(\mathscr Y_i,\mathcal V_c)}.
+\end{aligned}
+\end{equation}
+بنابراین، میانگین شباهت نرمال‌شده و میانگین JSD
+اطلاعات یکسانی ارائه می‌کنند؛ اما میانگین خود فاصلهٔ
+متریک به‌طور کلی از میانگین شباهت به‌تنهایی به دست
+نمی‌آید.
+
 \paragraph{تعبیر و مقایسه معیارهای تراکم.}
 $R_{\mathrm{KL}}$ هزینه اضافی مدل مشترک
 برای توزیع‌های یک طبقه را می‌سنجد؛
