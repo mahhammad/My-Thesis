@@ -49,7 +49,7 @@
 \notationrow{\lambda}{ضریب کاهش وزن مشاهدات دیرتر}{cmp:eq:ch3-walk-weight-normalizer}
 \notationrow{\mathcal N_\ell(\lambda)}{عامل نرمال‌سازی گشت با طول مشخص}{cmp:eq:ch3-walk-weight-normalizer}
 \notationrow{e_j}{بردار یکهٔ نمونهٔ $j$ در فضای نمونه‌ها}{cmp:eq:ch3-walk-vector}
-\notationrow{J_t,\ W}{اندیس نمونه مشاهده‌شده و مسیر گشت}{cmp:eq:ch3-walk-vector}
+\notationrow{J_t,\ W}{اندیس نمونهٔ گام $t$ (در $t=0$ اندیس نمونهٔ مبدأ) و مسیر گشت}{cmp:eq:ch3-walk-vector}
 \notationrow{R(W)}{بردار احتمال حاصل از یک گشت}{cmp:eq:ch3-walk-vector}
 \notationrow{\widehat h_s,\ h_s}{برآورد و امید دقیق همسایگی نمونه s}{cmp:eq:ch3-h-estimate}
 \notationrow{P_{X_s,t}}{توزیع روی نمونه‌ها در گام t}{cmp:eq:ch3-step-observation-distribution}
@@ -196,14 +196,15 @@
 \notationrow{\mathscr B_{c,ij}^{\mathrm{pair}}}{توزیع میانگین دو عضو از یک طبقه}{cmp:eq:ch3-R-JS-pairwise-distributions}
 \notationrow{R_{B,c}^{\mathrm{pair}}}{هزینه KL مجموعه میانگین‌های همه زوج‌ها}{cmp:eq:ch3-R-JS-pairwise-definitions}
 \notationrow{R_{c,\mathrm{JS}}^{\mathrm{pair}},\ R_{c,\sqrt{\mathrm{JS}}}^{\mathrm{pair}}}{میانگین مربع فاصله و میانگین فاصلهٔ جنسن--شنون همهٔ زوج‌های مرتب درون‌طبقه‌ای}{cmp:eq:ch3-R-JS-pair-general}
-\notationrow{T(\mathcal V)}{معیار اثر قطری مراکز}{cmp:eq:ch3-T-on-V}
-\notationrow{BT(\mathcal V)}{معیار بهترین اثر جایگشتی}{cmp:eq:ch3-BT-on-V}
-\notationrow{\mathfrak{S}_K,\ \sigma}{مجموعه جایگشت‌ها و یک جایگشت}{cmp:eq:ch3-BT-on-V}
-\notationrow{TNL(\mathcal V)}{هزینه لگاریتمی هم‌برچسبی}{cmp:eq:ch3-TNL-on-V}
-\notationrow{BTNL(\mathcal V)}{هزینه لگاریتمی جایگشتی}{cmp:eq:ch3-BTNL-on-V}
-\notationrow{\overline{\mathcal V}}{میانگین وزن‌دار مراکز}{cmp:eq:ch3-global-center}
-\notationrow{I(\mathcal V)}{اطلاعات متقابل طبقه آغازین و برچسب همسایگی}{cmp:eq:ch3-I-on-V}
-\notationrow{C_0,\ C_\xi}{برچسب آغازین و برچسب مشاهده‌شده}{cmp:eq:ch3-I-joint-distribution}
+\notationrow{T(\mathcal V)}{معیار اثر قطری مراکز}{cmp:eq:ch3-trace-score}
+\notationrow{BT(\mathcal V)}{معیار بهترین اثر جایگشتی}{cmp:eq:ch3-best-trace-score}
+\notationrow{\mathfrak{S}_K,\ \sigma}{مجموعه جایگشت‌ها و یک جایگشت}{cmp:eq:ch3-best-trace-score}
+\notationrow{TNL(\mathcal V)}{هزینه لگاریتمی هم‌برچسبی}{cmp:eq:ch3-trace-log-cost}
+\notationrow{BTNL(\mathcal V)}{هزینه لگاریتمی جایگشتی}{cmp:eq:ch3-best-trace-log-cost}
+\notationrow{\overline{\mathcal V}}{میانگین وزن‌دار مراکز}{cmp:eq:ch3-weighted-center-mixture}
+\notationrow{I(\mathcal V)}{اطلاعات متقابل طبقه آغازین و برچسب همسایگی}{cmp:eq:ch3-center-information-matrix}
+\notationrow{C_0,\ C_\xi}{برچسب نمونهٔ مبدأ $y_{J_0}$ و برچسب نمونهٔ مشاهده‌شده $y_{J_\xi}$}{cmp:eq:ch3-center-channel-joint-distribution}
+\notationrow{\mathcal I(A;B),\ \mathcal I(A;B\mid D)}{اطلاعات متقابل دو متغیر تصادفی و اطلاعات متقابل شرطی آن‌ها؛ متمایز از معیار اختصاصی $I(\mathcal V)$}{cmp:eq:ch3-center-channel-mutual-information}
 \notationrow{W_c^{\mathrm{JS}}}{پراکندگی درون‌طبقه‌ای با JSD}{cmp:eq:ch3-js-within-dispersion}
 \notationrow{\delta_c}{فاصله مرکز از نزدیک‌ترین مرکز رقیب}{cmp:eq:ch3-js-center-separation}
 \notationgroup{تخمین احتمالات، NLL و حاشیه}
