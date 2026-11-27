@@ -594,24 +594,61 @@ $R_{\mathrm{KL}}$ و $I$ و نیز اختلاف هزینه
 مشخص می‌کنیم.
 
 \begin{proposition}\label{prop:app-ch3-entropy-mixture}
-فرض کنیم $P_1,\ldots,P_m$ بردارهای توزیع احتمال روی یک فضای متناهی و $a_1,\ldots,a_m$ وزن‌های نامنفی با مجموع یک باشند. اگر $\overline P=\sum_{r=1}^{m}a_rP_r$ و $H(P)=-\sum_dP(d)\log P(d)$، آنگاه:
+فرض کنیم $P_1,\ldots,P_m$ توزیع‌های احتمال روی
+یک فضای متناهی مشترک و $a_1,\ldots,a_m$ وزن‌های
+نامنفی با مجموع یک باشند. اگر
+$\overline P=\sum_{r=1}^{m}a_rP_r$ و
+$H(P)=-\sum_dP(d)\log P(d)$، آنگاه:
 \begin{equation}\label{eq:app-ch3-mixture-entropy}
+\boxed{
 \sum_{r=1}^{m}a_rD_{\mathrm{KL}}(P_r\|\overline P)
 =H(\overline P)-\sum_{r=1}^{m}a_rH(P_r).
+}
 \end{equation}
+در جمع وزن‌دار واگرایی‌ها، جمله‌های دارای وزن صفر
+حذف می‌شوند. هر دو طرف هویت متناهی و نامنفی‌اند.
 \end{proposition}
 \begin{proof}
-با بسط تعریف واگرایی KL و قرارداد $0\log0=0$ داریم:
+ابتدا تکیه‌گاه مخلوط را در نظر می‌گیریم. برای هر
+$r$ با $a_r>0$ و هر مؤلفهٔ $d$ داریم
+$\overline P(d)\ge a_rP_r(d)$. بنابراین،
+$P_r(d)>0$ مستلزم $\overline P(d)>0$ است و
+\[
+\operatorname{supp}(\overline P)
+=\bigcup_{r:\,a_r>0}\operatorname{supp}(P_r).
+\]
+پس واگرایی هر توزیع دارای وزن مثبت از مخلوط
+متناهی است. خارج از تکیه‌گاه مخلوط، تمام
+توزیع‌های دارای وزن مثبت نیز صفرند و سهم آن
+مؤلفه‌ها با قرارداد $0\log0=0$ صفر است.
+
+اکنون در جمع‌های زیر، اندیس $r$ را به وزن‌های
+مثبت و اندیس $d$ را به تکیه‌گاه مخلوط محدود
+می‌کنیم. با بسط تعریف KL و جدا کردن لگاریتم
+صورت و مخرج داریم:
 \begin{equation}\label{eq:app-ch3-mixture-entropy-proof}
 \begin{aligned}
 \sum_r a_rD_{\mathrm{KL}}(P_r\|\overline P)
-&=\sum_r a_r\sum_dP_r(d)\log P_r(d)
--\sum_d\left(\sum_r a_rP_r(d)\right)\log\overline P(d)\\
-&=-\sum_r a_rH(P_r)-\sum_d\overline P(d)\log\overline P(d)\\
+&=\sum_r a_r\sum_d P_r(d)
+\log\frac{P_r(d)}{\overline P(d)}\\
+&=\sum_r a_r\sum_dP_r(d)\log P_r(d)\\
+&\quad-\sum_r a_r\sum_dP_r(d)\log\overline P(d)\\
+&=-\sum_r a_r H(P_r)\\
+&\quad-\sum_d\left(\sum_r a_rP_r(d)\right)
+\log\overline P(d)\\
+&=-\sum_r a_rH(P_r)
+-\sum_d\overline P(d)\log\overline P(d)\\
 &=H(\overline P)-\sum_r a_rH(P_r).
 \end{aligned}
 \end{equation}
-اگر $\overline P(d)=0$، با نامنفی بودن وزن‌ها و توزیع‌ها، تمام $P_r(d)$هایی که وزن مثبت دارند نیز صفر هستند؛ بنابراین همان قرارداد معمول واگرایی در آن مؤلفه برقرار است.
+در گام ماقبل آخر، از تعریف مخلوط استفاده شده
+است. افزودن مؤلفه‌های خارج از تکیه‌گاه و
+توزیع‌های دارای وزن صفر، در جمع‌های آنتروپی
+تغییری ایجاد نمی‌کند. نامنفی بودن طرف چپ
+نیز مستقیماً از نامنفی بودن KL نتیجه می‌شود.
+به‌علاوه، این مقدار دقیقاً زمانی صفر است که
+تمام توزیع‌های دارای وزن مثبت با مخلوط
+$\overline P$ یکسان باشند.
 \end{proof}
 
 برای معیار شعاع درون‌طبقه‌ای $R_c$، با انتخاب $P_r=\mathscr Y_i$ برای $i\in C_c$ و وزن $1/|C_c|$، مستقیماً رابطه~\eqref{cmp:eq:ch3-R-entropy} به‌دست می‌آید. در گام بعد، با میانگین‌گیری روی طبقه‌ها طبق وزن‌های $\Omega$، تعبیر آنتروپی میانگین $R$ در رابطه~\eqref{cmp:eq:ch3-R-average-entropy} حاصل می‌شود. همچنین با انتخاب $P_r=\mathcal V_c$ و $a_r=\omega_c$، همین گزاره رابطه~\eqref{cmp:eq:ch3-I-entropy} را نتیجه می‌دهد. به این ترتیب، تعبیر آنتروپی $R$ و $I$ دو کاربرد از یک هویت واحدند. صورت تجمیع‌شدهٔ هزینهٔ درون‌طبقه‌ای عبارت است از:
