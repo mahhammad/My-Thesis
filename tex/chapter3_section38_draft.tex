@@ -101,95 +101,48 @@
 
 \subsection{معیارهای انطباق مراکز با الگوهای مرجع}
 \label{cmp:subsec:ch3-center-separation-criteria}
+\label{cmp:subsubsec:ch3-T}
+\label{cmp:subsubsec:ch3-BT}
+\label{cmp:subsubsec:ch3-TNL}
+\label{cmp:subsubsec:ch3-BTNL}
 
 مطابق رابطه~\eqref{cmp:eq:ch3-class-center-prob}،
-درایهٔ $\mathcal V_{cd}$ احتمال مشاهدهٔ برچسب همسایگی
-$d$ به شرط آغاز گشت از طبقهٔ $c$ است. در این بخش
-وزن‌های طبقه‌ها $\Omega=(\omega_1,\ldots,\omega_K)$
-مثبت‌اند و مجموع آن‌ها یک است.
-
-\paragraph{معیارهای خطی.}
-\label{cmp:subsubsec:ch3-T}
-معیار $T$ میانگین وزن‌دار احتمال مشاهدهٔ برچسب
-همسان با طبقهٔ مبدأ است:
-\begin{equation}\label{cmp:eq:ch3-T-on-V}
-\boxed{T(\mathcal V)=\sum_{c=1}^{K}\omega_c\mathcal V_{cc}
-=\operatorname{tr}\!\bigl(\operatorname{diag}(\Omega)\mathcal V\bigr).}
-\end{equation}
-با وزن‌های برابر، $T$ همان اثر ماتریس مراکز تقسیم بر
-$K$ است. اگر هم‌برچسب بودن را الزامی ندانیم و به هر
-طبقه یک برچسب مقصد متمایز اختصاص دهیم، معیار بهترین
-اثر جایگشتی حاصل می‌شود:
-\phantomsection\label{cmp:subsubsec:ch3-BT}
-\begin{equation}\label{cmp:eq:ch3-BT-on-V}
-\boxed{BT(\mathcal V)=
-\max_{\sigma\in \mathfrak{S}_K}
-\sum_{c=1}^{K}\omega_c\mathcal V_{c,\sigma(c)}.}
-\end{equation}
-در اینجا $\mathfrak S_K$ مجموعهٔ جایگشت‌های $K$ برچسب
-است. بهترین جایگشت با حل مسئلهٔ انتساب به دست می‌آید.
-
-\paragraph{معیارهای لگاریتمی.}
-\label{cmp:subsubsec:ch3-TNL}
-با انتخاب بردار یک‌داغ $e_c$ به‌عنوان الگوی مرجع
-هم‌برچسبی، منفی لگاریتم درست‌نمایی این الگوی فرضی
-تحت مرکز طبقه برابر است با:
-\begin{equation}\label{cmp:eq:ch3-TNL-on-V}
-TNL(\mathcal V)=-\sum_c\omega_c\log\mathcal V_{cc}
-=\sum_c\omega_c D_{\mathrm{KL}}(e_c\|\mathcal V_c).
-\end{equation}
-با انتخاب بهترین انتساب جایگشتی:
-\phantomsection\label{cmp:subsubsec:ch3-BTNL}
-\begin{equation}\label{cmp:eq:ch3-BTNL-on-V}
-\begin{aligned}
+$\mathcal V_{cd}$ احتمال مشاهدهٔ برچسب $d$ در
+همسایگی مبدأیی از طبقهٔ $c$ است. با وزن‌های مثبت
+$\omega_c$ با مجموع یک و مجموعهٔ جایگشت‌های
+$\mathfrak S_K$، چهار معیار زیر را تعریف می‌کنیم:
+\begin{align}
+T(\mathcal V)&=\sum_c\omega_c\mathcal V_{cc}
+=\operatorname{tr}\bigl(\operatorname{diag}(\Omega)\mathcal V\bigr),
+\label{cmp:eq:ch3-T-on-V}\\
+BT(\mathcal V)&=\max_{\sigma\in\mathfrak S_K}
+\sum_c\omega_c\mathcal V_{c,\sigma(c)},
+\label{cmp:eq:ch3-BT-on-V}\\
+TNL(\mathcal V)&=-\sum_c\omega_c\log\mathcal V_{cc},
+\label{cmp:eq:ch3-TNL-on-V}\\
 BTNL(\mathcal V)&=\min_{\sigma\in\mathfrak S_K}
-\left[-\sum_c\omega_c\log\mathcal V_{c,\sigma(c)}\right]\\
-&=\min_{\sigma\in\mathfrak S_K}
-\sum_c\omega_c D_{\mathrm{KL}}(e_{\sigma(c)}\|\mathcal V_c).
-\end{aligned}
-\end{equation}
-با قرارداد $-\log0=+\infty$، معیارهای لگاریتمی
-نامنفی‌اند و به احتمال‌های منتخب کوچک حساس‌ترند.
-کمینه‌کردن آن‌ها معادل بیشینه‌کردن میانگین هندسی
-وزن‌دار احتمال‌های منتخب است؛ در مقابل، معیارهای
-خطی میانگین حسابی را بیشینه می‌کنند. این هزینه‌ها
-مربوط به الگوهای مرجع فرضی‌اند، نه زیان پیش‌بینی.
+\left[-\sum_c\omega_c\log\mathcal V_{c,\sigma(c)}\right].
+\label{cmp:eq:ch3-BTNL-on-V}
+\end{align}
+معیارهای $T$ و $BT$ میانگین حسابی احتمال‌های
+منتخب را به‌ترتیب در الگوی هم‌برچسبی و بهترین
+انتساب یک‌به‌یک می‌سنجند. معیارهای لگاریتمی،
+با قرارداد $-\log0=+\infty$، هزینهٔ منفی
+لگاریتم درست‌نمایی همین الگوهای فرضی‌اند؛
+معادل واگرایی KL از بردارهای یک‌داغ مرجع به
+مراکز، نه زیان پیش‌بینی نمونه‌ها.
+کران‌ها، مقایسه‌ها و شرایط تساوی این چهار معیار
+در بخش~\ref{app:ch3-assignment-comparisons}
+از پیوست~\ref{app:model-geometry} آمده‌اند.
 
-\paragraph{مقایسه و محدودیت.}
-داریم $0\le T\le1$ و
-\begin{equation}\label{cmp:eq:ch3-BT-bounds}
-\boxed{\frac{1}{K}\le BT(\mathcal V)\le1.}
-\end{equation}
-همچنین، مطابق رابطه~\eqref{cmp:eq:ch3-four-criteria-comparison}:
-\begin{equation*}
-\boxed{
-\begin{gathered}
-T(\mathcal V)\le BT(\mathcal V),\qquad
-BTNL(\mathcal V)\le TNL(\mathcal V),\\
-TNL(\mathcal V)\ge-\log T(\mathcal V),\qquad
-BTNL(\mathcal V)\ge-\log BT(\mathcal V).
-\end{gathered}}
-\end{equation*}
-با فرض مثبت بودن وزن‌ها، $T=1$ و $TNL=0$ دقیقاً
-در ماتریس همانی، و $BT=1$ و $BTNL=0$ دقیقاً
-در ماتریس‌های جایگشتی برقرارند. بهترین جایگشت
-خطی لزوماً بهترین جایگشت لگاریتمی نیست.
-اثبات کران‌ها و شرایط تساوی در بخش‌های
-~\ref{app:ch3-BT-bound-proof}
-و~\ref{app:ch3-four-criteria-comparison}
-از پیوست~\ref{app:model-geometry} آمده است.
-
-این چهار معیار عمدتاً انطباق با الگوهای مرجع را
-می‌سنجند. برای مثال، ماتریس همانی و یک ماتریس
-جایگشتی بدون نقطهٔ ثابت هر دو دارای مراکز یک‌داغ
-کاملاً متمایزند، اما $T$ آن‌ها به‌ترتیب یک و صفر
-است. در معیارهای جایگشتی تمام ماتریس در یافتن
-انتساب بهینه نقش دارد، ولی امتیاز نهایی هر چهار
-معیار فقط از یک مؤلفهٔ هر مرکز ساخته می‌شود.
-از آنجا که قاعدهٔ تصمیم مدل کل بازنمایی را با
-کل توزیع مرکزی مقایسه می‌کند، برای سنجش تمایز
-بدون تحمیل یک الگوی خاص، باید تمام مؤلفه‌های
-مراکز را در نظر بگیریم.
+این معیارها انطباق با الگوهای مرجع را می‌سنجند،
+نه تمایز کامل توزیع‌های مرکزی. اگرچه در یافتن
+انتساب جایگشتی کل ماتریس بررسی می‌شود، امتیاز
+نهایی هر چهار معیار فقط از یک مؤلفهٔ هر مرکز
+به دست می‌آید. از آنجا که در قاعدهٔ تصمیم مدل
+کل بازنمایی با کل توزیع مرکزی مقایسه می‌شود،
+در ادامه معیاری را معرفی می‌کنیم که همهٔ
+مؤلفه‌های مراکز را در نظر می‌گیرد.
 
 \subsection{تمایز اطلاعاتی مراکز}
 \label{cmp:subsubsec:ch3-I-criterion}
