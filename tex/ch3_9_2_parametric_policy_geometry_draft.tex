@@ -231,7 +231,177 @@ p^{(c)}=\mathcal V_c^\star\overline U_c^{-1}
 \end{equation}
 وجود شاهد تضمین می‌کند این اینفیمم از مقدار هدف در نقطهٔ شاهد بیشتر نیست؛ اما بهبود اکید، تحقق اینفیمم و محدب بودن مسئله در پارامترهای مشترک به‌طور کلی تضمین نمی‌شوند. در ادامه باید بررسی کنیم برای معیارهای تراکم و فاصله از مجموعه‌های جداکننده، چه شرایطی امکان بهبود را فراهم می‌کنند و چگونه می‌توان از این شرایط در اصلاح سیاست استفاده کرد.
 
+\paragraph{بهبود تراکم با حفظ دقیق مراکز.}
+اکنون مسئلهٔ رابطه~\eqref{cmp:eq:ch3-geometry-parametric-center-constrained-objective} را برای معیارهای تراکم مرکزی معرفی‌شده در رابطه‌های~\eqref{cmp:eq:ch3-compactness-general} و~\eqref{cmp:eq:ch3-compactness-general-weighted} بررسی می‌کنیم. در این تحلیل $\psi\in\{\mathrm{KL},\mathrm{JS}\}$ است؛ منظور از سنجهٔ دوم خود واگرایی جنسن--شنون، نه جذر آن، و جهت KL از بازنمایی به مرکز است. وزن‌های طبقه‌ها ثابت و مثبت‌اند. در تمام روابط این بند، تابع هدف حتی خارج از مجموعهٔ هم‌مرکز نسبت به مراکز شاهد ثابت تعریف می‌شود:
+\begin{equation}\label{cmp:eq:ch3-geometry-parametric-fixed-center-R}
+R_\psi(\mathscr Y;\mathcal V^\star)
+=\sum_{c=1}^K\frac{\omega_c}{|C_c|}
+\sum_{s\in C_c}d_\psi(\mathscr Y_s,\mathcal V_c^\star).
+\end{equation}
+روی مجموعهٔ هم‌مرکز، این تابع دقیقاً همان معیار تراکم مرکزی فصل است. مشتق آن در جهت مماس نیز با مشتق معیار با مراکز متغیر یکسان است، زیرا مشتق مراکز در چنین جهتی صفر است.
+
+برای هر نمونه، تکیه‌گاه ثابت $S_s^{\rm lab}:=\bigcup_{b\in A_{X_s}}\operatorname{supp}(u_{s,b}^{(H)})$ را در نظر می‌گیریم. در این بند، این نماد مجموعه‌ای از اندیس‌های برچسب است و با فضای حالت کاهش‌یافتهٔ $\mathcal S_s$ تفاوت دارد. به دلیل مثبت بودن احتمال‌های آغاز با امتیازهای متناهی، بازنمایی هر نمونه روی این تکیه‌گاه اکیداً مثبت و در خارج از آن صفر است. مرکز شاهد طبقه روی اجتماع تکیه‌گاه‌های اعضای آن طبقه مثبت است. ازاین‌رو مشتق‌گیری فقط نسبت به مؤلفه‌های $u\in S_s^{\rm lab}$ انجام می‌شود؛ مؤلفه‌های ساختاراً صفر در بردار گرادیان مورد استفاده در جهت‌های دست‌یافتنی، صفر قرار داده می‌شوند. این قرارداد به معنی مشتق‌پذیری واگرایی نسبت به خروج از یک وجه سیمپلکس نیست.
+
+برای اختصار در فرمول مشتق‌ها، $x=\mathscr Y_s$ و $q=\mathcal V_c^\star$ را می‌گیریم، که $s\in C_c$. داریم:
+\begin{equation}\label{cmp:eq:ch3-geometry-R-coordinate-gradient}
+\begin{aligned}
+\frac{\partial D_{\rm KL}(x\|q)}{\partial x_u}
+&=1+\log\frac{x_u}{q_u},\\
+\frac{\partial\operatorname{JSD}(x,q)}{\partial x_u}
+&=\frac12\log\frac{2x_u}{x_u+q_u}.
+\end{aligned}
+\end{equation}
+مشتق‌های متقاطع صفر و درایه‌های قطری هسین برابرند با
+\begin{equation}\label{cmp:eq:ch3-geometry-R-coordinate-hessian}
+\begin{aligned}
+\frac{\partial^2 D_{\rm KL}(x\|q)}{\partial x_u^2}
+&=\frac1{x_u},\\
+\frac{\partial^2\operatorname{JSD}(x,q)}{\partial x_u^2}
+&=\frac{q_u}{2x_u(x_u+q_u)}.
+\end{aligned}
+\end{equation}
+هر دو در مؤلفه‌های فعال مثبت‌اند. در نتیجه این دو واگرایی نسبت به بازنمایی، با مرکز ثابت، روی وجه مجاز اکیداً محدب‌اند. این خاصیت با امتداد پیوستهٔ جمله‌های آنتروپی در صفر به وجه بسته نیز برقرار است: هر جملهٔ تک‌متغیره روی بازهٔ مثبت اکیداً محدب و در صفر پیوسته است و هر دو نقطهٔ متمایز دست‌کم در یک مؤلفه تفاوت دارند. بنابراین $R_\psi$ با وزن‌های مثبت روی حاصل‌ضرب وجوه مجاز اکیداً محدب است. این نتیجه برای جذر JSD یا وزن صفر طبقه به همان صورت ادعا نمی‌شود و نیز محدب بودن ترکیب آن با نگاشت پارامتری سیاست را نتیجه نمی‌دهد.
+
+\paragraph{شرط لازم و کافی وجود جهت کاهشی مرتبهٔ اول.}
+تمام ژاکوبین‌ها در نقطهٔ شاهد $\theta_\bot^\star$ ارزیابی می‌شوند، مگر آنکه خلاف آن تصریح شود. گرادیان ستونی معیار نسبت به بازنمایی‌های برداری‌شده را با $g_\psi$ و گرادیان آن نسبت به پارامترهای آغاز را با $g_\theta=J_{\mathscr Y}^{\top}g_\psi$ نشان می‌دهیم. در این قرارداد، فرافکن متعامد روی فضای پوچ ژاکوبین مراکز، همتای فرافکن رابطه~\eqref{cmp:eq:ch3-fixed-center-projection}، برابر است با
+\begin{equation}\label{cmp:eq:ch3-geometry-parametric-center-projector}
+\Pi_{\mathcal V}
+=I_{|\theta_\bot|}-J_{\mathcal V}^{\dagger}J_{\mathcal V}.
+\end{equation}
+در اینجا $\dagger$ وارون مور--پنروز است و برداری‌سازی مراکز با ژاکوبین قبلی سازگار است. جهت $v=-\Pi_{\mathcal V}g_\theta$ دارای خواص زیر است:
+\begin{equation}\label{cmp:eq:ch3-geometry-parametric-R-descent}
+J_{\mathcal V}v=0,\qquad
+g_\theta^\top v=-\|\Pi_{\mathcal V}g_\theta\|_2^2.
+\end{equation}
+به علاوه، برای هر $v\in\ker J_{\mathcal V}$ داریم $g_\theta^\top v=(\Pi_{\mathcal V}g_\theta)^\top v$. بنابراین
+\begin{equation}\label{cmp:eq:ch3-geometry-parametric-R-descent-iff}
+\exists v\in\ker J_{\mathcal V}:\ g_\theta^\top v<0
+\quad\Longleftrightarrow\quad
+\Pi_{\mathcal V}g_\theta\ne0.
+\end{equation}
+جهت فرافکنی‌شده در صورت ناصفر بودن، پس از نرمال‌سازی، بیشترین کاهش مشتق جهتی را میان بردارهای واحد فضای پوچ فراهم می‌کند؛ این تعبیر به متریک اقلیدسی انتخاب‌شده برای پارامترها وابسته است.
+
+اگر علاوه بر این، رتبهٔ $J_{\mathcal V}$ در همسایگی شاهد ثابت باشد، طبق رابطه~\eqref{cmp:eq:ch3-geometry-parametric-V-fiber-dimension}، جهت $v$ مماس بر خمینهٔ دقیق هم‌مرکز است. پس مسیر $C^1$ مانند $\theta_\bot(t)$ روی این خمینه وجود دارد که $\theta_\bot(0)=\theta_\bot^\star$ و $\theta_\bot'(0)=v$. در نتیجه برای $t>0$ به‌اندازهٔ کافی کوچک، به شرط ناصفر بودن گرادیان فرافکنی‌شده،
+\begin{equation}\label{cmp:eq:ch3-geometry-parametric-exact-R-improvement}
+\mathcal V(\theta_\bot(t))=\mathcal V^\star,\qquad
+R_\psi(\mathscr Y(\theta_\bot(t));\mathcal V^\star)
+<R_\psi(\mathscr Y^\star;\mathcal V^\star).
+\end{equation}
+این نتیجه دربارهٔ وجود مسیر دقیق است و به معنی حفظ دقیق مرکز با یک گام مستقیم $t v$ نیست. اگر گرادیان فرافکنی‌شده صفر باشد، فقط نبود جهت کاهشی مرتبهٔ اول نتیجه می‌شود؛ بهینگی موضعی یا سراسری در حالت نامحدب عمومی از آن نتیجه نمی‌شود. جهت‌های کاهشی مرتبهٔ بالاتر نیز نفی نمی‌شوند.
+
+\paragraph{جهت‌های انقباض کلی و زوجی.}
+عملگر خطی میانگین‌گیری طبقه‌ای را در قرارداد برداری‌سازی سازگار با ژاکوبین‌ها با $\mathsf A$ نشان می‌دهیم؛ بنابراین $J_{\mathcal V}=\mathsf A J_{\mathscr Y}$. فضای تغییرات هندسی دست‌یافتنی مرتبهٔ اول با حفظ مراکز برابر است با
+\begin{equation}\label{cmp:eq:ch3-geometry-parametric-geometric-tangent}
+\mathcal T_{\mathscr Y}
+=J_{\mathscr Y}(\ker J_{\mathcal V})
+=\operatorname{Im}J_{\mathscr Y}\cap\ker\mathsf A,
+\qquad
+\dim\mathcal T_{\mathscr Y}=r_{\mathscr Y}-r_{\mathcal V}.
+\end{equation}
+برابری دو توصیف از $J_{\mathcal V}=\mathsf A J_{\mathscr Y}$ و بعد از محدودسازی ژاکوبین و قضیهٔ رتبه و پوچی حاصل می‌شود. به‌طور معادل، وجود جهت کاهشی مرتبهٔ اول به ناصفر بودن فرافکنی $g_\psi$ بر $\mathcal T_{\mathscr Y}$ بستگی دارد.
+
+در فضای محیط، جهت انقباض کلی با مؤلفه‌های $h_s=\mathcal V_c^\star-\mathscr Y_s^\star$ برای $s\in C_c$ را در نظر می‌گیریم. چون $\sum_{s\in C_c}h_s=0$، مسیر مستقیم فرضی $\mathscr Y_s(t)=(1-t)\mathscr Y_s^\star+t\mathcal V_c^\star$ برای $0\le t\le1$ مرکز را ثابت نگه می‌دارد. با محدب بودن واگرایی و صفر بودن ناهمانندی مرکز با خودش:
+\begin{equation}\label{cmp:eq:ch3-geometry-parametric-R-contraction}
+R_\psi(\mathscr Y(t);\mathcal V^\star)
+\le(1-t)R_\psi(\mathscr Y^\star;\mathcal V^\star).
+\end{equation}
+این مسیر در سیمپلکس معتبر است، اما لزوماً در فضای بازنمایی‌های دست‌یافتنی قرار ندارد. به‌ویژه ممکن است جهت $h_s$ در مؤلفه‌ای که برای نمونه ساختاراً صفر است، ناصفر باشد. اگر دستگاه
+\begin{equation}\label{cmp:eq:ch3-geometry-parametric-R-contraction-lift}
+J_{\mathscr Y}v=\operatorname{vec}(h)
+\end{equation}
+جواب داشته باشد، آن جهت با تکیه‌گاه‌های ثابت سازگار است، $J_{\mathcal V}v=0$ و با مشتق گرفتن از کران~\eqref{cmp:eq:ch3-geometry-parametric-R-contraction} در صفر داریم $g_\theta^\top v\le-R_\psi(\mathscr Y^\star;\mathcal V^\star)$. بنابراین برای تراکم غیرصفر، جهت کاهشی وجود دارد و تحت شرط رتبهٔ ثابت مراکز، بهبود دقیق رابطه~\eqref{cmp:eq:ch3-geometry-parametric-exact-R-improvement} حاصل می‌شود.
+
+حتی دست‌یافتنی بودن یک جهت انقباض زوجی کافی است. برای دو عضو $i,j$ از یک طبقه با بازنمایی‌های متمایز، بردار $h$ را با $h_i=\mathscr Y_j^\star-\mathscr Y_i^\star$، $h_j=-h_i$ و صفر برای سایر اعضا تعریف می‌کنیم. این جهت میانگین طبقه را ثابت نگه می‌دارد. اگر در $\mathcal T_{\mathscr Y}$ قرار گیرد، تفاوت دو بازنمایی در تکیه‌گاه‌های مجاز هر دو نمونه قرار دارد. با اکیداً محدب بودن واگرایی با مرکز ثابت و یکنوایی اکید گرادیان روی تکیه‌گاه مشترک، برای گرادیان‌های ستونی $g_i,g_j$ واگرایی‌های دو نمونه داریم:
+\begin{equation}\label{cmp:eq:ch3-geometry-parametric-R-pair-contraction}
+g_\psi^\top\operatorname{vec}(h)
+=-\frac{\omega_c}{|C_c|}
+(g_i-g_j)^\top(\mathscr Y_i^\star-\mathscr Y_j^\star)^\top<0.
+\end{equation}
+در اینجا بردارهای $\mathscr Y_s$ سطری‌اند و $h$ به قرارداد برداری‌سازی قبلی تبدیل می‌شود. در صورت نبود تکیه‌گاه مشترک مناسب، انقباض فرضی را نباید جهت مجاز پارامتری فرض کرد.
+
+وجود فضای غیرصفر $\mathcal T_{\mathscr Y}$ به تنهایی کاهش اکید تراکم را تضمین نمی‌کند. برای نمونهٔ هندسی در یک طبقه با سه بازنمایی دو مؤلفه‌ای $(0.3+t,0.7-t)$، $(0.3-t,0.7+t)$ و $(0.9,0.1)$، مرکز $(0.5,0.5)$ مستقل از $t$ است. در $t=0$ دو بازنمایی نخست منطبق‌اند و به دلیل تقارن و محدب بودن اکید، معیار تراکم KL یا JSD برای هر $t\ne0$ مجاز بیشتر از مقدار آن در صفر است. بنابراین با وجود تراکم غیرصفر و یک جهت هندسی آزاد، آرایش اولیه در این خانواده بهترین است. این مثال صرفاً هندسی است و تحقق آن توسط یک گراف مشخص IMC در اینجا ادعا نمی‌شود.
+
+\paragraph{ظرفیت هندسهٔ پایه و محدودیت خانوادهٔ پارامتری.}
+از چندوجهی $\mathcal P_s$ در رابطه~\eqref{cmp:eq:ch3-geometry-sample-polytope}، برای یک ویژگی دلخواه $b_0\in A_{X_s}$، فضای خطی جهت‌های بالقوه را تعریف می‌کنیم:
+\begin{equation}\label{cmp:eq:ch3-geometry-parametric-base-direction-space}
+E_s=\operatorname{span}\{u_{s,b}^{(H)}-u_{s,b_0}^{(H)}:b\in A_{X_s}\},
+\quad r_s=\dim E_s=\dim\operatorname{aff}(\mathcal P_s).
+\end{equation}
+انتخاب $b_0$ اثری بر فضای حاصل ندارد. داریم $r_s\le\min\{d_s-1,K-1\}$. چون بازنمایی نمونه ترکیب نرمال‌شده‌ای از نقاط ثابت است، مشتق آن در $E_s$ قرار دارد. در نتیجه
+\begin{equation}\label{cmp:eq:ch3-geometry-parametric-base-rank-bound}
+\operatorname{Im}J_{\mathscr Y}\subseteq\prod_{s=1}^n E_s,\qquad
+r_{\mathscr Y}\le\min\{r_\pi,\sum_s r_s\}.
+\end{equation}
+با استفاده از جمع مینکوفسکی رابطه~\eqref{cmp:eq:ch3-geometry-center-minkowski}، بعد آفین فضای مراکز هر طبقه در خانوادهٔ گره‌محور آزاد برابر است با $r_c:=\dim(\sum_{s\in C_c}E_s)$. چون عملگر میانگین‌گیری در هر طبقه تصویر $\prod_{s\in C_c}E_s$ را روی همین مجموع خطی می‌فرستد، داریم $r_{\mathcal V}\le\min\{r_{\mathscr Y},\sum_c r_c\}$.
+
+فضای بالقوهٔ جهت‌های حافظ مراکز را تعریف می‌کنیم:
+\begin{equation}\label{cmp:eq:ch3-geometry-parametric-base-center-direction-space}
+\mathcal E=\left(\prod_{s=1}^nE_s\right)\cap\ker\mathsf A.
+\end{equation}
+بر اساس قضیهٔ رتبه و پوچی برای محدودسازی $\mathsf A$ به حاصل‌ضرب فضاها،
+\begin{equation}\label{cmp:eq:ch3-geometry-parametric-base-center-direction-dim}
+\dim\mathcal E=\sum_{s=1}^n r_s-\sum_{c=1}^K r_c,\qquad
+\mathcal T_{\mathscr Y}\subseteq\mathcal E.
+\end{equation}
+ازاین‌رو اختلاف ابعاد
+\begin{equation}\label{cmp:eq:ch3-geometry-parametric-capacity-gap}
+\dim\mathcal E-\dim\mathcal T_{\mathscr Y}
+=\sum_s r_s-\sum_c r_c-r_{\mathscr Y}+r_{\mathcal V}\ge0
+\end{equation}
+شمار جهت‌های بالقوهٔ حافظ مراکز را که به‌صورت مستقل در مرتبهٔ اول توسط خانوادهٔ پارامتری قابل ایجاد نیستند، مشخص می‌کند. این مقدار یک اختلاف بعد است، نه فاصلهٔ متریکی یا کران خطای تراکم. تمامی رتبه‌ها و فضاهای بالا به داده و سیاست میانی ثابت وابسته‌اند.
+
+اگر شرط
+\begin{equation}\label{cmp:eq:ch3-geometry-parametric-capacity-saturation}
+r_{\mathscr Y}-r_{\mathcal V}=\sum_s r_s-\sum_c r_c
+\end{equation}
+برقرار باشد، به دلیل شمول و برابری ابعاد، $\mathcal T_{\mathscr Y}=\mathcal E$. این شرط را در این تحلیل اشباع ظرفیت هندسی حافظ مراکز می‌نامیم. اشباع فقط به فضای جهت‌های حافظ مراکز مربوط است و لزوماً مستلزم بیشینه بودن رتبهٔ ژاکوبین بازنمایی در همهٔ جهت‌ها نیست. شرط فوق قابل آزمون است؛ تحقق آن برای خانواده‌های پارامتری دلخواه یا نقاط حاصل از آموزش تضمین نشده است.
+
+\paragraph{بهینگی هندسی در صورت اشباع ظرفیت.}
+مجموعهٔ زیر را در قرارداد بستهٔ خانوادهٔ گره‌محور آزاد، با همان سیاست میانی، تعریف می‌کنیم:
+\begin{equation}\label{cmp:eq:ch3-geometry-parametric-relaxed-center-arrangements}
+\mathcal A(\mathcal V^\star)=
+\{\mathscr Y:\mathscr Y_s\in\mathcal P_s\ \forall s,\ 
+\mathsf A\operatorname{vec}(\mathscr Y)=\operatorname{vec}(\mathcal V^\star)\}.
+\end{equation}
+این مجموعه ناتهی، فشرده و محدب است. از آنجا که شاهد از احتمال‌های مثبت حاصل شده، $\mathscr Y_s^\star\in\operatorname{relint}(\mathcal P_s)$ برای همهٔ نمونه‌ها و بنابراین شاهد در درون نسبی مجموعهٔ مقید قرار دارد. به‌طور دقیق، برای هر $h\in\mathcal E$، با انتخاب $\varepsilon>0$ کافی کوچک، $\mathscr Y^\star\pm\varepsilon h$ در همین مجموعه قرار می‌گیرند (با قرارداد سازگار برداری‌سازی). در نتیجه $\mathcal E$ فضای جهت‌های آفین این مجموعه است.
+
+با مثبت بودن همهٔ وزن‌های طبقه‌ها، پیوستگی و محدب بودن اکید معیار~\eqref{cmp:eq:ch3-geometry-parametric-fixed-center-R} روی این مجموعه، وجود و یکتایی آرایش
+\begin{equation}\label{cmp:eq:ch3-geometry-parametric-relaxed-R-optimum}
+\widehat{\mathscr Y}
+=\arg\min_{\mathscr Y\in\mathcal A(\mathcal V^\star)}
+R_\psi(\mathscr Y;\mathcal V^\star)
+\end{equation}
+را نتیجه می‌دهد. این کمینه‌ساز در فضای رهاسازی‌شده تعریف شده است و لزوماً با امتیازهای متناهی یا خانوادهٔ پارامتری مقید دست‌یافتنی نیست. به‌ویژه یکتایی آرایش به معنی یکتایی سیاست تولیدکنندهٔ آن نیست.
+
+فرض کنیم شرط اشباع~\eqref{cmp:eq:ch3-geometry-parametric-capacity-saturation} در نقطهٔ شاهد برقرار باشد. اگر $\mathscr Y^\star\ne\widehat{\mathscr Y}$، بردار $h=\operatorname{vec}(\widehat{\mathscr Y}-\mathscr Y^\star)$ عضوی از $\mathcal E=\mathcal T_{\mathscr Y}$ خواهد بود. بنابراین $v\in\ker J_{\mathcal V}$ وجود دارد که $J_{\mathscr Y}v=h$. با نامساوی مرتبهٔ اول تابع محدب، حتی اگر کمینه‌ساز روی مرز مجموعهٔ بسته واقع شده باشد،
+\begin{equation}\label{cmp:eq:ch3-geometry-parametric-saturated-descent}
+g_\theta^\top v=g_\psi^\top h
+\le R_\psi(\widehat{\mathscr Y};\mathcal V^\star)
+-R_\psi(\mathscr Y^\star;\mathcal V^\star)<0.
+\end{equation}
+پس گرادیان فرافکنی‌شده ناصفر است. برعکس، اگر $\mathscr Y^\star=\widehat{\mathscr Y}$، چون درون نسبی مجموعهٔ مقید است، مشتق معیار در هر دو جهت $\pm h$ از فضای $\mathcal E$ باید صفر باشد. در نتیجه $g_\psi$ بر $\mathcal T_{\mathscr Y}$ عمود است و $g_\theta$ بر $\ker J_{\mathcal V}$ عمود خواهد بود. بنابراین
+\begin{equation}\label{cmp:eq:ch3-geometry-parametric-saturated-stationarity}
+\boxed{\Pi_{\mathcal V}g_\theta=0
+\quad\Longleftrightarrow\quad
+\mathscr Y^\star=\widehat{\mathscr Y}}
+\end{equation}
+تحت شرط اشباع و فرض‌های مشتق‌پذیری و وزن‌های مثبت برقرار است. این هم‌ارزی مرتبهٔ اول به‌خودی‌خود به ثابت بودن رتبه در همسایگی نیاز ندارد. برای نتیجه‌گیری وجود مسیر دقیق کاهشی در صورت نابرابری دو آرایش، شرط رتبهٔ ثابت ژاکوبین مراکز همچنان شرط کافی مورد استفاده است.
+
+در نتیجه در هر نقطهٔ منظم از مجموعهٔ هم‌مرکز که ظرفیت هندسی اشباع شده است، کمینهٔ محلی نامطلوب نسبت به کمینهٔ مسئلهٔ محدب رهاسازی‌شده نمی‌تواند وجود داشته باشد. این حکم صرفاً دربارهٔ معیار منتخب با سیاست میانی و مراکز ثابت است؛ دربارهٔ کمینه‌های محلی کل مسئلهٔ آموزش یا نقاط تکین حکمی صادر نمی‌کند. اگر کمینهٔ رهاسازی‌شده دست‌یافتنی نباشد، هم‌ارزی بالا به معنای تضمین تحقق آن توسط سیاست پارامتری نیست.
+
+\paragraph{حالت خاص سیاست ثابت بدون ماسک و نتیجهٔ کاربردی.}
+در خانوادهٔ ثابت ماتریسی بدون تفاوت ماسک‌ها، با تثبیت سیاست میانی، بازنمایی‌ها نسبت به بردار احتمال آغاز مشترک (یا بردارهای مستقل طبقه‌ای) خطی‌اند و قیود حفظ مراکز خطی هستند. بنابراین کمینه‌سازی معیار~\eqref{cmp:eq:ch3-geometry-parametric-fixed-center-R} در فضای همین احتمال‌های آغاز یک مسئلهٔ محدب است و هر کمینهٔ محلی آن، کمینهٔ سراسری همان زیرمسئله است. در قرارداد بسته به دلیل فشردگی مجموعهٔ مجاز و پیوستگی هدف، کمینه محقق می‌شود؛ در قرارداد احتمال‌های مثبت ممکن است فقط اینفیمم وجود داشته باشد. در فضای بازنمایی‌های مجاز همین خانواده، آرایش بهینه در صورت تحقق یکتاست، اما سیاست لزوماً یکتا نیست. این نتیجه به معنی دست‌یابی به کمینهٔ خانوادهٔ آزاد گره‌محور نیست. با ماسک‌های متفاوت یا پارامترهای عمومی مشترک، این استدلال محدب بودن بدون فرض اضافی قابل تعمیم نیست.
+
+به عنوان زمینهٔ پژوهشی برای ادامه، می‌توان آموزش نامحدب را با بهبود تراکم در زیرمسئلهٔ هم‌مرکز ترکیب کرد: ابتدا سیاست میانی و مراکز حاصل را ثابت نگه داریم، سپس سیاست آغاز را با قید مراکز بهبود دهیم و در پایان دوباره امکان تغییر سیاست میانی را فراهم کنیم. در خانوادهٔ عمومی، فرافکنی گرادیان فقط جهت مماس می‌دهد و یک روند محاسباتی حفظ مراکز به اصلاح غیرخطی یا کنترل باقیماندهٔ قیود نیاز دارد؛ در خانوادهٔ ثابت بدون ماسک، حل مستقیم مسئلهٔ محدب در فضای احتمال‌ها امکان‌پذیر است. بهبود تراکم با حفظ مراکز، بهبود قطعی زیان آموزشی، دقت برون‌نمونه‌ای یا خروج از یک کمینهٔ محلی واقعی تابع هدف اولیه را تضمین نمی‌کند. بررسی فاصله از مجموعه‌های جداکننده و حاشیه‌ها با مراکز ثابت، و طراحی روند اصلاح سیاست، موضوع ادامهٔ این زیربخش است.
+
 % REVIEW NOTES (not part of thesis prose):
-% 1. Check global notation and merge overlapping material from the legacy section 3.10 only after editorial review.
-% 2. The real-analytic generic-rank observation is conditional and needs an appropriate reference in the final thesis.
-% 3. No claim of strict improvement or escape from a local optimum is made. These are the next topics.
+% 1. Check global notation and merge overlapping material from legacy section 3.10 only after editorial review.
+% 2. Real-analytic generic-rank observation is conditional; add an appropriate reference.
+% 3. Separate probability-space convexity from parameter-space and general masked-family results.
+% 4. R analysis concerns forward KL and JSD, positive class weights, fixed active supports and finite scores. Review boundary and zero-weight cases separately; do not generalize to sqrt(JSD).
+% 5. Constant rank is sufficient for lifting first-order directions to exact local paths, not asserted everywhere or necessary for every possible path.
+% 6. Saturation criterion compares dimensions of center-preserving directions, not global attainability; the relaxed optimizer may lie on a boundary or be unattainable by the parametric family.
+% 7. The three-sample counterexample is geometric only. No IMC graph witness has been claimed.
+% 8. Possible empirical follow-up: section 4.14 noise experiments, fixed class-specific no-mask start probabilities, d=3+k and K=3 imply at least k center-preserving probability degrees of freedom per class; shared start lower bound max(0,k-4). Effective geometry changes require rank differences. These bounds do not establish the cause of observed optimization dynamics.
+% 9. Next: fixed-center margins / signed distances, KL versus JS geometry; then exact correction, alternating optimization, and limitations on escape from local minima.
+% 10. Retain all calculations for review; no migration to appendix or main chapter until editorial decision.
